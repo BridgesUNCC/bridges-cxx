@@ -22,8 +22,8 @@ class Connector {
 	public:
 	    
 	    Connector() {
-//			server_url = "http://bridges-cs.herokuapp.com";
-			server_url = "http://127.0.0.1:3000";
+			server_url = "http://bridges-cs.herokuapp.com";
+//			server_url = "http://127.0.0.1:3000";
 	    }
 	    
 	    /* Accessors and Mutators */
@@ -60,7 +60,6 @@ class Connector {
 						// first form the full url
 			cout << "url: " << url << endl;
 			cout << "\nJSON String:" << json_of_ds << endl;
-/*
   			curl_global_init(CURL_GLOBAL_ALL);
 
 										// get a curl handle 
@@ -75,19 +74,19 @@ class Connector {
 						// Now specify the POST data size
 cout << "Size of Json: " << json_of_ds.length() << endl;
    				curl_easy_setopt(curl, CURLOPT_POSTFIELDSIZE, json_of_ds.length());
-
 						// Perform the request, res will get the return code 
 				CURLcode res = curl_easy_perform(curl);
+cout << "Response Code: " << res << endl;
 						// Check for errors 
-				if (res != CURLE_OK)
-					cout << "curl_easy_perform() failed: " << 
-								curl_easy_strerror(res);
+				if (res != CURLE_OK) {
+					cout << "curl_easy_perform() failed: Code " << res << endl; 
+					curl_easy_strerror(res);
+				}
 				else 
-					cout <<  "seemed to work.." << std::endl;
+					cout <<  "Seemed to work.." << std::endl;
 
 				curl_easy_cleanup(curl);
 			}
-*/
 		}
 
 };

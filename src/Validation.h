@@ -190,6 +190,7 @@ class Validation {
 					"triangle-up"
 				}
 			);
+			current = this;
 		}
 
 		/** 
@@ -309,5 +310,7 @@ class Validation {
 			}
 		}
 };
+
+Validation* Validation::current = NULL;
 
 #endif

@@ -91,6 +91,7 @@ class LinkVisualizer{
 								// validate color
 				Validation::getCurrent()->validateColor(aColor);
 				properties["color"]  = aColor;
+
 			}
 			catch (string msg) {
 				cerr << msg << endl;

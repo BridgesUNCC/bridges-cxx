@@ -41,24 +41,6 @@ template <typename E> class Element{
 		ElementVisualizer *el_visualizer;
 		unordered_map<string, LinkVisualizer*>  *link_visualizer;
     	E value;
-		int wordNumber;
-			//this is the number of pattern matches where the new string 
-			// can be inserted; useful in case we insert line breaks at a 
-			// desired number of characters
-
-			// is the pattern is change to white space this 
-			// index can be changed to 2 words to insert a 
-			//line break every 2 words
-			//this is the string value that replaces the pattern found 
-			// in the label
-		string INSERT_STRING;
-		//for more complex patterns the key must be changed 
-		// like so "((John) (.+?))" returns "John firstWordAfterJohn": 
-		// John writes, John doe, John eats etc.
-		string DIVIDE_KEY;
-		//(\\w) matches any word (\\d) any digit (\\D) any non digit
-		//(\\s) a white space (\\s*) zero or more whitespaces,(\\s+) one or more
-
 	
 	public:
 	
@@ -71,9 +53,6 @@ template <typename E> class Element{
 		Element() {
 			identifier = to_string(ids);
 			MAX_ELEMENTS_SIZE = 5000;
-			INSERT_STRING = "\\n"; 
-			DIVIDE_KEY ="(\r?\n)|(\n)|(\f)|(\r)|(%n)";    
-			wordNumber = 0;
 			label = "";
 			ids++;
 			try {
@@ -164,18 +143,18 @@ template <typename E> class Element{
 							== link_visualizer->end()){  // non-existent key
 														// create entry
 				try {
-					(*link_visualizer)[el->getIdentifier()] =  new LinkVisualizer;
-					return (*link_visualizer)[el->getIdentifier()];
+					(*link_visualizer)[el->getIdentifier()] =  
+										new LinkVisualizer;
 				} 
 				catch (bad_alloc& ba) {
-					cerr << "bad_alloc (LinkVisualizer) in getLinkVisualizer()  caught: " 
-								<< ba.what() << endl;
+					cerr << "bad_alloc (LinkVisualizer) in "
+						<< "getLinkVisualizer()  caught: " << ba.what() << endl;
+
 					return NULL;
 				}
 			}
-			return NULL;
+			return (*link_visualizer)[el->getIdentifier()];
 		}
-
 	
 		/**
 	 	* Internal code for getting the properties of the Element object.
@@ -210,55 +189,8 @@ template <typename E> class Element{
 	 	* @param label the label to set
 	 	*/
 		void setLabel(string label) {
-//			this->label = arrangeLabel(label, wordNumber);
 			this->label = label;
 		}
-	
-		/**
-	 	* This method formats the label string using a predefine pattern 
-	 	* (DIVIDE_KEY) and replaces the pattern with the string characters held 
-	 	* by the INSERT_STRING global variable
-	 	* @param label
-	 	* @param wordNumber in very long strings in the case where the 
-	 	* whitespace \\s is chosen as a key the wordNumber can be set 
-	 	* to replace the whitespace with a newline character \\n at a given 
-	 	* number of words (every second or third word)
-	 	* The default value is 0. In most situations we want to replace all 
-	 	* patterns found.  For more complex patterns the key must be changed 
-	 	* like so "((John) (.+?))" returns "John firstWordAfterJohn": John 
-	 	* writes, John doe, John eats etc.
-	 	* (\\w) matches any word
-	 	* (\\s) one white space (\\s*) zero or more white spaces, (\\s+) one or 
-	 	* more 
-	 	* 
-	 	* @return
-	 	*/
-/*
-		String arrangeLabel(String label, int wordNumber){
-			Pattern myPattern = Pattern.compile(DIVIDE_KEY);
-			Matcher match= myPattern.matcher(label);
-			if (!match.find())
-				return label;
-			else{
-				match.reset();
-				int counter = -1;
-				StringBuffer str = new StringBuffer();
-				while(match.find()){
-					counter++;
-					if (counter == wordNumber){
-						counter = -1;
-						match.appendReplacement(str, Matcher.quoteReplacement(INSERT_STRING));
-					}
-				}
-				match.appendTail(str);
-				if (str.length()==0)
-					return label;
-				else
-					return label = str.toString();
-			}
-		}
-*/
-	
 	
 		/**
 	 	* this method returns the value E for the current Element
