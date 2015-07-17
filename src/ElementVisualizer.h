@@ -3,6 +3,7 @@
 #define ELEMENT_VISUALIZER_H
 
 #include <string>
+#include <iostream>
 #include <unordered_map>
 
 using namespace std;
@@ -20,6 +21,9 @@ using namespace std;
  * Element getVisualizer() method, and then call the setVisualizer() method on
  * the Element after changes have been made.
  **/
+
+namespace bridges {
+
 
 class ElementVisualizer {
 							// Visualization properties for this Node.
@@ -223,6 +227,26 @@ class ElementVisualizer {
 		double getOpacity() {
 			return stod(properties["opacity"]);
 		}
+		/**
+		 * 
+		 * Sets the key value attributed  of the Element 
+		 *  used by search structures - binary search trees, AVL trees, etc. 
+		 * 
+		 * @param key is any orderable value - int, float, string
+		 * 
+		 **/
+		void setKey(string k) {
+			try{
+								// validate opacity
+//				Validation::getCurrent()->validateKey(key);
+				properties["key"]  = k;
+			}
+			catch (string msg) {
+				cerr << msg << endl;
+			}
+		}
+	
+
 		/** 
 	     *  This method returns the properties map
 		 *
@@ -233,4 +257,6 @@ class ElementVisualizer {
 		}
 };
 
+
+}
 #endif

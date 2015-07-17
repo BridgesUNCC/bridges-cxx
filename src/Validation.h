@@ -18,6 +18,8 @@
 
 using namespace std;
 
+namespace bridges{
+
 class Validation {
 
 	private:
@@ -25,7 +27,7 @@ class Validation {
 		regex ColorPatterns;
 					// this variable holds the maximum number of 
 					// nodes allowed starting from 0
-		int MAX_ELEMENTS_ALLOWED = 999; 
+		int MAX_ELEMENTS_ALLOWED = 5000; 
 
 		static Validation *current;
 		
@@ -298,6 +300,22 @@ class Validation {
 				throw error_str;
 			}
 		}
+		/**
+		 * Determines if the value passed is an acceptable value to set 
+		 * the weight to - must be positive.
+		 * 
+		 * @param val
+		 */
+		void validateWeight(int val){
+			if(val >= 0){
+				return;
+			}
+			else{
+				string error_str = "Invalid Weight Value.. " + 
+					to_string(val) + " Must be positive..";
+				throw error_str;
+			}
+		}
 		
 		void validate_ADT_size(int max_elements){
 			if (max_elements < MAX_ELEMENTS_ALLOWED) 
@@ -313,4 +331,5 @@ class Validation {
 
 Validation* Validation::current = NULL;
 
+}
 #endif

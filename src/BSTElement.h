@@ -1,4 +1,3 @@
-
 /**
  *
  * This class extends the TreeElement class by adding a key property 
@@ -11,14 +10,14 @@
 
 #define BST_ELEMENT_H
 
+#include <sstream>
 #include <string>
 
 using namespace std;
 
-#include "Element.h"
 #include "TreeElement.h"
 
-using namespace std;
+namespace bridges{
 
 template <typename K, typename E> class BSTElement : public TreeElement<E> {
 	private:
@@ -38,7 +37,7 @@ template <typename K, typename E> class BSTElement : public TreeElement<E> {
 
 								// copy constructor
 		BSTElement(const BSTElement& bel): TreeElement<E>(bel){
-			key  = bel.key;
+			setKey(bel.key);
 		}
 	
 		/**
@@ -67,7 +66,7 @@ template <typename K, typename E> class BSTElement : public TreeElement<E> {
 		 **/
 		BSTElement(K key, E e, BSTElement<K,E> *left, BSTElement<K, E> *right) 
 				: TreeElement<E>(e, left, right) {
-			this->key = key;
+			setKey(key);
 		}
 	
 		/**
@@ -88,19 +87,9 @@ template <typename K, typename E> class BSTElement : public TreeElement<E> {
 		 * 	@param e the object this BSTElement is holding
 		 */
 		BSTElement(K key, E e) : TreeElement<E>(e) {
-			this->key = key;
+			setKey(key);
 		}
 	
-		/**	Construct a BSTElement holding the object "e", with label set to 
-		 *	"label", with no key assigned, and left and right pointers set to 
-		 *		null.
-		 * 	@param label the label of BSTElement that shows up on the Bridges 
-		 * 	visualization
-		 * 	@param e the object this BSTElement is holding
-		 **/
-		BSTElement(string label, E e) : TreeElement<E>(label, e) {
-		}
-		
 		/**
 		 *	Construct a BSTElement holding the object "e", with label 
 		 *	set to "label", with "key" assigned to key, and left and right 
@@ -111,7 +100,7 @@ template <typename K, typename E> class BSTElement : public TreeElement<E> {
 		 * @param e the object this BSTElement is holding
 		 **/
 		BSTElement(string label, K key, E e) : TreeElement<E>(label, e) {
-			this->key = key;
+			setKey(key);
 		}
 		
 		/**	Construct an empty BSTElement, with no key assigned, and 
@@ -138,6 +127,13 @@ template <typename K, typename E> class BSTElement : public TreeElement<E> {
 		 **/
 		void setKey(K key) {
 			this->key = (K) key;
+							// convert the key to a string, for the
+							// JSON representation, use a string stream
+							// that can handly any type conversion elegantly
+			stringstream conv;
+			conv << key;
+							// add the element representation
+			this->getVisualizer()->setKey(conv.str());
 		}
 	
 		/** 
@@ -156,7 +152,7 @@ template <typename K, typename E> class BSTElement : public TreeElement<E> {
 		 *  @return right child pointer (from parent)
 		 *
 		 */
-		BSTElement<K,E> getRight() {
+		BSTElement<K,E> *getRight() {
 			return (BSTElement<K,E>*)TreeElement<E>::getRight();
 		}
 	
@@ -178,4 +174,5 @@ template <typename K, typename E> class BSTElement : public TreeElement<E> {
 		}
 };
 
+}
 #endif

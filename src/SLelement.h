@@ -17,6 +17,9 @@
  *
  * @param <E>
  */
+
+namespace bridges {
+
 template <typename E> class SLelement : public Element<E> {
 
 	private:
@@ -83,4 +86,6 @@ template <typename E> class SLelement : public Element<E> {
 		}
 	
 };
+
+}
 #endif

@@ -3,15 +3,16 @@
 
 #define ELEMENT_H
 
-#include "ElementVisualizer.h"
-#include "LinkVisualizer.h"
-
 #include <iostream>
 #include <new>
 #include <string>
 #include <unordered_map>
 
 using namespace std;
+
+#include "ElementVisualizer.h"
+#include "LinkVisualizer.h"
+
 
 ///
 ///		This is the Superclass Element with SLelement, DLelement,
@@ -30,6 +31,8 @@ using namespace std;
 ///
 ///		@author  Kalpathi Subramanian, 6/11/15
 ///
+
+namespace bridges {
 
 template <typename E> class Element{
 	private:
@@ -75,10 +78,12 @@ template <typename E> class Element{
 			label = el.label;
 		}; 
 
-		Element& operator=(const Element& el) {/// define  assignment
+		Element& operator=(const Element& el) {	/// define  assignment
 			Element();
 			value = el.value;
 			label = el.label;
+
+			return *this;
 		}
 
 		/**
@@ -210,4 +215,8 @@ template <typename E> class Element{
 };
 							// declare the static Element::ids variable
 template <typename E> int Element<E>::ids = 0;
+
+}
+
 #endif
+

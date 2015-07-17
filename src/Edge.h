@@ -18,11 +18,15 @@ using namespace std;
  *
  * @param <E>
  */
-class Edge {
+
+namespace bridges {
+
+template <typename Key> class Edge{
 
 	private:
 		int weight;
-		string vertex; // refers to a terminating vertex
+		Key vertex; // refers to a terminating vertex
+		string edge_data;// any application data can be held here
 
 	public:
 		/**
@@ -30,7 +34,7 @@ class Edge {
 		 */
 		Edge() {
 			weight = 0;
-			vertex = "";
+			edge_data = "";
 		}
 	
 		/**
@@ -47,7 +51,7 @@ class Edge {
 		 * @param wt integer representing the edge weight(application dependent)
 		 * @param v  terminating vertex id
 		 **/
-		Edge(int wt, string v) {
+		Edge(int wt, Key v): Edge() {
 			weight = wt;
 			vertex = v;
 		}
@@ -75,7 +79,7 @@ class Edge {
 		 * 
 		 * @param v the string identifier of the terminating Element
 		 **/
-		void setVertex(string v) {
+		void setVertex(Key v) {
 			vertex = v;
 		}
 	
@@ -84,8 +88,25 @@ class Edge {
 		 * 
 		 * @return the string identifier of the terminating vertex
 		 */
-		string getVertex() {
+		Key getVertex() {
 			return vertex;
+		}
+		/**
+		 * Set Edge data (represented as a string for now)
+		 * 
+		 * @param string: application data
+		 **/
+		void setEdgeData(string data) {
+			edge_data = data;
+		}
+	
+		/**
+		 * Get edge data
+		 * 
+		 * @return the edge data
+		 */
+		string getEdgeData() {
+			return edge_data;
 		}
 	
 		/**
@@ -94,7 +115,7 @@ class Edge {
 		 * @param wt integer representing the edge weight 
 		 * @param v the string identifier of the terminating Element
 		 */
-		void setEdge(int wt, string v) {
+		void setEdge(int wt, Key v) {
 			weight = wt;
 			vertex = v;
 		}
@@ -106,9 +127,7 @@ class Edge {
 			return this;
 		}
 		
-//		public int compareTo(Edge e1){
-//			return ((Integer)this.getWeight()).compareTo((Integer)this.getWeight());
-//		}
 };
 
+}
 #endif

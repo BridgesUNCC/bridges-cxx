@@ -11,6 +11,8 @@
  *
  */
 
+namespace bridges {
+
 template<typename E>  class DLelement: public Element<E>{
 	private:
 		DLelement<E> *prev; 	// link to previous element
@@ -102,4 +104,7 @@ template<typename E>  class DLelement: public Element<E>{
 			this->prev = prev;
 		}
 };
+
+}
+
 #endif

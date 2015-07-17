@@ -19,6 +19,8 @@ using namespace std;
  * 	method on the Element after changes have been made.
  **/
 
+namespace bridges {
+
 class LinkVisualizer{
 					// Link visualization properties for this element.
 					// maintains mapping from the terminating vertex to its
@@ -37,8 +39,9 @@ class LinkVisualizer{
 	public:
 		LinkVisualizer() {
 			properties.emplace("color", "black");
-            properties.emplace("opacity", "1.0");
-            properties.emplace("thickness", "1.0");
+			properties.emplace("opacity", "1.0");
+			properties.emplace("thickness", "1.0");
+//			properties.emplace("weight", "0.0");
 		}
 	
 						// constructor
@@ -132,10 +135,38 @@ class LinkVisualizer{
 		double getOpacity() {
 			return stod (properties["opacity"]);
 		}
+		/**
+		 * 
+		 * Sets the edge weight  of the link in the Bridges Visualization
+		 * 
+		 * @param weight an integer value  
+		 * 
+		 **/
+		void setWeight(int w) {
+			try{
+								// validate opacity
+				Validation::getCurrent()->validateWeight(w);
+				properties["weight"]  = to_string(w);
+			}
+			catch (string msg) {
+				cerr << msg << endl;
+			}
+		}
+	
+		/** 
+		 * Get the edge weight of the link 
+		 *
+		 * @return the weight 
+		 */
+		double getWeight() {
+			return stod(properties["weight"]);
+		}
 	
 		unordered_map<string, string> getProperties() {
 			return properties;
 		}
 };
 
+
+}
 #endif

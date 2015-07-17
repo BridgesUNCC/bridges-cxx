@@ -14,6 +14,10 @@ using namespace std;
  *
  */
 
+#include "Element.h"
+
+namespace bridges{
+
 template <typename E>  class TreeElement : public Element<E> {
 
 	private: 
@@ -32,7 +36,7 @@ template <typename E>  class TreeElement : public Element<E> {
 			left = right = NULL;
 		}
 							// copy constructor 
-		TreeElement<E>(const TreeElement<E>& te ): Element<E> (te) {
+		TreeElement(const TreeElement<E>& te ): Element<E> (te) {
 			left = te.left; right = te.right;
 		}
 		
@@ -63,7 +67,7 @@ template <typename E>  class TreeElement : public Element<E> {
 		 * 	@param right the TreeElement to be assigned to the right pointer of 
 		 *	this TreeElement
 		 **/
-		TreeElement(TreeElement<E> left, TreeElement<E> right) : Element<E>(){
+		TreeElement(TreeElement<E> *left, TreeElement<E> *right):Element<E>(){
 			this->left = left;
 			this->right = right;
 		}
@@ -77,7 +81,7 @@ template <typename E>  class TreeElement : public Element<E> {
 		 * @param right the TreeElement to be assigned to the right pointer of 
 		 *	this TreeElement
 		 **/
-		TreeElement(E e, TreeElement<E> left, TreeElement<E> right)
+		TreeElement(E e, TreeElement<E> *left, TreeElement<E> *right)
 								: Element<E> (e) {
 			this->right = right;
 			this->left = left;
@@ -130,4 +134,5 @@ template <typename E>  class TreeElement : public Element<E> {
 */
 };
 
+}
 #endif

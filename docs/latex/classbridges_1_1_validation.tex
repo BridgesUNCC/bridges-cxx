@@ -1,0 +1,153 @@
+\hypertarget{classbridges_1_1_validation}{}\section{bridges\+:\+:Validation Class Reference}
+\label{classbridges_1_1_validation}\index{bridges\+::\+Validation@{bridges\+::\+Validation}}
+
+
+{\ttfamily \#include $<$Validation.\+h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classbridges_1_1_validation_af96b099ca6ce6cd4f408f1cead574d72}{Validation} ()
+\item 
+void \hyperlink{classbridges_1_1_validation_ae996957e1fc7f77ef49c31fbdb787933}{validate\+Color} (string color)
+\item 
+void \hyperlink{classbridges_1_1_validation_aeb22afdeb015c9d9015889a240918542}{validate\+Shape} (string shape)
+\item 
+void \hyperlink{classbridges_1_1_validation_a1e3a732becc5d60df177ac2db2795885}{validate\+Opacity} (double val)
+\item 
+void \hyperlink{classbridges_1_1_validation_a323312df77e8efe8382a25ff7295819d}{validate\+Size} (double val)
+\item 
+void \hyperlink{classbridges_1_1_validation_a234922474be2e46f8b34d50c618716a3}{validate\+Thickness} (double val)
+\item 
+void \hyperlink{classbridges_1_1_validation_a75e8636360983f0b12fb7e6581a02357}{validate\+Weight} (int val)
+\item 
+void \hyperlink{classbridges_1_1_validation_a79c78d43b8226b0b53da078458941117}{validate\+\_\+\+A\+D\+T\+\_\+size} (int max\+\_\+elements)
+\end{DoxyCompactItemize}
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static \hyperlink{classbridges_1_1_validation}{Validation} $\ast$ \hyperlink{classbridges_1_1_validation_add1944b1167e0e6b1a80e303b3a16b5b}{get\+Current} ()
+\end{DoxyCompactItemize}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classbridges_1_1_validation_af96b099ca6ce6cd4f408f1cead574d72}{}\index{bridges\+::\+Validation@{bridges\+::\+Validation}!Validation@{Validation}}
+\index{Validation@{Validation}!bridges\+::\+Validation@{bridges\+::\+Validation}}
+\subsubsection[{Validation}]{\setlength{\rightskip}{0pt plus 5cm}bridges\+::\+Validation\+::\+Validation (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\label{classbridges_1_1_validation_af96b099ca6ce6cd4f408f1cead574d72}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classbridges_1_1_validation_add1944b1167e0e6b1a80e303b3a16b5b}{}\index{bridges\+::\+Validation@{bridges\+::\+Validation}!get\+Current@{get\+Current}}
+\index{get\+Current@{get\+Current}!bridges\+::\+Validation@{bridges\+::\+Validation}}
+\subsubsection[{get\+Current}]{\setlength{\rightskip}{0pt plus 5cm}static {\bf Validation}$\ast$ bridges\+::\+Validation\+::get\+Current (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}\label{classbridges_1_1_validation_add1944b1167e0e6b1a80e303b3a16b5b}
+Gets the current \hyperlink{classbridges_1_1_validation}{Validation} object -\/ used in various other \hyperlink{classbridges_1_1_bridges}{Bridges} classes to do validation of visual properties input by the user \hypertarget{classbridges_1_1_validation_a79c78d43b8226b0b53da078458941117}{}\index{bridges\+::\+Validation@{bridges\+::\+Validation}!validate\+\_\+\+A\+D\+T\+\_\+size@{validate\+\_\+\+A\+D\+T\+\_\+size}}
+\index{validate\+\_\+\+A\+D\+T\+\_\+size@{validate\+\_\+\+A\+D\+T\+\_\+size}!bridges\+::\+Validation@{bridges\+::\+Validation}}
+\subsubsection[{validate\+\_\+\+A\+D\+T\+\_\+size}]{\setlength{\rightskip}{0pt plus 5cm}void bridges\+::\+Validation\+::validate\+\_\+\+A\+D\+T\+\_\+size (
+\begin{DoxyParamCaption}
+\item[{int}]{max\+\_\+elements}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\label{classbridges_1_1_validation_a79c78d43b8226b0b53da078458941117}
+\hypertarget{classbridges_1_1_validation_ae996957e1fc7f77ef49c31fbdb787933}{}\index{bridges\+::\+Validation@{bridges\+::\+Validation}!validate\+Color@{validate\+Color}}
+\index{validate\+Color@{validate\+Color}!bridges\+::\+Validation@{bridges\+::\+Validation}}
+\subsubsection[{validate\+Color}]{\setlength{\rightskip}{0pt plus 5cm}void bridges\+::\+Validation\+::validate\+Color (
+\begin{DoxyParamCaption}
+\item[{string}]{color}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\label{classbridges_1_1_validation_ae996957e1fc7f77ef49c31fbdb787933}
+Determine if a color is supported by C\+S\+S.
+
+This method only supports a subject of C\+S\+S (yet). (1) 173 C\+S\+S extended color names, (2) \#\+R\+R\+G\+G\+B\+B or \#\+R\+G\+B, where R, G and B are red, green, blue values as hexadecimal digits.
+
+This method does not check for null because null has special meaning.
+
+
+\begin{DoxyParams}{Parameters}
+{\em color} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+whether the color is valid 
+\end{DoxyReturn}
+\hypertarget{classbridges_1_1_validation_a1e3a732becc5d60df177ac2db2795885}{}\index{bridges\+::\+Validation@{bridges\+::\+Validation}!validate\+Opacity@{validate\+Opacity}}
+\index{validate\+Opacity@{validate\+Opacity}!bridges\+::\+Validation@{bridges\+::\+Validation}}
+\subsubsection[{validate\+Opacity}]{\setlength{\rightskip}{0pt plus 5cm}void bridges\+::\+Validation\+::validate\+Opacity (
+\begin{DoxyParamCaption}
+\item[{double}]{val}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\label{classbridges_1_1_validation_a1e3a732becc5d60df177ac2db2795885}
+Determines if the value passed is an acceptable value to set the opacity to.
+
+
+\begin{DoxyParams}{Parameters}
+{\em val} & \\
+\hline
+\end{DoxyParams}
+\hypertarget{classbridges_1_1_validation_aeb22afdeb015c9d9015889a240918542}{}\index{bridges\+::\+Validation@{bridges\+::\+Validation}!validate\+Shape@{validate\+Shape}}
+\index{validate\+Shape@{validate\+Shape}!bridges\+::\+Validation@{bridges\+::\+Validation}}
+\subsubsection[{validate\+Shape}]{\setlength{\rightskip}{0pt plus 5cm}void bridges\+::\+Validation\+::validate\+Shape (
+\begin{DoxyParamCaption}
+\item[{string}]{shape}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\label{classbridges_1_1_validation_aeb22afdeb015c9d9015889a240918542}
+Determines if the shape is supported.
+
+
+\begin{DoxyParams}{Parameters}
+{\em shape} & \\
+\hline
+\end{DoxyParams}
+\hypertarget{classbridges_1_1_validation_a323312df77e8efe8382a25ff7295819d}{}\index{bridges\+::\+Validation@{bridges\+::\+Validation}!validate\+Size@{validate\+Size}}
+\index{validate\+Size@{validate\+Size}!bridges\+::\+Validation@{bridges\+::\+Validation}}
+\subsubsection[{validate\+Size}]{\setlength{\rightskip}{0pt plus 5cm}void bridges\+::\+Validation\+::validate\+Size (
+\begin{DoxyParamCaption}
+\item[{double}]{val}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\label{classbridges_1_1_validation_a323312df77e8efe8382a25ff7295819d}
+Determines if the value passed is an acceptable value to set the size to.
+
+
+\begin{DoxyParams}{Parameters}
+{\em val} & \\
+\hline
+\end{DoxyParams}
+\hypertarget{classbridges_1_1_validation_a234922474be2e46f8b34d50c618716a3}{}\index{bridges\+::\+Validation@{bridges\+::\+Validation}!validate\+Thickness@{validate\+Thickness}}
+\index{validate\+Thickness@{validate\+Thickness}!bridges\+::\+Validation@{bridges\+::\+Validation}}
+\subsubsection[{validate\+Thickness}]{\setlength{\rightskip}{0pt plus 5cm}void bridges\+::\+Validation\+::validate\+Thickness (
+\begin{DoxyParamCaption}
+\item[{double}]{val}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\label{classbridges_1_1_validation_a234922474be2e46f8b34d50c618716a3}
+Determines if the value passed is an acceptable value to set the thickness to.
+
+
+\begin{DoxyParams}{Parameters}
+{\em val} & \\
+\hline
+\end{DoxyParams}
+\hypertarget{classbridges_1_1_validation_a75e8636360983f0b12fb7e6581a02357}{}\index{bridges\+::\+Validation@{bridges\+::\+Validation}!validate\+Weight@{validate\+Weight}}
+\index{validate\+Weight@{validate\+Weight}!bridges\+::\+Validation@{bridges\+::\+Validation}}
+\subsubsection[{validate\+Weight}]{\setlength{\rightskip}{0pt plus 5cm}void bridges\+::\+Validation\+::validate\+Weight (
+\begin{DoxyParamCaption}
+\item[{int}]{val}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\label{classbridges_1_1_validation_a75e8636360983f0b12fb7e6581a02357}
+Determines if the value passed is an acceptable value to set the weight to -\/ must be positive.
+
+
+\begin{DoxyParams}{Parameters}
+{\em val} & \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+src/\hyperlink{_validation_8h}{Validation.\+h}\end{DoxyCompactItemize}
