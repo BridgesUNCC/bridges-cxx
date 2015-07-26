@@ -1,4 +1,3 @@
-
 #ifndef CONNECTOR_H 
 
 #define CONNECTOR_H
@@ -11,9 +10,21 @@ using namespace std;
 
 #include "Element.h"
 #include "ADTVisualizer.h"
-
-
 namespace bridges {
+/**
+ *	@brief  The role of this class is to transmit the JSON of a data structure
+ *			to the BRIDGES server
+
+ *	 This class is responsible for transmitting JSON representation of  
+ *   the user's data structure to the  BRIDGES server, prior to visualization
+ *   The JSON is packaged and transmitted using the Easy CURL library
+ *
+ *	 @author Kalpathi Subramanian (C++ port)
+ *
+ *	 @date 7/26/15
+ *
+ **/
+
 class Connector {
 
 	private:
@@ -21,27 +32,35 @@ class Connector {
 
 	public:
 	    
+	    /**
+		 * Constructor - sets the server url
+		 **/
+
 	    Connector() {
 //			server_url = "http://bridges-cs.herokuapp.com";
 			server_url = "http://127.0.0.1:3000";
 	    }
 	    
-	    /* Accessors and Mutators */
+	    /** 
+		 * 	Accessors 
+		 **/
 	    
 	    /**
+		 *
 	     * Get the current  base URL for the DataFormatters server 
 		 * (with no ending /)
-	     * @return
+	     * @return string
+		 *
 	     **/
 		string getServerURL() {
 			return server_url;
 		}
 	
 		/**
-		 * Set the current base URL for the DataFormatters server (with no 
-		 * 	ending /)
-		 * @param server_url
-		 */
+		 * 	Set the current base URL for the DataFormatters server (with no 
+		 * 		ending /)
+		 * 	@param server_url
+		 **/
 		void setServerURL(string url) {
 								// must consider validating this url
 			server_url = url;
@@ -51,7 +70,7 @@ class Connector {
 		 * 	Execute a simple POST request with relative paths, 
 		 *	of request parameters. 
 		 *	
-		 *  Uses the Curl library 
+		 *  Uses the Easy CURL library 
 		 *
 		 **/
 
@@ -83,15 +102,16 @@ class Connector {
 									// Perform the request, res will 
 									// get the return code 
 				CURLcode res = curl_easy_perform(curl);
-				cout << "\n\nResponse Code: " << res << endl;
-
-						// Check for errors 
+									// Check for errors 
 				if (res != CURLE_OK) {
-					cout << "curl_easy_perform() failed: Code " << res << endl; 
+					cout << "curl_easy_perform() failed: Posting assignment "
+						<< "to the  server failed. Curl Error Code: " 
+						<< res << endl << endl; 
 					curl_easy_strerror(res);
 				}
 				else 
-					cout <<  "Seemed to work.." << std::endl;
+					cout <<  "Success. Assignment Posted to the server.." 
+															<< endl;
 
 				curl_easy_cleanup(curl);
 			}

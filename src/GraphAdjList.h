@@ -12,19 +12,32 @@ using namespace std;
 #include "SLelement.h"
 #include "Edge.h"
 
-///
-/// The GraphAdjList class can be used to represent adjacency list based 
-/// graphs in BRIDGEs, with E represnting a data specific generic parameter.
-///	The class is simply a wrapper  around the C++ STL  unordered_map class
-///	and, thus, derives all its operations from it.
-///	BRIDGES provides methods to visualize the graph  and its contents. 
-///	
-///	Author: Kalpathi Subramanian, 6/29/15
-///	
-///	@param Element<E>
-///	
-
 namespace bridges {
+/**
+
+ * @brief This class provides methods to represent adjacency list based
+ *  graphs
+
+ * The GraphAdjList class can be used to represent adjacency list based 
+ * graphs in BRIDGES.  
+ * <p>
+ *  In order to support any ordered type as index, this class is implemented
+ *	as a wrapper  around the C++ STL  unordered_map class
+ *	and, thus, derives all its operations from it. The Key parameter must
+ *  an orderable type, while E represents any application data that is 
+ *  maintained as part of the application.
+ *  <p>
+ *	BRIDGES provides methods to visualize the graph  and its contents. 
+ *	
+ *	
+ *	@param Key used as index into the adjacency lists
+ *  @param  E  used to represent application specific data
+
+ *	@author Kalpathi Subramanian, 6/29/15
+ *  @date 6/29/15
+ *	
+ **/
+
 
 template<typename Key, typename E> class GraphAdjList{
 	private: 
@@ -106,15 +119,14 @@ template<typename Key, typename E> class GraphAdjList{
 		/// 
 		/// Gets the adjacency list (of type SLelement<Edge> * of a vertex)
 		/// 
-		/// @param - vertex key
+		/// @param  vertex  the source vertex
 		///
-		/// @return - the graph's adjacency list  corresponding to this vertex
+		/// @return  the graph's adjacency list corresponding to this vertex
 		///
 		SLelement<Edge<Key> >*  getAdjacencyList(Key vertex) {
 			return (*adj_list)[vertex]; 
 		}
 };
-
 
 }
 #endif

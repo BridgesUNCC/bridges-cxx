@@ -1,10 +1,4 @@
-/**
- *
- * This class extends the TreeElement class by adding a key property 
- * to allow for easier use in a binary search tree implementation. 
- *
- * @author Kalpathi Subramanian, 6/18/15
- **/
+
 
 #ifndef BST_ELEMENT_H
 
@@ -18,6 +12,16 @@ using namespace std;
 #include "TreeElement.h"
 
 namespace bridges{
+/**
+ * @brief This class defines a binary search tree element
+ *
+
+ * This class extends the TreeElement class by adding a key property 
+ * to allow for easier use in a binary search tree implementation. 
+ *
+ * @author Kalpathi Subramanian, 6/18/15
+ **/
+
 
 template <typename K, typename E> class BSTElement : public TreeElement<E> {
 	private:

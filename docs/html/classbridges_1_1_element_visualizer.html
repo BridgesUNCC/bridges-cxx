@@ -97,6 +97,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!--header-->
 <div class="contents">
 
+<p>This class maintains the visual properties of the a <a class="el" href="classbridges_1_1_bridges.html" title="This class contains methods to connect and transmit a user&#39;s data structure representation to the Bri...">Bridges</a> element.  
+ <a href="classbridges_1_1_element_visualizer.html#details">More...</a></p>
+
 <p><code>#include &lt;<a class="el" href="_element_visualizer_8h_source.html">ElementVisualizer.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
@@ -134,7 +137,13 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a0dc2be43a59b42b1ce2d4960a4cc6d59"><td class="memItemLeft" align="right" valign="top">unordered_map&lt; string, string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classbridges_1_1_element_visualizer.html#a0dc2be43a59b42b1ce2d4960a4cc6d59">getProperties</a> ()</td></tr>
 <tr class="separator:a0dc2be43a59b42b1ce2d4960a4cc6d59"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>This class maintains the visual properties of the a <a class="el" href="classbridges_1_1_bridges.html" title="This class contains methods to connect and transmit a user&#39;s data structure representation to the Bri...">Bridges</a> element. </p>
+<p>This class is used to store the visualization elements on the for the <a class="el" href="classbridges_1_1_bridges.html" title="This class contains methods to connect and transmit a user&#39;s data structure representation to the Bri...">Bridges</a> Visualiztion, including the color, shape, opacity, and size of the node. Binary search trees will also store the element's search key value. </p>
+<p>Objects of this class are stored as properties of all <a class="el" href="classbridges_1_1_element.html" title="This is the fundamental building block used in building all data structures in BRIDGES. ">Element</a> subclasses. Generally, you will manipulating the <a class="el" href="classbridges_1_1_element_visualizer.html" title="This class maintains the visual properties of the a Bridges element. ">ElementVisualizer</a> returned from the <a class="el" href="classbridges_1_1_element.html" title="This is the fundamental building block used in building all data structures in BRIDGES. ">Element</a> getVisualizer() method, and then call the setVisualizer() method on the <a class="el" href="classbridges_1_1_element.html" title="This is the fundamental building block used in building all data structures in BRIDGES. ">Element</a> after changes have been made.</p>
+<dl class="section author"><dt>Author</dt><dd>Kalpathi Subramanian(C++ port) </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>6/27/15 </dd></dl>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a class="anchor" id="a86b6777b9876af6ae828fa121c2fc73e"></a>
 <div class="memitem">
 <div class="memproto">
@@ -155,7 +164,7 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Construct an <a class="el" href="classbridges_1_1_element_visualizer.html">ElementVisualizer</a> with the default visualization settings. Default settings are color = green, opacity = 1.0, size = 10.0, shape = circle. </p>
+<p>Construct an <a class="el" href="classbridges_1_1_element_visualizer.html" title="This class maintains the visual properties of the a Bridges element. ">ElementVisualizer</a> with the default visualization settings. Default settings are color = green, opacity = 1.0, size = 10.0, shape = circle. </p>
 
 </div>
 </div>
@@ -180,10 +189,10 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Construct an <a class="el" href="classbridges_1_1_element_visualizer.html">ElementVisualizer</a> with its color set to "aColor".</p>
+<p>Construct an <a class="el" href="classbridges_1_1_element_visualizer.html" title="This class maintains the visual properties of the a Bridges element. ">ElementVisualizer</a> with its color set to "aColor".</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">aColor</td><td>the string that represents one of the <a class="el" href="classbridges_1_1_bridges.html">Bridges</a> colors. </td></tr>
+    <tr><td class="paramname">aColor</td><td>the string that represents one of the <a class="el" href="classbridges_1_1_bridges.html" title="This class contains methods to connect and transmit a user&#39;s data structure representation to the Bri...">Bridges</a> colors. </td></tr>
   </table>
   </dd>
 </dl>
@@ -221,11 +230,11 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Construct an <a class="el" href="classbridges_1_1_element_visualizer.html">ElementVisualizer</a> with its color set to "aColor" and shape set to "aShape".</p>
+<p>Construct an <a class="el" href="classbridges_1_1_element_visualizer.html" title="This class maintains the visual properties of the a Bridges element. ">ElementVisualizer</a> with its color set to "aColor" and shape set to "aShape".</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">aColor</td><td>the string that represents one of the <a class="el" href="classbridges_1_1_bridges.html">Bridges</a> colors. </td></tr>
-    <tr><td class="paramname">aShape</td><td>the string that represents one of the <a class="el" href="classbridges_1_1_bridges.html">Bridges</a> shapes </td></tr>
+    <tr><td class="paramname">aColor</td><td>the string that represents one of the <a class="el" href="classbridges_1_1_bridges.html" title="This class contains methods to connect and transmit a user&#39;s data structure representation to the Bri...">Bridges</a> colors. </td></tr>
+    <tr><td class="paramname">aShape</td><td>the string that represents one of the <a class="el" href="classbridges_1_1_bridges.html" title="This class contains methods to connect and transmit a user&#39;s data structure representation to the Bri...">Bridges</a> shapes </td></tr>
   </table>
   </dd>
 </dl>
@@ -253,10 +262,10 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Construct an <a class="el" href="classbridges_1_1_element_visualizer.html">ElementVisualizer</a> with its size set to "size".</p>
+<p>Construct an <a class="el" href="classbridges_1_1_element_visualizer.html" title="This class maintains the visual properties of the a Bridges element. ">ElementVisualizer</a> with its size set to "size".</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">size</td><td>: the double that represents the size in pixels of the <a class="el" href="classbridges_1_1_element.html">Element</a> on the <a class="el" href="classbridges_1_1_bridges.html">Bridges</a> Visualization </td></tr>
+    <tr><td class="paramname">size</td><td>: the double that represents the size in pixels of the <a class="el" href="classbridges_1_1_element.html" title="This is the fundamental building block used in building all data structures in BRIDGES. ">Element</a> on the <a class="el" href="classbridges_1_1_bridges.html" title="This class contains methods to connect and transmit a user&#39;s data structure representation to the Bri...">Bridges</a> Visualization </td></tr>
   </table>
   </dd>
 </dl>
@@ -306,12 +315,12 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Construct an <a class="el" href="classbridges_1_1_element_visualizer.html">ElementVisualizer</a> with its color set to "aColor", its shape set to "aShape", its opacity set to "opacity" and size set to "size". </p><dl class="params"><dt>Parameters</dt><dd>
+<p>Construct an <a class="el" href="classbridges_1_1_element_visualizer.html" title="This class maintains the visual properties of the a Bridges element. ">ElementVisualizer</a> with its color set to "aColor", its shape set to "aShape", its opacity set to "opacity" and size set to "size". </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">aColor</td><td>the string that represents one of the <a class="el" href="classbridges_1_1_bridges.html">Bridges</a> colors. </td></tr>
-    <tr><td class="paramname">aShape</td><td>the string that represents one of the <a class="el" href="classbridges_1_1_bridges.html">Bridges</a> shapes </td></tr>
-    <tr><td class="paramname">opacity</td><td>a double between 0 and 1 representing how transparent the node should be on the <a class="el" href="classbridges_1_1_bridges.html">Bridges</a> Visualization. 0 for invisible, 1 for fully visible, a decimal between 0 and 1 for varying transparency. </td></tr>
-    <tr><td class="paramname">size</td><td>the double that represents the size of the <a class="el" href="classbridges_1_1_element.html">Element</a> on the <a class="el" href="classbridges_1_1_bridges.html">Bridges</a> Visualization </td></tr>
+    <tr><td class="paramname">aColor</td><td>the string that represents one of the <a class="el" href="classbridges_1_1_bridges.html" title="This class contains methods to connect and transmit a user&#39;s data structure representation to the Bri...">Bridges</a> colors. </td></tr>
+    <tr><td class="paramname">aShape</td><td>the string that represents one of the <a class="el" href="classbridges_1_1_bridges.html" title="This class contains methods to connect and transmit a user&#39;s data structure representation to the Bri...">Bridges</a> shapes </td></tr>
+    <tr><td class="paramname">opacity</td><td>a double between 0 and 1 representing how transparent the node should be on the <a class="el" href="classbridges_1_1_bridges.html" title="This class contains methods to connect and transmit a user&#39;s data structure representation to the Bri...">Bridges</a> Visualization. 0 for invisible, 1 for fully visible, a decimal between 0 and 1 for varying transparency. </td></tr>
+    <tr><td class="paramname">size</td><td>the double that represents the size of the <a class="el" href="classbridges_1_1_element.html" title="This is the fundamental building block used in building all data structures in BRIDGES. ">Element</a> on the <a class="el" href="classbridges_1_1_bridges.html" title="This class contains methods to connect and transmit a user&#39;s data structure representation to the Bri...">Bridges</a> Visualization </td></tr>
   </table>
   </dd>
 </dl>
@@ -339,10 +348,10 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Construct a new <a class="el" href="classbridges_1_1_element_visualizer.html">ElementVisualizer</a> with the same color, shape, opacity, and size as "v"</p>
+<p>Construct a new <a class="el" href="classbridges_1_1_element_visualizer.html" title="This class maintains the visual properties of the a Bridges element. ">ElementVisualizer</a> with the same color, shape, opacity, and size as "v"</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">v</td><td>the <a class="el" href="classbridges_1_1_element_visualizer.html">ElementVisualizer</a> whose settings you want to copy. </td></tr>
+    <tr><td class="paramname">v</td><td>the <a class="el" href="classbridges_1_1_element_visualizer.html" title="This class maintains the visual properties of the a Bridges element. ">ElementVisualizer</a> whose settings you want to copy. </td></tr>
   </table>
   </dd>
 </dl>
@@ -370,7 +379,7 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Get the color of the <a class="el" href="classbridges_1_1_element.html">Element</a> in the <a class="el" href="classbridges_1_1_bridges.html">Bridges</a> Visualization </p><dl class="section return"><dt>Returns</dt><dd>the string reprsenting the color of the <a class="el" href="classbridges_1_1_element.html">Element</a> in the <a class="el" href="classbridges_1_1_bridges.html">Bridges</a> Visualization </dd></dl>
+<p>Get the color of the <a class="el" href="classbridges_1_1_element.html" title="This is the fundamental building block used in building all data structures in BRIDGES. ">Element</a> in the <a class="el" href="classbridges_1_1_bridges.html" title="This class contains methods to connect and transmit a user&#39;s data structure representation to the Bri...">Bridges</a> Visualization </p><dl class="section return"><dt>Returns</dt><dd>the string reprsenting the color of the <a class="el" href="classbridges_1_1_element.html" title="This is the fundamental building block used in building all data structures in BRIDGES. ">Element</a> in the <a class="el" href="classbridges_1_1_bridges.html" title="This class contains methods to connect and transmit a user&#39;s data structure representation to the Bri...">Bridges</a> Visualization </dd></dl>
 
 </div>
 </div>
@@ -394,7 +403,7 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Get the opacity of the <a class="el" href="classbridges_1_1_element.html">Element</a> in the <a class="el" href="classbridges_1_1_bridges.html">Bridges</a> Visualization </p><dl class="section return"><dt>Returns</dt><dd>the opacity value </dd></dl>
+<p>Get the opacity of the <a class="el" href="classbridges_1_1_element.html" title="This is the fundamental building block used in building all data structures in BRIDGES. ">Element</a> in the <a class="el" href="classbridges_1_1_bridges.html" title="This class contains methods to connect and transmit a user&#39;s data structure representation to the Bri...">Bridges</a> Visualization </p><dl class="section return"><dt>Returns</dt><dd>the opacity value </dd></dl>
 
 </div>
 </div>
@@ -443,7 +452,7 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Get the shape of the <a class="el" href="classbridges_1_1_element.html">Element</a> in the <a class="el" href="classbridges_1_1_bridges.html">Bridges</a> Visualization. </p><dl class="section return"><dt>Returns</dt><dd>the string that represents the <a class="el" href="classbridges_1_1_element.html">Element</a>'s shape in the <a class="el" href="classbridges_1_1_bridges.html">Bridges</a> Visualization. </dd></dl>
+<p>Get the shape of the <a class="el" href="classbridges_1_1_element.html" title="This is the fundamental building block used in building all data structures in BRIDGES. ">Element</a> in the <a class="el" href="classbridges_1_1_bridges.html" title="This class contains methods to connect and transmit a user&#39;s data structure representation to the Bri...">Bridges</a> Visualization. </p><dl class="section return"><dt>Returns</dt><dd>the string that represents the <a class="el" href="classbridges_1_1_element.html" title="This is the fundamental building block used in building all data structures in BRIDGES. ">Element</a>'s shape in the <a class="el" href="classbridges_1_1_bridges.html" title="This class contains methods to connect and transmit a user&#39;s data structure representation to the Bri...">Bridges</a> Visualization. </dd></dl>
 
 </div>
 </div>
@@ -467,8 +476,8 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Get the size of the <a class="el" href="classbridges_1_1_element.html">Element</a> in the <a class="el" href="classbridges_1_1_bridges.html">Bridges</a> Visualiation</p>
-<dl class="section return"><dt>Returns</dt><dd>the size in pixels of the <a class="el" href="classbridges_1_1_element.html">Element</a> in the <a class="el" href="classbridges_1_1_bridges.html">Bridges</a> Visualization </dd></dl>
+<p>Get the size of the <a class="el" href="classbridges_1_1_element.html" title="This is the fundamental building block used in building all data structures in BRIDGES. ">Element</a> in the <a class="el" href="classbridges_1_1_bridges.html" title="This class contains methods to connect and transmit a user&#39;s data structure representation to the Bri...">Bridges</a> Visualiation</p>
+<dl class="section return"><dt>Returns</dt><dd>the size in pixels of the <a class="el" href="classbridges_1_1_element.html" title="This is the fundamental building block used in building all data structures in BRIDGES. ">Element</a> in the <a class="el" href="classbridges_1_1_bridges.html" title="This class contains methods to connect and transmit a user&#39;s data structure representation to the Bri...">Bridges</a> Visualization </dd></dl>
 
 </div>
 </div>
@@ -493,9 +502,9 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Set the color of the <a class="el" href="classbridges_1_1_element.html">Element</a> in the <a class="el" href="classbridges_1_1_bridges.html">Bridges</a> Visualization to "aColor". </p><dl class="params"><dt>Parameters</dt><dd>
+<p>Set the color of the <a class="el" href="classbridges_1_1_element.html" title="This is the fundamental building block used in building all data structures in BRIDGES. ">Element</a> in the <a class="el" href="classbridges_1_1_bridges.html" title="This class contains methods to connect and transmit a user&#39;s data structure representation to the Bri...">Bridges</a> Visualization to "aColor". </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">aColor</td><td>the string reprsenting the color of the <a class="el" href="classbridges_1_1_element.html">Element</a> in the <a class="el" href="classbridges_1_1_bridges.html">Bridges</a> Visualization </td></tr>
+    <tr><td class="paramname">aColor</td><td>the string reprsenting the color of the <a class="el" href="classbridges_1_1_element.html" title="This is the fundamental building block used in building all data structures in BRIDGES. ">Element</a> in the <a class="el" href="classbridges_1_1_bridges.html" title="This class contains methods to connect and transmit a user&#39;s data structure representation to the Bri...">Bridges</a> Visualization </td></tr>
   </table>
   </dd>
 </dl>
@@ -523,7 +532,7 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Sets the key value attributed of the <a class="el" href="classbridges_1_1_element.html">Element</a> used by search structures - binary search trees, AVL trees, etc.</p>
+<p>Sets the key value attributed of the <a class="el" href="classbridges_1_1_element.html" title="This is the fundamental building block used in building all data structures in BRIDGES. ">Element</a> used by search structures - binary search trees, AVL trees, etc.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">key</td><td>is any orderable value - int, float, string </td></tr>
@@ -554,7 +563,7 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Sets the opacity of the <a class="el" href="classbridges_1_1_element.html">Element</a> in the <a class="el" href="classbridges_1_1_bridges.html">Bridges</a> Visualization</p>
+<p>Sets the opacity of the <a class="el" href="classbridges_1_1_element.html" title="This is the fundamental building block used in building all data structures in BRIDGES. ">Element</a> in the <a class="el" href="classbridges_1_1_bridges.html" title="This class contains methods to connect and transmit a user&#39;s data structure representation to the Bri...">Bridges</a> Visualization</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">opacity</td><td>a double value between 0.0(fully opaque) and 1 (fully transparent representing how </td></tr>
@@ -585,10 +594,10 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Sets the shape of the <a class="el" href="classbridges_1_1_element.html">Element</a> in the <a class="el" href="classbridges_1_1_bridges.html">Bridges</a> Visualization</p>
+<p>Sets the shape of the <a class="el" href="classbridges_1_1_element.html" title="This is the fundamental building block used in building all data structures in BRIDGES. ">Element</a> in the <a class="el" href="classbridges_1_1_bridges.html" title="This class contains methods to connect and transmit a user&#39;s data structure representation to the Bri...">Bridges</a> Visualization</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">aShape</td><td>the string representing the shape of the <a class="el" href="classbridges_1_1_element.html">Element</a> in the <a class="el" href="classbridges_1_1_bridges.html">Bridges</a> Visualization </td></tr>
+    <tr><td class="paramname">aShape</td><td>the string representing the shape of the <a class="el" href="classbridges_1_1_element.html" title="This is the fundamental building block used in building all data structures in BRIDGES. ">Element</a> in the <a class="el" href="classbridges_1_1_bridges.html" title="This class contains methods to connect and transmit a user&#39;s data structure representation to the Bri...">Bridges</a> Visualization </td></tr>
   </table>
   </dd>
 </dl>
@@ -616,10 +625,10 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Set the size of the <a class="el" href="classbridges_1_1_element.html">Element</a> in the Bridge Visualization in pixels</p>
+<p>Set the size of the <a class="el" href="classbridges_1_1_element.html" title="This is the fundamental building block used in building all data structures in BRIDGES. ">Element</a> in the Bridge Visualization in pixels</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">size</td><td>the pixel size of the <a class="el" href="classbridges_1_1_element.html">Element</a> in the <a class="el" href="classbridges_1_1_bridges.html">Bridges</a> Visualization </td></tr>
+    <tr><td class="paramname">size</td><td>the pixel size of the <a class="el" href="classbridges_1_1_element.html" title="This is the fundamental building block used in building all data structures in BRIDGES. ">Element</a> in the <a class="el" href="classbridges_1_1_bridges.html" title="This class contains methods to connect and transmit a user&#39;s data structure representation to the Bri...">Bridges</a> Visualization </td></tr>
   </table>
   </dd>
 </dl>
@@ -632,7 +641,7 @@ Public Member Functions</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Jul 17 2015 17:52:21 for Bridges-C++-2.0 by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Jul 26 2015 18:10:08 for Bridges-C++-2.0 by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.9.1
 </small></address>

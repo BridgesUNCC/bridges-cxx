@@ -91,86 +91,86 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!--header-->
 <div class="contents">
 <a href="_graph_adj_matrix_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="preprocessor">#ifndef GRAPH_ADJ_MATRIX_H</span></div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="preprocessor">#define GRAPH_ADJ_MATRIX_H</span></div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="preprocessor">#include &lt;string&gt;</span></div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="preprocessor">#include &lt;sstream&gt;</span></div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="preprocessor">#include &lt;unordered_map&gt;</span></div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="keyword">using namespace </span><a class="code" href="namespacestd.html">std</a>;</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="keyword">namespace </span><a class="code" href="namespacebridges.html">bridges</a>{</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="comment">//template &lt;typename Key&gt; using GraphAdjMatrix = unordered_map &lt;Key, </span></div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="comment">//                  unordered_map&lt;T, double&gt; &gt;;</span></div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;</div>
-<div class="line"><a name="l00031"></a><span class="lineno"><a class="line" href="classbridges_1_1_graph_adj_matrix.html">   31</a></span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> Key, <span class="keyword">typename</span> E&gt; <span class="keyword">class </span><a class="code" href="classbridges_1_1_graph_adj_matrix.html">GraphAdjMatrix</a> {</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    <span class="keyword">private</span>:</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;                        <span class="comment">// keep track of the graph nodes; useful</span></div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;                        <span class="comment">// to maintain their properties</span></div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;                        <span class="comment">// holds the adjacency matrix of edges</span></div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;        unordered_map&lt;Key, Element&lt;E&gt; &gt; *vertices;</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;                        <span class="comment">// adjacency matrix</span></div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;        unordered_map &lt;Key, unordered_map&lt;Key, double&gt; &gt; *matrix;</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;</div>
-<div class="line"><a name="l00045"></a><span class="lineno"><a class="line" href="classbridges_1_1_graph_adj_matrix.html#a3c6caf98cf52a41cc446115967571975">   45</a></span>&#160;        <a class="code" href="classbridges_1_1_graph_adj_matrix.html#a3c6caf98cf52a41cc446115967571975">GraphAdjMatrix</a>() {      <span class="comment">// clear the maps</span></div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;            vertices = <span class="keyword">new</span> unordered_map&lt;Key, Element&lt;E&gt; &gt;;</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;            matrix = <span class="keyword">new</span> unordered_map &lt;Key, unordered_map&lt;Key, double&gt; &gt;;</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;            vertices-&gt;clear();</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;            matrix-&gt;clear();</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;        }</div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;</div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;</div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#ifndef GRAPH_ADJ_MATRIX_H</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;</div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#define GRAPH_ADJ_MATRIX_H</span></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;</div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#include &lt;string&gt;</span></div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor">#include &lt;sstream&gt;</span></div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor">#include &lt;unordered_map&gt;</span></div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="keyword">using namespace </span><a class="code" href="namespacestd.html">std</a>;</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="keyword">namespace </span><a class="code" href="namespacebridges.html">bridges</a>{</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;</div>
+<div class="line"><a name="l00040"></a><span class="lineno"><a class="line" href="classbridges_1_1_graph_adj_matrix.html">   40</a></span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> Key, <span class="keyword">typename</span> E&gt; <span class="keyword">class </span><a class="code" href="classbridges_1_1_graph_adj_matrix.html">GraphAdjMatrix</a> {</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    <span class="keyword">private</span>:</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;                        <span class="comment">// keep track of the graph nodes; useful</span></div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;                        <span class="comment">// to maintain their properties</span></div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;                        <span class="comment">// holds the adjacency matrix of edges</span></div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;        unordered_map&lt;Key, Element&lt;E&gt; &gt; *vertices;</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;                        <span class="comment">// adjacency matrix</span></div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;        unordered_map &lt;Key, unordered_map&lt;Key, double&gt; &gt; *matrix;</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    <span class="keyword">public</span>:</div>
 <div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;        <span class="comment">//  of weght 0. User is responsible for checking if the vertex already</span></div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;<span class="comment"></span></div>
-<div class="line"><a name="l00061"></a><span class="lineno"><a class="line" href="classbridges_1_1_graph_adj_matrix.html#ade848b5e4fc39bbc3d78f86807f12061">   61</a></span>&#160;        <span class="keywordtype">void</span> <a class="code" href="classbridges_1_1_graph_adj_matrix.html#ade848b5e4fc39bbc3d78f86807f12061">addVertex</a>(Key k, E e) {</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;                    <span class="comment">// note: it is the user&#39;s responsibility to  check</span></div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;                    <span class="comment">// for duplicate edges (will be overwritten, otherwise)</span></div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;            matrix[k][k] = 0.;</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;            stringstream ss;</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;            ss &lt;&lt; k;</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;            vertices[k] = <a class="code" href="classbridges_1_1_element.html">Element&lt;E&gt;</a>(ss.str(), e);</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;            <span class="keywordflow">for</span> (<span class="keyword">auto</span>&amp; key : vertices) {</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;                matrix[k][key.first] = matrix[key.first][k] = 0.;</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;            }</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;        }</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;</div>
-<div class="line"><a name="l00082"></a><span class="lineno"><a class="line" href="classbridges_1_1_graph_adj_matrix.html#ad07f73bae1314d5dc2403bb7ebfc9aab">   82</a></span>&#160;        <span class="keywordtype">void</span> <a class="code" href="classbridges_1_1_graph_adj_matrix.html#ad07f73bae1314d5dc2403bb7ebfc9aab">addEdge</a>(Key src, Key dest, <span class="keywordtype">int</span> weight) {</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;                    <span class="comment">// note: it is the user&#39;s responsibility to  check</span></div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;                    <span class="comment">// if the edge already exists</span></div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;            matrix[src][dest] = weight; </div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;        }</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;</div>
-<div class="line"><a name="l00094"></a><span class="lineno"><a class="line" href="classbridges_1_1_graph_adj_matrix.html#a3407ab17167b1148e963a4aa687ac1a5">   94</a></span>&#160;        unordered_map &lt;Key, unordered_map&lt;Key, double&gt; &gt; *<a class="code" href="classbridges_1_1_graph_adj_matrix.html#a3407ab17167b1148e963a4aa687ac1a5">getMatrix</a>() {</div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;            <span class="keywordflow">return</span> matrix;</div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;        }</div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;</div>
-<div class="line"><a name="l00104"></a><span class="lineno"><a class="line" href="classbridges_1_1_graph_adj_matrix.html#a992b4773b79ccd97716f20f88a14e444">  104</a></span>&#160;        unordered_map &lt;Key, Element&lt;E&gt; &gt; *<a class="code" href="classbridges_1_1_graph_adj_matrix.html#a992b4773b79ccd97716f20f88a14e444">getVertices</a>() {</div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;            <span class="keywordflow">return</span> vertices;</div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;        }</div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;};</div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;</div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;</div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;}</div>
-<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;</div>
+<div class="line"><a name="l00054"></a><span class="lineno"><a class="line" href="classbridges_1_1_graph_adj_matrix.html#a3c6caf98cf52a41cc446115967571975">   54</a></span>&#160;        <a class="code" href="classbridges_1_1_graph_adj_matrix.html#a3c6caf98cf52a41cc446115967571975">GraphAdjMatrix</a>() {      <span class="comment">// clear the maps</span></div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;            vertices = <span class="keyword">new</span> unordered_map&lt;Key, Element&lt;E&gt; &gt;;</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;            matrix = <span class="keyword">new</span> unordered_map &lt;Key, unordered_map&lt;Key, double&gt; &gt;;</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;            vertices-&gt;clear();</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;            matrix-&gt;clear();</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;        }</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;        <span class="comment">//  of weght 0. User is responsible for checking if the vertex already</span></div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;<span class="comment"></span></div>
+<div class="line"><a name="l00070"></a><span class="lineno"><a class="line" href="classbridges_1_1_graph_adj_matrix.html#ade848b5e4fc39bbc3d78f86807f12061">   70</a></span>&#160;        <span class="keywordtype">void</span> <a class="code" href="classbridges_1_1_graph_adj_matrix.html#ade848b5e4fc39bbc3d78f86807f12061">addVertex</a>(Key k, E e) {</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;                    <span class="comment">// note: it is the user&#39;s responsibility to  check</span></div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;                    <span class="comment">// for duplicate edges (will be overwritten, otherwise)</span></div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;            stringstream ss;</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;            ss &lt;&lt; k;</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;            (*vertices)[k] = <a class="code" href="classbridges_1_1_element.html">Element&lt;E&gt;</a>(ss.str(), e);</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;                    <span class="comment">// initialize this row of items</span></div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;            <span class="keywordflow">for</span> (<span class="keyword">auto</span>&amp; key : *vertices) {</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;                (*matrix)[k][key.first] = (*matrix)[key.first][k] = 0.;</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;            }</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;        }</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;</div>
+<div class="line"><a name="l00091"></a><span class="lineno"><a class="line" href="classbridges_1_1_graph_adj_matrix.html#ad07f73bae1314d5dc2403bb7ebfc9aab">   91</a></span>&#160;        <span class="keywordtype">void</span> <a class="code" href="classbridges_1_1_graph_adj_matrix.html#ad07f73bae1314d5dc2403bb7ebfc9aab">addEdge</a>(Key src, Key dest, <span class="keywordtype">int</span> weight) {</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;                    <span class="comment">// note: it is the user&#39;s responsibility to  check</span></div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;                    <span class="comment">// if the edge already exists</span></div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;            (*matrix)[src][dest] = weight; </div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;        }</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;</div>
+<div class="line"><a name="l00103"></a><span class="lineno"><a class="line" href="classbridges_1_1_graph_adj_matrix.html#a3407ab17167b1148e963a4aa687ac1a5">  103</a></span>&#160;        unordered_map &lt;Key, unordered_map&lt;Key, double&gt; &gt; *<a class="code" href="classbridges_1_1_graph_adj_matrix.html#a3407ab17167b1148e963a4aa687ac1a5">getMatrix</a>() {</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;            <span class="keywordflow">return</span> matrix;</div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;        }</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;</div>
+<div class="line"><a name="l00113"></a><span class="lineno"><a class="line" href="classbridges_1_1_graph_adj_matrix.html#a992b4773b79ccd97716f20f88a14e444">  113</a></span>&#160;        unordered_map &lt;Key, Element&lt;E&gt; &gt; *<a class="code" href="classbridges_1_1_graph_adj_matrix.html#a992b4773b79ccd97716f20f88a14e444">getVertices</a>() {</div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;            <span class="keywordflow">return</span> vertices;</div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;        }</div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;};</div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;</div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;</div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;}</div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;</div>
 <div class="ttc" id="namespacestd_html"><div class="ttname"><a href="namespacestd.html">std</a></div><div class="ttdoc">STL namespace. </div></div>
-<div class="ttc" id="classbridges_1_1_graph_adj_matrix_html_ade848b5e4fc39bbc3d78f86807f12061"><div class="ttname"><a href="classbridges_1_1_graph_adj_matrix.html#ade848b5e4fc39bbc3d78f86807f12061">bridges::GraphAdjMatrix::addVertex</a></div><div class="ttdeci">void addVertex(Key k, E e)</div><div class="ttdef"><b>Definition:</b> GraphAdjMatrix.h:61</div></div>
-<div class="ttc" id="classbridges_1_1_graph_adj_matrix_html_a3407ab17167b1148e963a4aa687ac1a5"><div class="ttname"><a href="classbridges_1_1_graph_adj_matrix.html#a3407ab17167b1148e963a4aa687ac1a5">bridges::GraphAdjMatrix::getMatrix</a></div><div class="ttdeci">unordered_map&lt; Key, unordered_map&lt; Key, double &gt; &gt; * getMatrix()</div><div class="ttdef"><b>Definition:</b> GraphAdjMatrix.h:94</div></div>
-<div class="ttc" id="classbridges_1_1_graph_adj_matrix_html"><div class="ttname"><a href="classbridges_1_1_graph_adj_matrix.html">bridges::GraphAdjMatrix</a></div><div class="ttdef"><b>Definition:</b> GraphAdjMatrix.h:31</div></div>
-<div class="ttc" id="classbridges_1_1_graph_adj_matrix_html_a992b4773b79ccd97716f20f88a14e444"><div class="ttname"><a href="classbridges_1_1_graph_adj_matrix.html#a992b4773b79ccd97716f20f88a14e444">bridges::GraphAdjMatrix::getVertices</a></div><div class="ttdeci">unordered_map&lt; Key, Element&lt; E &gt; &gt; * getVertices()</div><div class="ttdef"><b>Definition:</b> GraphAdjMatrix.h:104</div></div>
-<div class="ttc" id="classbridges_1_1_graph_adj_matrix_html_ad07f73bae1314d5dc2403bb7ebfc9aab"><div class="ttname"><a href="classbridges_1_1_graph_adj_matrix.html#ad07f73bae1314d5dc2403bb7ebfc9aab">bridges::GraphAdjMatrix::addEdge</a></div><div class="ttdeci">void addEdge(Key src, Key dest, int weight)</div><div class="ttdef"><b>Definition:</b> GraphAdjMatrix.h:82</div></div>
-<div class="ttc" id="namespacebridges_html"><div class="ttname"><a href="namespacebridges.html">bridges</a></div><div class="ttdef"><b>Definition:</b> ADTVisualizer.h:34</div></div>
-<div class="ttc" id="classbridges_1_1_element_html"><div class="ttname"><a href="classbridges_1_1_element.html">bridges::Element</a></div><div class="ttdef"><b>Definition:</b> Element.h:37</div></div>
-<div class="ttc" id="classbridges_1_1_graph_adj_matrix_html_a3c6caf98cf52a41cc446115967571975"><div class="ttname"><a href="classbridges_1_1_graph_adj_matrix.html#a3c6caf98cf52a41cc446115967571975">bridges::GraphAdjMatrix::GraphAdjMatrix</a></div><div class="ttdeci">GraphAdjMatrix()</div><div class="ttdoc">Constructor. </div><div class="ttdef"><b>Definition:</b> GraphAdjMatrix.h:45</div></div>
+<div class="ttc" id="classbridges_1_1_graph_adj_matrix_html_ade848b5e4fc39bbc3d78f86807f12061"><div class="ttname"><a href="classbridges_1_1_graph_adj_matrix.html#ade848b5e4fc39bbc3d78f86807f12061">bridges::GraphAdjMatrix::addVertex</a></div><div class="ttdeci">void addVertex(Key k, E e)</div><div class="ttdef"><b>Definition:</b> GraphAdjMatrix.h:70</div></div>
+<div class="ttc" id="classbridges_1_1_graph_adj_matrix_html_a3407ab17167b1148e963a4aa687ac1a5"><div class="ttname"><a href="classbridges_1_1_graph_adj_matrix.html#a3407ab17167b1148e963a4aa687ac1a5">bridges::GraphAdjMatrix::getMatrix</a></div><div class="ttdeci">unordered_map&lt; Key, unordered_map&lt; Key, double &gt; &gt; * getMatrix()</div><div class="ttdef"><b>Definition:</b> GraphAdjMatrix.h:103</div></div>
+<div class="ttc" id="classbridges_1_1_graph_adj_matrix_html"><div class="ttname"><a href="classbridges_1_1_graph_adj_matrix.html">bridges::GraphAdjMatrix</a></div><div class="ttdoc">This class provides methods to represent adjacency list based graphs. </div><div class="ttdef"><b>Definition:</b> GraphAdjMatrix.h:40</div></div>
+<div class="ttc" id="classbridges_1_1_graph_adj_matrix_html_a992b4773b79ccd97716f20f88a14e444"><div class="ttname"><a href="classbridges_1_1_graph_adj_matrix.html#a992b4773b79ccd97716f20f88a14e444">bridges::GraphAdjMatrix::getVertices</a></div><div class="ttdeci">unordered_map&lt; Key, Element&lt; E &gt; &gt; * getVertices()</div><div class="ttdef"><b>Definition:</b> GraphAdjMatrix.h:113</div></div>
+<div class="ttc" id="classbridges_1_1_graph_adj_matrix_html_ad07f73bae1314d5dc2403bb7ebfc9aab"><div class="ttname"><a href="classbridges_1_1_graph_adj_matrix.html#ad07f73bae1314d5dc2403bb7ebfc9aab">bridges::GraphAdjMatrix::addEdge</a></div><div class="ttdeci">void addEdge(Key src, Key dest, int weight)</div><div class="ttdef"><b>Definition:</b> GraphAdjMatrix.h:91</div></div>
+<div class="ttc" id="namespacebridges_html"><div class="ttname"><a href="namespacebridges.html">bridges</a></div><div class="ttdef"><b>Definition:</b> ADTVisualizer.h:21</div></div>
+<div class="ttc" id="classbridges_1_1_element_html"><div class="ttname"><a href="classbridges_1_1_element.html">bridges::Element</a></div><div class="ttdoc">This is the fundamental building block used in building all data structures in BRIDGES. </div><div class="ttdef"><b>Definition:</b> Element.h:44</div></div>
+<div class="ttc" id="classbridges_1_1_graph_adj_matrix_html_a3c6caf98cf52a41cc446115967571975"><div class="ttname"><a href="classbridges_1_1_graph_adj_matrix.html#a3c6caf98cf52a41cc446115967571975">bridges::GraphAdjMatrix::GraphAdjMatrix</a></div><div class="ttdeci">GraphAdjMatrix()</div><div class="ttdoc">Constructor. </div><div class="ttdef"><b>Definition:</b> GraphAdjMatrix.h:54</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Jul 17 2015 17:52:20 for Bridges-C++-2.0 by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Jul 26 2015 18:10:08 for Bridges-C++-2.0 by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.9.1
 </small></address>

@@ -1,16 +1,3 @@
-/**
- *
- * The GraphAdjMatrix class can be used to represent adjacency matrix based 
- * graphs in BRIDGES, with T representing a data specific generic parameter.
- * The class is simply a wrapper  around the C++ STL  unordered_map class
- * and, thus, derives all its operations from it.
- * BRIDGES provides methods to visualize the graph  and its contents. 
- *
- * Author: Kalpathi Subramanian, 7/1/15
- *
- * @param Element<E>
- *
- */
 
 
 
@@ -25,9 +12,31 @@
 using namespace std;
 
 namespace bridges{
-//template <typename Key> using GraphAdjMatrix = unordered_map <Key, 
-//					unordered_map<T, double> >;
 
+/**
+ *
+ * @brief This class provides methods to represent adjacency list based
+ *		graphs
+
+ * The GraphAdjMatrix class can be used to represent adjacency matrix based 
+ * graphs in BRIDGES, with Key representing a data specific generic parameter.
+ * The class is simply a wrapper  around the C++ STL  unordered_map class
+ * and, thus, derives all its operations from it.  Given the use  of
+ * operator overloading, the adjacency matrix implementation is almost 
+ * identical to a normal array representation, except that any ordered type
+ * can be used to index into the matrix.
+ * <p>
+ * BRIDGES provides methods to visualize the graph  and its contents. 
+ *
+ * @param Key is any orderable type, used as index into the adjacency matrix
+ * @param  E  used to represent application specific data and is any legal
+ *			 C++ type
+ *
+ *  @author Kalpathi Subramanian (C++ port)
+ *
+ *  @date 6/29/15
+ *
+ */
 template <typename Key, typename E> class GraphAdjMatrix {
 	private:
 						// keep track of the graph nodes; useful
@@ -61,12 +70,12 @@ template <typename Key, typename E> class GraphAdjMatrix {
 		void addVertex(Key k, E e) {
 					// note: it is the user's responsibility to  check
 					// for duplicate edges (will be overwritten, otherwise)
-			matrix[k][k] = 0.;
 			stringstream ss;
 			ss << k;
-			vertices[k] = Element<E>(ss.str(), e);
-			for (auto& key : vertices) {
-				matrix[k][key.first] = matrix[key.first][k] = 0.;
+			(*vertices)[k] = Element<E>(ss.str(), e);
+					// initialize this row of items
+			for (auto& key : *vertices) {
+				(*matrix)[k][key.first] = (*matrix)[key.first][k] = 0.;
 			}
 		}
 
@@ -82,7 +91,7 @@ template <typename Key, typename E> class GraphAdjMatrix {
 		void addEdge(Key src, Key dest, int weight) {
 					// note: it is the user's responsibility to  check
 					// if the edge already exists
-			matrix[src][dest] = weight; 
+			(*matrix)[src][dest] = weight; 
 		}
 
 		/** 

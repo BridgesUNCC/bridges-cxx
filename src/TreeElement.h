@@ -7,16 +7,28 @@
 
 using namespace std;
 
-/**
- * @author Kalpathi Subramanian, 6/12/15
- * This class can be used to create tree element objects
- * with left and right pointers
- *
- */
-
 #include "Element.h"
 
 namespace bridges{
+
+/**
+ *
+ * @brief  This class can be used to create binary tree element objects,
+ *   derived from Element
+
+ * The BSTElement<E> is derived from Element<E>  to represent binary tree 
+ * elements, with accessors to left and right subtrees
+ *
+ * @param <E> Can be of any legal C++ type: integer, string, float,
+ *  	double, or any user defined object(class, struct, array), and
+ *  	represents application dependent data.
+ *
+ * @author Kalpathi Subramanian 
+ * @date 6/12/15
+ *
+ */
+
+
 
 template <typename E>  class TreeElement : public Element<E> {
 

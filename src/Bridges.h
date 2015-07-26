@@ -16,21 +16,24 @@ using namespace std;
 #include "GraphAdjMatrix.h"
 #include "Validation.h"
 
+namespace bridges {
 /**
- * Connection to the Bridges server.
+ * @brief This class contains methods to connect and transmit a user's 
+ * 	data structure representation to the Bridges server
  * 
  * This class contains the needed initialization functions for BRIDGES
- * and the needed infrastructure to connect to the server
+ * and the needed methods to connect to the server
  * 
  * @author Kalpathi Subramanian (C++ port)
-
+ *
+ * @date  7/26/15
+ *
  * @param Generic parameters <K, E>, K is any orderable type (short, unsigned, 
  * int, float, double, char, string), E is any legal type that represents
  * application data.
  * 
- **/
+ */
 
-namespace bridges {
 
 template<typename K, typename E> class Bridges {
 	private:
@@ -111,9 +114,9 @@ template<typename K, typename E> class Bridges {
 
 		/**
 		 *
-		 * Get the current Bridges handl -- needed by other system classes
+		 * Get the current Bridges handle -- needed by other system classes
 		 * 
-		 * @return  assignment number -  this is an integer value;
+		 * @return  pointer to the Bridges object (Bridges*);
 		 * 
 		 **/
 		static Bridges *getBridgesObject() {
@@ -123,6 +126,11 @@ template<typename K, typename E> class Bridges {
 		/** 
 		 *  Get the assignment number 
 		 *
+		 *	   Can represent a sequence of assignments
+		 *     Example: 1.00, 1.01, 1.02  represent 3 visualizations of
+		 *     assignment 1
+		 *
+		 *  @return  string
 		 **/
 		string getAssignment() {
 			return (assignmentPart < 10) 
@@ -339,17 +347,6 @@ template<typename K, typename E> class Bridges {
 		}
 		
 		/**
-		 * This method toggles the flag that permits the JSON to be output
-		 * 
-		 */
-		void toggleJSONdisplay(){
-			if (getVisualizer()->isVisualizeJSON())
-				getVisualizer()->setVisualizeJSON(false);
-			else
-				getVisualizer()->setVisualizeJSON(true);
-		}
-		
-		/**
 		 * This method initiates the creation of the JSON string representation
 		 * of the current data structure, which is then sent to the server
 		 * via the post() call, which ultimately executes the http request
@@ -388,6 +385,7 @@ template<typename K, typename E> class Bridges {
 		 * @param url_s - URL to be sent to the server
 		 * @param url_u - URL to be sent to the user to visualize results
 		 **/
+	private:
 		void visualize_LinkedList(string url_s, string url_u) {
 			string ds_json;
 	        try {
@@ -395,8 +393,8 @@ template<typename K, typename E> class Bridges {
 											(SLelement<E> *) root);
 	        	connector->post(url_s, ds_json); 
 	        								// Return a URL to the user
-				cout << "Success! Check out your visuals at " << "\n\t\t" + url_u 
-						<< endl;
+				cout << "Success! Check out your visualization at " 
+							<< "\n\t\t" + url_u << endl << endl;
 	        	assignmentPart++;
 			} 
 			catch (...) {
@@ -418,8 +416,8 @@ template<typename K, typename E> class Bridges {
 										(DLelement<E>*)root);
 	        	connector->post(url_s, ds_json); 
 	        							// Return a URL to the user
-				cout << "Success! Check out your visuals at " << "\n\t\t" + url_u 
-							<< endl;
+				cout << "Success! Check out your visualization at " << 
+						"\n\t\t" + url_u << endl << endl;
 	        	assignmentPart++;
 			}
 			catch (...) {
@@ -441,8 +439,8 @@ template<typename K, typename E> class Bridges {
 				ds_json = visualizer->getDataStructureRepresentation(array_list);
 	        	connector->post(url_s, ds_json);
 	        							// return a url to the user
-				cout << "success! Check out your visuals at " << "\n\t\t" + url_u 
-							<< endl;
+				cout << "Success! Check out your visualization at " << 
+							"\n\t\t" + url_u << endl << endl;
 	        	assignmentPart++;
 			} 
 			catch (...) {
@@ -464,8 +462,8 @@ template<typename K, typename E> class Bridges {
 								(TreeElement<E>*)root);
 				connector->post(url_s, ds_json); 
 	        							// Return a URL to the user
-				cout << "Success! Check out your visuals at " << "\n\t\t" + url_u 
-							<< endl;
+				cout << "Success! Check out your visualization at "  <<
+						"\n\t\t" + url_u << endl << endl;
 	        	assignmentPart++;
 			}
 			catch (...) {
@@ -488,8 +486,8 @@ template<typename K, typename E> class Bridges {
 									(BSTElement<K, E> *) root);
 				connector->post(url_s, ds_json); 
 	        							// Return a URL to the user
-				cout << "Success! Check out your visuals at " << "\n\t\t" + url_u 
-							<< endl;
+				cout << "Success! Check out your visualization at " << 
+						"\n\t\t" + url_u << endl << endl;
 	        	assignmentPart++;
 			}
 			catch (...) {
@@ -512,8 +510,8 @@ template<typename K, typename E> class Bridges {
 												graph_adj_matrix);
 				connector->post(url_s, ds_json);
 	        							// Return a URL to the user
-				cout << "Success! Check out your visuals at " << "\n\t\t"+
-								url_u << endl;
+				cout << "Success! Check out your visualization at " << 
+						"\n\t\t" + url_u << endl << endl;
 	        	assignmentPart++;
 			}
 			catch (...) {
@@ -539,8 +537,8 @@ template<typename K, typename E> class Bridges {
 					visualizer->getDataStructureRepresentation(graph_adj_list);
 				connector->post(url_s, ds_json);
 	        							// Return a URL to the user
-				cout << "Success! Check out your visuals at " << "\n\t\t" + 
-											url_u << endl;
+				cout << "Success! Check out your visualization at" << 
+							"\n\t\t" + url_u << endl << endl;
 	        	assignmentPart++;
 			}
 			catch (...) {
@@ -563,11 +561,11 @@ template<typename K, typename E> class Bridges {
 		void setRoot(Element<E> *r) {
 			root = r;
 		}
-};
+}; // Bridges template definition ends
 								// declare static variables
 
 template <typename K, typename E> Bridges<K, E>* Bridges<K, E>::current = NULL;
 
-}
+} // namespace definition ends
 
 #endif

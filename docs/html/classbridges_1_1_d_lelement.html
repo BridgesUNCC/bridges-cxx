@@ -97,6 +97,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!--header-->
 <div class="contents">
 
+<p>The basic doubly linked list element, derived from <a class="el" href="classbridges_1_1_element.html" title="This is the fundamental building block used in building all data structures in BRIDGES. ">Element</a>.  
+ <a href="classbridges_1_1_d_lelement.html#details">More...</a></p>
+
 <p><code>#include &lt;<a class="el" href="_d_lelement_8h_source.html">DLelement.h</a>&gt;</code></p>
 <div class="dynheader">
 Inheritance diagram for bridges::DLelement&lt; E &gt;:</div>
@@ -104,7 +107,7 @@ Inheritance diagram for bridges::DLelement&lt; E &gt;:</div>
  <div class="center">
   <img src="classbridges_1_1_d_lelement.png" usemap="#bridges::DLelement&lt; E &gt;_map" alt=""/>
   <map id="bridges::DLelement&lt; E &gt;_map" name="bridges::DLelement&lt; E &gt;_map">
-<area href="classbridges_1_1_element.html" alt="bridges::Element&lt; E &gt;" shape="rect" coords="0,0,151,24"/>
+<area href="classbridges_1_1_element.html" title="This is the fundamental building block used in building all data structures in BRIDGES. " alt="bridges::Element&lt; E &gt;" shape="rect" coords="0,0,151,24"/>
 </map>
  </div></div>
 <table class="memberdecls">
@@ -160,7 +163,21 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a54de77e83f615a3c27b46090ea4ba2fb inherit pub_methods_classbridges_1_1_element"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classbridges_1_1_element.html#a54de77e83f615a3c27b46090ea4ba2fb">setValue</a> (E value)</td></tr>
 <tr class="separator:a54de77e83f615a3c27b46090ea4ba2fb inherit pub_methods_classbridges_1_1_element"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><h3>template&lt;typename E&gt;<br />
+class bridges::DLelement&lt; E &gt;</h3>
+
+<p>The basic doubly linked list element, derived from <a class="el" href="classbridges_1_1_element.html" title="This is the fundamental building block used in building all data structures in BRIDGES. ">Element</a>. </p>
+<p>This class can be used to create doubly linked element objects with next and previous (prev) pointers</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">&lt;E&gt;</td><td>Can be any legal C++ type: integer, string, float, double, or any user defined object(class, struct, array) , and represents application dependent data.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section author"><dt>Author</dt><dd>Kalpathi Subramanian </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>6/11/15 </dd></dl>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a class="anchor" id="a79e05d2d74eab75a987531250037b40b"></a>
 <div class="memitem">
 <div class="memproto">
@@ -183,7 +200,7 @@ template&lt;typename E&gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Constructs an empty <a class="el" href="classbridges_1_1_d_lelement.html">DLelement</a> with next and prev pointers set to NULL. </p>
+<p>Constructs an empty <a class="el" href="classbridges_1_1_d_lelement.html" title="The basic doubly linked list element, derived from Element. ">DLelement</a> with next and prev pointers set to NULL. </p>
 
 </div>
 </div>
@@ -246,10 +263,10 @@ template&lt;typename E&gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Constructs a <a class="el" href="classbridges_1_1_d_lelement.html">DLelement</a> labeled "label", holding an object "e", with next and prev pointers set to null. </p><dl class="params"><dt>Parameters</dt><dd>
+<p>Constructs a <a class="el" href="classbridges_1_1_d_lelement.html" title="The basic doubly linked list element, derived from Element. ">DLelement</a> labeled "label", holding an object "e", with next and prev pointers set to null. </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">label</td><td>the label for this <a class="el" href="classbridges_1_1_d_lelement.html">DLelement</a> that shows up on the <a class="el" href="classbridges_1_1_bridges.html">Bridges</a> visualization </td></tr>
-    <tr><td class="paramname">e</td><td>the genereic object that this <a class="el" href="classbridges_1_1_d_lelement.html">DLelement</a> is holding </td></tr>
+    <tr><td class="paramname">label</td><td>the label for this <a class="el" href="classbridges_1_1_d_lelement.html" title="The basic doubly linked list element, derived from Element. ">DLelement</a> that shows up on the <a class="el" href="classbridges_1_1_bridges.html" title="This class contains methods to connect and transmit a user&#39;s data structure representation to the Bri...">Bridges</a> visualization </td></tr>
+    <tr><td class="paramname">e</td><td>the genereic object that this <a class="el" href="classbridges_1_1_d_lelement.html" title="The basic doubly linked list element, derived from Element. ">DLelement</a> is holding </td></tr>
   </table>
   </dd>
 </dl>
@@ -289,10 +306,10 @@ template&lt;typename E&gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Constructs an empty <a class="el" href="classbridges_1_1_d_lelement.html">DLelement</a> with the next pointer set to the <a class="el" href="classbridges_1_1_d_lelement.html">DLelement</a> "next" and the prev pointer set to <a class="el" href="classbridges_1_1_d_lelement.html">DLelement</a> "prev". </p><dl class="params"><dt>Parameters</dt><dd>
+<p>Constructs an empty <a class="el" href="classbridges_1_1_d_lelement.html" title="The basic doubly linked list element, derived from Element. ">DLelement</a> with the next pointer set to the <a class="el" href="classbridges_1_1_d_lelement.html" title="The basic doubly linked list element, derived from Element. ">DLelement</a> "next" and the prev pointer set to <a class="el" href="classbridges_1_1_d_lelement.html" title="The basic doubly linked list element, derived from Element. ">DLelement</a> "prev". </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">next</td><td>the <a class="el" href="classbridges_1_1_d_lelement.html">DLelement</a> that should be assigned to the next pointer </td></tr>
-    <tr><td class="paramname">prev</td><td>the <a class="el" href="classbridges_1_1_d_lelement.html">DLelement</a> that should be assigned to the prev pointer </td></tr>
+    <tr><td class="paramname">next</td><td>the <a class="el" href="classbridges_1_1_d_lelement.html" title="The basic doubly linked list element, derived from Element. ">DLelement</a> that should be assigned to the next pointer </td></tr>
+    <tr><td class="paramname">prev</td><td>the <a class="el" href="classbridges_1_1_d_lelement.html" title="The basic doubly linked list element, derived from Element. ">DLelement</a> that should be assigned to the prev pointer </td></tr>
   </table>
   </dd>
 </dl>
@@ -338,11 +355,11 @@ template&lt;typename E&gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Constructs a <a class="el" href="classbridges_1_1_d_lelement.html">DLelement</a> holding an object "e", with the next pointer set to the <a class="el" href="classbridges_1_1_d_lelement.html">DLelement</a> "next" and the prev pointer set to <a class="el" href="classbridges_1_1_d_lelement.html">DLelement</a> "prev". </p><dl class="params"><dt>Parameters</dt><dd>
+<p>Constructs a <a class="el" href="classbridges_1_1_d_lelement.html" title="The basic doubly linked list element, derived from Element. ">DLelement</a> holding an object "e", with the next pointer set to the <a class="el" href="classbridges_1_1_d_lelement.html" title="The basic doubly linked list element, derived from Element. ">DLelement</a> "next" and the prev pointer set to <a class="el" href="classbridges_1_1_d_lelement.html" title="The basic doubly linked list element, derived from Element. ">DLelement</a> "prev". </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">e</td><td>the genereic object that this <a class="el" href="classbridges_1_1_d_lelement.html">DLelement</a> is holding </td></tr>
-    <tr><td class="paramname">next</td><td>the <a class="el" href="classbridges_1_1_d_lelement.html">DLelement</a> that should be assigned to the next pointer </td></tr>
-    <tr><td class="paramname">prev</td><td>the <a class="el" href="classbridges_1_1_d_lelement.html">DLelement</a> that should be assigned to the prev pointer </td></tr>
+    <tr><td class="paramname">e</td><td>the genereic object that this <a class="el" href="classbridges_1_1_d_lelement.html" title="The basic doubly linked list element, derived from Element. ">DLelement</a> is holding </td></tr>
+    <tr><td class="paramname">next</td><td>the <a class="el" href="classbridges_1_1_d_lelement.html" title="The basic doubly linked list element, derived from Element. ">DLelement</a> that should be assigned to the next pointer </td></tr>
+    <tr><td class="paramname">prev</td><td>the <a class="el" href="classbridges_1_1_d_lelement.html" title="The basic doubly linked list element, derived from Element. ">DLelement</a> that should be assigned to the prev pointer </td></tr>
   </table>
   </dd>
 </dl>
@@ -372,7 +389,7 @@ template&lt;typename E&gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>This method returns the pointer to the next <a class="el" href="classbridges_1_1_d_lelement.html">DLelement</a> </p><dl class="section return"><dt>Returns</dt><dd>the <a class="el" href="classbridges_1_1_d_lelement.html">DLelement</a> assigned to the next pointer </dd></dl>
+<p>This method returns the pointer to the next <a class="el" href="classbridges_1_1_d_lelement.html" title="The basic doubly linked list element, derived from Element. ">DLelement</a> </p><dl class="section return"><dt>Returns</dt><dd>the <a class="el" href="classbridges_1_1_d_lelement.html" title="The basic doubly linked list element, derived from Element. ">DLelement</a> assigned to the next pointer </dd></dl>
 
 </div>
 </div>
@@ -398,7 +415,7 @@ template&lt;typename E&gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>This method returns the pointer to the previous <a class="el" href="classbridges_1_1_d_lelement.html">DLelement</a> </p><dl class="section return"><dt>Returns</dt><dd>the <a class="el" href="classbridges_1_1_d_lelement.html">DLelement</a> assigned to the prev pointer </dd></dl>
+<p>This method returns the pointer to the previous <a class="el" href="classbridges_1_1_d_lelement.html" title="The basic doubly linked list element, derived from Element. ">DLelement</a> </p><dl class="section return"><dt>Returns</dt><dd>the <a class="el" href="classbridges_1_1_d_lelement.html" title="The basic doubly linked list element, derived from Element. ">DLelement</a> assigned to the prev pointer </dd></dl>
 
 </div>
 </div>
@@ -425,9 +442,9 @@ template&lt;typename E&gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>This method sets the pointer to the next <a class="el" href="classbridges_1_1_d_lelement.html">DLelement</a> </p><dl class="params"><dt>Parameters</dt><dd>
+<p>This method sets the pointer to the next <a class="el" href="classbridges_1_1_d_lelement.html" title="The basic doubly linked list element, derived from Element. ">DLelement</a> </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">next</td><td>the <a class="el" href="classbridges_1_1_d_lelement.html">DLelement</a> that should be assigned to the next pointer </td></tr>
+    <tr><td class="paramname">next</td><td>the <a class="el" href="classbridges_1_1_d_lelement.html" title="The basic doubly linked list element, derived from Element. ">DLelement</a> that should be assigned to the next pointer </td></tr>
   </table>
   </dd>
 </dl>
@@ -457,9 +474,9 @@ template&lt;typename E&gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>This method sets the pointer to the previous <a class="el" href="classbridges_1_1_d_lelement.html">DLelement</a> </p><dl class="params"><dt>Parameters</dt><dd>
+<p>This method sets the pointer to the previous <a class="el" href="classbridges_1_1_d_lelement.html" title="The basic doubly linked list element, derived from Element. ">DLelement</a> </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">prev</td><td>the <a class="el" href="classbridges_1_1_d_lelement.html">DLelement</a> that should be assigned to the prev pointer </td></tr>
+    <tr><td class="paramname">prev</td><td>the <a class="el" href="classbridges_1_1_d_lelement.html" title="The basic doubly linked list element, derived from Element. ">DLelement</a> that should be assigned to the prev pointer </td></tr>
   </table>
   </dd>
 </dl>
@@ -472,7 +489,7 @@ template&lt;typename E&gt; </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Jul 17 2015 17:52:21 for Bridges-C++-2.0 by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Jul 26 2015 18:10:08 for Bridges-C++-2.0 by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.9.1
 </small></address>

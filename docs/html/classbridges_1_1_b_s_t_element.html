@@ -97,6 +97,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!--header-->
 <div class="contents">
 
+<p>This class defines a binary search tree element.  
+ <a href="classbridges_1_1_b_s_t_element.html#details">More...</a></p>
+
 <p><code>#include &lt;<a class="el" href="_b_s_t_element_8h_source.html">BSTElement.h</a>&gt;</code></p>
 <div class="dynheader">
 Inheritance diagram for bridges::BSTElement&lt; K, E &gt;:</div>
@@ -104,8 +107,8 @@ Inheritance diagram for bridges::BSTElement&lt; K, E &gt;:</div>
  <div class="center">
   <img src="classbridges_1_1_b_s_t_element.png" usemap="#bridges::BSTElement&lt; K, E &gt;_map" alt=""/>
   <map id="bridges::BSTElement&lt; K, E &gt;_map" name="bridges::BSTElement&lt; K, E &gt;_map">
-<area href="classbridges_1_1_tree_element.html" alt="bridges::TreeElement&lt; E &gt;" shape="rect" coords="0,56,176,80"/>
-<area href="classbridges_1_1_element.html" alt="bridges::Element&lt; E &gt;" shape="rect" coords="0,0,176,24"/>
+<area href="classbridges_1_1_tree_element.html" title="This class can be used to create binary tree element objects, derived from Element. " alt="bridges::TreeElement&lt; E &gt;" shape="rect" coords="0,56,176,80"/>
+<area href="classbridges_1_1_element.html" title="This is the fundamental building block used in building all data structures in BRIDGES. " alt="bridges::Element&lt; E &gt;" shape="rect" coords="0,0,176,24"/>
 </map>
  </div></div>
 <table class="memberdecls">
@@ -190,7 +193,14 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a54de77e83f615a3c27b46090ea4ba2fb inherit pub_methods_classbridges_1_1_element"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classbridges_1_1_element.html#a54de77e83f615a3c27b46090ea4ba2fb">setValue</a> (E value)</td></tr>
 <tr class="separator:a54de77e83f615a3c27b46090ea4ba2fb inherit pub_methods_classbridges_1_1_element"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><h3>template&lt;typename K, typename E&gt;<br />
+class bridges::BSTElement&lt; K, E &gt;</h3>
+
+<p>This class defines a binary search tree element. </p>
+<p>This class extends the <a class="el" href="classbridges_1_1_tree_element.html" title="This class can be used to create binary tree element objects, derived from Element. ">TreeElement</a> class by adding a key property to allow for easier use in a binary search tree implementation.</p>
+<dl class="section author"><dt>Author</dt><dd>Kalpathi Subramanian, 6/18/15 </dd></dl>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a class="anchor" id="a6bc4007042470785ca865c900bfbf20e"></a>
 <div class="memitem">
 <div class="memproto">
@@ -213,7 +223,7 @@ template&lt;typename K, typename E&gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Construct an empty <a class="el" href="classbridges_1_1_b_s_t_element.html">BSTElement</a> with no key assigned and left and right pointers set to null. </p>
+<p>Construct an empty <a class="el" href="classbridges_1_1_b_s_t_element.html" title="This class defines a binary search tree element. ">BSTElement</a> with no key assigned and left and right pointers set to null. </p>
 
 </div>
 </div>
@@ -282,11 +292,11 @@ template&lt;typename K, typename E&gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Construct a <a class="el" href="classbridges_1_1_b_s_t_element.html">BSTElement</a> holding an object "e" with a left pointer assigned to "left" and a right pointer assigned to "right".</p>
+<p>Construct a <a class="el" href="classbridges_1_1_b_s_t_element.html" title="This class defines a binary search tree element. ">BSTElement</a> holding an object "e" with a left pointer assigned to "left" and a right pointer assigned to "right".</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">e</td><td>the object that <a class="el" href="classbridges_1_1_b_s_t_element.html">BSTElement</a> is holding </td></tr>
-    <tr><td class="paramname">left</td><td>the <a class="el" href="classbridges_1_1_b_s_t_element.html">BSTElement</a> that should be assigned to the left pointer </td></tr>
+    <tr><td class="paramname">e</td><td>the object that <a class="el" href="classbridges_1_1_b_s_t_element.html" title="This class defines a binary search tree element. ">BSTElement</a> is holding </td></tr>
+    <tr><td class="paramname">left</td><td>the <a class="el" href="classbridges_1_1_b_s_t_element.html" title="This class defines a binary search tree element. ">BSTElement</a> that should be assigned to the left pointer </td></tr>
     <tr><td class="paramname">right</td><td>the BSTElemetn taht should be assigned to the right pointer </td></tr>
   </table>
   </dd>
@@ -339,12 +349,12 @@ template&lt;typename K, typename E&gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Construct a <a class="el" href="classbridges_1_1_b_s_t_element.html">BSTElement</a> with a key "key", holding an object "e" with a left pointer assigned to "left" and a right pointer assigned to "right". </p><dl class="params"><dt>Parameters</dt><dd>
+<p>Construct a <a class="el" href="classbridges_1_1_b_s_t_element.html" title="This class defines a binary search tree element. ">BSTElement</a> with a key "key", holding an object "e" with a left pointer assigned to "left" and a right pointer assigned to "right". </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">key</td><td>the key to be used in a binary search tree implementation </td></tr>
-    <tr><td class="paramname">e</td><td>the object this <a class="el" href="classbridges_1_1_b_s_t_element.html">BSTElement</a> is holding </td></tr>
-    <tr><td class="paramname">left</td><td>the <a class="el" href="classbridges_1_1_b_s_t_element.html">BSTElement</a> that should be assigned to the left pointer </td></tr>
-    <tr><td class="paramname">right</td><td>the <a class="el" href="classbridges_1_1_b_s_t_element.html">BSTElement</a> that should be assigned to the right pointer </td></tr>
+    <tr><td class="paramname">e</td><td>the object this <a class="el" href="classbridges_1_1_b_s_t_element.html" title="This class defines a binary search tree element. ">BSTElement</a> is holding </td></tr>
+    <tr><td class="paramname">left</td><td>the <a class="el" href="classbridges_1_1_b_s_t_element.html" title="This class defines a binary search tree element. ">BSTElement</a> that should be assigned to the left pointer </td></tr>
+    <tr><td class="paramname">right</td><td>the <a class="el" href="classbridges_1_1_b_s_t_element.html" title="This class defines a binary search tree element. ">BSTElement</a> that should be assigned to the right pointer </td></tr>
   </table>
   </dd>
 </dl>
@@ -374,9 +384,9 @@ template&lt;typename K, typename E&gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Construct a <a class="el" href="classbridges_1_1_b_s_t_element.html">BSTElement</a> holding the object "e", with no key assigned and left and right pointers set to null. </p><dl class="params"><dt>Parameters</dt><dd>
+<p>Construct a <a class="el" href="classbridges_1_1_b_s_t_element.html" title="This class defines a binary search tree element. ">BSTElement</a> holding the object "e", with no key assigned and left and right pointers set to null. </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">e</td><td>the object this <a class="el" href="classbridges_1_1_b_s_t_element.html">BSTElement</a> is holding </td></tr>
+    <tr><td class="paramname">e</td><td>the object this <a class="el" href="classbridges_1_1_b_s_t_element.html" title="This class defines a binary search tree element. ">BSTElement</a> is holding </td></tr>
   </table>
   </dd>
 </dl>
@@ -416,10 +426,10 @@ template&lt;typename K, typename E&gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Construct a <a class="el" href="classbridges_1_1_b_s_t_element.html">BSTElement</a> holding the object "e", with key "key" assigned and left and right pointers set to null. </p><dl class="params"><dt>Parameters</dt><dd>
+<p>Construct a <a class="el" href="classbridges_1_1_b_s_t_element.html" title="This class defines a binary search tree element. ">BSTElement</a> holding the object "e", with key "key" assigned and left and right pointers set to null. </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">key</td><td>the key to be used in a binary search tree implementation </td></tr>
-    <tr><td class="paramname">e</td><td>the object this <a class="el" href="classbridges_1_1_b_s_t_element.html">BSTElement</a> is holding </td></tr>
+    <tr><td class="paramname">e</td><td>the object this <a class="el" href="classbridges_1_1_b_s_t_element.html" title="This class defines a binary search tree element. ">BSTElement</a> is holding </td></tr>
   </table>
   </dd>
 </dl>
@@ -465,11 +475,11 @@ template&lt;typename K, typename E&gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Construct a <a class="el" href="classbridges_1_1_b_s_t_element.html">BSTElement</a> holding the object "e", with label set to "label", with "key" assigned to key, and left and right pointers set to null. </p><dl class="params"><dt>Parameters</dt><dd>
+<p>Construct a <a class="el" href="classbridges_1_1_b_s_t_element.html" title="This class defines a binary search tree element. ">BSTElement</a> holding the object "e", with label set to "label", with "key" assigned to key, and left and right pointers set to null. </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">label</td><td>the label of <a class="el" href="classbridges_1_1_b_s_t_element.html">BSTElement</a> that shows up on the <a class="el" href="classbridges_1_1_bridges.html">Bridges</a> visualization </td></tr>
+    <tr><td class="paramname">label</td><td>the label of <a class="el" href="classbridges_1_1_b_s_t_element.html" title="This class defines a binary search tree element. ">BSTElement</a> that shows up on the <a class="el" href="classbridges_1_1_bridges.html" title="This class contains methods to connect and transmit a user&#39;s data structure representation to the Bri...">Bridges</a> visualization </td></tr>
     <tr><td class="paramname">key</td><td>the key to be used in a binary search tree implementation </td></tr>
-    <tr><td class="paramname">e</td><td>the object this <a class="el" href="classbridges_1_1_b_s_t_element.html">BSTElement</a> is holding </td></tr>
+    <tr><td class="paramname">e</td><td>the object this <a class="el" href="classbridges_1_1_b_s_t_element.html" title="This class defines a binary search tree element. ">BSTElement</a> is holding </td></tr>
   </table>
   </dd>
 </dl>
@@ -509,10 +519,10 @@ template&lt;typename K, typename E&gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Construct an empty <a class="el" href="classbridges_1_1_b_s_t_element.html">BSTElement</a>, with no key assigned, and left and right pointers set to null. </p><dl class="params"><dt>Parameters</dt><dd>
+<p>Construct an empty <a class="el" href="classbridges_1_1_b_s_t_element.html" title="This class defines a binary search tree element. ">BSTElement</a>, with no key assigned, and left and right pointers set to null. </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">left</td><td>the <a class="el" href="classbridges_1_1_b_s_t_element.html">BSTElement</a> that should be assigned to the left pointer </td></tr>
-    <tr><td class="paramname">right</td><td>the <a class="el" href="classbridges_1_1_b_s_t_element.html">BSTElement</a> that should be assigned to the right pointer </td></tr>
+    <tr><td class="paramname">left</td><td>the <a class="el" href="classbridges_1_1_b_s_t_element.html" title="This class defines a binary search tree element. ">BSTElement</a> that should be assigned to the left pointer </td></tr>
+    <tr><td class="paramname">right</td><td>the <a class="el" href="classbridges_1_1_b_s_t_element.html" title="This class defines a binary search tree element. ">BSTElement</a> that should be assigned to the right pointer </td></tr>
   </table>
   </dd>
 </dl>
@@ -542,7 +552,7 @@ template&lt;typename K, typename E&gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Return the key of the <a class="el" href="classbridges_1_1_b_s_t_element.html">BSTElement</a> </p><dl class="section return"><dt>Returns</dt><dd>the key of this <a class="el" href="classbridges_1_1_b_s_t_element.html">BSTElement</a> </dd></dl>
+<p>Return the key of the <a class="el" href="classbridges_1_1_b_s_t_element.html" title="This class defines a binary search tree element. ">BSTElement</a> </p><dl class="section return"><dt>Returns</dt><dd>the key of this <a class="el" href="classbridges_1_1_b_s_t_element.html" title="This class defines a binary search tree element. ">BSTElement</a> </dd></dl>
 
 </div>
 </div>
@@ -648,7 +658,7 @@ template&lt;typename K, typename E&gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Set the key of the <a class="el" href="classbridges_1_1_b_s_t_element.html">BSTElement</a> to key </p><dl class="params"><dt>Parameters</dt><dd>
+<p>Set the key of the <a class="el" href="classbridges_1_1_b_s_t_element.html" title="This class defines a binary search tree element. ">BSTElement</a> to key </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">key</td><td>the key to set </td></tr>
   </table>
@@ -663,7 +673,7 @@ template&lt;typename K, typename E&gt; </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Jul 17 2015 17:52:21 for Bridges-C++-2.0 by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Jul 26 2015 18:10:08 for Bridges-C++-2.0 by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.9.1
 </small></address>

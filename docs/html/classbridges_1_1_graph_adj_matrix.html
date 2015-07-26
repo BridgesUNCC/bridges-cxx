@@ -97,6 +97,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!--header-->
 <div class="contents">
 
+<p>This class provides methods to represent adjacency list based graphs.  
+ <a href="classbridges_1_1_graph_adj_matrix.html#details">More...</a></p>
+
 <p><code>#include &lt;<a class="el" href="_graph_adj_matrix_8h_source.html">GraphAdjMatrix.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
@@ -113,7 +116,23 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a992b4773b79ccd97716f20f88a14e444"><td class="memItemLeft" align="right" valign="top">unordered_map&lt; Key, <a class="el" href="classbridges_1_1_element.html">Element</a>&lt; E &gt; &gt; *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classbridges_1_1_graph_adj_matrix.html#a992b4773b79ccd97716f20f88a14e444">getVertices</a> ()</td></tr>
 <tr class="separator:a992b4773b79ccd97716f20f88a14e444"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><h3>template&lt;typename Key, typename E&gt;<br />
+class bridges::GraphAdjMatrix&lt; Key, E &gt;</h3>
+
+<p>This class provides methods to represent adjacency list based graphs. </p>
+<p>The <a class="el" href="classbridges_1_1_graph_adj_matrix.html" title="This class provides methods to represent adjacency list based graphs. ">GraphAdjMatrix</a> class can be used to represent adjacency matrix based graphs in BRIDGES, with Key representing a data specific generic parameter. The class is simply a wrapper around the C++ STL unordered_map class and, thus, derives all its operations from it. Given the use of operator overloading, the adjacency matrix implementation is almost identical to a normal array representation, except that any ordered type can be used to index into the matrix. </p>
+<p>BRIDGES provides methods to visualize the graph and its contents.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">Key</td><td>is any orderable type, used as index into the adjacency matrix </td></tr>
+    <tr><td class="paramname">E</td><td>used to represent application specific data and is any legal C++ type</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section author"><dt>Author</dt><dd>Kalpathi Subramanian (C++ port)</dd></dl>
+<dl class="section date"><dt>Date</dt><dd>6/29/15 </dd></dl>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a class="anchor" id="a3c6caf98cf52a41cc446115967571975"></a>
 <div class="memitem">
 <div class="memproto">
@@ -297,7 +316,7 @@ template&lt;typename Key, typename E&gt; </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Jul 17 2015 17:52:21 for Bridges-C++-2.0 by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Jul 26 2015 18:10:08 for Bridges-C++-2.0 by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.9.1
 </small></address>

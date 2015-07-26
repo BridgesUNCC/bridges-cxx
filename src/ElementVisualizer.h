@@ -11,18 +11,25 @@ using namespace std;
 #include "Validation.h"
 
 
+namespace bridges {
 
 /**
+ *@brief This class maintains the visual properties of the  a Bridges element
+
  * This class is used to store the visualization elements on the for the Bridges
  * Visualiztion, including the color, shape, opacity, and size of the node.
+ * Binary search trees will also store the element's search key value.
  * <p>
  * Objects of this class are stored as properties of all Element subclasses.
  * Generally, you will manipulating the ElementVisualizer returned from the
  * Element getVisualizer() method, and then call the setVisualizer() method on
  * the Element after changes have been made.
+ *
+ * @author Kalpathi Subramanian(C++ port)
+ * @date 6/27/15
+ *
  **/
 
-namespace bridges {
 
 
 class ElementVisualizer {

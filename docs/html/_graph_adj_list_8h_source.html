@@ -104,82 +104,79 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="_s_lelement_8h.html">SLelement.h</a>&quot;</span></div>
 <div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="_edge_8h.html">Edge.h</a>&quot;</span></div>
 <div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="keyword">namespace </span><a class="code" href="namespacebridges.html">bridges</a> {</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;</div>
-<div class="line"><a name="l00029"></a><span class="lineno"><a class="line" href="classbridges_1_1_graph_adj_list.html">   29</a></span>&#160;<span class="keyword">template</span>&lt;<span class="keyword">typename</span> Key, <span class="keyword">typename</span> E&gt; <span class="keyword">class </span><a class="code" href="classbridges_1_1_graph_adj_list.html">GraphAdjList</a>{</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    <span class="keyword">private</span>: </div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;                        <span class="comment">// keep track of the graph nodes; useful</span></div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;                        <span class="comment">// to maintain their properties</span></div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;        unordered_map&lt;Key, Element&lt;E&gt; &gt; *vertices;</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;                        <span class="comment">// holds the adjacency list of edges</span></div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;        unordered_map&lt;Key, SLelement&lt;Edge&lt;Key&gt; &gt;* &gt; *adj_list;</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00043"></a><span class="lineno"><a class="line" href="classbridges_1_1_graph_adj_list.html#a0a185744acc43305f73a8db0e3bbb7e2">   43</a></span>&#160;        <a class="code" href="classbridges_1_1_graph_adj_list.html#a0a185744acc43305f73a8db0e3bbb7e2">GraphAdjList</a>() {</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;            vertices = <span class="keyword">new</span> unordered_map&lt;Key, Element&lt;E&gt; &gt;;</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;            adj_list = <span class="keyword">new</span> unordered_map&lt;Key, SLelement&lt;Edge&lt;Key&gt; &gt;* &gt;;</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;            vertices-&gt;clear();</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;            adj_list-&gt;clear();</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;        }   </div>
-<div class="line"><a name="l00049"></a><span class="lineno"><a class="line" href="classbridges_1_1_graph_adj_list.html#ac9b898cd9df35ba09b2eeb6f085e3818">   49</a></span>&#160;        <a class="code" href="classbridges_1_1_graph_adj_list.html#ac9b898cd9df35ba09b2eeb6f085e3818">~GraphAdjList</a>(){</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;            <span class="keyword">delete</span> vertices;</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;            <span class="keyword">delete</span> adj_list;</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;        }</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;</div>
-<div class="line"><a name="l00063"></a><span class="lineno"><a class="line" href="classbridges_1_1_graph_adj_list.html#a813758981e1c64b91450f4026c8e8700">   63</a></span>&#160;        <span class="keywordtype">void</span> <a class="code" href="classbridges_1_1_graph_adj_list.html#a813758981e1c64b91450f4026c8e8700">addVertex</a>(Key k, E e) {</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;                    <span class="comment">// note: it is the user&#39;s responsibility to  check</span></div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;                    <span class="comment">// for duplicate vertices</span></div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;            stringstream ss; ss &lt;&lt; k;</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;            (*vertices)[k] = <a class="code" href="classbridges_1_1_element.html">Element&lt;E&gt;</a>(ss.str(), e);</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;            (*adj_list)[k] = NULL;</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;        }</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;</div>
-<div class="line"><a name="l00080"></a><span class="lineno"><a class="line" href="classbridges_1_1_graph_adj_list.html#a3085d848a5e6ea9c5292e804e2ae80b8">   80</a></span>&#160;        <span class="keywordtype">void</span> <a class="code" href="classbridges_1_1_graph_adj_list.html#a3085d848a5e6ea9c5292e804e2ae80b8">addEdge</a>(Key src, Key dest, <span class="keywordtype">int</span> weight) {</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;                    <span class="comment">// note: it is the user&#39;s responsibility to  check</span></div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;                    <span class="comment">// if the edge already exists</span></div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;            stringstream ss; ss &lt;&lt; dest;</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;            (*adj_list)[src] = </div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;                <span class="keyword">new</span> <a class="code" href="classbridges_1_1_s_lelement.html">SLelement&lt;Edge&lt;Key&gt;</a> &gt; (<a class="code" href="classbridges_1_1_edge.html">Edge&lt;Key&gt;</a>(weight, ss.str()), (*adj_list)[src]); </div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;        }</div>
-<div class="line"><a name="l00093"></a><span class="lineno"><a class="line" href="classbridges_1_1_graph_adj_list.html#a07ac6ad2cb0aebab37103de72e2e6719">   93</a></span>&#160;        unordered_map &lt;Key, Element&lt;E&gt; &gt; *<a class="code" href="classbridges_1_1_graph_adj_list.html#a07ac6ad2cb0aebab37103de72e2e6719">getVertices</a>() {</div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;            <span class="keywordflow">return</span> vertices;</div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;        }</div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;</div>
-<div class="line"><a name="l00103"></a><span class="lineno"><a class="line" href="classbridges_1_1_graph_adj_list.html#a72f55641dabb692491639451c026496f">  103</a></span>&#160;        unordered_map&lt;Key, SLelement&lt;Edge&lt;Key&gt; &gt;* &gt; *<a class="code" href="classbridges_1_1_graph_adj_list.html#a72f55641dabb692491639451c026496f">getAdjacencyList</a>() {</div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;            <span class="keywordflow">return</span> adj_list; </div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;        }</div>
-<div class="line"><a name="l00113"></a><span class="lineno"><a class="line" href="classbridges_1_1_graph_adj_list.html#a4246f696bdec73aa2c4bdbcce5f66adf">  113</a></span>&#160;        <a class="code" href="classbridges_1_1_s_lelement.html">SLelement&lt;Edge&lt;Key&gt;</a> &gt;*  <a class="code" href="classbridges_1_1_graph_adj_list.html#a4246f696bdec73aa2c4bdbcce5f66adf">getAdjacencyList</a>(Key vertex) {</div>
-<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;            <span class="keywordflow">return</span> (*adj_list)[vertex]; </div>
-<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;        }</div>
-<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;};</div>
-<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;</div>
-<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;</div>
-<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;}</div>
-<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;</div>
-<div class="ttc" id="classbridges_1_1_graph_adj_list_html_a3085d848a5e6ea9c5292e804e2ae80b8"><div class="ttname"><a href="classbridges_1_1_graph_adj_list.html#a3085d848a5e6ea9c5292e804e2ae80b8">bridges::GraphAdjList::addEdge</a></div><div class="ttdeci">void addEdge(Key src, Key dest, int weight)</div><div class="ttdef"><b>Definition:</b> GraphAdjList.h:80</div></div>
-<div class="ttc" id="classbridges_1_1_graph_adj_list_html_a813758981e1c64b91450f4026c8e8700"><div class="ttname"><a href="classbridges_1_1_graph_adj_list.html#a813758981e1c64b91450f4026c8e8700">bridges::GraphAdjList::addVertex</a></div><div class="ttdeci">void addVertex(Key k, E e)</div><div class="ttdef"><b>Definition:</b> GraphAdjList.h:63</div></div>
-<div class="ttc" id="classbridges_1_1_s_lelement_html"><div class="ttname"><a href="classbridges_1_1_s_lelement.html">bridges::SLelement</a></div><div class="ttdef"><b>Definition:</b> SLelement.h:23</div></div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="keyword">namespace </span><a class="code" href="namespacebridges.html">bridges</a> {</div>
+<div class="line"><a name="l00042"></a><span class="lineno"><a class="line" href="classbridges_1_1_graph_adj_list.html">   42</a></span>&#160;<span class="keyword">template</span>&lt;<span class="keyword">typename</span> Key, <span class="keyword">typename</span> E&gt; <span class="keyword">class </span><a class="code" href="classbridges_1_1_graph_adj_list.html">GraphAdjList</a>{</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    <span class="keyword">private</span>: </div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;                        <span class="comment">// keep track of the graph nodes; useful</span></div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;                        <span class="comment">// to maintain their properties</span></div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;        unordered_map&lt;Key, Element&lt;E&gt; &gt; *vertices;</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;                        <span class="comment">// holds the adjacency list of edges</span></div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;        unordered_map&lt;Key, SLelement&lt;Edge&lt;Key&gt; &gt;* &gt; *adj_list;</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00056"></a><span class="lineno"><a class="line" href="classbridges_1_1_graph_adj_list.html#a0a185744acc43305f73a8db0e3bbb7e2">   56</a></span>&#160;        <a class="code" href="classbridges_1_1_graph_adj_list.html#a0a185744acc43305f73a8db0e3bbb7e2">GraphAdjList</a>() {</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;            vertices = <span class="keyword">new</span> unordered_map&lt;Key, Element&lt;E&gt; &gt;;</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;            adj_list = <span class="keyword">new</span> unordered_map&lt;Key, SLelement&lt;Edge&lt;Key&gt; &gt;* &gt;;</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;            vertices-&gt;clear();</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;            adj_list-&gt;clear();</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;        }   </div>
+<div class="line"><a name="l00062"></a><span class="lineno"><a class="line" href="classbridges_1_1_graph_adj_list.html#ac9b898cd9df35ba09b2eeb6f085e3818">   62</a></span>&#160;        <a class="code" href="classbridges_1_1_graph_adj_list.html#ac9b898cd9df35ba09b2eeb6f085e3818">~GraphAdjList</a>(){</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;            <span class="keyword">delete</span> vertices;</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;            <span class="keyword">delete</span> adj_list;</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;        }</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;</div>
+<div class="line"><a name="l00076"></a><span class="lineno"><a class="line" href="classbridges_1_1_graph_adj_list.html#a813758981e1c64b91450f4026c8e8700">   76</a></span>&#160;        <span class="keywordtype">void</span> <a class="code" href="classbridges_1_1_graph_adj_list.html#a813758981e1c64b91450f4026c8e8700">addVertex</a>(Key k, E e) {</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;                    <span class="comment">// note: it is the user&#39;s responsibility to  check</span></div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;                    <span class="comment">// for duplicate vertices</span></div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;            stringstream ss; ss &lt;&lt; k;</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;            (*vertices)[k] = <a class="code" href="classbridges_1_1_element.html">Element&lt;E&gt;</a>(ss.str(), e);</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;            (*adj_list)[k] = NULL;</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;        }</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;</div>
+<div class="line"><a name="l00093"></a><span class="lineno"><a class="line" href="classbridges_1_1_graph_adj_list.html#a3085d848a5e6ea9c5292e804e2ae80b8">   93</a></span>&#160;        <span class="keywordtype">void</span> <a class="code" href="classbridges_1_1_graph_adj_list.html#a3085d848a5e6ea9c5292e804e2ae80b8">addEdge</a>(Key src, Key dest, <span class="keywordtype">int</span> weight) {</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;                    <span class="comment">// note: it is the user&#39;s responsibility to  check</span></div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;                    <span class="comment">// if the edge already exists</span></div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;            stringstream ss; ss &lt;&lt; dest;</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;            (*adj_list)[src] = </div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;                <span class="keyword">new</span> <a class="code" href="classbridges_1_1_s_lelement.html">SLelement&lt;Edge&lt;Key&gt;</a> &gt; (<a class="code" href="classbridges_1_1_edge.html">Edge&lt;Key&gt;</a>(weight, ss.str()), (*adj_list)[src]); </div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;        }</div>
+<div class="line"><a name="l00106"></a><span class="lineno"><a class="line" href="classbridges_1_1_graph_adj_list.html#a07ac6ad2cb0aebab37103de72e2e6719">  106</a></span>&#160;        unordered_map &lt;Key, Element&lt;E&gt; &gt; *<a class="code" href="classbridges_1_1_graph_adj_list.html#a07ac6ad2cb0aebab37103de72e2e6719">getVertices</a>() {</div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;            <span class="keywordflow">return</span> vertices;</div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;        }</div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;</div>
+<div class="line"><a name="l00116"></a><span class="lineno"><a class="line" href="classbridges_1_1_graph_adj_list.html#a72f55641dabb692491639451c026496f">  116</a></span>&#160;        unordered_map&lt;Key, SLelement&lt;Edge&lt;Key&gt; &gt;* &gt; *<a class="code" href="classbridges_1_1_graph_adj_list.html#a72f55641dabb692491639451c026496f">getAdjacencyList</a>() {</div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;            <span class="keywordflow">return</span> adj_list; </div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;        }</div>
+<div class="line"><a name="l00126"></a><span class="lineno"><a class="line" href="classbridges_1_1_graph_adj_list.html#a4246f696bdec73aa2c4bdbcce5f66adf">  126</a></span>&#160;        <a class="code" href="classbridges_1_1_s_lelement.html">SLelement&lt;Edge&lt;Key&gt;</a> &gt;*  <a class="code" href="classbridges_1_1_graph_adj_list.html#a4246f696bdec73aa2c4bdbcce5f66adf">getAdjacencyList</a>(Key vertex) {</div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;            <span class="keywordflow">return</span> (*adj_list)[vertex]; </div>
+<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;        }</div>
+<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;};</div>
+<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;</div>
+<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;}</div>
+<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;</div>
+<div class="ttc" id="classbridges_1_1_graph_adj_list_html_a3085d848a5e6ea9c5292e804e2ae80b8"><div class="ttname"><a href="classbridges_1_1_graph_adj_list.html#a3085d848a5e6ea9c5292e804e2ae80b8">bridges::GraphAdjList::addEdge</a></div><div class="ttdeci">void addEdge(Key src, Key dest, int weight)</div><div class="ttdef"><b>Definition:</b> GraphAdjList.h:93</div></div>
+<div class="ttc" id="classbridges_1_1_graph_adj_list_html_a813758981e1c64b91450f4026c8e8700"><div class="ttname"><a href="classbridges_1_1_graph_adj_list.html#a813758981e1c64b91450f4026c8e8700">bridges::GraphAdjList::addVertex</a></div><div class="ttdeci">void addVertex(Key k, E e)</div><div class="ttdef"><b>Definition:</b> GraphAdjList.h:76</div></div>
+<div class="ttc" id="classbridges_1_1_s_lelement_html"><div class="ttname"><a href="classbridges_1_1_s_lelement.html">bridges::SLelement</a></div><div class="ttdoc">The singly linked list element, derived from Element. </div><div class="ttdef"><b>Definition:</b> SLelement.h:28</div></div>
 <div class="ttc" id="namespacestd_html"><div class="ttname"><a href="namespacestd.html">std</a></div><div class="ttdoc">STL namespace. </div></div>
-<div class="ttc" id="classbridges_1_1_graph_adj_list_html_a07ac6ad2cb0aebab37103de72e2e6719"><div class="ttname"><a href="classbridges_1_1_graph_adj_list.html#a07ac6ad2cb0aebab37103de72e2e6719">bridges::GraphAdjList::getVertices</a></div><div class="ttdeci">unordered_map&lt; Key, Element&lt; E &gt; &gt; * getVertices()</div><div class="ttdef"><b>Definition:</b> GraphAdjList.h:93</div></div>
-<div class="ttc" id="classbridges_1_1_edge_html"><div class="ttname"><a href="classbridges_1_1_edge.html">bridges::Edge</a></div><div class="ttdef"><b>Definition:</b> Edge.h:24</div></div>
-<div class="ttc" id="classbridges_1_1_graph_adj_list_html_a4246f696bdec73aa2c4bdbcce5f66adf"><div class="ttname"><a href="classbridges_1_1_graph_adj_list.html#a4246f696bdec73aa2c4bdbcce5f66adf">bridges::GraphAdjList::getAdjacencyList</a></div><div class="ttdeci">SLelement&lt; Edge&lt; Key &gt; &gt; * getAdjacencyList(Key vertex)</div><div class="ttdef"><b>Definition:</b> GraphAdjList.h:113</div></div>
-<div class="ttc" id="classbridges_1_1_graph_adj_list_html_ac9b898cd9df35ba09b2eeb6f085e3818"><div class="ttname"><a href="classbridges_1_1_graph_adj_list.html#ac9b898cd9df35ba09b2eeb6f085e3818">bridges::GraphAdjList::~GraphAdjList</a></div><div class="ttdeci">~GraphAdjList()</div><div class="ttdef"><b>Definition:</b> GraphAdjList.h:49</div></div>
-<div class="ttc" id="classbridges_1_1_graph_adj_list_html_a72f55641dabb692491639451c026496f"><div class="ttname"><a href="classbridges_1_1_graph_adj_list.html#a72f55641dabb692491639451c026496f">bridges::GraphAdjList::getAdjacencyList</a></div><div class="ttdeci">unordered_map&lt; Key, SLelement&lt; Edge&lt; Key &gt; &gt; * &gt; * getAdjacencyList()</div><div class="ttdef"><b>Definition:</b> GraphAdjList.h:103</div></div>
-<div class="ttc" id="namespacebridges_html"><div class="ttname"><a href="namespacebridges.html">bridges</a></div><div class="ttdef"><b>Definition:</b> ADTVisualizer.h:34</div></div>
-<div class="ttc" id="classbridges_1_1_graph_adj_list_html"><div class="ttname"><a href="classbridges_1_1_graph_adj_list.html">bridges::GraphAdjList</a></div><div class="ttdef"><b>Definition:</b> GraphAdjList.h:29</div></div>
+<div class="ttc" id="classbridges_1_1_graph_adj_list_html_a07ac6ad2cb0aebab37103de72e2e6719"><div class="ttname"><a href="classbridges_1_1_graph_adj_list.html#a07ac6ad2cb0aebab37103de72e2e6719">bridges::GraphAdjList::getVertices</a></div><div class="ttdeci">unordered_map&lt; Key, Element&lt; E &gt; &gt; * getVertices()</div><div class="ttdef"><b>Definition:</b> GraphAdjList.h:106</div></div>
+<div class="ttc" id="classbridges_1_1_edge_html"><div class="ttname"><a href="classbridges_1_1_edge.html">bridges::Edge</a></div><div class="ttdoc">This helper class is used by the graph classes - GraphAdjList , GraphAdjMatrix - to keep track of edg...</div><div class="ttdef"><b>Definition:</b> Edge.h:28</div></div>
+<div class="ttc" id="classbridges_1_1_graph_adj_list_html_a4246f696bdec73aa2c4bdbcce5f66adf"><div class="ttname"><a href="classbridges_1_1_graph_adj_list.html#a4246f696bdec73aa2c4bdbcce5f66adf">bridges::GraphAdjList::getAdjacencyList</a></div><div class="ttdeci">SLelement&lt; Edge&lt; Key &gt; &gt; * getAdjacencyList(Key vertex)</div><div class="ttdef"><b>Definition:</b> GraphAdjList.h:126</div></div>
+<div class="ttc" id="classbridges_1_1_graph_adj_list_html_ac9b898cd9df35ba09b2eeb6f085e3818"><div class="ttname"><a href="classbridges_1_1_graph_adj_list.html#ac9b898cd9df35ba09b2eeb6f085e3818">bridges::GraphAdjList::~GraphAdjList</a></div><div class="ttdeci">~GraphAdjList()</div><div class="ttdef"><b>Definition:</b> GraphAdjList.h:62</div></div>
+<div class="ttc" id="classbridges_1_1_graph_adj_list_html_a72f55641dabb692491639451c026496f"><div class="ttname"><a href="classbridges_1_1_graph_adj_list.html#a72f55641dabb692491639451c026496f">bridges::GraphAdjList::getAdjacencyList</a></div><div class="ttdeci">unordered_map&lt; Key, SLelement&lt; Edge&lt; Key &gt; &gt; * &gt; * getAdjacencyList()</div><div class="ttdef"><b>Definition:</b> GraphAdjList.h:116</div></div>
+<div class="ttc" id="namespacebridges_html"><div class="ttname"><a href="namespacebridges.html">bridges</a></div><div class="ttdef"><b>Definition:</b> ADTVisualizer.h:21</div></div>
+<div class="ttc" id="classbridges_1_1_graph_adj_list_html"><div class="ttname"><a href="classbridges_1_1_graph_adj_list.html">bridges::GraphAdjList</a></div><div class="ttdoc">This class provides methods to represent adjacency list based graphs. </div><div class="ttdef"><b>Definition:</b> GraphAdjList.h:42</div></div>
 <div class="ttc" id="_edge_8h_html"><div class="ttname"><a href="_edge_8h.html">Edge.h</a></div></div>
-<div class="ttc" id="classbridges_1_1_element_html"><div class="ttname"><a href="classbridges_1_1_element.html">bridges::Element</a></div><div class="ttdef"><b>Definition:</b> Element.h:37</div></div>
-<div class="ttc" id="classbridges_1_1_graph_adj_list_html_a0a185744acc43305f73a8db0e3bbb7e2"><div class="ttname"><a href="classbridges_1_1_graph_adj_list.html#a0a185744acc43305f73a8db0e3bbb7e2">bridges::GraphAdjList::GraphAdjList</a></div><div class="ttdeci">GraphAdjList()</div><div class="ttdef"><b>Definition:</b> GraphAdjList.h:43</div></div>
+<div class="ttc" id="classbridges_1_1_element_html"><div class="ttname"><a href="classbridges_1_1_element.html">bridges::Element</a></div><div class="ttdoc">This is the fundamental building block used in building all data structures in BRIDGES. </div><div class="ttdef"><b>Definition:</b> Element.h:44</div></div>
+<div class="ttc" id="classbridges_1_1_graph_adj_list_html_a0a185744acc43305f73a8db0e3bbb7e2"><div class="ttname"><a href="classbridges_1_1_graph_adj_list.html#a0a185744acc43305f73a8db0e3bbb7e2">bridges::GraphAdjList::GraphAdjList</a></div><div class="ttdeci">GraphAdjList()</div><div class="ttdef"><b>Definition:</b> GraphAdjList.h:56</div></div>
 <div class="ttc" id="_s_lelement_8h_html"><div class="ttname"><a href="_s_lelement_8h.html">SLelement.h</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Jul 17 2015 17:52:20 for Bridges-C++-2.0 by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Jul 26 2015 18:10:08 for Bridges-C++-2.0 by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.9.1
 </small></address>

@@ -4,21 +4,26 @@
 #define SLELEMENT_H
 
 #include "Element.h"
-/**
- * This class can be used to instantiate Singly List Elements
- * with identifiers (automatically generated), 
- * labels (derived from the values of E or manually set)
- * next pointers
- * an object of E data type: integer, string, Tweet, Actor, Movie, 
- * EarthquakeTweet, etc.
- * element visualizer objects containing all the CSS atributes 
- * (color, shape, opacity, size) necessary for displaying them in a web browser
- * @author Kalpathi Subramanian, 6/11/15.
- *
- * @param <E>
- */
 
 namespace bridges {
+/**
+ * @brief The singly linked list element, derived from Element
+
+ * This class can be used to instantiate singly linked list elements. Most
+ * of the methods are inherited from Element. The singly linked element provides
+ * a next pointer, used to link to the following element in a singly linked
+ * list.
+ *
+ * @param <E> Can be of any legal C++ type: integer, string, float,
+ *  double, or any user defined object(class, struct, array) , and
+ *      represents application dependent data.
+ *
+ * @author Kalpathi Subramanian, 
+ *
+ * @date 6/11/15.
+ *
+ **/
+
 
 template <typename E> class SLelement : public Element<E> {
 

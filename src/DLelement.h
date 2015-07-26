@@ -3,15 +3,24 @@
 
 #define DLelement_H
 
+#include "Element.h"
+
+namespace bridges {
 /**
+ * @brief The basic doubly linked list element, derived from Element
+
  * This class can be used to create doubly linked element objects
  * with next and previous (prev) pointers
  *
- * @author Kalpathi Subramanian, 6/11/15
+ * @param <E> Can be any legal C++ type: integer, string, float, double, 
+ *	or any user defined object(class, struct, array) , and represents 
+ *	application dependent data.
  *
- */
+ * @author Kalpathi Subramanian 
+ * @date 6/11/15
+ *
+ **/
 
-namespace bridges {
 
 template<typename E>  class DLelement: public Element<E>{
 	private:

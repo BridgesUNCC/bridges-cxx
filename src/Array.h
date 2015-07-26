@@ -1,3 +1,4 @@
+namespace bridges {
 /**
  *
  * There is no special Bridges array class. Arrays in Bridges use the standard
@@ -12,4 +13,5 @@
  * @param Element<E>
  *
  **/
+}
 

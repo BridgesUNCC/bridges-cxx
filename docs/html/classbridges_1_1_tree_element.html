@@ -97,6 +97,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!--header-->
 <div class="contents">
 
+<p>This class can be used to create binary tree element objects, derived from <a class="el" href="classbridges_1_1_element.html" title="This is the fundamental building block used in building all data structures in BRIDGES. ">Element</a>.  
+ <a href="classbridges_1_1_tree_element.html#details">More...</a></p>
+
 <p><code>#include &lt;<a class="el" href="_tree_element_8h_source.html">TreeElement.h</a>&gt;</code></p>
 <div class="dynheader">
 Inheritance diagram for bridges::TreeElement&lt; E &gt;:</div>
@@ -104,8 +107,8 @@ Inheritance diagram for bridges::TreeElement&lt; E &gt;:</div>
  <div class="center">
   <img src="classbridges_1_1_tree_element.png" usemap="#bridges::TreeElement&lt; E &gt;_map" alt=""/>
   <map id="bridges::TreeElement&lt; E &gt;_map" name="bridges::TreeElement&lt; E &gt;_map">
-<area href="classbridges_1_1_element.html" alt="bridges::Element&lt; E &gt;" shape="rect" coords="0,0,176,24"/>
-<area href="classbridges_1_1_b_s_t_element.html" alt="bridges::BSTElement&lt; K, E &gt;" shape="rect" coords="0,112,176,136"/>
+<area href="classbridges_1_1_element.html" title="This is the fundamental building block used in building all data structures in BRIDGES. " alt="bridges::Element&lt; E &gt;" shape="rect" coords="0,0,176,24"/>
+<area href="classbridges_1_1_b_s_t_element.html" title="This class defines a binary search tree element. " alt="bridges::BSTElement&lt; K, E &gt;" shape="rect" coords="0,112,176,136"/>
 </map>
  </div></div>
 <table class="memberdecls">
@@ -163,7 +166,21 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a54de77e83f615a3c27b46090ea4ba2fb inherit pub_methods_classbridges_1_1_element"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classbridges_1_1_element.html#a54de77e83f615a3c27b46090ea4ba2fb">setValue</a> (E value)</td></tr>
 <tr class="separator:a54de77e83f615a3c27b46090ea4ba2fb inherit pub_methods_classbridges_1_1_element"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><h3>template&lt;typename E&gt;<br />
+class bridges::TreeElement&lt; E &gt;</h3>
+
+<p>This class can be used to create binary tree element objects, derived from <a class="el" href="classbridges_1_1_element.html" title="This is the fundamental building block used in building all data structures in BRIDGES. ">Element</a>. </p>
+<p>The BSTElement&lt;E&gt; is derived from Element&lt;E&gt; to represent binary tree elements, with accessors to left and right subtrees</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">&lt;E&gt;</td><td>Can be of any legal C++ type: integer, string, float, double, or any user defined object(class, struct, array), and represents application dependent data.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section author"><dt>Author</dt><dd>Kalpathi Subramanian </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>6/12/15 </dd></dl>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a class="anchor" id="a75e7d67cc9357820e9e5ce6ab0370be8"></a>
 <div class="memitem">
 <div class="memproto">
@@ -186,7 +203,7 @@ template&lt;typename E&gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Constructs an empty <a class="el" href="classbridges_1_1_tree_element.html">TreeElement</a> with right and left pointers set to null. </p>
+<p>Constructs an empty <a class="el" href="classbridges_1_1_tree_element.html" title="This class can be used to create binary tree element objects, derived from Element. ">TreeElement</a> with right and left pointers set to null. </p>
 
 </div>
 </div>
@@ -239,9 +256,9 @@ template&lt;typename E&gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Constructs a <a class="el" href="classbridges_1_1_tree_element.html">TreeElement</a> holding an object "e" with right and left pointers set to null. </p><dl class="params"><dt>Parameters</dt><dd>
+<p>Constructs a <a class="el" href="classbridges_1_1_tree_element.html" title="This class can be used to create binary tree element objects, derived from Element. ">TreeElement</a> holding an object "e" with right and left pointers set to null. </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">e</td><td>the generic object that <a class="el" href="classbridges_1_1_tree_element.html">TreeElement</a> will hold </td></tr>
+    <tr><td class="paramname">e</td><td>the generic object that <a class="el" href="classbridges_1_1_tree_element.html" title="This class can be used to create binary tree element objects, derived from Element. ">TreeElement</a> will hold </td></tr>
   </table>
   </dd>
 </dl>
@@ -281,10 +298,10 @@ template&lt;typename E&gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Constructs a <a class="el" href="classbridges_1_1_tree_element.html">TreeElement</a> with label set to "label", holding an object "e". </p><dl class="params"><dt>Parameters</dt><dd>
+<p>Constructs a <a class="el" href="classbridges_1_1_tree_element.html" title="This class can be used to create binary tree element objects, derived from Element. ">TreeElement</a> with label set to "label", holding an object "e". </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">label</td><td>the label of <a class="el" href="classbridges_1_1_tree_element.html">TreeElement</a> that shows up on the <a class="el" href="classbridges_1_1_bridges.html">Bridges</a> visualization </td></tr>
-    <tr><td class="paramname">e</td><td>the generic object that <a class="el" href="classbridges_1_1_tree_element.html">TreeElement</a> will hold </td></tr>
+    <tr><td class="paramname">label</td><td>the label of <a class="el" href="classbridges_1_1_tree_element.html" title="This class can be used to create binary tree element objects, derived from Element. ">TreeElement</a> that shows up on the <a class="el" href="classbridges_1_1_bridges.html" title="This class contains methods to connect and transmit a user&#39;s data structure representation to the Bri...">Bridges</a> visualization </td></tr>
+    <tr><td class="paramname">e</td><td>the generic object that <a class="el" href="classbridges_1_1_tree_element.html" title="This class can be used to create binary tree element objects, derived from Element. ">TreeElement</a> will hold </td></tr>
   </table>
   </dd>
 </dl>
@@ -324,10 +341,10 @@ template&lt;typename E&gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Construct a <a class="el" href="classbridges_1_1_tree_element.html">TreeElement</a> with </p><dl class="params"><dt>Parameters</dt><dd>
+<p>Construct a <a class="el" href="classbridges_1_1_tree_element.html" title="This class can be used to create binary tree element objects, derived from Element. ">TreeElement</a> with </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">left</td><td>the <a class="el" href="classbridges_1_1_tree_element.html">TreeElement</a> to be assigned to the left pointer of this <a class="el" href="classbridges_1_1_tree_element.html">TreeElement</a> </td></tr>
-    <tr><td class="paramname">right</td><td>the <a class="el" href="classbridges_1_1_tree_element.html">TreeElement</a> to be assigned to the right pointer of this <a class="el" href="classbridges_1_1_tree_element.html">TreeElement</a> </td></tr>
+    <tr><td class="paramname">left</td><td>the <a class="el" href="classbridges_1_1_tree_element.html" title="This class can be used to create binary tree element objects, derived from Element. ">TreeElement</a> to be assigned to the left pointer of this <a class="el" href="classbridges_1_1_tree_element.html" title="This class can be used to create binary tree element objects, derived from Element. ">TreeElement</a> </td></tr>
+    <tr><td class="paramname">right</td><td>the <a class="el" href="classbridges_1_1_tree_element.html" title="This class can be used to create binary tree element objects, derived from Element. ">TreeElement</a> to be assigned to the right pointer of this <a class="el" href="classbridges_1_1_tree_element.html" title="This class can be used to create binary tree element objects, derived from Element. ">TreeElement</a> </td></tr>
   </table>
   </dd>
 </dl>
@@ -373,11 +390,11 @@ template&lt;typename E&gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Constructs a <a class="el" href="classbridges_1_1_tree_element.html">TreeElement</a> holding the object "e", left pointer pointing to "left" and right pointer pointing to "right". </p><dl class="params"><dt>Parameters</dt><dd>
+<p>Constructs a <a class="el" href="classbridges_1_1_tree_element.html" title="This class can be used to create binary tree element objects, derived from Element. ">TreeElement</a> holding the object "e", left pointer pointing to "left" and right pointer pointing to "right". </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">e</td><td>the generic object that <a class="el" href="classbridges_1_1_tree_element.html">TreeElement</a> will hold </td></tr>
-    <tr><td class="paramname">left</td><td>the <a class="el" href="classbridges_1_1_tree_element.html">TreeElement</a> to be assigned to the left pointer of this <a class="el" href="classbridges_1_1_tree_element.html">TreeElement</a> </td></tr>
-    <tr><td class="paramname">right</td><td>the <a class="el" href="classbridges_1_1_tree_element.html">TreeElement</a> to be assigned to the right pointer of this <a class="el" href="classbridges_1_1_tree_element.html">TreeElement</a> </td></tr>
+    <tr><td class="paramname">e</td><td>the generic object that <a class="el" href="classbridges_1_1_tree_element.html" title="This class can be used to create binary tree element objects, derived from Element. ">TreeElement</a> will hold </td></tr>
+    <tr><td class="paramname">left</td><td>the <a class="el" href="classbridges_1_1_tree_element.html" title="This class can be used to create binary tree element objects, derived from Element. ">TreeElement</a> to be assigned to the left pointer of this <a class="el" href="classbridges_1_1_tree_element.html" title="This class can be used to create binary tree element objects, derived from Element. ">TreeElement</a> </td></tr>
+    <tr><td class="paramname">right</td><td>the <a class="el" href="classbridges_1_1_tree_element.html" title="This class can be used to create binary tree element objects, derived from Element. ">TreeElement</a> to be assigned to the right pointer of this <a class="el" href="classbridges_1_1_tree_element.html" title="This class can be used to create binary tree element objects, derived from Element. ">TreeElement</a> </td></tr>
   </table>
   </dd>
 </dl>
@@ -407,7 +424,7 @@ template&lt;typename E&gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>This method returns the left tree element pointer </p><dl class="section return"><dt>Returns</dt><dd>the left child of this <a class="el" href="classbridges_1_1_tree_element.html">TreeElement</a> </dd></dl>
+<p>This method returns the left tree element pointer </p><dl class="section return"><dt>Returns</dt><dd>the left child of this <a class="el" href="classbridges_1_1_tree_element.html" title="This class can be used to create binary tree element objects, derived from Element. ">TreeElement</a> </dd></dl>
 
 </div>
 </div>
@@ -433,7 +450,7 @@ template&lt;typename E&gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>This method returns the right tree element pointer </p><dl class="section return"><dt>Returns</dt><dd>the right child of this <a class="el" href="classbridges_1_1_tree_element.html">TreeElement</a> </dd></dl>
+<p>This method returns the right tree element pointer </p><dl class="section return"><dt>Returns</dt><dd>the right child of this <a class="el" href="classbridges_1_1_tree_element.html" title="This class can be used to create binary tree element objects, derived from Element. ">TreeElement</a> </dd></dl>
 
 </div>
 </div>
@@ -462,7 +479,7 @@ template&lt;typename E&gt; </div>
 </div><div class="memdoc">
 <p>This method sets the left tree element pointer </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">left</td><td>the <a class="el" href="classbridges_1_1_tree_element.html">TreeElement</a> that should be assigned to the left child </td></tr>
+    <tr><td class="paramname">left</td><td>the <a class="el" href="classbridges_1_1_tree_element.html" title="This class can be used to create binary tree element objects, derived from Element. ">TreeElement</a> that should be assigned to the left child </td></tr>
   </table>
   </dd>
 </dl>
@@ -494,7 +511,7 @@ template&lt;typename E&gt; </div>
 </div><div class="memdoc">
 <p>This method sets the right tree element pointer </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">right</td><td>the <a class="el" href="classbridges_1_1_tree_element.html">TreeElement</a> that should be assigned to the right child </td></tr>
+    <tr><td class="paramname">right</td><td>the <a class="el" href="classbridges_1_1_tree_element.html" title="This class can be used to create binary tree element objects, derived from Element. ">TreeElement</a> that should be assigned to the right child </td></tr>
   </table>
   </dd>
 </dl>
@@ -507,7 +524,7 @@ template&lt;typename E&gt; </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Jul 17 2015 17:52:21 for Bridges-C++-2.0 by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Jul 26 2015 18:10:09 for Bridges-C++-2.0 by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.9.1
 </small></address>

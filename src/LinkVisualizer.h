@@ -7,7 +7,11 @@
 
 using namespace std;
 
+namespace bridges {
 /**
+ *  @brief This class maintains the visual properties of links that
+ *   part of linked data structures.
+
  * 	This class is used to keep the visual properties of links that art of 
  *  data structures such as linked lists, pointer based trees, link based
  *  graph representations, etc.  Relevant attributes include
@@ -17,9 +21,15 @@ using namespace std;
  * 	Generally, you will manipulating the LinkVisualizer returned from the
  * 	Element getLinkVisualizer() method, and then call the setLinkVisualizer() 
  * 	method on the Element after changes have been made.
+ *
+ *  @param Key used as index into the adjacency lists
+ *  @param  E  used to represent application specific data
+ *
+ *  @author Kalpathi Subramanian, 6/29/15
+ *  @date 6/29/15
+ *  
  **/
 
-namespace bridges {
 
 class LinkVisualizer{
 					// Link visualization properties for this element.

@@ -97,6 +97,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!--header-->
 <div class="contents">
 
+<p>This is the fundamental building block used in building all data structures in BRIDGES.  
+ <a href="classbridges_1_1_element.html#details">More...</a></p>
+
 <p><code>#include &lt;<a class="el" href="_element_8h_source.html">Element.h</a>&gt;</code></p>
 <div class="dynheader">
 Inheritance diagram for bridges::Element&lt; E &gt;:</div>
@@ -104,10 +107,10 @@ Inheritance diagram for bridges::Element&lt; E &gt;:</div>
  <div class="center">
   <img src="classbridges_1_1_element.png" usemap="#bridges::Element&lt; E &gt;_map" alt=""/>
   <map id="bridges::Element&lt; E &gt;_map" name="bridges::Element&lt; E &gt;_map">
-<area href="classbridges_1_1_d_lelement.html" alt="bridges::DLelement&lt; E &gt;" shape="rect" coords="0,56,176,80"/>
-<area href="classbridges_1_1_s_lelement.html" alt="bridges::SLelement&lt; E &gt;" shape="rect" coords="186,56,362,80"/>
-<area href="classbridges_1_1_tree_element.html" alt="bridges::TreeElement&lt; E &gt;" shape="rect" coords="372,56,548,80"/>
-<area href="classbridges_1_1_b_s_t_element.html" alt="bridges::BSTElement&lt; K, E &gt;" shape="rect" coords="372,112,548,136"/>
+<area href="classbridges_1_1_d_lelement.html" title="The basic doubly linked list element, derived from Element. " alt="bridges::DLelement&lt; E &gt;" shape="rect" coords="0,56,176,80"/>
+<area href="classbridges_1_1_s_lelement.html" title="The singly linked list element, derived from Element. " alt="bridges::SLelement&lt; E &gt;" shape="rect" coords="186,56,362,80"/>
+<area href="classbridges_1_1_tree_element.html" title="This class can be used to create binary tree element objects, derived from Element. " alt="bridges::TreeElement&lt; E &gt;" shape="rect" coords="372,56,548,80"/>
+<area href="classbridges_1_1_b_s_t_element.html" title="This class defines a binary search tree element. " alt="bridges::BSTElement&lt; K, E &gt;" shape="rect" coords="372,112,548,136"/>
 </map>
  </div></div>
 <table class="memberdecls">
@@ -144,7 +147,21 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a54de77e83f615a3c27b46090ea4ba2fb"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classbridges_1_1_element.html#a54de77e83f615a3c27b46090ea4ba2fb">setValue</a> (E value)</td></tr>
 <tr class="separator:a54de77e83f615a3c27b46090ea4ba2fb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><h3>template&lt;typename E&gt;<br />
+class bridges::Element&lt; E &gt;</h3>
+
+<p>This is the fundamental building block used in building all data structures in BRIDGES. </p>
+<p>This is the Superclass <a class="el" href="classbridges_1_1_element.html" title="This is the fundamental building block used in building all data structures in BRIDGES. ">Element</a> with <a class="el" href="classbridges_1_1_s_lelement.html" title="The singly linked list element, derived from Element. ">SLelement</a>, <a class="el" href="classbridges_1_1_d_lelement.html" title="The basic doubly linked list element, derived from Element. ">DLelement</a>, <a class="el" href="classbridges_1_1_tree_element.html" title="This class can be used to create binary tree element objects, derived from Element. ">TreeElement</a>, <a class="el" href="classbridges_1_1_b_s_t_element.html" title="This class defines a binary search tree element. ">BSTElement</a> subclasses. Arrays are also built of this type. Template type parameter E is provided to store any application specific data. E can be of any legal C++ type: integer, string, float, double, or any user defined object(class, struct, array). The label field(string type) is used to label the visualization of the element node. <a class="el" href="classbridges_1_1_element.html" title="This is the fundamental building block used in building all data structures in BRIDGES. ">Element</a> has two visualizer objects. <a class="el" href="classbridges_1_1_element_visualizer.html" title="This class maintains the visual properties of the a Bridges element. ">ElementVisualizer</a> holds properties of the element itself, and <a class="el" href="classbridges_1_1_link_visualizer.html" title="This class maintains the visual properties of links that part of linked data structures. ">LinkVisualizer</a>, which holds properties of the link between this element and the element it is linked to &ndash; useful in linked structures and graphs that contain edges. The identifier field automatically generated to keep track of the generated objects and is transparent to the user.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">E</td><td>Application specific data type - can be any legal C++ type.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section author"><dt>Author</dt><dd>Kalpathi Subramanian, </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>6/11/15 </dd></dl>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a class="anchor" id="ae5eca68c417b51977f258ac6a3d1e9bc"></a>
 <div class="memitem">
 <div class="memproto">
@@ -167,7 +184,7 @@ template&lt;typename E&gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
-<p><a class="el" href="classbridges_1_1_element.html">Element</a> constructor creates an <a class="el" href="classbridges_1_1_element_visualizer.html">ElementVisualizer</a> object sets a unique identifier for the current <a class="el" href="classbridges_1_1_element.html">Element</a> normally used from subclasses </p>
+<p><a class="el" href="classbridges_1_1_element.html" title="This is the fundamental building block used in building all data structures in BRIDGES. ">Element</a> constructor creates an <a class="el" href="classbridges_1_1_element_visualizer.html" title="This class maintains the visual properties of the a Bridges element. ">ElementVisualizer</a> object sets a unique identifier for the current <a class="el" href="classbridges_1_1_element.html" title="This is the fundamental building block used in building all data structures in BRIDGES. ">Element</a> normally used from subclasses </p>
 
 </div>
 </div>
@@ -221,9 +238,9 @@ template&lt;typename E&gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>the constructor of <a class="el" href="classbridges_1_1_element.html">Element</a> </p><dl class="params"><dt>Parameters</dt><dd>
+<p>the constructor of <a class="el" href="classbridges_1_1_element.html" title="This is the fundamental building block used in building all data structures in BRIDGES. ">Element</a> </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">val</td><td>will be used to construct <a class="el" href="classbridges_1_1_element.html">Element</a> </td></tr>
+    <tr><td class="paramname">val</td><td>will be used to construct <a class="el" href="classbridges_1_1_element.html" title="This is the fundamental building block used in building all data structures in BRIDGES. ">Element</a> </td></tr>
   </table>
   </dd>
 </dl>
@@ -263,10 +280,10 @@ template&lt;typename E&gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>the constructor of <a class="el" href="classbridges_1_1_element.html">Element</a> </p><dl class="params"><dt>Parameters</dt><dd>
+<p>the constructor of <a class="el" href="classbridges_1_1_element.html" title="This is the fundamental building block used in building all data structures in BRIDGES. ">Element</a> </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">label</td><td>the string that is visible on the <a class="el" href="classbridges_1_1_bridges.html">Bridges</a> Visualization </td></tr>
-    <tr><td class="paramname">val</td><td>will be used to construct <a class="el" href="classbridges_1_1_element.html">Element</a>'s data component </td></tr>
+    <tr><td class="paramname">label</td><td>the string that is visible on the <a class="el" href="classbridges_1_1_bridges.html" title="This class contains methods to connect and transmit a user&#39;s data structure representation to the Bri...">Bridges</a> Visualization </td></tr>
+    <tr><td class="paramname">val</td><td>will be used to construct <a class="el" href="classbridges_1_1_element.html" title="This is the fundamental building block used in building all data structures in BRIDGES. ">Element</a>'s data component </td></tr>
   </table>
   </dd>
 </dl>
@@ -348,7 +365,7 @@ template&lt;typename E&gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>This method returns the existing value of the label fields </p><dl class="section return"><dt>Returns</dt><dd>the label of the <a class="el" href="classbridges_1_1_element.html">Element</a> that shows up on the <a class="el" href="classbridges_1_1_bridges.html">Bridges</a> Visualization </dd></dl>
+<p>This method returns the existing value of the label fields </p><dl class="section return"><dt>Returns</dt><dd>the label of the <a class="el" href="classbridges_1_1_element.html" title="This is the fundamental building block used in building all data structures in BRIDGES. ">Element</a> that shows up on the <a class="el" href="classbridges_1_1_bridges.html" title="This class contains methods to connect and transmit a user&#39;s data structure representation to the Bri...">Bridges</a> Visualization </dd></dl>
 
 </div>
 </div>
@@ -375,7 +392,7 @@ template&lt;typename E&gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Returns the <a class="el" href="classbridges_1_1_element.html">Element</a>'s link visualizer object that is linked to element el  <a class="el" href="classbridges_1_1_element.html">Element</a> el &ndash; the element terminating the link </p><dl class="section return"><dt>Returns</dt><dd>the link visualizer </dd></dl>
+<p>Returns the <a class="el" href="classbridges_1_1_element.html" title="This is the fundamental building block used in building all data structures in BRIDGES. ">Element</a>'s link visualizer object that is linked to element el  <a class="el" href="classbridges_1_1_element.html" title="This is the fundamental building block used in building all data structures in BRIDGES. ">Element</a> el &ndash; the element terminating the link </p><dl class="section return"><dt>Returns</dt><dd>the link visualizer </dd></dl>
 
 </div>
 </div>
@@ -401,7 +418,7 @@ template&lt;typename E&gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Internal code for getting the properties of the <a class="el" href="classbridges_1_1_element.html">Element</a> object. It produces (without the spaces or newlines): { "name": "Some label", "other CSS properties like color": any_JSON_value } </p><dl class="section return"><dt>Returns</dt><dd>the encoded JSON string </dd></dl>
+<p>Internal code for getting the properties of the <a class="el" href="classbridges_1_1_element.html" title="This is the fundamental building block used in building all data structures in BRIDGES. ">Element</a> object. It produces (without the spaces or newlines): { "name": "Some label", "other CSS properties like color": any_JSON_value } </p><dl class="section return"><dt>Returns</dt><dd>the encoded JSON string </dd></dl>
 
 </div>
 </div>
@@ -427,7 +444,7 @@ template&lt;typename E&gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>this method returns the value E for the current <a class="el" href="classbridges_1_1_element.html">Element</a> </p><dl class="section return"><dt>Returns</dt><dd>the value </dd></dl>
+<p>this method returns the value E for the current <a class="el" href="classbridges_1_1_element.html" title="This is the fundamental building block used in building all data structures in BRIDGES. ">Element</a> </p><dl class="section return"><dt>Returns</dt><dd>the value </dd></dl>
 
 </div>
 </div>
@@ -453,7 +470,7 @@ template&lt;typename E&gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Returns the <a class="el" href="classbridges_1_1_element.html">Element</a>'s visualizer object </p><dl class="section return"><dt>Returns</dt><dd>the visualizer </dd></dl>
+<p>Returns the <a class="el" href="classbridges_1_1_element.html" title="This is the fundamental building block used in building all data structures in BRIDGES. ">Element</a>'s visualizer object </p><dl class="section return"><dt>Returns</dt><dd>the visualizer </dd></dl>
 
 </div>
 </div>
@@ -586,7 +603,7 @@ template&lt;typename E&gt; </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Jul 17 2015 17:52:21 for Bridges-C++-2.0 by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Jul 26 2015 18:10:08 for Bridges-C++-2.0 by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.9.1
 </small></address>

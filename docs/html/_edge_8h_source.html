@@ -97,84 +97,83 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &lt;string&gt;</span></div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;</div>
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="keyword">using namespace </span><a class="code" href="namespacestd.html">std</a>;</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="keyword">namespace </span><a class="code" href="namespacebridges.html">bridges</a> {</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;</div>
-<div class="line"><a name="l00024"></a><span class="lineno"><a class="line" href="classbridges_1_1_edge.html">   24</a></span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> Key&gt; <span class="keyword">class </span><a class="code" href="classbridges_1_1_edge.html">Edge</a>{</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    <span class="keyword">private</span>:</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;        <span class="keywordtype">int</span> weight;</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;        Key vertex; <span class="comment">// refers to a terminating vertex</span></div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;        <span class="keywordtype">string</span> edge_data;<span class="comment">// any application data can be held here</span></div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00035"></a><span class="lineno"><a class="line" href="classbridges_1_1_edge.html#aa829f4c7a2c7674dcbbb649dc3dc7996">   35</a></span>&#160;        <a class="code" href="classbridges_1_1_edge.html#aa829f4c7a2c7674dcbbb649dc3dc7996">Edge</a>() {</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;            weight = 0;</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;            edge_data = <span class="stringliteral">&quot;&quot;</span>;</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;        }</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    </div>
-<div class="line"><a name="l00045"></a><span class="lineno"><a class="line" href="classbridges_1_1_edge.html#aae34da5b01b0663b5ca1cb724872fd7d">   45</a></span>&#160;        <a class="code" href="classbridges_1_1_edge.html#aae34da5b01b0663b5ca1cb724872fd7d">Edge</a>(<span class="keywordtype">int</span> wt) : <a class="code" href="classbridges_1_1_edge.html">Edge</a>() {</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;            weight = wt;</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;        }</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    </div>
-<div class="line"><a name="l00054"></a><span class="lineno"><a class="line" href="classbridges_1_1_edge.html#a63e84d686135b5a9158b36819d422ea2">   54</a></span>&#160;        <a class="code" href="classbridges_1_1_edge.html#a63e84d686135b5a9158b36819d422ea2">Edge</a>(<span class="keywordtype">int</span> wt, Key v): <a class="code" href="classbridges_1_1_edge.html">Edge</a>() {</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;            weight = wt;</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;            vertex = v;</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;        }</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    </div>
-<div class="line"><a name="l00064"></a><span class="lineno"><a class="line" href="classbridges_1_1_edge.html#a404b1be315c3ba5a7da48d22750fd90f">   64</a></span>&#160;        <span class="keywordtype">void</span> <a class="code" href="classbridges_1_1_edge.html#a404b1be315c3ba5a7da48d22750fd90f">setWeight</a>(<span class="keywordtype">int</span> wt) {</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;            weight = wt;</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;        }</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    </div>
-<div class="line"><a name="l00073"></a><span class="lineno"><a class="line" href="classbridges_1_1_edge.html#abb0a90b93b1ee135dd19464780d25620">   73</a></span>&#160;        <span class="keywordtype">int</span> <a class="code" href="classbridges_1_1_edge.html#abb0a90b93b1ee135dd19464780d25620">getWeight</a>() {</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;            <span class="keywordflow">return</span> weight;</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;        }</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    </div>
-<div class="line"><a name="l00082"></a><span class="lineno"><a class="line" href="classbridges_1_1_edge.html#a5b6df66e9af59226d2692b7057eeea37">   82</a></span>&#160;        <span class="keywordtype">void</span> <a class="code" href="classbridges_1_1_edge.html#a5b6df66e9af59226d2692b7057eeea37">setVertex</a>(Key v) {</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;            vertex = v;</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;        }</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    </div>
-<div class="line"><a name="l00091"></a><span class="lineno"><a class="line" href="classbridges_1_1_edge.html#aa604e71bc9068ca68d95e49adcf63920">   91</a></span>&#160;        Key <a class="code" href="classbridges_1_1_edge.html#aa604e71bc9068ca68d95e49adcf63920">getVertex</a>() {</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;            <span class="keywordflow">return</span> vertex;</div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;        }</div>
-<div class="line"><a name="l00099"></a><span class="lineno"><a class="line" href="classbridges_1_1_edge.html#ab21c0f917e8a3a40e871fb49957103ba">   99</a></span>&#160;        <span class="keywordtype">void</span> <a class="code" href="classbridges_1_1_edge.html#ab21c0f917e8a3a40e871fb49957103ba">setEdgeData</a>(<span class="keywordtype">string</span> data) {</div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;            edge_data = data;</div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;        }</div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;    </div>
-<div class="line"><a name="l00108"></a><span class="lineno"><a class="line" href="classbridges_1_1_edge.html#a3bc88f8f713f29a207ff572d9f8fead6">  108</a></span>&#160;        <span class="keywordtype">string</span> <a class="code" href="classbridges_1_1_edge.html#a3bc88f8f713f29a207ff572d9f8fead6">getEdgeData</a>() {</div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;            <span class="keywordflow">return</span> edge_data;</div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;        }</div>
-<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;    </div>
-<div class="line"><a name="l00118"></a><span class="lineno"><a class="line" href="classbridges_1_1_edge.html#af9aff4af3f19becfaf4b05369c25c0ce">  118</a></span>&#160;        <span class="keywordtype">void</span> <a class="code" href="classbridges_1_1_edge.html#af9aff4af3f19becfaf4b05369c25c0ce">setEdge</a>(<span class="keywordtype">int</span> wt, Key v) {</div>
-<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;            weight = wt;</div>
-<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;            vertex = v;</div>
-<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;        }</div>
-<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;    </div>
-<div class="line"><a name="l00126"></a><span class="lineno"><a class="line" href="classbridges_1_1_edge.html#acc1b8dd71672737ede797a5b24b64c4a">  126</a></span>&#160;        <a class="code" href="classbridges_1_1_edge.html">Edge</a> *<a class="code" href="classbridges_1_1_edge.html#acc1b8dd71672737ede797a5b24b64c4a">getEdge</a>() {</div>
-<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;            <span class="keywordflow">return</span> <span class="keyword">this</span>;</div>
-<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;        }</div>
-<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;        </div>
-<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;};</div>
-<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;</div>
-<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;}</div>
-<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="ttc" id="classbridges_1_1_edge_html_aa604e71bc9068ca68d95e49adcf63920"><div class="ttname"><a href="classbridges_1_1_edge.html#aa604e71bc9068ca68d95e49adcf63920">bridges::Edge::getVertex</a></div><div class="ttdeci">Key getVertex()</div><div class="ttdef"><b>Definition:</b> Edge.h:91</div></div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="keyword">namespace </span><a class="code" href="namespacebridges.html">bridges</a> {</div>
+<div class="line"><a name="l00028"></a><span class="lineno"><a class="line" href="classbridges_1_1_edge.html">   28</a></span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> Key&gt; <span class="keyword">class </span><a class="code" href="classbridges_1_1_edge.html">Edge</a>{</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    <span class="keyword">private</span>:</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;        <span class="keywordtype">int</span> weight;</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;        Key vertex; <span class="comment">// refers to a terminating vertex</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;        <span class="keywordtype">string</span> edge_data;<span class="comment">// any application data can be held here</span></div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00039"></a><span class="lineno"><a class="line" href="classbridges_1_1_edge.html#aa829f4c7a2c7674dcbbb649dc3dc7996">   39</a></span>&#160;        <a class="code" href="classbridges_1_1_edge.html#aa829f4c7a2c7674dcbbb649dc3dc7996">Edge</a>() {</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;            weight = 0;</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;            edge_data = <span class="stringliteral">&quot;&quot;</span>;</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;        }</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    </div>
+<div class="line"><a name="l00049"></a><span class="lineno"><a class="line" href="classbridges_1_1_edge.html#aae34da5b01b0663b5ca1cb724872fd7d">   49</a></span>&#160;        <a class="code" href="classbridges_1_1_edge.html#aae34da5b01b0663b5ca1cb724872fd7d">Edge</a>(<span class="keywordtype">int</span> wt) : <a class="code" href="classbridges_1_1_edge.html">Edge</a>() {</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;            weight = wt;</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;        }</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    </div>
+<div class="line"><a name="l00058"></a><span class="lineno"><a class="line" href="classbridges_1_1_edge.html#a63e84d686135b5a9158b36819d422ea2">   58</a></span>&#160;        <a class="code" href="classbridges_1_1_edge.html#a63e84d686135b5a9158b36819d422ea2">Edge</a>(<span class="keywordtype">int</span> wt, Key v): <a class="code" href="classbridges_1_1_edge.html">Edge</a>() {</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;            weight = wt;</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;            vertex = v;</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;        }</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    </div>
+<div class="line"><a name="l00068"></a><span class="lineno"><a class="line" href="classbridges_1_1_edge.html#a404b1be315c3ba5a7da48d22750fd90f">   68</a></span>&#160;        <span class="keywordtype">void</span> <a class="code" href="classbridges_1_1_edge.html#a404b1be315c3ba5a7da48d22750fd90f">setWeight</a>(<span class="keywordtype">int</span> wt) {</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;            weight = wt;</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;        }</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    </div>
+<div class="line"><a name="l00077"></a><span class="lineno"><a class="line" href="classbridges_1_1_edge.html#abb0a90b93b1ee135dd19464780d25620">   77</a></span>&#160;        <span class="keywordtype">int</span> <a class="code" href="classbridges_1_1_edge.html#abb0a90b93b1ee135dd19464780d25620">getWeight</a>() {</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;            <span class="keywordflow">return</span> weight;</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;        }</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    </div>
+<div class="line"><a name="l00086"></a><span class="lineno"><a class="line" href="classbridges_1_1_edge.html#a5b6df66e9af59226d2692b7057eeea37">   86</a></span>&#160;        <span class="keywordtype">void</span> <a class="code" href="classbridges_1_1_edge.html#a5b6df66e9af59226d2692b7057eeea37">setVertex</a>(Key v) {</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;            vertex = v;</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;        }</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;    </div>
+<div class="line"><a name="l00095"></a><span class="lineno"><a class="line" href="classbridges_1_1_edge.html#aa604e71bc9068ca68d95e49adcf63920">   95</a></span>&#160;        Key <a class="code" href="classbridges_1_1_edge.html#aa604e71bc9068ca68d95e49adcf63920">getVertex</a>() {</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;            <span class="keywordflow">return</span> vertex;</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;        }</div>
+<div class="line"><a name="l00103"></a><span class="lineno"><a class="line" href="classbridges_1_1_edge.html#ab21c0f917e8a3a40e871fb49957103ba">  103</a></span>&#160;        <span class="keywordtype">void</span> <a class="code" href="classbridges_1_1_edge.html#ab21c0f917e8a3a40e871fb49957103ba">setEdgeData</a>(<span class="keywordtype">string</span> data) {</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;            edge_data = data;</div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;        }</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;    </div>
+<div class="line"><a name="l00112"></a><span class="lineno"><a class="line" href="classbridges_1_1_edge.html#a3bc88f8f713f29a207ff572d9f8fead6">  112</a></span>&#160;        <span class="keywordtype">string</span> <a class="code" href="classbridges_1_1_edge.html#a3bc88f8f713f29a207ff572d9f8fead6">getEdgeData</a>() {</div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;            <span class="keywordflow">return</span> edge_data;</div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;        }</div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;    </div>
+<div class="line"><a name="l00122"></a><span class="lineno"><a class="line" href="classbridges_1_1_edge.html#af9aff4af3f19becfaf4b05369c25c0ce">  122</a></span>&#160;        <span class="keywordtype">void</span> <a class="code" href="classbridges_1_1_edge.html#af9aff4af3f19becfaf4b05369c25c0ce">setEdge</a>(<span class="keywordtype">int</span> wt, Key v) {</div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;            weight = wt;</div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;            vertex = v;</div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;        }</div>
+<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;    </div>
+<div class="line"><a name="l00130"></a><span class="lineno"><a class="line" href="classbridges_1_1_edge.html#acc1b8dd71672737ede797a5b24b64c4a">  130</a></span>&#160;        <a class="code" href="classbridges_1_1_edge.html">Edge</a> *<a class="code" href="classbridges_1_1_edge.html#acc1b8dd71672737ede797a5b24b64c4a">getEdge</a>() {</div>
+<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;            <span class="keywordflow">return</span> <span class="keyword">this</span>;</div>
+<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;        }</div>
+<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;        </div>
+<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;};</div>
+<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;</div>
+<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;}</div>
+<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="ttc" id="classbridges_1_1_edge_html_aa604e71bc9068ca68d95e49adcf63920"><div class="ttname"><a href="classbridges_1_1_edge.html#aa604e71bc9068ca68d95e49adcf63920">bridges::Edge::getVertex</a></div><div class="ttdeci">Key getVertex()</div><div class="ttdef"><b>Definition:</b> Edge.h:95</div></div>
 <div class="ttc" id="namespacestd_html"><div class="ttname"><a href="namespacestd.html">std</a></div><div class="ttdoc">STL namespace. </div></div>
-<div class="ttc" id="classbridges_1_1_edge_html_acc1b8dd71672737ede797a5b24b64c4a"><div class="ttname"><a href="classbridges_1_1_edge.html#acc1b8dd71672737ede797a5b24b64c4a">bridges::Edge::getEdge</a></div><div class="ttdeci">Edge * getEdge()</div><div class="ttdef"><b>Definition:</b> Edge.h:126</div></div>
-<div class="ttc" id="classbridges_1_1_edge_html_ab21c0f917e8a3a40e871fb49957103ba"><div class="ttname"><a href="classbridges_1_1_edge.html#ab21c0f917e8a3a40e871fb49957103ba">bridges::Edge::setEdgeData</a></div><div class="ttdeci">void setEdgeData(string data)</div><div class="ttdef"><b>Definition:</b> Edge.h:99</div></div>
-<div class="ttc" id="classbridges_1_1_edge_html_a5b6df66e9af59226d2692b7057eeea37"><div class="ttname"><a href="classbridges_1_1_edge.html#a5b6df66e9af59226d2692b7057eeea37">bridges::Edge::setVertex</a></div><div class="ttdeci">void setVertex(Key v)</div><div class="ttdef"><b>Definition:</b> Edge.h:82</div></div>
-<div class="ttc" id="classbridges_1_1_edge_html"><div class="ttname"><a href="classbridges_1_1_edge.html">bridges::Edge</a></div><div class="ttdef"><b>Definition:</b> Edge.h:24</div></div>
-<div class="ttc" id="classbridges_1_1_edge_html_aae34da5b01b0663b5ca1cb724872fd7d"><div class="ttname"><a href="classbridges_1_1_edge.html#aae34da5b01b0663b5ca1cb724872fd7d">bridges::Edge::Edge</a></div><div class="ttdeci">Edge(int wt)</div><div class="ttdef"><b>Definition:</b> Edge.h:45</div></div>
-<div class="ttc" id="classbridges_1_1_edge_html_a63e84d686135b5a9158b36819d422ea2"><div class="ttname"><a href="classbridges_1_1_edge.html#a63e84d686135b5a9158b36819d422ea2">bridges::Edge::Edge</a></div><div class="ttdeci">Edge(int wt, Key v)</div><div class="ttdef"><b>Definition:</b> Edge.h:54</div></div>
-<div class="ttc" id="classbridges_1_1_edge_html_a3bc88f8f713f29a207ff572d9f8fead6"><div class="ttname"><a href="classbridges_1_1_edge.html#a3bc88f8f713f29a207ff572d9f8fead6">bridges::Edge::getEdgeData</a></div><div class="ttdeci">string getEdgeData()</div><div class="ttdef"><b>Definition:</b> Edge.h:108</div></div>
-<div class="ttc" id="classbridges_1_1_edge_html_abb0a90b93b1ee135dd19464780d25620"><div class="ttname"><a href="classbridges_1_1_edge.html#abb0a90b93b1ee135dd19464780d25620">bridges::Edge::getWeight</a></div><div class="ttdeci">int getWeight()</div><div class="ttdef"><b>Definition:</b> Edge.h:73</div></div>
-<div class="ttc" id="namespacebridges_html"><div class="ttname"><a href="namespacebridges.html">bridges</a></div><div class="ttdef"><b>Definition:</b> ADTVisualizer.h:34</div></div>
-<div class="ttc" id="classbridges_1_1_edge_html_af9aff4af3f19becfaf4b05369c25c0ce"><div class="ttname"><a href="classbridges_1_1_edge.html#af9aff4af3f19becfaf4b05369c25c0ce">bridges::Edge::setEdge</a></div><div class="ttdeci">void setEdge(int wt, Key v)</div><div class="ttdef"><b>Definition:</b> Edge.h:118</div></div>
-<div class="ttc" id="classbridges_1_1_edge_html_a404b1be315c3ba5a7da48d22750fd90f"><div class="ttname"><a href="classbridges_1_1_edge.html#a404b1be315c3ba5a7da48d22750fd90f">bridges::Edge::setWeight</a></div><div class="ttdeci">void setWeight(int wt)</div><div class="ttdef"><b>Definition:</b> Edge.h:64</div></div>
-<div class="ttc" id="classbridges_1_1_edge_html_aa829f4c7a2c7674dcbbb649dc3dc7996"><div class="ttname"><a href="classbridges_1_1_edge.html#aa829f4c7a2c7674dcbbb649dc3dc7996">bridges::Edge::Edge</a></div><div class="ttdeci">Edge()</div><div class="ttdef"><b>Definition:</b> Edge.h:35</div></div>
+<div class="ttc" id="classbridges_1_1_edge_html_acc1b8dd71672737ede797a5b24b64c4a"><div class="ttname"><a href="classbridges_1_1_edge.html#acc1b8dd71672737ede797a5b24b64c4a">bridges::Edge::getEdge</a></div><div class="ttdeci">Edge * getEdge()</div><div class="ttdef"><b>Definition:</b> Edge.h:130</div></div>
+<div class="ttc" id="classbridges_1_1_edge_html_ab21c0f917e8a3a40e871fb49957103ba"><div class="ttname"><a href="classbridges_1_1_edge.html#ab21c0f917e8a3a40e871fb49957103ba">bridges::Edge::setEdgeData</a></div><div class="ttdeci">void setEdgeData(string data)</div><div class="ttdef"><b>Definition:</b> Edge.h:103</div></div>
+<div class="ttc" id="classbridges_1_1_edge_html_a5b6df66e9af59226d2692b7057eeea37"><div class="ttname"><a href="classbridges_1_1_edge.html#a5b6df66e9af59226d2692b7057eeea37">bridges::Edge::setVertex</a></div><div class="ttdeci">void setVertex(Key v)</div><div class="ttdef"><b>Definition:</b> Edge.h:86</div></div>
+<div class="ttc" id="classbridges_1_1_edge_html"><div class="ttname"><a href="classbridges_1_1_edge.html">bridges::Edge</a></div><div class="ttdoc">This helper class is used by the graph classes - GraphAdjList , GraphAdjMatrix - to keep track of edg...</div><div class="ttdef"><b>Definition:</b> Edge.h:28</div></div>
+<div class="ttc" id="classbridges_1_1_edge_html_aae34da5b01b0663b5ca1cb724872fd7d"><div class="ttname"><a href="classbridges_1_1_edge.html#aae34da5b01b0663b5ca1cb724872fd7d">bridges::Edge::Edge</a></div><div class="ttdeci">Edge(int wt)</div><div class="ttdef"><b>Definition:</b> Edge.h:49</div></div>
+<div class="ttc" id="classbridges_1_1_edge_html_a63e84d686135b5a9158b36819d422ea2"><div class="ttname"><a href="classbridges_1_1_edge.html#a63e84d686135b5a9158b36819d422ea2">bridges::Edge::Edge</a></div><div class="ttdeci">Edge(int wt, Key v)</div><div class="ttdef"><b>Definition:</b> Edge.h:58</div></div>
+<div class="ttc" id="classbridges_1_1_edge_html_a3bc88f8f713f29a207ff572d9f8fead6"><div class="ttname"><a href="classbridges_1_1_edge.html#a3bc88f8f713f29a207ff572d9f8fead6">bridges::Edge::getEdgeData</a></div><div class="ttdeci">string getEdgeData()</div><div class="ttdef"><b>Definition:</b> Edge.h:112</div></div>
+<div class="ttc" id="classbridges_1_1_edge_html_abb0a90b93b1ee135dd19464780d25620"><div class="ttname"><a href="classbridges_1_1_edge.html#abb0a90b93b1ee135dd19464780d25620">bridges::Edge::getWeight</a></div><div class="ttdeci">int getWeight()</div><div class="ttdef"><b>Definition:</b> Edge.h:77</div></div>
+<div class="ttc" id="namespacebridges_html"><div class="ttname"><a href="namespacebridges.html">bridges</a></div><div class="ttdef"><b>Definition:</b> ADTVisualizer.h:21</div></div>
+<div class="ttc" id="classbridges_1_1_edge_html_af9aff4af3f19becfaf4b05369c25c0ce"><div class="ttname"><a href="classbridges_1_1_edge.html#af9aff4af3f19becfaf4b05369c25c0ce">bridges::Edge::setEdge</a></div><div class="ttdeci">void setEdge(int wt, Key v)</div><div class="ttdef"><b>Definition:</b> Edge.h:122</div></div>
+<div class="ttc" id="classbridges_1_1_edge_html_a404b1be315c3ba5a7da48d22750fd90f"><div class="ttname"><a href="classbridges_1_1_edge.html#a404b1be315c3ba5a7da48d22750fd90f">bridges::Edge::setWeight</a></div><div class="ttdeci">void setWeight(int wt)</div><div class="ttdef"><b>Definition:</b> Edge.h:68</div></div>
+<div class="ttc" id="classbridges_1_1_edge_html_aa829f4c7a2c7674dcbbb649dc3dc7996"><div class="ttname"><a href="classbridges_1_1_edge.html#aa829f4c7a2c7674dcbbb649dc3dc7996">bridges::Edge::Edge</a></div><div class="ttdeci">Edge()</div><div class="ttdef"><b>Definition:</b> Edge.h:39</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Jul 17 2015 17:52:20 for Bridges-C++-2.0 by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Jul 26 2015 18:10:08 for Bridges-C++-2.0 by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.9.1
 </small></address>

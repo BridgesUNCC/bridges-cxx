@@ -6,19 +6,24 @@
 #include <unordered_set>
 #include <regex>
 
-/**
-  * 
-  * The Validation class suppports methods to check the validity of 
-  * visualization properties and certain global BRIDGES parameters for 
-  * robust operation of BRIDGES.
-  *
-  * Author: Kalpathi Subramanian, 6/22/15
-  * 
-  **/
 
 using namespace std;
 
 namespace bridges{
+/**
+ * 
+ * @brief This class performs certain validation checks to ensure the 
+ *  robustness of the BRIDGES  system. 
+
+ * Validatoin checks are made for legal specification of visual properties
+ * such as color names, element size, opacity values, 
+ * the maximum number of BRIDGES elements (currently set at 5000).
+ *
+ * @author Kalpathi Subramanian(C++ port), 
+ *
+ * @date 6/22/15 
+ *
+ **/
 
 class Validation {
 

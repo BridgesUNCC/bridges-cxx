@@ -14,25 +14,32 @@ using namespace std;
 #include "LinkVisualizer.h"
 
 
-///
-///		This is the Superclass Element with SLelement, DLelement,
-///		ArrayListElement, TreeElement, BSTElement subclasses.
-///		Generic parameter E  is provided and all application specific data 
-///     can be stored here).
-///		An object of E data type can be integer, string, Tweet, Actor, Movie, 
-///		EarthquakeTweet, etc.
-///     The label field(string type)  is used to label the visualization of 
-///		the element node.
-///		Element has two visualizer objects. ElementVisualizer holds properties
-///     of the element itself, and LinkVisualizer, which holds properties
-///     of the link between this element and the element it is linked to
-///     -- useful in linked structures and graphs that contain edges.
-///		Identifier field automatically generated
-///
-///		@author  Kalpathi Subramanian, 6/11/15
-///
-
 namespace bridges {
+
+/**
+ *	@brief This is the fundamental building block used in building all
+ *		data structures in BRIDGES
+
+ *	This is the Superclass Element with SLelement, DLelement,
+ *	TreeElement, BSTElement subclasses. Arrays are also built of this type.
+ *	Template type  parameter E  is provided to store any application 
+ *	specific data. E  can be of any legal C++ type: integer, string, float,
+ *	double, or any user defined object(class, struct, array).
+ *  The label field(string type) is used to label the visualization of 
+ *	the element node. Element has two visualizer objects. ElementVisualizer 
+ *	holds properties of the element itself, and LinkVisualizer, which holds 
+ *	properties of the link between this element and the element it is linked 
+ *	to -- useful in linked structures and graphs that contain edges.
+ *	The identifier field automatically generated to keep track of the 
+ *	generated objects and is transparent to the user.
+ *
+ *  @param E Application specific data type - can be any legal C++ type.
+ *
+ *	@author  Kalpathi Subramanian, 
+ *	@date 6/11/15
+ *
+ **/
+
 
 template <typename E> class Element{
 	private:

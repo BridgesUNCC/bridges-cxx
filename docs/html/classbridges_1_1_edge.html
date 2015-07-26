@@ -97,6 +97,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!--header-->
 <div class="contents">
 
+<p>This helper class is used by the graph classes - <a class="el" href="classbridges_1_1_graph_adj_list.html" title="This class provides methods to represent adjacency list based graphs. ">GraphAdjList</a> , <a class="el" href="classbridges_1_1_graph_adj_matrix.html" title="This class provides methods to represent adjacency list based graphs. ">GraphAdjMatrix</a> - to keep track of edge information.  
+ <a href="classbridges_1_1_edge.html#details">More...</a></p>
+
 <p><code>#include &lt;<a class="el" href="_edge_8h_source.html">Edge.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
@@ -124,7 +127,21 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:acc1b8dd71672737ede797a5b24b64c4a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classbridges_1_1_edge.html">Edge</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classbridges_1_1_edge.html#acc1b8dd71672737ede797a5b24b64c4a">getEdge</a> ()</td></tr>
 <tr class="separator:acc1b8dd71672737ede797a5b24b64c4a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><h3>template&lt;typename Key&gt;<br />
+class bridges::Edge&lt; Key &gt;</h3>
+
+<p>This helper class is used by the graph classes - <a class="el" href="classbridges_1_1_graph_adj_list.html" title="This class provides methods to represent adjacency list based graphs. ">GraphAdjList</a> , <a class="el" href="classbridges_1_1_graph_adj_matrix.html" title="This class provides methods to represent adjacency list based graphs. ">GraphAdjMatrix</a> - to keep track of edge information. </p>
+<p>This class is used to assign a visual connection between two Elements in the <a class="el" href="classbridges_1_1_bridges.html" title="This class contains methods to connect and transmit a user&#39;s data structure representation to the Bri...">Bridges</a> Visualization. </p>
+<p><a class="el" href="classbridges_1_1_bridges.html" title="This class contains methods to connect and transmit a user&#39;s data structure representation to the Bri...">Bridges</a> will represent these as arrows between two Elements. The starting <a class="el" href="classbridges_1_1_element.html" title="This is the fundamental building block used in building all data structures in BRIDGES. ">Element</a> of the arrow will be referred to as the source <a class="el" href="classbridges_1_1_element.html" title="This is the fundamental building block used in building all data structures in BRIDGES. ">Element</a> and the ending <a class="el" href="classbridges_1_1_element.html" title="This is the fundamental building block used in building all data structures in BRIDGES. ">Element</a> of the arrow will be referred to as the terminating <a class="el" href="classbridges_1_1_element.html" title="This is the fundamental building block used in building all data structures in BRIDGES. ">Element</a>.</p>
+<dl class="section author"><dt>Author</dt><dd>krs</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">&lt;E&gt;</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a class="anchor" id="aa829f4c7a2c7674dcbbb649dc3dc7996"></a>
 <div class="memitem">
 <div class="memproto">
@@ -147,7 +164,7 @@ template&lt;typename Key&gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Construct an edge with no terminating <a class="el" href="classbridges_1_1_element.html">Element</a> - used only for graphs </p>
+<p>Construct an edge with no terminating <a class="el" href="classbridges_1_1_element.html" title="This is the fundamental building block used in building all data structures in BRIDGES. ">Element</a> - used only for graphs </p>
 
 </div>
 </div>
@@ -174,7 +191,7 @@ template&lt;typename Key&gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Construct an edge with thickness equal to "wt" and no terminating <a class="el" href="classbridges_1_1_element.html">Element</a>, used only for graphs. </p><dl class="params"><dt>Parameters</dt><dd>
+<p>Construct an edge with thickness equal to "wt" and no terminating <a class="el" href="classbridges_1_1_element.html" title="This is the fundamental building block used in building all data structures in BRIDGES. ">Element</a>, used only for graphs. </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">wt</td><td>integer representing edge weight, </td></tr>
   </table>
@@ -302,7 +319,7 @@ template&lt;typename Key&gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Get identifer of the terminating <a class="el" href="classbridges_1_1_element.html">Element</a> of edge</p>
+<p>Get identifer of the terminating <a class="el" href="classbridges_1_1_element.html" title="This is the fundamental building block used in building all data structures in BRIDGES. ">Element</a> of edge</p>
 <dl class="section return"><dt>Returns</dt><dd>the string identifier of the terminating vertex </dd></dl>
 
 </div>
@@ -330,7 +347,7 @@ template&lt;typename Key&gt; </div>
 </table>
 </div><div class="memdoc">
 <p>Get edge weight</p>
-<dl class="section return"><dt>Returns</dt><dd>the thickness of the arrow in the <a class="el" href="classbridges_1_1_bridges.html">Bridges</a> Visualization </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>the thickness of the arrow in the <a class="el" href="classbridges_1_1_bridges.html" title="This class contains methods to connect and transmit a user&#39;s data structure representation to the Bri...">Bridges</a> Visualization </dd></dl>
 
 </div>
 </div>
@@ -371,7 +388,7 @@ template&lt;typename Key&gt; </div>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">wt</td><td>integer representing the edge weight </td></tr>
-    <tr><td class="paramname">v</td><td>the string identifier of the terminating <a class="el" href="classbridges_1_1_element.html">Element</a> </td></tr>
+    <tr><td class="paramname">v</td><td>the string identifier of the terminating <a class="el" href="classbridges_1_1_element.html" title="This is the fundamental building block used in building all data structures in BRIDGES. ">Element</a> </td></tr>
   </table>
   </dd>
 </dl>
@@ -401,7 +418,7 @@ template&lt;typename Key&gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Set <a class="el" href="classbridges_1_1_edge.html">Edge</a> data (represented as a string for now)</p>
+<p>Set <a class="el" href="classbridges_1_1_edge.html" title="This helper class is used by the graph classes - GraphAdjList , GraphAdjMatrix - to keep track of edg...">Edge</a> data (represented as a string for now)</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">string</td><td>application data </td></tr>
@@ -434,10 +451,10 @@ template&lt;typename Key&gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Set terminating <a class="el" href="classbridges_1_1_element.html">Element</a> of the edge</p>
+<p>Set terminating <a class="el" href="classbridges_1_1_element.html" title="This is the fundamental building block used in building all data structures in BRIDGES. ">Element</a> of the edge</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">v</td><td>the string identifier of the terminating <a class="el" href="classbridges_1_1_element.html">Element</a> </td></tr>
+    <tr><td class="paramname">v</td><td>the string identifier of the terminating <a class="el" href="classbridges_1_1_element.html" title="This is the fundamental building block used in building all data structures in BRIDGES. ">Element</a> </td></tr>
   </table>
   </dd>
 </dl>
@@ -483,7 +500,7 @@ template&lt;typename Key&gt; </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Jul 17 2015 17:52:21 for Bridges-C++-2.0 by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Jul 26 2015 18:10:08 for Bridges-C++-2.0 by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.9.1
 </small></address>

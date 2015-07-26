@@ -18,7 +18,11 @@ using namespace std;
 #include "BSTElement.h"
 
 
+namespace bridges {
 /** 
+ *  \brief The ADTVisualizer class generates each data structure's JSON 
+ *	 	representation
+
  *  The ADTVisualizer class is responsible for taking a data structure
  *  as input and generating a JSON representation prior to sending it
  *  to the server for visualization.  The Bridges class uses this object 
@@ -31,7 +35,6 @@ using namespace std;
  *
  **/
 
-namespace bridges {
 
 template<typename K, typename E> class ADTVisualizer {
 	private:
@@ -59,7 +62,6 @@ template<typename K, typename E> class ADTVisualizer {
 	 	*/														
 		ADTVisualizer(){
 			visualizerType = "";
-			visualizerIdentifier = "";
 			adt_type.emplace("Array_Stack","llist");
 			adt_type.emplace("Array_Queue","llist");
 			adt_type.emplace("GraphAdjacencyMatrix", "graphm");
@@ -90,20 +92,6 @@ template<typename K, typename E> class ADTVisualizer {
  		 **/
 		void setVisualizeJSON(bool vis_json_flag) {
     		visualizeJSON = vis_json_flag;
-		}
-
-		/**
-		 * @return the visualizerIdentifier
-		 **/
-		string getVisualizerIdentifier() {
-			return visualizerIdentifier;
-		}
-
-		/**
-		 * @param visualizerIdentifier the visualizerIdentifier to set
-		 **/
-		void setVisualizerIdentifier(string vis_identifier) {
-			visualizerIdentifier = vis_identifier;
 		}
 
 		/**
@@ -148,13 +136,13 @@ template<typename K, typename E> class ADTVisualizer {
 		 *  This method generates the JSON representation of an adjacency
 		 *  matrix based graph
 		 *
-		 *	@param graph_adj_matrix --input graph of type GraphAdjMatrix<K, E>*
+		 *	@param graph_adj_matrix is a pointer to the input graph 
 		 *
-		 *  @return -- JSON  string representation of the graph
+		 *  @return JSON  string representation of the graph
 		 *
 		 **/
 			
-		string getDataStructureRepresentation( GraphAdjMatrix<K, E> 
+		string getDataStructureRepresentation(GraphAdjMatrix<K, E> 
 										*graph_adj_matrix){
 									// first gather the nodes and links by
 									// traversing the graph
@@ -206,9 +194,9 @@ template<typename K, typename E> class ADTVisualizer {
 		 *  This method generates the JSON representation of an adjacency
 		 *  list based graph
 		 *
-		 *	@param graph_adj_list--input graph -- of type GraphAdjList<K, E>*
+		 *	@param graph_adj_list is the pointer to the input graph
 		 *
-		 *  @return -- JSON  string representation of the graph
+		 *  @return JSON  string representation of the graph
 		 *
 		 **/
 			
@@ -259,9 +247,9 @@ template<typename K, typename E> class ADTVisualizer {
 		/**
 		 * This method creates a JSON representation of a single linked list - 
 		 *
-		 * @param - head of the linked list (SLelement<E>*)
+		 * @param  first_element is the head of the linked list
 		 *
-		 * @return - this method returns the JSON string
+		 * @return JSON string representation
 		 *
 		 */
 		string getDataStructureRepresentation(SLelement<E> *first_element) {
@@ -284,8 +272,9 @@ template<typename K, typename E> class ADTVisualizer {
 		/**
 		 * This method returns the JSON string of a doubly linked list 
 		 *
-		 * @param - head of the linked list (DLelement<E>*)
-		 * @return
+		 * @param - first_element is the  head of the doubly linked list
+		 *
+		 * @return JSON string
 		 **/
 		string getDataStructureRepresentation(DLelement<E> *first_element) {
 		
@@ -314,12 +303,11 @@ template<typename K, typename E> class ADTVisualizer {
 		 * @return - the JSON string
 		 **/
 		
-		string getDataStructureRepresentation(Element<E> *b_array) {
+		string getDataStructureRepresentation(Element<E> *array) {
 								// generate the JSON string
-cout << "Array size: " << array_size << endl;
 			list<Element<E>*> nodes, links;
 			for (int k = 0; k < array_size; k++)
-				nodes.push_front(&b_array[k]);
+				nodes.push_front(&array[k]);
 			string s =  generateJSON_Of_Nodes_And_Links(nodes, links);
 
 			return s;
@@ -329,7 +317,7 @@ cout << "Array size: " << array_size << endl;
 		 * This method returns the JSON string representation of the tree 
 		 * made by using preorder traversal
 		 *
-		 * @param root - root of binary tree (TreeElement<E> *)
+		 * @param root of binary tree (TreeElement<E> *)
 		 *
 		 * @return JSON string
 		 **/
@@ -345,7 +333,7 @@ cout << "Array size: " << array_size << endl;
 		 * This method returns the JSON string representation of the binary
 		 * search tree representation.
 		 *
-		 * @param root - root of binary tree (BSTElement<E> *)
+		 * @param root of the binary search tree )
 		 *
 		 * @return JSON string
 		 **/
@@ -482,15 +470,12 @@ cout << "Array size: " << array_size << endl;
 					QUOTE + "visual" + QUOTE  + COLON + 
 					QUOTE + visualizerType + QUOTE +  COMMA;
 
-			if (nodes_JSON.size())
-				s_final += QUOTE + "nodes" + QUOTE + COLON + 
-					OPEN_PAREN + nodes_JSON + CLOSE_PAREN;
+			s_final += QUOTE + "nodes" + QUOTE + COLON + 
+				OPEN_PAREN + nodes_JSON + CLOSE_PAREN;
 
-			if (links_JSON.size())
-				s_final += COMMA + QUOTE + "links" + QUOTE + COLON +
-					OPEN_PAREN + links_JSON + CLOSE_PAREN;
+			s_final += COMMA + QUOTE + "links" + QUOTE + COLON +
+				OPEN_PAREN + links_JSON + CLOSE_PAREN;
 					 
-
 			s_final += CLOSE_CURLY;
 
 			if (isVisualizeJSON())
@@ -498,8 +483,8 @@ cout << "Array size: " << array_size << endl;
 
 			return s_final;
 		}
-};
+}; // ADTVisualizer class definition ends
 
-}
+} // bridges namespace end
 #endif
 
