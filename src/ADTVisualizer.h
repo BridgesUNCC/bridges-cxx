@@ -39,21 +39,15 @@ namespace bridges {
 template<typename K, typename E> class ADTVisualizer {
 	private:
 		string visualizerType;
-		string visualizerIdentifier;
 		unordered_map<string, string> adt_type;
 
-		bool visualizeJSON = false;
+		bool visualizeJSON;
 		int array_size;
 
 							// some constants used to generate JSON strings
-		string 
-			QUOTE = "\"",
-			COMMA = ",",
-			COLON = ":",
-			OPEN_CURLY = "{", 
-			CLOSE_CURLY = "}", 
-			OPEN_PAREN = "[",
-			CLOSE_PAREN = "]";
+		string QUOTE, COMMA, COLON,
+			OPEN_CURLY, CLOSE_CURLY,
+			OPEN_PAREN, CLOSE_PAREN;
 		
 	public:
 	
@@ -62,6 +56,9 @@ template<typename K, typename E> class ADTVisualizer {
 	 	*/														
 		ADTVisualizer(){
 			visualizerType = "";
+			array_size = 0;
+			visualizeJSON = false;
+
 			adt_type.emplace("Array_Stack","llist");
 			adt_type.emplace("Array_Queue","llist");
 			adt_type.emplace("GraphAdjacencyMatrix", "graphm");
@@ -73,6 +70,13 @@ template<typename K, typename E> class ADTVisualizer {
 			adt_type.emplace("SinglyLinkedList", "llist");
 			adt_type.emplace("DoublyLinkedList", "dllist");
 			adt_type.emplace("Array", "Array");
+			QUOTE = "\"",
+			COMMA = ",",
+			COLON = ":",
+			OPEN_CURLY = "{", 
+			CLOSE_CURLY = "}", 
+			OPEN_PAREN = "[",
+			CLOSE_PAREN = "]";
 		}
 
 		/**
@@ -85,9 +89,9 @@ template<typename K, typename E> class ADTVisualizer {
 		}
 
 		/**
-		 * Flag to control outputting the  JSON string
+		 * Flag to control JSON output
 		 *
- 		 * @param visualizeJSON the visualizeJSON to set
+ 		 * @param vis_json_flag : the visualizeJSON to set
 		 *
  		 **/
 		void setVisualizeJSON(bool vis_json_flag) {
@@ -105,7 +109,7 @@ template<typename K, typename E> class ADTVisualizer {
 		
 		/**
 		 *  This method sets the array's size for use by other  methods
-		 * 	@param size 
+		 * 	@param size  : array size
 		 *
 		 **/
 		void setArraySize(int size) {
@@ -123,10 +127,10 @@ template<typename K, typename E> class ADTVisualizer {
 		
 		/**
 		 * 	This method sets the visualizer type
-		 * 	@param visualizerType a string in ADTVisualizer.ADT_TYPE 
-		 *	representing the type of Bridges Visualization (e.g. "graph", 
-		 *	"llist", etc.)
-		 *	@throws Exception
+		 *
+		 * 	@param vis_type : a string representing the type of Bridges 
+		 * 		visualization (e.g. "graph", "tree", "llist")
+		 *
 		 **/
 		void setVisualizerType(string vis_type) {
 			visualizerType = adt_type[vis_type];
@@ -148,9 +152,11 @@ template<typename K, typename E> class ADTVisualizer {
 									// traversing the graph
 			list<Element<E>*> nodes, links; 
 		
+			nodes.clear(); links.clear();
+
 			unordered_map<K, Element<E> > 
 				*vertices = graph_adj_matrix->getVertices();
-			unordered_map<K, unordered_map<K, double> > 
+			unordered_map<K, unordered_map<K, int> > 
 				*matrix = graph_adj_matrix->getMatrix(); 
 			
 			for (auto& nkey_val: *vertices) {
@@ -176,7 +182,7 @@ template<typename K, typename E> class ADTVisualizer {
 					if ((*graph_adj_matrix->getMatrix())
 							[lkey_val.first][l2key_val.first] > 0.) {
 											// set the weight
-						double wt = (*matrix)[lkey_val.first][l2key_val.first];
+						int wt = (*matrix)[lkey_val.first][l2key_val.first];
 						(*vertices)[lkey_val.first].getLinkVisualizer(
 							&(*vertices)[l2key_val.first])->setWeight(wt);
 											// get the links
@@ -204,6 +210,8 @@ template<typename K, typename E> class ADTVisualizer {
 											*graph_adj_list){
 
 			list<Element<E>*> nodes, links; 
+			nodes.clear(); links.clear();
+
 			unordered_map<K, Element<E> > 
                		*vertices = graph_adj_list->getVertices();
 			unordered_map<K, SLelement<Edge<K> >*> 
@@ -229,7 +237,7 @@ template<typename K, typename E> class ADTVisualizer {
 								// look up the vertex
 					Element<E> *src_vertex = &(*vertices)[key_val.first];
 					if (e.getWeight() > 0.0) {
-						links.push_front((Element<E>*) src_vertex);
+						links.push_front(static_cast<Element<E>*>(src_vertex));
 								// look up the destination vertex
 						Element<E> *dest_vertex = &(*vertices)[e.getVertex()];
 						links.push_front(dest_vertex);
@@ -247,58 +255,60 @@ template<typename K, typename E> class ADTVisualizer {
 		/**
 		 * This method creates a JSON representation of a single linked list - 
 		 *
-		 * @param  first_element is the head of the linked list
+		 * @param  first_element : head of the singly linked list
 		 *
 		 * @return JSON string representation
 		 *
 		 */
 		string getDataStructureRepresentation(SLelement<E> *first_element) {
 
-				list<Element<E>*> nodes, links;
+			list<Element<E>*> nodes, links;
+			nodes.clear(); links.clear();
+
 										// first get the nodes and links
-				SLelement<E> *sle = first_element;
-				for (sle = first_element; sle != NULL; sle = sle->getNext()) {
-					nodes.push_front(sle);
-					if (sle->getNext() != NULL) {	// link exists
-						links.push_front(sle);
-						links.push_front(sle->getNext());
-					}
+			SLelement<E> *sle = first_element;
+			for (sle = first_element; sle != NULL; sle = sle->getNext()) {
+				nodes.push_front(sle);
+				if (sle->getNext() != NULL) {	// link exists
+					links.push_front(sle);
+					links.push_front(sle->getNext());
 				}
+			}
 									// generate the JSON string
-		//		return generateJSON_SLL(nodes, links);
-				return generateJSON_Of_Nodes_And_Links(nodes, links);
+			return generateJSON_Of_Nodes_And_Links(nodes, links);
 		}
 			
 		/**
 		 * This method returns the JSON string of a doubly linked list 
 		 *
-		 * @param - first_element is the  head of the doubly linked list
+		 * @param  first_element :  head of the doubly linked list
 		 *
 		 * @return JSON string
 		 **/
 		string getDataStructureRepresentation(DLelement<E> *first_element) {
 		
-				list<Element<E>*> nodes, links; 
+			list<Element<E>*> nodes, links; 
+			nodes.clear(); links.clear();
 											// first get the nodes and links
-				DLelement<E> *dle = first_element;
-				for (dle = first_element; dle!= NULL; dle = dle->getNext()) {
-					nodes.push_front(dle);
-					if (dle->getNext() != NULL) {	// link exists
-						links.push_front(dle);
-						links.push_front(dle->getNext());
-					}
-					if (dle->getPrev() != NULL) {	// link exists
-						links.push_front(dle);
-						links.push_front(dle->getPrev());
-					}
+			DLelement<E> *dle = first_element;
+			for (dle = first_element; dle!= NULL; dle = dle->getNext()) {
+				nodes.push_front(dle);
+				if (dle->getNext() != NULL) {	// link exists
+					links.push_front(dle);
+					links.push_front(dle->getNext());
 				}
+				if (dle->getPrev() != NULL) {	// link exists
+					links.push_front(dle);
+					links.push_front(dle->getPrev());
+				}
+			}
 									// generate the JSON string
-				return generateJSON_Of_Nodes_And_Links(nodes, links);
+			return generateJSON_Of_Nodes_And_Links(nodes, links);
 		}
 		/**
 		 * This method returns the JSON string of a Bridges array
 		 *
-		 * @param - array of elements
+		 * @param  array : array of elements
 		 *
 		 * @return - the JSON string
 		 **/
@@ -306,6 +316,8 @@ template<typename K, typename E> class ADTVisualizer {
 		string getDataStructureRepresentation(Element<E> *array) {
 								// generate the JSON string
 			list<Element<E>*> nodes, links;
+			nodes.clear(); links.clear();
+
 			for (int k = 0; k < array_size; k++)
 				nodes.push_front(&array[k]);
 			string s =  generateJSON_Of_Nodes_And_Links(nodes, links);
@@ -317,13 +329,14 @@ template<typename K, typename E> class ADTVisualizer {
 		 * This method returns the JSON string representation of the tree 
 		 * made by using preorder traversal
 		 *
-		 * @param root of binary tree (TreeElement<E> *)
+		 * @param root : root of binary tree 
 		 *
 		 * @return JSON string
 		 **/
 		string getDataStructureRepresentation(TreeElement<E> *root) {
 		
 			list<Element<E>*> nodes, links;
+			nodes.clear(); links.clear();
 		
 			preOrderBT(root, &nodes, &links);
 									// generate the JSON string
@@ -333,7 +346,7 @@ template<typename K, typename E> class ADTVisualizer {
 		 * This method returns the JSON string representation of the binary
 		 * search tree representation.
 		 *
-		 * @param root of the binary search tree )
+		 * @param root : root of the binary search tree 
 		 *
 		 * @return JSON string
 		 **/
@@ -341,6 +354,8 @@ template<typename K, typename E> class ADTVisualizer {
 		string getDataStructureRepresentation(BSTElement<K, E> *root) {
 
 			list<Element<E>*> nodes, links;
+			nodes.clear(); links.clear();
+		
 		
 			preOrderBST(root, &nodes, &links);
 									// generate the JSON string
@@ -352,14 +367,13 @@ template<typename K, typename E> class ADTVisualizer {
 		 * Use a preorder traversal to collect the nodes and links in the 
 		 * binary tree
 		 *
-		 * @param root
-		 * @param nodes - list of returned nodes in the tree
-		 * @param  links - list of returned links in the tree
+		 * @param root  : tree root
+		 * @param nodes : list of returned nodes in the tree
+		 * @param  links : list of returned links in the tree
 		 *
 		 **/
 		void preOrderBT(TreeElement<E> *root, list<Element<E>*> *nodes, 
 								list<Element<E>*> *links){
-		
 			if (root != NULL){
 				nodes->push_front(root);
 				if (root->getLeft() != NULL){
@@ -379,11 +393,10 @@ template<typename K, typename E> class ADTVisualizer {
 		 * Use a preorder traversal to collect the nodes and links in the 
 		 * binary tree
 		 *
-		 * @param root - root of the binary search tree
-		 * @param nodes - list of returned nodes in the tree
-		 * @param  links - list of returned links in the tree
+		 * @param root : root of the binary search tree
+		 * @param nodes : list of returned nodes in the tree
+		 * @param  links : list of returned links in the tree
 		 *
-		 * @return
 		 **/
 		void preOrderBST(BSTElement<K, E> *root, list<Element<E>*> *nodes, 
 								list<Element<E>*> *links){
@@ -401,12 +414,26 @@ template<typename K, typename E> class ADTVisualizer {
 				preOrderBST(root->getRight(), nodes, links);
 			}
 		}
+
+		/**
+		 * Generates the JSON string given the nodes and links of  tree
+		 * or graph type structures, addition to prepending additional
+		 * information
+		 *
+		 * @param nodes : list of returned nodes in the tree
+		 * @param  links : list of returned links in the tree
+		 *
+		 * @return : the JSON string  
+		 **/
 		
 		string generateJSON_Of_Nodes_And_Links(list<Element<E>*> nodes, 
 							list<Element<E>*> links) {
 							// map the nodes to a sequence of ids, 0...N-1
 							// then get the JSON string for nodes
 			unordered_map<int,int> map;
+
+			map.clear();
+
 			string nodes_JSON = "";
 			int i = 0;
 			while (!nodes.empty()){
@@ -446,7 +473,8 @@ template<typename K, typename E> class ADTVisualizer {
 		}
 		
 		/**
-		 * This method builds the JSON string
+		 * This method builds the JSON string - string representing nodes
+		 * and the list of links
 		 *
 		 * @param nodes_JSON the string builder object of existing nodes 
 		 * @param links_JSON the string builder object of existing links between 

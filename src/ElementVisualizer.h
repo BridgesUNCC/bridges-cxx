@@ -5,6 +5,7 @@
 #include <string>
 #include <iostream>
 #include <unordered_map>
+#include <algorithm>
 
 using namespace std;
 
@@ -38,8 +39,10 @@ class ElementVisualizer {
 		unordered_map<string, string> properties;
 	
 		string  toLowerCase(string s) {
-			for (string::size_type i = 0; i < s.length(); i++)
-				s[i] = tolower(s[i]);
+//			for (string::size_type i = 0; i < s.length(); i++)
+//				s[i] = tolower(s[i]);
+			transform(s.begin(), s.end(), s.begin(), 
+				static_cast<int(*)(int)>(std::tolower));
 
 			return s;
 		}
@@ -50,6 +53,7 @@ class ElementVisualizer {
 		 **/
 	public: 
 		ElementVisualizer() {
+			properties.clear();
 			properties.emplace("color", "green");
 			properties.emplace("opacity", "1.0");
 			properties.emplace("size", "10.0");
@@ -71,8 +75,8 @@ class ElementVisualizer {
 		 *	and shape
 		 * 	set to "aShape".
 		 * 
-		 * 	@param aColor: the string that represents one of the Bridges colors.
-		 * 	@param aShape: the string that represents one of the Bridges shapes
+		 * 	@param aColor : the string that represents one of the Bridges colors.
+		 * 	@param aShape : the string that represents one of the Bridges shapes
 		 **/
 		ElementVisualizer(string aColor, string aShape) 
 						: ElementVisualizer() {
@@ -84,12 +88,11 @@ class ElementVisualizer {
 		/**
 		 * 	Construct an ElementVisualizer with its size set to "size".
 		 * 
-		 * 	@param size : the double that represents the size in pixels of 
+		 * 	@param size : represents the size in pixels of 
 		 *	the Element on the Bridges Visualization
 		 */
-		ElementVisualizer(double size) : ElementVisualizer() {
-			Validation::getCurrent()->validateSize(size);
-			properties["size"] = to_string(size);
+		ElementVisualizer(int size) : ElementVisualizer() {
+			setSize(size);
 		}
 	
 		/**
@@ -120,7 +123,7 @@ class ElementVisualizer {
 		 * Construct a new ElementVisualizer with the same color, shape, opacity,
 		 * and size as "v"
 		 * 
-		 * @param v
+		 * @param ev
 		 *            the ElementVisualizer whose settings you want to copy.
 		 */
 		ElementVisualizer(ElementVisualizer& ev) :
@@ -141,6 +144,8 @@ class ElementVisualizer {
 			}
 			catch (string msg) {
 				cerr << msg << endl;
+				cerr << "Using default size (10).." << endl;
+				properties["color"]  = "10.0";
 			}
 		}
 	
@@ -169,6 +174,8 @@ class ElementVisualizer {
 			}
 			catch (string msg) {
 				cerr << msg << endl;
+				cerr << "Using default color (`black').." << endl;
+				properties["color"]  = "black";
 			}
 		}
 	
@@ -196,6 +203,8 @@ class ElementVisualizer {
 			}
 			catch (string msg) {
 				cerr << msg << endl;
+				cerr << "Using default shape (`circle').." << endl;
+				properties["shape"]  = "circle";
 			}
 		}
 
@@ -224,6 +233,8 @@ class ElementVisualizer {
 			}
 			catch (string msg) {
 				cerr << msg << endl;
+				cerr << "Using default opacity (1.0).." << endl;
+				properties["opacity"]  = "1.0";
 			}
 		}
 	
@@ -242,11 +253,11 @@ class ElementVisualizer {
 		 * @param key is any orderable value - int, float, string
 		 * 
 		 **/
-		void setKey(string k) {
+		void setKey(string key) {
 			try{
 								// validate opacity
 //				Validation::getCurrent()->validateKey(key);
-				properties["key"]  = k;
+				properties["key"]  = key;
 			}
 			catch (string msg) {
 				cerr << msg << endl;

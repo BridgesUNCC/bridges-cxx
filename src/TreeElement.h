@@ -19,7 +19,7 @@ namespace bridges{
  * The BSTElement<E> is derived from Element<E>  to represent binary tree 
  * elements, with accessors to left and right subtrees
  *
- * @param <E> Can be of any legal C++ type: integer, string, float,
+ * Param <E> : Can be of any legal C++ type: integer, string, float,
  *  	double, or any user defined object(class, struct, array), and
  *  	represents application dependent data.
  *
@@ -27,8 +27,6 @@ namespace bridges{
  * @date 6/12/15
  *
  */
-
-
 
 template <typename E>  class TreeElement : public Element<E> {
 
@@ -74,29 +72,33 @@ template <typename E>  class TreeElement : public Element<E> {
 		
 		/** 
 		 * 	Construct a TreeElement with 
-		 *	@param left the TreeElement to be assigned to the left pointer of 
-		 *	this TreeElement
-		 * 	@param right the TreeElement to be assigned to the right pointer of 
-		 *	this TreeElement
+		 *
+		 *	@param l : the TreeElement to be assigned to the left pointer of 
+		 *		this TreeElement
+		 * 	@param r : the TreeElement to be assigned to the right 
+		 *		pointer of this TreeElement
+		 *
 		 **/
-		TreeElement(TreeElement<E> *left, TreeElement<E> *right):Element<E>(){
-			this->left = left;
-			this->right = right;
+		TreeElement(TreeElement<E> *l, TreeElement<E> *r):Element<E>(){
+			this->left = l;
+			this->right = r;
 		}
 		
 		/** 
 		 *	Constructs a TreeElement holding the object "e", left pointer 
 		 *	pointing to "left" and right pointer pointing to "right".
-		 * @param e the generic object that TreeElement will hold 
-		 * @param left the TreeElement to be assigned to the left pointer of 
-		 *	this TreeElement
-		 * @param right the TreeElement to be assigned to the right pointer of 
-		 *	this TreeElement
+		 *
+		 * @param e : the generic object that TreeElement will hold 
+		 * @param l : the TreeElement to be assigned to the left pointer of 
+		 *		this TreeElement
+		 * @param r :  the TreeElement to be assigned to the right pointer of 
+		 *		this TreeElement
+		 *
 		 **/
-		TreeElement(E e, TreeElement<E> *left, TreeElement<E> *right)
+		TreeElement(E e, TreeElement<E> *l, TreeElement<E> *r)
 								: Element<E> (e) {
-			this->right = right;
-			this->left = left;
+			this->left = l;
+			this->right = r;
 		}
 		
 		/**
@@ -110,10 +112,12 @@ template <typename E>  class TreeElement : public Element<E> {
 	
 		/**
 		 * This method sets the left tree element pointer
-		 * @param left the TreeElement that should be assigned to the left child
+		 *
+		 * @param l : the TreeElement that should be assigned to the left child
+		 *
 		 **/
-		void setLeft(TreeElement<E> *left) {
-			this->left = left;
+		void setLeft(TreeElement<E> *l) {
+			this->left = l;
 		}
 		
 	
@@ -128,22 +132,14 @@ template <typename E>  class TreeElement : public Element<E> {
 	
 		/**
 		 * This method sets the right tree element pointer
-		 * @param right the TreeElement that should be assigned to the right child
+		 *
+		 * @param r : the TreeElement that should be assigned to the 
+				right child
+		 *
 		 */
-		void setRight(TreeElement<E> *right) {
-			this->right = right;
+		void setRight(TreeElement<E> *r) {
+			this->right = r;
 		}
-	
-		/**
-		 * Comparing 2 tree elements
-		 * @param e1
-		 * @return
-		 */
-/*
-		public int compareTo(TreeElement<E> e1) {
-			return super.compareTo(e1);
-		}
-*/
 };
 
 }

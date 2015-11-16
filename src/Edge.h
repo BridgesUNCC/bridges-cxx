@@ -13,6 +13,7 @@ namespace bridges {
 
  * This class is used to assign a visual connection between two Elements in the
  * Bridges Visualization. 
+ *
  * <p>
  * Bridges will represent these as arrows between two
  * Elements. The starting Element of the arrow will be referred to as the source
@@ -21,7 +22,7 @@ namespace bridges {
  * 
  * @author krs
  *
- * @param <E>
+ * param <E> : data type generic parameter
  */
 
 
@@ -90,15 +91,17 @@ template <typename Key> class Edge{
 		/**
 		 * Get identifer of the terminating Element of edge
 		 * 
-		 * @return the string identifier of the terminating vertex
+		 * @return : the string identifier of the terminating vertex
 		 */
 		Key getVertex() {
 			return vertex;
 		}
+
 		/**
 		 * Set Edge data (represented as a string for now)
 		 * 
-		 * @param string: application data
+		 * @param data : application data
+		 * 
 		 **/
 		void setEdgeData(string data) {
 			edge_data = data;
@@ -107,7 +110,8 @@ template <typename Key> class Edge{
 		/**
 		 * Get edge data
 		 * 
-		 * @return the edge data
+		 * @return : the edge data
+		 * 
 		 */
 		string getEdgeData() {
 			return edge_data;
@@ -116,8 +120,9 @@ template <typename Key> class Edge{
 		/**
 		 * Set edge to thickness of "wt" and terminating Elememt of "v".
 		 * 
-		 * @param wt integer representing the edge weight 
-		 * @param v the string identifier of the terminating Element
+		 * @param wt : integer representing the edge weight 
+		 * @param v  : the string identifier of the terminating Element
+		 * 
 		 */
 		void setEdge(int wt, Key v) {
 			weight = wt;

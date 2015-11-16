@@ -19,7 +19,11 @@ namespace bridges{
  * This class extends the TreeElement class by adding a key property 
  * to allow for easier use in a binary search tree implementation. 
  *
+ * Has two generic parameters: K that is teh search key type -- must be 
+ *  orderable -- and E the application data type
+ *
  * @author Kalpathi Subramanian, 6/18/15
+ *
  **/
 
 
@@ -61,16 +65,18 @@ template <typename K, typename E> class BSTElement : public TreeElement<E> {
 		/**	Construct a BSTElement with a key "key", holding an object "e" 
 		 *	with a left pointer assigned to "left" and a right pointer 
 		 *	assigned to "right".
-		 * 	@param key the key to be used in a binary search tree implementation
-		 * 	@param e the object this BSTElement is holding
-		 * 	@param left the BSTElement that should be assigned to the 
+		 *
+		 * 	@param k : the key to be used in a binary search tree 
+		 * 	@param e  : the object this BSTElement is holding
+		 * 	@param l :  the BSTElement that should be assigned to the 
 		 *		left pointer
-		 * 	@param right the BSTElement that should be assigned to the 
+		 * 	@param r  : the BSTElement that should be assigned to the 
 		 *	right pointer
+		 *
 		 **/
-		BSTElement(K key, E e, BSTElement<K,E> *left, BSTElement<K, E> *right) 
-				: TreeElement<E>(e, left, right) {
-			setKey(key);
+		BSTElement(K k, E e, BSTElement<K,E> *l, BSTElement<K, E> *r) 
+				: TreeElement<E>(e, l, r) {
+			setKey(k);
 		}
 	
 		/**
@@ -86,25 +92,28 @@ template <typename K, typename E> class BSTElement : public TreeElement<E> {
 		/**
 		 *	Construct a BSTElement holding the object "e", with key "key" 
 		 *	assigned and left and right pointers set to null.
-		 * 	@param key the key to be used in a binary search tree 
-		 *		implementation
-		 * 	@param e the object this BSTElement is holding
+		 *
+		 * 	@param k : the key to be used in a binary search tree 
+		 * 	@param e : the object this BSTElement is holding
+		 *
 		 */
-		BSTElement(K key, E e) : TreeElement<E>(e) {
-			setKey(key);
+		BSTElement(K k, E e) : TreeElement<E>(e) {
+			setKey(k);
 		}
 	
 		/**
 		 *	Construct a BSTElement holding the object "e", with label 
 		 *	set to "label", with "key" assigned to key, and left and right 
 		 *	pointers set to null.
-		 * @param label the label of BSTElement that shows up on the Bridges 
-		 *	visualization
-		 * @param key the key to be used in a binary search tree implementation
-		 * @param e the object this BSTElement is holding
+		 *
+		 * @param label : the label of BSTElement that shows up on the Bridges 
+		 *		visualization
+		 * @param k :  the key to be used in a binary search tree implementation
+		 * @param e : the object this BSTElement is holding
+		 *
 		 **/
-		BSTElement(string label, K key, E e) : TreeElement<E>(label, e) {
-			setKey(key);
+		BSTElement(string label, K k, E e) : TreeElement<E>(label, e) {
+			setKey(k);
 		}
 		
 		/**	Construct an empty BSTElement, with no key assigned, and 
@@ -127,15 +136,17 @@ template <typename K, typename E> class BSTElement : public TreeElement<E> {
 	
 		/**
 		 *	Set the key of the BSTElement to key
-		 * 	@param key the key to set
+		 *
+		 * 	@param k :  the key to set
+		 *
 		 **/
-		void setKey(K key) {
-			this->key = (K) key;
+		void setKey(K k) {
+			this->key = k;
 							// convert the key to a string, for the
 							// JSON representation, use a string stream
 							// that can handly any type conversion elegantly
 			stringstream conv;
-			conv << key;
+			conv << k;
 							// add the element representation
 			this->getVisualizer()->setKey(conv.str());
 		}
@@ -147,7 +158,7 @@ template <typename K, typename E> class BSTElement : public TreeElement<E> {
 		 *  @return left child pointer (from parent)
 		 **/
 		BSTElement<K,E> *getLeft() {
-			return (BSTElement<K,E>*)TreeElement<E>::getLeft();
+			return static_cast<BSTElement<K,E>*>(TreeElement<E>::getLeft());
 		}
 	
 		/* 
@@ -157,14 +168,13 @@ template <typename K, typename E> class BSTElement : public TreeElement<E> {
 		 *
 		 */
 		BSTElement<K,E> *getRight() {
-			return (BSTElement<K,E>*)TreeElement<E>::getRight();
+			return static_cast<BSTElement<K,E>*>(TreeElement<E>::getRight());
 		}
 	
 		/** 
-		 * @Override, must include key 
-		 * get JSON of node representation 
+		 * Get JSON of node representation 
 		 *
-		 * @return JSON of the node representation
+		 * @return : JSON of the node representation
 		 **/
 		string getRepresentation(){
 			string json = "{";

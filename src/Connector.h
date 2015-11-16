@@ -8,8 +8,6 @@
 
 using namespace std;
 
-#include "Element.h"
-#include "ADTVisualizer.h"
 namespace bridges {
 /**
  *	@brief  The role of this class is to transmit the JSON of a data structure
@@ -26,7 +24,6 @@ namespace bridges {
  **/
 
 class Connector {
-
 	private:
 	    string server_url;
 
@@ -37,9 +34,9 @@ class Connector {
 		 **/
 
 	    Connector() {
-//			server_url = "http://bridges-cs.herokuapp.com";
-			server_url = "http://127.0.0.1:3000";
-	    }
+			server_url = "http://bridges-cs.herokuapp.com";
+//			server_url = "http://127.0.0.1:3000";
+		}
 	    
 	    /** 
 		 * 	Accessors 
@@ -59,7 +56,9 @@ class Connector {
 		/**
 		 * 	Set the current base URL for the DataFormatters server (with no 
 		 * 		ending /)
-		 * 	@param server_url
+		 *
+		 * 	@param url :  url destination for the post command
+		 *
 		 **/
 		void setServerURL(string url) {
 								// must consider validating this url
@@ -72,8 +71,10 @@ class Connector {
 		 *	
 		 *  Uses the Easy CURL library 
 		 *
+		 * 	@param url :  url destination for the post command
+		 * 	@param json_of_ds : JSON string of the data structure representation
+		 *
 		 **/
-
 	    void post(string url, string json_of_ds) {
 
 						// first form the full url
@@ -96,7 +97,8 @@ class Connector {
 						// send header
 				curl_easy_setopt(curl, CURLOPT_HEADER, 1L);
 				struct curl_slist *headers=NULL;
-				headers = curl_slist_append(headers, "Content-Type: application/json");
+				headers = curl_slist_append(headers, 
+						"Content-Type: application/json");
 				headers = curl_slist_append(headers, "Accept: application/json");
 				curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
 									// Perform the request, res will 
@@ -107,16 +109,16 @@ class Connector {
 					cout << "curl_easy_perform() failed: Posting assignment "
 						<< "to the  server failed. Curl Error Code: " 
 						<< res << endl << endl; 
-					curl_easy_strerror(res);
+					string error_str = curl_easy_strerror(res);
+					throw error_str;
 				}
-				else 
-					cout <<  "Success. Assignment Posted to the server.." 
-															<< endl;
-
 				curl_easy_cleanup(curl);
 			}
+			else {
+				cerr << "curl_easy_init() failed!" << endl; 
+				cerr << "Nothing posted to server!" << endl; 
+			}
 		}
-
 };
 
 }

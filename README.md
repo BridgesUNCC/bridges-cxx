@@ -3,6 +3,12 @@ This is the BRIDGES C++ Version
 
 Author: Kalpathi Subramanian, June 2015
 
+Revisions:
+
+Nov 16, 2015: Kalpathi Subramanian
+	Issues brought up by Dakota Carmer
+	A number of fixes/bugs/inconsistencies.
+
 Notes: 
 
 1. All Bridges classes implemented using templates, consistent with the Java version.

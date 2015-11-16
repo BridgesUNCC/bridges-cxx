@@ -32,13 +32,12 @@ class Validation {
 		regex ColorPatterns;
 					// this variable holds the maximum number of 
 					// nodes allowed starting from 0
-		int MAX_ELEMENTS_ALLOWED = 5000; 
+		const int MAX_ELEMENTS_ALLOWED = 5000; 
 
 		static Validation *current;
 		
 	public:
 		Validation() {
-			ColorPatterns = "#[0-9a-fA-F][0-9a-fA-F][0-9a-fA-F]";
 			ColorNames.insert({
 					"aliceblue",
 					"antiquewhite",
@@ -221,18 +220,17 @@ class Validation {
 		 * 
 		 * This method does not check for null because null has special meaning.
 		 * 
-		 * @param color
+		 * @param color : input color 
 		 * 
-		 * @return whether the color is valid
+		 * @throws exception if the color is not valid
 		 */
 		void validateColor(string color) {
 									// check named colors
 			if (ColorNames.find(color) != ColorNames.end())
 				return;
-			else if (regex_match(color, ColorPatterns)) // hex color match?
-				return;
 			else { 
-				string error_str = "Invalid Color.." + color + "..Expected CSS color name, or #RRGGBB or #RGB formats.";
+				string error_str = "Invalid Color.." + color + 
+					"..Expected CSS color name, or #RRGGBB or #RGB formats.";
 				throw error_str;
 			}
 		}
@@ -240,7 +238,9 @@ class Validation {
 		/**
 		 * Determines if the shape is supported.
 		 * 
-		 * @param shape
+		 * @param shape : input shape
+		 *
+		 * @throws exception
 		 */
 		void validateShape(string shape) {
 			if (NodeShapes.find(shape) != NodeShapes.end()) 
@@ -259,7 +259,9 @@ class Validation {
 		 * Determines if the value passed is an acceptable value to 
 		 * set the opacity to.
 		 * 	
-		 * @param val
+		 * @param val :  incoming opactity value
+		 *
+		 * @throws exception
 		 */
 		void validateOpacity(double val){
 			if(val >= 0.0 && val <= 1.0){
@@ -276,7 +278,9 @@ class Validation {
 		 * Determines if the value passed is an acceptable value to set 
 		 * the size to.
 		 * 
-		 * @param val
+		 * @param val : incoming size value
+		 *
+		 * @throws exception
 		 */
 		void validateSize(double val){
 			if(val >= 0.0 && val <= 50.0){
@@ -293,7 +297,9 @@ class Validation {
 		 * Determines if the value passed is an acceptable value to set 
 		 * the thickness to.
 		 * 
-		 * @param val
+		 * @param val : incoming thickness value
+		 *
+		 * @throws exception
 		 */
 		void validateThickness(double val){
 			if(val >= 0.0 && val <= 10.0){
@@ -309,7 +315,9 @@ class Validation {
 		 * Determines if the value passed is an acceptable value to set 
 		 * the weight to - must be positive.
 		 * 
-		 * @param val
+		 * @param val : incoming weight value
+		 *
+		 * @throws exception
 		 */
 		void validateWeight(int val){
 			if(val >= 0){
@@ -322,6 +330,14 @@ class Validation {
 			}
 		}
 		
+		/**
+		 * Determines if the value passed is an acceptable value to set 
+		 * the max number of elements in the data structure - must be positive.
+		 * 
+		 * @param val : incoming weight value
+		 *
+		 * @throws exception
+		 */
 		void validate_ADT_size(int max_elements){
 			if (max_elements < MAX_ELEMENTS_ALLOWED) 
 				return;

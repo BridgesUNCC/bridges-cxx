@@ -4,6 +4,7 @@
 
 #include <string>
 #include <unordered_map>
+#include <algorithm>
 
 using namespace std;
 
@@ -12,18 +13,16 @@ namespace bridges {
  *  @brief This class maintains the visual properties of links that
  *   part of linked data structures.
 
- * 	This class is used to keep the visual properties of links that art of 
+ * 	This class is used to keep the visual properties of links that are part of 
  *  data structures such as linked lists, pointer based trees, link based
  *  graph representations, etc.  Relevant attributes include
  *  color, thickness, opacity, line end point attributes.
  * 	<p>
  * 	Objects of this class are stored as properties of all Element subclasses.
- * 	Generally, you will manipulating the LinkVisualizer returned from the
- * 	Element getLinkVisualizer() method, and then call the setLinkVisualizer() 
+ * 	Generally, a user will manipulate the LinkVisualizer returned from the
+ * 	Element's getLinkVisualizer() method, and then call the setLinkVisualizer() 
  * 	method on the Element after changes have been made.
  *
- *  @param Key used as index into the adjacency lists
- *  @param  E  used to represent application specific data
  *
  *  @author Kalpathi Subramanian, 6/29/15
  *  @date 6/29/15
@@ -40,8 +39,10 @@ class LinkVisualizer{
 	private:
 		unordered_map<string, string> properties; 
 		string  toLowerCase(string s) {
-			for (string::size_type i = 0; i < s.length(); i++)
-				s[i] = tolower(s[i]);
+//			for (string::size_type i = 0; i < s.length(); i++)
+//				s[i] = tolower(s[i]);
+			transform (s.begin(), s.end(), s.begin(), 
+				static_cast<int(*)(int)>(std::tolower));
 
 			return s;
 		}
@@ -51,7 +52,6 @@ class LinkVisualizer{
 			properties.emplace("color", "black");
 			properties.emplace("opacity", "1.0");
 			properties.emplace("thickness", "1.0");
-//			properties.emplace("weight", "0.0");
 		}
 	
 						// constructor
@@ -81,6 +81,8 @@ class LinkVisualizer{
             }
             catch (string msg) {
                 cerr << msg << endl;
+				cerr << "Setting default thickness (1.0).." << endl;
+				properties["thickness"]  = "1.0";
             }
 		}
 	
@@ -108,6 +110,8 @@ class LinkVisualizer{
 			}
 			catch (string msg) {
 				cerr << msg << endl;
+				cerr << "Using default color (`black').." << endl;
+				properties["color"]  = "black";
             }
 		}
 	
@@ -135,6 +139,8 @@ class LinkVisualizer{
 			}
 			catch (string msg) {
 				cerr << msg << endl;
+				cerr << "Using default opacity (1.0).." << endl;
+				properties["opacity"]  = "1.0";
 			}
 		}
 	
@@ -152,14 +158,16 @@ class LinkVisualizer{
 		 * @param weight an integer value  
 		 * 
 		 **/
-		void setWeight(int w) {
+		void setWeight(int weight) {
 			try{
 								// validate opacity
-				Validation::getCurrent()->validateWeight(w);
-				properties["weight"]  = to_string(w);
+				Validation::getCurrent()->validateWeight(weight);
+				properties["weight"]  = to_string(weight);
 			}
 			catch (string msg) {
 				cerr << msg << endl;
+				cerr << "Using default weight(1.0).." << endl;
+				properties["weight"]  = "1.0";
 			}
 		}
 	

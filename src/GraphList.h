@@ -28,7 +28,8 @@ using namespace std;
  *   the list and are not in any particular order. 
  * 
  *
- *	@param generic <E>
+ *	<E> generic parameter, relating to the application specific data object
+ *
  **/
 
 template<typename E> class GraphList{
@@ -41,7 +42,6 @@ template<typename E> class GraphList{
 //		GraphList<E>(const GraphList<E>&) {} // protect copy constructor
 //		GraphList<E>& operator=(const GraphList<E>&) {} // protect assignment
 	
-
 	public:
 		/**
 	 	*  Constructor
@@ -54,17 +54,18 @@ template<typename E> class GraphList{
 	
 		/**
 		 *	return the source vertex
+		 *
+		 * @return  the source vertex  for this adjacency list
 		 **/
-	
 		SLelement<E> *getSourceVertex() {
 			return src_vertex;
 		}
 	
 		/**
-		*	set the source vertex
-		*   @param v  incoming vertex
-		*/
-		
+		 *	 set the source vertex
+		 *
+		 *   @param v  incoming vertex
+		 */
 		void  setSourceVertex(SLelement<E> *v) {
 			src_vertex = v;
 		}
@@ -102,10 +103,11 @@ template<typename E> class GraphList{
 		}
 	
 		/**
-		*	add an edge to the adjacency list
-		*   @param vertex vertex name
-		*   @param weight edge weight 
-		*/
+		 *	 add an edge to the adjacency list
+		 *
+		 *   @param vertex  : terminating vertex
+		 *   @param weight  : edge weight 
+		 */
 		void addEdge (string vertex, int weight) {
 			try {
 				adj_list = new SLelement<Edge> (new Edge(weight, vertex), 

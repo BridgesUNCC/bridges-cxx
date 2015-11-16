@@ -11,6 +11,7 @@
 using namespace std;
 
 #include "BSTElement.h"
+#include "ADTVisualizer.h"
 #include "Connector.h"
 #include "GraphAdjList.h"
 #include "GraphAdjMatrix.h"
@@ -28,7 +29,7 @@ namespace bridges {
  *
  * @date  7/26/15
  *
- * @param Generic parameters <K, E>, K is any orderable type (short, unsigned, 
+ * param Generic parameters <K, E>, K is any orderable type (short, unsigned, 
  * int, float, double, char, string), E is any legal type that represents
  * application data.
  * 
@@ -40,9 +41,8 @@ template<typename K, typename E> class Bridges {
 		Element<E> *root;			// holds the handle to the data struct
 		GraphAdjList<K, E> *graph_adj_list;		// graph handle
 		GraphAdjMatrix<K, E> *graph_adj_matrix;	// graph handle
-		Element<E> *array_list;
-		int assignment;				// assignment number
-		int assignmentPart = 0;	    // holds fractional part (0-100 supported)
+		int assignment,				// assignment number
+			assignmentPart;			// holds fractional part (0-100 supported)
 		string key;					// application id
 		string userName;			// user id
 		ADTVisualizer<K, E> *visualizer ;
@@ -73,6 +73,13 @@ template<typename K, typename E> class Bridges {
 		 * Constructors
 		 **/
 		Bridges() {
+			assignment = 0;
+			assignmentPart = 0;
+			graph_adj_list = NULL; 
+			graph_adj_matrix = NULL;
+			key = userName = "";
+			root = NULL;
+
 			try {
 				visualizer = new ADTVisualizer<K, E>;
 			}
@@ -94,22 +101,22 @@ template<typename K, typename E> class Bridges {
 				cerr << "bad_alloc (Validation Object Allocation)  caught: " 
 								<< ba.what() << endl; 
 			}
-			assignmentPart = 0;
 
 			current = this;
 		}
 
 		/**
+		 * Bridges constructor
 		 * 
-		 * @param assignment number -  this is an integer value;
-		 * @param app_id  - application id
-		 * @param username
-		 * @throws Exception
+		 * @param assignm :  the assignment number
+		 * @param app_id :  application id
+		 * @param user :  user id
+		 *
 		 **/
-		Bridges(int assignment, string app_id, string user) : Bridges() {
+		Bridges(int assignm, string app_id, string user) : Bridges() {
 			key = app_id;
 			userName = user;
-			setAssignment(assignment);
+			setAssignment(assignm);
 		}
 
 		/**
@@ -130,7 +137,7 @@ template<typename K, typename E> class Bridges {
 		 *     Example: 1.00, 1.01, 1.02  represent 3 visualizations of
 		 *     assignment 1
 		 *
-		 *  @return  string
+		 *  @return  : assignment name
 		 **/
 		string getAssignment() {
 			return (assignmentPart < 10) 
@@ -140,21 +147,24 @@ template<typename K, typename E> class Bridges {
 		/** 
 		 *  Set the assignment number 
 		 *
-		 *  @param assignment number (int)
-		 **/
+		 *  @param assignment_number : assignment name
+		 *
+		 *  @throws exception (assignment number must be positive)
+		 */
 
 		void setAssignment(int assignment_number) {
 			try {
 				if (assignment_number < 0)
 					throw assignment_number;
+								// reinitialize the assignment part
+				assignmentPart = 0;
+				assignment = assignment_number;
 			}
 			catch (int val) {
 				cout << "Assignment id is negative! Received " 
-					<< assignment_number << endl;
+					<< val << endl;
+				exit(EXIT_FAILURE);
 			}
-		
-			assignmentPart=0;
-			assignment = assignment_number;
 		}
 		
 		/** 
@@ -169,7 +179,7 @@ template<typename K, typename E> class Bridges {
 		/** 
 		 *  Set the user id
 		 *
-		 *  @param user name (string)
+		 *  @param uname : return the user name (string)
 		 **/
 		void setUserName(string uname) {
 			userName = uname;
@@ -187,7 +197,7 @@ template<typename K, typename E> class Bridges {
 		/** 
 		 *  Set the application id -- needed for server communication
 		 *
-		 *  @param application id(string)
+		 *  @param key_val  : set the application id -- from Bridges account
 		 **/
 		
 		void setKey(string key_val) {
@@ -209,7 +219,8 @@ template<typename K, typename E> class Bridges {
 		/**
   		 *
 		 * This method sets the new visualizer object
-		 * @param visualizer
+		 *
+		 * @param vis  - set the current visualizer object
   		 *
 		 */
 		void setVisualizer(ADTVisualizer<K, E> *vis) {
@@ -217,140 +228,143 @@ template<typename K, typename E> class Bridges {
 		}
 
 		/**
-		 * This method sets the first element and the type of ADT for 
-		 * the Array data structure
+		 * This method sets the handle for the the Array data structure
 		 *
-		 * @param e - is a 
+		 * @param arr - array pointer
 		 * @param size -- array size (int)
 		 *
-		 * @throws Exception
 		 **/
 		void setDataStructure(Element<E>* arr, int size){
-			try {
-				if (size <= 0)
-					throw "Warning: Array is of zero or negative size!";
-				array_list = arr;
+			if (size <= 0 || arr == NULL) {
+				visualizer->setVisualizerType("None");
+				cerr <<  "Warning: Array is zero or of negative size or " <<
+					" array data structure is NULL!" << endl;
+			}
+			else {
+				root = arr;
 				visualizer->setArraySize(size);
 				visualizer->setVisualizerType("Array");
 			}
-			catch (const char *msg) {
-				cerr << msg << endl;
-			}
 		}
 		
 		/**
-		 * This method sets the first element and the type of ADT for the 
-		 * singly linked list structure
+		 * This method sets the first element for the singly linked list 
+		 * structure
 		 *
-		 * @param head - SLelement<E>*  
-		 * 	"tree", "llist" or "Dllist" 
+		 * @param head - first node of the list
+		 *
 		 **/
 		void setDataStructure(SLelement<E> *head){
-			try {
-				if (head == NULL)
-					throw "Warning: Data Structure(Linked List) is empty!";
+			if (head == NULL){
+				visualizer->setVisualizerType("None");
+				cerr <<	"Warning: Data Structure(Linked List) is empty!";
 			}
-			catch (const char *msg) {
-				cerr << msg << endl;
+			else{
+				root = static_cast<Element<E>*>(head);
+				visualizer->setVisualizerType("SinglyLinkedList");
 			}
-			root = (SLelement<E>*) head;
-			visualizer->setVisualizerType("SinglyLinkedList");
 		}
 		
 		/**
-		 * This method sets the first element and the type of ADT for 
-		 * the doubly linked list
+		 * This method sets the first element of the doubly linked list
 		 *
-		 * @param head - head of a DLelement<E> list
+		 * @param head - first node of the doubly linked list
 		 *
 		 **/
 		void setDataStructure(DLelement<E> *head){
-			try {
-				if (head == NULL)
-					throw "Warning: Data Structure(Doubly Linked List) is empty!";
+			if (head == NULL){
+				visualizer->setVisualizerType("None");
+				cerr  << "Warning: Data Structure(Doubly Linked List) is empty!"
+											<< endl;
 			}
-			catch (const char *msg) {
-				cerr << msg << endl;
+			else {
+				root = static_cast<Element<E> *>(head);
+				visualizer->setVisualizerType("DoublyLinkedList");
 			}
-			root = (DLelement<E> *)head;
-			visualizer->setVisualizerType("DoublyLinkedList");
 		}
 		
 		/**
 		 * This method sets the first element and the type of ADT for the 
 		 * binary tree
 		 *
-		 * @param root - is the binary tree root, of type TreeElement<E>*
+		 * @param tree_root - is the binary tree root, of type TreeElement<E>*
 		 * 
-		 * @throws Exception
 		 **/
 		void setDataStructure(TreeElement<E> *tree_root){
-			try {
-				if (tree_root == NULL)
-					throw "Warning: Data Structure(Tree) is empty!";
+			if (tree_root == NULL) {
+				visualizer->setVisualizerType("None");
+				cerr <<	"Warning: Data Structure(Tree) is empty!" << endl;
 			}
-			catch (const char *msg) {
-				cerr << msg << endl;
+			else {
+				root = static_cast<Element<E> *>(tree_root);
+				visualizer->setVisualizerType("Binary_Tree");
 			}
-			root = (TreeElement<E> *) tree_root;
-			visualizer->setVisualizerType("Binary_Tree");
 		}
 
 		/**
-		 * This method sets the first element and the type of ADT for the 
-		 * binary search tree
-		 * @param root - is the tree root, of type BSTElement<E>* 
+		 * This method sets the root of the binary search tree
 		 *
-		 * @throws Exception
+		 * @param tree_root : is the tree root
+		 *
 		 **/
 		void setDataStructure(BSTElement<K, E> *tree_root){
-			try {
-				if (tree_root == NULL)
-					throw "Warning: Data Structure(Tree) is empty!";
+			if (tree_root == NULL) {
+				visualizer->setVisualizerType("None");
+				cerr << "Warning:Data Structure(Binary Search Tree) is empty!"
+										<< endl;
 			}
-			catch (const char *msg) {
-				cerr << msg << endl;
+			else {
+				root = static_cast<Element<E> *> (tree_root);
+				visualizer->setVisualizerType("BinarySearchTree");
 			}
-			root = tree_root;
-			visualizer->setVisualizerType("BinarySearchTree");
 		}
 		
 		/**
-		 * This method is sets the adjacency list for the Graph ADT
+		 * This method sets the adjacency list for the Graph ADT
+		 * K is generic parameter and  must be orderable, as it serves as
+		 * the key into the maps
 		 *
-		 * @param graph, which consists of the vertices and adjacency
+		 * @param adj_list :  which consists of the vertices and adjacency
          *	 lists for each vertex (implmented using STL maps)
-		 * @param K, must be an orderable parameter, as it serves as
-		 *  the key into the maps
 		 *
-		 * @throws Exception
 		 **/
 		void setDataStructure(GraphAdjList<K, E> *adj_list){
-			graph_adj_list = adj_list;
-			visualizer->setVisualizerType("GraphAdjacencyList");
+			if (adj_list == NULL) {
+				visualizer->setVisualizerType("None");
+				cerr << "Warning: Data Structure(Graph (Adj. List)) is empty!";
+			}
+			else {
+				graph_adj_list = adj_list;
+				visualizer->setVisualizerType("GraphAdjacencyList");
+			}
 		}
 
 		/**
-		 * This method is sets the adjacency matrix for the Graph ADT
+		 * This method sets the adjacency matrix for the Graph ADT
+		 * K is generic parameter and  must be orderable, as it serves as
+		 * the key into the maps
 		 *
-		 * @param K, must be an orderable parameter, as it serves as
-		 *  the key into the maps
-		 * @param graph, represented as an adjacency matrix, consisting
+		 * @param adj_matrix : represented as an adjacency matrix, consisting
 		 *   of  the vertices(map) and a 2D map, for the adj. matrix
 		 * 
-		 * @throws Exception
-		 *
 		 **/
 		void setDataStructure(GraphAdjMatrix<K, E> *adj_matrix){
-			graph_adj_matrix = adj_matrix;
-			visualizer->setVisualizerType("GraphAdjacencyMatrix");
+			if (adj_matrix == NULL) {
+				visualizer->setVisualizerType("None");
+				cerr << "Warning: Data Structure(Graph (Adj. List)) is empty!"
+										<< endl;
+			}
+			else {
+				graph_adj_matrix = adj_matrix;
+				visualizer->setVisualizerType("GraphAdjacencyMatrix");
+			}
 		}
 		
 		/**
 		 * This method initiates the creation of the JSON string representation
 		 * of the current data structure, which is then sent to the server
 		 * via the post() call, which ultimately executes the http request
-		 * from the server
+		 * from the server and generates a visualization of the data structure
 		 *
 		 */
 		void visualize() {
@@ -362,7 +376,10 @@ template<typename K, typename E> class Bridges {
 
 			string ds = visualizer->getVisualizerType();
 
-			if (ds == "Array")
+			if (ds == "None")
+				cout << "Error! JSON not generated. Likely empty(NULL) " <<
+						" data structure" << endl;
+			else if (ds == "Array")
 				visualize_Array(url_to_server, url_to_vis);
 			else if (ds == "llist")
 				visualize_LinkedList(url_to_server, url_to_vis);
@@ -378,6 +395,7 @@ template<typename K, typename E> class Bridges {
 				visualize_GraphAdjMatrix(url_to_server, url_to_vis);
 
 		}
+	private:
 		/**
 		 * visualize a singly linked list, linked list based stack or queue. 
 		 * This may be called many times. 
@@ -385,21 +403,23 @@ template<typename K, typename E> class Bridges {
 		 * @param url_s - URL to be sent to the server
 		 * @param url_u - URL to be sent to the user to visualize results
 		 **/
-	private:
 		void visualize_LinkedList(string url_s, string url_u) {
 			string ds_json;
 	        try {
 				ds_json = visualizer->getDataStructureRepresentation(
-											(SLelement<E> *) root);
+								static_cast<SLelement<E> *>(root));
 	        	connector->post(url_s, ds_json); 
 	        								// Return a URL to the user
-				cout << "Success! Check out your visualization at " 
-							<< "\n\t\t" + url_u << endl << endl;
+				cout << endl << "Success: Assignment posted to the server. "
+						<< " Check out your visualization at " 
+						<< "\n\n\t" + url_u << endl << endl;
 	        	assignmentPart++;
 			} 
-			catch (...) {
+			catch (string error_str) {
 				cerr << "Posting assignment to the server failed!" << endl;
-				cerr << "Generated JSON(Singly Linkeded List):" << ds_json << endl;
+				cerr << "Curl Error: "<<  error_str << endl;
+				cerr << "Generated JSON(Singly Linkeded List):" << ds_json << 
+											endl;
 			}
 		}
 		
@@ -410,19 +430,21 @@ template<typename K, typename E> class Bridges {
 		 * @param url_u - URL to be sent to the user to visualize results
 		 **/
 		void visualize_DoublyLinkedList(string url_s, string url_u) {
-			string ds_json;
+			string ds_json = "";
 	        try {
 				ds_json = visualizer->getDataStructureRepresentation(
-										(DLelement<E>*)root);
+									static_cast<DLelement<E>*>(root));
 	        	connector->post(url_s, ds_json); 
 	        							// Return a URL to the user
-				cout << "Success! Check out your visualization at " << 
-						"\n\t\t" + url_u << endl << endl;
+				cout << endl << "Success: Assignment posted to the server. "
+						<< " Check out your visualization at " 
+						<< "\n\n\t" + url_u << endl << endl;
 	        	assignmentPart++;
 			}
-			catch (...) {
+			catch (string error_str) {
 				cerr << "Posting assignment to the server failed!" << endl;
-				cerr << "Generated JSON(Doubly Linkeded List):" << ds_json << endl;
+				cerr << "Curl Error: "<<  error_str << endl;
+				cerr << "Generated JSON(Doubly Linkeded List):" << ds_json<<endl;
 			}
 		}
 		
@@ -434,17 +456,19 @@ template<typename K, typename E> class Bridges {
 		 *
 		 **/
 		void visualize_Array(string url_s, string url_u) {
-			string ds_json;
+			string ds_json = "";
 	        try {
-				ds_json = visualizer->getDataStructureRepresentation(array_list);
+				ds_json = visualizer->getDataStructureRepresentation(root);
 	        	connector->post(url_s, ds_json);
 	        							// return a url to the user
-				cout << "Success! Check out your visualization at " << 
-							"\n\t\t" + url_u << endl << endl;
+				cout << endl << "Success: Assignment posted to the server. "
+						<< " Check out your visualization at " 
+						<< "\n\n\t" + url_u << endl << endl;
 	        	assignmentPart++;
 			} 
-			catch (...) {
+			catch (string error_str) {
 				cerr << "Posting assignment to the server failed!" << endl;
+				cerr << "Curl Error: "<<  error_str << endl;
 				cerr << "Generated JSON(Array List):" << ds_json << endl;
 			}
 		}
@@ -455,19 +479,20 @@ template<typename K, typename E> class Bridges {
 		 * @param url_u - URL to be sent to the user to visualize results
 		 **/
 		void visualize_BinaryTree(string url_s, string url_u) {
-			string ds_json;
+			string ds_json = "";
 	        try {
-				ds_json = 
-					visualizer->getDataStructureRepresentation(
-								(TreeElement<E>*)root);
+				ds_json = visualizer->getDataStructureRepresentation(
+								static_cast<TreeElement<E>*>(root));
 				connector->post(url_s, ds_json); 
 	        							// Return a URL to the user
-				cout << "Success! Check out your visualization at "  <<
-						"\n\t\t" + url_u << endl << endl;
+				cout << endl << "Success: Assignment posted to the server. "
+						<< " Check out your visualization at " 
+						<< "\n\n\t" + url_u << endl << endl;
 	        	assignmentPart++;
 			}
-			catch (...) {
+			catch (string error_str) {
 				cerr << "Posting assignment to the server failed!" << endl;
+				cerr << "Curl Error: "<<  error_str << endl;
 				cerr << "Generated JSON(Binary Tree):" << ds_json << endl;
 			}
 		}
@@ -480,18 +505,20 @@ template<typename K, typename E> class Bridges {
 		 * @param url_u - URL to be sent to the user to visualize results
 		 **/
 		void visualize_BinarySearchTree(string url_s, string url_u) {
-			string ds_json;
+			string ds_json = "";
 	        try {
 				ds_json = visualizer->getDataStructureRepresentation(
-									(BSTElement<K, E> *) root);
+									static_cast<BSTElement<K, E> *>(root));
 				connector->post(url_s, ds_json); 
 	        							// Return a URL to the user
-				cout << "Success! Check out your visualization at " << 
-						"\n\t\t" + url_u << endl << endl;
+				cout << endl << "Success: Assignment posted to the server. "
+						<< " Check out your visualization at " 
+						<< "\n\n\t" + url_u << endl << endl;
 	        	assignmentPart++;
 			}
-			catch (...) {
+			catch (string error_str){
 				cerr << "Posting assignment to the server failed!" << endl;
+				cerr << "Curl Error: "<<  error_str << endl;
 				cerr << "Generated JSON(Binary Tree):" << ds_json << endl;
 			}
 		}
@@ -504,19 +531,20 @@ template<typename K, typename E> class Bridges {
 		 *
 		 */
 		void visualize_GraphAdjMatrix(string url_s, string url_u) {
-			string ds_json;
+			string ds_json = "";
 	        try {
 				ds_json = visualizer->getDataStructureRepresentation(
 												graph_adj_matrix);
 				connector->post(url_s, ds_json);
 	        							// Return a URL to the user
-				cout << "Success! Check out your visualization at " << 
-						"\n\t\t" + url_u << endl << endl;
+				cout << endl << "Success: Assignment posted to the server. "
+						<< " Check out your visualization at " 
+						<< "\n\n\t" + url_u << endl << endl;
 	        	assignmentPart++;
 			}
-			catch (...) {
-				cerr << "Errors in either JSON creation, or " ;
-				cerr << "posting assignment to the server failed!" << endl;
+			catch (string error_str) {
+				cerr << "Posting assignment to the server failed!" << endl;
+				cerr << "Curl Error: "<<  error_str << endl;
 				cerr << "JSON(Graph):" << ds_json << endl;
 			}
 		}
@@ -531,19 +559,20 @@ template<typename K, typename E> class Bridges {
 		 *
 		 */
 		void visualize_GraphAdjList(string url_s, string url_u) {
-			string ds_json;
+			string ds_json = "";
 	        try {
 				ds_json = 
 					visualizer->getDataStructureRepresentation(graph_adj_list);
 				connector->post(url_s, ds_json);
 	        							// Return a URL to the user
-				cout << "Success! Check out your visualization at" << 
-							"\n\t\t" + url_u << endl << endl;
+				cout << endl << "Success: Assignment posted to the server. "
+						<< " Check out your visualization at " 
+						<< "\n\n\t" + url_u << endl << endl;
 	        	assignmentPart++;
 			}
-			catch (...) {
-				cerr << "Errors in either JSON creation, or ";
-				cerr << "posting assignment to the server failed!" << endl;
+			catch (string error_str) {
+				cerr << "Posting assignment to the server failed!" << endl;
+				cerr << "Curl Error: "<<  error_str << endl;
 				cerr << "JSON(Graph):" << ds_json << endl;
 			}
 		}
@@ -556,7 +585,7 @@ template<typename K, typename E> class Bridges {
 		}
 	
 		/**
-		 * @param root the root to set
+		 * @param r :  setting the handle to the data structure
 		 */
 		void setRoot(Element<E> *r) {
 			root = r;

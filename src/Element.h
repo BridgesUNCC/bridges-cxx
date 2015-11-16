@@ -13,7 +13,6 @@ using namespace std;
 #include "ElementVisualizer.h"
 #include "LinkVisualizer.h"
 
-
 namespace bridges {
 
 /**
@@ -33,19 +32,17 @@ namespace bridges {
  *	The identifier field automatically generated to keep track of the 
  *	generated objects and is transparent to the user.
  *
- *  @param E Application specific data type - can be any legal C++ type.
+ *  E : Application specific data type - can be any legal C++ type.
  *
  *	@author  Kalpathi Subramanian, 
  *	@date 6/11/15
  *
  **/
 
-
 template <typename E> class Element{
 	private:
 
 		static int ids;
-		int MAX_ELEMENTS_SIZE;
 		string label;
     	string identifier;
 		ElementVisualizer *el_visualizer;
@@ -62,7 +59,6 @@ template <typename E> class Element{
 	 	///
 		Element() {
 			identifier = to_string(ids);
-			MAX_ELEMENTS_SIZE = 5000;
 			label = "";
 			ids++;
 			try {
@@ -83,7 +79,7 @@ template <typename E> class Element{
 		Element(const Element& el) : Element() { /// copy constructor
 			value = el.value;
 			label = el.label;
-		}; 
+		} 
 
 		Element& operator=(const Element& el) {	/// define  assignment
 			Element();
@@ -103,8 +99,10 @@ template <typename E> class Element{
 	
 		/**
 	 	* the constructor of Element
-	 	* @param label the string that is visible on the Bridges Visualization
-	 	* @param val will be used to construct Element's data component
+		*
+	 	* @param labl : the string that is visible on the Bridges Visualization
+	 	* @param val : will be used to construct Element's data component
+		*
 	 	*/
 		Element (string labl, E val) :Element() {
 			value = val;
@@ -120,9 +118,10 @@ template <typename E> class Element{
 		/**
 		 * This method sets the visualizer object for the current 
 		 * element object
-		 * @param visualizer the visualizer to set
+		 *
+		 * @param el_vis : the visualizer to set
 		 */
-		void setVisualizer(ElementVisualizer el_vis) {
+		void setVisualizer(ElementVisualizer *el_vis) {
 			el_visualizer = el_vis;
 		}
 
@@ -145,8 +144,11 @@ template <typename E> class Element{
 		/**
 	 	* Returns the Element's link visualizer object 
      	* that is linked to element el
-	 	* @parm Element el -- the element terminating the link 
+		*
+	 	* @param el : the element terminating the link 
+		*
 	 	* @return the link visualizer
+		*
 	 	*/
 		LinkVisualizer *getLinkVisualizer(Element<E> *el){
 						// note: if the key-value pair does not exist
@@ -162,7 +164,7 @@ template <typename E> class Element{
 					cerr << "bad_alloc (LinkVisualizer) in "
 						<< "getLinkVisualizer()  caught: " << ba.what() << endl;
 
-					return NULL;
+					exit(EXIT_FAILURE);
 				}
 			}
 			return (*link_visualizer)[el->getIdentifier()];
@@ -198,14 +200,17 @@ template <typename E> class Element{
 
 		/**
 	 	* This method sets the label
-	 	* @param label the label to set
+		*
+	 	* @param labl : the label to set
+		*
 	 	*/
-		void setLabel(string label) {
-			this->label = label;
+		void setLabel(string labl) {
+			this->label = labl;
 		}
 	
 		/**
 	 	* this method returns the value E for the current Element
+		*
 	 	* @return the value
 	 	*/
 		E getValue() {
@@ -214,10 +219,12 @@ template <typename E> class Element{
 
 		/**
 	 	* This method sets the value field to the E argument value
-	 	* @param value the value to set
+		*
+	 	* @param val : the value to set
+		*
 	 	*/
-		void setValue(E value) {
-			this->value = value;
+		void setValue(E val) {
+			this->value = val;
 		}
 };
 							// declare the static Element::ids variable
