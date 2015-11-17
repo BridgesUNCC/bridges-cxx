@@ -23,6 +23,47 @@ namespace bridges {
  * 	Element's getLinkVisualizer() method, and then call the setLinkVisualizer() 
  * 	method on the Element after changes have been made.
  *
+ * BRIDGES supports the following named colors(passed into either via
+ * the constructor or as a parameter to setColor():
+ *
+ *
+ *	"aliceblue", "antiquewhite", "aqua", "aquamarine", "azure", "beige",
+ *	"bisque", "black", "blanchedalmond", "blue", "blueviolet", "brown",
+ *	"burlywood", "cadetblue", "chartreuse", "chocolate", "coral",
+ *	"cornflowerblue", "cornsilk", "crimson", "cyan", "darkblue", "darkcyan",
+ *	"darkgoldenrod", "darkgray", "darkgreen", "darkgrey", "darkkhaki",
+ *	"darkmagenta", "darkolivegreen", "darkorange", "darkorchid", "darkred",
+ *	"darksalmon", "darkseagreen", "darkslateblue", "darkslategray", 
+ *	"darkslategrey", "darkturquoise", "darkviolet", "deeppink", "deepskyblue",
+ *	"dimgray", "dimgrey", "dodgerblue", "firebrick", "floralwhite",
+ *	"forestgreen", "fuchsia", "gainsboro", "ghostwhite", "gold", "goldenrod",
+ *	"gray", "green", "greenyellow", "grey", "honeydew", "hotpink", "indianred",
+ *	"indigo", "ivory", "khaki", "lavender", "lavenderblush", "lawngreen",
+ *	"lemonchiffon", "lightblue", "lightcoral", "lightcyan", 
+ *	"lightgoldenrodyellow", "lightgray", "lightgreen", "lightgrey", "lightpink",
+ *	"lightsalmon", "lightseagreen", "lightskyblue", "lightslategray",
+ *	"lightslategrey", "lightsteelblue", "lightyellow", "lime", "limegreen",
+ *	"linen", "magenta", "maroon", "mediumaquamarine", "mediumblue", 
+ *	"mediumorchid", "mediumpurple", "mediumseagreen", "mediumslateblue",
+ *	"mediumspringgreen", "mediumturquoise", "mediumvioletred", "midnightblue",
+ *	"mintcream", "mistyrose", "moccasin", "navajowhite", "navy", "oldlace",
+ *	"olive", "olivedrab", "orange", "orangered", "orchid", "palegoldenrod",
+ *	"palegreen", "paleturquoise", "palevioletred", "papayawhip", "peachpuff",
+ *	"peru", "pink", "plum", "powderblue", "purple", "red", "rosybrown",
+ *	"royalblue", "saddlebrown", "salmon", "sandybrown", "seagreen", "seashell",
+ *	"sienna", "silver", "skyblue", "slateblue", "slategray", "slategrey", "snow",
+ *	"springgreen", "steelblue", "tan", "teal", "thistle", "tomato", "turquoise",
+ *	"violet", "wheat", "white", "whitesmoke", "yellow", "yellowgreen"
+ *
+ *	BRIDGES supports the following shapes:
+ *
+ *	"circle", "square", "diamond", "cross", "triangle-down", "triangle-up"
+ *
+ *  Opacity: Opacity values must be within  0.0(fully transparent) - 1.0(fully 
+ *  	opaque, Default: 1.0
+ *
+ *  Thickness: Thickness values must be in the range (0.0-10.0) pixels. 
+ *			Default: 1.0 pixel
  *
  *  @author Kalpathi Subramanian, 6/29/15
  *  @date 6/29/15
@@ -39,8 +80,6 @@ class LinkVisualizer{
 	private:
 		unordered_map<string, string> properties; 
 		string  toLowerCase(string s) {
-//			for (string::size_type i = 0; i < s.length(); i++)
-//				s[i] = tolower(s[i]);
 			transform (s.begin(), s.end(), s.begin(), 
 				static_cast<int(*)(int)>(std::tolower));
 
@@ -71,7 +110,7 @@ class LinkVisualizer{
 		 * Set the thickness of the link in the Bridge Visualization in pixels
 		 * 
 		 * @param thickness the pixel size of the Element in the Bridges 
-		 *		Visualization
+		 *		Visualization (between 0.0-10.0, Default: 1.0)
 		 */
 		void setThickness(double thickness) {
 			try{
@@ -160,7 +199,7 @@ class LinkVisualizer{
 		 **/
 		void setWeight(int weight) {
 			try{
-								// validate opacity
+								// validate weight
 				Validation::getCurrent()->validateWeight(weight);
 				properties["weight"]  = to_string(weight);
 			}

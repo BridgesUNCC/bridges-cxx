@@ -46,13 +46,27 @@ template <typename Key, typename E> class GraphAdjMatrix {
 
 	public:
 
-		/// Constructor
+		/** 
+		 * 	Constructor
+		 **/
 
 		GraphAdjMatrix() {		// clear the maps
 			vertices = new unordered_map<Key, Element<E> >;
 			matrix = new unordered_map <Key, unordered_map<Key, int> >;
 			vertices->clear();
 			matrix->clear();
+		}
+
+		/** 
+		 *	Destructor
+		 **/
+
+		~GraphAdjMatrix(){
+			vertices->clear();
+			matrix->clear();
+					 
+			delete vertices;
+			delete matrix;
 		}
 
 		/** 

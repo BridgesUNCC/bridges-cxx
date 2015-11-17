@@ -51,19 +51,21 @@ template <typename E> class Element{
 	
 	public:
 	
-		///
-		/// Element constructor
-		///	creates an ElementVisualizer object
-		///	sets a unique identifier for the current Element
-		///	normally used from subclasses
-	 	///
+		/**
+		 *
+		 * Element constructor creates an ElementVisualizer object
+		 * a unique identifier for the current Element normally used 
+		 * from subclasses
+		 *
+		 **/
 		Element() {
 			identifier = to_string(ids);
 			label = "";
 			ids++;
+			value = E();
 			try {
 				el_visualizer = new ElementVisualizer;
-			} 
+			}
 			catch (std::bad_alloc& ba) {
 				cerr << "bad_alloc (ElementVisualizer) caught: " << ba.what()
 								<< endl;
@@ -82,7 +84,6 @@ template <typename E> class Element{
 		} 
 
 		Element& operator=(const Element& el) {	/// define  assignment
-			Element();
 			value = el.value;
 			label = el.label;
 

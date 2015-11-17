@@ -41,6 +41,7 @@ template <typename K, typename E> class BSTElement : public TreeElement<E> {
 		 * and right pointers set to null.
 		 **/
 		BSTElement() : TreeElement<E>() {
+			key = K();
 		}
 
 								// copy constructor

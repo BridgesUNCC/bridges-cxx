@@ -149,22 +149,17 @@ template<typename K, typename E> class Bridges {
 		 *
 		 *  @param assignment_number : assignment name
 		 *
-		 *  @throws exception (assignment number must be positive)
 		 */
 
 		void setAssignment(int assignment_number) {
-			try {
-				if (assignment_number < 0)
-					throw assignment_number;
-								// reinitialize the assignment part
-				assignmentPart = 0;
-				assignment = assignment_number;
-			}
-			catch (int val) {
-				cout << "Assignment id is negative! Received " 
-					<< val << endl;
+			if (assignment_number < 0) {
+				cout << "Assignment id is negative! Received " << 
+					assignment_number << "..., exiting.." << endl;
 				exit(EXIT_FAILURE);
 			}
+								// reinitialize the assignment part
+			assignmentPart = 0;
+			assignment = assignment_number;
 		}
 		
 		/** 
@@ -260,7 +255,7 @@ template<typename K, typename E> class Bridges {
 				cerr <<	"Warning: Data Structure(Linked List) is empty!";
 			}
 			else{
-				root = static_cast<Element<E>*>(head);
+				root = head;
 				visualizer->setVisualizerType("SinglyLinkedList");
 			}
 		}
@@ -278,7 +273,7 @@ template<typename K, typename E> class Bridges {
 											<< endl;
 			}
 			else {
-				root = static_cast<Element<E> *>(head);
+				root = head;
 				visualizer->setVisualizerType("DoublyLinkedList");
 			}
 		}
@@ -296,7 +291,7 @@ template<typename K, typename E> class Bridges {
 				cerr <<	"Warning: Data Structure(Tree) is empty!" << endl;
 			}
 			else {
-				root = static_cast<Element<E> *>(tree_root);
+				root = tree_root;
 				visualizer->setVisualizerType("Binary_Tree");
 			}
 		}
@@ -314,7 +309,7 @@ template<typename K, typename E> class Bridges {
 										<< endl;
 			}
 			else {
-				root = static_cast<Element<E> *> (tree_root);
+				root = tree_root;
 				visualizer->setVisualizerType("BinarySearchTree");
 			}
 		}

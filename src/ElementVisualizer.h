@@ -17,14 +17,59 @@ namespace bridges {
 /**
  *@brief This class maintains the visual properties of the  a Bridges element
 
- * This class is used to store the visualization elements on the for the Bridges
- * Visualiztion, including the color, shape, opacity, and size of the node.
+ * This class is used to store the visualization elements for Bridges
+ * Visualiztions, including the color, shape, opacity, and size of the node.
  * Binary search trees will also store the element's search key value.
  * <p>
  * Objects of this class are stored as properties of all Element subclasses.
  * Generally, you will manipulating the ElementVisualizer returned from the
  * Element getVisualizer() method, and then call the setVisualizer() method on
  * the Element after changes have been made.
+ *
+ *
+ * BRIDGES supports the following named colors(passed into either via
+ * the constructor or as a parameter to setColor():
+ *
+ *
+ *	"aliceblue", "antiquewhite", "aqua", "aquamarine", "azure", "beige",
+ *	"bisque", "black", "blanchedalmond", "blue", "blueviolet", "brown",
+ *	"burlywood", "cadetblue", "chartreuse", "chocolate", "coral",
+ *	"cornflowerblue", "cornsilk", "crimson", "cyan", "darkblue", "darkcyan",
+ *	"darkgoldenrod", "darkgray", "darkgreen", "darkgrey", "darkkhaki",
+ *	"darkmagenta", "darkolivegreen", "darkorange", "darkorchid", "darkred",
+ *	"darksalmon", "darkseagreen", "darkslateblue", "darkslategray", 
+ *	"darkslategrey", "darkturquoise", "darkviolet", "deeppink", "deepskyblue",
+ *	"dimgray", "dimgrey", "dodgerblue", "firebrick", "floralwhite",
+ *	"forestgreen", "fuchsia", "gainsboro", "ghostwhite", "gold", "goldenrod",
+ *	"gray", "green", "greenyellow", "grey", "honeydew", "hotpink", "indianred",
+ *	"indigo", "ivory", "khaki", "lavender", "lavenderblush", "lawngreen",
+ *	"lemonchiffon", "lightblue", "lightcoral", "lightcyan", 
+ *	"lightgoldenrodyellow", "lightgray", "lightgreen", "lightgrey", "lightpink",
+ *	"lightsalmon", "lightseagreen", "lightskyblue", "lightslategray",
+ *	"lightslategrey", "lightsteelblue", "lightyellow", "lime", "limegreen",
+ *	"linen", "magenta", "maroon", "mediumaquamarine", "mediumblue", 
+ *	"mediumorchid", "mediumpurple", "mediumseagreen", "mediumslateblue",
+ *	"mediumspringgreen", "mediumturquoise", "mediumvioletred", "midnightblue",
+ *	"mintcream", "mistyrose", "moccasin", "navajowhite", "navy", "oldlace",
+ *	"olive", "olivedrab", "orange", "orangered", "orchid", "palegoldenrod",
+ *	"palegreen", "paleturquoise", "palevioletred", "papayawhip", "peachpuff",
+ *	"peru", "pink", "plum", "powderblue", "purple", "red", "rosybrown",
+ *	"royalblue", "saddlebrown", "salmon", "sandybrown", "seagreen", "seashell",
+ *	"sienna", "silver", "skyblue", "slateblue", "slategray", "slategrey", "snow",
+ *	"springgreen", "steelblue", "tan", "teal", "thistle", "tomato", "turquoise",
+ *	"violet", "wheat", "white", "whitesmoke", "yellow", "yellowgreen"
+ *
+ *	BRIDGES supports the following shapes:
+ *
+ *	"circle", "square", "diamond", "cross", "triangle-down", "triangle-up"
+ *	Default : "circle"
+ *
+ *  Opacity: Links can be transparent, specified by the opacity value. 
+ *  Must be within  0.0(fully transparent) - 1.0(fully opaque), Default: 1.0
+ *
+ *  Size: Element size. Size values must be positive and range from 10.0-50.0. 
+ * 	Default: 10.0
+ *
  *
  * @author Kalpathi Subramanian(C++ port)
  * @date 6/27/15
@@ -64,6 +109,8 @@ class ElementVisualizer {
 		 * Construct an ElementVisualizer with its color set to "aColor".
 		 * 
 		 * @param aColor the string that represents one of the Bridges colors.
+		 *
+		 *
 		 **/
 		ElementVisualizer(string aColor) : ElementVisualizer()  {
 							// need to validate color 
@@ -134,8 +181,8 @@ class ElementVisualizer {
 		/**
 		 * Set the size of the Element in the Bridge Visualization in pixels
 		 * 
-		 * @param size
-		 *            the pixel size of the Element in the Bridges Visualization
+		 * @param size - the pixel size of the Element in the 
+		 * Bridges Visualization. Must be (0.0-50), Default 10.0
 		 */
 		void setSize(double size) {
 			try{
@@ -145,7 +192,7 @@ class ElementVisualizer {
 			catch (string msg) {
 				cerr << msg << endl;
 				cerr << "Using default size (10).." << endl;
-				properties["color"]  = "10.0";
+				properties["size"]  = "10.0";
 			}
 		}
 	
@@ -160,11 +207,13 @@ class ElementVisualizer {
 		}
 	
 		/** 
-		  *	Set the color of the Element in the Bridges Visualization 
-		  *	to "aColor".
-		  * @param aColor the string reprsenting the color of the Element 
-		  *	in the Bridges Visualization
-		**/
+		 *	Set the color of the Element in the Bridges Visualization 
+		 *	to "aColor".
+		 *  @param aColor - the string reprsenting the color of the Element 
+		 *	in the Bridges Visualization
+		 *
+		 *  See the top of the page for the supported colors
+		 **/
 		void setColor(string aColor) {
 			aColor = toLowerCase(aColor);
 			try{
@@ -191,8 +240,11 @@ class ElementVisualizer {
 		/**
 		 * 	Sets the shape of the Element in the Bridges Visualization
 		 * 
-		 * 	@param aShape the string representing the shape of the Element 
+		 * 	@param aShape - the string representing the shape of the Element 
 		 *	in the Bridges Visualization
+		 *
+		 *  See the top of the page for the supported shapes (Default: "circle")
+		 *
 		 **/
 		void setShape(string aShape) {
 			aShape = toLowerCase(aShape);
@@ -221,8 +273,8 @@ class ElementVisualizer {
 		 * 
 		 * Sets the opacity of the Element in the Bridges Visualization
 		 * 
-		 * @param opacity a double value  between 0.0(fully opaque) 
-		 *		and 1 (fully transparent representing how 
+		 * @param opacity - a double value  between 0.0(fully transparent) 
+		 *		and 1 (fully opaque)
 		 * 
 		 **/
 		void setOpacity(double opacity) {
@@ -247,15 +299,16 @@ class ElementVisualizer {
 		}
 		/**
 		 * 
-		 * Sets the key value attributed  of the Element 
-		 *  used by search structures - binary search trees, AVL trees, etc. 
+		 *  Sets the key value attribute  of the Element  as a string;
+		 *  used by search structures - binary tree, binary search tree, etc. 
 		 * 
-		 * @param key is any orderable value - int, float, string
+		 * @param key - is a string (key value, which is orderable converted 
+		 *		 into a string, used for creating the JSON representation
 		 * 
 		 **/
 		void setKey(string key) {
 			try{
-								// validate opacity
+								// validate key
 //				Validation::getCurrent()->validateKey(key);
 				properties["key"]  = key;
 			}

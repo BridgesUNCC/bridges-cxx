@@ -40,6 +40,7 @@ template <typename Key> class Edge{
 		Edge() {
 			weight = 0;
 			edge_data = "";
+			vertex = Key();
 		}
 	
 		/**
@@ -129,13 +130,6 @@ template <typename Key> class Edge{
 			vertex = v;
 		}
 	
-		/**
-		 * Returns this edge
-		 */
-		Edge *getEdge() {
-			return this;
-		}
-		
 };
 
 }
