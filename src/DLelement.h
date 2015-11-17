@@ -114,6 +114,22 @@ template<typename E>  class DLelement: public Element<E>{
 		void setPrev(DLelement<E> *prv) {
 			this->prev = prv;
 		}
+
+		/**
+		 *
+	 	 * Cleans up the doubly linked list starting at head
+		 *
+		 * @param head - head of the doubly linked list
+		 *
+		 **/
+		static void cleanup(DLelement<E> *head) {
+			DLelement<E> *next = NULL;
+			for (DLelement<E> *l = head; l != NULL; ){	
+				next = l->getNext();
+				delete l;
+				l = next;
+			}
+		}
 };
 
 }

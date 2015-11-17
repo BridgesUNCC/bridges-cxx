@@ -140,6 +140,24 @@ template <typename E>  class TreeElement : public Element<E> {
 		void setRight(TreeElement<E> *r) {
 			this->right = r;
 		}
+
+		/**
+		 *
+	 	 * Cleans up the tree, starting at the root
+		 *
+		 * @param root - root of the binary tree
+		 *
+		 **/
+		static void cleanup(TreeElement<E> *root) {
+			if (root) {
+				if (root->getLeft()) // cleanup left subtree
+					cleanup(root->getLeft());
+				else if (root->getRight()) // cleanup right subtree
+					cleanup(root->getRight());
+					// left and right subtrees deallocated, remove root
+				delete root;
+			}
+		}
 };
 
 }

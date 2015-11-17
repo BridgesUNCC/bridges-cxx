@@ -187,6 +187,25 @@ template <typename K, typename E> class BSTElement : public TreeElement<E> {
 
 			return json;
 		}
+		/**
+		 *
+	 	 * Cleans up the tree, starting at the root
+		 *
+		 * @param root - root of the binary search tree
+		 *
+		 **/
+		static void cleanup(BSTElement<K,E> *root) {
+			if (root) {
+				if (root->getLeft()) // cleanup left subtree
+					cleanup(root->getLeft());
+
+				if (root->getRight()) // cleanup right subtree
+					cleanup(root->getRight());
+
+					// left and right subtrees deallocated, remove root
+				delete root;
+			}
+		}
 };
 
 }

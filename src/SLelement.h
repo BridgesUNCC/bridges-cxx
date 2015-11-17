@@ -97,7 +97,22 @@ template <typename E> class SLelement : public Element<E> {
 		void setNext(SLelement<E> *nxt) {
 			this->next = nxt;
 		}
-	
+
+		/**
+		 *
+	 	 * Cleans up the linked list starting at head
+		 *
+		 * @param head - head of the singly linked list
+		 *
+		 **/
+		static void cleanup(SLelement<E> *head) {
+			SLelement<E> *next = NULL;
+			for (SLelement<E> *l = head; l != NULL; ){	
+				next = l->getNext();
+				delete l;
+				l = next;
+			}
+		}	
 };
 
 }

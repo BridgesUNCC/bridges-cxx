@@ -585,6 +585,48 @@ template<typename K, typename E> class Bridges {
 		void setRoot(Element<E> *r) {
 			root = r;
 		}
+
+	public:
+		/**
+		 *
+		 * Cleanup - this method cleans up and deallocates the data  
+		 *  structures, prior to exiting the application
+		 *
+		 * The user needs to call this method at the end of his application
+		 * or if a new data structure is to be created and initialized.
+		 *
+		 **/
+		void cleanup() {
+			if (root == NULL)
+				return;
+
+			string ds = visualizer->getVisualizerType();
+
+			if (ds == "Array")	// nothing to do - user's responsibility
+				;
+			else if (ds == "llist") {
+				SLelement<E> *sle = static_cast<SLelement<E> *>(root);
+				SLelement<E>::cleanup(sle);
+			}
+			else if (ds == "dllist") {
+				DLelement<E> *dle = static_cast<DLelement<E> *>(root);
+				DLelement<E>::cleanup(dle);
+			}
+//			else if (ds == "tree") {
+//				TreeElement<E> *tree = static_cast<TreeElement<E> *>(root);
+//				TreeElement<E>::cleanup(tree);
+//			}
+			else if (ds == "tree") {
+				BSTElement<K,E> *bst = static_cast<BSTElement<K,E> *>(root);
+				BSTElement<K,E>::cleanup(bst);
+			}
+			else if (ds == "graphl")
+				delete graph_adj_list;
+			else if (ds == "graphm")
+				delete graph_adj_matrix;
+
+			root = NULL;
+		}
 }; // Bridges template definition ends
 								// declare static variables
 
