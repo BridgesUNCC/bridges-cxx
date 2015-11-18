@@ -56,6 +56,11 @@ template<typename Key, typename E> class GraphAdjList{
 		GraphAdjList() {
 			vertices = new unordered_map<Key, Element<E> >;
 			adj_list = new unordered_map<Key, SLelement<Edge<Key> >* >;
+			if (vertices == NULL || adj_list == NULL) {
+				cerr << "Allocation of graph internal structures "
+					<< " failed, exiting.." << endl;
+				exit(EXIT_FAILURE);
+			}
 			vertices->clear();
 			adj_list->clear();
 		}	
@@ -108,6 +113,12 @@ template<typename Key, typename E> class GraphAdjList{
 			(*adj_list)[src] = 
 				new SLelement<Edge<Key> > (Edge<Key>(weight, ss.str()), 
 											(*adj_list)[src]); 
+			if ((*adj_list)[src] == NULL) {
+				cerr << "Allocation of graph adjacency list item  "
+					<< " failed, exiting.." << endl;
+				exit(EXIT_FAILURE);
+			}
+			
 		}
 		/** 
 		 * This method returns the graph nodes

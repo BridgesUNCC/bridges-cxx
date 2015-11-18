@@ -4,17 +4,12 @@
 
 #include <iostream>
 #include <string>
-#include <unordered_map>
-#include <cmath>
 #include <new>
 
 using namespace std;
 
-#include "BSTElement.h"
 #include "ADTVisualizer.h"
 #include "Connector.h"
-#include "GraphAdjList.h"
-#include "GraphAdjMatrix.h"
 #include "Validation.h"
 
 namespace bridges {
@@ -54,14 +49,14 @@ template<typename K, typename E> class Bridges {
 						// common messages 
 		
 		void server_error_msg1 () {
-			cout << "There was a problem sending the visualization" <<
+			cerr << "There was a problem sending the visualization" <<
 				" representation to the server. Are you connected to the" <<
 				" Internet? Check your network settings. Otherwise, maybe" <<
 				" the central DataFormatters server is down. Try"  << 
 				" again later.\n";
 		}
 		void server_error_msg2 () {
-			cout << "There was a problem sending the visualization" 
+			cerr << "There was a problem sending the visualization" 
 				 << " representation to the server. However, it responded with"
 				 << " an impossible 'RateLimitException'. Please contact"
 				 << " DataFormatters developers and file a bug report; this"
@@ -153,7 +148,7 @@ template<typename K, typename E> class Bridges {
 
 		void setAssignment(int assignment_number) {
 			if (assignment_number < 0) {
-				cout << "Assignment id is negative! Received " << 
+				cerr << "Assignment id is negative! Received " << 
 					assignment_number << "..., exiting.." << endl;
 				exit(EXIT_FAILURE);
 			}
@@ -219,6 +214,9 @@ template<typename K, typename E> class Bridges {
   		 *
 		 */
 		void setVisualizer(ADTVisualizer<K, E> *vis) {
+			if (vis) 
+				delete vis;
+
 			visualizer = vis;
 		}
 
@@ -236,6 +234,8 @@ template<typename K, typename E> class Bridges {
 					" array data structure is NULL!" << endl;
 			}
 			else {
+						// user's responsibility to ensure previous array is
+						// cleaned up/deallocated, since the user creates it
 				root = arr;
 				visualizer->setArraySize(size);
 				visualizer->setVisualizerType("Array");
@@ -255,6 +255,9 @@ template<typename K, typename E> class Bridges {
 				cerr <<	"Warning: Data Structure(Linked List) is empty!";
 			}
 			else{
+				if (root)
+                    DLelement<E>::cleanup(
+                        static_cast<DLelement<E> *>(root));
 				root = head;
 				visualizer->setVisualizerType("SinglyLinkedList");
 			}
@@ -273,6 +276,9 @@ template<typename K, typename E> class Bridges {
 											<< endl;
 			}
 			else {
+				if (root)
+                    DLelement<E>::cleanup(
+                        static_cast<DLelement<E> *>(root));
 				root = head;
 				visualizer->setVisualizerType("DoublyLinkedList");
 			}
@@ -291,6 +297,9 @@ template<typename K, typename E> class Bridges {
 				cerr <<	"Warning: Data Structure(Tree) is empty!" << endl;
 			}
 			else {
+				if (root)
+					TreeElement<E>::cleanup(
+						static_cast<TreeElement<E> *>(root));
 				root = tree_root;
 				visualizer->setVisualizerType("Binary_Tree");
 			}
@@ -309,6 +318,9 @@ template<typename K, typename E> class Bridges {
 										<< endl;
 			}
 			else {
+				if (root)
+					BSTElement<K,E>::cleanup(
+						static_cast<BSTElement<K, E> *>(root));
 				root = tree_root;
 				visualizer->setVisualizerType("BinarySearchTree");
 			}
@@ -329,6 +341,8 @@ template<typename K, typename E> class Bridges {
 				cerr << "Warning: Data Structure(Graph (Adj. List)) is empty!";
 			}
 			else {
+				if (graph_adj_list)
+					delete graph_adj_list;
 				graph_adj_list = adj_list;
 				visualizer->setVisualizerType("GraphAdjacencyList");
 			}
@@ -350,6 +364,8 @@ template<typename K, typename E> class Bridges {
 										<< endl;
 			}
 			else {
+				if (graph_adj_matrix)
+					delete graph_adj_matrix;
 				graph_adj_matrix = adj_matrix;
 				visualizer->setVisualizerType("GraphAdjacencyMatrix");
 			}
@@ -583,6 +599,18 @@ template<typename K, typename E> class Bridges {
 		 * @param r :  setting the handle to the data structure
 		 */
 		void setRoot(Element<E> *r) {
+							// cleanup the previous data structure first
+			if (root) {
+				string ds = visualizer->getVisualizerType();
+				if (ds == "SinglyLinkedList")
+					SLelement<E>::cleanup(static_cast<SLelement<E>*>(root));
+				else if (ds == "DoublyLinkedList")
+					DLelement<E>::cleanup(static_cast<DLelement<E>*>(root));
+				else if (ds == "BinaryTree")
+					TreeElement<E>::cleanup(static_cast<TreeElement<E>*>(root));
+				else if (ds == "BinarySearchTree")
+					BSTElement<K,E>::cleanup(static_cast<BSTElement<K,E>*>(root));
+			}	
 			root = r;
 		}
 
@@ -597,14 +625,9 @@ template<typename K, typename E> class Bridges {
 		 *
 		 **/
 		void cleanup() {
-			if (root == NULL)
-				return;
-
 			string ds = visualizer->getVisualizerType();
 
-			if (ds == "Array")	// nothing to do - user's responsibility
-				;
-			else if (ds == "llist") {
+			if (ds == "llist") {
 				SLelement<E> *sle = static_cast<SLelement<E> *>(root);
 				SLelement<E>::cleanup(sle);
 			}
@@ -624,6 +647,8 @@ template<typename K, typename E> class Bridges {
 				delete graph_adj_list;
 			else if (ds == "graphm")
 				delete graph_adj_matrix;
+			else if (ds == "Array")	// nothing to do - user's responsibility
+				;
 
 			root = NULL;
 		}

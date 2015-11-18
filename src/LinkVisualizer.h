@@ -91,6 +91,7 @@ class LinkVisualizer{
 			properties.emplace("color", "black");
 			properties.emplace("opacity", "1.0");
 			properties.emplace("thickness", "1.0");
+			properties.emplace("weight", "1.0");
 		}
 	
 						// constructor

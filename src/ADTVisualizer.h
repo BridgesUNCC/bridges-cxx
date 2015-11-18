@@ -6,16 +6,16 @@
 #include <sstream>
 #include <string>
 #include <list>
-#include <vector>
 #include <unordered_map>
 
 using namespace std;
 
-#include "GraphAdjMatrix.h"
-#include "GraphAdjList.h"
+#include "SLelement.h"
 #include "DLelement.h"
 #include "TreeElement.h"
 #include "BSTElement.h"
+#include "GraphAdjMatrix.h"
+#include "GraphAdjList.h"
 
 
 namespace bridges {
@@ -45,9 +45,14 @@ template<typename K, typename E> class ADTVisualizer {
 		int array_size;
 
 							// some constants used to generate JSON strings
-		string QUOTE, COMMA, COLON,
-			OPEN_CURLY, CLOSE_CURLY,
-			OPEN_PAREN, CLOSE_PAREN;
+		const string 
+			QUOTE = "\"",
+			COMMA = ",",
+			COLON = ":",
+			OPEN_CURLY = "{", 
+			CLOSE_CURLY = "}", 
+			OPEN_PAREN = "[",
+			CLOSE_PAREN = "]";
 		
 	public:
 	
@@ -70,13 +75,9 @@ template<typename K, typename E> class ADTVisualizer {
 			adt_type.emplace("SinglyLinkedList", "llist");
 			adt_type.emplace("DoublyLinkedList", "dllist");
 			adt_type.emplace("Array", "Array");
-			QUOTE = "\"",
-			COMMA = ",",
-			COLON = ":",
-			OPEN_CURLY = "{", 
-			CLOSE_CURLY = "}", 
-			OPEN_PAREN = "[",
-			CLOSE_PAREN = "]";
+		}
+		~ADTVisualizer() {
+			adt_type.clear();
 		}
 
 		/**

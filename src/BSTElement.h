@@ -196,13 +196,11 @@ template <typename K, typename E> class BSTElement : public TreeElement<E> {
 		 **/
 		static void cleanup(BSTElement<K,E> *root) {
 			if (root) {
-				if (root->getLeft()) // cleanup left subtree
-					cleanup(root->getLeft());
-
-				if (root->getRight()) // cleanup right subtree
-					cleanup(root->getRight());
-
-					// left and right subtrees deallocated, remove root
+							// cleanup left subtree
+				cleanup(root->getLeft());
+							// cleanup right subtree
+				cleanup(root->getRight());
+							// remove root
 				delete root;
 			}
 		}

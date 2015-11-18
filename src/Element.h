@@ -123,6 +123,9 @@ template <typename E> class Element{
 		 * @param el_vis : the visualizer to set
 		 */
 		void setVisualizer(ElementVisualizer *el_vis) {
+			if (el_vis)
+				delete el_vis;
+
 			el_visualizer = el_vis;
 		}
 

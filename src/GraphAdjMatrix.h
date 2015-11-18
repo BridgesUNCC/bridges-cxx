@@ -4,7 +4,6 @@
 
 #include <string>
 #include <sstream>
-#include <unordered_map>
 
 using namespace std;
 
@@ -34,6 +33,9 @@ namespace bridges{
  *  @date 6/29/15
  *
  */
+#include <Element.h>
+#include <unordered_map>
+
 template <typename Key, typename E> class GraphAdjMatrix {
 	private:
 						// keep track of the graph nodes; useful
@@ -53,6 +55,12 @@ template <typename Key, typename E> class GraphAdjMatrix {
 		GraphAdjMatrix() {		// clear the maps
 			vertices = new unordered_map<Key, Element<E> >;
 			matrix = new unordered_map <Key, unordered_map<Key, int> >;
+			if (vertices == NULL || matrix == NULL) {
+                cerr << "Allocation of graph internal structures "
+                    << " failed, exiting.." << endl;
+                exit(EXIT_FAILURE);
+			}
+
 			vertices->clear();
 			matrix->clear();
 		}
