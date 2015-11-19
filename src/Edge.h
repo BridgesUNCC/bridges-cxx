@@ -2,9 +2,6 @@
 
 #define EDGE_H
 
-#include <string>
-
-using namespace std;
 namespace bridges {
 /**
  * @brief This helper class is used by the graph 

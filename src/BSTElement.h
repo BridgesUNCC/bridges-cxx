@@ -5,7 +5,6 @@
 #define BST_ELEMENT_H
 
 #include <sstream>
-#include <string>
 
 using namespace std;
 

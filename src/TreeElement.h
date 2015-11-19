@@ -3,8 +3,6 @@
 
 #define TREE_ELEMENT_H
 
-#include <string>
-
 using namespace std;
 
 #include "Element.h"

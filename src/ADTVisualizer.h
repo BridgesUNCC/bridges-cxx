@@ -3,16 +3,12 @@
 #define ADT_VISUALIZER_H
 
 #include <iostream>
-#include <sstream>
-#include <string>
 #include <list>
-#include <unordered_map>
 
 using namespace std;
 
 #include "SLelement.h"
 #include "DLelement.h"
-#include "TreeElement.h"
 #include "BSTElement.h"
 #include "GraphAdjMatrix.h"
 #include "GraphAdjList.h"
@@ -64,7 +60,7 @@ template<typename K, typename E> class ADTVisualizer {
 			array_size = 0;
 			visualizeJSON = false;
 
-			adt_type.emplace("Array_Stack","llist");
+			adt_type.emplace("Array_Stack","array");
 			adt_type.emplace("Array_Queue","llist");
 			adt_type.emplace("GraphAdjacencyMatrix", "graphm");
 			adt_type.emplace("GraphAdjacencyList", "graphl");

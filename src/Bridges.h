@@ -255,9 +255,6 @@ template<typename K, typename E> class Bridges {
 				cerr <<	"Warning: Data Structure(Linked List) is empty!";
 			}
 			else{
-				if (root)
-                    DLelement<E>::cleanup(
-                        static_cast<DLelement<E> *>(root));
 				root = head;
 				visualizer->setVisualizerType("SinglyLinkedList");
 			}
@@ -276,9 +273,6 @@ template<typename K, typename E> class Bridges {
 											<< endl;
 			}
 			else {
-				if (root)
-                    DLelement<E>::cleanup(
-                        static_cast<DLelement<E> *>(root));
 				root = head;
 				visualizer->setVisualizerType("DoublyLinkedList");
 			}
@@ -297,9 +291,6 @@ template<typename K, typename E> class Bridges {
 				cerr <<	"Warning: Data Structure(Tree) is empty!" << endl;
 			}
 			else {
-				if (root)
-					TreeElement<E>::cleanup(
-						static_cast<TreeElement<E> *>(root));
 				root = tree_root;
 				visualizer->setVisualizerType("Binary_Tree");
 			}
@@ -318,9 +309,6 @@ template<typename K, typename E> class Bridges {
 										<< endl;
 			}
 			else {
-				if (root)
-					BSTElement<K,E>::cleanup(
-						static_cast<BSTElement<K, E> *>(root));
 				root = tree_root;
 				visualizer->setVisualizerType("BinarySearchTree");
 			}
@@ -341,8 +329,6 @@ template<typename K, typename E> class Bridges {
 				cerr << "Warning: Data Structure(Graph (Adj. List)) is empty!";
 			}
 			else {
-				if (graph_adj_list)
-					delete graph_adj_list;
 				graph_adj_list = adj_list;
 				visualizer->setVisualizerType("GraphAdjacencyList");
 			}
@@ -364,8 +350,6 @@ template<typename K, typename E> class Bridges {
 										<< endl;
 			}
 			else {
-				if (graph_adj_matrix)
-					delete graph_adj_matrix;
 				graph_adj_matrix = adj_matrix;
 				visualizer->setVisualizerType("GraphAdjacencyMatrix");
 			}

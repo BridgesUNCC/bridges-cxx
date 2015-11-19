@@ -104,6 +104,10 @@ class ElementVisualizer {
 			properties.emplace("size", "10.0");
 			properties.emplace("shape", "circle");
 		}
+
+		~ElementVisualizer() {
+			properties.clear();
+		}
 	
 		/**
 		 * Construct an ElementVisualizer with its color set to "aColor".

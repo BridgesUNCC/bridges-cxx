@@ -4,7 +4,6 @@
 
 #define GRAPH_ADJ_LIST
 
-#include <unordered_map>
 #include <sstream>
 
 using namespace std;

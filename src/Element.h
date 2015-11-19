@@ -69,6 +69,7 @@ template <typename E> class Element{
 			catch (std::bad_alloc& ba) {
 				cerr << "bad_alloc (ElementVisualizer) caught: " << ba.what()
 								<< endl;
+				exit(EXIT_FAILURE);
 			}
 			try {
 				link_visualizer = new unordered_map<string, LinkVisualizer*>;
@@ -76,8 +77,10 @@ template <typename E> class Element{
 			catch (std::bad_alloc& ba) {
 				cerr << "bad_alloc (LinkVisualizer) caught: " << ba.what()
 								<< endl;
+				exit(EXIT_FAILURE);
 			}
 		}
+
 		Element(const Element& el) : Element() { /// copy constructor
 			value = el.value;
 			label = el.label;
@@ -109,10 +112,10 @@ template <typename E> class Element{
 			value = val;
 			label = labl;
 		}
-
-		~Element() { 						/// destructor
-			delete el_visualizer;
+		~Element() {
+			link_visualizer->clear();
 			delete link_visualizer;
+			delete el_visualizer;
 		}
 	
 
@@ -123,9 +126,8 @@ template <typename E> class Element{
 		 * @param el_vis : the visualizer to set
 		 */
 		void setVisualizer(ElementVisualizer *el_vis) {
-			if (el_vis)
-				delete el_vis;
-
+							// remove the old visualizer object
+			delete el_vis;
 			el_visualizer = el_vis;
 		}
 

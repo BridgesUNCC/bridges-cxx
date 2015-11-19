@@ -2,11 +2,6 @@
 
 #define GRAPH_ADJ_MATRIX_H
 
-#include <string>
-#include <sstream>
-
-using namespace std;
-
 namespace bridges{
 
 /**
@@ -34,7 +29,6 @@ namespace bridges{
  *
  */
 #include <Element.h>
-#include <unordered_map>
 
 template <typename Key, typename E> class GraphAdjMatrix {
 	private:
