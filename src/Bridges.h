@@ -371,10 +371,7 @@ template<typename K, typename E> class Bridges {
 
 			string ds = visualizer->getVisualizerType();
 
-			if (ds == "None")
-				cout << "Error! JSON not generated. Likely empty(NULL) " <<
-						" data structure" << endl;
-			else if (ds == "Array")
+			if (ds == "Array")
 				visualize_Array(url_to_server, url_to_vis);
 			else if (ds == "llist")
 				visualize_LinkedList(url_to_server, url_to_vis);
@@ -388,6 +385,9 @@ template<typename K, typename E> class Bridges {
 				visualize_GraphAdjList(url_to_server, url_to_vis);
 			else if (ds == "graphm")
 				visualize_GraphAdjMatrix(url_to_server, url_to_vis);
+			else 					// ds == "None"
+				cerr << "Error! JSON not generated. Likely empty(NULL) " <<
+						" data structure" << endl;
 
 		}
 	private:
