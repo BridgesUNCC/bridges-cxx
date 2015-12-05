@@ -1,356 +1,131 @@
 #ifndef VALIDATION_H
-
 #define VALIDATION_H
 
-#include <string>
-#include <unordered_set>
-#include <regex>
-
+#include <string> //string
+#include <unordered_set> //unordered_set
 
 using namespace std;
 
 namespace bridges{
 /**
- * 
- * @brief This class performs certain validation checks to ensure the 
- *  robustness of the BRIDGES  system. 
-
+ * @brief This class performs certain validation checks to ensure the
+ *  robustness of the BRIDGES  system.
+ *
  * Validatoin checks are made for legal specification of visual properties
- * such as color names, element size, opacity values, 
+ * such as color, element size, opacity values,
  * the maximum number of BRIDGES elements (currently set at 5000).
  *
- * @author Kalpathi Subramanian(C++ port), 
+ * BRIDGES supports these shapes:
+ * "circle","square","diamond","cross","triangle-down", and "triangle-up"
  *
- * @date 6/22/15 
- *
- **/
-
-class Validation {
-
-	private:
-		unordered_set<string> ColorNames, NodeShapes;
-		regex ColorPatterns;
-					// this variable holds the maximum number of 
-					// nodes allowed starting from 0
-		const int MAX_ELEMENTS_ALLOWED = 5000; 
-
-		static Validation *current;
-		
-	public:
-		Validation() {
-			ColorNames.insert({
-					"aliceblue",
-					"antiquewhite",
-					"aqua",
-					"aquamarine",
-					"azure",
-					"beige",
-					"bisque",
-					"black",
-					"blanchedalmond",
-					"blue",
-					"blueviolet",
-					"brown",
-					"burlywood",
-					"cadetblue",
-					"chartreuse",
-					"chocolate",
-					"coral",
-					"cornflowerblue",
-					"cornsilk",
-					"crimson",
-					"cyan",
-					"darkblue",
-					"darkcyan",
-					"darkgoldenrod",
-					"darkgray",
-					"darkgreen",
-					"darkgrey",
-					"darkkhaki",
-					"darkmagenta",
-					"darkolivegreen",
-					"darkorange",
-					"darkorchid",
-					"darkred",
-					"darksalmon",
-					"darkseagreen",
-					"darkslateblue",
-					"darkslategray",
-					"darkslategrey",
-					"darkturquoise",
-					"darkviolet",
-					"deeppink",
-					"deepskyblue",
-					"dimgray",
-					"dimgrey",
-					"dodgerblue",
-					"firebrick",
-					"floralwhite",
-					"forestgreen",
-					"fuchsia",
-					"gainsboro",
-					"ghostwhite",
-					"gold",
-					"goldenrod",
-					"gray",
-					"green",
-					"greenyellow",
-					"grey",
-					"honeydew",
-					"hotpink",
-					"indianred",
-					"indigo",
-					"ivory",
-					"khaki",
-					"lavender",
-					"lavenderblush",
-					"lawngreen",
-					"lemonchiffon",
-					"lightblue",
-					"lightcoral",
-					"lightcyan",
-					"lightgoldenrodyellow",
-					"lightgray",
-					"lightgreen",
-					"lightgrey",
-					"lightpink",
-					"lightsalmon",
-					"lightseagreen",
-					"lightskyblue",
-					"lightslategray",
-					"lightslategrey",
-					"lightsteelblue",
-					"lightyellow",
-					"lime",
-					"limegreen",
-					"linen",
-					"magenta",
-					"maroon",
-					"mediumaquamarine",
-					"mediumblue",
-					"mediumorchid",
-					"mediumpurple",
-					"mediumseagreen",
-					"mediumslateblue",
-					"mediumspringgreen",
-					"mediumturquoise",
-					"mediumvioletred",
-					"midnightblue",
-					"mintcream",
-					"mistyrose",
-					"moccasin",
-					"navajowhite",
-					"navy",
-					"oldlace",
-					"olive",
-					"olivedrab",
-					"orange",
-					"orangered",
-					"orchid",
-					"palegoldenrod",
-					"palegreen",
-					"paleturquoise",
-					"palevioletred",
-					"papayawhip",
-					"peachpuff",
-					"peru",
-					"pink",
-					"plum",
-					"powderblue",
-					"purple",
-					"red",
-					"rosybrown",
-					"royalblue",
-					"saddlebrown",
-					"salmon",
-					"sandybrown",
-					"seagreen",
-					"seashell",
-					"sienna",
-					"silver",
-					"skyblue",
-					"slateblue",
-					"slategray",
-					"slategrey",
-					"snow",
-					"springgreen",
-					"steelblue",
-					"tan",
-					"teal",
-					"thistle",
-					"tomato",
-					"turquoise",
-					"violet",
-					"wheat",
-					"white",
-					"whitesmoke",
-					"yellow",
-					"yellowgreen"
-			});
-			NodeShapes.insert({ 
-					"circle",
-					"square",
-					"diamond",
-					"cross",
-					"triangle-down",
-					"triangle-up"
-				}
-			);
-			current = this;
-		}
-
-		/** 
-		 * 
-		 * Gets the current Validation object - used in various other
-		 * Bridges classes to do validation of visual properties input
-		 * by the  user
-		 * 
-		 **/
-		static Validation *getCurrent() {
-			return current;
-		}
-
-		/**
-		 * Determine if a color is supported by CSS.
-		 * 
-		 * This method only supports a subject of CSS (yet). 
-		 * (1) 173 CSS extended color names, (2) #RRGGBB or #RGB, where 
-		 * R, G and B are red, green, blue
-		 * values as hexadecimal digits.
-		 * 
-		 * This method does not check for null because null has special meaning.
-		 * 
-		 * @param color : input color 
-		 * 
-		 * @throws exception if the color is not valid
-		 */
-		void validateColor(string color) {
-									// check named colors
-			if (ColorNames.find(color) != ColorNames.end())
-				return;
-			else { 
-				string error_str = "Invalid Color.." + color + 
-					"..Expected CSS color name, or #RRGGBB or #RGB formats.";
-				throw error_str;
-			}
-		}
-		
-		/**
-		 * Determines if the shape is supported.
-		 * 
-		 * @param shape : input shape
-		 *
-		 * @throws exception
-		 */
-		void validateShape(string shape) {
-			if (NodeShapes.find(shape) != NodeShapes.end()) 
-				return;
-			else  {
-				string error_str = 
-					"Invalid shape.." + shape +".\n Must be  one of..";
-				for (const auto& elem: NodeShapes)
-					error_str += elem + ",";
-				error_str += "\n";
-				throw error_str;
-			}
-		}
-		
-		/**
-		 * Determines if the value passed is an acceptable value to 
-		 * set the opacity to.
-		 * 	
-		 * @param val :  incoming opactity value
-		 *
-		 * @throws exception
-		 */
-		void validateOpacity(double val){
-			if(val >= 0.0 && val <= 1.0){
-				return;
-			}
-			else {
-				string error_str = "Invalid Opacity Value.. " + 
-					to_string(val) + " Must be in the 0.0-1.0 range";
-				throw error_str;
-			}
-		}
-		
-		/**
-		 * Determines if the value passed is an acceptable value to set 
-		 * the size to.
-		 * 
-		 * @param val : incoming size value
-		 *
-		 * @throws exception
-		 */
-		void validateSize(double val){
-			if(val >= 0.0 && val <= 50.0){
-				return;
-			}
-			else{
-				string error_str = "Invalid Size Value.. " + 
-					to_string(val) + " Must be in the 0.0-50.0 range";
-				throw error_str;
-			}
-		}
-
-		/**
-		 * Determines if the value passed is an acceptable value to set 
-		 * the thickness to.
-		 * 
-		 * @param val : incoming thickness value
-		 *
-		 * @throws exception
-		 */
-		void validateThickness(double val){
-			if(val >= 0.0 && val <= 10.0){
-				return;
-			}
-			else{
-				string error_str = "Invalid Thickness Value.. " + 
-					to_string(val) + " Must be in the 0.0-10.0 range";
-				throw error_str;
-			}
-		}
-		/**
-		 * Determines if the value passed is an acceptable value to set 
-		 * the weight to - must be positive.
-		 * 
-		 * @param val : incoming weight value
-		 *
-		 * @throws exception
-		 */
-		void validateWeight(int val){
-			if(val >= 0){
-				return;
-			}
-			else{
-				string error_str = "Invalid Weight Value.. " + 
-					to_string(val) + " Must be positive..";
-				throw error_str;
-			}
-		}
-		
-		/**
-		 * Determines if the value passed is an acceptable value to set 
-		 * the max number of elements in the data structure - must be positive.
-		 * 
-		 * @param val : incoming weight value
-		 *
-		 * @throws exception
-		 */
-		void validate_ADT_size(int max_elements){
-			if (max_elements < MAX_ELEMENTS_ALLOWED) 
-				return;
-			else {
-				string error_str = 
-					"Max allowed elements (for visualization) exceeded.. " 
-					+ to_string(max_elements) + " Must be less than 5000.";
-				throw error_str;
-			}
-		}
-};
-
-Validation* Validation::current = NULL;
-
-}
+ * @author Kalpathi Subramanian(C++ port),
+ * @date 6/22/15
+ */
+namespace Validation
+{
+    const unordered_set<string>
+        NodeShapes
+        ({
+            "circle",
+            "square",
+            "diamond",
+            "cross",
+            "triangle-down",
+            "triangle-up"
+        });
+    /** This variable holds the maximum number of nodes allowed */
+    constexpr int MAX_ELEMENTS_ALLOWED = 5000;
+    /**
+     * Determines if value passed is an acceptable value to
+     * set a RGBA channel to. [0,255]
+     *
+     * @param channel Input channel value
+     *
+     * @throw string Thrown if channel value is invalid
+     */
+    static void validateRGBAchannel(const int& channel)
+    {
+        if(channel<0 || 255<channel)
+        {
+            throw "Invalid channel parameter: " + to_string(channel) + " Must be in the [0,255] range";
+        }
+    }
+    /**
+     * Determines if the shape is supported.
+     *
+     * @param shape Input shape
+     * @throw string Thrown if shape is invalid
+     */
+    void validateShape(string shape)
+    {
+        for (char& c: shape){c=tolower(c);} //gets lowercase version
+        if (NodeShapes.find(shape) == NodeShapes.end())
+        {
+            string error_str = "Invalid shape.." + shape +".\n Must be  one of..";
+            for (const auto& elem: NodeShapes)
+            {
+                error_str += elem + ",";
+            }
+            error_str += "\n";
+            throw error_str;
+        }
+    }
+    /**
+     * Determines if the value passed is an acceptable value to set
+     * the size to.[10,50]
+     *
+     * @param val Input size
+     * @throw string Thrown if val is invalid
+     */
+    void validateSize(const double& val)
+    {
+        if(val < 10 || 50 < val)
+        {
+            throw "Invalid Size Value.. " + to_string(val) + " Must be in the [10.0,50.0] range";
+        }
+    }
+    /**
+     * Determines if the value passed is an acceptable value to set
+     * the thickness to. [0,10]
+     *
+     * @param val Input thickness
+     * @throw string Thrown if val is invalid
+     */
+    void validateThickness(const double& val)
+    {
+        if(val < 0 || 10 < val)
+        {
+            throw "Invalid Thickness Value.. " + to_string(val) + " Must be in the [0.0,10.0] range";
+        }
+    }
+    /**
+     * Determines if the value passed is an acceptable value to set
+     * the weight to. [0,inf)
+     *
+     * @param val Input weight
+     * @throw string Thrown if val is invalid
+     */
+    void validateWeight(const double& val)
+    {
+        if(val < 0)
+        {
+            throw "Invalid Weight Value.. " + to_string(val) + " Must be positive";
+        }
+    }
+    /**
+     * Determines if the value passed is an acceptable value to set
+     * the max number of elements in the data structure.
+     *
+     * @param val Input number of elements
+     * @throw string Thrown if val is invalid
+     */
+    void validate_ADT_size(const int& max_elements)
+    {
+        if (max_elements < 0 || MAX_ELEMENTS_ALLOWED <= max_elements)
+        {
+            throw "Max allowed elements (for visualization) exceeded.. " + to_string(max_elements) + " Must be less than " + to_string(MAX_ELEMENTS_ALLOWED);
+        }
+    }
+}//end of Validation namespace
+}//end of bridges namespace
 #endif

@@ -1,209 +1,105 @@
-
-
 #ifndef BST_ELEMENT_H
-
 #define BST_ELEMENT_H
 
-#include <sstream>
+#include <sstream> //stringstream
 
-using namespace std;
-
-#include "TreeElement.h"
+#include "TreeElement.h" //string, using std
 
 namespace bridges{
 /**
  * @brief This class defines a binary search tree element
  *
-
- * This class extends the TreeElement class by adding a key property 
- * to allow for easier use in a binary search tree implementation. 
+ * This class extends the TreeElement class by adding a key property
+ * to allow for easier use in a binary search tree implementation.
  *
- * Has two generic parameters: K that is teh search key type -- must be 
+ * Has two generic parameters: K that is teh search key type -- must be
  *  orderable -- and E the application data type
  *
- * @author Kalpathi Subramanian, 6/18/15
- *
- **/
-
-
-template <typename K, typename E> class BSTElement : public TreeElement<E> {
+ * @author Kalpathi Subramanian,
+ * @date 6/18/15
+ */
+template <typename K, typename E>
+class BSTElement : public TreeElement<E>
+{
 	private:
-
-		K key; //this is the BSTElement key
-
-		BSTElement& operator=(const BSTElement&); // protect assignment
-	
+		K key = K(); //this is the BSTElement key
 	public:
-
-		/**
-		 * Construct an empty BSTElement with no key assigned and left 
-		 * and right pointers set to null.
-		 **/
-		BSTElement() : TreeElement<E>() {
-			key = K();
-		}
-
-								// copy constructor
-		BSTElement(const BSTElement& bel): TreeElement<E>(bel){
-			setKey(bel.key);
-		}
-	
-		/**
-		 * 	Construct a BSTElement holding an object "e" with a left 
-		 *	pointer assigned to "left" and a right pointer assigned to "right".
+        /**
+		 * This constructor sets left to "l", right to "r", value to "e", key to "k" and label to "lab".
+		 * If an argument is not provided its default constructor is used.
 		 *
-		 *	@param e the object that BSTElement is holding
-		 *	@param left the BSTElement that should be assigned to the 
-		 *		left pointer
-		 * @param right the BSTElemetn taht should be assigned to the 
-		 *	right pointer
-		 **/
-		BSTElement(E e, BSTElement<K, E> *left, BSTElement<K, E> *right) 
-				: TreeElement<E>(e, left, right) {
-		}
-		
-		/**	Construct a BSTElement with a key "key", holding an object "e" 
-		 *	with a left pointer assigned to "left" and a right pointer 
-		 *	assigned to "right".
-		 *
-		 * 	@param k : the key to be used in a binary search tree 
-		 * 	@param e  : the object this BSTElement is holding
-		 * 	@param l :  the BSTElement that should be assigned to the 
-		 *		left pointer
-		 * 	@param r  : the BSTElement that should be assigned to the 
-		 *	right pointer
-		 *
-		 **/
-		BSTElement(K k, E e, BSTElement<K,E> *l, BSTElement<K, E> *r) 
-				: TreeElement<E>(e, l, r) {
-			setKey(k);
-		}
-	
-		/**
-		 *
-		 *	Construct a BSTElement holding the object "e", with no key 
-		 *	assigned and left and right pointers set to null.
-		 * @param e the object this BSTElement is holding
-		 *
-		 **/
-		BSTElement(E e) : TreeElement<E>(e) {
-		}
-	
-		/**
-		 *	Construct a BSTElement holding the object "e", with key "key" 
-		 *	assigned and left and right pointers set to null.
-		 *
-		 * 	@param k : the key to be used in a binary search tree 
-		 * 	@param e : the object this BSTElement is holding
-		 *
+		 * @param l The left BSTElement
+		 * @param r The right BSTElement
+		 * @param e The value to hold
+		 * @param k The key for ordering
+		 * @param lab The label to show
 		 */
-		BSTElement(K k, E e) : TreeElement<E>(e) {
-			setKey(k);
-		}
-	
+        BSTElement(BSTElement* l,BSTElement* r,E e = E(),K k = K(),string lab = string()) : TreeElement<E>(l,r,e,lab), key(k) {}
 		/**
-		 *	Construct a BSTElement holding the object "e", with label 
-		 *	set to "label", with "key" assigned to key, and left and right 
-		 *	pointers set to null.
+		 * This constructor sets left and right to NULL, value to "e", key to "k" and label to "lab".
+		 * If an argument is not provided its default constructor is used.
 		 *
-		 * @param label : the label of BSTElement that shows up on the Bridges 
-		 *		visualization
-		 * @param k :  the key to be used in a binary search tree implementation
-		 * @param e : the object this BSTElement is holding
-		 *
-		 **/
-		BSTElement(string label, K k, E e) : TreeElement<E>(label, e) {
-			setKey(k);
-		}
-		
-		/**	Construct an empty BSTElement, with no key assigned, and 
-		 *	left and right pointers set to null.
-		 * 	@param left the BSTElement that should be assigned to the 
-		 *		left pointer
-		 * 	@param right the BSTElement that should be assigned to the 
-		 *		right pointer
-		 **/
-		BSTElement(BSTElement<K, E> *left, BSTElement<K, E> *right) 
-					: TreeElement<E>(left, right) {
-		}
-	
-		/**Return the key of the BSTElement
-		 * @return the key of this BSTElement
+		 * @param e The value to hold
+		 * @param k The key for ordering
+		 * @param lab The label to show
 		 */
-		K getKey() {
-			return key;
+		BSTElement(E e = E(),K k = K(),string lab = string()) : BSTElement(nullptr,nullptr,e,k,lab){}
+		/** Copy Constructor */
+		BSTElement(const BSTElement& bst) : BSTElement(bst.left,bst.right,bst.value,bst.key,bst.label){}
+		/** Assignment Operator */
+		BSTElement& operator=(const BSTElement& that)
+		{
+		    TreeElement<E>::operator=(that);
+		    key = that.key;
+		    return *this;
 		}
-	
 		/**
-		 *	Set the key of the BSTElement to key
+		 * Return the key
 		 *
-		 * 	@param k :  the key to set
-		 *
-		 **/
-		void setKey(K k) {
-			this->key = k;
-							// convert the key to a string, for the
-							// JSON representation, use a string stream
-							// that can handly any type conversion elegantly
-			stringstream conv;
-			conv << k;
-							// add the element representation
-			this->getVisualizer()->setKey(conv.str());
-		}
-	
-		/** 
-		 *	
-		 * 	get Left child
-		 *	
-		 *  @return left child pointer (from parent)
-		 **/
-		BSTElement<K,E> *getLeft() {
-			return static_cast<BSTElement<K,E>*>(TreeElement<E>::getLeft());
-		}
-	
-		/* 
-		 * 	get right child
-		 *	
-		 *  @return right child pointer (from parent)
-		 *
+		 * @return The key
 		 */
-		BSTElement<K,E> *getRight() {
-			return static_cast<BSTElement<K,E>*>(TreeElement<E>::getRight());
-		}
-	
-		/** 
-		 * Get JSON of node representation 
-		 *
-		 * @return : JSON of the node representation
-		 **/
-		string getRepresentation(){
-			string json = "{";
-			for (auto& entry: this->getVisualizer()->getProperties()) 
-				json += "\"" + entry.first + "\":\"" + entry.second + "\", ";
-
-			json += "\"name\":\"" + this->getLabel() + "\"" + "}";
-			json += "\"key\":\"" + tostring(key) + "\"" + "}";
-
-			return json;
-		}
+		K getKey() const {return key;}
 		/**
+		 * Set key to "k"
 		 *
-	 	 * Cleans up the tree, starting at the root
+		 * @param k Input key
+		 */
+		void setKey(const K& k){key = k;}
+		/**
+		 * Return the left BSTElement
 		 *
-		 * @param root - root of the binary search tree
+		 * @return Left BSTElement
+		 */
+		BSTElement* getLeft() {return static_cast<BSTElement*>(TreeElement<E>::getLeft());}
+        /**
+		 * Return the right BSTElement
 		 *
-		 **/
-		static void cleanup(BSTElement<K,E> *root) {
-			if (root) {
-							// cleanup left subtree
-				cleanup(root->getLeft());
-							// cleanup right subtree
-				cleanup(root->getRight());
-							// remove root
-				delete root;
-			}
+		 * @return Right BSTElement
+		 */
+		BSTElement* getRight() {return static_cast<BSTElement*>(TreeElement<E>::getRight());}
+		/**
+	 	 * Calls delete on "root" and each linked BSTElement*
+		 *
+		 * @param root Root of a binary search tree
+		 * @warning Only call if these BSTElements were all dynamicaly allocated(aka: using new)
+		 */
+		static void cleanup(BSTElement* root){TreeElement<E>::cleanup(root);}
+		/**
+	 	 * Internal code for getting the properties of the BSTElement object.
+	 	 * It produces (without the spaces or newlines):
+	 	 * {
+	 	 *  "element tag" : value here,
+         *  "key" : "Some key"
+	 	 * }
+	 	 *
+	 	 * @return The JSON string
+	 	 */
+		string getRepresentation() const override
+		{
+			string json = Element<E>::getRepresentation();
+            stringstream conv; conv<<key; // convert the key to a string, for the JSON representation, use a stream that can handle any type conversion elegantly
+            return json.insert(json.size()-1, COMMA + QUOTE + "key" + QUOTE + COLON + QUOTE + conv.str() + QUOTE);
 		}
-};
-
-}
+}; //end of BSTElement class
+}//end of bridges namespace
 #endif

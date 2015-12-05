@@ -1,137 +1,116 @@
 #ifndef DLelement_H
-
-
 #define DLelement_H
 
-#include "Element.h"
+#include "SLelement.h" //string, list, using std
 
 namespace bridges {
 /**
  * @brief The basic doubly linked list element, derived from Element
-
+ *
  * This class can be used to create doubly linked element objects
  * with next and previous (prev) pointers
  *
- * <E> Can be any legal C++ type: integer, string, float, double, 
- *	or any user defined object(class, struct, array) , and represents 
- *	application dependent data.
+ * <E> Can be any legal C++ type: integer, string, float, double,
+ * or any user defined object(class, struct, array) , and represents
+ * application dependent data.
  *
- * @author Kalpathi Subramanian 
- *
+ * @author Kalpathi Subramanian
  * @date 6/11/15
- *
- **/
-
-
-template<typename E>  class DLelement: public Element<E>{
+ */
+template<typename E>
+class DLelement: public SLelement<E>
+{
 	private:
-		DLelement<E> *prev; 	// link to previous element
-		DLelement<E> *next;		// link to next element
-
-
-		DLelement<E>& operator=(const DLelement<E>&); // protect assignment
+		DLelement* prev = nullptr; 	// link to previous element
 	public:
-		/** 
-	 	 *  Constructs an empty DLelement with next and prev 
-	 	 *  pointers set to NULL.
-	 	 **/
-		DLelement() : Element<E>() {
-			prev = next = NULL;
-		}
-										// copy constructor
-		DLelement<E>(const DLelement<E>& dle): Element<E>(dle){
-			prev = next = NULL;
-		}
-	
-		/** Constructs a DLelement labeled "label", holding an 
-	 	 * object "e", with next and prev pointers set to null. 
-	 	 * @param label the label for this DLelement that shows up on the 
-	 	 * Bridges visualization
-	 	 * @param e the genereic object that this DLelement is holding
-	 	 * 
-	 	 **/
-		DLelement (string label, E e) : Element<E>(label, e) {
-			prev = next = NULL;
-		}
-
-		/** Constructs an empty DLelement with the next pointer 
-		* set to the DLelement "next" and the prev pointer set to 
-		* DLelement "prev". 
- 		*
-	 	* @param n  : the DLelement that should be assigned to the next pointer
-	 	* @param p  : the DLelement that should be assigned to the prev pointer
- 		*
-	 	* */
-		DLelement(DLelement<E> *n, DLelement<E> *p) : Element<E>()  {
-			this->next = n;
-			this->prev = p;
-		}
-
-		/** Constructs a DLelement holding an object "e", with the 
-		* next pointer set to the DLelement "next" and the prev pointer 
-		* set to DLelement "prev". 
-	 	* @param e : the genereic object that this DLelement is holding
-	 	* @param nxt : the DLelement that should be assigned to the next pointer
-	 	* @param prv : the DLelement that should be assigned to the prev pointer
-	 	*/
-
-		DLelement(E e, DLelement<E> *nxt, DLelement<E> *prv): Element<E>(e) {
-			this->prev = prv;
-			this->next = nxt;
-		}
-	
 		/**
-	 	* This method returns the pointer to the next DLelement
-	 	* @return the DLelement assigned to the next pointer
-	 	*/
-
-		DLelement<E> *getNext() {
-			return next;
-		}
-	
-
+		 * This constructor sets next to "n", prev to "p", value to "e", and label to "lab".
+		 * If an argument is not provided, its default constructor will be used.
+ 		 *
+	 	 * @param n The next DLelement
+	 	 * @param p The prev DLelement
+	 	 * @param e The data to hold
+ 		 * @param lab The label to show
+	 	 */
+		DLelement(DLelement* n,DLelement* p,E e = E(),string lab=string()) : SLelement<E>(n,e, lab), prev(p) {}
 		/**
-	 	* This method sets the pointer to the next DLelement
-	 	* @param nxt  : the DLelement that should be assigned to the next pointer
-	 	*/
-		void setNext(DLelement<E> *nxt) {
-			this->next = nxt;
+		 * This constructor sets left and right to NULL, value to "e" and label to "lab".
+		 * If an argument is not provided, its default constructor will be used.
+ 		 *
+	 	 * @param e The data to hold
+ 		 * @param lab The label to show
+	 	 */
+		DLelement (E e = E(),string lab = string()) : DLelement(nullptr, nullptr, e, lab) {}
+		/** Copy Constructor */
+		DLelement(const DLelement& dl) : DLelement(dl.next,dl.prev,dl.value,dl.label) {}
+		/** Assignment Operator */
+		DLelement& operator=(const DLelement& that)
+		{
+		    SLelement<E>::operator=(that);
+		    prev = that.prev;
+		    return *this;
 		}
-	
-
 		/**
-	 	* This method returns the pointer to the previous DLelement
-	 	* @return the DLelement assigned to the prev pointer
-	 	*/
-		DLelement<E> *getPrev() {
-			return prev;
-		}
-
+	 	 * Returns the next DLelement
+	 	 *
+	 	 * @return The next DLelement
+	 	 */
+        DLelement* getNext() {return static_cast<DLelement*>(SLelement<E>::getNext());}
+        /**
+	 	 * Sets next to "n"
+	 	 * (user is reponsible for next's memory management)
+         *
+	 	 * @param n  The next DLelement
+	 	 */
+		void setNext(const DLelement* n){SLelement<E>::setNext(n);}
 		/**
-	 	* This method sets the pointer to the previous DLelement
-	 	* @param prv : the DLelement that should be assigned to the prev pointer
-	 	*/
-		void setPrev(DLelement<E> *prv) {
-			this->prev = prv;
-		}
-
+	 	 * Returns the previous DLelement
+	 	 *
+	 	 * @return The previous DLelement
+	 	 */
+		DLelement* getPrev() {return prev;}
 		/**
+	 	 * Sets prev to "p"
+	 	 *
+	 	 * @param p : The previous DLelement
+	 	 */
+		void setPrev(const DLelement* p){prev = p;}
+		/**
+	 	 * Calls delete on "head" and each forwardly linked DLelement*
+	 	 *
+		 * @param head Head of a doubly linked list
+		 * @warning Only cleans "next" links, "prev" links will remain unchanged
+		 * @warning Only call if these DLelements were all dynamicaly allocated(aka: using new)
+		 */
+		static void cleanup(DLelement* head){SLelement<E>::cleanup(head);}
+		/**
+		 * Returns a pair of JSON strings of the nodes and links of the doubly linked list
 		 *
-	 	 * Cleans up the doubly linked list starting at head
-		 *
-		 * @param head - head of the doubly linked list
-		 *
-		 **/
-		static void cleanup(DLelement<E> *head) {
-			DLelement<E> *next = NULL;
-			for (DLelement<E> *l = head; l != NULL; ){	
-				next = l->getNext();
-				delete l;
-				l = next;
-			}
+		 * @return A pair of node and link JSON
+		 * @warning Only gets links between "next" nodes, links between this' "prev" nodes are not generated
+		 */
+		pair<string,string> getDataStructureRepresentation() override
+		{
+			list<const Element<E>*> nodes;
+
+            DLelement* dl_list = this;
+            nodes.push_front(dl_list);
+            while(DLelement* dl_next = dl_list->getNext())
+            {
+                nodes.push_front(dl_next);
+                dl_list->getLinkVisualizer(dl_next); //link to next
+                if(dl_next->prev)
+                {
+                    dl_next->getLinkVisualizer(dl_next->prev); //link from next
+                }
+                else
+                {
+                    cerr << "Warning: Doubly Linked List not properly chained..." << endl;
+                }
+                dl_list = dl_next;
+            }
+			return Element<E>::generateJSON_Of_Nodes_And_Links(nodes); // generate the JSON string
 		}
-};
-
-}
-
+}; //end of DLelement class
+}//end of bridges namespace
 #endif
