@@ -1,237 +1,103 @@
-#include <string>
 #include <assert.h>
-using namespace std;
 #include "Bridges.h"
 using namespace bridges;
 
-/** Preprocessor macros for readablity and ease of change **/
-#ifndef TYPE
-    #define TYPE string ///Template type parameter
-#endif //TYPE
-#ifndef KEY
-    #define KEY int ///Template key parameter
-#endif // KEY
-#define UNIFORM_INITIALZATION(...) (new TestCase(new Bridges<KEY,TYPE>(__VA_ARGS__))) ///Syntactic Sugar
-
-/** Namespace used to prevent naming interference with other files **/
-namespace BridgesTester
+namespace Test_Bridges
 {
-    /** POD struct to hold element for testing and expected values **/
+    /** Contains obj for testing, as well as expected values of tests */
     struct TestCase
     {
-        ///Initializes to default value
-        Bridges<KEY,TYPE>*const bd;
         string key = "";
         string uname = "";
-        int assign = 0;
-        int part = 0;
-        ADTVisualizer<KEY,TYPE>* vis = nullptr;
-        ///Constructor - initializes constant
-        TestCase(Bridges<KEY,TYPE>* e) : bd(e){}
+        unsigned int assign = 0;
+        unsigned int size = 1;
+        DataStructure* ds;
+        bool visJSON = false;
     };
 
-    /** Returns list of hard coded TestCases **/
-    vector<TestCase*> nativeTestCases()
+    /** TestCases pertaining to this object */
+    vector<TestCase*> nativeCases()
     {
         vector<TestCase*> cases;
-
-        TestCase* tc1 = UNIFORM_INITIALZATION();
-        cases.push_back(tc1);
-
-        TestCase* tc2 = UNIFORM_INITIALZATION(1,"app_id","user");
-        tc2->assign = 1;
-        tc2->key = "app_id";
-        tc2->uname = "user";
-        cases.push_back(tc2);
-
+        cases.push_back(new TestCase());
         return cases;
     }
 
-    void runTests();
-    void runTests(const vector<TestCase*>&);
-    void getBridgesObjectTest(const vector<TestCase*>&);
-    void getAssignmentTest(TestCase*);
-    void setAssignmentTest(TestCase*);
-    void getUserNameTest(TestCase*);
-    void setUserNameTest(TestCase*);
-    void getKeyTest(TestCase*);
-    void setKeyTest(TestCase*);
-    void getVisualizerTest(TestCase*);
-    void setVisualizerTest(TestCase*);
-    void setElementStructureTest(TestCase*);
-    void setSLelementStructureTest(TestCase*);
-    void setDLelementStructureTest(TestCase*);
-    void setTreeElementStructureTest(TestCase*);
-    void setBSTElementStructureTest(TestCase*);
-    void setGraphAdjListStructureTest(TestCase*);
-    void setGraphAdjMatrixStructureTest(TestCase*);
-    void visualizeTest(TestCase*);
-
-    /** Runs Tests for all native Bridges Testcases **/
-    void runTests()
+    void testGetProperties(TestCase* tc)
     {
-        runTests(nativeTestCases());
+        assert(Bridges::assignment()==tc->assign);
+        assert(Bridges::userName()==tc->uname);
+        assert(Bridges::apiKey()==tc->key);
+        assert(Bridges::array_size()==tc->size);
+        assert(Bridges::visualizeJSON()==tc->visJSON);
+        assert(Bridges::ds_handle()==tc->ds);
     }
-    /** Runs Tests for all give Bridges Testcases **/
+    void testSetProperties(TestCase* tc)
+    {
+        Bridges::assignment()=tc->assign = 9;
+        Bridges::userName()=tc->uname = "user";
+        Bridges::apiKey()=tc->key = "key";
+        Bridges::array_size()=tc->size = 11;
+        Bridges::visualizeJSON()=tc->visJSON = true;
+        Bridges::ds_handle()=tc->ds = new Element<int>();
+        testGetProperties(tc);
+
+        Bridges::initialize(tc->key = "api",tc->uname = "name",tc->assign = 7);
+        Bridges::setDataStructure(tc->ds = new GraphAdjList<int,int>()); tc->size = 1;
+        testGetProperties(tc);
+
+        Bridges::setDataStructure(tc->ds = new GraphAdjMatrix<int,int>(),tc->size = 21);
+        testGetProperties(tc);
+    }
+    void testVisualize()
+    {
+        Bridges::visualizeJSON() = false;
+        const string ERRMSG_NULL = "Error: visualizer called with a nullptr data structure",
+                     ERRMSG_FULL = "Visualization has been performed maximum number of times for this assignment",
+                     PASSMSG = "Success: Assignment posted to the server.";
+
+
+        streambuf* original_cerr_Buf = cerr.rdbuf(); //Save cerr's normal buffer
+        streambuf* original_cout_Buf = cout.rdbuf(); //Save cerr's normal buffer
+        stringstream cerr_stream(""); //Stream for reading cerr
+        stringstream cout_stream(""); //Stream for reading cout
+        cout.rdbuf(cout_stream.rdbuf()); //Sets cout's new buffer
+        cerr.rdbuf(cerr_stream.rdbuf()); //Set cerr's new buffer
+
+        ///Expected to fail - nullptr
+        Bridges::setDataStructure(nullptr);
+        cerr_stream.str("");//Clear stream
+        Bridges::visualize();
+        //cout.rdbuf(originalBuf); //Returns cout's buffer to normal
+        //cout<<endl<<endl<<endl/*<<stream.str()*/ << endl << stream.str().find(ERRMSG_NULL) <<endl;
+        assert(cerr_stream.str().find(ERRMSG_NULL) != string::npos);
+
+        Bridges::setDataStructure(new Element<int>());
+        for(int i=0;i<99;i++) ///check overflow
+        {
+            ///Expected to pass
+            cout_stream.str("");//Clear stream
+            Bridges::visualize();
+            assert(cout_stream.str().find(PASSMSG) != string::npos);
+        }
+        ///Expected to fail - overflow
+        cout_stream.str("");//Clear stream
+        Bridges::visualize();
+        assert(cout_stream.str().find(ERRMSG_FULL) != string::npos);
+
+        cout.rdbuf(original_cout_Buf); //Returns cout's buffer to normal
+        cerr.rdbuf(original_cerr_Buf); //Returns cerr's buffer to normal
+    }
+    /** Runs Tests for any cases provided */
     void runTests(const vector<TestCase*>& cases)
     {
-        getBridgesObjectTest(cases); ///Static test, should come before non-static tests
-        for(auto* tc: cases)
+        for(TestCase* tc : cases)
         {
-            //getAssignmentTest(tc);
-            setAssignmentTest(tc);
-            //getUserNameTest(tc);
-            setUserNameTest(tc);
-            //getKeyTest(tc);
-            setKeyTest(tc);
-            getVisualizerTest(tc);
-            setVisualizerTest(tc);
-            //setElementStructureTest(tc);
-            //setSLelementStructureTest(tc);
-            //setDLelementStructureTest(tc);
-            //setTreeElementStructureTest(tc);
-            //setBSTElementStructureTest(tc);
-            //setGraphAdjListStructureTest(tc);
-            //setGraphAdjMatrixStructureTest(tc);
-            //visualizeTest(tc);
+            testGetProperties(tc);
+            testSetProperties(tc);
         }
+        testVisualize();
     }
-    /** Tests getBridgesObject() correctly gets value **/
-    void getBridgesObjectTest(const vector<TestCase*>& cases)
-    {
-        ///Should be most recently created Bridges
-        assert((Bridges<KEY,TYPE>::getBridgesObject()) == cases.back()->bd);
-    }
-    /** Tests getAssignment() correctly gets value **/
-    void getAssignmentTest(TestCase* tc)
-    {
-        string assign = to_string(tc->assign)+"."+(tc->part<10?"0":"")+to_string(tc->part);
-        assert(tc->bd->getAssignment()==assign);
-    }
-    /** Tests setAssignment() correctly sets value **/
-    void setAssignmentTest(TestCase* tc)
-    {
-        tc->part = 0; //resets with assignment
-        tc->bd->setAssignment(tc->assign = 3);
-        getAssignmentTest(tc);
-    }
-    /** Tests getUserName() correctly gets value **/
-    void getUserNameTest(TestCase* tc)
-    {
-        assert(tc->bd->getUserName()==tc->uname);
-    }
-    /** Tests setUserName() correctly sets value **/
-    void setUserNameTest(TestCase* tc)
-    {
-        tc->bd->setUserName(tc->uname = "newUser");
-        getUserNameTest(tc);
-    }
-    /** Tests getKey() correctly gets value **/
-    void getKeyTest(TestCase* tc)
-    {
-        assert(tc->bd->getKey()==tc->key);
-    }
-    /** Tests setKey() correctly gets value **/
-    void setKeyTest(TestCase* tc)
-    {
-        tc->bd->setKey(tc->key = "newApp_id");
-        getKeyTest(tc);
-    }
-    /** Tests getVisualizer() correctly gets value **/
-    void getVisualizerTest(TestCase* tc)
-    {
-        assert(tc->bd->getVisualizer()==tc->vis);
-    }
-    /** Tests setVisualizer() correctly sets value **/
-    void setVisualizerTest(TestCase* tc)
-    {
-        tc->bd->setVisualizer(tc->vis = new ADTVisualizer<KEY,TYPE>());
-        getVisualizerTest(tc);
-    }
-    /** Tests setElementStructure() correctly sets value for Element **/
-    void setElementStructureTest(TestCase* tc)
-    {
-        ///Tests 0 size fails to set Structure
-        tc->bd->setDataStructure(new Element<TYPE>(),0);
-        assert(tc->vis->getArraySize()!=0);
-
-        tc->bd->setDataStructure(new Element<TYPE>(),11);
-        assert(tc->vis->getArraySize()==11);
-        assert(tc->vis->getVisualizerType()=="Array");
-    }
-    /** Tests setElementStructure() correctly sets value for SLelement **/
-    void setSLelementStructureTest(TestCase* tc)
-    {
-        ///Test that nullptr works
-        tc->bd->setDataStructure((SLelement<TYPE>*)nullptr);
-        assert(tc->vis->getVisualizerType()=="llist");
-
-        tc->bd->setDataStructure(new SLelement<TYPE>());
-        assert(tc->vis->getVisualizerType()=="llist");
-    }
-    /** Tests setElementStructure() correctly sets value for DLelement **/
-    void setDLelementStructureTest(TestCase* tc)
-    {
-        ///Test that nullptr works
-        tc->bd->setDataStructure((DLelement<TYPE>*)nullptr);
-        assert(tc->vis->getVisualizerType()=="dllist");
-
-        tc->bd->setDataStructure(new DLelement<TYPE>());
-        assert(tc->vis->getVisualizerType()=="dllist");
-    }
-    /** Tests setElementStructure() correctly sets value for TreeElement **/
-    void setTreeElementStructureTest(TestCase* tc)
-    {
-        ///Test that nullptr works
-        tc->bd->setDataStructure((TreeElement<TYPE>*)nullptr);
-        assert(tc->vis->getVisualizerType()=="tree");
-
-        tc->bd->setDataStructure(new TreeElement<TYPE>());
-        assert(tc->vis->getVisualizerType()=="tree");
-    }
-    /** Tests setElementStructure() correctly sets value for BSTElement **/
-    void setBSTElementStructureTest(TestCase* tc)
-    {
-        ///Test that nullptr works
-        tc->bd->setDataStructure((BSTElement<KEY,TYPE>*)nullptr);
-        assert(tc->vis->getVisualizerType()=="tree");
-
-        tc->bd->setDataStructure(new BSTElement<KEY,TYPE>());
-        assert(tc->vis->getVisualizerType()=="tree");
-    }
-    /** Tests setElementStructure() correctly sets value for GraphAdjList **/
-    void setGraphAdjListStructureTest(TestCase* tc)
-    {
-        ///Test that nullptr works
-        tc->bd->setDataStructure((GraphAdjList<KEY,TYPE>*)nullptr);
-        assert(tc->vis->getVisualizerType()=="graphl");
-
-        tc->bd->setDataStructure(new GraphAdjList<KEY,TYPE>());
-        assert(tc->vis->getVisualizerType()=="graphl");
-    }
-    /** Tests setElementStructure() correctly sets value for GraphAdjMatrix **/
-    void setGraphAdjMatrixStructureTest(TestCase* tc)
-    {
-        ///Test that nullptr works
-        tc->bd->setDataStructure((GraphAdjMatrix<KEY,TYPE>*)nullptr);
-        assert(tc->vis->getVisualizerType()=="graphm");
-
-        tc->bd->setDataStructure(new GraphAdjMatrix<KEY,TYPE>());
-        assert(tc->vis->getVisualizerType()=="graphm");
-    }
-    /** Tests visualize() correctly visualizes **/
-    void visualizeTest(TestCase* tc)
-    {
-        for(int i=0;i<10;i++) ///10 times to verify decimal assignment works
-        {
-            tc->part++;
-            ///Increments assigmnet part if successful, prints error if not
-            tc->bd->visualize();
-            ///Tests if visualize was "successful"
-            getAssignmentTest(tc);
-        }
-    }
+    /** Runs Tests for cases pertaining to this object */
+    void runTests(){runTests(nativeCases());}
 }
-#undef UNIFORM_INITIALZATION
-#undef KEY
-#undef TYPE

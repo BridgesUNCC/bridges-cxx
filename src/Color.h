@@ -5,10 +5,14 @@
 #include <array> //array
 #include <regex> //regex
 #include <unordered_map> //unordered_map
+#include <cmath> //log
 
-#include "Validation.h" //string, using std
+#include "DataStructure.h" //string, using std, JSON characters
 
 namespace bridges{
+
+class LinkVisualizer; template<typename E> class Element; //Forward Declaration for Befriendment
+
 /**
  * @brief This class represents Color, and supports rgba, hexadecimal and named color values
  *
@@ -28,51 +32,49 @@ namespace bridges{
  * "red", "yellow", "blue", "orange", "green", "purple", "brown", "black", "grey", and "white"
  * All named colors have are fully opaque by default.
  *
- * Default Color is white
+ * Default Color is opaque white
  *
- * @date  12/5/15
+ * @date 12/5/15
  */
 class Color
 {
+    friend class LinkVisualizer; template<typename E> friend class Element; //Used to access getCSSrep()
+
     private:
-        static const regex HEX_RANGE; //regex for #hex value validation
-        static const unordered_map<string,array<int,4>>ColorNames; //map of named colors to rgba values
-        array<int,4> channels{{255,255,255,255}};//red,green,blue,alpha
+        /** The regex used to verify #hexadecimal color input */
+        static const regex HEX_RANGE;
+        /** The named colors' rgba channel value mappings */
+        static const unordered_map<string,const array<int,4>>ColorNames;
+        /** The rgba channel values of this Color */
+        array<int,4> channels{{255,255,255,255}};
     public:
-        /** Constructor with rgba values, if no alpha is provided 255 is used */
+        /**
+         * Constructs a color with the specified rgba color channel values [0,255].
+         * If no alpha channel is provided, the default of 255(opaque) is used.
+         *
+         * @param r The red channel
+         * @param g The green channel
+         * @param b The blue channel
+         * @param a The alpha channel(default 255)
+         */
         Color(const int& r,const int& g,const int& b,const int& a=255){setValue(r,g,b,a);}
-        /** Constructor with named or hexadecimal values */
+        /**
+         * Constructs a color from a named color or a #hexadecimal [0-F](base 16) of the form #RRGGBBAA, #RRGGBBAA, #RGBA, or #RGB.
+         * Named colors and #hexadecimals missing an alpha channel are made opaque.
+         *
+         * @param name The named color or #hexadecimal value
+         */
         Color(const string& name){setValue(name);}
-        /** Copy Constructor */
-        Color(const Color& col){channels = col.channels;}
-        /** Assignment Operator */
-        Color& operator=(const Color& that){channels = that.channels; return *this;}
-        /** Equality Operator */
+        /** Equality Comparison Operator @return True if both Colors represent the same Color, false if not */
         bool operator==(const Color& that) const {return channels == that.channels;}
-        /** @return True if opaque red, false if not */
-        bool isRed()    const {return ColorNames.at("red")   ==channels;}
-        /** @return True if opaque yellow, false if not */
-        bool isYellow() const {return ColorNames.at("yellow")==channels;}
-        /** @return True if opaque blue, false if not */
-        bool isBlue()   const {return ColorNames.at("blue")  ==channels;}
-        /** @return True if opaque orange, false if not */
-        bool isOrange() const {return ColorNames.at("orange")==channels;}
-        /** @return True if opaque green, false if not */
-        bool isGreen()  const {return ColorNames.at("green") ==channels;}
-        /** @return True if opaque purple, false if not */
-        bool isPurple() const {return ColorNames.at("purple")==channels;}
-        /** @return True if opaque brown, false if not */
-        bool isBrown()  const {return ColorNames.at("brown") ==channels;}
-        /** @return True if opaque black, false if not */
-        bool isBlack()  const {return ColorNames.at("black") ==channels;}
-        /** @return True if opaque grey, false if not */
-        bool isGrey()   const {return ColorNames.at("grey")  ==channels;}
-        /** @return True if opaque white, false if not */
-        bool isWhite()  const {return ColorNames.at("white") ==channels;}
+        /** InEquality Comparison Operator @return False if both Colors represent the same Color, true if not */
+        bool operator!=(const Color& that) const {return channels != that.channels;}
+
         /** @return True if fully opaque, false if not */
         bool isOpaque()      const {return getAlpha()==255;}
         /** @return True if fully transparent, false if not */
         bool isTransparent() const {return getAlpha()==0;}
+
         /** @return rgba value of the red channel [0,255] */
         int getRed()   const {return channels.at(0);}
         /** @return rgba value of the green channel [0,255] */
@@ -81,105 +83,55 @@ class Color
         int getBlue()  const {return channels.at(2);}
         /** @return rgba value of the alpha channel [0,255] */
         int getAlpha() const {return channels.at(3);}
-        /** @return The hexadecimal string representation (#RRGGBBAA) */
-        string getHexValue() const {return "#"+to_hex(getRed())+to_hex(getGreen())+to_hex(getBlue())+to_hex(getAlpha());}
-        /**
-         * Sets red channel to "r"
-         *
-         * @param r red channel's rgba value representation
-         */
-        void setRed(const int& r)
+
+        /** @return The #hexadecimal representation (#RRGGBBAA) of this color */
+        string getHexValue() const
         {
-            try
-            {
-                Validation::validateRGBAchannel(r);
-                channels.at(0)=r;
-            }
-            catch(const string& msg)
-            {
-                cerr << msg << endl << "Red channel left unchanged.." << endl;
-            }
+            const string hex = to_hex(getRed()*16777216+getGreen()*65536+getBlue()*256+getAlpha());
+            string prefix = "#"; for(auto i=hex.size();i<8;i++){prefix+="0";}
+            return prefix+hex;
         }
+
+        /** Sets red channel to "r" @param a rgba value to set red channel to */
+        void setRed(const int& r){setChannel(r,0);}
+        /** Sets green channel to "g" @param a rgba value to set green channel to */
+        void setGreen(const int& g){setChannel(g,1);}
+        /** Sets blue channel to "b" @param a rgba value to set blue channel to */
+        void setBlue(const int& b){setChannel(b,2);}
+        /** Sets alpha channel to "a" @param a rgba value to set alpha channel to */
+        void setAlpha(const int& a){setChannel(a,3);}
         /**
-         * Sets green channel to "g"
+         * Sets this color's value to the specified rgba color channel values [0,255].
+         * If no alpha channel is provided, the default of 255(opaque) is used.
          *
-         * @param g green channel's rgba value representation
-         */
-        void setGreen(const int& g)
-        {
-            try
-            {
-                Validation::validateRGBAchannel(g);
-                channels.at(0)=g;
-            }
-            catch(const string& msg)
-            {
-                cerr << msg << endl << "Green channel left unchanged.." << endl;
-            }
-        }
-        /**
-         * Sets blue channel to "b"
-         *
-         * @param b blue channel's rgba value representation
-         */
-        void setBlue(const int& b)
-        {
-            try
-            {
-                Validation::validateRGBAchannel(b);
-                channels.at(0)=b;
-            }
-            catch(const string& msg)
-            {
-                cerr << msg << endl << "Blue channel left unchanged.." << endl;
-            }
-        }
-        /**
-         * Sets alpha channel to "a"
-         *
-         * @param a alpha channel's rgba value representation
-         */
-        void setAlpha(const int& a)
-        {
-            try
-            {
-                Validation::validateRGBAchannel(a);
-                channels.at(0)=a;
-            }
-            catch(const string& msg)
-            {
-                cerr << msg << endl << "Alpha channel left unchanged.." << endl;
-            }
-        }
-        /**
-         * Sets red, green, blue, and alpha channels to "r","g","b", and "a" respectively.
-         * If no alpha value is provided, the default value of 255(opaque) is used.
-         *
-         * @param r red channel's rgba value representation
-         * @param g green channel's rgba value representation
-         * @param b blue channel's rgba value representation
-         * @param a alpha channel's rgba value representation
+         * @param r rgba value to set the red channel to
+         * @param g rgba value to set the green channel to
+         * @param b rgba value to set the blue channel to
+         * @param a rgba value to set the alpha channel to
          */
         void setValue(const int& r,const int& g,const int& b,const int& a=255){setRed(r); setGreen(g); setBlue(b); setAlpha(a);}
         /**
-         * Sets value to "name"'s color representation
+         * Sets this color's value to the value of a named color or a #hexadecimal [0-F](base 16) of the form #RRGGBBAA, #RRGGBBAA, #RGBA, or #RGB.
+         * Named colors and #hexadecimals missing an alpha channel are made opaque.
          *
-         * @param name Color representation in #hex or by name
+         * @param name The named color or #hexadecimal value
+         * @throw string If name is an invalid color
          */
         void setValue(string name)
         {
             for (char& c: name){c=tolower(c);} //gets lowercase version
-            if(ColorNames.find(name) != ColorNames.end()) //Named value
+            auto it = ColorNames.find(name);
+            if(it != ColorNames.end()) //Named value
             {
-                channels = ColorNames.at(name);
+                channels = it->second;
             }
             else if(regex_match(name,HEX_RANGE))//#Hex value
             {
                 name.erase(0,1); //removes "#"
                 channels.at(3) = 255; //alpha value, overwritten if present by loop
-                int chanChars = (name.size()==3||name.size()==4)? 1: 2; //number of chars representing a channel
-                int chanMultiplier = (chanChars==1)? 17: 1; //unit place scale factor, handles channel size variance
-                for(size_t i=0;i<name.size();i++)
+                const int chanChars = (name.size()==3||name.size()==4)? 1: 2; //number of chars representing a channel
+                const int chanMultiplier = (chanChars==1)? 17: 1; //unit place scale factor, handles channel size variance
+                for(size_t i=0;i<name.size()/chanChars;i++)
                 {
                     channels.at(i) = strtol(name.substr(i*chanChars,chanChars).c_str(),nullptr,16)*chanMultiplier; //convers and save hex val to rgba val
                 }
@@ -189,30 +141,21 @@ class Color
                 string errStr = "Invalid Color: " + name + "\n";
                 errStr += "Must be a hexadecimal(#RRGGBBAA, #RRGGBB, #RGBA, or #RGB) color representation;\n";
                 errStr += "Or one of these supported named colors: ";
-                for(const auto& p: ColorNames)
-                {
-                    errStr += " \"" + p.first + "\"";
-                }
+                for(const auto& p: ColorNames){errStr += " \"" + p.first + "\"";}
                 errStr+="\n";
                 throw errStr;
             }
         }
-        /** @return Legal CSS color value */
-        string getCSSrep() const
-        {
-            string strCSS = to_string(getRed())+","+to_string(getGreen())+","+to_string(getBlue());
-            if(isOpaque())//leaves off alpha if unnessesary
-            {
-                strCSS = "rgb("+strCSS+")";
-            }
-            else
-            {
-                strCSS = "rgba("+strCSS+","+removeTrailingZeros(static_cast<double>(getAlpha())/255.0)+")";
-            }
-            return strCSS;
-        }
     private:
-        /** Removes unnessasary trailing 0s to lower size of JSON string */
+        /**
+         * Sets the channel specified by "channel" to "value"
+         *
+         * @param channel The channel to change
+         * @param value The rgba value to set the channel to
+         * @throw string Throw if value is invalid
+         */
+        void setChannel(const int& value, const int& channel){(value<0||255<value)?throw "Invalid channel parameter: "+to_string(value)+" Must be in the [0,255] range":channels.at(channel)=value;}
+        /** @return to_string of "num" without unnessasary trailing 0s */
 		static string removeTrailingZeros(const double& num)
         {
             if(static_cast<int>(num) == num){return to_string(static_cast<int>(num));}//if integer return as int
@@ -220,29 +163,32 @@ class Color
             numRep.erase(numRep.find_last_not_of("0")+1);//removes trailing 0s
             return numRep;
         }
-        /** Converts int to appropriate hex value */
-        static string to_hex(const int& val)
+        /** @return Equivilant Legal CSS color representation */
+        string getCSSrep() const
         {
-            string hex;
-            if(val>=16) //get greater 16 powers recursively
-            {
-                hex = to_hex(val/16);
-            }
-            switch(val%16) //tack on this 16 place
-            {
-            case 10: hex += "a"; break;
-            case 11: hex += "b"; break;
-            case 12: hex += "c"; break;
-            case 13: hex += "d"; break;
-            case 14: hex += "e"; break;
-            case 15: hex += "f"; break;
-            default: hex += to_string(val%16);
-            }
-            return hex;
+            if(isTransparent()){return "rgba(0,0,0,0)";} //leaves off other channels if transparent
+            const string strCSS = to_string(getRed())+","+to_string(getGreen())+","+to_string(getBlue()); //leaves off alpha if unnessesary
+            return isOpaque()?
+                "rgb("+strCSS+")":
+                "rgba("+strCSS+","+removeTrailingZeros(static_cast<double>(getAlpha())/255.0)+")";
+        }
+        /**
+         * Converts decimal value to appropriate hexidecimal value
+         *
+         * @param val The value to convert
+         * @return The hexadecimal value of "val"
+         */
+        static string to_hex(const unsigned long& val)
+        {
+            char* buffer = new char[static_cast<int>((log(val)/log(16))+2)]; //number of characters needed - includes terminating character
+            sprintf(buffer,"%x",static_cast<int>(val));
+            string hexValue = string(buffer);
+            delete[] buffer; //used new[] to have variable array size
+            return hexValue;
         }
 };//end of color class
 const regex Color::HEX_RANGE("^#([[:xdigit:]]{8}|[[:xdigit:]]{6}|[[:xdigit:]]{3,4})$");//greedy, so checks for 8(RRGGBBAA), then 6(RRGGBB) then 4(RGBA) then 3(RGB)
-const unordered_map<string,array<int,4>>
+const unordered_map<string,const array<int,4>>
     Color::ColorNames
     {
         {"red",   {{255,  0,  0,255}}}, //Primary

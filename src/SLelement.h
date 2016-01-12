@@ -1,104 +1,79 @@
 #ifndef SLELEMENT_H
 #define SLELEMENT_H
 
-#include "Element.h" //string, list, using std
+#include "Element.h" //string, using std
 
-namespace bridges {
+namespace bridges{
 /**
  * @brief The singly linked list element, derived from Element
  *
- * This class can be used to instantiate singly linked list elements. Most
- * of the methods are inherited from Element. The singly linked element provides
- * a next pointer, used to link to the following element in a singly linked
- * list.
+ * This class can be used to create singly linked elements, with a next SLelement pointer
  *
- * <E> Can be of any legal C++ type: integer, string, float, double, or
- * any user defined object(class, struct, array) , and represents application
- * dependent data.
+ * Generic Parameters: E the application data type
  *
- * @author Kalpathi Subramanian,
- * @date 6/11/15.
+ * @author Kalpathi Subramanian
+ * @date 6/11/15
  */
 template <typename E>
 class SLelement : public Element<E>
 {
-	private:
-		SLelement* next = nullptr; //the link to the next element
+	protected:
+	    /** The pointer to the next SLelement */
+		SLelement* next = nullptr;
 	public:
 	    /**
-	 	 * This constructor sets the next pointer
-	 	 * to the "n", value to "e", and label to "lab".
-	 	 * If an argument is not provided, its default constructor is used.
-	 	 *
-	 	 * @param n The next SLelement
-	 	 * @param e The data to hold
-	 	 * @param lab The label to show
-	 	 */
-		SLelement(SLelement* n = nullptr,E e = E(),string lab = string()) : Element<E>(e,lab), next(n) {}
-		/**
-	 	 * This constructor sets value to "e" and
-		 * label to "lab" and sets the next pointer to NULL.
-		 * If an argument is not provided, its default constructor is used.
+		 * Constructs an slelement with the provided value, label, and next slelement.
+		 * The defaults will be used if not provided.
 		 *
-	 	 * @param lab The label to show
-	 	 * @param e The data to hold
+		 * @param val The data to hold
+		 * @param lab The label to show
+		 * @param n The next SLelement
 	 	 */
-		SLelement(E e,string lab = string()) : SLelement(nullptr, e, lab) {}
-		/** Copy constructor */
-		SLelement(const SLelement& sl) : SLelement(sl.next,sl.value,sl.label){}
-		/** Assignment Operator */
-		SLelement& operator=(const SLelement& that)
+		SLelement(SLelement* n,const E& val = E(),const string& lab = string()) : Element<E>(val,lab) {setNext(n);}
+		/**
+		 * Constructs an slelement with the provided value and label, setting the next slelement to NULL.
+		 * The defaults will be used if not provided.
+		 *
+		 * @param val The data to hold
+		 * @param lab The label to show
+	 	 */
+		SLelement(const E& val = E(),const string& lab = string()) : SLelement(nullptr, val, lab) {}
+		/** @return The next SLelement */
+		virtual SLelement* getNext() {return next;}
+		/** Constant version */
+		virtual const SLelement* getNext() const {return next;}
+        /** Sets next to "n" @param n The next SLelement */
+		void setNext(SLelement* n)
 		{
-		    Element<E>::operator=(that);
-		    next = that.next;
-		    return *this;
-		}
-		/**
-	 	 * Returns the next SLelement
-		 *
-	 	 * @return The next SLelement
-	 	 */
-		SLelement* getNext() {return next;}
+		    if(next!=n){this->links.erase(next);}//if different, remove old link data
+		    if((next=n)){this->links[next];} //set next to n and if not null, create default link data if none already present
+        }
         /**
-	 	 * Sets next to "n"
-	 	 * (user is reponsible for next's memory management)
+	 	 * Calls delete on itself and each next linked SLelement*
 		 *
-	 	 * @param n The next SLelement
-	 	 */
-		void setNext(const SLelement* n){next = n;}
-        /**
-	 	 * Calls delete on "head" and each linked SLelement*
-		 *
-		 * @param head Head of a singly linked list
 		 * @warning Only call if these SLelements were all dynamicaly allocated(aka: using new)
+		 * @warning If linked list contains redundant links, delete will be called multiple times on it, leading to undefined behavior
 		 */
-		static void cleanup(SLelement* head)
-		{
-		    if(head)
-            {
-                cleanup(head->getNext()); //cleanup next sublist
-                delete head; //remove head
-            }
+		virtual void cleanup() override {if(next){next->cleanup();}Element<E>::cleanup();}
+    private:
+		/**
+         * Gets the JSON representation of this slelement and its links
+         *
+         * @param arr_size The size of the array determined by this
+         * @return A pair holding the nodes and links JSON strings respectively
+         */
+        virtual const pair<string,string> getDataStructureRepresentation(const unsigned int& arr_size) const override final
+        {
+			unordered_set<const Element<E>*> nodes;
+			for(unsigned int i=0;i<arr_size;i++){this[i].orderHelper(nodes);}
+			return this->generateJSON(nodes); // generate the JSON string
 		}
 		/**
-		 * Returns a pair of JSON strings of the nodes and links of the single linked list
+		 * Modifys "nodes" by adding this node and its next recursively
 		 *
-		 * @return A pair of node and link JSON
+		 * @param nodes The set to be added to
 		 */
-        virtual pair<string,string> getDataStructureRepresentation()
-        {
-			list<const Element<E>*> nodes;
-
-            SLelement* sl_list = this;
-            nodes.push_front(sl_list);
-            while(SLelement* sl_next = sl_list->next)
-            {
-                nodes.push_front(sl_next);
-                sl_list->getLinkVisualizer(sl_next); //link to next
-                sl_list = sl_next;
-            }
-			return Element<E>::generateJSON_Of_Nodes_And_Links(nodes); // generate the JSON string
-		}
+		void orderHelper(unordered_set<const Element<E>*>& nodes) const {if(nodes.emplace(this).second && next){next->orderHelper(nodes);} }//prevents potential infinite loop
 }; //end of SLelement class
 }//end of bridges namespace
 #endif

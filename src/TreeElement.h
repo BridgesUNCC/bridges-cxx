@@ -1,19 +1,15 @@
 #ifndef TREE_ELEMENT_H
 #define TREE_ELEMENT_H
 
-#include "Element.h" //string, list, using std
+#include "Element.h" //string, using std
 
 namespace bridges{
 /**
- * @brief  This class can be used to create binary tree element objects,
- *   derived from Element
+ * @brief This class can be used to create binary tree elements, derived from Element
  *
- * The BSTElement<E> is derived from Element<E>  to represent binary tree
- * elements, with accessors to left and right subtrees
+ * This class can be used to create binary tree elements, with left and right subtrees
  *
- * Param <E> : Can be of any legal C++ type: integer, string, float,
- *  	double, or any user defined object(class, struct, array), and
- *  	represents application dependent data.
+ * Generic Parameters: E the application data type
  *
  * @author Kalpathi Subramanian
  * @date 6/12/15
@@ -22,107 +18,85 @@ template <typename E>
 class TreeElement : public Element<E>
 {
 	private:
-		TreeElement* left = nullptr; 	//the left child link
-		TreeElement* right = nullptr; 	//the right child link
+	    /** The pointer to the left subtree */
+		TreeElement* left = nullptr;
+		/** The pointer to the right subtree */
+		TreeElement* right = nullptr;
 	public:
 		/**
-		 * This constructor sets left to "l", right to "r", value to "e" and label to "lab"
-		 * If an argument is not provided its default constructor will be used.
+		 * Constructs a TreeElement with the provided value, label, left and right TreeElements.
+		 * The defaults will be used if not provided.
 		 *
+		 * @param val The data to hold
+		 * @param lab The label to show
 		 * @param l The left TreeElement
 		 * @param r The right TreeElement
-		 * @param e The data to hold
-		 * @param lab The label to show
-		 */
-		TreeElement(TreeElement* l,TreeElement* r,E e = E(),string lab = string()) : Element<E>(e, lab), left(l), right(r) {}
+	 	 */
+		TreeElement(TreeElement* l,TreeElement* r,const E& e = E(),const string& lab = string()) : Element<E>(e, lab) {setLeft(l); setRight(r);}
 		/**
-		 * This constructor sets left and right to NULL, value to "e" and label to "lab"
-		 * If an argument is not provided its default constructor will be used.
+		 * Constructs a TreeElement with the provided value and label, setting the left and right TreeElements to NULL.
+		 * The defaults will be used if not provided.
 		 *
-		 * @param e The data to hold
+		 * @param val The data to hold
 		 * @param lab The label to show
-		 */
-		TreeElement(E e = E(),string lab = string()) : TreeElement(nullptr,nullptr,e,lab) {}
-		/** Copy Constructor */
-		TreeElement(const TreeElement& te) : TreeElement(te.left,te.right,te.value,te.label) {}
-		/** Assignment Operator */
-		TreeElement& operator=(const TreeElement& that)
+	 	 */
+		TreeElement(const E& e = E(),const string& lab = string()) : TreeElement(nullptr,nullptr,e,lab) {}
+		/** @return The left TreeElement */
+		virtual TreeElement* getLeft() {return left;}
+		/** Constant version */
+		virtual const TreeElement* getLeft() const {return left;}
+		/** Sets left to "l" @param l The left TreeElement */
+		void setLeft(TreeElement* l)
 		{
-		    Element<E>::operator=(that);
-		    left = that.left;
-		    right = that.right;
-		    return *this;
-		}
+		    if(left!=right){this->links.erase(left);} //if different, remove old link data
+            if((left=l)){this->links[left];} //set left to l and if not null, creates default link data if none already present
+        }
+		/** @return The right TreeElement */
+		virtual TreeElement* getRight() {return right;}
+		/** Constant version */
+		virtual const TreeElement* getRight() const {return right;}
+        /** Sets right to "r" @param r The right TreeElement */
+		void setRight(TreeElement* r)
+		{
+		    if(right!=left){this->links.erase(right);} //if different, remove old link data
+            if((right=r)){this->links[right];} //set right to r and if not null, creates default link data if none already present
+        }
 		/**
-		 * Returns the left TreeElement
+	 	 * Calls delete on itself and each next linked TreeElement*
 		 *
-		 * @return The left TreeElement
-		 */
-		TreeElement* getLeft() {return left;}
-		/**
-		 * Sets left to "l"
-		 *
-		 * @param l The left TreeElement
-		 */
-		void setLeft(TreeElement* l){left = l;}
-		/**
-		 * Returns the right TreeElement
-		 *
-		 * @return The right TreeElement
-		 */
-		TreeElement* getRight() {return right;}
-        /**
-		 * Sets right to "r"
-		 *
-		 * @param r The right TreeElement
-		 */
-		void setRight(TreeElement* r){right = r;}
-		/**
-	 	 * Calls delete on "root" and each linked TreeElement*
-		 *
-		 * @param root Root of a binary tree
 		 * @warning Only call if these TreeElements were all dynamicaly allocated(aka: using new)
+		 * @warning If tree contains redundant links, delete will be called multiple times on it, leading to undefined behavior
 		 */
-		static void cleanup(TreeElement* root)
+		virtual void cleanup() override
 		{
-			if(root)
-            {
-				cleanup(root->getLeft()); // cleanup left subtree
-				cleanup(root->getRight()); // cleanup right subtree
-				delete root; // remove root
-			}
+			if(left){left->cleanup();}// cleanup left subtree
+            if(right){right->cleanup();} // cleanup right subtree
+            Element<E>::cleanup();
+		}
+    private:
+        /**
+         * Gets the JSON representation of this TreeElement and its links
+         *
+         * @param arr_size The size of the array determined by this
+         * @return A pair holding the nodes and links JSON strings respectively
+         */
+		virtual const pair<string,string> getDataStructureRepresentation(const unsigned int& arr_size) const override final
+		{
+			unordered_set<const Element<E>*> nodes;
+			for(unsigned int i=0;i<arr_size;i++){this[i].preOrderBT(nodes);}
+			return this->generateJSON(nodes); // generate the JSON string
 		}
         /**
-		 * Returns a pair of JSON strings of the nodes and links of the tree
-		 * made by using preorder traversal
+		 * Modifys "nodes" by adding its nodes via a preorder traversal
 		 *
-		 * @return A pair of node and link JSON
+		 * @param nodes The set to be added to
 		 */
-		pair<string,string> getDataStructureRepresentation()
+		void preOrderBT(unordered_set<const Element<E>*>& nodes) const
 		{
-			list<const Element<E>*> nodes;
-			preOrderBT(nodes);
-			return Element<E>::generateJSON_Of_Nodes_And_Links(nodes); // generate the JSON string
-		}
-		/**
-		 * Use a preorder traversal to collect the nodes and links in the
-		 * binary tree
-		 *
-		 * @param nodes Modified list of nodes
-		 * @param links Modified list of links
-		 */
-		void preOrderBT(list<const Element<E>*>& nodes)
-		{
-            nodes.push_front(this);
-            if(left)
+            if(nodes.emplace(this).second)//prevents potential infinite loop
             {
-                this->getLinkVisualizer(left); //link to left
-                left->preOrderBT(nodes);
-            }
-            if(right)
-            {
-                this->getLinkVisualizer(right); //link to right
-                right->preOrderBT(nodes);
+                if(left){left->preOrderBT(nodes);}
+                if(right){right->preOrderBT(nodes);}
             }
 		}
 }; //end of TreeElement class

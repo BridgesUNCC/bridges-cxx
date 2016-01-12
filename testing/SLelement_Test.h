@@ -1,7 +1,4 @@
-#include <string>
-#include <vector>
 #include <assert.h>
-using namespace std;
 #include "SLelement.h"
 using namespace bridges;
 
@@ -12,83 +9,81 @@ using namespace bridges;
 #define UNIFORM_INITIALZATION(...) (new TestCase(new SLelement<TYPE>(__VA_ARGS__))) ///Syntactic Sugar
 
 
-/** Namespace used to prevent naming interference with other files **/
-namespace SLelementTester
+namespace Test_SLelement
 {
-    /** POD struct to hold element for testing and expected values **/
-    struct TestCase: ElementTester::TestCase
+    /** Contains obj for testing, as well as expected values of tests */
+    struct TestCase: Test_Element::TestCase
     {
-        ///Initializes to default value
-        SLelement<TYPE>*const sl;
+        SLelement<TYPE>* sl;
         SLelement<TYPE>* next = nullptr;
-        ///Constructor - calls super and initializes const
-        TestCase(SLelement<TYPE>* e) : ElementTester::TestCase(e), sl(e){}
+        TestCase(SLelement<TYPE>* e) : Test_Element::TestCase(e), sl(e){}
     };
 
-    /** Returns list of hard coded TestCases **/
-    vector<TestCase*> nativeTestCases()
+    /** TestCases pertaining to this object */
+    vector<TestCase*> nativeCases()
     {
         vector<TestCase*> cases;
 
-        TestCase* tc1 = UNIFORM_INITIALZATION();
-        cases.push_back(tc1);
+        cases.push_back(UNIFORM_INITIALZATION());
 
-        TestCase* tc2 = UNIFORM_INITIALZATION("A","B");
-        tc2->label = "A";
-        tc2->value = "B";
-        cases.push_back(tc2);
+        cases.push_back(UNIFORM_INITIALZATION("A"));
+        cases.back()->value = "A";
 
-        TestCase* tc3 = UNIFORM_INITIALZATION("C",tc2->sl);
-        tc3->value = "C";
-        tc3->next = tc2->sl;
-        cases.push_back(tc3);
+        cases.push_back(UNIFORM_INITIALZATION("B","C"));
+        cases.back()->value = "B";
+        cases.back()->label = "C";
 
-        TestCase* tc4 = UNIFORM_INITIALZATION(tc3->sl);
-        tc4->next = tc3->sl;
-        cases.push_back(tc4);
+        cases.push_back(UNIFORM_INITIALZATION(cases.back()->sl));
+        cases.back()->next = cases.rbegin()[1]->sl;
+
+        cases.push_back(UNIFORM_INITIALZATION(cases.back()->sl,"D"));
+        cases.back()->next = cases.rbegin()[1]->sl;
+        cases.back()->value = "D";
+
+        cases.push_back(UNIFORM_INITIALZATION(cases.back()->sl,"E","F"));
+        cases.back()->next = cases.rbegin()[1]->sl;
+        cases.back()->value = "E";
+        cases.back()->label = "F";
 
         return cases;
     }
 
-    void runTests();
-    void runTests(const vector<TestCase*>&);
-    void getNextTest(TestCase*);
-    void setNextTest(TestCase*);
-
-    /** Runs Tests for all native SLelement Testcases **/
-    void runTests()
+    void testGetLink(TestCase* tc)
     {
-        runTests(nativeTestCases());
+        tc->next? assert(tc->sl->getLinkVisualizer(tc->next) != nullptr) : assert(tc->sl->getLinkVisualizer(tc->next) == nullptr);
     }
-    /** Runs Tests for all given SLelement Testcases **/
-    void runTests(const vector<TestCase*>& cases)
-    {
-        for(auto* tc: cases)
-        {
-            getNextTest(tc);
-            setNextTest(tc);
-        }
-        ///Inheritence Tests - Uses uniform initialization to convert to superclass
-        ElementTester::runTests({cases.begin(),cases.end()});
-    }
-    /** Tests getNext() correctly gets value **/
-    void getNextTest(TestCase* tc)
+    void testGetNext(TestCase* tc)
     {
         assert(tc->sl->getNext()==tc->next);
     }
-    /** Tests setNext() correctly sets value **/
     void setNextTest(TestCase* tc)
     {
         //set to self
         tc->sl->setNext(tc->next = tc->sl);
-        getNextTest(tc);
+        testGetNext(tc);
+        testGetLink(tc);
         //set to new value
         tc->sl->setNext(tc->next = new SLelement<TYPE>("B","C"));
-        getNextTest(tc);
+        testGetNext(tc);
+        testGetLink(tc);
         //set to null
         tc->sl->setNext(tc->next = nullptr);
-        getNextTest(tc);
+        testGetNext(tc);
+        testGetLink(tc);
     }
+    /** Runs Tests for any cases provided */
+    void runTests(const vector<TestCase*>& cases)
+    {
+        for(TestCase* tc : cases)
+        {
+            testGetLink(tc);
+            testGetProperties(tc);
+            testSetProperties(tc);
+        }
+        Test_Element::runTests({cases.begin(),cases.end()}); ///Inheritance tests
+    }
+    /** Runs Tests for cases pertaining to this object */
+    void runTests(){runTests(nativeCases());}
 }
 #undef UNIFORM_INITIALZATION
 #undef TYPE

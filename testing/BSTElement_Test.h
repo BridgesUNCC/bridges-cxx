@@ -1,6 +1,5 @@
 #include <string>
 #include <assert.h>
-using namespace std;
 #include "BSTElement.h"
 using namespace bridges;
 
@@ -13,127 +12,96 @@ using namespace bridges;
 #endif // KEY
 #define UNIFORM_INITIALZATION(...) (new TestCase(new BSTElement<KEY,TYPE>(__VA_ARGS__))) ///Syntactic Sugar
 
-/** Namespace used to prevent naming interference with other files **/
-namespace BSTElementTester
+namespace Test_BSTElement
 {
-    /** POD struct to hold element for testing and expected values **/
-    struct TestCase : TreeElementTester::TestCase
+    /** Contains obj for testing, as well as expected values of tests */
+    struct TestCase : Test_TreeElement::TestCase
     {
-        ///Initializes to default value
-        BSTElement<KEY,TYPE>*const bst;
+        BSTElement<KEY,TYPE>* bst;
         KEY key = KEY();
-        //Left and Right pointers are taken care of by super-class
-        ///Constructor - calls super and initializes const
-        TestCase(BSTElement<KEY,TYPE>* e) : TreeElementTester::TestCase(e), bst(e){}
-        ///Assignment Operator
-        TestCase& operator=(const TestCase& that)
-        {
-            TreeElementTester::TestCase::operator=(that);
-            key = that.key;
-            return *this;
-        }
+        TestCase(BSTElement<KEY,TYPE>* e) : Test_TreeElement::TestCase(e), bst(e){}
     };
-    /** Returns list of hard coded TestCases **/
-    vector<TestCase*> nativeTestCases()
+    /** TestCases pertaining to this object */
+    vector<TestCase*> nativeCases()
     {
         vector<TestCase*> cases;
 
-        TestCase* tc1 = UNIFORM_INITIALZATION();
-        cases.push_back(tc1);
+        cases.push_back(UNIFORM_INITIALZATION(1));
+        cases.back()->key = 1;
 
-        TestCase* tc2 = UNIFORM_INITIALZATION("A");
-        tc2->value="A";
-        cases.push_back(tc2);
+        cases.push_back(UNIFORM_INITIALZATION(2,"A"));
+        cases.back()->value = "A";
+        cases.back()->key = 2;
 
-        TestCase* tc3 = UNIFORM_INITIALZATION(3,"B");
-        tc3->key = 3;
-        tc3->value="B";
-        cases.push_back(tc3);
+        cases.push_back(UNIFORM_INITIALZATION(3,"B","C"));
+        cases.back()->value = "B";
+        cases.back()->label = "C";
+        cases.back()->key = 3;
 
-        TestCase* tc4 = UNIFORM_INITIALZATION("C",5,"D");
-        tc4->label="C";
-        tc4->key = 5;
-        tc4->value="D";
-        cases.push_back(tc4);
+        cases.push_back(UNIFORM_INITIALZATION(4,cases.back()->bst,cases.rbegin()[1]->bst));
+        cases.back()->key = 4;
+        cases.back()->left = cases.rbegin()[1]->bst;
+        cases.back()->right = cases.rbegin()[2]->bst;
 
-        TestCase* tc5 = UNIFORM_INITIALZATION(tc3->bst,tc4->bst);
-        tc5->left = tc3->bst;
-        tc5->right = tc4->bst;
-        cases.push_back(tc5);
+        cases.push_back(UNIFORM_INITIALZATION(5,cases.back()->bst,cases.rbegin()[1]->bst,"D"));
+        cases.back()->key = 5;
+        cases.back()->left = cases.rbegin()[1]->bst;
+        cases.back()->right = cases.rbegin()[2]->bst;
+        cases.back()->value = "D";
 
-        TestCase* tc6 = UNIFORM_INITIALZATION("E",tc4->bst,tc5->bst);
-        tc6->value="E";
-        tc6->left = tc4->bst;
-        tc6->right = tc5->bst;
-        cases.push_back(tc6);
-
-        TestCase* tc7 = UNIFORM_INITIALZATION(7,"F",tc5->bst,tc6->bst);
-        tc7->key = 7;
-        tc7->value="F";
-        tc7->left = tc5->bst;
-        tc7->right = tc6->bst;
-        cases.push_back(tc7);
-
-        TestCase* tc8 = UNIFORM_INITIALZATION(*(tc3->bst));
-        *tc8 = *tc3;
-        cases.push_back(tc8);
+        cases.push_back(UNIFORM_INITIALZATION(6,cases.back()->bst,cases.rbegin()[1]->bst,"E","F"));
+        cases.back()->key = 6;
+        cases.back()->left = cases.rbegin()[1]->bst;
+        cases.back()->right = cases.rbegin()[2]->bst;
+        cases.back()->value = "E";
+        cases.back()->label = "F";
 
         return cases;
     }
 
-    void runTests();
-    void runTests(const vector<TestCase*>&);
-    void getKeyTest(TestCase*);
-    void setKeyTest(TestCase*);
-    void getLeftTest(TestCase*);
-    void getRightTest(TestCase*);
-    void getRepresentationTest(TestCase*);
-
-    /** Runs Tests for all native BSTElement Testcases **/
-    void runTests()
+    void testGetLink(TestCase* tc)
     {
-        runTests(nativeTestCases());
+        tc->left? assert(tc->te->getLinkVisualizer(tc->left) != nullptr) : assert(tc->te->getLinkVisualizer(tc->left) == nullptr);
+        tc->right? assert(tc->te->getLinkVisualizer(tc->right) != nullptr) : assert(tc->te->getLinkVisualizer(tc->right) == nullptr);
     }
-    /** Runs Tests for all given BSTElement Testcases **/
-    void runTests(const vector<TestCase*>& cases)
-    {
-        for(auto* tc: cases)
-        {
-            //getKeyTest(tc);
-            setKeyTest(tc);
-            getLeftTest(tc);
-            getRightTest(tc);
-            //getRepresentationTest(tc);
-        }
-        ///Inheritence Tests - Uses uniform initialization to convert to superclass
-        TreeElementTester::runTests({cases.begin(),cases.end()});
-    }
-    /** Tests getKey() correctly gets value **/
-    void getKeyTest(TestCase* tc)
+    void testGetProperties(TestCase* tc)
     {
         assert(tc->bst->getKey()==tc->key);
-    }
-    /** Tests setKey() correctly sets value **/
-    void setKeyTest(TestCase* tc)
-    {
-        tc->bst->setKey(tc->key = 13);
-        getKeyTest(tc);
-    }
-    /** Tests getLeft() correctly gets value **/
-    void getLeftTest(TestCase* tc)
-    {
         assert(tc->bst->getLeft()==tc->left);
-    }
-    /** Tests getRight() correctly gets value **/
-    void getRightTest(TestCase* tc)
-    {
         assert(tc->bst->getRight()==tc->right);
     }
-    /** Tests getRepresentation() gets JSON **/
-    void getRepresentationTest(TestCase* tc)
+    void testSetProperties(TestCase* tc)
     {
-
+        tc->bst->setKey(tc->key = 13);
+        //set to self
+        tc->bst->setLeft(static_cast<BSTElement<KEY,TYPE>*>(tc->left = tc->bst));
+        tc->bst->setRight(static_cast<BSTElement<KEY,TYPE>*>(tc->right = tc->bst));
+        testGetChildren(tc);
+        testGetLink(tc);
+        //set to new value
+        tc->bst->setLeft(static_cast<BSTElement<KEY,TYPE>*>(tc->left = new BSTElement<KEY,TYPE>(99)));
+        tc->bst->setRight(static_cast<BSTElement<KEY,TYPE>*>(tc->right = new BSTElement<KEY,TYPE>(98)));
+        testGetChildren(tc);
+        testGetLink(tc);
+        //set to null
+        tc->bst->setLeft(static_cast<BSTElement<KEY,TYPE>*>(tc->left = nullptr));
+        tc->bst->setRight(static_cast<BSTElement<KEY,TYPE>*>(tc->right = nullptr));
+        testGetChildren(tc);
+        testGetLink(tc);
     }
+    /** Runs Tests for any cases provided */
+    void runTests(const vector<TestCase*>& cases)
+    {
+        for(TestCase* tc : cases)
+        {
+            testGetLink(tc);
+            testGetProperties(tc);
+            testSetProperties(tc);
+        }
+        Test_TreeElement::runTests({cases.begin(),cases.end()}); ///Inheritance tests
+    }
+    /** Runs Tests for cases pertaining to this object */
+    void runTests(){runTests(nativeCases());}
 }
 #undef UNIFORM_INITIALZATION
 #undef KEY

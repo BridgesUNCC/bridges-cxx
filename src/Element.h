@@ -1,278 +1,188 @@
 #ifndef ELEMENT_H
 #define ELEMENT_H
 
-#include <list> //list
+#include <unordered_set> //unordered set
 
+#include "DataStructure.h"
 #include "LinkVisualizer.h" //Color, cerr, string, unordered_map, using std
 
-namespace bridges {
-    const string// Some constants used to generate JSON strings
-        QUOTE = "\"",
-        COMMA = ",",
-        COLON = ":",
-        OPEN_CURLY = "{",
-        CLOSE_CURLY = "}",
-        OPEN_PAREN = "[",
-        CLOSE_PAREN = "]";
+namespace bridges{
+
+template <typename K, typename T> class GraphAdjList; template <typename K, typename T> class GraphAdjMatrix; //Forward Declaration for Befriendment
+
+/** Enumeration of valid shapes for visualization */
+enum Shape{CIRCLE,SQUARE,DIAMOND,CROSS,TRI_DOWN,TRI_UP};
+
 /**
- * @brief This is the fundamental building block used in building all
- *		data structures in BRIDGES
+ * @brief This is the fundamental building block used in building all data structures in BRIDGES
  *
- * This is the Superclass Element with SLelement, DLelement,
- * TreeElement, BSTElement subclasses. Arrays are also built of this type.
+ * This is the Superclass Element with SLelement, DLelement, TreeElement, BSTElement subclasses.
  *
- * Template type  parameter E  is provided to store any application
- * specific data. E  can be of any legal C++ type: integer, string, float,
- * double, or any user defined object(class, struct, array).
+ * Generic Parameters: E the application data type
  *
- * The label field(string type) is used to label the visualization of
- * the element node.
+ * The label field(string type) is used to label the visualization of the element.
  *
- * Element holds a LinkVisualizer for each of its links. LinkVisualizer holds
- * visualization properties of the link between this element and the element it is linked
- * to -- useful in linked structures and graphs that contain edges.
+ * Element holds a LinkVisualizer for each of its links.
+ * Element also hold visualization properties for itself, including the color, shape, and size.
+ * Defaults of green, circle, and 10.0 respectively.
  *
- * Element also hold visualization properties for itself,
- * including the color, shape, opacity, and size of the node.
+ * Size values must range from [10.0,50.0].
+ * BRIDGES supports the following shapes: "circle", "square", "diamond", "cross", "triangle-down", "triangle-up"
  *
- * BRIDGES supports color of any legal named CSS or #hexadecimal value. Defalt: green
- * Size values must range from [10.0,50.0]. Default: 10.0
- * Opacity must be between 0.0(fully transparent) and 1.0(fully opaque). Default: 1.0
- * BRIDGES supports the following shapes:
- * "circle", "square", "diamond", "cross", "triangle-down", "triangle-up"
- * Default: "circle"
- *
- * E : Application specific data type - can be any legal C++ type.
- *
- * @author  Kalpathi Subramanian,
+ * @author Kalpathi Subramanian
  * @date 6/11/15
  */
-template <typename E> class Element
+template <typename E> class Element : public DataStructure
 {
+    template <typename K, typename T> friend class GraphAdjList; template <typename K, typename T> friend class GraphAdjMatrix; //Used for access to generateJSON() and for links manipulation
+
     public:
+        /** The default color of an element */
 	    static const Color DEFAULT_COLOR; //green
-        static const string DEFAULT_SHAPE; //circle
+	    /** The default shape of an element */
+        static constexpr Shape DEFAULT_SHAPE = CIRCLE; //circle
+        /** The default size of an element */
 		static constexpr double DEFAULT_SIZE = 10;
 	private:
-        //Element Visualizer Properties
+	    static const unordered_map<const Shape,const string, hash<int>> ShapeNames;
+        /** This element's color */
         Color color=DEFAULT_COLOR;
-        string shape=DEFAULT_SHAPE;
+        /** This element's shape */
+        Shape shape=DEFAULT_SHAPE;
+        /** This element's size */
 		double size=DEFAULT_SIZE;
-        //Element Properties
+        /** This element's label */
 		string label;
-		unordered_map<Element*, LinkVisualizer> links;
-    	E value = E();
+		/** This element's value */
+		E value = E();
+    protected:
+        /** This element's collection of links */
+    	unordered_map<Element*, LinkVisualizer> links;
 	public:
         /**
-		 * Element constructor creates an ElementVisualizer,
-		 * a map of LinkVisualizers, sets value to "val", and
-		 * sets label to "lab". If an argument isn't provided
-		 * it's default constructor will be used.
+		 * Constructs an element with the provided value and label.
+		 * The defaults will be used if not provided.
 		 *
 		 * @param val The data to hold
 		 * @param lab The label to show
 		 */
-		Element(E val = E(),string lab = string()) : label(lab), value(val) {links.clear();}
-        /** Copy constructor */
-		Element(const Element& el) : Element(el.value, el.label){}
-        /** Assignment operator */
-		Element& operator=(const Element& el){value = el.value; label = el.label; return *this;}
-        /** Destructor */
-		virtual ~Element(){links.clear();}
+		Element(const E& val = E(),const string& lab = string()) : label(lab), value(val) {}
 		/**
 		 * Sets size to "sz"
-		 * Valid Range:[0,50] Default: 10
+		 * Valid Range:[10,50]
 		 *
-		 * @param size Input size in pixels of Element.
+		 * @param size The size in pixel weight of the element
+		 * @throw string If size is invalid
 		 */
-		void setSize(const double& sz)
-		{
-			try
-			{
-				Validation::validateSize(sz);
-				size = sz;
-			}
-			catch (const string& msg)
-			{
-				cerr << msg << endl << "Size left unchanged.." << endl;
-			}
-		}
-		/**
-		 * Get the size of the Element in the Bridges Visualiation
-		 *
-		 * @return Size in pixels of Element
-		 */
+		void setSize(const double& sz){(sz<10||50<sz)?throw "Invalid Size Value.. "+to_string(sz)+" Must be in the [10.0,50.0] range" : size = sz;}
+		/** @return The size in pixel weight of the element */
 		double getSize() const {return size;}
-		/**
-		 * Set the color to "col"
-		 * Default: green
-		 *
-		 * @param color Input Bridges color of Element
-		 */
+		/** Set the color to "col" @param color The color of the element */
 		void setColor(const Color& col){color = col;}
-		/**
-		 * Get the color of the Element in the Bridges Visualization
-		 *
-		 * @return Bridges color of Element
-		 */
+		/** @return The color of the element */
 		Color getColor() const {return color;}
 		/**
 		 * Sets the shape to "shp"
-		 * Default: circle, See the top of the page for the supported shapes.
+		 * See the top of the page for the supported shapes.
 		 *
-		 * @param shape Input Bridges shape of Element
+		 * @param shape The shape of the element
+		 * @throw string If the shape is invalid
 		 */
-		void setShape(const string& shp)
-		{
-			try
-			{
-				Validation::validateShape(shp);
-				shape = shp;
-			}
-			catch (const string& msg)
-			{
-				cerr << msg << endl << "Shape left unchanged.." << endl;
-			}
-		}
-		/**
-		 * Get the shape of the Element in the Bridges Visualization.
-		 *
-		 * @return Bridges shape of Element
-		 */
-		string getShape() const {return shape;}
+		void setShape(const Shape& shp){shape = shp;}
+		/** @return The shape of the element */
+		Shape getShape() const {return shape;}
         /**
-	 	 * Returns the LinkVisualizer to element "el"
-	 	 * (Creates Default LinkVisualizer if none set)
+	 	 * Returns the LinkVisualizer to element "el" or NULL if no link exists
 		 *
 	 	 * @param el The terminating element
 	 	 * @return The LinkVisualizer
 	 	 */
-		LinkVisualizer& getLinkVisualizer(Element* el){return links[el];}
-        /**
-	 	 * This returns the label
-	 	 *
-	 	 * @return The label
-	 	 */
-		string getLabel() const {return label;}
-		/**
-	 	 * Sets label to "lab"
-		 *
-	 	 * @param lab Input label
-		 *
-	 	 */
-		void setLabel(const string& lab){label = lab;}
-		/**
-	 	 * Returns the Element's data
-		 *
-	 	 * @return The value
-         */
-		E getValue() const {return value;}
-		/**
-	 	 * Sets value to "val"
-		 *
-	 	 * @param val Input data
-	 	 */
-		void setValue(const E& val){value = val;}
-		/** Removes unnessasary trailing 0s to lower size of JSON string */
-		static string removeTrailingZeros(const double& num)
-        {
-            if(static_cast<int>(num) == num){return to_string(static_cast<int>(num));}//if integer return as int
-            string numRep = to_string(num);
-            numRep.erase(numRep.find_last_not_of("0")+1);//removes trailing 0s
-            return numRep;
+		LinkVisualizer* getLinkVisualizer(const Element* el)
+		{
+		    if(links.find(const_cast<Element*>(el)) != links.end())
+            {
+                return &(links.at(const_cast<Element*>(el)));
+            }
+            cerr<<"Not linked to given Element... returned NULL"<<endl;
+            return nullptr;
         }
+        /** Constant version */
+        const LinkVisualizer* getLinkVisualizer(const Element* el) const {return const_cast<Element*>(this)->getLinkVisualizer(el);}
+        /** @return The label of the element */
+		string getLabel() const {return label;}
+		/** Sets label to "lab" @param lab The label of the element */
+		void setLabel(const string& lab){label = lab;}
+		/** @return The value of the element */
+		E getValue() const {return value;}
+		/** Sets value to "val"  @param val The value of the element */
+		void setValue(const E& val){value = val;}
+    private:
 		/**
-	 	 * Internal code for getting the properties of the Element object.
-	 	 * It produces (without the spaces or newlines):
-	 	 * {
-	 	 *  "other CSS properties like color": any_JSON_value
-         *  "name": "Some label"
-	 	 * }
-	 	 *
-	 	 * @return The JSON string
-	 	 */
-		virtual string getRepresentation() const
+         * Gets the JSON representation of this element
+         *
+         * @param arr_size The size of the array determined by this
+         * @return A pair holding the nodes and links JSON strings respectively
+         */
+		virtual const pair<string,string> getDataStructureRepresentation(const unsigned int& arr_size) const override
+		{
+		    unordered_set<const Element*> nodes;
+		    for(unsigned int i=0;i<arr_size;i++){nodes.emplace(this+i);}
+			return generateJSON(nodes);
+		}
+		/** @return The JSON string of this element's properties */
+		const string getRepresentation() const
 		{
 			return
             OPEN_CURLY +
-                //write out element visualizer properties
+                //write out visualizer properties
                 QUOTE + "color"   + QUOTE + COLON + QUOTE + color.getCSSrep()         + QUOTE + COMMA +
-                QUOTE + "opacity" + QUOTE + COLON + QUOTE + to_string(1)              + QUOTE + COMMA + //color's alpha will take care of, left here untill server code updated
-                QUOTE + "shape"   + QUOTE + COLON + QUOTE + shape                     + QUOTE + COMMA +
+                QUOTE + "shape"   + QUOTE + COLON + QUOTE + ShapeNames.at(shape)      + QUOTE + COMMA +
                 QUOTE + "size"    + QUOTE + COLON + QUOTE + removeTrailingZeros(size) + QUOTE + COMMA +
                 //write out this node
                 QUOTE + "name" + QUOTE + COLON + QUOTE + label + QUOTE +
             CLOSE_CURLY;
 		}
+    protected:
 		/**
-		 * Returns a pair of JSON strings of the nodes and links of the Bridges array
-		 * It is the user's responsibility to supply a correct size, as bound validation doesn't occur.
-		 * The object this function is called with will function as the first element of the array.
-		 *
-		 * @param arr_size This' array length
-		 * @return A pair of node and link JSON
-		 */
-		virtual pair<string,string> getDataStructureRepresentation(const int& arr_size)
-		{
-			list<const Element*> nodes;
-			this->links.clear();
-			for(int i = 0; i < arr_size; i++) //get nodes
-            {
-                nodes.push_front(&this[i]);
-            }
-			return Element<E>::generateJSON_Of_Nodes_And_Links(nodes);
-		}
-		/**
-		 * Generates the Pair of JSON of the given the nodes and links
+		 * Generates the JSON of the given the nodes and associated links
 		 *
 		 * @param nodes List of nodes
-		 * @param links List of Links
-		 * @return A pair of node and link JSON
+		 * @throw string If maximum elements exceeded
+		 * @return A pair holding the nodes and links JSON strings respectively
 		 */
-		static pair<string,string> generateJSON_Of_Nodes_And_Links(const list<const Element*>& nodes)
+		static const pair<string,string> generateJSON(const unordered_set<const Element*>& nodes)
 		{
-
-		    Validation::validate_ADT_size(nodes.size()); // cant exceed max number of elements
+		    if(MAX_ELEMENTS_ALLOWED<=nodes.size()){throw "Max allowed elements(for visualization) exceeded.. "+to_string(nodes.size())+" Must be less than "+to_string(MAX_ELEMENTS_ALLOWED);} // cant exceed max number of elements
 			// map the nodes to a sequence of ids, 0...N-1 then get the JSON string for nodes
-			unordered_map<const Element*,int> map;
+			unordered_map<const Element*,int> map{{nullptr,-1}}; //placeholder nullptr prevents insertion of other nullptrs
 			string nodes_JSON, links_JSON;
 
-            int i=0;
-			for(const auto* e: nodes) // get the JSON string for nodes
-            {
-                map.emplace(e,i++);
-                nodes_JSON += e->getRepresentation() + COMMA;
-			}
-			if(nodes_JSON.size()){nodes_JSON = nodes_JSON.erase(nodes_JSON.size()-1);} //Remove trailing comma
+            int i=0; // get the JSON string for nodes
+			for(const auto* e: nodes){if(map.emplace(e,i).second && ++i){nodes_JSON += e->getRepresentation() + COMMA;}}//short circut only incriments i and gets rep upon sucessful emplacement
+			map.erase(nullptr); if(nodes_JSON.size()){nodes_JSON = nodes_JSON.erase(nodes_JSON.size()-1);} //Remove trailing comma and nullptr entry
 
-			for(const auto* e: nodes) //each Element* in nodes
+			for(const auto& ele_int: map) //each pair<Element*,int> in map
             {
-                for(const auto& p: e->links) //each pair<Element*,LinkVisualizer> in Element*->links
+                for(const auto& ele_lv: ele_int.first->links) //each pair<Element*,LinkVisualizer> in Element*->links
                 {
-                    const LinkVisualizer& lv = p.second;
-                    if(lv.getWeight()) //Only add data if weight isn't 0
-                    {
-                        links_JSON +=
-                            OPEN_CURLY +
-                                //write out LinkVisualizer properties
-                                QUOTE + "color"     + QUOTE + COLON + QUOTE + lv.getColor().getCSSrep()              + QUOTE + COMMA +
-                                QUOTE + "opacity"   + QUOTE + COLON + QUOTE + to_string(1)                           + QUOTE + COMMA + //color's alpha will take care of, left here untill server code updated
-                                QUOTE + "thickness" + QUOTE + COLON + QUOTE + removeTrailingZeros(lv.getThickness()) + QUOTE + COMMA +
-                                QUOTE + "weight"    + QUOTE + COLON + QUOTE + removeTrailingZeros(lv.getWeight())    + QUOTE + COMMA +
-                                //write out the source and targets of the link
-                                QUOTE + "source" + QUOTE + COLON + to_string(map.at(e))       + COMMA +
-                                QUOTE + "target" + QUOTE + COLON + to_string(map.at(p.first)) +
-                            CLOSE_CURLY + COMMA;
-                    }
+                    auto it = map.find(ele_lv.first); //mapping of destination node
+                    if(it!=map.end()){links_JSON += ele_lv.second.getJSONrepresentation(to_string(ele_int.second),to_string(it->second)) + COMMA;} //only add link if dest node exists
                 }
             }
 			if (links_JSON.size()){links_JSON = links_JSON.erase(links_JSON.size()-1);}//Remove trailing comma
-
             return pair<string,string>(nodes_JSON, links_JSON);
 		}
 };//end of Element class
 template <typename E> const Color Element<E>::DEFAULT_COLOR("green");
-template <typename E> const string Element<E>::DEFAULT_SHAPE = "circle";
-template <typename E> constexpr double Element<E>::DEFAULT_SIZE;
+template <typename E> const unordered_map<const Shape,const string, hash<int>>
+    Element<E>::ShapeNames
+    {
+        {CIRCLE,"circle"},
+        {SQUARE,"square"},
+        {DIAMOND,"diamond"},
+        {CROSS,"cross"},
+        {TRI_DOWN,"triangle-down"},
+        {TRI_UP,"triangle-up"}
+    };
 }//end of bridges namespace
 #endif
