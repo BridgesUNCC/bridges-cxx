@@ -64,6 +64,8 @@ class GraphAdjList : public DataStructure
 	public:
 		/** Destructor */
 		virtual ~GraphAdjList() override {for(auto& p : adj_list){if(p.second){p.second->cleanup();}}}//frees SLelement* edges
+        /** @return The string representation of this data structure type */
+		virtual const string getDStype() const {return "graphl";}
         /**
 		 * Adds a vertex of key "k" and value "e" to the graph, and initializes its adjacency list.
 		 * If this key already exists its value and all source associated edges with be overwriten.

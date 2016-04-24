@@ -41,6 +41,8 @@ class TreeElement : public Element<E>
 		 * @param lab The label to show
 	 	 */
 		TreeElement(const E& e = E(),const string& lab = string()) : TreeElement(nullptr,nullptr,e,lab) {}
+		/** @return The string representation of this data structure type */
+		virtual const string getDStype() const {return "tree";}
 		/** @return The left TreeElement */
 		virtual TreeElement* getLeft() {return left;}
 		/** Constant version */

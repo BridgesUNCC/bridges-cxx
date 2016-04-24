@@ -98,6 +98,7 @@ namespace Bridges
             string s_final =
                 OPEN_CURLY +
                     QUOTE + "version" + QUOTE + COLON + QUOTE + "0.4.0" + QUOTE + COMMA +
+                    QUOTE + "visual"  + QUOTE + COLON + QUOTE + Bridges::ds_handle()->getDStype() + QUOTE + COMMA +
                     QUOTE + "nodes"   + QUOTE + COLON + "[" + json_nodes_links.first   + "]" + COMMA +
                     QUOTE + "links"   + QUOTE + COLON + "[" + json_nodes_links.second  + "]" +
                 CLOSE_CURLY;

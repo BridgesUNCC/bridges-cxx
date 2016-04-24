@@ -30,6 +30,8 @@ class GraphAdjMatrix : public DataStructure
 		/** Matrix of this graph's edges */
 		unordered_map<K, unordered_map<K, int>> matrix; //addVertex - only function adds to maps; guarenteed if K exists in one, it exists in all
 	public:
+	    /** @return The string representation of this data structure type */
+		virtual const string getDStype() const {return "graphl";}
         /**
 		 * Adds a vertex of key "k" and value "e" to the graph.
          * Sets all of its edges to be of weight 0.

@@ -33,6 +33,8 @@ class DataStructure
     public:
         /** Virtual Destructor */
         virtual ~DataStructure()=default;
+        /** @return The string representation of this data structure type */
+        virtual const string getDStype() const=0;
         /**
          * Ease of use function for the deletion of an entire datastructure.
 	 	 * Overrides should call delete on itself and each linked data structure
@@ -56,6 +58,16 @@ class DataStructure
             string numRep = to_string(num);
             numRep.erase(numRep.find_last_not_of("0")+1);//removes trailing 0s
             return numRep;
+        }
+        /** @return A copy of "str" replacing escape characters with html equivilents */
+		static string convertEscapes(string str)
+        {
+            /*size_t pos = 0;
+            while((pos = str.find("\\",pos)) != str.npos)
+            {
+                str.replace(pos,1,"&#x5C;");
+            }*/
+            return str;
         }
 };//end of DataStructue class
 }//end of bridges namespace

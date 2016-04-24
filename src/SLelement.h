@@ -38,6 +38,8 @@ class SLelement : public Element<E>
 		 * @param lab The label to show
 	 	 */
 		SLelement(const E& val = E(),const string& lab = string()) : SLelement(nullptr, val, lab) {}
+		/** @return The string representation of this data structure type */
+		virtual const string getDStype() const {return "llist";}
 		/** @return The next SLelement */
 		virtual SLelement* getNext() {return next;}
 		/** Constant version */

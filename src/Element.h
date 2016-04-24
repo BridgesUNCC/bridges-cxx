@@ -67,6 +67,8 @@ template <typename E> class Element : public DataStructure
 		 * @param lab The label to show
 		 */
 		Element(const E& val = E(),const string& lab = string()) : label(lab), value(val) {}
+		/** @return The string representation of this data structure type */
+		virtual const string getDStype() const {return "llist";}
 		/**
 		 * Sets size to "sz"
 		 * Valid Range:[10,50]
@@ -129,6 +131,7 @@ template <typename E> class Element : public DataStructure
 		    for(unsigned int i=0;i<arr_size;i++){nodes.emplace(this+i);}
 			return generateJSON(nodes);
 		}
+		public:
 		/** @return The JSON string of this element's properties */
 		const string getRepresentation() const
 		{
