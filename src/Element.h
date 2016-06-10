@@ -34,7 +34,9 @@ enum Shape{CIRCLE,SQUARE,DIAMOND,CROSS,TRI_DOWN,TRI_UP};
  */
 template <typename E> class Element : public DataStructure
 {
-    template <typename K, typename T> friend class GraphAdjList; template <typename K, typename T> friend class GraphAdjMatrix; //Used for access to generateJSON() and for links manipulation
+    //Used for access to generateJSON() and for links manipulation
+    template <typename K, typename T> friend class GraphAdjList;
+    template <typename K, typename T> friend class GraphAdjMatrix;
 
     public:
         /** The default color of an element */
@@ -68,7 +70,7 @@ template <typename E> class Element : public DataStructure
 		 */
 		Element(const E& val = E(),const string& lab = string()) : label(lab), value(val) {}
 		/** @return The string representation of this data structure type */
-		virtual const string getDStype() const {return "llist";}
+		virtual const string getDStype() const override {return "llist";}
 		/**
 		 * Sets size to "sz"
 		 * Valid Range:[10,50]
@@ -131,21 +133,54 @@ template <typename E> class Element : public DataStructure
 		    for(unsigned int i=0;i<arr_size;i++){nodes.emplace(this+i);}
 			return generateJSON(nodes);
 		}
-		public:
+    protected:
 		/** @return The JSON string of this element's properties */
-		const string getRepresentation() const
+		virtual const string getRepresentation() const
 		{
 			return
             OPEN_CURLY +
                 //write out visualizer properties
-                QUOTE + "color"   + QUOTE + COLON + QUOTE + color.getCSSrep()         + QUOTE + COMMA +
+                QUOTE + "color"   + QUOTE + COLON + QUOTE + getCSSrep(color)          + QUOTE + COMMA +
                 QUOTE + "shape"   + QUOTE + COLON + QUOTE + ShapeNames.at(shape)      + QUOTE + COMMA +
                 QUOTE + "size"    + QUOTE + COLON + QUOTE + removeTrailingZeros(size) + QUOTE + COMMA +
                 //write out this node
                 QUOTE + "name" + QUOTE + COLON + QUOTE + label + QUOTE +
             CLOSE_CURLY;
 		}
-    protected:
+		/**
+		 * Gets the JSON representation of this link visualizer using the supplied source and destination strings
+		 *
+		 * @param lv The LinkVisualizer
+		 * @param src The source vertex
+		 * @param dest The destination vertex
+		 * @return The JSON of this link visualizer
+		 */
+        static const string getJSONrepresentation(const LinkVisualizer& lv,const string& src,const string& dest)
+        {
+            return
+            OPEN_CURLY +
+                //write out LinkVisualizer properties
+                QUOTE + "color"     + QUOTE + COLON + QUOTE + getCSSrep(lv.getColor())               + QUOTE + COMMA +
+                QUOTE + "thickness" + QUOTE + COLON + QUOTE + removeTrailingZeros(lv.getThickness()) + QUOTE + COMMA +
+                //write out the source and targets of the link
+                QUOTE + "source" + QUOTE + COLON + src  + COMMA +
+                QUOTE + "target" + QUOTE + COLON + dest +
+            CLOSE_CURLY;
+        }
+        /**
+         * Gets the JSON representation of this color
+         *
+         * @param col The Color
+         * @return Equivilant Legal CSS color representation
+         */
+        static const string getCSSrep(const Color& col)
+        {
+            if(col.isTransparent()){return "rgba(0,0,0,0)";} //leaves off other channels if transparent
+            const string strCSS = to_string(col.getRed())+","+to_string(col.getGreen())+","+to_string(col.getBlue()); //leaves off alpha if unnessesary
+            return col.isOpaque()?
+                "rgb("+strCSS+")":
+                "rgba("+strCSS+","+removeTrailingZeros(static_cast<double>(col.getAlpha())/255.0)+")";
+        }
 		/**
 		 * Generates the JSON of the given the nodes and associated links
 		 *
@@ -169,7 +204,7 @@ template <typename E> class Element : public DataStructure
                 for(const auto& ele_lv: ele_int.first->links) //each pair<Element*,LinkVisualizer> in Element*->links
                 {
                     auto it = map.find(ele_lv.first); //mapping of destination node
-                    if(it!=map.end()){links_JSON += ele_lv.second.getJSONrepresentation(to_string(ele_int.second),to_string(it->second)) + COMMA;} //only add link if dest node exists
+                    if(it!=map.end()){links_JSON += getJSONrepresentation(ele_lv.second,to_string(ele_int.second),to_string(it->second)) + COMMA;} //only add link if dest node exists
                 }
             }
 			if (links_JSON.size()){links_JSON = links_JSON.erase(links_JSON.size()-1);}//Remove trailing comma

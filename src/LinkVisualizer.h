@@ -5,8 +5,6 @@
 
 namespace bridges{
 
-template<typename E> class Element; //Forward Declaration for Befriendment
-
 /**
  * @brief This class maintains the visual properties of links within data structures.
  *
@@ -25,8 +23,6 @@ template<typename E> class Element; //Forward Declaration for Befriendment
  */
 class LinkVisualizer
 {
-    template<typename E> friend class Element; //Used to access getJSONrepresentation()
-
     public:
         /** The default thickness of a link */
         static constexpr double DEFAULT_THICKNESS = 1.0;
@@ -65,34 +61,6 @@ class LinkVisualizer
 		void setColor(const Color& col){color = col;}
 		/** @return The color of the link */
 		Color getColor() const {return color;}
-    private:
-        /** @return to_string of "num" without unnessasary trailing 0s */
-		static string removeTrailingZeros(const double& num)
-        {
-            if(static_cast<int>(num) == num){return to_string(static_cast<int>(num));}//if integer return as int
-            string numRep = to_string(num);
-            numRep.erase(numRep.find_last_not_of("0")+1);//removes trailing 0s
-            return numRep;
-        }
-		/**
-		 * Gets the JSON representation of this link visualizer using the supplied source and destination strings
-		 *
-		 * @param src The source vertex
-		 * @param dest The destination vertex
-		 * @return The JSON of this link visualizer
-		 */
-        string getJSONrepresentation(const string& src,const string& dest) const
-        {
-            return
-            OPEN_CURLY +
-                //write out LinkVisualizer properties
-                QUOTE + "color"     + QUOTE + COLON + QUOTE + getColor().getCSSrep()              + QUOTE + COMMA +
-                QUOTE + "thickness" + QUOTE + COLON + QUOTE + removeTrailingZeros(getThickness()) + QUOTE + COMMA +
-                //write out the source and targets of the link
-                QUOTE + "source" + QUOTE + COLON + src  + COMMA +
-                QUOTE + "target" + QUOTE + COLON + dest +
-            CLOSE_CURLY;
-        }
 }; //end of LinkVisualizer class
 constexpr double LinkVisualizer::DEFAULT_THICKNESS;
 const Color LinkVisualizer::DEFAULT_COLOR("black");

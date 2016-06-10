@@ -1,13 +1,13 @@
 #ifndef BST_ELEMENT_H
 #define BST_ELEMENT_H
 
-#include "TreeElement.h" //string, using std
+#include "BTElement.h" //string, sstream, using std
 
 namespace bridges{
 /**
- * @brief This class can be used to create binary search tree elements, derived from TreeElement
+ * @brief This class can be used to create binary search tree elements, derived from BTElement
  *
- * This class extends the TreeElement class by adding a key property to allow for easier use in a binary search tree implementation.
+ * This class extends the BTElement class by adding a key property to allow for easier use in a binary search tree implementation.
  *
  * Generic Parameters:
  *      K that is the search key type,
@@ -17,7 +17,7 @@ namespace bridges{
  * @date 6/18/15
  */
 template <typename K, typename E>
-class BSTElement : public TreeElement<E>
+class BSTElement : public BTElement<E>
 {
 	private:
 	    /** The search key value */
@@ -33,7 +33,7 @@ class BSTElement : public TreeElement<E>
 		 * @param l The left BSTElement
 		 * @param r The right BSTElement
 	 	 */
-        BSTElement(const K& k,BSTElement* l,BSTElement* r,const E& val = E(),const string& lab = string()) : TreeElement<E>(l,r,val,lab), key(k) {}
+        BSTElement(const K& k,BSTElement* l,BSTElement* r,const E& val = E(),const string& lab = string()) : BTElement<E>(l,r,val,lab), key(k) {}
 		/**
 		 * Constructs a BSTElement with the provided value, label, key, setting the left and right BSTElements to NULL.
 		 * The defaults will be used if not provided.
@@ -48,17 +48,24 @@ class BSTElement : public TreeElement<E>
 		/** Set key to "k" @param k The key of this BSTElement */
 		void setKey(const K& k){key = k;}
 		/** @return The left BSTElement */
-		virtual BSTElement* getLeft() override {return static_cast<BSTElement*>(TreeElement<E>::getLeft());}
+		virtual BSTElement* getLeft() override {return static_cast<BSTElement*>(BTElement<E>::getLeft());}
 		/** Constant version */
-		virtual const BSTElement* getLeft() const override {return static_cast<const BSTElement*>(TreeElement<E>::getLeft());}
+		virtual const BSTElement* getLeft() const override {return static_cast<const BSTElement*>(BTElement<E>::getLeft());}
 		/** Sets left to "l" @param l The left BSTElement */
-		void setLeft(BSTElement* l){TreeElement<E>::setLeft(l);}
+		void setLeft(BSTElement* l){BTElement<E>::setLeft(l);}
         /** @return The right BSTElement */
-		virtual BSTElement* getRight() override {return static_cast<BSTElement*>(TreeElement<E>::getRight());}
+		virtual BSTElement* getRight() override {return static_cast<BSTElement*>(BTElement<E>::getRight());}
 		/** Constant version */
-		virtual const BSTElement* getRight() const override {return static_cast<const BSTElement*>(TreeElement<E>::getRight());}
+		virtual const BSTElement* getRight() const override {return static_cast<const BSTElement*>(BTElement<E>::getRight());}
 		/** Sets right to "r" @param r The right BSTElement */
-		void setRight(BSTElement* r){TreeElement<E>::setRight(r);}
+		void setRight(BSTElement* r){BTElement<E>::setRight(r);}
+    private:
+        virtual const string getRepresentation() const override
+        {
+            string json = Element<E>::getRepresentation();
+            stringstream conv; conv<<key;
+            return json.insert(json.size()-1,COMMA + QUOTE + "key" + QUOTE + COLON + QUOTE + conv.str() + QUOTE);
+        }
 }; //end of BSTElement class
 }//end of bridges namespace
 #endif

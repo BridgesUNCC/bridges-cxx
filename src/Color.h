@@ -7,11 +7,9 @@
 #include <unordered_map> //unordered_map
 #include <cmath> //log
 
-#include "DataStructure.h" //string, using std, JSON characters
+#include "DataStructure.h" //string, using std
 
 namespace bridges{
-
-class LinkVisualizer; template<typename E> class Element; //Forward Declaration for Befriendment
 
 /**
  * @brief This class represents Color, and supports rgba, hexadecimal and named color values
@@ -38,8 +36,6 @@ class LinkVisualizer; template<typename E> class Element; //Forward Declaration 
  */
 class Color
 {
-    friend class LinkVisualizer; template<typename E> friend class Element; //Used to access getCSSrep()
-
     private:
         /** The regex used to verify #hexadecimal color input */
         static const regex HEX_RANGE;
@@ -155,23 +151,6 @@ class Color
          * @throw string Throw if value is invalid
          */
         void setChannel(const int& value, const int& channel){(value<0||255<value)?throw "Invalid channel parameter: "+to_string(value)+" Must be in the [0,255] range":channels.at(channel)=value;}
-        /** @return to_string of "num" without unnessasary trailing 0s */
-		static string removeTrailingZeros(const double& num)
-        {
-            if(static_cast<int>(num) == num){return to_string(static_cast<int>(num));}//if integer return as int
-            string numRep = to_string(num);
-            numRep.erase(numRep.find_last_not_of("0")+1);//removes trailing 0s
-            return numRep;
-        }
-        /** @return Equivilant Legal CSS color representation */
-        string getCSSrep() const
-        {
-            if(isTransparent()){return "rgba(0,0,0,0)";} //leaves off other channels if transparent
-            const string strCSS = to_string(getRed())+","+to_string(getGreen())+","+to_string(getBlue()); //leaves off alpha if unnessesary
-            return isOpaque()?
-                "rgb("+strCSS+")":
-                "rgba("+strCSS+","+removeTrailingZeros(static_cast<double>(getAlpha())/255.0)+")";
-        }
         /**
          * Converts decimal value to appropriate hexidecimal value
          *

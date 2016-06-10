@@ -16,7 +16,9 @@ const string
 /** Maximum number of elements that can be visualized */
 constexpr int MAX_ELEMENTS_ALLOWED = 5000;
 
-namespace Bridges{class POD;} template<typename E> class Element; //Forward Declaration for Befriendment
+//Forward Declaration for Befriendment
+namespace Bridges{class POD;}
+template<typename E> class Element;
 
 /**
  * @brief This is the superclass of all data structure types in BRIDGES
@@ -58,16 +60,6 @@ class DataStructure
             string numRep = to_string(num);
             numRep.erase(numRep.find_last_not_of("0")+1);//removes trailing 0s
             return numRep;
-        }
-        /** @return A copy of "str" replacing escape characters with html equivilents */
-		static string convertEscapes(string str)
-        {
-            /*size_t pos = 0;
-            while((pos = str.find("\\",pos)) != str.npos)
-            {
-                str.replace(pos,1,"&#x5C;");
-            }*/
-            return str;
         }
 };//end of DataStructue class
 }//end of bridges namespace
