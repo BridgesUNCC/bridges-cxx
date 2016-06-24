@@ -19,7 +19,7 @@ class TreeElement : public Element<E>
 {
 	private:
 	    /** A list of pointers to this Elements subtrees */
-	    unordered_map<int,TreeElement*> children;
+	    vector<TreeElement*> children;
 	public:
 		/**
 		 * Constructs a TreeElement with the provided value and label, setting the left and right TreeElements to NULL.
@@ -32,9 +32,9 @@ class TreeElement : public Element<E>
 		/** @return The string representation of this data structure type */
 		virtual const string getDStype() const {return "tree";}
 		/** @return The children TreeElements */
-		unordered_map<int,TreeElement*>& getChildren() {return children;}
+		vector<TreeElement*>& getChildren() {return children;}
 		/** Constant version */
-		const unordered_map<int,TreeElement*>& getChildren() const {return children;}
+		const vector<TreeElement*>& getChildren() const {return children;}
 
         /**
          * Gets the nth child of this TreeElement, returns null if non-existent
@@ -42,24 +42,31 @@ class TreeElement : public Element<E>
          * @param n The index of the child
          * @return The child TreeElement*
          */
-		TreeElement* getChild(const int& n) {return (n>=children.size())? nullptr:children.at(n);}
+		TreeElement* getChild(const int& n) {return (n>=children.length || n<0)? nullptr:children.at(n);}
 		/** Constant version */
-		const TreeElement* getChild(const int& n) const {return (n>=children.size())? nullptr:children.at(n);}
-		/** Sets nth child to "kid" @param kid The child TreeElement* */
-		TreeElement* setChild(const int& n, TreeElement* kid)
+		const TreeElement* getChild(const int& n) const {return (n>=children.length || n<0)? nullptr:children.at(n);}
+		/** Adds "kid" to children and returns its position @param kid The child TreeElement @return index of child */
+		size_type addChild(TreeElement* kid)
 		{
-		    if(children.find(n) != children.end())//if exist
+            children.push_back(kid);
+            if(kid){this->links[kid];}
+            return children.length;
+        }
+        /** Sets child at index to "kid". Will do nothing given invalid index. @param index of child to replace @param kid The child TreeElement */
+        void setChild(const size_type& index,TreeElement* kid)
+        {
+            /* For any element being replaced, if not a duplicate, remove its linkage. For new elements, if not null, create linkage */
+            if(index < children.length && index >= 0)
             {
-                //if nth unique, delete nth linkage
-                bool different = true;
-                for(const auto& int_te: children)
+                bool duplicate = false;
+                for(size_type i=0;i<children.length;i++)
                 {
-                    if(n != int_te.first && children[n] = int_te.second){different=false;break;}
+                    if(i != index && children[i] == children[index]){duplicate=true;break;}
                 }
-                if(different){this->links.erase(children[n]);}
-                children.erase(n);
+                if(!duplicate){this->links.erase(children[index]);}
+                children[index] = kid;
+                if(kid){this->links[kid];}
             }
-            if(kid){this->links[children[n]=kid];}
         }
 		/**
 	 	 * Calls delete on itself and each next linked TreeElement*

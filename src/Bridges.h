@@ -33,7 +33,7 @@ namespace Bridges
      * @param api The API key
      * @param user The username
      */
-    void initialize(const string& api,const string& name,const unsigned int& num){assignment()=num; apiKey()=api; userName()=name;}
+    void initialize(const unsigned int& num,const string& name,const string& api){assignment()=num; apiKey()=api; userName()=name;}
     /**
      * Sets the data structure handle to "handle" with an array size of "size" (default of 1).
      * User is resposible for memory management of data type handle.
@@ -47,44 +47,59 @@ namespace Bridges
     class POD //Plain Old Data
     {
         friend void Bridges::visualize(); //Used for access to this class' private functions
+        friend vector<Earthquake> Bridges::getEarthquakes(int num);
         POD()=delete;//Prevents instantiation
-        /**
-         * Uses Easy CURL library to execute a simple POST request,
-         * of "json_of_ds" to "url".
-         *
-         * @param url The url destination for the post command
-         * @param json_of_ds The JSON string of the data structure representation
-         * @throw string Thrown if curl post fails
-         */
-        static void post(const string& url,const string& json_of_ds)
+        /** CURL WRITE FUNCTION PLACEHOLDER */
+        static size_t curlWriteFunction(void *contents, size_t size, size_t nmemb, void *results)
         {
-            curl_global_init(CURL_GLOBAL_ALL); // first form the full url
+            size_t handled = size*nmemb;
+            if(results)
+            {
+                ((string*)results)->append((char*)contents);
+            }
+            return handled;
+        }
+        /**
+         * Uses Easy CURL library to execute a simple request.
+         *
+         * @param url The url destination for the request
+         * @param headers The headers for the request
+         * @param data The content sent in POST requests
+         * @throw string Thrown if curl request fails
+         */
+        static string makeRequest(const string& url,const vector<string>& headers, const string& data = "")
+        {
+            string results;
+            curl_global_init(CURL_GLOBAL_ALL); // first load curl enviornment (only need be called once in entire session tho)
             CURL* curl = curl_easy_init(); // get a curl handle
             if (curl)
             {
-                curl_easy_setopt(curl, CURLOPT_URL, url.c_str()); // set the URL receiving our POST
+                curl_easy_setopt(curl, CURLOPT_URL, url.c_str()); // set the URL to GET from
 
-                curl_easy_setopt(curl, CURLOPT_WRITEDATA, nullptr); //pass pointer to callback function
+                curl_easy_setopt(curl, CURLOPT_WRITEDATA, &results); //pass pointer to callback function
                 curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, curlWriteFunction); //sends all data to this function
 
-                curl_easy_setopt(curl, CURLOPT_POSTFIELDS, json_of_ds.c_str()); // Now specify the POST data
-                curl_easy_setopt(curl, CURLOPT_POSTFIELDSIZE, json_of_ds.length()); // Now specify the POST data size
-                curl_easy_setopt(curl, CURLOPT_POST, 1); //  a post request
-                curl_easy_setopt(curl, CURLOPT_HEADER, 1L); // send header
+                if(data.length() > 0)
+                {
+                    curl_easy_setopt(curl, CURLOPT_POSTFIELDS, data.c_str()); // Now specify the POST data
+                    curl_easy_setopt(curl, CURLOPT_POSTFIELDSIZE, data.length()); // Now specify the POST data size
+                    curl_easy_setopt(curl, CURLOPT_POST, true); //  a post request
+                }
 
-                struct curl_slist* headers = nullptr;
-                headers = curl_slist_append(headers, "Content-Type: application/json");
-                headers = curl_slist_append(headers, "Accept: application/json");
-                curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
+                struct curl_slist* curlHeaders = nullptr;
+                for(const string& header : headers)
+                {
+                    curlHeaders = curl_slist_append(curlHeaders, header.c_str());
+                }
+                curl_easy_setopt(curl, CURLOPT_HTTPHEADER, curlHeaders);
                 CURLcode res = curl_easy_perform(curl); // Perform the request, res will get the return code
-
                 if (res != CURLE_OK){throw "curl_easy_perform() failed.\nCurl Error Code "+to_string(res)+": "+curl_easy_strerror(res)+"\n";}
                 curl_easy_cleanup(curl);
             }
-            else{throw "curl_easy_init() failed!\nNothing posted to server.\n";}
+            else{throw "curl_easy_init() failed!\nNothing retrieved from server.\n";}
+            return results;
         }
-        /** CURL WRITE FUNCTION PLACEHOLDER */
-        static size_t curlWriteFunction(char *contents, size_t size, size_t nmemb, void *userdata){return (contents && !userdata)? size*nmemb : size*nmemb;}//userdata is of pointer type passed to WRITEDATA
+
         /**
          * Builds the JSON string from the data structure handle
          * Prints complete JSON if "visualizeJSON" flag is enabled.
@@ -107,6 +122,74 @@ namespace Bridges
             return s_final;
         }
     };//end of POD class
+    vector<Earthquake> getEarthquakes(int num)
+    {
+        static const int MAX_EQS = 500;
+        static vector<Earthquake> allEQs;
+        if(allEQs.empty())
+        {
+            allEQs.reserve(MAX_EQS);
+            string results = POD::makeRequest("http://earthquakes-uncc.herokuapp.com/eq/latest/"+to_string(MAX_EQS),{"Accept: application/json"});
+
+            ///Now Have to Parse JSON String to add Earthquake objects
+            ///JSON encoding would be preferable, but just performs string searches
+            ///Highly dependent upon datas schema/order
+            string props, loc, date, url, title, searchKey;
+            double lng, lat, mag, start, end;
+            while(results.length() > 0)
+            {
+                //Gets lng and lat from coordinates
+                searchKey = QUOTE+"coordinates"+QUOTE+COLON+"[";
+                start = results.find(searchKey)+searchKey.length();
+                end = results.find(",",start);
+                lng = stod(results.substr(start,end-start));
+                start = end+1;
+                end = results.find(",",start);
+                lat = stod(results.substr(start,end-start));
+
+                //Gets substr of properties, everything between and including { }
+                searchKey = QUOTE+"properties"+QUOTE+COLON;
+                start = results.find(searchKey)+searchKey.length();
+                end = results.find("},{");
+                end = end == string::npos?results.length():end+1; //IF LAST
+                props = results.substr(start,end-start);
+                results = results.substr(end);
+
+                    searchKey = QUOTE+"mag"+QUOTE+COLON;
+                    start = props.find(searchKey)+searchKey.length();
+                    end = props.find(",",start);
+                mag = stod(props.substr(start,end-start));
+
+                    searchKey = QUOTE+"place"+QUOTE+COLON+QUOTE;
+                    start = props.find(searchKey)+searchKey.length();
+                    end = props.find(QUOTE+",",start);
+                loc = props.substr(start,end-start);
+
+                    searchKey = QUOTE+"time"+QUOTE+COLON+QUOTE;
+                    start = props.find(searchKey)+searchKey.length();
+                    end = props.find(QUOTE+",",start);
+                date = props.substr(start,end-start);
+
+                    searchKey = QUOTE+"url"+QUOTE+COLON+QUOTE;
+                    start = props.find(searchKey)+searchKey.length();
+                    end = props.find(QUOTE+",",start);
+                url = props.substr(start,end-start);
+
+                    searchKey = QUOTE+"title"+QUOTE+COLON+QUOTE;
+                    start = props.find(searchKey)+searchKey.length();
+                    end = props.find(QUOTE+",",start);
+                title = props.substr(start,end-start);
+
+                allEQs.push_back(Earthquake("USGSeq magnitude "+to_string(mag)+" "+title,date,mag,lng,lat,loc,title,url,props));
+            }
+        }
+        if(num > MAX_EQS)
+        {
+            cerr << "Warning! Earthquake request volume exceeded. Range must be [0-"<<MAX_EQS<<"]"<<endl;
+            num=MAX_EQS;
+        }
+        return vector<Earthquake>(allEQs.begin(),allEQs.begin()+num); //returns copy of range
+    }
     /** Sends relevant data handle information to the server, and upon successful completion, prints the URL to display the Bridges visualization. */
     void visualize()
     {
@@ -121,7 +204,7 @@ namespace Bridges
         const string url_to_vis =    SERVER_URL + "/assignments/" + to_string(assignment()) + "/" + userName();
 
         string ds_json = POD::build_JSON();
-        try{POD::post(url_to_server, ds_json); cout<< "Success: Assignment posted to the server. Check out your visualization at \n\n\t"+url_to_vis <<endl<<endl; part++;}
+        try{POD::makeRequest(url_to_server, {"Content-Type: application/json"},ds_json); cout<< "Success: Assignment posted to the server. Check out your visualization at \n\n\t"+url_to_vis <<endl<<endl; part++;}
         catch(const string& error_str){cerr << "Posting assignment to the server failed!" <<endl<< error_str <<endl<< "Generated JSON: " << ds_json <<endl;}
     }
 }//end of Bridges namespace
