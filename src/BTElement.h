@@ -15,13 +15,13 @@ namespace bridges{
  * @date 6/12/15
  */
 template <typename E>
-class BTElement : public TreeElement<E>
-{
+class BTElement : public TreeElement<E> {
     private:
-        int leftPos = ,rightPos = 0;
+        int leftPos = 0, rightPos = 1;
 	public:
 		/**
-		 * Constructs a BTElement with the provided value, label, left and right BTElements.
+		 * Constructs a BTElement with the provided value, label, left 
+		 * and right BTElements.
 		 * The defaults will be used if not provided.
 		 *
 		 * @param val The data to hold
@@ -29,28 +29,60 @@ class BTElement : public TreeElement<E>
 		 * @param l The left TreeElement
 		 * @param r The right TreeElement
 	 	 */
-		BTElement(BTElement* l,BTElement* r,const E& e = E(),const string& lab = string()) : TreeElement<E>(e, lab) {leftPos = addChild(l); rightPos = addChild(r);}
+		BTElement(BTElement* l,BTElement* r,const E& e = E(),
+				const string& lab = string()) : 
+					TreeElement<E>(e, lab) {
+						this->addChild(l); 
+						this->addChild(r);
+					}
 		/**
-		 * Constructs a BTElement with the provided value and label, setting the left and right BTElement to NULL.
+		 * Constructs a BTElement with the provided value and label, 
+		 *	setting the left and right BTElement to NULL.
 		 * The defaults will be used if not provided.
 		 *
 		 * @param val The data to hold
 		 * @param lab The label to show
 	 	 */
-		BTElement(const E& e = E(),const string& lab = string()) : BTElement(nullptr,nullptr,e,lab) {}
-		/** @return The left BTElement */
-		virtual BTElement* getLeft() {return static_cast<BTElement*>(this->getChild(leftPos));}
+		BTElement(const E& e = E(),const string& lab = string()) 
+					: BTElement(nullptr,nullptr,e,lab) {}
+
+		/** 
+		 *	@return the data structure type
+		*/
+
+		virtual const string getDStype() const {
+			return "BinaryTree";
+        }
+
+		/** 
+		 *	@return The left BTElement 
+		*/
+		virtual BTElement* getLeft() {
+			return static_cast<BTElement*>(this->getChild(leftPos));
+		}
 		/** Constant version */
-		virtual const BTElement* getLeft() const {return static_cast<BTElement*>(this->getChild(leftPos));}
+		virtual const BTElement* getLeft() const {
+			return static_cast<const BTElement*>(this->getChild(leftPos));
+		}
 		/** Sets left to "l" @param l The left BTElement */
-		void setLeft(BTElement* l){setChild(leftPos,l);}
+		void setLeft(BTElement* l){
+			this->setChild(leftPos,l);
+		}
 
 		/** @return The right BTElement */
-		virtual BTElement* getRight() {return static_cast<BTElement*>(this->getChild(rightPos));}
+		virtual BTElement* getRight() {
+			return static_cast<BTElement*>(this->getChild(rightPos));
+		}
+
 		/** Constant version */
-		virtual const BTElement* getRight() const {return static_cast<BTElement*>(this->getChild(rightPos));}
+		virtual const BTElement* getRight() const {
+			return static_cast<const BTElement*>(this->getChild(rightPos));
+		}
         /** Sets right to "r" @param r The right BTElement */
-		void setRight(BTElement* r){setChild(rightPos,r);}
+		void setRight(BTElement* r){
+			this->setChild(rightPos, r);
+		}
 }; //end of BTElement class
+
 }//end of bridges namespace
 #endif
