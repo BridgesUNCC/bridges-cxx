@@ -161,8 +161,8 @@ template <typename E> class Element : public DataStructure {
 												//write out visualizer properties
 			return 	OPEN_CURLY +
 				QUOTE + "color"   + QUOTE + COLON + 
-//					QUOTE + getCSSrep(elvis->getColor())	+ QUOTE + COMMA +
-					QUOTE + "red"	+ QUOTE + COMMA +
+					QUOTE + getCSSrep(elvis->getColor())	+ QUOTE + COMMA +
+//					QUOTE + "red"	+ QUOTE + COMMA +
 				QUOTE + "shape"   + QUOTE + COLON + 
 					QUOTE + ShapeNames.at(elvis->getShape())      + QUOTE + COMMA +
 				QUOTE + "size" + QUOTE + COLON + 

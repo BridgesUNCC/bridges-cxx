@@ -14,7 +14,8 @@ namespace bridges{
 
 DataFormatter* DataFormatter::current = nullptr;
 /**
- * @brief This class contains methods to connect and transmit a user's data structure representation to the Bridges server (up to 5000 elements)
+ * @brief This class contains methods to connect and transmit a user's 
+ *	data structure representation to the Bridges server (up to 5000 elements)
  *
  * @author Kalpathi Subramanian
  * @date  7/26/15
@@ -28,7 +29,7 @@ namespace Bridges {
 	 * 	visualization 
 	 **/
 
-    bool& visualizeJSON() {//having a function can help hide implimentation details
+    bool& visualizeJSON() {
 		return jsonFlag;
 	} 
 
@@ -44,7 +45,7 @@ namespace Bridges {
 		return user;
 	} 
     /** 
-	 *	@return Reference to member holding the api key credential for the server 
+	 * @return Reference to member holding the api key credential for the server 
 	 **/
     string& apiKey(){
 		static string key; 

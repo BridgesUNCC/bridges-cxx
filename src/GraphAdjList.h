@@ -22,7 +22,7 @@ namespace bridges{
  */
 template<typename K, typename E>
 class GraphAdjList : public DataStructure {
-    public:
+	public:
         /** 
 		 * @brief This helper class is used by GraphAdjList to keep track of edge 
 		 * information 
