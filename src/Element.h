@@ -185,8 +185,8 @@ template <typename E> class Element : public DataStructure {
             OPEN_CURLY +
 								//write out LinkVisualizer properties
                 QUOTE + "color"     + QUOTE + COLON + QUOTE + 
-//						getCSSrep(lv.getColor())    + QUOTE + COMMA +
-						"blue"    + QUOTE + COMMA +
+						getCSSrep(lv.getColor())    + QUOTE + COMMA +
+//						"blue"    + QUOTE + COMMA +
                 QUOTE + "thickness" + QUOTE + COLON + 
 					removeTrailingZeros(lv.getThickness()) + COMMA +
                 				//write out the source and targets of the link
