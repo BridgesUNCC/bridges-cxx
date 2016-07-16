@@ -158,15 +158,14 @@ template <typename E> class Element : public DataStructure {
 		 *	@return The JSON string of this element's properties 
 		 */
 		virtual const string getRepresentation() const {
-												//write out visualizer properties
+										//write out visualizer properties
 			return 	OPEN_CURLY +
 				QUOTE + "color"   + QUOTE + COLON + 
-					QUOTE + getCSSrep(elvis->getColor())	+ QUOTE + COMMA +
-//					QUOTE + "red"	+ QUOTE + COMMA +
+					getCSSrep(elvis->getColor())  + COMMA +
 				QUOTE + "shape"   + QUOTE + COLON + 
-					QUOTE + ShapeNames.at(elvis->getShape())      + QUOTE + COMMA +
+					QUOTE + ShapeNames.at(elvis->getShape()) + QUOTE + COMMA +
 				QUOTE + "size" + QUOTE + COLON + 
-					QUOTE + removeTrailingZeros(elvis->getSize()) + QUOTE + COMMA +
+					removeTrailingZeros(elvis->getSize()) + COMMA +
                 QUOTE + "name" + QUOTE + COLON + QUOTE + label + QUOTE +
             CLOSE_CURLY;
 		}
@@ -188,8 +187,8 @@ template <typename E> class Element : public DataStructure {
                 QUOTE + "color"     + QUOTE + COLON + QUOTE + 
 //						getCSSrep(lv.getColor())    + QUOTE + COMMA +
 						"blue"    + QUOTE + COMMA +
-                QUOTE + "thickness" + QUOTE + COLON + QUOTE + 
-					removeTrailingZeros(lv.getThickness()) + QUOTE + COMMA +
+                QUOTE + "thickness" + QUOTE + COLON + 
+					removeTrailingZeros(lv.getThickness()) + COMMA +
                 				//write out the source and targets of the link
                 QUOTE + "source" + QUOTE + COLON + src  + COMMA +
                 QUOTE + "target" + QUOTE + COLON + dest +
@@ -202,20 +201,19 @@ template <typename E> class Element : public DataStructure {
          * @return Equivilant Legal CSS color representation
          */
         static const string getCSSrep(const Color& col) {
-            if(col.isTransparent()){	//leaves off other channels if transparent
+						//leaves off other channels if transparent
+            if(col.isTransparent()){	
 				return "[0, 0, 0, 0]";
 			} 
 
-            const string strCSS = to_string(col.getRed())+","+
+            const string strCSS = 
+					to_string(col.getRed())+","+
 					to_string(col.getGreen()) + ","+
-					to_string(col.getBlue()); //leaves off alpha if unnessesary
+					to_string(col.getBlue()) + "," + 
+					to_string(col.getAlpha()); 
 
-			return OPEN_BOX + strCSS + COMMA + 
-						removeTrailingZeros(static_cast<double>(col.getAlpha())/255.0) + 
-					CLOSE_BOX;
+			return OPEN_BOX + strCSS + CLOSE_BOX;
 
-//					?  "rgb("+strCSS+")"
-//					: "rgba("+strCSS+","+ 
 //					removeTrailingZeros(static_cast<double>(col.getAlpha())/255.0)+")";
 //				return col.isOpaque()
 //					?  "rgb("+strCSS+")"

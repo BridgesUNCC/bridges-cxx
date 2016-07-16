@@ -101,8 +101,8 @@ class ElementVisualizer {
 		}
 		
 		/**
-		 * Set color by RGBA specificiation
-		 *  @param r, g, b, a  
+		 * 	Set color by RGBA specificiation
+		 *  @param r, g, b, a  (0-255 range)
 		 */
 		void setColor(const int& r,const int& g,const int& b,const int& a=255) {
 			Color c = Color(r, g, b, a);
@@ -136,19 +136,19 @@ class ElementVisualizer {
 		/**
          * @return the opacity  of the element
          */
-        int getOpacity() {
-            return color.getAlpha();
+        float getOpacity() {
+            return float(color.getAlpha())/255.;
 		}
         
         /**
          * @set the opacity  of the element (0-255)
          */
-        void  setOpacity (int& opacity) {
-            if (opacity < 0 || opacity > 255) {
-                cerr << "Opacity must be in the range 0-255.." << endl;
+        void  setOpacity (float& opacity) {
+            if (opacity < 0.0f || opacity > 1.0f) {
+                cerr << "Opacity must be in the range [0-1.0]" << endl;
                 return;
             }
-            color.setAlpha(opacity);
+            color.setAlpha(opacity*255.0f);
         }
 
 		void setShape(const Shape& shp){shape = shp;}

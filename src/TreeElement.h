@@ -39,7 +39,7 @@ class TreeElement : public Element<E> {
 
 		/** @return The string representation of this data structure type */
 
-		virtual const string getDStype() const {
+		virtual const string getDStype() const override {
 			return "Tree";
 		}
 
@@ -155,8 +155,8 @@ class TreeElement : public Element<E> {
 //				this[i].preOrder(nodes);
 //			}
 //TEST
-string test_str = this[0].preOrder2(this);
-cout << "JSON String(HIER): \n" << OPEN_CURLY + test_str + CLOSE_CURLY << endl << endl;
+//string test_str = this[0].preOrder2(this);
+//cout << "JSON String(HIER): \n" << OPEN_CURLY + test_str + CLOSE_CURLY << endl << endl;
 //TEST
 										// To Do. Must check the max nodes is not 
 										// exceeded.
@@ -214,14 +214,14 @@ cout << "JSON String(HIER): \n" << OPEN_CURLY + test_str + CLOSE_CURLY << endl <
 							Color c = lv->getColor();
 							json_str += QUOTE +"linkProperties"+QUOTE+COLON+OPEN_CURLY +
 								QUOTE +"color" + QUOTE+ COLON + 
-								QUOTE + OPEN_BOX + 
+								OPEN_BOX + 
 									to_string(c.getRed()) + COMMA +
 									to_string(c.getGreen()) + COMMA +
 									to_string(c.getBlue()) + COMMA +
-									to_string(c.getAlpha()/255.) + 
-								CLOSE_BOX + QUOTE + COMMA + 
+									to_string(c.getAlpha()) + 
+								CLOSE_BOX + COMMA + 
 								QUOTE + "thickness" + QUOTE + COLON + 
-								QUOTE + to_string(lv->getThickness()) + QUOTE + 
+								to_string(lv->getThickness()) + 
 								CLOSE_CURLY + COMMA;
 						}
 						else json_str += "linkProperties" + COLON + "{}" + COMMA;

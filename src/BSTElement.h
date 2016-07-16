@@ -59,7 +59,7 @@ class BSTElement : public BTElement<E> {
 		 *	@return the data structure type
 		*/
 
-		virtual const string getDStype() const {
+		virtual const string getDStype() const  override{
 			return "BinarySearchTree";
         }
 					/** @return The key of this BSTElement */

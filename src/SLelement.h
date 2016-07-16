@@ -49,7 +49,7 @@ class SLelement : public Element<E> {
 		/** 
 		 *	@return The string representation of this data structure type 
 		 */
-		virtual const string getDStype() const {
+		virtual const string getDStype() const override {
 			return "llist";
 		}
 

@@ -41,7 +41,7 @@ class AVLTreeElement : public BSTElement<K,E>
 		 * @return the data structure type
 		 */
 
-		virtual const string getDStype() const {
+		virtual const string getDStype() const override {
 			return "AVLTree";
 		}
 

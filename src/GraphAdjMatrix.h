@@ -35,7 +35,9 @@ class GraphAdjMatrix : public DataStructure {
 		/**
 		 *	@return The string representation of this data structure type 
 		 */
-		virtual const string getDStype() const {return "graphl";}
+		virtual const string getDStype() const override {
+			return "graphl";
+		}
 
         /**
 		 * Adds a vertex of key "k" and value "e" to the graph.

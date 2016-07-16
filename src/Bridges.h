@@ -226,7 +226,6 @@ namespace Bridges {
 			if (Bridges::visualizeJSON()){
 				cout << "JSON String:\t" << s_final << endl;
 			}
-	cout << "JSON(final)" + s_final << endl;
             return s_final;
         }
     };//end of POD class
