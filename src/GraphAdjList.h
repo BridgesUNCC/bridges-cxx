@@ -5,6 +5,7 @@
 #include <sstream> //stringstream
 
 #include "SLelement.h" //DataStructure, string, unordered_map, iostream, using std
+#include "Edge.h"
 
 namespace bridges{
 /**
@@ -22,6 +23,7 @@ namespace bridges{
  */
 template<typename K, typename E>
 class GraphAdjList : public DataStructure {
+#if JUNKKK
 	public:
         /** 
 		 * @brief This helper class is used by GraphAdjList to keep track of edge 
@@ -48,12 +50,13 @@ class GraphAdjList : public DataStructure {
 				 * @param data The edge data
 				 */
                 Edge(const K& v,const int& wt=1,const string& data=string()) : 
-								weight(wt), vertex(v), edge_data(data) 
-				{	
+								weight(wt), vertex(v), edge_data(data) {	
 				}
 
 				/** 
-				 * Set edge weight to "wt" @param wt The edge weight 
+				 * 	Set edge weight to "wt" 
+				 *
+		 		 *	@param wt The edge weight 
 				 */
                 void setWeight(const unsigned int& wt) {
 					weight = wt;
@@ -68,6 +71,7 @@ class GraphAdjList : public DataStructure {
 
 				/** 
 				 *	Sets terminating vetex to "dest" 
+				 *
 				 *	@param dest The terminating vertex 
 				 **/
 				void setVertex(const K& dest){
@@ -89,12 +93,14 @@ class GraphAdjList : public DataStructure {
 					edge_data = data;
 				}
 				
-				/** @return The edge data */
+				/** 
+				 *	@return The edge data 
+				 */
 				string getEdgeData() const {
 					return edge_data;
 				}
 		}; //end of Edge class
-
+#endif
 	private:
 
 		/** 
@@ -105,7 +111,7 @@ class GraphAdjList : public DataStructure {
 		/** 
 		 * Map of edge lists for this graph's 
 		 */
-		unordered_map<K, SLelement<Edge>*> adj_list; // holds the adjacency list of edges;
+		unordered_map<K, SLelement<Edge<K>>*> adj_list; // holds the adjacency list of edges;
 
 	public:
 													// Destructor */
@@ -120,7 +126,7 @@ class GraphAdjList : public DataStructure {
 		 *	@return The string representation of this data structure type 
 		 */
 		virtual const string getDStype() const override {
-			return "graphl";
+			return "GraphAdjacencyList";
 		}
         /**
 		 * Adds a vertex of key "k" and value "e" to the graph, and initializes its 
@@ -159,12 +165,10 @@ class GraphAdjList : public DataStructure {
 				vertices.at(dest);
 			    if(wt==0){
 					vertices.at(src).links.erase(&(vertices.at(dest)));} //remove link data
-			    SLelement<Edge>* sle = adj_list.at(src);
-			    while(sle)
-                {
-                    Edge ed = sle->getValue();
-                    if(ed.getVertex() == dest)//edge already exists
-                    {
+			    SLelement<Edge<K>>* sle = adj_list.at(src);
+			    while(sle) {
+                    Edge<K> ed = sle->getValue();
+                    if(ed.getVertex() == dest) {	//edge already exists
                         ed.setWeight(wt); //change edge weight
                         ed.setEdgeData(data); //change edge data
                         sle->setValue(ed); //change slelement data
@@ -172,44 +176,48 @@ class GraphAdjList : public DataStructure {
                     }
                     sle = sle->getNext();
                 }
-								//edge doesn't already exist
+								//edge doesn't exist
 								//creates default link data if none already present
 				vertices.at(src).links[&(vertices.at(dest))];
                 stringstream conv; conv << dest;
 								// create edge
-			    adj_list.at(src) = new SLelement<Edge>(adj_list.at(src),
-									Edge(dest,wt,data),conv.str());
+			    adj_list.at(src) = new SLelement<Edge<K>>(adj_list.at(src),
+									Edge<K>(dest,wt,data),conv.str());
 			}
-			catch(const out_of_range& oor){cerr<<"Cannot addEdge between non-existent verticies"<<endl;throw;}
+			catch(const out_of_range& oor){
+				cerr<<"Cannot addEdge between non-existent verticies"<<endl;throw;
+			}
 		}
 
 		/** 
-		 *	@return The index map of this graph's verticies 
+		 *	@return The vertex list of this graph
 		 */
         const unordered_map<K, Element<E>>& getVertices() const {
 			return vertices;
 		}
 
 		/** 
-		 *	@return The adjacency lists 
+		 *	@return The adjacency list  of the graph
 		 */
-        const unordered_map<K, SLelement<Edge>*>& getAdjacencyList() const {
+        const unordered_map<K, SLelement<Edge<K>>*>& getAdjacencyList() const {
 				return adj_list;
 		}
 
 		/**
-		 * Returns adjacency list of key "k"
+		 * Returns adjacency list of a vertex with name k
 		 *
 		 * @param k The key of the source vertex
 		 * @throw out_of_range If key is non-existent within this graph
+		 *
 		 * @return The adjacency list of key "k"
 		 */
-		const SLelement<Edge>* getAdjacencyList(const K& k) const {
+		const SLelement<Edge<K>>* getAdjacencyList(const K& k) const {
 			try{
 				return adj_list.at(k);
 			}
 			catch(const out_of_range& oor){
-				cerr<<"Cannot getAdjacencyList() of a non-existent vertex!"<<endl; throw;
+				cerr <<	"Cannot getAdjacencyList() of a non-existent vertex!" <<endl; 
+				throw;
 			}
 		}
     private:

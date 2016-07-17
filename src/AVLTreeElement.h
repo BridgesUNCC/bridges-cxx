@@ -7,16 +7,17 @@ namespace bridges{
 /**
  * @brief This class can be used to create avl tree elements, derived from BSTElement
  *
- * This class extends the BSTElement class by adding height and balance factor 
- *	properties to allow for easier use in a avl tree implementation.
+ *  This class extends the BSTElement class by adding height and balance factor 
+ *	attributes to allow for easier use in a avl tree implementation.
  *
  * Generic Parameters:
  *      K that is the search key type,
  *      E the application data type
  *
  * @author Kalpathi Subramanian
- * @date 6/18/15
+ * @date 6/18/15, 7/15/16
  */
+
 template <typename K, typename E>
 class AVLTreeElement : public BSTElement<K,E>
 {
@@ -40,7 +41,6 @@ class AVLTreeElement : public BSTElement<K,E>
 		/**
 		 * @return the data structure type
 		 */
-
 		virtual const string getDStype() const override {
 			return "AVLTree";
 		}
@@ -54,6 +54,8 @@ class AVLTreeElement : public BSTElement<K,E>
 
 		/** 
 		 *	Set the height to "h" @param h The height of this AVLTreeElement 
+		 *
+		 *  @param h the height of the tree at this node
 		 */
 		void setHeight(const int& h) {
 			height = h;
@@ -69,12 +71,14 @@ class AVLTreeElement : public BSTElement<K,E>
 		/** 
 		 *	Set the balance factor to "bf" @param bf The balance factor of this 
 		 *	AVLTreeElement 
+		 *
+		 *  @param bf  the balance factor to set at this node
 		 */
 		void setBalanceFactor(const int& bf) {
 			balFactor = bf;
 		}
 		/** 
-		 *	@return The left AVLTreeElement 
+		 *	@return The left child 
 		 */
 		virtual AVLTreeElement* getLeft() override {
 			return static_cast<AVLTreeElement*>(BSTElement<K,E>::getLeft());
@@ -82,44 +86,58 @@ class AVLTreeElement : public BSTElement<K,E>
 
 		/** 
 		 * 	Constant version 
+		 *
+		 *	@return The left child 
 		 */
 		virtual const AVLTreeElement* getLeft() const override {
 			return static_cast<const AVLTreeElement*>(BSTElement<K,E>::getLeft());
 		}
 		/** 
-		 *	Sets left to "l" @param l The left AVLTreeElement 
+		 *	Sets left to "l" 
+		 *
+		 * @param l The left tree element 
+		 *
 		 */
 		void setLeft(AVLTreeElement* l){
 			BSTElement<K,E>::setLeft(l);
 		}
 
         /** 
-		 *	@return The right AVLTreeElement 
+		 *	@return The right child 
 		 */
 		virtual AVLTreeElement* getRight() override {
 			return static_cast<AVLTreeElement*>(BSTElement<K,E>::getRight());
 		}
 		/** 
 		 *	Constant version 
+		 *
+		 *	@return The right child 
 		 */
 		virtual const AVLTreeElement* getRight() const override {
 			return static_cast<const AVLTreeElement*>(BSTElement<K,E>::getRight());
 		}
 
 		/** 
-		 *	Sets right to "r" @param r The right BSTElement 
+		 *	Sets right to "r" 
+		 *
+		 *	@param r The right BSTElement 
+		 *
 		 */
 		void setRight(AVLTreeElement* r){
 			BSTElement<K,E>::setRight(r);
 		}
 
 	private:
+		/**
+		 *
+		 * adds height and balance factor attributes to the BST Element representation
+		 *
+		 */
 		virtual const string getRepresentation() const override final {
 			string json = BSTElement<K,E>::getRepresentation();
-			return json.insert(json.size()-1,
-				COMMA + QUOTE + "height"  + QUOTE + COLON + QUOTE + to_string(height) + 
-				QUOTE + COMMA + QUOTE + "balance" + QUOTE + COLON + QUOTE + 
-					to_string(balFactor) + QUOTE);
+			return json.insert(json.size()-1, COMMA + 
+				QUOTE + "height"  + QUOTE + COLON + to_string(height) + COMMA + 
+				QUOTE + "balance_factor" + QUOTE + COLON + to_string(balFactor) + QUOTE);
 		}
 
 }; //end of BSTElement class

@@ -50,7 +50,7 @@ class SLelement : public Element<E> {
 		 *	@return The string representation of this data structure type 
 		 */
 		virtual const string getDStype() const override {
-			return "llist";
+			return "SinglyLinkedList";
 		}
 
 		/** 
@@ -66,7 +66,9 @@ class SLelement : public Element<E> {
 			return next;
 		}
 		/** 
-		 *	Sets next to "n" @param n The next SLelement 
+		 *	Sets next link  to "n" 
+		 *
+		 *	@param n The next SLelement 
 		 */
 		void setNext(SLelement* n) {
 		    if (next!=n) {
@@ -108,7 +110,7 @@ class SLelement : public Element<E> {
 		}
 
 		/**
-		 * Modifys "nodes" by adding this node and its next recursively
+		 * Modifies "nodes" by adding this node and its next recursively
 		 *
 		 * @param nodes The set to be added to
 		 */

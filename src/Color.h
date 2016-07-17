@@ -128,10 +128,13 @@ class Color {
 		}
 
         /** @return The #hexadecimal representation (#RRGGBBAA) of this color */
-        string getHexValue() const
-        {
-            const string hex = to_hex(getRed()*16777216+getGreen()*65536+getBlue()*256+getAlpha());
-            string prefix = "#"; for(auto i=hex.size();i<8;i++){prefix+="0";}
+        string getHexValue() const {
+            const string hex = to_hex(getRed()*16777216+getGreen()*65536+
+								getBlue()*256+getAlpha());
+            string prefix = "#"; 
+			for (auto i=hex.size();i<8;i++){
+				prefix+="0";
+			}
             return prefix+hex;
         }
 
@@ -208,11 +211,12 @@ class Color {
                 }
             }
             else { //invalid color
-cout << "here.." << endl;
                 string errStr = "Invalid Color: " + name + "\n";
                 errStr += "Must be a hexadecimal(#RRGGBBAA, #RRGGBB, #RGBA, or #RGB) color representation;\n";
                 errStr += "Or one of these supported named colors: ";
-                for(const auto& p: ColorNames){errStr += " \"" + p.first + "\"";}
+                for(const auto& p: ColorNames){
+					errStr += " \"" + p.first + "\"";
+				}
                 errStr+="\n";
                 throw errStr;
             }
@@ -227,9 +231,10 @@ cout << "here.." << endl;
          * @throw string Throw if value is invalid
          */
         void setChannel(const int& value, const int& channel){
-				(value<0||255<value) 
-						? throw "Invalid channel parameter: "+to_string(value)+
-						" Must be in the [0,255] range":channels.at(channel)=value;
+			(value<0 || 255<value) 
+					? throw "Invalid channel parameter: "+to_string(value)+
+						" Must be in the [0,255] range"
+					: channels.at(channel)=value;
 		}
 
 		/**

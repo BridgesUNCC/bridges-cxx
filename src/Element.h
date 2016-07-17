@@ -69,12 +69,15 @@ template <typename E> class Element : public DataStructure {
 		{
 			elvis = new ElementVisualizer;
 		}
+
 		/** 
-		 *	@return The string representation of this data structure type 
+		 *  This is really not used but getting compile errors otherwise. Need to fix.
+		 *  @return The string representation of this data structure type 
 		 */
 		virtual const string getDStype() const override {
-			return "llist";
+			return "Element";
 		}
+
 
 		/** 
 		 *	@return The ElementVisualizer of this element 
@@ -82,10 +85,12 @@ template <typename E> class Element : public DataStructure {
 		ElementVisualizer *getVisualizer(){
 			return elvis;
 		}
+
 		/** 
 		 *	Constant version 
+		 *
+		 *	@return The ElementVisualizer of this element 
 		 */
-
 		const ElementVisualizer *getVisualizer() const {
 			return elvis;
 		}
@@ -93,7 +98,8 @@ template <typename E> class Element : public DataStructure {
         /**
 	 	 * Returns the LinkVisualizer to element "el" or NULL if no link exists
 		 *
-	 	 * @param el The terminating element
+	 	 * @param el The terminating element of the link
+		 *
 	 	 * @return The LinkVisualizer
 	 	 */
 		LinkVisualizer* getLinkVisualizer(const Element* el) {
@@ -106,6 +112,10 @@ template <typename E> class Element : public DataStructure {
 
         /** 
 		 *	Constant version 
+		 *
+	 	 * @param el The terminating element of the link
+		 *
+	 	 * @return The LinkVisualizer
 		 */
         const LinkVisualizer* getLinkVisualizer(const Element* el) const {
 			return const_cast<Element*>(this)->getLinkVisualizer(el);
@@ -114,10 +124,15 @@ template <typename E> class Element : public DataStructure {
         /** 
 		 *	@return The label of the element 
 		 **/
-		string getLabel() const {return label;}
+		string getLabel() const {
+			return label;
+		}
 
 		/** 
-		 *	Sets label to "lab" @param lab The label of the element 
+		 *	Sets label to "lab" 
+		 *
+		 *	@param lab The label of the element 
+		 *
 		 **/
 		void setLabel(const string& lab){
 			label = lab;
@@ -126,10 +141,14 @@ template <typename E> class Element : public DataStructure {
 		/** 
 		 *	@return The value of the element 
 		 **/
-		E getValue() const {return value;}
+		E getValue() const {
+			return value;
+		}
 
 		/** 
-		 *	Sets value to "val"  @param val The value of the element 
+		 *	Sets value to "val"  
+		 *
+		 *	@param val The value of the element 
 		 */
 		void setValue(const E& val){
 			value = val;
@@ -141,7 +160,9 @@ template <typename E> class Element : public DataStructure {
          * Gets the JSON representation of this element
          *
          * @param arr_size The size of the array determined by this
+		 *
          * @return A pair holding the nodes and links JSON strings respectively
+		 *
          */
 		virtual const pair<string,string> getDataStructureRepresentation(const 
 						unsigned int& arr_size) const override {
@@ -186,7 +207,6 @@ template <typename E> class Element : public DataStructure {
 								//write out LinkVisualizer properties
                 QUOTE + "color"     + QUOTE + COLON + QUOTE + 
 						getCSSrep(lv.getColor())    + QUOTE + COMMA +
-//						"blue"    + QUOTE + COMMA +
                 QUOTE + "thickness" + QUOTE + COLON + 
 					removeTrailingZeros(lv.getThickness()) + COMMA +
                 				//write out the source and targets of the link

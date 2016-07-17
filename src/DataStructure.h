@@ -5,8 +5,8 @@
 using namespace std;
 
 namespace bridges{
-
-					// Ease of use string constants  
+					// string constants  for use in constructing JSON representation of
+					// the data structure
 const string
     QUOTE = "\"",
     COMMA = ",",
@@ -17,6 +17,7 @@ const string
 	CLOSE_BOX = "]",
 	OPEN_PARENS = "(",
 	CLOSE_PARENS = ")";
+
 					// Maximum number of elements that can be visualized 
 constexpr int MAX_ELEMENTS_ALLOWED = 5000;
 

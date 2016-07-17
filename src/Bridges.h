@@ -25,28 +25,31 @@ namespace Bridges {
 	static bool jsonFlag = false;
 
     /** 
-	 * 	@return Reference to flag indicating if JSON should be printed upon 
+	 * 	@return  flag indicating if JSON should be printed upon 
 	 * 	visualization 
-	 **/
-
+	 */
     bool& visualizeJSON() {
 		return jsonFlag;
 	} 
 
+    /** 
+	 * 	@param  flag controls if theJSON should be printed (mainly for debugging purposes)
+	 */
 	void setVisualizeJSON(bool flag) {
 		jsonFlag = flag;
 	}
 		
     /** 
 	 *	@return reference to member holding the username credential for the server 
-	 **/
+	 */
     string& userName(){
 		static string user; 
 		return user;
 	} 
+
     /** 
 	 * @return Reference to member holding the api key credential for the server 
-	 **/
+	 */
     string& apiKey(){
 		static string key; 
 		return key;
@@ -55,11 +58,12 @@ namespace Bridges {
     /** 
 	 *	@return Reference to member holding the assignment number for holding the 
 	 *	visualization on the server 
-	 **/
+	 */
     unsigned int& assignment(){
 		static unsigned int num = 0; 
 		return num;
 	} 
+
 	/** 
  	 *	@return Reference to member holding the array size of the data structure handle 
 	 **/
@@ -70,7 +74,7 @@ namespace Bridges {
 
     /** 
 	 *	@return Reference to member holding the data structure handle 
-	 **/
+	 */
     DataStructure*& ds_handle(){
 		static DataStructure* handle = nullptr; 
 		return handle;
@@ -79,16 +83,17 @@ namespace Bridges {
     /**
      * Sets Bridges assignment to "num", api key to "api" and username to "name".
      *
-     * @param assignm The assignment number
+     * @param num  The assignment number
      * @param api The API key
      * @param user The username
      */
-    void initialize(const unsigned int& num,const string& name,const string& api){
+    void initialize(const unsigned int& num,const string& name,const string& api_key){
 		assignment() = num;
-		apiKey() = api; 
 		userName() = name;
+		apiKey() = api_key; 
 		DataFormatter::setCurrent(NULL);
 	}
+
     /**
      * 	Sets the data structure handle to "handle" with an array size of "size" 
 	 *	(default of 1).
@@ -101,7 +106,6 @@ namespace Bridges {
 		ds_handle() = handle; 
 		array_size() = size;
 	}
-
 								// convenience functions for accessing external data
 								// interfaces to DataFormatter object
 	vector<EarthquakeUSGS> *getUSGSEarthquakeData(int max_quakes) {
@@ -113,6 +117,7 @@ namespace Bridges {
 	}
 
     void visualize();
+
     /** 
 	 *	@brief This is a detail class for the Bridges namespace and is not 
 	 *	intended for external use 
@@ -237,7 +242,9 @@ namespace Bridges {
         if(allEQs.empty())
         {
             allEQs.reserve(MAX_EQS);
-            string results = POD::makeRequest("http://earthquakes-uncc.herokuapp.com/eq/latest/"+to_string(MAX_EQS),{"Accept: application/json"});
+            string results = POD::makeRequest(
+				"http://earthquakes-uncc.herokuapp.com/eq/latest/" + 
+					to_string(MAX_EQS),{"Accept: application/json"});
 
             ///Now Have to Parse JSON String to add Earthquake objects
             ///JSON encoding would be preferable, but just performs string searches
@@ -300,9 +307,11 @@ namespace Bridges {
     }
 */
     /** 
+	 *
 	 *	Sends relevant data handle information to the server, and 
 	 *	upon successful completion, prints the URL to display the 
 	 *	Bridges visualization. 
+	 *
 	 */
     void visualize() {
         static unsigned int lastAssign = 0; 
@@ -312,7 +321,7 @@ namespace Bridges {
         if(assignment() != lastAssign){
 			lastAssign=assignment(); part=0;} 
 
-        if(part==99){		// rollover will occur
+        if(part == 99){		// rollover will occur
 			cout<<"Visualization has been performed maximum number of times ";
 			cout << "for this assignment, no action taken.."<<endl;
 			return;
@@ -323,27 +332,26 @@ namespace Bridges {
 			cerr << "visualization not generated."; 
 			return;
 		}
-
        							 // form the url for the http post request
         const string url_to_server = 
 			SERVER_URL + "/assignments/" + to_string(assignment()) + 
-					"." + (part>9?"":"0") + to_string(part) + "?apikey=" + apiKey();
-        const string url_to_vis =  SERVER_URL + "/assignments/" + 
+					"." + (part > 9 ? "" :"0") + to_string(part) + "?apikey=" + apiKey();
+		const string url_to_vis =  SERVER_URL + "/assignments/" + 
 					to_string(assignment()) + "/" + userName();
 
-        string ds_json = POD::build_JSON();
+		string ds_json = POD::build_JSON();
 
-        try{
-			POD::makeRequest(
-				url_to_server, {"Content-Type: application/json"}, ds_json); 
+		try{
+			POD::makeRequest( url_to_server, {"Content-Type: application/json"}, ds_json); 
 			cout<< "Success: Assignment posted to the server. ";
 
-			cout << "Check out your visualization at \n\n\t"+url_to_vis <<endl<<endl; 
+cout << "URL(VIS)" << url_to_vis << endl;
+			cout << "Check out your visualization at \n\n"+url_to_vis << endl << endl; 
 			part++;
 		}
         catch( const string& error_str){
 			cerr << "Posting assignment to the server failed!" 
-			<<endl<< error_str <<endl<< "Generated JSON: " << ds_json <<endl;
+			<< endl << error_str << endl<< "Generated JSON: " << ds_json <<endl;
 		}
     }
 }//end of Bridges namespace

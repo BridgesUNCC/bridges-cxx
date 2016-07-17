@@ -21,7 +21,7 @@ static int k = 0;
 template <typename E>
 class TreeElement : public Element<E> {
 	private:
-	    /** A list of pointers to this Elements subtrees */
+	    			// this node's children
 	    vector<TreeElement*> children;
 	public:
 		/**
@@ -37,19 +37,25 @@ class TreeElement : public Element<E> {
 			children.reserve(10);
 		}
 
-		/** @return The string representation of this data structure type */
-
+		/** 
+		 *	@return The string representation of this data structure type 
+		 */
 		virtual const string getDStype() const override {
 			return "Tree";
 		}
 
-		/** @return The children TreeElements */
-
+		/** 
+		 *	@return The children TreeElements 
+		 */
 		vector<TreeElement*>& getChildren() {
 			return children;
 		}
 
-		/** Constant version */
+		/** 
+		 * 	Constant version 
+		 *
+		 *	@return The children TreeElements 
+		 */
 		const vector<TreeElement*>& getChildren() const {
 			return children;
 		}
@@ -58,30 +64,40 @@ class TreeElement : public Element<E> {
          * Gets the nth child of this TreeElement, returns null if non-existent
          *
          * @param n The index of the child
-         * @return The child TreeElement*
+         * @return The child TreeElement
          */
 		TreeElement* getChild(const int& n) {
-			return (n >= children.size() || n < 0 )? nullptr : children.at(n);
+			return (n >= children.size() || n < 0 ) ? nullptr : children.at(n);
 		}
 
-		/** Constant version */
+        /**
+		 * Constant version 
+		 *
+         * Gets the nth child of this TreeElement, returns null if non-existent
+         *
+         * @param n The index of the child
+         * @return The child TreeElement
+         */
 		const TreeElement* getChild(const int& n) const {
 			return (n >= children.size() || n < 0)? nullptr : children.at(n);
 		}
 
 		/** 
-		 *	Adds "kid" to children and returns its position 
+		 *	Adds a child to children 
+		 *
 		 *  @param kid The child TreeElement @return index of child 
 		 */
-		void addChild(TreeElement* kid) {
-            children.push_back(kid);
-            if(kid){
-				this->links[kid];
+		void addChild(TreeElement* child) {
+            if(child) {
+            	children.push_back(child);
+				this->links[child];
 			}
         }
         /** 
 		 * Sets child at index to "kid". Will do nothing given invalid index. 
+		 *
 		 * @param index of child to replace @param kid The child TreeElement 
+		 *
 		 */
         void setChild(const size_t& index,TreeElement* kid) {
 		/** 
@@ -150,21 +166,12 @@ class TreeElement : public Element<E> {
 				// visualization convenience
 
 			unordered_set<const Element<E>*> nodes;
-
-//			for (unsigned int i=0;i<arr_size;i++) {
-//				this[i].preOrder(nodes);
-//			}
-//TEST
-//string test_str = this[0].preOrder2(this);
-//cout << "JSON String(HIER): \n" << OPEN_CURLY + test_str + CLOSE_CURLY << endl << endl;
-//TEST
 										// To Do. Must check the max nodes is not 
 										// exceeded.
 				
 										// return the JSON
 			return pair<string, string> 
 					(OPEN_CURLY + this[0].preOrder2(this) + CLOSE_CURLY,"");
-//			return this->generateJSON(nodes); // generate the JSON string
 		}
         /**
 		 * Modifies "nodes" by adding its nodes via a preorder traversal
@@ -181,11 +188,11 @@ class TreeElement : public Element<E> {
             }
 		}
 
-
 		/** 
 		 *	Does a preorder traversal to build a hierarchical JSON of the tree
+		 *	rooted at this node
 		 *
-		 *	@param root - the tree root
+		 *	@param root - the tree root 
 		 *
 		 *	@return the JSON string
 		 **/

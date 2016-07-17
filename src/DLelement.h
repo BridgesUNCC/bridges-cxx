@@ -63,6 +63,8 @@ class DLelement: public SLelement<E> {
 
         /** 
 		 *	Constant version 
+		 *
+		 *	@return The next DLelement 
 		 */
         virtual const DLelement* getNext() const override {
 			return static_cast<const DLelement*>(SLelement<E>::getNext());
@@ -72,7 +74,7 @@ class DLelement: public SLelement<E> {
 		 *	Sets next to "n" @param n The next DLelement 
 		 */
 		void setNext(DLelement* n) {
-		    if (this->next!=n && this->next!=prev){//if different, remove old link data
+			if (this->next!=n && this->next!=prev){//if different, remove old link data
 				this->links.erase(this->next);
 			} 
 		    if((this->next=n)){	//set next to n and if not null, 
@@ -90,12 +92,16 @@ class DLelement: public SLelement<E> {
 
 		/** 
 		 *	Constant version 
+		 *
+		 *	@return The previous DLelement 
 		 */
 		const DLelement* getPrev() const {
 			return prev;
 		}
 		/** 
-		 *	Sets prev to "p" @param p The previous DLelement 
+		 *	Sets prev to "p" 
+		 *
+		 *	@param p The previous DLelement 
 		 */
 		void setPrev(DLelement* p) {
 		    if(prev!=p && this->next!=prev){
