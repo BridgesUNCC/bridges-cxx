@@ -88,8 +88,8 @@ class TreeElement : public Element<E> {
 		 *  @param kid The child TreeElement @return index of child 
 		 */
 		void addChild(TreeElement* child) {
+            children.push_back(child);
             if(child) {
-            	children.push_back(child);
 				this->links[child];
 			}
         }
@@ -208,6 +208,7 @@ class TreeElement : public Element<E> {
 				json_str += t_str + COMMA;
 									// now get the children
 				json_str += QUOTE + "children" + QUOTE + COLON + OPEN_BOX ;
+cout << "Num Children:" <<  root->children.size() << endl;
 				for (int k = 0; k < root->children.size(); k++) {
 					if (root->children[k] == NULL) {
 						json_str += OPEN_CURLY + QUOTE + "name" + QUOTE + COLON + 
