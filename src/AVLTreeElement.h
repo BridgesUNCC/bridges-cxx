@@ -137,7 +137,8 @@ class AVLTreeElement : public BSTElement<K,E>
 			string json = BSTElement<K,E>::getRepresentation();
 			return json.insert(json.size()-1, COMMA + 
 				QUOTE + "height"  + QUOTE + COLON + to_string(height) + COMMA + 
-				QUOTE + "balance_factor" + QUOTE + COLON + to_string(balFactor) + QUOTE);
+				QUOTE + "balance_factor" + QUOTE + COLON + 
+						to_string(balFactor));
 		}
 
 }; //end of BSTElement class

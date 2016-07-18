@@ -128,7 +128,7 @@ class BSTElement : public BinTreeElement<E> {
 		void setRight(BSTElement* r){
 			BinTreeElement<E>::setRight(r);
 		}
-    private:
+    protected:
         virtual const string getRepresentation() const override {
             string json = Element<E>::getRepresentation();
             stringstream conv; 
