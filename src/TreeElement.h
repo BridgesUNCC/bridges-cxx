@@ -207,11 +207,11 @@ class TreeElement : public Element<E> {
 				t_str = elem_rep.substr(1, elem_rep.size()-2);
 				json_str += t_str + COMMA;
 									// now get the children
-				json_str += QUOTE + "children" + QUOTE + COLON + OPEN_BOX ;
-cout << "Num Children:" <<  root->children.size() << endl;
+				if (root->children.size())
+					json_str += QUOTE + "children" + QUOTE + COLON + OPEN_BOX ;
 				for (int k = 0; k < root->children.size(); k++) {
 					if (root->children[k] == NULL) {
-						json_str += OPEN_CURLY + QUOTE + "name" + QUOTE + COLON + 
+						json_str += OPEN_CURLY + QUOTE + "name" + QUOTE + COLON+
 							QUOTE + "NULL" + QUOTE + CLOSE_CURLY + COMMA;
 					}
 					else {
@@ -241,7 +241,8 @@ cout << "Num Children:" <<  root->children.size() << endl;
 							// remove last comma
 				json_str = json_str.substr(0, json_str.size()-1);
 							// end of children
-				json_str += CLOSE_BOX;
+				if (root->children.size())
+					json_str += CLOSE_BOX;
 			}
 
 			return json_str;
