@@ -186,6 +186,7 @@ class Color {
          * @throw string If name is an invalid color
          */
         void setValue(string name) {
+cout <<"Input Color" + name << endl;
 							//convert to lowercase 
             for (char& c: name){
 				c=tolower(c);
@@ -208,7 +209,6 @@ class Color {
                 }
             }
             else { //invalid color
-cout << "here.." << endl;
                 string errStr = "Invalid Color: " + name + "\n";
                 errStr += "Must be a hexadecimal(#RRGGBBAA, #RRGGBB, #RGBA, or #RGB) color representation;\n";
                 errStr += "Or one of these supported named colors: ";
@@ -252,18 +252,19 @@ cout << "here.." << endl;
 const regex Color::HEX_RANGE("^#([[:xdigit:]]{8}|[[:xdigit:]]{6}|[[:xdigit:]]{3,4})$");//greedy, so checks for 8(RRGGBBAA), then 6(RRGGBB) then 4(RGBA) then 3(RGB)
 const unordered_map<string,const array<int,4>>
 	Color::ColorNames {
-		{"red",   {{255,  0,  0,255}}},	//Primary
-		{"yellow",{{255,255,  0,255}}},	//subtractive Primary
-		{"blue",  {{  0,  0,255,255}}},	//Primary
-		{"cyan", {{0,255,255,255}}},	//subtractive primary
+		{"red",   	{{255,  0,  0,255}}},	//Primary
+		{"yellow",	{{255,255,  0,255}}},	//subtractive Primary
+		{"blue",  	{{  0,  0,255,255}}},	//Primary
+		{"cyan", 	{{0,255,255,255}}},	//subtractive primary
 		{"magenta", {{255,0,255,255}}},	//subtractive primary
-		{"orange",{{255,165,  0,255}}},	//Secondary
-		{"green", {{  0, 255,  0,255}}},//Secondary(full 255 is considered lime by CSS)
-		{"purple",{{128,  0,128,255}}},	//Secondary
-		{"brown", {{165, 42, 42,255}}},	//Neutral
-		{"black", {{  0,  0,  0,255}}},	//Monochrome
-		{"grey",  {{192,192,192,255}}},	//Monochrome
-		{"white", {{255,255,255,255}}}	//Monochrome
+		{"orange",	{{255,165,  0,255}}},	//Secondary
+		{"green", 	{{  0, 255,  0,255}}},//Secondary(full 255 is considered lime by CSS)
+		{"purple",	{{128,  0,128,255}}},	//Secondary
+		{"brown", 	{{165, 42, 42,255}}},	//Neutral
+		{"black", 	{{  0,  0,  0,255}}},	//Monochrome
+		{"grey",  	{{192,192,192,255}}},	//Monochrome
+		{"white", 	{{255,255,255,255}}},	//Monochrome
+		{"steelblue",{{70,130,180,255}}}
 };
 
 }//end of bridge namespace

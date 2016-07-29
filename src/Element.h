@@ -184,11 +184,12 @@ template <typename E> class Element : public DataStructure {
             return
             OPEN_CURLY +
 								//write out LinkVisualizer properties
-                QUOTE + "color"     + QUOTE + COLON + QUOTE + 
-//						getCSSrep(lv.getColor())    + QUOTE + COMMA +
-						"blue"    + QUOTE + COMMA +
+                QUOTE + "color"     + QUOTE + COLON + 
+						getCSSrep(lv.getColor())    + COMMA +
                 QUOTE + "thickness" + QUOTE + COLON + 
 					removeTrailingZeros(lv.getThickness()) + COMMA +
+                QUOTE + "weight" + QUOTE + COLON + 
+					removeTrailingZeros(lv.getWeight()) + COMMA +
                 				//write out the source and targets of the link
                 QUOTE + "source" + QUOTE + COLON + src  + COMMA +
                 QUOTE + "target" + QUOTE + COLON + dest +
@@ -203,14 +204,14 @@ template <typename E> class Element : public DataStructure {
         static const string getCSSrep(const Color& col) {
 						//leaves off other channels if transparent
             if(col.isTransparent()){	
-				return "[0, 0, 0, 0]";
+				return "[0, 0, 0, 0.0f]";
 			} 
 
             const string strCSS = 
 					to_string(col.getRed())+","+
 					to_string(col.getGreen()) + ","+
 					to_string(col.getBlue()) + "," + 
-					to_string(col.getAlpha()); 
+					to_string(col.getAlpha()/255.0f); 
 
 			return OPEN_BOX + strCSS + CLOSE_BOX;
 

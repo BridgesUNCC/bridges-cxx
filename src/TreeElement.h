@@ -214,14 +214,17 @@ class TreeElement : public Element<E> {
 							Color c = lv->getColor();
 							json_str += QUOTE +"linkProperties"+QUOTE+COLON+OPEN_CURLY +
 								QUOTE +"color" + QUOTE+ COLON + 
-								OPEN_BOX + 
+									this->getCSSrep(c) + COMMA +
+/*
 									to_string(c.getRed()) + COMMA +
 									to_string(c.getGreen()) + COMMA +
 									to_string(c.getBlue()) + COMMA +
 									to_string(c.getAlpha()) + 
-								CLOSE_BOX + COMMA + 
+*/
 								QUOTE + "thickness" + QUOTE + COLON + 
-								to_string(lv->getThickness()) + 
+								this->removeTrailingZeros(lv->getThickness()) + COMMA +
+								QUOTE + "weight" + QUOTE + COLON + 
+								this->removeTrailingZeros(lv->getWeight()) + 
 								CLOSE_CURLY + COMMA;
 						}
 						else json_str += "linkProperties" + COLON + "{}" + COMMA;

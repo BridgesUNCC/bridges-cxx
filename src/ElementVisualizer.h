@@ -160,7 +160,7 @@ class ElementVisualizer {
 };//end of ElementVisualizer class
 
 							// define the static variables
-const 		Color ElementVisualizer::DEFAULT_COLOR("green");
+const 		Color ElementVisualizer::DEFAULT_COLOR("steelblue");
 constexpr 	Shape ElementVisualizer::DEFAULT_SHAPE;
 constexpr 	double ElementVisualizer::DEFAULT_SIZE;
 

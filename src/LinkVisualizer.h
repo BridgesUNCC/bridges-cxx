@@ -34,6 +34,7 @@ class LinkVisualizer {
 		Color color=DEFAULT_COLOR;
 								// This link's thickness */
 		double thickness=DEFAULT_THICKNESS;
+		double weight = 1.0;
 
 		/**
 		 *  ensure that the color is within  0-255 on all channels
@@ -78,6 +79,23 @@ class LinkVisualizer {
 			return thickness;
 		}
 
+		/**
+	 	 * Set the link weight to "wt"
+		 * Valid Range: determined by application, can be negative
+		 *
+		 * @param wt The size in pixels of the link's line weight
+		 * @throw string If invalid thickness
+		 */
+		void setWeight(const double& wt) {
+			weight = wt;
+		}
+
+        /** 
+		 *	@return link weight 
+		 */
+		double getWeight() const {
+			return weight;
+		}
 		/** 
 		 *	Set the color to "col", default black
 		 *
@@ -130,13 +148,13 @@ class LinkVisualizer {
 				cerr << "Opacity must be in the range [0.0-1.0]" << endl;
 				return;
 			}
-			color.setAlpha(opacity*255.0f);
+			color.setAlpha(int(opacity*255.0f));
 		}
 		
 }; //end of LinkVisualizer class
 
 constexpr double LinkVisualizer::DEFAULT_THICKNESS;
-const Color LinkVisualizer::DEFAULT_COLOR("black");
+const Color LinkVisualizer::DEFAULT_COLOR("SteelBlue");
 
 }//end of bridges namespace
 #endif
