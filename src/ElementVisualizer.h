@@ -5,8 +5,12 @@
 
 namespace bridges{
 
-/** Enumeration of valid shapes for visualization */
-enum Shape{CIRCLE,SQUARE,DIAMOND,CROSS,TRI_DOWN,TRI_UP};
+/** 
+ * Enumeration of valid shapes for visualization 
+ */
+enum Shape {
+	CIRCLE,SQUARE,DIAMOND,CROSS,TRI_DOWN,TRI_UP
+	};
 /**
  * @brief This class maintains the visual properties of the  a Bridges element
  *
@@ -15,7 +19,8 @@ enum Shape{CIRCLE,SQUARE,DIAMOND,CROSS,TRI_DOWN,TRI_UP};
  * Defaults of green, circle, and 10.0 respectively.
  *
  * Size values must range from [10.0,50.0].
- * BRIDGES supports the following shapes: "circle", "square", "diamond", "cross", "triangle-down", "triangle-up"
+ * BRIDGES supports the following shapes: "circle", "square", "diamond", 
+ *	"cross", "triangle-down", "triangle-up"
  *
  * Objects of this class are stored as properties of all Element subclasses.
  *
@@ -113,6 +118,8 @@ class ElementVisualizer {
 
 		/**
 		 * Set color by CSS name
+		 *
+		 * @param Color name
 		 */
 		void setColor(string name) {
 			color.setValue(name);
@@ -134,7 +141,7 @@ class ElementVisualizer {
 		 */
 
 		/**
-         * @return the opacity  of the element
+         * @return the opacity  of the element,  in the range 0.0-1.0 
          */
         float getOpacity() {
             return float(color.getAlpha())/255.;
@@ -143,7 +150,7 @@ class ElementVisualizer {
         /**
          * @set the opacity  of the element (0-255)
          */
-        void  setOpacity (float& opacity) {
+        void  setOpacity (float opacity) {
             if (opacity < 0.0f || opacity > 1.0f) {
                 cerr << "Opacity must be in the range [0-1.0]" << endl;
                 return;
@@ -151,9 +158,20 @@ class ElementVisualizer {
             color.setAlpha(opacity*255.0f);
         }
 
-		void setShape(const Shape& shp){shape = shp;}
+        /**
+         * Set the shape  of the element 
+		 *
+		 * @param Shape is one of CIRCLE,SQUARE,DIAMOND,CROSS,TRI_DOWN,TRI_UP
+         */
+		void setShape(const Shape& shp){
+			shape = shp;
+		}
 
-		/** @return The shape of the element */
+		/** 
+		 *	@return The shape of the element(one of CIRCLE,SQUARE,DIAMOND,CROSS,
+		 * 			TRI_DOWN,TRI_UP 
+		 *
+		 */
 		Shape getShape() const {
 			return shape;
 		}

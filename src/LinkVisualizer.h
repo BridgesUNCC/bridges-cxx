@@ -102,10 +102,7 @@ class LinkVisualizer {
 		 *	@param color The color of the element 
 		 */
 		void setColor(const Color& col){
-			if (checkColorBounds()) {
-				color = col;
-			}
-			else cerr << "Color value out of bounds (legal range: 0-255).";
+			color = Color(col.getRed(), col.getGreen(), col.getBlue(), col.getAlpha());
 		}
 		
 		/**
@@ -113,10 +110,7 @@ class LinkVisualizer {
 		 *  @param r, g, b, a  
 		 */
 		void setColor(const int& r,const int& g,const int& b,const int& a=255) {
-			Color c = Color(r, g, b, a);
-			if (checkColorBounds()) 
-				color = c;
-			else cerr << "Color value out of bounds (legal range: 0-255).";
+			color = Color(r, g, b, a);
 		}
 
 		/**

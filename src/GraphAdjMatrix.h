@@ -36,7 +36,7 @@ class GraphAdjMatrix : public DataStructure {
 		 *	@return The string representation of this data structure type 
 		 */
 		virtual const string getDStype() const override {
-			return "graphl";
+			return "GraphAdjacencyMatrix";
 		}
 
         /**
@@ -66,8 +66,7 @@ class GraphAdjMatrix : public DataStructure {
 		 * @throw out_of_range If "src" or "dest" is non-existenet within this graph
 		 */
 		void addEdge(const K& src,const K& dest,const unsigned int& wt) {
-            try
-            {
+            try {
                 if(wt==0){
 					vertices.at(src).links.erase(&(vertices.at(dest)));//remove link data
 				} 
@@ -76,7 +75,8 @@ class GraphAdjMatrix : public DataStructure {
                 matrix.at(src).at(dest) = wt;
             }
 			catch(const out_of_range& oor){
-				cerr<<"Cannot addEdge between non-existent verticies."<<endl; throw;
+				cerr<<"Cannot addEdge between non-existent verticies."<<endl; 
+				throw;
 			}
 		}
 
@@ -88,7 +88,7 @@ class GraphAdjMatrix : public DataStructure {
 		}
 
 		/** 
-		 *	@return The index map of this graph's verticies 
+		 *	@return The graph verticies 
 		 */
 		const unordered_map<K, Element<E>>& getVertices() const {
 			return vertices;
