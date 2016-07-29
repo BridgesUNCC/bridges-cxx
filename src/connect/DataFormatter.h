@@ -70,6 +70,7 @@ class DataFormatter {
 
 								// retrieve data (JSON strings) - uses CURL library
 			string eq_data = getEarthquakeDataFromSource(max_quakes);
+cout << "EQ Tweets:" << eq_data << endl;
 
 
 							 	// parse data into an array of objets
@@ -99,14 +100,17 @@ class DataFormatter {
 							// form the url
 				ostringstream oss;
 				oss << max_quakes;
+cout << "max quakes:" << max_quakes << endl;
 				string url = 
 					"https://earthquakes-uncc.herokuapp.com/eq/latest/" + oss.str();
 				curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
 				curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, writeDataFunc);
 				curl_easy_setopt(curl, CURLOPT_WRITEDATA, &eq_data);
 				res = curl_easy_perform(curl);
+cout << "error code:" << res << endl;
 				curl_easy_cleanup(curl);
 			}
+cout << "Eq DAta:" << eq_data << endl;
 			return eq_data;
 		}
 		///////////////////////////////////////////////////////////////

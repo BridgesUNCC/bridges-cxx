@@ -145,7 +145,7 @@ namespace Bridges {
          * @param data The content sent in POST requests
          * @throw string Thrown if curl request fails
          */
-		static string makeRequest(const string& url,const vector<string>& headers, 
+		static string makeRequest(const string& url, const vector<string>& headers, 
 										const string& data = "") {
 			string results;
 					// first load curl enviornment (only need be called once in 
@@ -154,11 +154,14 @@ namespace Bridges {
 			CURL* curl = curl_easy_init(); // get a curl handle
 			if (curl) {
 											// set the URL to GET from
+cout << "URL:" << url << endl;
 				curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
 											//pass pointer to callback function
                 curl_easy_setopt(curl, CURLOPT_WRITEDATA, &results); 
 											//sends all data to this function
                 curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, curlWriteFunction); 
+											// certificate issues
+//				curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 0L);
 
 				if (data.length() > 0) {
 											// Now specify the POST data
@@ -214,7 +217,8 @@ namespace Bridges {
 					QUOTE + "version" + QUOTE + COLON + QUOTE + "0.4.0" + QUOTE + COMMA +
 					QUOTE + "visual"  + QUOTE + COLON + QUOTE + ds_type + QUOTE + COMMA +
 					QUOTE + "nodes"   + QUOTE + COLON + 
-						"[" + json_nodes_links.first   + "]" +
+//						"[" + json_nodes_links.first   + "]" +
+						json_nodes_links.first   +
 				CLOSE_CURLY;
 			}
 			else {
