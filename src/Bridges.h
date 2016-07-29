@@ -56,12 +56,49 @@ namespace Bridges {
 	}
 
     /** 
-	 *	@return Reference to member holding the assignment number for holding the 
-	 *	visualization on the server 
+	 *	@return Reference to member holding the assignment number for 
+	 *		holding the visualization on the server 
 	 */
     unsigned int& assignment(){
 		static unsigned int num = 0; 
 		return num;
+	} 
+
+    /** 
+	 *
+	 *	@return title of visualization
+	 *
+	 */
+    string& getTitle(){
+		static string title= ""; 
+		return title;
+	} 
+    /** 
+	 *  set title of visualization
+	 *
+	 *	@param title 
+	 *
+	 */
+    void  setTitle(string t){
+		getTitle() = t;
+	} 
+    /** 
+	 *
+	 *	@return descr description of visualization
+	 *
+	 */
+    string& getDescription(){
+		static string descr = ""; 
+		return descr;
+	} 
+    /** 
+	 *  set description of visualization
+	 *
+	 *	@param description 
+	 *
+	 */
+    void  setDescription(string d){
+		getDescription() = d;
 	} 
 
 	/** 
@@ -216,6 +253,8 @@ cout << "URL:" << url << endl;
 				s_final = OPEN_CURLY +
 					QUOTE + "version" + QUOTE + COLON + QUOTE + "0.4.0" + QUOTE + COMMA +
 					QUOTE + "visual"  + QUOTE + COLON + QUOTE + ds_type + QUOTE + COMMA +
+					QUOTE + "title"  + QUOTE + COLON + QUOTE + getTitle() + QUOTE + COMMA +
+					QUOTE + "description"  + QUOTE + COLON + QUOTE + getDescription() + QUOTE + COMMA +
 					QUOTE + "nodes"   + QUOTE + COLON + 
 //						"[" + json_nodes_links.first   + "]" +
 						json_nodes_links.first   +
@@ -225,6 +264,8 @@ cout << "URL:" << url << endl;
 				s_final = OPEN_CURLY +
 					QUOTE + "version" + QUOTE + COLON + QUOTE + "0.4.0" + QUOTE + COMMA +
 					QUOTE + "visual"  + QUOTE + COLON + QUOTE + ds_type + QUOTE + COMMA +
+					QUOTE + "title"  + QUOTE + COLON + QUOTE + getDescription() + QUOTE + COMMA +
+					QUOTE + "description"  + QUOTE + COLON + QUOTE + getDescription() + QUOTE + COMMA +
 					QUOTE + "nodes"   + QUOTE + COLON + 
 						"[" + json_nodes_links.first   + "]" + COMMA +
 					QUOTE + "links"   + QUOTE + COLON + 
