@@ -264,7 +264,7 @@ cout << "URL:" << url << endl;
 				s_final = OPEN_CURLY +
 					QUOTE + "version" + QUOTE + COLON + QUOTE + "0.4.0" + QUOTE + COMMA +
 					QUOTE + "visual"  + QUOTE + COLON + QUOTE + ds_type + QUOTE + COMMA +
-					QUOTE + "title"  + QUOTE + COLON + QUOTE + getDescription() + QUOTE + COMMA +
+					QUOTE + "title"  + QUOTE + COLON + QUOTE + getTitle() + QUOTE + COMMA +
 					QUOTE + "description"  + QUOTE + COLON + QUOTE + getDescription() + QUOTE + COMMA +
 					QUOTE + "nodes"   + QUOTE + COLON + 
 						"[" + json_nodes_links.first   + "]" + COMMA +
