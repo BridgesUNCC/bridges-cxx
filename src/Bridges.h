@@ -76,7 +76,7 @@ namespace Bridges {
 		return title;
 	} 
     /** 
-	 *  set title of visualization
+	 *  set title of visualization; restricted to 50 chars
 	 *
 	 *	@param title 
 	 *
@@ -97,7 +97,7 @@ namespace Bridges {
 		return descr;
 	} 
     /** 
-	 *  set description of visualization
+	 *  set description of visualization; restricted to 250 chars
 	 *
 	 *	@param description 
 	 *
