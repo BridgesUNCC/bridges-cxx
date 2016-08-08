@@ -25,6 +25,7 @@ namespace Bridges {
 	static bool jsonFlag = false;
 	static const int MaxTitleSize = 50,
 			MaxDescrSize = 250;
+	static string title = "", description = "";
 
     /** 
 	 * 	@return  flag indicating if JSON should be printed upon 
@@ -84,7 +85,7 @@ namespace Bridges {
 		if (t.size() > MaxTitleSize) {  // truncate to 50 chars
 			t = t.substr(0, 49); 
 		}
-		getTitle() = t;
+		title = t;
 	} 
     /** 
 	 *
@@ -92,7 +93,7 @@ namespace Bridges {
 	 *
 	 */
     string& getDescription(){
-		return descr;
+		return description;
 	} 
     /** 
 	 *  set description of visualization; restricted to 250 chars
@@ -104,7 +105,7 @@ namespace Bridges {
 		if (d.size() > MaxDescrSize) { // truncate to 250 chars
 			d = d.substr(0, 249);
 		}
-		getDescription() = d;
+		description = d;
 	} 
 
 	/** 
