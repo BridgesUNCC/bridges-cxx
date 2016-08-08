@@ -23,6 +23,8 @@ DataFormatter* DataFormatter::current = nullptr;
 
 namespace Bridges {
 	static bool jsonFlag = false;
+	static string title= ""; 
+	static string descr = ""; 
 
     /** 
 	 * 	@return  flag indicating if JSON should be printed upon 
@@ -70,7 +72,6 @@ namespace Bridges {
 	 *
 	 */
     string& getTitle(){
-		static string title= ""; 
 		return title;
 	} 
     /** 
@@ -88,7 +89,6 @@ namespace Bridges {
 	 *
 	 */
     string& getDescription(){
-		static string descr = ""; 
 		return descr;
 	} 
     /** 
@@ -246,7 +246,6 @@ cout << "URL:" << url << endl;
 								// contains both nodes and links integrated
 			string ds_type = Bridges::ds_handle()->getDStype();
 
-			cout << "DS Type: " << ds_type << endl;
 			string s_final;
 			if (ds_type == "Tree" || ds_type == "BinaryTree" ||
 				ds_type == "BinarySearchTree" || ds_type == "AVLTree" ) {
@@ -264,7 +263,7 @@ cout << "URL:" << url << endl;
 				s_final = OPEN_CURLY +
 					QUOTE + "version" + QUOTE + COLON + QUOTE + "0.4.0" + QUOTE + COMMA +
 					QUOTE + "visual"  + QUOTE + COLON + QUOTE + ds_type + QUOTE + COMMA +
-					QUOTE + "title"  + QUOTE + COLON + QUOTE + getDescription() + QUOTE + COMMA +
+					QUOTE + "title"  + QUOTE + COLON + QUOTE + getTitle() + QUOTE + COMMA +
 					QUOTE + "description"  + QUOTE + COLON + QUOTE + getDescription() + QUOTE + COMMA +
 					QUOTE + "nodes"   + QUOTE + COLON + 
 						"[" + json_nodes_links.first   + "]" + COMMA +

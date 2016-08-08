@@ -189,7 +189,6 @@ class Color {
          * @throw string If name is an invalid color
          */
         void setValue(string name) {
-cout <<"Input Color" + name << endl;
 							//convert to lowercase 
             for (char& c: name){
 				c=tolower(c);
