@@ -23,8 +23,8 @@ DataFormatter* DataFormatter::current = nullptr;
 
 namespace Bridges {
 	static bool jsonFlag = false;
-	static string title= ""; 
-	static string descr = ""; 
+	static const int MaxTitleSize = 50,
+			MaxDescrSize = 250;
 
     /** 
 	 * 	@return  flag indicating if JSON should be printed upon 
@@ -75,12 +75,15 @@ namespace Bridges {
 		return title;
 	} 
     /** 
-	 *  set title of visualization
+	 *  set title of visualization; restricted to 50 chars
 	 *
 	 *	@param title 
 	 *
 	 */
     void  setTitle(string t){
+		if (t.size() > MaxTitleSize) {  // truncate to 50 chars
+			t = t.substr(0, 49); 
+		}
 		getTitle() = t;
 	} 
     /** 
@@ -92,12 +95,15 @@ namespace Bridges {
 		return descr;
 	} 
     /** 
-	 *  set description of visualization
+	 *  set description of visualization; restricted to 250 chars
 	 *
 	 *	@param description 
 	 *
 	 */
     void  setDescription(string d){
+		if (d.size() > MaxDescrSize) { // truncate to 250 chars
+			d = d.substr(0, 249);
+		}
 		getDescription() = d;
 	} 
 
