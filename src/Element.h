@@ -75,7 +75,7 @@ template <typename E> class Element : public DataStructure {
 		 *  @return The string representation of this data structure type 
 		 */
 		virtual const string getDStype() const override {
-			return "Element";
+			return "Array";
 		}
 
 
