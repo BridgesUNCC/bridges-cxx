@@ -103,7 +103,7 @@ class SLelement : public Element<E> {
 		 * @return A pair holding the nodes and links JSON strings respectively
 		 */
 		virtual const pair<string,string> getDataStructureRepresentation(const 
-							unsigned int& arr_size) const override final {
+							unsigned int& arr_size) const override {
 			unordered_set<const Element<E>*> nodes;
 			for(unsigned int i=0;i<arr_size;i++){this[i].orderHelper(nodes);}
 			return this->generateJSON(nodes); // generate the JSON string

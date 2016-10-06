@@ -71,9 +71,6 @@ class DataFormatter {
 								// retrieve data (JSON strings) - uses CURL library
 			string eq_data = getEarthquakeDataFromSource(max_quakes);
 
-cout << "Eq Data:" << eq_data << endl;
-
-
 							 	// parse data into an array of objets
 			return FormatEarthQuakeData(eq_data, max_quakes);
 	}
