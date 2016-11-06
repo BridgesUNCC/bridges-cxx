@@ -1,4 +1,4 @@
-#include "Color_Test.h"
+/*#include "Color_Test.h"
     #include "LinkVisualizer_Test.h"
         #include "Element_Test.h"
             #include "SLelement_Test.h"
@@ -10,13 +10,20 @@
         #include "GraphAdjMatrix_Test.h"
         #include "GraphAdjList_Test.h"
         #include "Bridges_Test.h"
-
+*/
+#include "Bridges.h"
+#include "DLelement.h"
+#include "ElementArray.h"
+#include "AVLTreeElement.h"
+#include "GraphAdjList.h"
+#include "GraphAdjMatrix.h"
+#include "DataSource.h"
 using namespace bridges;
 int main()
 {
         //create the Bridges object
-    //Bridges::initialize("997924677918","bridges_public",6);
-
+    Bridges::initialize(19,"bridges_public","997924677918");
+    DataSource::getEarthquakeData();
     //create elements
     DLelement<string> e0("","Original");
     DLelement<string> e1("","Changed");
@@ -25,16 +32,16 @@ int main()
     e0.setNext(&e1);
     e1.setPrev(&e0);
 
-    e1.setShape(DIAMOND);
-    e1.setColor(Color(0,0,255,128));
-    e1.setSize(20);
+    //e1.setShape(DIAMOND);
+    //e1.setColor(Color(0,0,255,128));
+    //e1.setSize(20);
 
     LinkVisualizer* lv = e1.getLinkVisualizer(&e0);
     lv->setColor(Color(255,0,0,128));
     lv->setThickness(5);
 
     //pass first element of data structure
-    Bridges::setDataStructure(&e0);
+    Bridges::ds_handle() = &e0;
 
     //visualize data structure
     Bridges::visualize();
