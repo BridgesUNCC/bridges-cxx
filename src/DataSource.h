@@ -97,7 +97,8 @@ namespace DataSource
 
     struct Book
     {
-        string authorName, authorBirth, authorDeath;
+        string authorName;
+        int authorBirth, authorDeath;
         string title;
         vector<string> lang, genre, subject;
         int numChars, numWords, numSentences, numDifficultWords;
@@ -144,10 +145,10 @@ namespace DataSource
             const Value& M = V["metrics"];
             wrapper.push_back(
               {
-                A["name"].GetString(),A["birth"].GetString(),A["death"].GetString(),
+                A["name"].GetString(),A["birth"].GetInt(),A["death"].GetInt(),
                 V["title"].GetString(),
                 lang, genre, subject,
-                M["characters"].GetInt(),M["words"].GetInt(),M["sentences"].GetInt(),M["difficult_words"].GetInt(),
+                M["characters"].GetInt(),M["words"].GetInt(),M["sentences"].GetInt(),M["difficultWords"].GetInt(),
                 V["url"].GetString(),
                 V["downloads"].GetInt()
               });
