@@ -62,13 +62,23 @@ namespace Bridges {
     string& description(){
 		static string description; return description;
 	}
-    /** 
-	 *	@return Reference to member holding the data structure handle 
-	 *	
+	/**
+	 *  set handle to data structure 
+	 *
+	 *  @param ds_ptr Data Structure pointer
 	 */
-    DataStructure*& ds_handle(){
-		static DataStructure* handle = nullptr; return handle;
+	static DataStructure* handle = nullptr; 
+	void setDataStructure(DataStructure *ds) {
+		handle = ds;
 	}
+
+	/** 
+	 *  @return Reference to member holding the data structure handle 
+	 */
+	DataStructure*& getDataStructure(){
+		return handle;
+	}
+
     /**
      * Sets Bridges assignment to "num", api key to "api" and username 
 	 *	to "name".
@@ -92,9 +102,12 @@ namespace Bridges {
 
         if(assignment() != lastAssign){lastAssign=assignment(); part=0;}// resets part if different using assignment number
         if(part == 99){cout<<"Visualization has been performed maximum number of times for this assignment, no action taken.."<<endl; return;}// rollover will occur
-        if(!ds_handle()){cerr<<"Error: visualizer called with a nullptr data structure... visualization not generated."; return;}
+        if(!handle){
+			cerr << "Error: visualizer called with a nullptr data structure... visualization not generated."; 
+			return;
+		}
 
-        string ds_type = ds_handle()->getDStype();
+        string ds_type = handle->getDStype();
         string ds_json = OPEN_CURLY +
 			QUOTE + "version"     + QUOTE + COLON + QUOTE + "0.4.0"  
 			+ QUOTE + COMMA +
@@ -107,7 +120,7 @@ namespace Bridges {
                     QUOTE + "nodes"       + QUOTE + COLON;
 
         const pair<string,string> json_nodes_links = 
-					ds_handle()->getDataStructureRepresentation();
+					handle->getDataStructureRepresentation();
         				// check if the data structure is a tree, 
 						// in which case the json contains a hierarchical 
 						// representation that contains both nodes and 
