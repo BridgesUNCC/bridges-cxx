@@ -18,9 +18,13 @@ namespace Bridges {
     /** 
 	 *	@return flag indicating if JSON should be printed upon visualization 
 	 */
+	static bool jsonFlag = false; 
     bool& visualizeJSON() {
-		static bool jsonFlag = false; 
-		return jsonFlag;
+		return jsonFlag;;
+	}
+
+	void visualizeJSON(bool flag) {
+		jsonFlag = flag;
 	}
 
     /** 

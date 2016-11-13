@@ -81,7 +81,8 @@ class DataStructure
          * @warning Only call if all these data structures were all dynamicaly allocated(aka: using new)
          */
         virtual void cleanup() {delete this;}
-    private:
+
+	private:
         /**
          * Gets the JSON representation of this DataStructure's nodes and links
          *

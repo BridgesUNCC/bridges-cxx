@@ -66,8 +66,7 @@ template <typename E> class Element
          *
          * @return The LinkVisualizer
          */
-        LinkVisualizer* getLinkVisualizer(const Element* el)
-        {
+        LinkVisualizer* getLinkVisualizer(const Element* el) {
             if(links.find(const_cast<Element*>(el)) != links.end()) {return &(links.at(const_cast<Element*>(el)));}
             cerr<<"Not linked to given Element... returned NULL"<<endl;
             return nullptr;
@@ -78,7 +77,9 @@ template <typename E> class Element
          * @param el The terminating element of the link
          * @return The LinkVisualizer
          */
-        const LinkVisualizer* getLinkVisualizer(const Element* el) const {return const_cast<Element*>(this)->getLinkVisualizer(el);}
+        const LinkVisualizer* getLinkVisualizer(const Element* el) const {
+			return const_cast<Element*> (this)->getLinkVisualizer(el);
+		}
         /** @return The label of the element */
         string getLabel() const {return label;}
         /**
