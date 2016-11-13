@@ -51,14 +51,21 @@ template <typename E> class Element
          * @param lab The label to show
          */
         Element(const E& val = E(),const string& lab = string()) : label(lab), value(val) {elvis = new ElementVisualizer;}
-        /** @return The ElementVisualizer of this element */
-        ElementVisualizer* getVisualizer(){return elvis;}
+
+        /** 
+		 *	@return The ElementVisualizer of this element 
+		 */
+        ElementVisualizer* getVisualizer() {
+			return elvis;
+		}
         /**
          * Constant version
          *
          * @return The ElementVisualizer of this element
          */
-        const ElementVisualizer* getVisualizer() const {return elvis;}
+        const ElementVisualizer* getVisualizer() const {
+			return elvis;
+		}
         /**
          * Returns the LinkVisualizer to element "el" or NULL if no link exists
          *

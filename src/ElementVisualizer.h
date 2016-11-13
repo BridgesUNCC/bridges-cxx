@@ -41,7 +41,10 @@ class ElementVisualizer
          * @param sz The Size for display
          * @param shp The Shape for display
          */
-        ElementVisualizer(const Color& hue = DEFAULT_COLOR,const double& sz = DEFAULT_SIZE,const Shape& shp = DEFAULT_SHAPE) : color(hue), size(sz), shape(shp) {}
+        ElementVisualizer(const Color& hue = DEFAULT_COLOR,
+					const double& sz = DEFAULT_SIZE,
+					const Shape& shp = DEFAULT_SHAPE) 
+						: color(hue), size(sz), shape(shp) {}
         /**
          * Sets size to "sz"
          * Valid Range:[10,50]
@@ -49,28 +52,65 @@ class ElementVisualizer
          * @param size The size in pixel weight of the element
          * @throw string If size is invalid
          */
-        void setSize(const double& sz)
-        {
-            (sz<10||50<sz) ? throw "Invalid Size Value.. "+to_string(sz)+" Must be in the [10.0,50.0] range": size = sz;
+        void setSize(const double& sz) {
+            (sz<10||50<sz) 
+				? throw "Invalid Size Value.. "+to_string(sz)+
+					" Must be in the [10.0,50.0] range"
+				: size = sz;
         }
         /** @return The size in pixel weight of the element*/
-        double getSize() const {return size;}
+        double getSize() const {
+			return size;
+		}
         /**
          *  Set the color to "col"
          *  @param color The color of the element
          */
-        void setColor(const Color& col) {color = col;}
-        /** @return The color of the element */
-        Color getColor() const {return color;}
+        void setColor(const Color& col) {
+			color = col;
+		}
+        /** 
+		 *	@return The color of the element 
+		 */
+        Color getColor() const {
+			return color;
+		}
+	
+		/**
+		 *	set opacity of element - use the 4th color component
+		 *
+		 *  @param opacity
+		 */
+		void setOpacity(double opacity) {
+			if (opacity >= 0.0 && opacity <= 1.0)
+				color.setAlpha(opacity *255.);
+		}
+		
+		/**
+		 *	get opacity of element
+		 *
+		 *	@return opacity
+		 */
+		double getOpacity() {
+			return color.getAlpha()/255.;
+		}
         /**
          * Set the shape  of the element
          *
          * @param Shape is one of CIRCLE,SQUARE,DIAMOND,CROSS,TRI_DOWN,TRI_UP
          */
-        void setShape(const Shape& shp){shape = shp;}
-        /** @return The shape of the element(one of CIRCLE,SQUARE,DIAMOND,CROSS,TRI_DOWN,TRI_UP  */
-        Shape getShape() const {return shape;}
+        void setShape(const Shape& shp){
+			shape = shp;
+		}
+        /** 
+		 *	@return The shape of the element(one of CIRCLE,SQUARE,
+		 *		DIAMOND,CROSS,TRI_DOWN,TRI_UP  
+		 */
+        Shape getShape() const {
+			return shape;
+		}
 };//end of ElementVisualizer class
+
 const       Color ElementVisualizer::DEFAULT_COLOR("steelblue");
 constexpr   Shape ElementVisualizer::DEFAULT_SHAPE;
 constexpr   double ElementVisualizer::DEFAULT_SIZE;

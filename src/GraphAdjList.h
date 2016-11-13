@@ -4,7 +4,8 @@
 #include <stdexcept> //out of range
 #include <sstream> //stringstream
 
-#include "SLelement.h" //DataStructure, string, unordered_map, iostream, using std
+#include "SLelement.h" 
+#include "Edge.h"
 
 namespace bridges{
 /**
@@ -21,57 +22,12 @@ namespace bridges{
  * @date 6/29/15
  */
 template<typename K, typename E>
-class GraphAdjList : public DataStructure
-{
-    public:
-        /** @brief This helper class is used by GraphAdjList to keep track of edge information */
-        class Edge //To access outside of Graph, GraphAdjList::Edge
-        {
-            private:
-                unsigned int weight = 1;// The weight of this edge
-                K vertex = K();// The destination vertex of this edge
-                string edge_data;// The application specific data of this edge
-            public:
-                /**
-                 * Constructs an edge with the given destination vertex, weight,
-                 *  and edge data.
-                 * If an argument is not given its default is used. Default Weight: 1
-                 *
-                 * @param wt The edge weight
-                 * @param v The terminating vertex
-                 * @param data The edge data
-                 */
-                Edge(const K& v,const int& wt=1,const string& data=string()) : weight(wt), vertex(v), edge_data(data) {}
-                /**
-                 * Set edge weight to "wt"
-                 *
-                 * @param wt The edge weight
-                 */
-                void setWeight(const unsigned int& wt) {weight = wt;}
-                /** @return The edge weight */
-                int getWeight() const {return weight;}
-                /**
-                 * Sets terminating vetex to "dest"
-                 *
-                 * @param dest The terminating vertex
-                 */
-                void setVertex(const K& dest){vertex = dest;}
-                /** @return The terminating vertex */
-                K getVertex() const {return vertex;}
-                /**
-                 * Sets edge data to "data"
-                 *
-                 * @param data Application data
-                 */
-                void setEdgeData(const string& data){edge_data = data;}
-                /** @return The edge data */
-                string getEdgeData() const {return edge_data;}
-        }; //end of Edge class
+class GraphAdjList : public DataStructure {
     private:
         /** Indexed map of this this graph's verticies */
         unordered_map<K, Element<E>> vertices; // useful to maintain their properties
         /** Map of edge lists for this graph's */
-        unordered_map<K, SLelement<Edge>*> adj_list; // holds the adjacency list of edges;
+        unordered_map<K, SLelement<Edge<K> >*> adj_list; // holds the adjacency list of edges;
     public:
         virtual ~GraphAdjList() override
         {
@@ -114,17 +70,17 @@ class GraphAdjList : public DataStructure
          * @throw out_of_range If "src" or "dest" is non-existenet within this graph
          * @throw bad_alloc If allocation of a graph adjacency list item failed
          */
-        void addEdge(const K& src,const K& dest,const unsigned int& wt,const string& data = string()) {
-            try
-            {
+        void addEdge(const K& src, const K& dest, const unsigned int& wt,
+							const string& data = string()) {
+            try {
                 vertices.at(src); vertices.at(dest);
-                if(wt==0){vertices.at(src).links.erase(&(vertices.at(dest)));} //remove link data
-                SLelement<Edge>* sle = adj_list.at(src);
-                while(sle)
-                {
-                    Edge ed = sle->getValue();
-                    if(ed.getVertex() == dest) //edge already exists
-                    {
+                if(wt==0){				//remove link data
+					vertices.at(src).links.erase(&(vertices.at(dest)));
+				} 
+                SLelement<Edge<K> > *sle = adj_list.at(src);
+                while(sle) {
+                    Edge<K> ed = sle->getValue();
+                    if(ed.getVertex() == dest){ //edge already exists
                         ed.setWeight(wt); //change edge weight
                         ed.setEdgeData(data); //change edge data
                         sle->setValue(ed); //change slelement data
@@ -132,16 +88,23 @@ class GraphAdjList : public DataStructure
                     }
                     sle = sle->getNext();
                 }
-                vertices.at(src).links[&(vertices.at(dest))];//edge doesn't exist creates default link data if none already present
+						// edge doesn't exist creates default link data 
+						// if none already present
+                vertices.at(src).links[&(vertices.at(dest))];
                 stringstream conv; conv << dest;
-                adj_list.at(src) = new SLelement<Edge>(adj_list.at(src),Edge(dest,wt,data),conv.str());// create edge
+                adj_list.at(src) = 
+					new SLelement<Edge<K> > (adj_list.at(src), 
+						Edge<K> (dest, wt, data), conv.str());// create edge
             }
-            catch(const out_of_range& oor){cerr<<"Cannot addEdge between non-existent verticies"<<endl;throw;}
+            catch( const out_of_range& oor){
+				cerr<<"Cannot addEdge between non-existent verticies" << endl;
+				throw;
+			}
         }
         /** @return The vertex list of this graph */
         const unordered_map<K, Element<E>>& getVertices() const {return vertices;}
         /** @return The adjacency list  of the graph */
-        const unordered_map<K, SLelement<Edge>*>& getAdjacencyList() const {return adj_list;}
+        const unordered_map<K, SLelement<Edge<K> >*>& getAdjacencyList() const {return adj_list;}
         /**
          * Returns adjacency list of a vertex with name k
          *
@@ -150,7 +113,7 @@ class GraphAdjList : public DataStructure
          *
          * @return The adjacency list of key "k"
          */
-        const SLelement<Edge>* getAdjacencyList(const K& k) const
+        const SLelement<Edge<K> >* getAdjacencyList(const K& k) const
         {
             try{return adj_list.at(k);}
             catch(const out_of_range& oor){cerr <<  "Cannot getAdjacencyList() of a non-existent vertex!" <<endl; throw;}

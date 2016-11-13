@@ -63,8 +63,15 @@ namespace Bridges {
     /** 
 	 *	@return descr description of visualization 
 	 */
-    string& description(){
-		static string description; return description;
+	static string description; 
+    string& getDescription(){
+		return description;
+	}
+    /** 
+	 *	@return descr description of visualization 
+	 */
+    void setDescription(string descr){
+		description = descr;
 	}
 	/**
 	 *  set handle to data structure 
@@ -120,7 +127,7 @@ namespace Bridges {
                     QUOTE + "title"       + QUOTE + COLON + QUOTE + getTitle()
 			+ QUOTE + COMMA +
                     QUOTE + "description" + QUOTE + COLON + QUOTE + 
-			description() + QUOTE + COMMA +
+			getDescription() + QUOTE + COMMA +
                     QUOTE + "nodes"       + QUOTE + COLON;
 
         const pair<string,string> json_nodes_links = 
