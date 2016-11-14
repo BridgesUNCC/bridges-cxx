@@ -22,14 +22,16 @@ class SLelement : public Element<E>, public DataStructure
         SLelement* next = nullptr;
     public:
         /**
-         * Constructs an slelement with the provided value, label, and next slelement.
+         * Constructs an slelement with the provided value, label, and next 
+		 * slelement.
          * The defaults will be used if not provided.
          *
          * @param val The data to hold
          * @param lab The label to show
          * @param n The next SLelement
          */
-        SLelement(SLelement* n,const E& val = E(),const string& lab = string()) : Element<E>(val,lab) {setNext(n);}
+        SLelement(SLelement* n, const E& val = E(), const string& lab = 
+					string()) : Element<E>(val, lab) {setNext(n);}
         /**
          * Constructs an slelement with the provided value and label,
          *  setting the next slelement to NULL.
@@ -38,22 +40,36 @@ class SLelement : public Element<E>, public DataStructure
          * @param val The data to hold
          * @param lab The label to show
          */
-        SLelement(const E& val = E(),const string& lab = string()) : SLelement(nullptr, val, lab) {}
+        SLelement(const E& val = E(),const string& lab = string()) 
+								: SLelement(nullptr, val, lab) {
+		}
         /** @return The string representation of this data structure type */
-        virtual const string getDStype() const override {return "SinglyLinkedList";}
+        virtual const string getDStype() const override {
+			return "SinglyLinkedList";
+		}
         /** @return The next SLelement */
-        virtual SLelement* getNext() {return next;}
+        virtual SLelement* getNext() {
+			return next;
+		}
         /** Constant version */
-        virtual const SLelement* getNext() const {return next;}
+        virtual const SLelement* getNext() const {
+			return next;
+		}
         /**
          * Sets next link  to "n"
          *
          * @param n The next SLelement
          */
-        void setNext(SLelement* n)
-        {
-            if (next!=n) {this->links.erase(next);}//if different, remove old link data
-            if ((next=n)){this->links[next];}// set next to n and if not null, create default link data if none already present
+        void setNext(SLelement* n) {
+						//if different, remove old link data
+            if (next!=n) {
+				this->links.erase(next);
+			}
+				// set next to n and if not null, create default link data 
+				// if none already present
+            if ((next=n)){
+				this->links[next];
+			}
         }
         /**
          * Calls delete on itself and each next linked SLelement*
@@ -63,8 +79,7 @@ class SLelement : public Element<E>, public DataStructure
          * @warning If linked list contains redundant links, delete will be called
          * multiple times on it, leading to undefined behavior
          */
-        virtual void cleanup() override
-        {
+        virtual void cleanup() override {
             if(next) {next->cleanup();}
             DataStructure::cleanup();
         }
@@ -76,8 +91,8 @@ class SLelement : public Element<E>, public DataStructure
          * @param arr_size The size of the array determined by this
          * @return A pair holding the nodes and links JSON strings respectively
          */
-        virtual const pair<string,string> getDataStructureRepresentation() const override
-        {
+        virtual const pair<string,string> getDataStructureRepresentation() 
+												const override {
             vector<const Element<E>*> nodes;
             orderHelper(nodes);//calls on sub list
             return Element<E>::generateOrderedJSON(nodes); // generate the JSON string
@@ -91,8 +106,7 @@ class SLelement : public Element<E>, public DataStructure
         {
             unordered_set<const Element<E>*> visited;//prevents potential infinite loop
             auto it = this;
-            while(it != nullptr && visited.emplace(it).second)//not visited yet
-            {
+            while(it != nullptr && visited.emplace(it).second) { //not visited 
                 nodes.push_back(it);
                 it = it->next;
             }

@@ -41,7 +41,9 @@ class DLelement: public SLelement<E>
          */
         DLelement (const E& val = E(),const string& lab = string()) : DLelement(nullptr,nullptr,val,lab) {}
         /** @return The string representation of this data structure type */
-        virtual const string getDStype() const override {return "DoublyLinkedList";}
+        virtual const string getDStype() const override {
+			return "DoublyLinkedList";
+		}
         /** @return The next DLelement */
         virtual DLelement* getNext() override {return static_cast<DLelement*>(SLelement<E>::getNext());}
         /**

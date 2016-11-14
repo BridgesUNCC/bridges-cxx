@@ -88,14 +88,14 @@ class CircSLelement : public SLelement<E> {
 	 	 * @param next CircSLelement<E> that should be assigned to the next 
 		 *	pointer
 	 	 */
-		void setNext(CircSLelement<E> next) {
-			this->setNext(next);
+		void setNext(CircSLelement<E> *next) {
+			SLelement<E>::setNext(next);
 		}
 	
-		virtual const pair<string, string> getDataStructureRepresentation(const 
-						unsigned int& arr_size) const override final {
-			return pair<string, string>("","");
-		}
+//		virtual const pair<string, string> getDataStructureRepresentation(const 
+//						unsigned int& arr_size) const override final {
+//			return pair<string, string>("","");
+//		}
 };
 
 } // namespace bridges
