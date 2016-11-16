@@ -114,7 +114,12 @@ template <typename E> class Element
         virtual const string getRepresentation() const
         {//write out ElementVisualizer properties
             return  OPEN_CURLY +
-                QUOTE + "color"+ QUOTE + COLON + getCSSrep(elvis->getColor())  + COMMA +
+                QUOTE + "color"+ QUOTE + COLON + getCSSrep(elvis->getColor())  
+										+ COMMA +
+                QUOTE + "location"+ QUOTE + COLON + 
+					OPEN_BOX + to_string(elvis->getLocationX())  + COMMA + 
+						to_string(elvis->getLocationY()) + 
+					CLOSE_BOX + COMMA +
                 QUOTE + "shape"+ QUOTE + COLON + QUOTE + ShapeNames.at(elvis->getShape()) + QUOTE + COMMA +
                 QUOTE + "size" + QUOTE + COLON + removeTrailingZeros(elvis->getSize()) + COMMA +
                 QUOTE + "name" + QUOTE + COLON + QUOTE + label + QUOTE +

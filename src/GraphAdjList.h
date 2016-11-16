@@ -29,13 +29,11 @@ class GraphAdjList : public DataStructure {
         /** Map of edge lists for this graph's */
         unordered_map<K, SLelement<Edge<K> >*> adj_list; // holds the adjacency list of edges;
     public:
-        virtual ~GraphAdjList() override
-        {
-            for(auto& p : adj_list)
-            {  //frees edges
-                if (p.second){p.second->cleanup();}
-            }
-        }
+        virtual ~GraphAdjList() override {
+//			for(auto& p : adj_list) {  //frees edges
+//				if (p.second){p.second->cleanup();}
+//			}
+		}
         /** @return The string representation of this data structure type */
         virtual const string getDStype() const override {return "GraphAdjacencyList";}
         /**
@@ -113,8 +111,7 @@ class GraphAdjList : public DataStructure {
          *
          * @return The adjacency list of key "k"
          */
-        const SLelement<Edge<K> >* getAdjacencyList(const K& k) const
-        {
+        SLelement<Edge<K> >* getAdjacencyList(const K& k) {
             try{return adj_list.at(k);}
             catch(const out_of_range& oor){cerr <<  "Cannot getAdjacencyList() of a non-existent vertex!" <<endl; throw;}
         }

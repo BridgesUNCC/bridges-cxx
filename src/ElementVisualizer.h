@@ -32,6 +32,7 @@ class ElementVisualizer
         Color color=DEFAULT_COLOR;
         double size=DEFAULT_SIZE;
         Shape shape=DEFAULT_SHAPE;
+		double locationX=0.0, locationY = 0.0; // location of element
     public:
         /**
          * Constructs an element with the provided Color, Size, and Shape.
@@ -108,6 +109,29 @@ class ElementVisualizer
 		 */
         Shape getShape() const {
 			return shape;
+		}
+        /**
+         * Set the location attributes of an element
+         *
+         * @param locX X coordinate of the element location
+         * @param locY Y coordinate of the element location
+         */
+		void setLocation(const double& locX, const double& locY){
+			locationX  = locX;
+			locationY  = locY;
+		}
+
+		/** 
+		 *	@return the X coordinate of the  element's location attribute
+		 */
+        double getLocationX() const {
+			return locationX;
+		}
+		/** 
+		 *	@return the X coordinate of the  element's location attribute
+		 */
+        double getLocationY() const {
+			return locationY;
 		}
 };//end of ElementVisualizer class
 
