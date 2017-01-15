@@ -3,11 +3,25 @@
 
 #include "Element.h"
 
+#include "Bridges.h"
+
 namespace bridges{
+/**
+ * @brief A BRIDGES array type
+ *
+ * This class can be used to create 1D, 2D, and 3D arrays of any type.
+ *
+ * Generic Parameters: E the application data type
+ *
+ * @author Kalpathi Subramanian
+ * @date 1/14/17
+ */
+
 
 template <typename E>
 class Array : public DataStructure {
 
+	friend class Element<E>;
 	private:
 		Element<E> *array_data;
 		int num_dims;
@@ -18,7 +32,7 @@ class Array : public DataStructure {
 		Array() {
 			array_data = NULL;
 			num_dims = 1;
-			dims[0] = dims[1] = dims[2] = 0;
+			dims[0] = dims[1] = dims[2] = 1;
 			size = 0;
 		}
 
@@ -29,6 +43,8 @@ class Array : public DataStructure {
 		Array(int num_dims, int *dims) {
 			setNumDimensions(num_dims);
 			setDimensions(dims);
+						// for json 
+			Bridges::setDimensions(dims);
 		}
 
 		void setNumDimensions(int nd) {
@@ -51,8 +67,18 @@ class Array : public DataStructure {
 			}
 			size = sz;
 							// allocate space for the array 
+cout<< "Array Size: " << size;
 			array_data = new Element<E>[size];	
+
+						// for json 
+			Bridges::setDimensions(dims);
 		}
+
+		int *getDimensions(int *d) {
+			for (int k = 0; k < num_dims; k++)
+				d[k] = dims[k]; 
+		}
+			
 
 		Element<E>& getValue(int indx) {
 			return array_data[indx];
@@ -81,21 +107,64 @@ class Array : public DataStructure {
 		}
 
 		virtual const string getDStype() const override {
+/*
 			string s = "1D_Array";
 			if (num_dims == 1) 
-				return "2D_Array";
+				return "1D_Array";
 			else if (num_dims == 2) 
+				return "2D_Array";
+			else if (num_dims == 3)
 				return "3D_Array";
+*/
 
-			return s;
+			return "Array";
 		}
 
-		virtual const pair<string,string> getDataStructureRepresentation(const 
-					unsigned int& arr_size) const override final {
+		virtual const pair<string,string> getDataStructureRepresentation() 
+											const override final {
+			vector<const Element<E>*> nodes;
+
+			for (int k = 0; k < size; k++) {
+				nodes.push_back(&array_data[k]);
+			}
+								//  also send dimensions to 
+			return Element<E>::generateOrderedJSON(nodes);
 		}
+
+/*
+	private:
+        static const pair<string,string>generateOrderedJSON(
+								const vector<const Element<E>*>& nodes) {
+            if (MAX_ELEMENTS_ALLOWED <= nodes.size()) { 
+							// cant exceed max number of elements
+				throw "Max allowed elements(for visualization) exceeded.. " +
+							to_string(nodes.size())+" Must be less than "+
+							to_string(MAX_ELEMENTS_ALLOWED);
+			}
+						// map the nodes to a sequence of ids, 0...N-1 
+						// then get the JSON string for nodes placeholder 
+						// nullptr prevents insertion of other nullptrs
+			unordered_map<const Element<E>*,int> map{{nullptr,-1}}; 
+
+			string nodes_JSON;
+
+            int i = 0; // get the JSON string for nodes
+            for(const auto* e: nodes) {
+                if (map.emplace(e,i).second && ++i)  {
+						// short circut only incriments i and gets rep 
+						// upon successful emplacement
+					nodes_JSON += e->getRepresentation() + COMMA;
+				}
+			}
+			map.erase(nullptr); //Remove trailing comma and nullptr entry
+			if (nodes_JSON.size()){
+				nodes_JSON = nodes_JSON.erase(nodes_JSON.size()-1);
+			}
+
+            return pair<string,string>(nodes_JSON, ""); 
+	}
+*/
 };
 
 }// end namespace bridges
-
-
 #endif

@@ -66,30 +66,34 @@ namespace Bridges{void visualize();}
  *
  * @date 6/11/15, Dakota Carmer, Kalpathi Subramanian, 7/10/16
  */
-class DataStructure
-{
-    friend void Bridges:: visualize(); //Used for access to getDataStructureRepresentation()
-    public:
-        /** Virtual Destructor */
-        virtual ~DataStructure()=default;
-        /** @return The string representation of this data structure type */
-        virtual const string getDStype() const=0;
-        /**
-         * Ease of use function for the deletion of an entire datastructure.
-         * Overrides should call delete on itself and each linked data structure
-         *
-         * @warning Only call if all these data structures were all dynamicaly allocated(aka: using new)
+class DataStructure {
+			//Used for access to getDataStructureRepresentation()
+	friend void Bridges:: visualize(); 
+
+	public:
+		/** Virtual Destructor */
+		virtual ~DataStructure()=default;
+		/** @return The string representation of this data structure type */
+		virtual const string getDStype() const=0;
+		/**
+		 * Ease of use function for the deletion of an entire datastructure.
+		 * Overrides should call delete on itself and each linked data structure
+		 *
+		 * @warning Only call if all these data structures were all 
+		 *		dynamicaly allocated(aka: using new)
          */
         virtual void cleanup() {delete this;}
 
 	private:
-        /**
-         * Gets the JSON representation of this DataStructure's nodes and links
-         *
-         * @param arr_size The size of the array determined by this
-         * @return A pair holding the nodes and links JSON strings respectively
-         */
-        virtual const pair<string,string> getDataStructureRepresentation() const=0;
+		/**
+		 * Gets the JSON representation of this DataStructure's nodes and links
+		 *
+		 * @param arr_size The size of the array determined by this
+		 * @return A pair holding the nodes and links JSON strings respectively
+		 */
+		virtual const pair<string,string> getDataStructureRepresentation() 
+											const = 0;
 };  //end of DataStructure class
+
 }   //end of bridges namespace
 #endif

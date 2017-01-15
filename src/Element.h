@@ -34,6 +34,7 @@ template <typename E> class Element {
 				//Used for access to generateJSON() and for links manipulation
 	template <typename K, typename T> friend class GraphAdjList;
 	template <typename K, typename T> friend class GraphAdjMatrix;
+	template <typename K> friend class Array;
 
 	private:
 		static const unordered_map<const Shape,const string, hash<int>> 
@@ -293,7 +294,7 @@ template <typename E> class Element {
             for (const auto& ele_int: map) { //each pair<Element*,int> in map
 								// each pair<Element*,LinkVisualizer> 
 								// in Element*->links
-                for(const auto& ele_lv: ele_int.first->links){ 
+				for(const auto& ele_lv: ele_int.first->links){ 
 								// mapping of destination node
                     auto it = map.find(ele_lv.first); 
                     if (it!=map.end()) { //only add link if dest node exists
@@ -320,6 +321,7 @@ template <typename E> const unordered_map<const Shape,const string, hash<int>>
 			{TRI_DOWN,"triangle-down"},
 			{TRI_UP,"triangle-up"}
 	};
+
 
 }//end of bridges namespace
 #endif

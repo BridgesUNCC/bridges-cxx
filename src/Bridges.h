@@ -53,10 +53,16 @@ namespace Bridges {
 	 *	@return title of visualization 
 	 */
 	static string title; 
+
     string& getTitle(){
 		return title;
 	}
 
+    /** 
+	 *	Set  title of visualization 
+	 *
+	 *  @param title string t
+	 */
 	void setTitle(string t) {
 		title = t;
 	}
@@ -64,6 +70,7 @@ namespace Bridges {
 	 *	@return descr description of visualization 
 	 */
 	static string description; 
+
     string& getDescription(){
 		return description;
 	}
@@ -73,6 +80,19 @@ namespace Bridges {
     void setDescription(string descr){
 		description = descr;
 	}
+
+	static int array_dims[3];
+	/**
+	 *	set dimensions of array
+	 *
+	 *  @param  dims 
+	 */
+	void setDimensions(int *dims) {
+		array_dims[0] = dims[0];
+		array_dims[1] = dims[1];
+		array_dims[2] = dims[2];
+	}
+
 	/**
 	 *  set handle to data structure 
 	 *
@@ -127,11 +147,22 @@ namespace Bridges {
                     QUOTE + "title"       + QUOTE + COLON + QUOTE + getTitle()
 			+ QUOTE + COMMA +
                     QUOTE + "description" + QUOTE + COLON + QUOTE + 
-			getDescription() + QUOTE + COMMA +
-                    QUOTE + "nodes"       + QUOTE + COLON;
+			getDescription() + QUOTE + COMMA;
+								// for arrays, must pass dimensions
+			if (ds_type == "Array") {
+								// write dimensions
+				ds_json += QUOTE + "dims" 	+ QUOTE + COLON + 
+							OPEN_BOX + 
+								to_string(array_dims[0]) + COMMA 	+
+								to_string(array_dims[1]) + COMMA + 
+								to_string(array_dims[2]) + 
+							CLOSE_BOX + COMMA;
+			}
+			
+		ds_json +=  QUOTE + "nodes"  + QUOTE + COLON;
 
-        const pair<string,string> json_nodes_links = 
-					handle->getDataStructureRepresentation();
+		const pair<string,string> json_nodes_links = 
+			handle->getDataStructureRepresentation();
         				// check if the data structure is a tree, 
 						// in which case the json contains a hierarchical 
 						// representation that contains both nodes and 
