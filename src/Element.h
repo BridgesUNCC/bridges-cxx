@@ -59,8 +59,10 @@ template <typename E> class Element {
          * @param val The data to hold
          * @param lab The label to show
          */
-        Element(const E& val = E(),const string& lab = string()) : label(lab), 
-							value(val) {elvis = new ElementVisualizer;}
+        Element(const E& val = E(),const string& lab = string()) : 
+									label(lab), value(val) {
+			elvis = new ElementVisualizer;
+		}
 
         /** 
 		 *	@return The ElementVisualizer of this element 
