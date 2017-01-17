@@ -80,8 +80,8 @@ class CircDLelement : public  DLelement<E>{
 	 	 *	This method gets the data structure type
 	 	 *
 	 	 *	@return  The date structure type as a string
-	 	 **/
-		 string getDSType() {
+	 	 */
+		 virtual const string getDSType() const override{
 			 return "CircularDoublyLinkedList";
 		 }
 
@@ -89,7 +89,7 @@ class CircDLelement : public  DLelement<E>{
 	 	 * This method returns the pointer to the next DLelement
 		 * @return the DLelement assigned to the next pointer
 		 */
-		const CircDLelement<E> *getNext() const {
+		const CircDLelement<E> *getNext() const override {
 			return static_cast<const CircDLelement*>(SLelement<E>::getNext());
 		}
 	

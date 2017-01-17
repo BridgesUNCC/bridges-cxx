@@ -72,7 +72,7 @@ class CircSLelement : public SLelement<E> {
 	 	 *
 	 	 *	@return  The date structure type as a string
 	 	 */
-		string getDStype() {
+		virtual const string getDStype() const override{
 			return "CircularSinglyLinkedList";
 		}
 	
