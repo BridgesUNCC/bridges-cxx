@@ -1,4 +1,7 @@
 /**
+ *  @brief This class can be used to instantiate Singly Linked 
+ *  Circular List Elements.
+
  * 	This class can be used to instantiate Circular (Singly) Linked 
  *	List Elements, derived from Singly Linked Element. The main difference
  *	from the SLelement is that they create circularly linked elements and
@@ -11,8 +14,6 @@
  * 	Element contains a visualizer object for setting visual attributes (color, 
  *	shape, opacity, size), necessary for displaying them in a web browser
  *	
- *  Used to build circularly singly linked lists
- *
  *	@author Kalpathi Subramanian
  *	@date 10/5/2016
  *

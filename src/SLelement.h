@@ -8,7 +8,8 @@ namespace bridges{
 /**
  * @brief The singly linked list element, derived from Element
  *
- * This class can be used to create singly linked elements, with a next SLelement pointer
+ * This class can be used to create singly linked elements, with a next 
+ *	SLelement pointer
  *
  * Generic Parameters: E the application data type
  *

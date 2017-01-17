@@ -1,6 +1,22 @@
 #ifndef ARRAY_H 
 #define ARRAY_H 
 
+/**
+ * 
+ *
+ * @brief This class can be used to create arrays of type Element<E> where E 
+ *  is a generic type representation application specific data.  
+ *  Arrays are internally represented as 1D arrays; currently 1D, 2D  and
+ *  3D arrays are supported.
+ *
+ * @param <E>
+
+ * @author  Kalpathi Subramanian
+ * @date    10/8/16
+ *
+ */
+
+
 #include "Element.h"
 
 #include "Bridges.h"

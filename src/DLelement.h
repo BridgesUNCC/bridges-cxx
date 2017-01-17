@@ -7,7 +7,8 @@ namespace bridges{
 /**
  * @brief The doubly linked list element, derived from SLelement
  *
- * This class extends the SLelelement class by adding a previous DLelement pointer
+ * This class extends the SLelelement class by adding a previous DLelement 
+ * pointer
  *
  * Generic Parameters: E the application data type
  *

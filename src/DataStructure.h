@@ -62,9 +62,11 @@ namespace Bridges{void visualize();}
  * @brief This is the superclass of all data structure types in BRIDGES
  *
  * This is the superclass of all data structure types in BRIDGES.
- * Both Elements and Graphs inherit from this.
+
+ * All types of BRIDGES Elements, Array and Graphs inherit from this class.
  *
- * @date 6/11/15, Dakota Carmer, Kalpathi Subramanian, 7/10/16
+ * @date 6/11/15 7/10/16 
+ * @author Dakota Carmer, Kalpathi Subramanian
  */
 class DataStructure {
 			//Used for access to getDataStructureRepresentation()

@@ -12,8 +12,8 @@ namespace bridges{
  * @brief This is the fundamental building block used in building all 
  *	data structures in BRIDGES
  *
- * This is the Superclass Element with SLelement, DLelement, TreeElement, 
- *	BSTElement subclasses.
+ * This is the Superclass Element with SLelement, DLelement, CircSlElement,
+ *	CircDlElement, TreeElement, AVLTreeElement, BSTElement subclasses.
  *
  * Generic Parameters: E the application data type
  *

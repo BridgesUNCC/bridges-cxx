@@ -5,7 +5,8 @@
 
 namespace bridges{
 /**
- * @brief This class can be used to create avl tree elements, derived from BSTElement
+ * @brief This class can be used to create avl tree elements, derived from 
+ *	BSTElement
  *
  *  This class extends the BSTElement class by adding height and balance factor
  *  attributes to allow for easier use in a avl tree implementation.

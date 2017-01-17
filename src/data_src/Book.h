@@ -1,12 +1,24 @@
-#ifndef BOOk_H 
+#ifndef BOOK_H 
 
-#define BOOk_H
-
+#define BOOK_H
 #include <string>
-
 using namespace std;
 
 namespace bridges {
+/**
+ * @brief  A Book object, used along with the books data source.
+ *	
+ * This is a convenience class provided for  users who wish to use this
+ *	data source as part of their application. It provides an API that makes
+ *  it easy to access the attributes of this data set.
+ *
+ * Refer to tutorial examples to using this data source in data structure
+ *  assignments.
+ *
+ * @author Kalpathi Subramanian
+ * @date   1/16/17
+ *
+ */
 
 class Book {
 	string authorName;

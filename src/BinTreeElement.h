@@ -7,7 +7,8 @@ namespace bridges{
 /**
  * @brief This class can be used to create binary tree elements, derived from TreeElement
  *
- * This class can be used to create binary tree elements, with left and right subtrees
+ * This class can be used to create binary tree elements, with left and right 
+ *	 children.
  *
  * Generic Parameters: E the application data type
  *

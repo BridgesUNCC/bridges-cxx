@@ -14,6 +14,17 @@ using namespace std;
 
 
 namespace bridges{
+/**
+ * @brief This provides an API to various data sources used in BRIDGES.
+ *
+ * BRIDGES currently supports a few external datasets for use with BRIDGES
+ * assignments: USGIS Earthquake Tweeet streaming data feed, IMDB (file),
+ * Book metadata collection, IGN Game Data, Shakespear book/poem meta data.
+ 
+ * Functions are provided that access a user specified number of data 
+ * records; objects of the appropriate type are returned as a list.
+ *
+ */
 
 namespace DataSource {
 

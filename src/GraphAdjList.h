@@ -84,10 +84,6 @@ class GraphAdjList : public DataStructure {
 									// to be removed in future implementations!
 				vertices[src]->links[vertices.at(dest)];
 
-//cout << "Links from " << src << endl;
-//for (auto& l : vertices[src].links)
-//	cout << (l.first)->label << endl;
-
 			stringstream conv; conv << dest;
 									// add the edge
                 adj_list.at(src) = 

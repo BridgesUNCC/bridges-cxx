@@ -7,6 +7,18 @@
 using namespace std;
 
 namespace bridges {
+/**
+ * @brief  A Game object, used along with the Games data source.
+ *  
+ * This is a convenience class provided for  users who wish to use this
+ * data source as part of their application. It provides an API that makes
+ * it easy to access the attributes of this data set.
+ *
+ * Refer to tutorial examples to using this data source in data structure
+ * assignments.
+ *
+ */
+
 
 class Game {
 	private:

@@ -10,8 +10,8 @@ namespace bridges{
  * @brief This class can be used to create binary search tree elements, derived
  *  from BinTreeElement
  *
- * This class extends the BinTreeElement class by adding a key property to allow for
- *  use in a binary search tree implementation.
+ * This class extends the BinTreeElement class by adding a key property 
+ * to allow for use in a binary search tree implementation.
  *
  * Generic Parameters:
  *      K that is the search key type,
