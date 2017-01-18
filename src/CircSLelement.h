@@ -1,3 +1,6 @@
+#ifndef  CIRC_SL_ELEMENT_H
+
+#define CIRC_SL_ELEMENT_H
 /**
  *  @brief This class can be used to instantiate Singly Linked 
  *  Circular List Elements.
@@ -100,3 +103,4 @@ class CircSLelement : public SLelement<E> {
 };
 
 } // namespace bridges
+#endif

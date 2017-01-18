@@ -1,3 +1,6 @@
+#ifndef  CIRC_DL_ELEMENT_H
+
+#define CIRC_DL_ELEMENT_H
 /**
  * @author Kalpathi Subramanian
  * @date  10/5/16
@@ -81,7 +84,7 @@ class CircDLelement : public  DLelement<E>{
 	 	 *
 	 	 *	@return  The date structure type as a string
 	 	 */
-		 virtual const string getDSType() const override{
+		 virtual const string getDStype() const override{
 			 return "CircularDoublyLinkedList";
 		 }
 
@@ -122,3 +125,4 @@ class CircDLelement : public  DLelement<E>{
 };
 
 } //namespace bridges
+#endif

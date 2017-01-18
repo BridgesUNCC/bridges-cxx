@@ -139,7 +139,6 @@ namespace Bridges {
 		}
 
         string ds_type = handle->getDStype();
-cout<< "DS Type: " << ds_type << endl;
         string ds_json = OPEN_CURLY +
 			QUOTE + "version"     + QUOTE + COLON + QUOTE + "0.4.0"  
 			+ QUOTE + COMMA +
