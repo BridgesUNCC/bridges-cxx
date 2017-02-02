@@ -144,7 +144,7 @@ class GutenbergBook {
 			return downloads;
 		}
 		void setNumDownloads(int dl) {
-			this.downloads = dl;
+			this->downloads = dl;
 		}
 };
 

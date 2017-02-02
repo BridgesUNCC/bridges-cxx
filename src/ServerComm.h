@@ -7,7 +7,7 @@
 #include "./data_src/EarthquakeUSGS.h"
 #include "./data_src/Game.h"
 #include "./data_src/Shakespeare.h"
-#include "./data_src/Book.h"
+#include "./data_src/GutenbergBook.h"
 using namespace std;
 
 namespace bridges{
@@ -15,7 +15,7 @@ namespace DataSource {
     vector<Game> getGameData();
 	vector<EarthquakeUSGS> getEarthquakeData(int);
     vector<Shakespeare> getShakespeareData(string, bool);
-    vector<Book> getBookData(int);
+    vector<GutenbergBook> getGutenbergBookData(int);
 }
 	/** 
 	 *	@brief This is a detail class for the Bridges namespace and 
@@ -27,7 +27,7 @@ namespace DataSource {
 		friend vector<Game> DataSource::getGameData();
 		friend vector<EarthquakeUSGS> DataSource::getEarthquakeData(int);
 		friend vector<Shakespeare> DataSource::getShakespeareData(string, bool);
-		friend vector<Book> DataSource::getBookData(int);
+		friend vector<GutenbergBook> DataSource::getGutenbergBookData(int);
 
     	ServerComm()=delete;//Prevents instantiation
 

@@ -10,7 +10,7 @@ using namespace std;
 #include "./data_src/EarthquakeUSGS.h"
 #include "./data_src/Game.h"
 #include "./data_src/Shakespeare.h"
-#include "./data_src/Book.h"
+#include "./data_src/GutenbergBook.h"
 
 
 namespace bridges{
@@ -134,11 +134,11 @@ vector<Shakespeare> getShakespeareData(string endpoint = "",
 Valid endpoints: 'poems','plays', <title>
 Valid queryParams: format{simple}
 */
-vector<Book> getBookData(int num = 0) {
+vector<GutenbergBook> getGutenbergBookData(int num = 0) {
 	using namespace rapidjson;
 
 	Document d;
-	vector<Book> wrapper;
+	vector<GutenbergBook> wrapper;
 	string url = "http://bridgesdata.herokuapp.com/api/books";
 	if (num > 0){
 		url += "?limit="+to_string(num);
@@ -171,7 +171,7 @@ vector<Book> getBookData(int num = 0) {
 
 		const Value& M = V["metrics"];
 		wrapper.push_back(
-			Book(
+			GutenbergBook(
 				A["name"].GetString(), 
 				A["birth"].GetInt(),
 				A["death"].GetInt(),
