@@ -1,13 +1,20 @@
 # bridges-cxx
 This is the BRIDGES C++ Version
 
-Author: Kalpathi Subramanian, June 2015
+Authors: Kalpathi Subramanian, June 2015, Feb. 2017
 
 Revisions:
 
 Nov 16, 2015: Kalpathi Subramanian
 	Issues brought up by Dakota Carmer
 	A number of fixes/bugs/inconsistencies.
+August, 2016. Revisions to C++ version better alignment with Java version, 
+ 	Dakota Carmer, Kalpathi Subramanian
+	
+Feb. 2017: New datasets integrated into BRIDGES API, Gutenberg Book
+Collection(meta-data only), Games dataset, Shakespeare data 
+(Sonnets, Poems, Plays), IMDB Actor/Movie Curated dataset.
+
 
 Notes: 
 
