@@ -15,15 +15,23 @@ namespace bridges{
  * @date  7/26/15
  */
 namespace Bridges {
+								// static variables used in Bridges
+
+	static bool jsonFlag = false;   	// if JSON is to be printed
+	static string user_name = string(), key = string(); // user credentials
+	static unsigned int assn_num = 0;	// assignment id
+	static int array_dims[3] = {0, 0, 0};
+	static DataStructure* ds_handle = nullptr;  // data structure handle
+
     /** 
 	 *	@return flag indicating if JSON should be printed upon visualization 
 	 */
-	static bool jsonFlag = false; 
-    bool& visualizeJSON() {
+
+    bool& getVisualizeJSONFlag() {
 		return jsonFlag;;
 	}
 
-	void visualizeJSON(bool flag) {
+	void setVisualizeJSONFlag(bool flag) {
 		jsonFlag = flag;
 	}
 
@@ -31,23 +39,40 @@ namespace Bridges {
 	 *	@return reference to member holding the username credential 
 	 *	for the server 
 	 */
-    string& userName(){
-		static string user; 
-		return user;
+    string& getUserName(){
+		return user_name;
+	}
+    /** 
+	 *	@param  user_name   user id to set
+	 */
+    void setUserName(string name){
+		user_name = name;
 	}
     /** 
 	 *	@return Reference to member holding the api key credential for 
 	 *	the server 
 	 */
-    string& apiKey(){
-		static string key; return key;
+    string& getApiKey(){
+		return key;
+	}
+    /** 
+	 *	@param k API key to set for user
+	 */
+    void setApiKey(string k){
+		key = k;
 	}
     /** 
 	 *	@return Reference to member holding the assignment number for 
 	 *	holding the visualization on the server 
 	 */
-    unsigned int& assignment(){
-		static unsigned int num = 0; return num;
+    unsigned int& getAssignment(){
+		return assn_num;
+	}
+    /** 
+	 *	@param assn sets the assignment number
+	 */
+    void setAssignment(unsigned int num){
+		assn_num =  num;
 	}
     /** 
 	 *	@return title of visualization 
@@ -81,7 +106,6 @@ namespace Bridges {
 		description = descr;
 	}
 
-	static int array_dims[3];
 	/**
 	 *	set dimensions of array
 	 *
@@ -96,18 +120,17 @@ namespace Bridges {
 	/**
 	 *  set handle to data structure 
 	 *
-	 *  @param ds_ptr Data Structure pointer
+	 *  @param ds_ptr pointer to user's data Structure 
 	 */
-	static DataStructure* handle = nullptr; 
 	void setDataStructure(DataStructure *ds) {
-		handle = ds;
+		ds_handle = ds;
 	}
 
 	/** 
 	 *  @return Reference to member holding the data structure handle 
 	 */
 	DataStructure*& getDataStructure(){
-		return handle;
+		return ds_handle;
 	}
 
     /**
@@ -120,7 +143,9 @@ namespace Bridges {
      */
     void initialize(const unsigned int& num, const string& name, 
 							const string& api_key) {
-        assignment() = num; userName() = name; apiKey() = api_key;
+		assn_num = num;
+		user_name = name;
+		key = api_key;
     }
     /**
      * Sends relevant data handle information to the server, and
@@ -131,14 +156,22 @@ namespace Bridges {
         static unsigned int lastAssign = 0, part = 0;
         static const string BASE_URL = "http://bridges-cs.herokuapp.com/assignments/";
 
-        if(assignment() != lastAssign){lastAssign=assignment(); part=0;}// resets part if different using assignment number
-        if(part == 99){cout<<"Visualization has been performed maximum number of times for this assignment, no action taken.."<<endl; return;}// rollover will occur
-        if(!handle){
-			cerr << "Error: visualizer called with a nullptr data structure... visualization not generated."; 
+        if (assn_num != lastAssign) { 		// reset if a new assignment
+			lastAssign = assn_num; 
+			part = 0;
+		}
+        if(part == 99) {
+			cout<< "#sub-assignments limit (99) - exceeded, visualization not generated .." << endl; 
+			return;
+		}
+        if (!ds_handle) {
+			cerr << "Error: Data Structure handle null! Visualization not generated."; 
 			return;
 		}
 
-        string ds_type = handle->getDStype();
+							// generate the JSON of the data structure
+
+        string ds_type = ds_handle->getDStype();
         string ds_json = OPEN_CURLY +
 			QUOTE + "version"     + QUOTE + COLON + QUOTE + "0.4.0"  
 			+ QUOTE + COMMA +
@@ -162,7 +195,7 @@ namespace Bridges {
 		ds_json +=  QUOTE + "nodes"  + QUOTE + COLON;
 
 		const pair<string,string> json_nodes_links = 
-			handle->getDataStructureRepresentation();
+			ds_handle->getDataStructureRepresentation();
         				// check if the data structure is a tree, 
 						// in which case the json contains a hierarchical 
 						// representation that contains both nodes and 
@@ -175,14 +208,18 @@ namespace Bridges {
 			ds_json += "["+json_nodes_links.first+"]"+COMMA+QUOTE+"links"+QUOTE
 					+COLON+"["+json_nodes_links.second+"]"+CLOSE_CURLY;}
 
-        if (visualizeJSON()){
+						// print JSON if flag is on
+        if (getVisualizeJSONFlag()){
 			cout<<"JSON String:\t"<<ds_json<<endl;
 		}
 
         try {
-            ServerComm::makeRequest(BASE_URL+to_string(assignment())+"."+(part>9?"":"0")+to_string(part)+"?apikey="+apiKey(), {"Content-Type: application/json"}, ds_json);
-            cout<<"Success: Assignment posted to the server. "<<endl<<"Check out your visualization at:"<<endl<<endl
-                <<BASE_URL+to_string(assignment())+"/"+userName()<<endl<<endl;
+            ServerComm::makeRequest(BASE_URL+to_string(assn_num)+"." +
+				(part >9 ?"":"0") + to_string(part) + "?apikey="+apiKey(), 
+				{"Content-Type: application/json"}, ds_json);
+            cout << "Success: Assignment posted to the server. " << endl <<
+				"Check out your visualization at:" << endl << endl
+                << BASE_URL+to_string(assn_num + "/" + user_name << endl<<endl;
             part++;
         }
         catch(const string& error_str){cerr<<"Posting assignment to the server failed!"<<endl<<error_str<<endl<<"Generated JSON: "<<ds_json<<endl;}
