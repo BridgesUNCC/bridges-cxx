@@ -293,8 +293,9 @@ template <typename E> class Element {
             if (nodes_JSON.size()){
 				nodes_JSON = nodes_JSON.erase(nodes_JSON.size()-1);
 			}
-            for (const auto& ele_int: map) { //each pair<Element*,int> in map
-								// each pair<Element*,LinkVisualizer> 
+								// for each pair<Element*,int> in map
+            for (const auto& ele_int: map) { 
+								// for each pair<Element*,LinkVisualizer> 
 								// in Element*->links
 				for(const auto& ele_lv: ele_int.first->links){ 
 								// mapping of destination node

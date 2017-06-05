@@ -11,14 +11,14 @@ namespace bridges{
  * @brief This class contains methods to connect and transmit a user's
  *  data structure representation to the Bridges server (up to 5000 elements)
  *
- * @author Kalpathi Subramanian
- * @date  7/26/15
+ * @author Kalpathi Subramanian, Dakota Carmer
+ * @date  7/26/15, 6/5/17
  */
-namespace Bridges {
+	namespace Bridges {
 								// static variables used in Bridges
 
 	static bool jsonFlag = false;   	// if JSON is to be printed
-	static string user_name = string(), key = string(); // user credentials
+	static string user_name = string(), api_key = string(); // user credentials
 	static unsigned int assn_num = 0;	// assignment id
 	static int array_dims[3] = {0, 0, 0};
 	static DataStructure* ds_handle = nullptr;  // data structure handle
@@ -53,13 +53,13 @@ namespace Bridges {
 	 *	the server 
 	 */
     string& getApiKey(){
-		return key;
+		return api_key;
 	}
     /** 
 	 *	@param k API key to set for user
 	 */
     void setApiKey(string k){
-		key = k;
+		api_key = k;
 	}
     /** 
 	 *	@return Reference to member holding the assignment number for 
@@ -142,10 +142,10 @@ namespace Bridges {
      * @param user The username
      */
     void initialize(const unsigned int& num, const string& name, 
-							const string& api_key) {
+							const string& key) {
 		assn_num = num;
 		user_name = name;
-		key = api_key;
+		api_key = key;
     }
     /**
      * Sends relevant data handle information to the server, and
@@ -161,7 +161,8 @@ namespace Bridges {
 			part = 0;
 		}
         if(part == 99) {
-			cout<< "#sub-assignments limit (99) - exceeded, visualization not generated .." << endl; 
+			cout<< "#sub-assignments limit(99) exceeded, visualization not generated .." 
+													<< endl; 
 			return;
 		}
         if (!ds_handle) {
@@ -215,15 +216,18 @@ namespace Bridges {
 
         try {
             ServerComm::makeRequest(BASE_URL+to_string(assn_num)+"." +
-				(part >9 ?"":"0") + to_string(part) + "?apikey="+apiKey(), 
+				(part >9 ?"":"0") + to_string(part) + "?apikey="+api_key, 
 				{"Content-Type: application/json"}, ds_json);
             cout << "Success: Assignment posted to the server. " << endl <<
 				"Check out your visualization at:" << endl << endl
-                << BASE_URL+to_string(assn_num + "/" + user_name << endl<<endl;
+                << BASE_URL+to_string(assn_num) + "/" + user_name << endl << endl;
             part++;
         }
-        catch(const string& error_str){cerr<<"Posting assignment to the server failed!"<<endl<<error_str<<endl<<"Generated JSON: "<<ds_json<<endl;}
+        catch(const string& error_str){
+			cerr<< "Posting assignment to the server failed!" <<endl <<error_str 
+						<<endl <<"Generated JSON: " << ds_json<<endl;
+		}
     }
-}//end of Bridges namespace
-}// end of bridges namespace
+}	//end of Bridges namespace
+}	// end of bridges namespace
 #endif
