@@ -119,7 +119,7 @@ namespace bridges {
 			 *
 			 * 	@param nodes The list of nodes
 			 */
-			void getListElements(vector<const Element<E>*>& nodes) const {
+			virtual void getListElements(vector<const Element<E>*>& nodes) const  {
 				//prevents potential infinite loop
 				unordered_set<const Element<E>*> visited;
 				auto it = this;

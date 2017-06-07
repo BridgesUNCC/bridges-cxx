@@ -26,8 +26,8 @@ namespace bridges {
 			K key = K();// The search key value
 		public:
 			/**
-			 * Constructs a BSTElement with the provided value, label, key, 
-			 * left and right BSTElements.  The defaults will be used if 
+			 * Constructs a BSTElement with the provided value, label, key,
+			 * left and right BSTElements.  The defaults will be used if
 			 * not provided.
 			 *
 			 * @param k The key for ordering
@@ -36,9 +36,9 @@ namespace bridges {
 			 * @param l The left BSTElement
 			 * @param r The right BSTElement
 			 */
-			BSTElement(const K& k, BSTElement* l, BSTElement* r, const E& val = E(), 
-								const string& lab = string()) 
-								: BinTreeElement<E>(l, r, val, lab), key(k) {
+			BSTElement(const K& k, BSTElement* l, BSTElement* r, const E& val = E(),
+				const string& lab = string())
+				: BinTreeElement<E>(l, r, val, lab), key(k) {
 			}
 			/**
 			 * Constructs a BSTElement with the provided value, label, key,
@@ -49,8 +49,8 @@ namespace bridges {
 			 * @param lab The label to show
 			 * @param k The key for ordering
 			 */
-			BSTElement(const K& k, const E& val = E(), const string& lab = string()) 
-							: BSTElement(k, nullptr, nullptr, val, lab) {
+			BSTElement(const K& k, const E& val = E(), const string& lab = string())
+				: BSTElement(k, nullptr, nullptr, val, lab) {
 			}
 			/** @return the data structure type */
 			virtual const string getDStype() const override {
@@ -114,10 +114,10 @@ namespace bridges {
 				stringstream conv;
 				conv << key;
 				return json.insert(
-						json.size() - 1, 
-						COMMA + QUOTE + "key" + QUOTE + COLON + QUOTE + conv.str() + 
+						json.size() - 1,
+						COMMA + QUOTE + "key" + QUOTE + COLON + QUOTE + conv.str() +
 						QUOTE
-				);
+					);
 			}
 	}; //end of BSTElement class
 

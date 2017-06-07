@@ -206,9 +206,9 @@ namespace bridges {
 				ds_json += json_nodes_links.first + CLOSE_CURLY;
 			}
 			else {
-				ds_json += "[" + 
-						json_nodes_links.first + "]" + COMMA + QUOTE + "links" + QUOTE
-						+ COLON + "[" + json_nodes_links.second + "]" + CLOSE_CURLY;
+				ds_json += "[" +
+					json_nodes_links.first + "]" + COMMA + QUOTE + "links" + QUOTE
+					+ COLON + "[" + json_nodes_links.second + "]" + CLOSE_CURLY;
 			}
 
 			// print JSON if flag is on

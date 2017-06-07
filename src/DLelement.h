@@ -111,10 +111,10 @@ namespace bridges {
 				if (prev != p && this->next != prev) {
 					this->links.erase(prev);   //if different, remove old link data
 				}
-							//	set prev to p and if not null, create 
-							//	default link data if none already present
+				//	set prev to p and if not null, create
+				//	default link data if none already present
 				if ((prev = p)) {
-					this->links[prev];   
+					this->links[prev];
 				}
 			}
 

@@ -34,7 +34,7 @@ namespace bridges {
 			 * @param k The key for ordering
 			 */
 			AVLTreeElement(const K& k, const E& val = E(), const string& lab = string())
-						: BSTElement<K, E>(k, nullptr, nullptr, val, lab) {}
+				: BSTElement<K, E>(k, nullptr, nullptr, val, lab) {}
 			/** @return the data structure type */
 			virtual const string getDStype() const override {
 				return "AVLTree";
@@ -105,20 +105,20 @@ namespace bridges {
 				BSTElement<K, E>::setRight(r);
 			}
 		private:
-			/** 
+			/**
 			 *
-			 *	Adds height and balance factor attributes to the BST Element 
-			 *	representation 
+			 *	Adds height and balance factor attributes to the BST Element
+			 *	representation
 			 */
 			virtual const string getElementRepresentation() const override final {
 				string json = BSTElement<K, E>::getElementRepresentation();
 
 				return json.insert (
-					json.size() - 1, 
-					COMMA + QUOTE + "height" + QUOTE + COLON + to_string(height) + 
-					COMMA + QUOTE + "balance_factor" + QUOTE + COLON + 
-					to_string(balFactor)
-				);
+						json.size() - 1,
+						COMMA + QUOTE + "height" + QUOTE + COLON + to_string(height) +
+						COMMA + QUOTE + "balance_factor" + QUOTE + COLON +
+						to_string(balFactor)
+					);
 			}
 	}; //end of BSTElement class
 

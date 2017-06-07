@@ -268,7 +268,7 @@ namespace bridges {
 			}
 
 			static const pair<string, string>	generateOrderedJSON(
-						const vector<const Element*>& nodes) {
+				const vector<const Element*>& nodes) {
 
 				if (MAX_ELEMENTS_ALLOWED <= nodes.size()) {
 					// cant exceed max number of elements
