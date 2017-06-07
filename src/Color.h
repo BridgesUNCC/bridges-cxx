@@ -39,9 +39,12 @@ namespace bridges {
 	 */
 	class Color {
 		private:
-			static const regex HEX_RANGE;// The regex used to verify #hexadecimal color input
-			static const unordered_map<string, const array<int, 4>>ColorNames; // The named colors' rgba channel value mappings
-			array<int, 4> channels{{255, 255, 255, 255}}; // The rgba channel values of this Color
+						// The regex used to verify #hexadecimal color input
+			static const regex HEX_RANGE;
+						// The named colors' rgba channel value mappings
+			static const unordered_map<string, const array<int, 4>>ColorNames; 
+						// The rgba channel values of this Color
+			array<int, 4> channels{{255, 255, 255, 255}}; 
 		public:
 			/**
 			 * Constructs a color with the specified rgba color channel values [0,255].
@@ -107,7 +110,8 @@ namespace bridges {
 
 			/** @return The #hexadecimal representation (#RRGGBBAA) of this color */
 			string getHexValue() const {
-				const string HEX = to_hex(getRed() * 16777216 + getGreen() * 65536 + getBlue() * 256 + getAlpha());
+				const string HEX = to_hex(getRed() * 16777216 + getGreen() * 65536 
+									+ getBlue() * 256 + getAlpha());
 				string prefix = "#";
 				for (auto i = HEX.size(); i < 8; i++) {
 					prefix += "0";
@@ -165,12 +169,16 @@ namespace bridges {
 				}
 				else if (regex_match(name, HEX_RANGE)) { //#Hex value
 					name.erase(0, 1); //removes "#"
-					channels.at(3) = 255; //alpha value, overwritten if present by loop number of chars representing a channel
+							// alpha value, overwritten if present by loop number 
+							// of chars representing a channel
+					channels.at(3) = 255; 
 					const int chanChars = (name.size() == 3 || name.size() == 4) ? 1 : 2;
-					const int chanMultiplier = (chanChars == 1) ? 17 : 1; //unit place scale factor, handles channel size variance
+							//unit place scale factor, handles channel size variance
+					const int chanMultiplier = (chanChars == 1) ? 17 : 1; 
 					for (size_t i = 0; i < name.size() / chanChars; i++) {
-						//converts and save hex val to rgba val
-						channels.at(i) = strtol(name.substr(i * chanChars, chanChars).c_str(), nullptr, 16) * chanMultiplier;
+							//converts and save hex val to rgba val
+						channels.at(i) = strtol(name.substr(i * chanChars, 
+								chanChars).c_str(), nullptr, 16) * chanMultiplier;
 					}
 				}
 				else { //invalid color
@@ -191,7 +199,10 @@ namespace bridges {
 			 * @throw string Throw if value is invalid
 			 */
 			void setChannel(const int& value, const int& channel) {
-				(value < 0 || 255 < value) ? throw "Invalid channel parameter: " + to_string(value) + " Must be in the [0,255] range" : channels.at(channel) = value;
+				(value < 0 || 255 < value) 
+					? throw "Invalid channel parameter: " + to_string(value) + 
+						" Must be in the [0,255] range" 
+					: channels.at(channel) = value;
 			}
 			/**
 			 * Converts decimal value to appropriate hexidecimal value
@@ -200,13 +211,15 @@ namespace bridges {
 			 * @return The hexadecimal value of "val"
 			 */
 			static string to_hex(const unsigned long& val) {
-				char* buffer = new char[static_cast<int>((log(val) / log(16)) + 2)]; //number of characters needed - includes terminating character
+					//number of characters needed - includes terminating character
+				char* buffer = new char[static_cast<int>((log(val) / log(16)) + 2)]; 
 				sprintf(buffer, "%x", static_cast<int>(val));
 				string hexValue = string(buffer);
 				delete[] buffer; //used new[] to have variable array size
 				return hexValue;
 			}
 	};//end of color class
+
 	const regex Color::HEX_RANGE("^#([[:xdigit:]]{8}|[[:xdigit:]]{6}|[[:xdigit:]]{3,4})$");//greedy, so checks for 8(RRGGBBAA), then 6(RRGGBB) then 4(RGBA) then 3(RGB)
 	const unordered_map<string, const array<int, 4>>
 	Color::ColorNames {

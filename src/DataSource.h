@@ -79,7 +79,9 @@ vector<EarthquakeUSGS> getEarthquakeData(int number = 0) {
 		}
 	}
 	else {
-		d.Parse(ServerComm::makeRequest("http://earthquakes-uncc.herokuapp.com/eq/latest/"+to_string(number),{"Accept: application/json"}).c_str());
+		d.Parse(ServerComm::makeRequest(
+			"http://earthquakes-uncc.herokuapp.com/eq/latest/" +
+				to_string(number),{"Accept: application/json"}).c_str());
 		const Value& D = d["Earthquakes"];
 		for(SizeType i=0; i<D.Size(); i++) {
 			const Value& V = D[i]["properties"];
@@ -192,5 +194,6 @@ vector<GutenbergBook> getGutenbergBookData(int num = 0) {
 }
 
 } // namespace DataSource
+
 } // namespace bridges
 #endif

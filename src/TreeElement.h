@@ -29,7 +29,9 @@ namespace bridges {
 			 * @param val The data to hold
 			 * @param lab The label to show
 			 */
-			TreeElement(const E& e = E(), const string& lab = string()): Element<E>(e, lab) {}
+			TreeElement(const E& e = E(), const string& lab = string())
+								: Element<E>(e, lab) {
+			}
 			/** @return The string representation of this data structure type */
 			virtual const string getDStype() const override {
 				return "Tree";
@@ -88,14 +90,15 @@ namespace bridges {
 				/**
 				 *  This simply replaces the element at position index and the old element
 				 *  is lost(actually can create memory leak if it came from dynamic memory
-				 *  Since we cannot distinguish from allocated or static memory from pointers,
-				 *  it is the user's responsibility to keep track of allocated memory
-				 *  its linkage. For new elements, if not null, create linkage
+				 *  Since we cannot distinguish from allocated or static memory 
+				 *	from pointers, it is the user's responsibility to keep track of 
+				 *	allocated memory its linkage. For new elements, if not null, 
+				 *	create linkage
 				 */
 				if ((index < children.size()) && index >= 0) {
 					children[index] = kid;
 					this->links.erase(children[index]); // remove any existing links
-					this->links[kid];                   // initialize this element in the map
+					this->links[kid];			// initialize this element in the map
 				}
 			}
 			/**
@@ -130,7 +133,8 @@ namespace bridges {
 			 * Also each child that is NULL is explicitly specified as NULL for
 			 * visualization convenience
 			 */
-			virtual const pair<string, string> getDataStructureRepresentation() const override final {
+			virtual const pair<string, string> getDataStructureRepresentation() const 
+													override final {
 				//TODO: Check for exceeding max node
 				string json_str =
 					(OPEN_CURLY +

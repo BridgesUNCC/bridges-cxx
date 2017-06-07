@@ -26,8 +26,9 @@ namespace bridges {
 			K key = K();// The search key value
 		public:
 			/**
-			 * Constructs a BSTElement with the provided value, label, key, left and right BSTElements.
-			 * The defaults will be used if not provided.
+			 * Constructs a BSTElement with the provided value, label, key, 
+			 * left and right BSTElements.  The defaults will be used if 
+			 * not provided.
 			 *
 			 * @param k The key for ordering
 			 * @param val The data to hold
@@ -35,7 +36,10 @@ namespace bridges {
 			 * @param l The left BSTElement
 			 * @param r The right BSTElement
 			 */
-			BSTElement(const K& k, BSTElement* l, BSTElement* r, const E& val = E(), const string& lab = string()) : BinTreeElement<E>(l, r, val, lab), key(k) {}
+			BSTElement(const K& k, BSTElement* l, BSTElement* r, const E& val = E(), 
+								const string& lab = string()) 
+								: BinTreeElement<E>(l, r, val, lab), key(k) {
+			}
 			/**
 			 * Constructs a BSTElement with the provided value, label, key,
 			 * setting the left and right BSTElements to NULL.
@@ -45,7 +49,9 @@ namespace bridges {
 			 * @param lab The label to show
 			 * @param k The key for ordering
 			 */
-			BSTElement(const K& k, const E& val = E(), const string& lab = string()) : BSTElement(k, nullptr, nullptr, val, lab) {}
+			BSTElement(const K& k, const E& val = E(), const string& lab = string()) 
+							: BSTElement(k, nullptr, nullptr, val, lab) {
+			}
 			/** @return the data structure type */
 			virtual const string getDStype() const override {
 				return "BinarySearchTree";
@@ -107,8 +113,14 @@ namespace bridges {
 				string json = Element<E>::getElementRepresentation();
 				stringstream conv;
 				conv << key;
-				return json.insert(json.size() - 1, COMMA + QUOTE + "key" + QUOTE + COLON + QUOTE + conv.str() + QUOTE);
+				return json.insert(
+						json.size() - 1, 
+						COMMA + QUOTE + "key" + QUOTE + COLON + QUOTE + conv.str() + 
+						QUOTE
+				);
 			}
 	}; //end of BSTElement class
+
+
 }//end of bridges namespace
 #endif
