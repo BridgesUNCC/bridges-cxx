@@ -149,9 +149,9 @@ class TreeElement : public Element<E>, public DataStructure {
 
                         json+=COMMA+QUOTE+"linkProperties"+QUOTE+COLON+OPEN_CURLY;
                         if(LinkVisualizer* lv = this->getLinkVisualizer(ele)) {
-                            json += QUOTE+"color"    +QUOTE+COLON+this->getCSSrep(lv->getColor())+COMMA+
-                                    QUOTE+"thickness"+QUOTE+COLON+this->removeTrailingZeros(lv->getThickness())+COMMA+
-                                    QUOTE+"weight"   +QUOTE+COLON+this->removeTrailingZeros(lv->getWeight());
+							json += QUOTE+"color" + QUOTE+COLON+this->getCSSrep(lv->getColor())+COMMA+
+								QUOTE+"thickness"+QUOTE+COLON+this->removeTrailingZeros(lv->getThickness())+COMMA+
+								QUOTE+"weight" +QUOTE+COLON+this->removeTrailingZeros(lv->getWeight());
                         }
                         json+=CLOSE_CURLY;
                     }
@@ -211,5 +211,7 @@ class TreeElement : public Element<E>, public DataStructure {
 			return json_str;
 		}
 }; //end of TreeElement class
+
+
 }//end of bridges namespace
 #endif
