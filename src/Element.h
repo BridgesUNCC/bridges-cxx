@@ -238,7 +238,7 @@ template <typename E> class Element {
 							// short circut only incriments i and 
 							//gets rep upon successful emplacement
                 if (map.emplace(e,i).second && ++i) {
-                    nodes_JSON += e->getRepresentation() + COMMA;
+                    nodes_JSON += e->getElementRepresentation() + COMMA;
                 }
             }
             map.erase(nullptr); //Remove trailing comma and nullptr entry
@@ -253,7 +253,7 @@ template <typename E> class Element {
                     auto it = map.find(ele_lv.first); 
 							//only add link if dest node exists
                     if (it!=map.end()) { 
-                        links_JSON += getJSONrepresentation(ele_lv.second,
+                        links_JSON += getLinkRepresentation(ele_lv.second,
 							to_string(ele_int.second),to_string(it->second)) 
 							+ COMMA;
                     }
@@ -302,7 +302,7 @@ template <typename E> class Element {
 				for(const auto& ele_lv : ele_int.first->links) { 
 								// mapping of destination node
 					auto it = node_map.find(ele_lv.first); 
-					if (it != map.end() ) { 	//only add link if dest node exists
+					if (it != node_map.end() ) { 	//only add link if dest node exists
 						links_JSON += getLinkRepresentation(ele_lv.second,
 									to_string(ele_int.second),
 									to_string(it->second)) + COMMA;
