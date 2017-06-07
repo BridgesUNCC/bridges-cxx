@@ -105,7 +105,7 @@ namespace bridges {
 			}
 		private:
 			/** adds height and balance factor attributes to the BST Element representation */
-			virtual const string getRepresentation() const override final {
+			virtual const string getElementRepresentation() const override final {
 				string json = BSTElement<K, E>::getElementRepresentation();
 				return json.insert(json.size() - 1, COMMA + QUOTE + "height" + QUOTE + COLON + to_string(height) + COMMA + QUOTE + "balance_factor" + QUOTE + COLON + to_string(balFactor));
 			}
