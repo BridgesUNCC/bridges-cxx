@@ -2,6 +2,7 @@
 #define ELVIS_H
 
 #include "Color.h"
+#include <cmath>
 
 namespace bridges {
 	/** Enumeration of valid shapes for visualization */
@@ -31,7 +32,7 @@ namespace bridges {
 			Color color = DEFAULT_COLOR;
 			double size = DEFAULT_SIZE;
 			Shape shape = DEFAULT_SHAPE;
-			double locationX = 0.0, locationY = 0.0; // location of element
+			double locationX = INFINITY, locationY = INFINITY; // location of element
 		public:
 			/**
 			 * Constructs an element with the provided Color, Size, and Shape.

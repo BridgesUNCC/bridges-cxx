@@ -2,6 +2,7 @@
 #define ELEMENT_H
 
 #include <unordered_set> //unordered set
+#include <cmath>
 
 #include "DataStructure.h"
 #include "ElementVisualizer.h"
@@ -154,13 +155,21 @@ namespace bridges {
 			 */
 			virtual const string getElementRepresentation() const {
 				//write out ElementVisualizer properties
+
+				// first check if location is set and needs to be included
+				string loc_str = "";
+				if ( (elvis->getLocationX() != INFINITY) &&
+					(elvis->getLocationY() != INFINITY) ) {
+					loc_str =  QUOTE + "location" + QUOTE + COLON +
+						OPEN_BOX +
+						to_string(elvis->getLocationX())  + COMMA +
+						to_string(elvis->getLocationY()) +
+						CLOSE_BOX + COMMA;
+				}
 				return  OPEN_CURLY +
 					QUOTE + "color" + QUOTE + COLON + getCSSRepresentation(elvis->getColor())
 					+ COMMA +
-					QUOTE + "location" + QUOTE + COLON +
-					OPEN_BOX + to_string(elvis->getLocationX())  + COMMA +
-					to_string(elvis->getLocationY()) +
-					CLOSE_BOX + COMMA +
+					loc_str +
 					QUOTE + "shape" + QUOTE + COLON + QUOTE +
 					ShapeNames.at(elvis->getShape()) + QUOTE + COMMA +
 					QUOTE + "size" + QUOTE + COLON +

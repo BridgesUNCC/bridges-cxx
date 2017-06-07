@@ -173,8 +173,8 @@ namespace bridges {
 			 *
 			 * @return A pair holding the nodes and links JSON strings respectively
 			 */
-			virtual const pair<string, string> getDataStructureRepresentation()
-									const override final {
+			virtual const pair<string, string>
+			getDataStructureRepresentation() const override final {
 				vector<const Element<E>*> nodes;
 
 				// get the list of nodes
