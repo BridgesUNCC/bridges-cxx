@@ -152,7 +152,7 @@ template <typename E> class Element {
         /** 
 		 *	@return The JSON string of this element's properties 
 		 */
-		virtual const string getRepresentation() const {
+		virtual const string getElementRepresentation() const {
 						//write out ElementVisualizer properties
 			return  OPEN_CURLY +
 				QUOTE + "color"+ QUOTE + COLON + getCSSrep(elvis->getColor())  
@@ -178,7 +178,7 @@ template <typename E> class Element {
 		 * @return The JSON of this link visualizer
 		 *
 		 */
-        static const string getJSONrepresentation(const LinkVisualizer& lv,
+        static const string getLinkRepresentation(const LinkVisualizer& lv,
 								const string& src,const string& dest) {
 							//write out LinkVisualizer properties
 			return OPEN_CURLY +
@@ -198,7 +198,7 @@ template <typename E> class Element {
          * @param col The Color
          * @return Equivilant Legal CSS color representation
          */
-        static const string getCSSrep(const Color& col) {
+		static const string getCSSRepresentation(const Color& col) {
 			if (col.isTransparent()){
 							//leaves off other channels if transparent
 				return "[0, 0, 0, 0.0f]";
@@ -268,52 +268,56 @@ template <typename E> class Element {
 
         static const pair<string,string>generateOrderedJSON(
 					const vector<const Element*>& nodes) {
-            if (MAX_ELEMENTS_ALLOWED <= nodes.size()) { 
+
+			if (MAX_ELEMENTS_ALLOWED <= nodes.size()) { 
 							// cant exceed max number of elements
-                throw "Max allowed elements(for visualization) exceeded.. " +
-						to_string(nodes.size())+" Must be less than "+
-						to_string(MAX_ELEMENTS_ALLOWED);
-            }
-						// map the nodes to a sequence of ids, 0...N-1 
-						// then get the JSON string for nodes placeholder 
-						// nullptr prevents insertion of other nullptrs
-            unordered_map<const Element*,int> map{{nullptr,-1}}; 
+				throw "Max allowed elements(for visualization) exceeded.. " +
+							to_string(nodes.size())+" Must be less than "+
+							to_string(MAX_ELEMENTS_ALLOWED);
+			}
+							// map the nodes to a sequence of ids, 0...N-1 
+							// then get the JSON string for nodes placeholder 
+							// nullptr prevents insertion of other nullptrs
+			unordered_map<const Element*, int> node_map { {nullptr,-1} }; 
 
-            string nodes_JSON, links_JSON;
+			string nodes_JSON, links_JSON;
 
-            int i=0; // get the JSON string for nodes
-            for(const auto* e: nodes) {
-                if (map.emplace(e,i).second && ++i)  {
-						// short circut only incriments i and gets rep 
-						// upon successful emplacement
-                    nodes_JSON += e->getRepresentation() + COMMA;
+			int i = 0; 		// get the JSON string for nodes
+			for(const auto* e: nodes) {
+				if (node_map.emplace(e, i).second)  {
+							// successful emplacement
+					i++;
+					nodes_JSON += e->getElementRepresentation() + COMMA;
 				}
 			}
-            map.erase(nullptr); //Remove trailing comma and nullptr entry
+								//Remove trailing comma and nullptr entry
+            map.erase(nullptr); 
             if (nodes_JSON.size()){
 				nodes_JSON = nodes_JSON.erase(nodes_JSON.size()-1);
 			}
 								// for each pair<Element*,int> in map
-            for (const auto& ele_int: map) { 
+			for (const auto& ele_int : node_map) { 
 								// for each pair<Element*,LinkVisualizer> 
 								// in Element*->links
-				for(const auto& ele_lv: ele_int.first->links){ 
+				for(const auto& ele_lv : ele_int.first->links) { 
 								// mapping of destination node
-                    auto it = map.find(ele_lv.first); 
-                    if (it!=map.end()) { //only add link if dest node exists
-                        links_JSON += getJSONrepresentation(ele_lv.second,
-								to_string(ele_int.second),
-								to_string(it->second)) + COMMA;
-                    }
-                }
-            }
+					auto it = node_map.find(ele_lv.first); 
+					if (it != map.end() ) { 	//only add link if dest node exists
+						links_JSON += getLinkRepresentation(ele_lv.second,
+									to_string(ele_int.second),
+									to_string(it->second)) + COMMA;
+					}
+				}
+			}
 									//Remove trailing comma
-            if (links_JSON.size()) {
+			if (links_JSON.size()) {
 				links_JSON = links_JSON.erase(links_JSON.size()-1);
 			}
-            return pair<string,string>(nodes_JSON, links_JSON);
-        }
-};//end of Element class
+
+			return pair<string,string>(nodes_JSON, links_JSON);
+		}
+
+};	//end of Element class
 
 template <typename E> const unordered_map<const Shape,const string, hash<int>>
 	Element<E>::ShapeNames {

@@ -17,57 +17,67 @@ namespace bridges{
  * @date 6/11/15
  */
 template <typename E>
-class SLelement : public Element<E>, public DataStructure
-{
+class SLelement : public Element<E>, public DataStructure {
+
     protected:
         SLelement* next = nullptr;
+
     public:
         /**
-         * Constructs an slelement with the provided value, label, and next 
-		 * slelement.
-         * The defaults will be used if not provided.
+         * 	Constructs an slelement with the provided value, label, and next 
+		 * 	slelement.
+         * 	The defaults will be used if not provided.
          *
-         * @param val The data to hold
-         * @param lab The label to show
-         * @param n The next SLelement
+         * 	@param val The data to hold
+         * 	@param lab The label to show
+         * 	@param n The next SLelement
          */
         SLelement(SLelement* n, const E& val = E(), const string& lab = 
 					string()) : Element<E>(val, lab) {setNext(n);}
         /**
-         * Constructs an slelement with the provided value and label,
+         * 	Constructs an slelement with the provided value and label,
          *  setting the next slelement to NULL.
-         * The defaults will be used if not provided.
+         * 	The defaults will be used if not provided.
          *
-         * @param val The data to hold
-         * @param lab The label to show
+         * 	@param val The data to hold
+         * 	@param lab The label to show
          */
         SLelement(const E& val = E(),const string& lab = string()) 
 								: SLelement(nullptr, val, lab) {
 		}
-        /** @return The string representation of this data structure type */
+        /** 
+		 *	@return The string representation of this data structure type 
+		 */
         virtual const string getDStype() const override {
 			return "SinglyLinkedList";
 		}
-        /** @return The next SLelement */
+
+        /** 
+		 *	@return The next SLelement 
+		 */
         virtual SLelement* getNext() {
 			return next;
 		}
-        /** Constant version */
+
+        /** 
+		 *	Constant version 
+		 */
         virtual const SLelement* getNext() const {
 			return next;
 		}
+
         /**
-         * Sets next link  to "n"
-         *
-         * @param n The next SLelement
-         */
+		 * Sets next link  to "n"
+		 *
+		 * @param n The next SLelement
+		 */
         void setNext(SLelement* n) {
-						//if different, remove old link data
+					//if different, remove old link data
             if (next!=n) {
 				this->links.erase(next);
 			}
-				// set next to n and if not null, create default link data 
-				// if none already present
+					// set next to n and if not null, create default link data 
+					// if none already present
             if ((next=n)){
 				this->links[next];
 			}
@@ -81,7 +91,9 @@ class SLelement : public Element<E>, public DataStructure
          * multiple times on it, leading to undefined behavior
          */
         virtual void cleanup() override {
-            if(next) {next->cleanup();}
+            if(next) {
+				next->cleanup();
+			}
             DataStructure::cleanup();
         }
 
@@ -94,24 +106,30 @@ class SLelement : public Element<E>, public DataStructure
          */
         virtual const pair<string,string> getDataStructureRepresentation() 
 												const override {
-            vector<const Element<E>*> nodes;
-            orderHelper(nodes);//calls on sub list
-            return Element<E>::generateOrderedJSON(nodes); // generate the JSON string
+			vector<const Element<E>*> nodes;
+							// get the list of nodes
+			getListElements(nodes);
+							// generate the JSON string
+			return Element<E>::generateOrderedJSON(nodes); 
         }
-        /**
-         * Modifies "nodes" by adding this node and its next recursively
-         *
-         * @param nodes The set to be added to
-         */
-        void orderHelper(vector<const Element<E>*>& nodes) const
-        {
-            unordered_set<const Element<E>*> visited;//prevents potential infinite loop
-            auto it = this;
-            while(it != nullptr && visited.emplace(it).second) { //not visited 
-                nodes.push_back(it);
-                it = it->next;
-            }
-        }
+		/**
+		 * 	Get the list of nodes
+		 *
+		 * 	@param nodes The list of nodes
+		 */
+		void getListElements(vector<const Element<E>*>& nodes) const {
+							//prevents potential infinite loop
+			unordered_set<const Element<E>*> visited;
+			auto it = this;
+
+							// using the visited array handles both regular and 
+							// circular lists 
+			while(it != nullptr && visited.emplace(it).second) { 
+				nodes.push_back(it);
+				it = it->next;
+			}
+		}
 }; //end of SLelement class
+
 }//end of bridges namespace
 #endif
