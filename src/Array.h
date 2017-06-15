@@ -144,44 +144,43 @@ namespace bridges {
 					nodes.push_back(&array_data[k]);
 				}
 				//  also send dimensions to
-				return Element<E>::generateOrderedJSON(nodes);
+				return generateJSON(nodes);
 			}
 
-			/*
-				private:
-			        static const pair<string,string>generateOrderedJSON(
-											const vector<const Element<E>*>& nodes) {
-			            if (MAX_ELEMENTS_ALLOWED <= nodes.size()) {
+		private:
+			static const pair<string,string>generateJSON( const vector<const Element<E>*>& nodes) {
+			if (MAX_ELEMENTS_ALLOWED <= nodes.size()) {
 										// cant exceed max number of elements
-							throw "Max allowed elements(for visualization) exceeded.. " +
-										to_string(nodes.size())+" Must be less than "+
-										to_string(MAX_ELEMENTS_ALLOWED);
-						}
+				throw "Max allowed elements(for visualization) exceeded.. " +
+							to_string(nodes.size())+" Must be less than "+
+							to_string(MAX_ELEMENTS_ALLOWED);
+			}
 									// map the nodes to a sequence of ids, 0...N-1
 									// then get the JSON string for nodes placeholder
 									// nullptr prevents insertion of other nullptrs
-						unordered_map<const Element<E>*,int> map{{nullptr,-1}};
+			unordered_map<const Element<E>*,int> map{{nullptr,-1}};
 
-						string nodes_JSON;
+			string nodes_JSON;
 
-			            int i = 0; // get the JSON string for nodes
-			            for(const auto* e: nodes) {
-			                if (map.emplace(e,i).second && ++i)  {
+			int i = 0; // get the JSON string for nodes
+			for(const auto* e: nodes) {
+				if (map.emplace(e,i).second && ++i)  {
 									// short circut only incriments i and gets rep
 									// upon successful emplacement
-								nodes_JSON += e->getRepresentation() + COMMA;
-							}
-						}
-						map.erase(nullptr); //Remove trailing comma and nullptr entry
-						if (nodes_JSON.size()){
-							nodes_JSON = nodes_JSON.erase(nodes_JSON.size()-1);
-						}
-
-			            return pair<string,string>(nodes_JSON, "");
+					nodes_JSON += e->getElementRepresentation() + COMMA;
 				}
-			*/
-	};
+			}
+			map.erase(nullptr); //Remove trailing comma and nullptr entry
+			if (nodes_JSON.size()){
+				nodes_JSON = nodes_JSON.erase(nodes_JSON.size()-1);
+			}
 
+			return pair<string,string>(nodes_JSON, "");
+		};
+
+
+}; // Array
 
 }// end namespace bridges
+
 #endif
