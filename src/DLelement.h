@@ -118,6 +118,88 @@ namespace bridges {
 				}
 			}
 
+		private:
+
+			virtual const pair<string, string> getDataStructureRepresentation() const override {
+
+				vector<const DLelement<E>*> nodes;
+
+				// get the list of nodes
+
+				getListElements(nodes);
+
+				// generate the JSON string
+
+				if (MAX_ELEMENTS_ALLOWED <= nodes.size()) {
+					// cant exceed max number of elements
+					throw "Max allowed elements(for visualization) exceeded.. " +
+					to_string(nodes.size()) + " Must be less than " +
+					to_string(MAX_ELEMENTS_ALLOWED);
+				}
+
+				// map the nodes to a sequence of ids, 0...N-1
+				// then get the JSON string for nodes placeholder
+				// nullptr prevents insertion of other nullptrs
+				unordered_map<const DLelement*, int> node_map { {nullptr, -1} };
+
+				string nodes_JSON, links_JSON;
+
+				int i = 0; 		// get the JSON string for nodes
+				for (const auto* e : nodes) {
+					if (node_map.emplace(e, i).second)  {
+						// successful emplacement
+						i++;
+						nodes_JSON += e->getElementRepresentation() + COMMA;
+					}
+				}
+
+				//Remove trailing comma and nullptr entry
+				node_map.erase(nullptr);
+				if (nodes_JSON.size()) {
+					nodes_JSON = nodes_JSON.erase(nodes_JSON.size() - 1);
+				}
+
+				// generate the links using the node map ids
+				for (int k = 0; k < nodes.size(); k++) {
+					if (nodes[k]->next != nullptr) { // link exists
+						links_JSON += this->getLinkRepresentation(nodes[k]->links.at(nodes[k]->next),
+											to_string(node_map[nodes[k]]),
+											to_string(node_map[nodes[k]->getNext()]) ) + COMMA;
+					}
+					if (nodes[k]->prev != nullptr) { // link exists
+						links_JSON += this->getLinkRepresentation(nodes[k]->links.at(nodes[k]->prev),
+											to_string(node_map[nodes[k]]),
+											to_string(node_map[nodes[k]->prev]) ) + COMMA;
+					}
+				}
+
+				//Remove trailing comma
+				if (links_JSON.size()) {
+					links_JSON = links_JSON.erase(links_JSON.size() - 1);
+				}
+
+				return pair<string, string> (nodes_JSON, links_JSON);
+			}
+
+			            /**
+             *  Get the list of nodes
+             *
+             *  @param nodes The list of nodes
+             */
+			virtual void getListElements(vector<const DLelement<E>*>& nodes) const  {
+
+				//prevents potential infinite loop
+				unordered_set<const DLelement<E>*> visited;
+				auto it = this;
+
+				// using the visited array handles both regular and
+				// circular lists
+				while (it != nullptr && visited.emplace(it).second) {
+					nodes.push_back(it);
+					it = it->getNext();
+				}
+			}
+
 	}; //end of DLelement class
 
 

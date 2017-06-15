@@ -106,22 +106,65 @@ namespace bridges {
 			 * @param arr_size The size of the array determined by this
 			 * @return A pair holding the nodes and links JSON strings respectively
 			 */
-			virtual const pair<string, string> getDataStructureRepresentation()
-			const override {
-				vector<const Element<E>*> nodes;
+			virtual const pair<string, string> getDataStructureRepresentation() const override {
+
+				vector<const SLelement<E>*> nodes;
 				// get the list of nodes
 				getListElements(nodes);
 				// generate the JSON string
-				return Element<E>::generateOrderedJSON(nodes);
+
+				if (MAX_ELEMENTS_ALLOWED <= nodes.size()) {
+					// cant exceed max number of elements
+					throw "Max allowed elements(for visualization) exceeded.. " +
+					to_string(nodes.size()) + " Must be less than " +
+					to_string(MAX_ELEMENTS_ALLOWED);
+				}
+				// map the nodes to a sequence of ids, 0...N-1
+				// then get the JSON string for nodes placeholder
+				// nullptr prevents insertion of other nullptrs
+				unordered_map<const SLelement*, int> node_map { {nullptr, -1} };
+
+				string nodes_JSON, links_JSON;
+
+				int i = 0; 		// get the JSON string for nodes
+				for (const auto* e : nodes) {
+					if (node_map.emplace(e, i).second)  {
+						// successful emplacement
+						i++;
+						nodes_JSON += e->getElementRepresentation() + COMMA;
+					}
+				}
+				//Remove trailing comma and nullptr entry
+				node_map.erase(nullptr);
+				if (nodes_JSON.size()) {
+					nodes_JSON = nodes_JSON.erase(nodes_JSON.size() - 1);
+				}
+				// for each pair<SLelement*,int> in map
+				for (int k = 0; k < nodes.size(); k++) {
+					if (nodes[k]->next != nullptr) { // link exists
+						links_JSON += this->getLinkRepresentation(nodes[k]->links.at(nodes[k]->next),
+											to_string(node_map[nodes[k]]),
+											to_string(node_map[nodes[k]->next]) ) + COMMA;
+					}
+				}
+
+				//Remove trailing comma
+				if (links_JSON.size()) {
+					links_JSON = links_JSON.erase(links_JSON.size() - 1);
+				}
+
+				return pair<string, string> (nodes_JSON, links_JSON);
 			}
+	protected:
 			/**
 			 * 	Get the list of nodes
 			 *
 			 * 	@param nodes The list of nodes
 			 */
-			virtual void getListElements(vector<const Element<E>*>& nodes) const  {
+			virtual void getListElements(vector<const SLelement<E>*>& nodes) const  {
+
 				//prevents potential infinite loop
-				unordered_set<const Element<E>*> visited;
+				unordered_set<const SLelement<E>*> visited;
 				auto it = this;
 
 				// using the visited array handles both regular and

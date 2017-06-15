@@ -227,6 +227,7 @@ namespace bridges {
 			 * @throw string If maximum elements exceeded
 			 * @return A pair holding the nodes and links JSON strings respectively
 			 */
+/*
 			static const pair<string, string> generateJSON(
 				const unordered_set<const Element*>& nodes) {
 				// cant exceed max number of elements
@@ -326,6 +327,7 @@ namespace bridges {
 
 				return pair<string, string>(nodes_JSON, links_JSON);
 			}
+*/
 
 	};	//end of Element class
 
