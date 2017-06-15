@@ -59,7 +59,7 @@ namespace bridges {
 			 * This constructor creates an SLelement object of generic parameter object E,
 			 *	and label "label" and sets the next pointer to null
 			 *
-			 * @param label the label of SLelement that shows up on the Bridges visualization
+			 * @param label the label of MLelement that shows up on the Bridges visualization
 			 * @param e the generic object that this SLelement will hold
 			 *
 			 */
@@ -71,7 +71,7 @@ namespace bridges {
 			/**
 			 *
 			 * Creates a new element with value "e" and sets the next pointer
-			 * to the SLelement referenced by the "next" argument
+			 * to the MLelement referenced by the "next" argument
 			 *
 			 * @param e the generic object that this element will hold
 			 * @param next the element that should be assigned to the next pointer
@@ -84,7 +84,7 @@ namespace bridges {
 
 			/**
 			 * Sets the start of a new sublist.
-			 * to the SLelement "next"
+			 * to the MLelement "next"
 			 *
 			 * @param sl the MLelement that is the beginning of a sublist
 			 */
@@ -133,9 +133,19 @@ namespace bridges {
 			}
 
 			/**
+			 * Retrieves the element following this element - const version
+			 *
+			 * @return MLelement<E> assigned to next
+			 *
+			 */
+			MLelement<E> *getNext() const override {
+				return (MLelement<E>*) this->next;
+			}
+
+			/**
 			 * Sets the element to point to the next MLelement
 			 *
-			 * @param next SLelement<E> that should be assigned to the next pointer
+			 * @param next MLelement<E> that should be assigned to the next pointer
 			 */
 			void setNext(MLelement<E> *n) {
 				if (n) {
@@ -173,15 +183,59 @@ namespace bridges {
 			 *
 			 * @return A pair holding the nodes and links JSON strings respectively
 			 */
-			virtual const pair<string, string>
-			getDataStructureRepresentation() const override final {
-				vector<const Element<E>*> nodes;
+			virtual const pair<string, string> getDataStructureRepresentation() const override final {
+				vector<const MLelement<E>*> nodes;
 
 				// get the list of nodes
 				this->getListElements(this, nodes);
 
 				// generate the JSON string
-				return Element<E>::generateOrderedJSON(nodes);
+
+				// map the nodes to a sequence of ids, 0...N-1
+				// then get the JSON string for nodes placeholder
+				// nullptr prevents insertion of other nullptrs
+				unordered_map<const MLelement*, int> node_map { {nullptr, -1} };
+
+				string nodes_JSON, links_JSON;
+
+				int i = 0; 		// get the JSON string for nodes
+				for (const auto* e : nodes) {
+					if (node_map.emplace(e, i).second)  {
+						// successful emplacement
+						i++;
+						nodes_JSON += e->getElementRepresentation() + COMMA;
+					}
+				}
+				//Remove trailing comma and nullptr entry
+				node_map.erase(nullptr);
+				if (nodes_JSON.size()) {
+					nodes_JSON = nodes_JSON.erase(nodes_JSON.size() - 1);
+				}
+
+				// generate the links representation
+				for (int k = 0; k < nodes.size(); k++) {
+					if (nodes[k]->next != nullptr) { // link exists
+						links_JSON += this->getLinkRepresentation(nodes[k]->links.at(nodes[k]->next),
+											to_string(node_map[nodes[k]]),
+											to_string(node_map[nodes[k]->getNext()])) + COMMA;
+					}
+					if (nodes[k]->tag) {	// sublist link
+					
+						if (nodes[k]->sub_list != nullptr) { // link exists
+							links_JSON += this->getLinkRepresentation(
+										nodes[k]->links.at(nodes[k]->sub_list),
+										to_string(node_map[nodes[k]]),
+										to_string(node_map[nodes[k]->sub_list])) + COMMA;
+						}
+					}
+				}
+
+				//Remove trailing comma
+				if (links_JSON.size()) {
+					links_JSON = links_JSON.erase(links_JSON.size() - 1);
+				}
+
+				return pair<string, string> (nodes_JSON, links_JSON);
 			}
 			/**
 			 *  Get the list of nodes
@@ -189,7 +243,7 @@ namespace bridges {
 			 *  @param nodes The list of nodes
 			 */
 			void getListElements(const MLelement<E> *list,
-				vector<const Element<E>*>& nodes) const {
+				vector<const MLelement<E>*>& nodes) const {
 
 				auto it = list;
 				while (it != nullptr) {

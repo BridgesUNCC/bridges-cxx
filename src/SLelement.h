@@ -119,6 +119,11 @@ namespace bridges {
 					to_string(nodes.size()) + " Must be less than " +
 					to_string(MAX_ELEMENTS_ALLOWED);
 				}
+
+				return generateJSON (nodes);
+			}
+		protected:
+			virtual const pair<string, string> generateJSON(vector<const SLelement<E>*> nodes) const {
 				// map the nodes to a sequence of ids, 0...N-1
 				// then get the JSON string for nodes placeholder
 				// nullptr prevents insertion of other nullptrs
