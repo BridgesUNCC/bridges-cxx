@@ -163,13 +163,13 @@ namespace bridges {
 				for (int k = 0; k < nodes.size(); k++) {
 					if (nodes[k]->next != nullptr) { // link exists
 						links_JSON += this->getLinkRepresentation(nodes[k]->links.at(nodes[k]->next),
-											to_string(node_map[nodes[k]]),
-											to_string(node_map[nodes[k]->getNext()]) ) + COMMA;
+								to_string(node_map[nodes[k]]),
+								to_string(node_map[nodes[k]->getNext()]) ) + COMMA;
 					}
 					if (nodes[k]->prev != nullptr) { // link exists
 						links_JSON += this->getLinkRepresentation(nodes[k]->links.at(nodes[k]->prev),
-											to_string(node_map[nodes[k]]),
-											to_string(node_map[nodes[k]->prev]) ) + COMMA;
+								to_string(node_map[nodes[k]]),
+								to_string(node_map[nodes[k]->prev]) ) + COMMA;
 					}
 				}
 
@@ -181,11 +181,11 @@ namespace bridges {
 				return pair<string, string> (nodes_JSON, links_JSON);
 			}
 
-			            /**
-             *  Get the list of nodes
-             *
-             *  @param nodes The list of nodes
-             */
+			/**
+			*  Get the list of nodes
+			*
+			*  @param nodes The list of nodes
+			*/
 			virtual void getListElements(vector<const DLelement<E>*>& nodes) const  {
 
 				//prevents potential infinite loop

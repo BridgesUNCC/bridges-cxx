@@ -148,8 +148,8 @@ namespace bridges {
 				for (int k = 0; k < nodes.size(); k++) {
 					if (nodes[k]->next != nullptr) { // link exists
 						links_JSON += this->getLinkRepresentation(nodes[k]->links.at(nodes[k]->next),
-											to_string(node_map[nodes[k]]),
-											to_string(node_map[nodes[k]->next]) ) + COMMA;
+								to_string(node_map[nodes[k]]),
+								to_string(node_map[nodes[k]->next]) ) + COMMA;
 					}
 				}
 
@@ -160,7 +160,7 @@ namespace bridges {
 
 				return pair<string, string> (nodes_JSON, links_JSON);
 			}
-	protected:
+		protected:
 			/**
 			 * 	Get the list of nodes
 			 *

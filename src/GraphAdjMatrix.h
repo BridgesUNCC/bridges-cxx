@@ -123,17 +123,17 @@ namespace bridges {
 
 				for (const auto& src : vertices) {
 					for (const auto& dest : vertices) {
-						if (matrix.at(src.first).at(dest.first)){	// link exists
+						if (matrix.at(src.first).at(dest.first)) {	// link exists
 							Element<E>* src_v = vertices.at(src.first);
 							Element<E>* dest_v = vertices.at(dest.first);
 							links_JSON +=  src_v->getLinkRepresentation(
 									*(src_v->getLinkVisualizer(dest_v)),
-									to_string(node_map.at(src.first)), 
+									to_string(node_map.at(src.first)),
 									to_string(node_map.at(dest.first))) + COMMA;
 						}
 					}
 				}
-				
+
 				//Remove trailing comma
 				if (links_JSON.size()) {
 					links_JSON = links_JSON.erase(links_JSON.size() - 1);

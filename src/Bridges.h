@@ -173,8 +173,8 @@ namespace bridges {
 			// generate the JSON of the data structure
 
 			string ds_type = ds_handle->getDStype();
-			string ds_json = OPEN_CURLY + 
-				QUOTE + "visual" + QUOTE + COLON + QUOTE + ds_type + QUOTE + COMMA + 
+			string ds_json = OPEN_CURLY +
+				QUOTE + "visual" + QUOTE + COLON + QUOTE + ds_type + QUOTE + COMMA +
 				QUOTE + "title" + QUOTE + COLON + QUOTE + getTitle() + QUOTE + COMMA +
 				QUOTE + "description" + QUOTE + COLON + QUOTE + getDescription() + QUOTE + COMMA +
 				QUOTE + "coord_system_type" + QUOTE + COLON + QUOTE + "Cartesian" + QUOTE + COMMA;
@@ -184,11 +184,11 @@ namespace bridges {
 				// get dimensions
 				// write dimensions
 				ds_json += QUOTE + "dims" + QUOTE + COLON +
-						OPEN_BOX +
-								to_string(array_dims[0]) + COMMA +
-								to_string(array_dims[1]) + COMMA +
-								to_string(array_dims[2]) +
-						CLOSE_BOX + COMMA;
+					OPEN_BOX +
+					to_string(array_dims[0]) + COMMA +
+					to_string(array_dims[1]) + COMMA +
+					to_string(array_dims[2]) +
+					CLOSE_BOX + COMMA;
 			}
 
 
@@ -205,12 +205,12 @@ namespace bridges {
 			// of the nodes and links
 			//
 			if  (ds_type == "Tree" || ds_type == "BinaryTree" ||
-					ds_type == "BinarySearchTree" || ds_type == "AVLTree" ) {
-					ds_json += json_nodes_links.first + CLOSE_CURLY;
+				ds_type == "BinarySearchTree" || ds_type == "AVLTree" ) {
+				ds_json += json_nodes_links.first + CLOSE_CURLY;
 			}
 			else {
-				ds_json += OPEN_BOX + json_nodes_links.first + CLOSE_BOX + COMMA + 
-						QUOTE + "links" + QUOTE + COLON + OPEN_BOX + json_nodes_links.second + CLOSE_BOX + 
+				ds_json += OPEN_BOX + json_nodes_links.first + CLOSE_BOX + COMMA +
+					QUOTE + "links" + QUOTE + COLON + OPEN_BOX + json_nodes_links.second + CLOSE_BOX +
 					CLOSE_CURLY;
 			}
 

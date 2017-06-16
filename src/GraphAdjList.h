@@ -203,19 +203,19 @@ namespace bridges {
 				// iterate through the vertices and form the links JSON
 
 				for (const auto& v : vertices) {
-								// get adj. list
+					// get adj. list
 					Element<E>* src_vert = vertices.at(v.first);
-								// iterate through list and form links
-					for (SLelement<Edge<K>>* it = adj_list.at(v.first); it != nullptr; 
-														it = it->getNext()) {
+					// iterate through list and form links
+					for (SLelement<Edge<K>>* it = adj_list.at(v.first); it != nullptr;
+						it = it->getNext()) {
 						Element<E>* dest_vert = vertices.at(it->getValue().getVertex() );
 						links_JSON +=  src_vert->getLinkRepresentation(
 								*(src_vert->getLinkVisualizer(dest_vert)),
-								to_string(node_map.at(v.first)), 
+								to_string(node_map.at(v.first)),
 								to_string(node_map.at(it->getValue().getVertex())) ) + COMMA;
 					}
 				}
-				
+
 				//Remove trailing comma
 				if (links_JSON.size()) {
 					links_JSON = links_JSON.erase(links_JSON.size() - 1);
