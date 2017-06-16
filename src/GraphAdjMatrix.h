@@ -96,15 +96,52 @@ namespace bridges {
 			 *
 			 * @return A pair holding the nodes and links JSON strings respectively
 			 */
-			virtual const pair<string, string> getDataStructureRepresentation()
-			const override final {
-				unordered_set<const Element<E>*> nodes;
-				for (const auto& key_ele : vertices) {
-					nodes.emplace(key_ele.second);
+			virtual const pair<string, string> getDataStructureRepresentation() const override {
+
+				// map the nodes to a sequence of ids, 0...N-1
+				// then get the JSON string for nodes placeholder
+				// nullptr prevents insertion of other nullptrs
+
+				unordered_map<K, int> node_map;
+				int i = 0;
+				string nodes_JSON = "", links_JSON = "";
+
+				for (const auto& v : vertices) {
+					if (node_map.emplace(v.first, i).second) {
+						i++;
+						nodes_JSON += v.second->getElementRepresentation() + COMMA;
+					}
 				}
-				return Element<E>::generateJSON(nodes); // generate the JSON
+
+				//Remove trailing comma and nullptr entry
+
+				if (nodes_JSON.size()) {
+					nodes_JSON = nodes_JSON.erase(nodes_JSON.size() - 1);
+				}
+
+				// iterate through the N squared entries vertices and form the links JSON
+
+				for (const auto& src : vertices) {
+					for (const auto& dest : vertices) {
+						if (matrix.at(src.first).at(dest.first)){	// link exists
+							Element<E>* src_v = vertices.at(src.first);
+							Element<E>* dest_v = vertices.at(dest.first);
+							links_JSON +=  src_v->getLinkRepresentation(
+									*(src_v->getLinkVisualizer(dest_v)),
+									to_string(node_map.at(src.first)), 
+									to_string(node_map.at(dest.first))) + COMMA;
+						}
+					}
+				}
+				
+				//Remove trailing comma
+				if (links_JSON.size()) {
+					links_JSON = links_JSON.erase(links_JSON.size() - 1);
+				}
+
+				return pair<string, string> (nodes_JSON, links_JSON);
 			}
-	}; //end of GraphAdjMatrix class
+	}; //end of GraphAdjList class
 
 }//end of bridges namespace
 #endif

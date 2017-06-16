@@ -3,6 +3,9 @@
 
 #include <stdexcept> //out of range
 #include <sstream> //stringstream
+#include <unordered_map>
+
+using namespace std;
 
 #include "SLelement.h"
 #include "Edge.h"
@@ -174,18 +177,53 @@ namespace bridges {
 			 *
 			 * @return A pair holding the nodes and links JSON strings respectively
 			 */
-			virtual const pair<string, string> getDataStructureRepresentation()
-			const override {
-				unordered_set<const Element<E>*> nodes;
-				// each pair<K,Element> in vertices
-				for (const auto& key_ele : vertices) {
-					nodes.emplace((key_ele.second));
-				}
-				return Element<E>::generateJSON(nodes); // generate the JSON
-			}
+			virtual const pair<string, string> getDataStructureRepresentation() const override {
 
+				// map the nodes to a sequence of ids, 0...N-1
+				// then get the JSON string for nodes placeholder
+				// nullptr prevents insertion of other nullptrs
+
+				unordered_map<K, int> node_map;
+				int i = 0;
+				string nodes_JSON = "", links_JSON = "";
+
+				for (const auto& v : vertices) {
+					if (node_map.emplace(v.first, i).second) {
+						i++;
+						nodes_JSON += v.second->getElementRepresentation() + COMMA;
+					}
+				}
+
+				//Remove trailing comma and nullptr entry
+
+				if (nodes_JSON.size()) {
+					nodes_JSON = nodes_JSON.erase(nodes_JSON.size() - 1);
+				}
+
+				// iterate through the vertices and form the links JSON
+
+				for (const auto& v : vertices) {
+								// get adj. list
+					Element<E>* src_vert = vertices.at(v.first);
+								// iterate through list and form links
+					for (SLelement<Edge<K>>* it = adj_list.at(v.first); it != nullptr; 
+														it = it->getNext()) {
+						Element<E>* dest_vert = vertices.at(it->getValue().getVertex() );
+						links_JSON +=  src_vert->getLinkRepresentation(
+								*(src_vert->getLinkVisualizer(dest_vert)),
+								to_string(node_map.at(v.first)), 
+								to_string(node_map.at(it->getValue().getVertex())) ) + COMMA;
+					}
+				}
+				
+				//Remove trailing comma
+				if (links_JSON.size()) {
+					links_JSON = links_JSON.erase(links_JSON.size() - 1);
+				}
+
+				return pair<string, string> (nodes_JSON, links_JSON);
+			}
 	}; //end of GraphAdjList class
 
 }//end of bridges namespace
 #endif
-
