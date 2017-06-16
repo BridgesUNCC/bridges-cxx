@@ -177,6 +177,12 @@ namespace bridges {
 			bool getTag() {
 				return tag;
 			}
+			/**
+			 *	@return The string representation of this data structure type
+			 */
+			virtual const string getDStype() const override {
+				return "Multilist";
+			}
 		private:
 			/**
 			 * Gets the JSON representation of this multilist and its links

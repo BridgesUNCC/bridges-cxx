@@ -173,45 +173,50 @@ namespace bridges {
 			// generate the JSON of the data structure
 
 			string ds_type = ds_handle->getDStype();
-			string ds_json = OPEN_CURLY +
-				QUOTE + "version"     + QUOTE + COLON + QUOTE + "0.4.0"
-				+ QUOTE + COMMA +
-				QUOTE + "visual"      + QUOTE + COLON + QUOTE + ds_type
-				+ QUOTE + COMMA +
-				QUOTE + "title"       + QUOTE + COLON + QUOTE + getTitle()
-				+ QUOTE + COMMA +
-				QUOTE + "description" + QUOTE + COLON + QUOTE +
-				getDescription() + QUOTE + COMMA;
+			string ds_json = OPEN_CURLY + 
+				QUOTE + "visual" + QUOTE + COLON + QUOTE + ds_type + QUOTE + COMMA + 
+				QUOTE + "title" + QUOTE + COLON + QUOTE + getTitle() + QUOTE + COMMA +
+				QUOTE + "description" + QUOTE + COLON + QUOTE + getDescription() + QUOTE + COMMA +
+				QUOTE + "coord_system_type" + QUOTE + COLON + QUOTE + "Cartesian" + QUOTE + COMMA;
+
 			// for arrays, must pass dimensions
 			if (ds_type == "Array") {
+				// get dimensions
 				// write dimensions
-				ds_json += QUOTE + "dims" 	+ QUOTE + COLON +
-					OPEN_BOX +
-					to_string(array_dims[0]) + COMMA 	+
-					to_string(array_dims[1]) + COMMA +
-					to_string(array_dims[2]) +
-					CLOSE_BOX + COMMA;
+				ds_json += QUOTE + "dims" + QUOTE + COLON +
+						OPEN_BOX +
+								to_string(array_dims[0]) + COMMA +
+								to_string(array_dims[1]) + COMMA +
+								to_string(array_dims[2]) +
+						CLOSE_BOX + COMMA;
 			}
+
+
+			//
+			// get the nodes and link representations
+			//
 
 			ds_json +=  QUOTE + "nodes"  + QUOTE + COLON;
-
 			const pair<string, string> json_nodes_links =
 				ds_handle->getDataStructureRepresentation();
-			// check if the data structure is a tree,
-			// in which case the json contains a hierarchical
-			// representation that contains both nodes and
-			// links integrated
+
+			//
+			// for tree structures, get a hierarchical JSON representation
+			// of the nodes and links
+			//
 			if  (ds_type == "Tree" || ds_type == "BinaryTree" ||
-				ds_type == "BinarySearchTree" || ds_type == "AVLTree" ) {
-				ds_json += json_nodes_links.first + CLOSE_CURLY;
+					ds_type == "BinarySearchTree" || ds_type == "AVLTree" ) {
+					ds_json += json_nodes_links.first + CLOSE_CURLY;
 			}
 			else {
-				ds_json += "[" +
-					json_nodes_links.first + "]" + COMMA + QUOTE + "links" + QUOTE
-					+ COLON + "[" + json_nodes_links.second + "]" + CLOSE_CURLY;
+				ds_json += OPEN_BOX + json_nodes_links.first + CLOSE_BOX + COMMA + 
+						QUOTE + "links" + QUOTE + COLON + OPEN_BOX + json_nodes_links.second + CLOSE_BOX + 
+					CLOSE_CURLY;
 			}
 
+			//
 			// print JSON if flag is on
+			//
 			if (getVisualizeJSONFlag()) {
 				cout << "JSON String:\t" << ds_json << endl;
 			}

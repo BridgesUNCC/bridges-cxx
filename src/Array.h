@@ -90,7 +90,7 @@ namespace bridges {
 				Bridges::setDimensions(dims);
 			}
 
-			int *getDimensions(int *d) {
+			void  getDimensions(int *d) {
 				for (int k = 0; k < num_dims; k++)
 					d[k] = dims[k];
 			}
