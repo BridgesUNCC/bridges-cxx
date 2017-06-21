@@ -1,6 +1,6 @@
 STYLE_PARAMS = -A2 -T4 -xn -xc -xV -C -S -N -xU  -Y -p -xg -H -y -xb
 
-ALL_TARGETS = ds array element sle dle csle cdle tree bintree bst avl gral gram  edge\
+ALL_TARGETS = ds array element sle dle csle cdle mle tree bintree bst avl gral gram  edge\
 				elvis linkvis bridges scomm color
 
 ast:
@@ -14,6 +14,8 @@ element:
 	astyle $(STYLE_PARAMS) Element.h
 sle:
 	astyle $(STYLE_PARAMS) SLelement.h
+mle:
+	astyle $(STYLE_PARAMS) MLelement.h
 dle:
 	astyle $(STYLE_PARAMS) DLelement.h
 csle:

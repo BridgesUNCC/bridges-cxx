@@ -22,6 +22,7 @@ namespace bridges {
 		static unsigned int assn_num = 0;	// assignment id
 		static int array_dims[3] = {0, 0, 0};
 		static DataStructure* ds_handle = nullptr;  // data structure handle
+		static string server_url = "http://bridges-cs.herokuapp.com";
 
 		/**
 		 *	@return flag indicating if JSON should be printed upon visualization
@@ -148,13 +149,28 @@ namespace bridges {
 			api_key = key;
 		}
 		/**
+		 *
+		 *  @param  server server to which to connect.
+		 *      Options are: ['live', 'local', 'clone'], and 'live' is the default;
+		 *
+		 */
+		void setServer(string server_type) {
+			if (server_type == "live")
+				server_url = "http://bridges-cs.herokuapp.com";
+			else if (server_type == "clone")
+				server_url = "http://bridges-clone.herokuapp.com";
+			else if (server_type == "local") 
+				server_url = "http://127.0.0.1:3000";
+		}
+
+		/**
 		 * Sends relevant data handle information to the server, and
 		 * upon successful completion, prints the URL to display the
 		 * Bridges visualization.
 		 */
 		void visualize() {
 			static unsigned int lastAssign = 0, part = 0;
-			static const string BASE_URL = "http://bridges-cs.herokuapp.com/assignments/";
+			static const string BASE_URL = server_url + "/assignments/";
 
 			if (assn_num != lastAssign) { 		// reset if a new assignment
 				lastAssign = assn_num;
