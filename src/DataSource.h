@@ -206,7 +206,6 @@ namespace bridges{
 		 * See CancerIncidence class for more information
 		 *
 		 */
-/*
 		vector<CancerIncidence> getCancerIncidenceData(int num = 0) {
 			using namespace rapidjson;
 
@@ -233,15 +232,18 @@ namespace bridges{
 					c.setAgeAdjustedCI_Lower(age["Age Adjusted CI Lower"].GetDouble());
 					c.setAgeAdjustedCI_Upper(age["Age Adjusted CI Upper"].GetDouble());
 					
+				c.setYear(v["Year"].GetInt());
+
 				const Value& data = v["Data"];
 					c.setCrudeRate(data["Crude Rate"].GetDouble());
-					c.setCrudeRate(data["Crude CI Lower"].GetDouble());
-					c.setCrudeRate(data["Crude CI Upper"].GetDouble());
-					c.setCrudeRate(data["Race"].GetString());
-					c.setCrudeRate(data["Year"].GetInt());
-					c.setCrudeRate(data["Event Type"].GetString());
-					c.setCrudeRate(data["Population"].GetInt());
-					c.setCrudeRate(data["Area"].GetString());
+					c.setCrudeRate_CI_Lower(data["Crude CI Lower"].GetDouble());
+					c.setCrudeRate_CI_Upper(data["Crude CI Upper"].GetDouble());
+					c.setRace(data["Race"].GetString());
+					c.setPopulation(data["Population"].GetInt());
+					c.setEventType(data["Event Type"].GetString());
+
+				c.setAffectedArea(v["Area"].GetString());
+
 				const Value& loc = v["loc"];
 					c.setLocationX(loc[0].GetDouble());
 					c.setLocationY(loc[1].GetDouble());
@@ -250,7 +252,6 @@ namespace bridges{
 			}
 			return wrapper;
 		}
-*/
 
 	} // namespace DataSource
 

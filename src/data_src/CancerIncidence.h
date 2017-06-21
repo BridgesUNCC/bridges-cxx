@@ -1,3 +1,7 @@
+#ifndef CANCER_INCIDENCE_H
+
+#define CANCER_INCIDENCE_H
+
 /**
  *
  * 	From the United States Cancer Statistics as part of the U.S. Center for 
@@ -324,3 +328,7 @@ class CancerIncidence {
 			loc[1] = locY;
 		}
 };
+
+}	// namespace bridges
+
+#endif
