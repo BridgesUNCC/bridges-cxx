@@ -2,7 +2,10 @@
 #define ELEMENT_H
 
 #include <unordered_set> //unordered set
+#include <unordered_map> //unordered set
 #include <cmath>
+
+using namespace std;
 
 #include "DataStructure.h"
 #include "ElementVisualizer.h"
@@ -328,7 +331,18 @@ namespace bridges {
 							return pair<string, string>(nodes_JSON, links_JSON);
 						}
 			*/
+	// temp
+	public:
+		void printLinks() {
+			cout << "[printLinks]Source vert: "<< label << ", " << this << endl;
+			
+			for (auto& it: links){
+				cout << "\t Dest Elements : " << (it.first)->getLabel() << ","
+					<< it.first << endl;
+			}
+		}
 
+	// temp
 	};	//end of Element class
 
 	template <typename E> const unordered_map<const Shape, const string, hash<int>>

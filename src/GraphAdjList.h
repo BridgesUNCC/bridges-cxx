@@ -49,9 +49,8 @@ namespace bridges {
 			/**
 			 * 	Adds a vertex of key "k" and value "e" to the graph,
 			 *	and initializes its adjacency list; If this key already
-			 *	exists its value and all source associated edges with
-			 * 	be overwriten. User's responsibility to maintain a consistent
-			 *	graph of edges and vertices
+			 *	exists  then this will not create a new vertex.
+			 *	
 			 *
 			 * @param k The vertex key
 			 * @param e The vertex data
@@ -60,11 +59,11 @@ namespace bridges {
 			void addVertex(const K& k, const E& e = E()) {
 				stringstream conv;
 				conv << k;
-				vertices[k] = new Element<E>(e, conv.str());
-				adj_list[k] = nullptr;
-				//			if(adj_list[k]) {
-				//				adj_list.at(k)->cleanup();
-				//			}
+				if (vertices.find(k) == vertices.end()) { 
+							// vertex does not exist, create one
+					vertices[k] = new Element<E>(e, conv.str());
+					adj_list[k] = nullptr;
+				}
 			}
 			/**
 			 * 	Sets the edge from "src" to "dest", weight to "wt" and data
@@ -142,7 +141,7 @@ namespace bridges {
 			/**
 			 *	@return The vertex list of this graph
 			 */
-			const unordered_map<K, Element<E>*>& getVertices() const {
+			const unordered_map<K, Element<E>*>* getVertices() const {
 				return vertices;
 			}
 
