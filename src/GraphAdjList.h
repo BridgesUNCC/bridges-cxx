@@ -142,9 +142,17 @@ namespace bridges {
 			/**
 			 *	@return The vertex list of this graph
 			 */
-			const unordered_map<K, Element<E>*>& getVertices() const {
+			const unordered_map<K, Element<E>*>& getVertices() const{
 				return vertices;
 			}
+
+			/**
+			 *	@return the requested vertex of this graph
+			 */
+			Element<K>* getVertex(const K& key) const {
+				return vertices.at(key);
+			}
+
 
 			/**
 			 *	@return The adjacency list  of the graph
@@ -177,7 +185,8 @@ namespace bridges {
 			 *
 			 * @return A pair holding the nodes and links JSON strings respectively
 			 */
-			virtual const pair<string, string> getDataStructureRepresentation() const override {
+			virtual const pair<string, string> getDataStructureRepresentation()
+													 const override {
 
 				// map the nodes to a sequence of ids, 0...N-1
 				// then get the JSON string for nodes placeholder

@@ -16,7 +16,7 @@ namespace bridges {
 			string location;		// location of quake
 			string title;			// combo info of quake
 			string url;				// url for more info
-			string time;			// date
+			string time;				// date
 
 		public:
 
@@ -27,6 +27,7 @@ namespace bridges {
 				this->location = "";
 				this->title = "";
 				this->url = "";
+				this->time = "";
 			}
 
 			EarthquakeUSGS(double magnitude, double longit, double latit,
@@ -38,6 +39,7 @@ namespace bridges {
 				this->location = location;
 				this->title = title;
 				this->url = url;
+				this->time = "";
 			}
 
 			EarthquakeUSGS(EarthquakeUSGS *eq) {
@@ -47,11 +49,57 @@ namespace bridges {
 				this->location = eq->location;
 				this->title = eq->getTitle();
 				this->url = eq->url;
+				this->time = eq->time;
 			}
 
 			string getTime() {
 				return time;
 			}
+			
+			void getDate (int *year, int *month, int *day, int *hour, 
+						int *min, int *sec){
+
+								// get eq's epoch time
+				string s = getTime();
+				cout << "[getDate]Time String:" << s << endl;
+//				time_t eq_time = std::stol(getTime());
+				time_t eq_time = std::stol("1514337140");
+								// convert to time_t 
+//				time (&eq_time)
+				
+				struct tm *eqt = gmtime(&eq_time);
+
+				*year = eqt->tm_year;
+				*month = eqt->tm_mon;
+				*day = eqt->tm_mday;
+				*hour = eqt->tm_hour;
+				*sec = eqt->tm_sec;
+				*min = eqt->tm_min;
+			}
+			string getDate() {
+				int y, m, d, h, min, s;
+				getDate(&y, &m, &d, &h, &min, &s);
+				y += 1900;
+				string mstr;
+				switch (m) {
+					case 1 : mstr = "Jan. "; break;
+					case 2 : mstr = "Feb. "; break;
+					case 3 : mstr = "Mar. "; break;
+					case 4 : mstr = "Apr. "; break;
+					case 5 : mstr = "May "; break;
+					case 6 : mstr = "Jun. "; break;
+					case 7 : mstr = "Jul. "; break;
+					case 8 : mstr = "Aug. "; break;
+					case 9 : mstr = "Sept. "; break;
+					case 10 : mstr = "Oct. "; break;
+					case 11 : mstr = "Nov. "; break;
+					case 12 : mstr = "Dec. "; break;
+				}
+						// put into a string
+				return "  " + mstr+ to_string(d) + "  " + to_string(y) +
+					"  " + to_string(h)+":"+to_string(min)+":" + to_string(s);
+			}
+					
 			void setTime (string tm) {
 				// process tm to convert to a date
 				time = tm;

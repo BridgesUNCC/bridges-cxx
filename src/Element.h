@@ -90,7 +90,8 @@ namespace bridges {
 				if (links.find(const_cast<Element*>(el)) != links.end()) {
 					return &(links.at(const_cast<Element*>(el)));
 				}
-				cerr << "Not linked to given Element... returned NULL" << endl;
+				cerr << "Element " << label << " not linked to Element "  
+					<< el->getLabel() << ", returning NULL" << endl;
 				return nullptr;
 			}
 
@@ -328,7 +329,17 @@ namespace bridges {
 							return pair<string, string>(nodes_JSON, links_JSON);
 						}
 			*/
+	// temp
+	public:
+		void printLinks() {
+			cout << "[printLinks]Source vert: "<< label << endl;
+			
+			for (auto& it: links){
+				cout << "\t Dest Elements : " << (it.first)->getLabel() << endl;
+			}
+		}
 
+	// temp
 	};	//end of Element class
 
 	template <typename E> const unordered_map<const Shape, const string, hash<int>>
