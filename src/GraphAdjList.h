@@ -141,14 +141,23 @@ namespace bridges {
 			/**
 			 *	@return The vertex list of this graph
 			 */
-			const unordered_map<K, Element<E>*>* getVertices() const {
-				return vertices;
+			unordered_map<K, Element<E>*>* getVertices() {
+				return &vertices;
 			}
-
 			/**
 			 *	@return the requested vertex of this graph
 			 */
-			Element<K>* getVertex(const K& key) const {
+			const Element<K>* getVertex(const K& key) const {
+				return vertices.at(key);
+			}
+
+
+			/**
+			 *	@return the requested vertex of this graph
+			 *
+			 *  non-const version
+			 */
+			Element<K>* getVertex(const K& key) {
 				return vertices.at(key);
 			}
 

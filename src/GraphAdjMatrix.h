@@ -86,9 +86,25 @@ namespace bridges {
 			/**
 			 *	@return The graph verticies
 			 */
-			const unordered_map<K, Element<E> *>& getVertices() const {
-				return vertices;
+			const unordered_map<K, Element<E> *>* getVertices() const {
+				return &vertices;
 			}
+			/**
+			 *  @return the requested vertex of this graph
+			 */
+			const Element<K>* getVertex(const K& key) const {
+				return vertices.at(key);
+			}
+
+			/**
+			 *  @return the requested vertex of this graph
+			 *
+			 *  non-const version
+			 */
+			Element<K>* getVertex(const K& key) {
+				return vertices.at(key);
+			}
+
 		private:
 
 			/**
