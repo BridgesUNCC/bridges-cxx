@@ -47,7 +47,8 @@ namespace bridges {
 			 *		the Bridges visualization
 			 * 	@param e the generic object that this CircSLelement will hold
 			 */
-			CircSLelement (E e, string label) : SLelement<E> (this, E(), label) {
+			CircSLelement (E val = E(), string label = string()) 
+						: SLelement<E> (this, val, label) {
 			}
 
 			/**
@@ -58,7 +59,8 @@ namespace bridges {
 			 * @param next the CircSLelement that should be assigned to the next
 			 * 		pointer
 			 */
-			CircSLelement (E e, CircSLelement *next) : SLelement<E> (next, e) {
+			CircSLelement (E e = E(), CircSLelement *next = nullptr) 
+								: SLelement<E> (next, e) {
 			}
 
 			/**
