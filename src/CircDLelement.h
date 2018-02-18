@@ -97,6 +97,14 @@ namespace bridges {
 			}
 
 			/**
+             * Retrieves the next CircSLelement
+             * @return CircSLelement<E> assigned to next
+             */
+            virtual CircDLelement<E> *getNext() override {
+                return static_cast<CircDLelement*> (SLelement<E>::getNext());
+            }
+
+			/**
 			 * This method sets the pointer to the next DLelement
 			 *
 			 * @param next the DLelement that should be assigned to the next pointer

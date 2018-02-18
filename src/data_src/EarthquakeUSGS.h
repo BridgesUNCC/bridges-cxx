@@ -18,6 +18,9 @@ namespace bridges {
 			string url;				// url for more info
 			string time;				// date
 
+									// access by date
+			int year, month, day,  hour, min, sec;
+
 		public:
 
 			EarthquakeUSGS() {
@@ -39,7 +42,7 @@ namespace bridges {
 				this->location = location;
 				this->title = title;
 				this->url = url;
-				this->time = "";
+				this->time = time;
 			}
 
 			EarthquakeUSGS(EarthquakeUSGS *eq) {
@@ -56,54 +59,88 @@ namespace bridges {
 				return time;
 			}
 			
-			void getDate (int *year, int *month, int *day, int *hour, 
-						int *min, int *sec){
-
+			void getDate () {
 								// get eq's epoch time
 				string s = getTime();
-				cout << "[getDate]Time String:" << s << endl;
-//				time_t eq_time = std::stol(getTime());
-				time_t eq_time = std::stol("1514337140");
+
+				long epoch_time = std::stol(getTime());
+				time_t eq_time = epoch_time/1000;
+
 								// convert to time_t 
-//				time (&eq_time)
 				
 				struct tm *eqt = gmtime(&eq_time);
 
-				*year = eqt->tm_year;
-				*month = eqt->tm_mon;
-				*day = eqt->tm_mday;
-				*hour = eqt->tm_hour;
-				*sec = eqt->tm_sec;
-				*min = eqt->tm_min;
+				year = eqt->tm_year + 1900;
+				month = eqt->tm_mon;
+				day = eqt->tm_mday;
+				hour = eqt->tm_hour;
+				sec = eqt->tm_sec;
+				min = eqt->tm_min;
 			}
-			string getDate() {
-				int y, m, d, h, min, s;
-				getDate(&y, &m, &d, &h, &min, &s);
-				y += 1900;
+
+						// returns the real date in a string
+			string getDateStr() {
+				getDate();
 				string mstr;
-				switch (m) {
-					case 1 : mstr = "Jan. "; break;
-					case 2 : mstr = "Feb. "; break;
-					case 3 : mstr = "Mar. "; break;
-					case 4 : mstr = "Apr. "; break;
-					case 5 : mstr = "May "; break;
-					case 6 : mstr = "Jun. "; break;
-					case 7 : mstr = "Jul. "; break;
-					case 8 : mstr = "Aug. "; break;
-					case 9 : mstr = "Sept. "; break;
-					case 10 : mstr = "Oct. "; break;
-					case 11 : mstr = "Nov. "; break;
-					case 12 : mstr = "Dec. "; break;
+
+				switch (month) {
+					case 0 : mstr = "Jan. "; break;
+					case 1 : mstr = "Feb. "; break;
+					case 2 : mstr = "Mar. "; break;
+					case 3 : mstr = "Apr. "; break;
+					case 4 : mstr = "May "; break;
+					case 5 : mstr = "Jun. "; break;
+					case 6 : mstr = "Jul. "; break;
+					case 7 : mstr = "Aug. "; break;
+					case 8 : mstr = "Sept. "; break;
+					case 9 : mstr = "Oct. "; break;
+					case 10 : mstr = "Nov. "; break;
+					case 11 : mstr = "Dec. "; break;
 				}
+
 						// put into a string
-				return "  " + mstr+ to_string(d) + "  " + to_string(y) +
-					"  " + to_string(h)+":"+to_string(min)+":" + to_string(s);
+				string date_str = "  " + mstr+ to_string(day) + "  " + to_string(year) +
+					"  " + to_string(hour)+":"+to_string(min)+":" + to_string(sec);
+
+				return date_str;
 			}
 					
 			void setTime (string tm) {
 				// process tm to convert to a date
 				time = tm;
 			}
+
+			int getYear() {
+				getDate();
+
+				return year;
+			}
+			int getMonth() {
+				getDate();
+
+				return month;
+			}
+			int getDay() {
+				getDate();
+
+				return day;
+			}
+			int getHour() {
+				getDate();
+
+				return hour;
+			}
+			int getMinutes() {
+				getDate();
+
+				return min;
+			}
+			int getSeconds() {
+				getDate();
+
+				return sec;
+			}
+				
 			float getLatit() {
 				return this->latit;
 			}
