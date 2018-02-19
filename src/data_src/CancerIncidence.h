@@ -1,8 +1,14 @@
 #ifndef CANCER_INCIDENCE_H
 
 #define CANCER_INCIDENCE_H
+#include <string>
+
+using namespace std;
+
+namespace bridges {
 
 /**
+ *  @brief A class representing the attributes for cancer incidence.
  *
  * 	From the United States Cancer Statistics as part of the U.S. Center for 
  *	Disease Control, the following data set focuses on the crude rate for 
@@ -16,11 +22,6 @@
  *	@date June, 2017
  *
  */
-#include <string>
-
-using namespace std;
-
-namespace bridges {
 
 class CancerIncidence {
 

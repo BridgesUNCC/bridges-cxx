@@ -1,3 +1,7 @@
+#include "SLelement.h"
+
+namespace bridges {
+
 /**
  * 	@brief This class can be used to instantiate Multi-list Elements.
 
@@ -28,9 +32,6 @@
  *	\sa Example Tutorial at <br> ??
  */
 
-#include "SLelement.h"
-
-namespace bridges {
 
 	template <typename E>
 	class MLelement : public SLelement<E> {

@@ -1,6 +1,9 @@
 #ifndef  CIRC_DL_ELEMENT_H
 
 #define CIRC_DL_ELEMENT_H
+#include "DLelement.h"
+
+namespace bridges {
 /**
  * @author Kalpathi Subramanian
  * @date  10/5/16
@@ -24,10 +27,6 @@
  *  shape, opacity, size), necessary for displaying them in a web browser
  *
  */
-#include "DLelement.h"
-
-namespace bridges {
-
 	template <typename E>
 	class CircDLelement : public  DLelement<E> {
 		public:

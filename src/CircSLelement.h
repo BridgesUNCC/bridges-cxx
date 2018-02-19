@@ -1,6 +1,9 @@
 #ifndef  CIRC_SL_ELEMENT_H
 
 #define CIRC_SL_ELEMENT_H
+#include "SLelement.h"
+
+namespace bridges {
 /**
  *  @brief This class can be used to instantiate Singly Linked
  *  Circular List Elements.
@@ -23,9 +26,6 @@
  *	@param <E>
  */
 
-#include "SLelement.h"
-
-namespace bridges {
 
 	template <typename E>
 	class CircSLelement : public SLelement<E> {

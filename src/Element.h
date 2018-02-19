@@ -12,24 +12,25 @@ using namespace std;
 #include "LinkVisualizer.h" //Color, cerr, string, unordered_map, using std
 
 namespace bridges {
-	/**
-	 * @brief This is the fundamental building block used in building all
-	 *	data structures in BRIDGES
-	 *
-	 * This is the Superclass Element with SLelement, DLelement, CircSlElement,
-	 *	CircDlElement, TreeElement, AVLTreeElement, BSTElement subclasses.
-	 *
-	 * Generic Parameters: E the application data type
-	 *
-	 * The label field(string type) is used to label the visualization of the
-	 *	element.
-	 *
-	 * Element holds a LinkVisualizer for each of its links and
-	 * an ElementVisualizer for itself
-	 *
-	 * @author Kalpathi Subramanian
-	 * @date 6/11/15, 11/27/16
-	 */
+/**
+ *
+ * @brief This is the fundamental building block for all data structures in BRIDGES.
+ *
+ * This is the Superclass Element with SLelement, DLelement, CircSlElement,
+ * CircDlElement, TreeElement, AVLTreeElement, BSTElement subclasses.
+ *
+ * Generic Parameters: E the application data type
+ *
+ * The label field(string type) is used to label the visualization of the
+ * element.
+ *
+ * Element holds a LinkVisualizer for each of its links and
+ * an ElementVisualizer for itself
+ *
+ * @author Kalpathi Subramanian
+ * @date 6/11/15, 11/27/16
+ */
+
 	// forward Declarations
 	template <typename K, typename T> class GraphAdjList;
 	template <typename K, typename T> class GraphAdjMatrix;

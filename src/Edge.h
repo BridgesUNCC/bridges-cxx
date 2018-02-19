@@ -1,12 +1,18 @@
 
 #include <string>
-
 using namespace std;
+
+#ifndef EDGE_H
+
+#define EDGE_H
+
+namespace bridges {
+
 /**
  * @brief This helper class is used by the graph
  *  classes - GraphAdjList , GraphAdjMatrix -  to keep track of edge
  *  information
-
+ *
  * This class is used to assign a visual connection between two Elements in the
  * Bridges Visualization.
  * <p>
@@ -20,11 +26,6 @@ using namespace std;
  * @param <E>
  */
 
-#ifndef EDGE_H
-
-#define EDGE_H
-
-namespace bridges {
 
 	template <typename K>
 	class Edge {

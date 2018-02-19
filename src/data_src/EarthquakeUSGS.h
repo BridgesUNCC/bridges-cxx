@@ -6,13 +6,16 @@
 
 using namespace std;
 
-//
-// class to hold earthquake data
-//
-// Kalpathi Subramanian, 2/18/18
-//
-
 namespace bridges {
+/**
+ * @brief  Class that hold earthquake data, for use with USGIS retrieved quake data.
+ *
+ * Class that holds earthquake USGIS data. BRIDGES uses scripts to continually monitor
+ * USGIS site (tweets) and retrieve the latest quake data for use in student projects.
+ *
+ * Kalpathi Subramanian, 2/18/18
+ */
+
 
 	class EarthquakeUSGS {
 		private:
@@ -27,7 +30,7 @@ namespace bridges {
 									// access by date
 			int year, month, day,  hour, min, sec;
 
-			/*
+			/**
 			 *  Gets the epoch time of the quake - used internally to get
 			 *	actual date - year, month, day, etc
 			 *
@@ -88,7 +91,7 @@ namespace bridges {
 				this->time = eq->time;
 			}
 
-			/*
+			/**
 			 *  return the epoch time of the quake
 			 *
 			 *  @return string
@@ -99,7 +102,7 @@ namespace bridges {
 			}
 			
 
-			/* 
+			/** 
 			 *	returns the real date in a string format
 			 *
 			 *  @return  string
@@ -130,7 +133,7 @@ namespace bridges {
 				return date_str;
 			}
 					
-			/* 
+			/** 
 			 *	set epoch time 
 			 * 
 			 *	@param tm (string)
@@ -141,7 +144,7 @@ namespace bridges {
 				time = tm;
 			}
 
-			/* 
+			/** 
 			 *	get year of quake
 			 * 
 			 *	@return (int)
@@ -152,7 +155,7 @@ namespace bridges {
 
 				return year;
 			}
-			/* 
+			/** 
 			 *	get month of quake
 			 * 
 			 *	@return (int)
@@ -163,7 +166,7 @@ namespace bridges {
 
 				return month;
 			}
-			/* 
+			/** 
 			 *	get day of quake
 			 * 
 			 *	@return (int)
@@ -174,7 +177,7 @@ namespace bridges {
 
 				return day;
 			}
-			/* 
+			/** 
 			 *	get hour of quake
 			 * 
 			 *	@return (int)
@@ -185,7 +188,7 @@ namespace bridges {
 
 				return hour;
 			}
-			/* 
+			/** 
 			 *	get minutes of quake
 			 * 
 			 *	@return (int)
@@ -196,7 +199,7 @@ namespace bridges {
 
 				return min;
 			}
-			/* 
+			/** 
 			 *	get seconds of quake
 			 * 
 			 *	@return (int)
@@ -208,7 +211,7 @@ namespace bridges {
 				return sec;
 			}
 				
-			/* 
+			/** 
 			 *	get latitude of quake
 			 * 
 			 *	@return (float)
@@ -217,7 +220,7 @@ namespace bridges {
 			float getLatit() {
 				return this->latit;
 			}
-			/* 
+			/** 
 			 *	set latitude
 			 * 
 			 *	@param (float)
@@ -226,7 +229,7 @@ namespace bridges {
 			void setLatit(float latit) {
 				this->latit = latit;
 			}
-			/* 
+			/** 
 			 *	get longitude of quake location
 			 * 
 			 *	@return (float)
@@ -235,7 +238,7 @@ namespace bridges {
 			float getLongit() {
 				return longit;
 			}
-			/* 
+			/** 
 			 *	set longitude of quake location
 			 * 
 			 *	@param (float)
@@ -244,7 +247,7 @@ namespace bridges {
 			void setLongit(float longit) {
 				this->longit = longit;
 			}
-			/* 
+			/** 
 			 *	get quake location
 			 * 
 			 *	@return (string)
@@ -253,7 +256,7 @@ namespace bridges {
 			string getLocation() {
 				return location;
 			}
-			/* 
+			/** 
 			 *	set quake location (string)
 			 * 
 			 *	@param (string)
@@ -262,7 +265,7 @@ namespace bridges {
 			void setLocation(string location) {
 				this->location = location;
 			}
-			/* 
+			/** 
 			 *	get quake title
 			 * 
 			 *	@return (string)
@@ -271,7 +274,7 @@ namespace bridges {
 			string getTitle() {
 				return this->title;
 			}
-			/* 
+			/** 
 			 *	set quake title (string)
 			 * 
 			 *	@param (string)
@@ -280,7 +283,7 @@ namespace bridges {
 			void setTitle(string title) {
 				this->title = title;
 			}
-			/* 
+			/** 
 			 *	get quake url
 			 * 
 			 *	@return (string)
@@ -289,7 +292,7 @@ namespace bridges {
 			string getUrl() {
 				return url;
 			}
-			/* 
+			/** 
 			 *	set quake url (string)
 			 * 
 			 *	@param (string)
@@ -298,7 +301,7 @@ namespace bridges {
 			void setUrl(string url) {
 				this->url = url;
 			}
-			/* 
+			/** 
 			 *	get quake magnitude
 			 * 
 			 *	@return (double)
@@ -307,7 +310,7 @@ namespace bridges {
 			double getMagnitude() {
 				return this->magnitude;
 			}
-			/* 
+			/** 
 			 *	set quake magnitude (double)
 			 * 
 			 *	@param (string)
