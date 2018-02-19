@@ -12,6 +12,7 @@ using namespace std;
 #include "./data_src/Shakespeare.h"
 #include "./data_src/GutenbergBook.h"
 #include "./data_src/CancerIncidence.h"
+#include "./data_src/ActorMovieIMDB.h"
 
 
 namespace bridges{
@@ -55,6 +56,55 @@ namespace bridges{
 							V["platform"].GetString(),
 							V["rating"].GetDouble(),
 							genre ) );
+			}
+			return wrapper;
+		}
+
+		vector<ActorMovieIMDB> getActorMovieIMDBData(int number = 0) {
+			using namespace rapidjson;
+			Document d;
+			vector<ActorMovieIMDB> wrapper;
+			string url = "https://bridgesdata.herokuapp.com/api/imdb";
+
+										// retrieve the data and parse
+			d.Parse(ServerComm::makeRequest( url,
+				{"Accept: application/json"}).c_str());
+
+			const Value& D = d["data"];
+			for (SizeType i=0; i<D.Size(); i++) {
+				const Value& V = D[i];
+				wrapper.push_back(
+					ActorMovieIMDB(
+						V["actor"].GetString(),
+						V["movie"].GetString()
+					)
+				);
+			}
+			return wrapper;
+		}
+
+		vector<ActorMovieIMDB> getActorMovieIMDBData2(int number = 0) {
+			using namespace rapidjson;
+			Document d;
+			vector<ActorMovieIMDB> wrapper;
+			string url = "https://bridgesdata.herokuapp.com/api/imdb2";
+
+										// retrieve the data and parse
+			d.Parse(ServerComm::makeRequest( url,
+				{"Accept: application/json"}).c_str());
+
+			const Value& D = d["data"];
+			for (SizeType i=0; i<D.Size(); i++) {
+				const Value& V = D[i];
+				string actor = V["actor"].GetString();
+				string movie = V["movie"].GetString();
+				double rating = V["rating"].GetDouble();
+				const Value& G = V["genres"];
+				vector<string> genres;
+				for(SizeType j = 0; j < G.Size(); j++) {
+					genres.push_back(G[j].GetString());
+				}
+				wrapper.push_back(ActorMovieIMDB( actor, movie, rating, genres));
 			}
 			return wrapper;
 		}
