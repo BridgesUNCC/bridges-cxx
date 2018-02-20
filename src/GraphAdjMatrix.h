@@ -86,7 +86,7 @@ namespace bridges {
 			/**
 			 *	@return The graph verticies
 			 */
-			const unordered_map<K, Element<E> *>* getVertices() const {
+			unordered_map<K, Element<E> *>* getVertices() {
 				return &vertices;
 			}
 			/**

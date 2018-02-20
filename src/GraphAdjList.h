@@ -165,7 +165,8 @@ namespace bridges {
 			/**
 			 *	@return The adjacency list  of the graph
 			 */
-			const unordered_map<K, SLelement<Edge<K> >*>& getAdjacencyList() const {
+			const unordered_map<K, SLelement<Edge<K> >*>& 
+									getAdjacencyList() const {
 				return adj_list;
 			}
 
