@@ -119,7 +119,7 @@ namespace bridges {
 			 * @return the DLelement assigned to the prev pointer
 			 */
 			const CircDLelement<E> *getPrev() const {
-				return static_cast<const CircDLelement*>(SLelement<E>::getPrev());
+				return static_cast<const CircDLelement*>(DLelement<E>::getPrev());
 			}
 
 			/**
