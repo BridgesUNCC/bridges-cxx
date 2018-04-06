@@ -247,8 +247,12 @@ namespace bridges {
 				part++;
 			}
 			catch (const string& error_str) {
-				cerr << "Posting assignment to the server failed!" << endl << error_str
-					<< endl << "Generated JSON: " << ds_json << endl;
+				cerr << "\nPosting assignment to the server failed!" << endl 
+					<< error_str << endl << endl;
+				cerr << "Provided Bridges Credentials:" << endl <<
+						"\t User Name: " << user_name << endl <<
+						"\t API Key: " << api_key << endl <<
+						"\t Assignment Number: " << assn_num << endl;
 			}
 		}
 	}	//end of Bridges namespace

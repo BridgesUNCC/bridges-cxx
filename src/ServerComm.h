@@ -3,6 +3,7 @@
 
 #include <string>
 #include <vector>
+using namespace std;
 #include <curl/curl.h> //curl
 #include "./data_src/EarthquakeUSGS.h"
 #include "./data_src/Game.h"
@@ -10,7 +11,6 @@
 #include "./data_src/GutenbergBook.h"
 #include "./data_src/CancerIncidence.h"
 #include "./data_src/ActorMovieIMDB.h"
-using namespace std;
 
 namespace bridges {
 	namespace DataSource {
@@ -73,6 +73,8 @@ namespace bridges {
 					curl_easy_setopt(curl, CURLOPT_WRITEDATA, &results);
 					//sends all data to this function
 					curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, curlWriteFunction);
+									// need this to catch http errors
+					curl_easy_setopt(curl, CURLOPT_FAILONERROR, 1L);
 					if (data.length() > 0) {
 						// Now specify the POST data
 						curl_easy_setopt(curl, CURLOPT_POSTFIELDS, data.c_str());
@@ -93,7 +95,8 @@ namespace bridges {
 
 					if (res != CURLE_OK) {
 						throw "curl_easy_perform() failed.\nCurl Error Code "
-						+ to_string(res) + ": " + curl_easy_strerror(res) + "\n";
+						+ to_string(res) + "\n" + curl_easy_strerror(res) + 
+						"\n" + "Possibly Bad BRIDGES Credentials\n";
 					}
 					curl_easy_cleanup(curl);
 				}
