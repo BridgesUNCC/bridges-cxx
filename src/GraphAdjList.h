@@ -188,6 +188,30 @@ namespace bridges {
 					throw;
 				}
 			}
+
+			/**
+			 *  Returns the link visualizer corresponding to two graph
+			 *	nodes with an existing link; error returned if no link exists
+			 *
+			 *  @param k1 The key of the link source vertex
+			 *  @param k2 The key of the link destination  vertex
+			 *
+			 * @return the visualizer that controls the attributes  of this link
+			 */
+			LinkVisualizer *getLinkVisualizer (const K& k1, const K& k2) {
+
+				try {
+					Element<K> *el1 = vertices.at(k1);
+					Element<K> *el2 = vertices.at(k2);
+
+					return el1->getLinkVisualizer(el2);
+				}
+				catch (const out_of_range& oor) {
+					cerr <<  "Either source or destination node not found in graph!"
+						<< endl;
+					throw;
+				}
+			}
 		private:
 			/**
 			 * Gets the JSON representation of this Graph's nodes and links
