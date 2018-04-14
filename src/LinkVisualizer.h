@@ -30,6 +30,7 @@ namespace bridges {
 		private:
 
 			Color color = DEFAULT_COLOR;
+			string label = "";
 			double thickness = DEFAULT_THICKNESS;
 			double weight = 1.0;
 
@@ -46,6 +47,22 @@ namespace bridges {
 				double th = DEFAULT_THICKNESS):
 				color(col) {
 				setThickness(th);
+			}
+
+			/**
+			 *  @return The label of the element
+			 */
+			string getLabel() const {
+				return label;
+			}
+
+			/**
+			 * Sets label to "lab"
+			 *
+			 * @param lab The label of the element
+			 */
+			 void setLabel(const string& lab) {
+				 label = lab;
 			}
 
 			/**
