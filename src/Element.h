@@ -198,6 +198,9 @@ namespace bridges {
 				return OPEN_CURLY +
 					QUOTE + "color"     + QUOTE + COLON + getCSSRepresentation(lv.getColor())
 					+ COMMA +
+					(!lv.getLabel().empty() ? 
+						(QUOTE + "label" + QUOTE + COLON + 
+							QUOTE + lv.getLabel() + QUOTE + COMMA) : "") +
 					QUOTE + "thickness" + QUOTE + COLON +
 					removeTrailingZeros(lv.getThickness()) + COMMA +
 					QUOTE + "weight"    + QUOTE + COLON +
