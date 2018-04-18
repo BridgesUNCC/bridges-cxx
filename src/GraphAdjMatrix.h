@@ -104,6 +104,47 @@ namespace bridges {
 			Element<K>* getVertex(const K& key) {
 				return vertices.at(key);
 			}
+			/**
+			 *  Returns the  visualizer corresponding to  a graph vertex;
+			 *	convenient method to set attributes of the graph vertex
+			 *
+			 *  @param k The key of the graph vertex
+			 *
+			 *  @return the visualizer that controls the attributes  of this node
+			 */
+			ElementVisualizer *getVisualizer (const K& k) {
+				try {
+					Element<K> *el = vertices.at(k);
+
+					return el->getVisualizer();
+				}
+				catch (const out_of_range& oor) {
+					cerr <<  "Graph vertex " << k << " not found in graph!" << endl;
+					throw;
+				}
+			}
+			/**
+			 *  Returns the link visualizer corresponding to two graph
+			 *	nodes with an existing link; error returned if no link exists.
+			 *
+			 *  @param k1 The key of the link source vertex
+			 *  @param k2 The key of the link destination  vertex
+			 *
+			 * @return the visualizer that controls the attributes  of this link
+			 */
+			LinkVisualizer *getLinkVisualizer (const K& k1, const K& k2) {
+				try {
+					Element<K> *el1 = vertices.at(k1);
+					Element<K> *el2 = vertices.at(k2);
+
+					return el1->getLinkVisualizer(el2);
+				}
+				catch (const out_of_range& oor) {
+					cerr <<  "Either source or destination node not found in graph!"
+						<< endl;
+					throw;
+				}
+			}
 
 		private:
 
