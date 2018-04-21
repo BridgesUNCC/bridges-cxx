@@ -97,8 +97,9 @@ namespace bridges {
 
 				}
 				catch ( const out_of_range& oor) {
-					cerr << "addEdge(): must create vertices first prior to adding "
-						<< "edges; cannot addEdge between non-existent verticies"
+					cerr << "addEdge(): Nonexistent vertex?" << endl << 
+						"Create vertices first prior to adding edges that use that vertex" << endl
+						<<  "Cannot add edge between non-existent verticies"
 						<< endl;
 					throw;
 				}
@@ -147,7 +148,7 @@ namespace bridges {
 			/**
 			 *	@return the requested vertex of this graph
 			 */
-			const Element<K>* getVertex(const K& key) const {
+			const Element<E>* getVertex(const K& key) const {
 				return vertices.at(key);
 			}
 
@@ -157,7 +158,7 @@ namespace bridges {
 			 *
 			 *  non-const version
 			 */
-			Element<K>* getVertex(const K& key) {
+			Element<E>* getVertex(const K& key) {
 				return vertices.at(key);
 			}
 
@@ -199,7 +200,7 @@ namespace bridges {
 			 */
 			ElementVisualizer *getVisualizer (const K& k) {
 				try {
-					Element<K> *el = vertices.at(k);
+					Element<E> *el = vertices.at(k);
 
 					return el->getVisualizer();
 				}
@@ -219,8 +220,8 @@ namespace bridges {
 			 */
 			LinkVisualizer *getLinkVisualizer (const K& k1, const K& k2) {
 				try {
-					Element<K> *el1 = vertices.at(k1);
-					Element<K> *el2 = vertices.at(k2);
+					Element<E> *el1 = vertices.at(k1);
+					Element<E> *el2 = vertices.at(k2);
 
 					return el1->getLinkVisualizer(el2);
 				}
