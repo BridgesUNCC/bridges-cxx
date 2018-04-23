@@ -159,7 +159,7 @@ namespace bridges {
 						}
 						sle = sle->getNext();
 					}
-					throw "Edge not found!";
+					throw "getEdgeData(): Edge not found!";
 				}
 				catch ( const out_of_range& oor) {
 					cerr << "getEdgeData(): Nonexistent vertices" << endl;
@@ -168,6 +168,8 @@ namespace bridges {
 				catch (const char* msg) {
 					cerr << msg << endl;
 				}
+						// will never reach here, but avoids compiler warnings
+				throw "getEdgeData(): Edge not found";
 			}
 			/*
 			        void addEdge(const K& src, const K& dest, const unsigned int& wt,
