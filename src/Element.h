@@ -1,43 +1,47 @@
 #ifndef ELEMENT_H
+
 #define ELEMENT_H
 
-#include <unordered_set> //unordered set
-#include <unordered_map> //unordered set
+#include <unordered_set> 
+#include <unordered_map> 
 #include <cmath>
 
 using namespace std;
 
 #include "DataStructure.h"
 #include "ElementVisualizer.h"
-#include "LinkVisualizer.h" //Color, cerr, string, unordered_map, using std
+#include "LinkVisualizer.h" 
 
 namespace bridges {
-/**
- *
- * @brief This is the fundamental building block for all data structures in BRIDGES.
- *
- * This is the Superclass Element with SLelement, DLelement, CircSlElement,
- * CircDlElement, TreeElement, AVLTreeElement, BSTElement subclasses.
- *
- * Generic Parameters: E the application data type
- *
- * The label field(string type) is used to label the visualization of the
- * element.
- *
- * Element holds a LinkVisualizer for each of its links and
- * an ElementVisualizer for itself
- *
- * @author Kalpathi Subramanian
- * @date 6/11/15, 11/27/16
- */
-
-	// forward Declarations
-	template <typename K, typename T> class GraphAdjList;
+								// forward Declarations
+	template <typename K, typename E1, typename E2> class GraphAdjList;
 	template <typename K, typename T> class GraphAdjMatrix;
+
+	/**
+ 	 *	@brief This is the fundamental building block for all data structures 
+ 	 *	in BRIDGES.
+ 	 *
+	 *	This is the Superclass Element with SLelement, DLelement, MLElement,
+	 *	CircSlElement, CircDlElement, TreeElement, AVLTreeElement, BSTElement 
+	 *	subclasses.
+ 	 *
+ 	 * 	Generic Parameters: E the application data type
+ 	 *
+ 	 * 	The label field(string type) is used to label the visualization of the
+ 	 * 	element.
+ 	 *
+ 	 * 	Element holds a LinkVisualizer for each of its links and
+ 	 * 	an ElementVisualizer for itself
+ 	 *
+ 	 * 	@author Kalpathi Subramanian
+	 *
+ 	 * 	@date 6/11/15, 11/27/16
+ 	 */
+
 
 	template <typename E> class Element {
 			//Used for access to generateJSON() and for links manipulation
-			template <typename K, typename T> friend class GraphAdjList;
+			template <typename K, typename E1, typename E2> friend class GraphAdjList;
 			template <typename K, typename T> friend class GraphAdjMatrix;
 			template <typename K> friend class Array;
 
@@ -228,6 +232,36 @@ namespace bridges {
 
 				return OPEN_BOX + strCSS + CLOSE_BOX;
 			}
+	public:
+		void printLinks() {
+			cout << "[printLinks]Source vert: "<< label << ", " << this << endl;
+			
+			for (auto& it: links){
+				cout << "\t Dest Elements : " << (it.first)->getLabel() << ","
+					<< it.first << endl;
+			}
+		}
+
+	// temp
+	};	//end of Element class
+
+	template <typename E> const unordered_map<const Shape, const string, hash<int>>
+	Element<E>::ShapeNames {
+		{CIRCLE, "circle"},
+		{SQUARE, "square"},
+		{DIAMOND, "diamond"},
+		{CROSS, "cross"},
+		{TRI_DOWN, "triangle-down"},
+		{TRI_UP, "triangle-up"}
+	};
+
+
+}//end of bridges namespace
+
+#endif
+
+
+
 			/**
 			 * Generates the JSON of the given the nodes and associated links
 			 *
@@ -337,29 +371,3 @@ namespace bridges {
 						}
 			*/
 	// temp
-	public:
-		void printLinks() {
-			cout << "[printLinks]Source vert: "<< label << ", " << this << endl;
-			
-			for (auto& it: links){
-				cout << "\t Dest Elements : " << (it.first)->getLabel() << ","
-					<< it.first << endl;
-			}
-		}
-
-	// temp
-	};	//end of Element class
-
-	template <typename E> const unordered_map<const Shape, const string, hash<int>>
-	Element<E>::ShapeNames {
-		{CIRCLE, "circle"},
-		{SQUARE, "square"},
-		{DIAMOND, "diamond"},
-		{CROSS, "cross"},
-		{TRI_DOWN, "triangle-down"},
-		{TRI_UP, "triangle-up"}
-	};
-
-
-}//end of bridges namespace
-#endif

@@ -19,10 +19,10 @@ namespace bridges {
 	 *
 	 *	Generic Parameters:
 	 *		K that is used as an index,
-	 *		E the application data type
+	 *		E information specific to graph vertices
 	 *
 	 *	@author Kalpathi Subramanian, Dakota Carmer
-	 *	@date 6/29/15, 7/10/16, 11/27/16
+	 *	@date 6/29/15, 7/10/16, 11/27/16, 4/22/18
 	 */
 	template <typename K, typename E>
 	class GraphAdjMatrix : public DataStructure {

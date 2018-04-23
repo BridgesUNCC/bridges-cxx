@@ -12,26 +12,30 @@ using namespace std;
 
 namespace bridges {
 	/**
-	 * @brief This class provides methods to represent adjacency list based graphs
+	 * 	@brief This class provides methods to represent adjacency list 
+	 *	based graphs
 	 *
-	 * The class is simply a wrapper around the C++ STL unordered_map class and thus
-	 * derives all its operations from it.
+	 * 	The class is simply a wrapper around the C++ STL unordered_map class 
+	 *	and thus derives all its operations from it.
 	 *
-	 * Generic Parameters:
-	 *      K that is used as an index,
-	 *      E the application data type
+	 * <b>Generic Parameters:</b>
+	 * \verbatim
+	       K:  used as an index to retrieve vertices, 
+	       E1: data type used to store vertex specific information, 
+	       E2: data type used to store edge specific information
+	  \endverbatim
 	 *
 	 * @author Kalpathi Subramanian
-	 * @date 6/29/15
+	 * @date Last modified 4/22/18
 	 */
-	template<typename K, typename E>
+	template<typename K, typename E1 = K, typename E2 = E1>
 	class GraphAdjList : public DataStructure {
 		private:
 			// list of graph vertices
 			// maintained as a map to accommodate strings
-			unordered_map<K, Element<E>* > vertices;
+			unordered_map<K, Element<E1>* > vertices;
 			// adjacency lists
-			unordered_map<K, SLelement<Edge<K> >*> adj_list;
+			unordered_map<K, SLelement<Edge<K, E2> >*> adj_list;
 
 		public:
 			virtual ~GraphAdjList() override {
@@ -56,12 +60,12 @@ namespace bridges {
 			 * @param e The vertex data
 			 *
 			 */
-			void addVertex(const K& k, const E& e = E()) {
+			void addVertex(const K& k, const E1& e = E1()) {
 				stringstream conv;
 				conv << k;
 				if (vertices.find(k) == vertices.end()) { 
 							// vertex does not exist, create one
-					vertices[k] = new Element<E>(e, conv.str());
+					vertices[k] = new Element<E1>(e, conv.str());
 					adj_list[k] = nullptr;
 				}
 			}
@@ -80,7 +84,7 @@ namespace bridges {
 			 * @throw bad_alloc If allocation of a graph adjacency list item failed
 			 */
 			void addEdge(const K& src, const K& dest, const unsigned int& wt,
-				const string& data = string()) {
+				const E2& data = E2()) {
 				try {
 					vertices.at(src);
 					vertices.at(dest);
@@ -92,8 +96,8 @@ namespace bridges {
 					conv << dest;
 					// add the edge
 					adj_list.at(src) =
-						new SLelement<Edge<K> > (adj_list.at(src),
-						Edge<K> (dest, wt, data), conv.str());
+						new SLelement<Edge<K, E2> > (adj_list.at(src),
+							Edge<K, E2> (dest, wt, data), conv.str());
 
 				}
 				catch ( const out_of_range& oor) {
@@ -102,6 +106,67 @@ namespace bridges {
 						<<  "Cannot add edge between non-existent verticies"
 						<< endl;
 					throw;
+				}
+			}
+			/**
+			 * 	Loads edge specific information for the edge from "src" to 
+			 *   "dest" 
+			 *
+			 * @param src The key of the source Vertex
+			 * @param dest The key of the destination Vertex
+
+			 */
+			void setEdgeData (const K& src, const K& dest, E2& data) {
+				try {
+					vertices.at(src); vertices.at(dest);
+					SLelement<Edge<K, E2> > *sle = adj_list.at(src);
+					while (sle) {
+						Edge<K, E2> ed = sle->getValue();
+						if(ed.getVertex() == dest){ //edge exists
+							ed.setEdgeData(data); //change edge data
+							sle->setValue(ed); //change slelement data
+							return;
+						}
+						sle = sle->getNext();
+					}
+					throw "Edge not found!";
+				}
+				catch ( const out_of_range& oor) {
+					cerr << "setEdgeData(): Nonexistent vertices or " << 
+						" edge not found" << endl;
+					throw;
+				}
+				catch (const char* msg) {
+					cerr << msg << endl;
+				}
+			}
+			/**
+			 * 	Gets edge data for the edge from "src" to "dest" 
+			 *
+			 * @param src The key of the source Vertex
+			 * @param dest The key of the destination Vertex
+			 *
+			 * @return E2  edge specific data
+			 */
+			E2&  getEdgeData (const K& src, const K& dest) {
+				try {
+					vertices.at(src); vertices.at(dest);
+					SLelement<Edge<K, E2> > *sle = adj_list.at(src);
+					while (sle) {
+						Edge<K, E2> ed = sle->getValue();
+						if(ed.getVertex() == dest){ //edge exists
+							return ed.getEdgeData();
+						}
+						sle = sle->getNext();
+					}
+					throw "Edge not found!";
+				}
+				catch ( const out_of_range& oor) {
+					cerr << "getEdgeData(): Nonexistent vertices" << endl;
+					throw;
+				}
+				catch (const char* msg) {
+					cerr << msg << endl;
 				}
 			}
 			/*
@@ -142,13 +207,13 @@ namespace bridges {
 			/**
 			 *	@return The vertex list of this graph
 			 */
-			unordered_map<K, Element<E>*>* getVertices() {
+			unordered_map<K, Element<E1>*>* getVertices() {
 				return &vertices;
 			}
 			/**
 			 *	@return the requested vertex of this graph
 			 */
-			const Element<E>* getVertex(const K& key) const {
+			const Element<E1>* getVertex(const K& key) const {
 				return vertices.at(key);
 			}
 
@@ -158,7 +223,7 @@ namespace bridges {
 			 *
 			 *  non-const version
 			 */
-			Element<E>* getVertex(const K& key) {
+			Element<E1>* getVertex(const K& key) {
 				return vertices.at(key);
 			}
 
@@ -166,8 +231,8 @@ namespace bridges {
 			/**
 			 *	@return The adjacency list  of the graph
 			 */
-			const unordered_map<K, SLelement<Edge<K> >*>& 
-									getAdjacencyList() const {
+			const unordered_map<K, SLelement<Edge<K, E2> >*>& 
+							getAdjacencyList() const {
 				return adj_list;
 			}
 
@@ -179,7 +244,7 @@ namespace bridges {
 			 *
 			 * @return The adjacency list of key "k"
 			 */
-			SLelement<Edge<K> >* getAdjacencyList(const K& k) {
+			SLelement<Edge<K, E2> >* getAdjacencyList(const K& k) {
 				try {
 					return adj_list.at(k);
 				}
@@ -200,7 +265,7 @@ namespace bridges {
 			 */
 			ElementVisualizer *getVisualizer (const K& k) {
 				try {
-					Element<E> *el = vertices.at(k);
+					Element<E1> *el = vertices.at(k);
 
 					return el->getVisualizer();
 				}
@@ -220,8 +285,8 @@ namespace bridges {
 			 */
 			LinkVisualizer *getLinkVisualizer (const K& k1, const K& k2) {
 				try {
-					Element<E> *el1 = vertices.at(k1);
-					Element<E> *el2 = vertices.at(k2);
+					Element<E1> *el1 = vertices.at(k1);
+					Element<E1> *el2 = vertices.at(k2);
 
 					return el1->getLinkVisualizer(el2);
 				}
@@ -265,11 +330,11 @@ namespace bridges {
 
 				for (const auto& v : vertices) {
 					// get adj. list
-					Element<E>* src_vert = vertices.at(v.first);
+					Element<E1>* src_vert = vertices.at(v.first);
 					// iterate through list and form links
-					for (SLelement<Edge<K>>* it = adj_list.at(v.first); it != nullptr;
+					for (SLelement<Edge<K, E2>>* it = adj_list.at(v.first); it != nullptr;
 						it = it->getNext()) {
-						Element<E>* dest_vert = vertices.at(it->getValue().getVertex() );
+						Element<E1>* dest_vert = vertices.at(it->getValue().getVertex() );
 						links_JSON +=  src_vert->getLinkRepresentation(
 								*(src_vert->getLinkVisualizer(dest_vert)),
 								to_string(node_map.at(v.first)),
