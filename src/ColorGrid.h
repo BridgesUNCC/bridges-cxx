@@ -29,6 +29,7 @@ namespace bridges {
 		 	 **/
 			void initializeGrid (int rows, int cols, Color col) {
 							// fill elements with base color
+cout << "Size:" << gridSize[0] << "," << gridSize[1] << endl;
 				for (int i = 0; i < gridSize[0]; i++) 
 				for (int j = 0; j < gridSize[1]; j++)
 					grid[i][j] = col;
@@ -82,6 +83,7 @@ namespace bridges {
 								const override {
 				// Maintain a bytebuffer for the byte representations of each grid color
 
+								// set the grid dimensions for the visualizer
 			BYTE *byte_buf = new BYTE[4 * gridSize[0] * gridSize[1]];
 
 			int k = 0;
@@ -94,10 +96,12 @@ namespace bridges {
           		}
         	}
 						// get the base64 representation of the color array
-			string base64_grid_str = 
+			string nodes_str = 
 					base64::base64_encode (byte_buf, 4*gridSize[0]*gridSize[1]);
+			string links_str = "";
 
 						// Add the byte representation of the grid
+/*
 			string json_str = QUOTE + "nodes" + QUOTE + COLON +
 				OPEN_BOX  + 
 						QUOTE + base64_grid_str + QUOTE + 
@@ -108,8 +112,9 @@ namespace bridges {
 				OPEN_BOX + 
 						to_string(gridSize[0]) + "," + to_string(gridSize[1]) + 
 				CLOSE_BOX + CLOSE_CURLY;
+*/
 
-			return pair<string, string> (json_str, "");
+			return pair<string, string> (nodes_str, links_str);
   		}
 	};
 } // end namespace bridges

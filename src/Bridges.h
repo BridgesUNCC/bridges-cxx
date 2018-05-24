@@ -20,7 +20,7 @@ namespace bridges {
 		static bool jsonFlag = false;   	// if JSON is to be printed
 		static string user_name = string(), api_key = string(); // user credentials
 		static unsigned int assn_num = 0;	// assignment id
-		static int array_dims[3] = {0, 0, 0};
+		static int *dims = nullptr;
 		static DataStructure* ds_handle = nullptr;  // data structure handle
 		static string server_url = "http://bridges-cs.herokuapp.com";
 
@@ -110,12 +110,10 @@ namespace bridges {
 		/**
 		 *	set dimensions of array
 		 *
-		 *  @param  dims
+		 *  @param  d - dimensions of the data structure (array, Grid)
 		 */
-		void setDimensions(int *dims) {
-			array_dims[0] = dims[0];
-			array_dims[1] = dims[1];
-			array_dims[2] = dims[2];
+		void setDimensions(int *d) {
+			dims = d;
 		}
 
 		/**
@@ -195,18 +193,24 @@ namespace bridges {
 				QUOTE + "description" + QUOTE + COLON + QUOTE + getDescription() + QUOTE + COMMA +
 				QUOTE + "coord_system_type" + QUOTE + COLON + QUOTE + "Cartesian" + QUOTE + COMMA;
 
-			// for arrays, must pass dimensions
+			// for Array and Grid types, must pass dimensions
 			if (ds_type == "Array") {
 				// get dimensions
 				// write dimensions
 				ds_json += QUOTE + "dims" + QUOTE + COLON +
 					OPEN_BOX +
-					to_string(array_dims[0]) + COMMA +
-					to_string(array_dims[1]) + COMMA +
-					to_string(array_dims[2]) +
+					to_string(dims[0]) + COMMA +
+					to_string(dims[1]) + COMMA +
+					to_string(dims[2]) +
 					CLOSE_BOX + COMMA;
 			}
-
+			else if (ds_type == "ColorGrid") {
+						// get dimensions
+				ds_json += QUOTE + "dimensions" + QUOTE + COLON +
+					OPEN_BOX +
+						to_string(dims[0]) + COMMA + to_string(dims[1]) +
+					CLOSE_BOX + COMMA;
+			}
 
 			//
 			// get the nodes and link representations
@@ -224,10 +228,17 @@ namespace bridges {
 				ds_type == "BinarySearchTree" || ds_type == "AVLTree" ) {
 				ds_json += json_nodes_links.first + CLOSE_CURLY;
 			}
+			else if (ds_type == "ColorGrid") {
+				ds_json += 
+						OPEN_BOX + QUOTE + json_nodes_links.first + QUOTE + CLOSE_BOX 
+						 + CLOSE_CURLY;
+			}
 			else {
-				ds_json += OPEN_BOX + json_nodes_links.first + CLOSE_BOX + COMMA +
-					QUOTE + "links" + QUOTE + COLON + OPEN_BOX + json_nodes_links.second + CLOSE_BOX +
-					CLOSE_CURLY;
+				ds_json += 
+						OPEN_BOX + json_nodes_links.first + CLOSE_BOX + COMMA +
+							QUOTE + "links" + QUOTE + COLON + OPEN_BOX + 
+							json_nodes_links.second + CLOSE_BOX + 
+						CLOSE_CURLY;
 			}
 
 			//

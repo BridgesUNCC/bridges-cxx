@@ -28,7 +28,7 @@ namespace bridges {
 		protected:
 			E  **grid = nullptr;
 
-  			int gridSize[2]  = {10, 10};
+  			int *gridSize = nullptr; ;
 			int maxGridSize[2]  = {480, 640};
 
 		public:
@@ -42,21 +42,26 @@ namespace bridges {
 			 *
 			 */
 			Grid() {
-				gridSize[0] = gridSize[1] = 10;
-				maxGridSize[0] = 480; maxGridSize[1] = 640;
+				setDimensions(10, 10);
 				allocateGrid();
 			}
 
 			Grid(int *size) {
-				gridSize[0] = size[0]; gridSize[1] = size[1];
+				setDimensions(size[0], size[1]);
 				allocateGrid (size[0], size[1]);
 			}
 
 			Grid(int rows, int cols) {
-				gridSize[0] = rows; gridSize[1] = cols;
+				setDimensions(rows, cols);
 				allocateGrid (rows, cols);
 			}
 
+			void setDimensions(int rows, int cols) {
+				if (!gridSize)
+					gridSize = new int[2];
+				gridSize[0] = rows; gridSize[1] = cols;
+				Bridges::setDimensions (gridSize);
+			}
 	
 			int* getDimensions() {
 				return gridSize;
