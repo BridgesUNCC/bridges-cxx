@@ -19,6 +19,21 @@ namespace bridges {
   		private: 
 			Color baseColor = Color("black");
 
+			/**
+		 	 * initializes the grid with the passed color
+		 	 *
+		 	 * @param rows - int representing the number of rows of the grid
+		 	 * @param cols - int representing the number of columns of the grid
+		 	 * @param color - Color object
+		 	 *
+		 	 **/
+			void initializeGrid (int rows, int cols, Color col) {
+							// fill elements with base color
+				for (int i = 0; i < gridSize[0]; i++) 
+				for (int j = 0; j < gridSize[1]; j++)
+					grid[i][j] = col;
+			}
+
 		public:
 			virtual const string getDStype() const override{
 				return "ColorGrid";
@@ -51,29 +66,20 @@ namespace bridges {
 		 	 * @param color - Color object
 		 	 *
 		 	 **/
-			ColorGrid (int rows, int cols, Color color)  {
-
+			ColorGrid (int rows, int cols, Color color) : Grid<Color> (rows, cols) {
 				baseColor = color;
-				gridSize = new int[2]; 
-				gridSize[0] = rows; gridSize[1] = cols;
-				initializeGrid (rows, cols, color);
+				initializeGrid(rows, cols, color);
 			}
 
-			void initializeGrid (int rows, int cols, Color col) {
-							// fill elements with base color
-				for (int i = 0; i < gridSize[0]; i++) 
-				for (int j = 0; j < gridSize[1]; j++)
-					grid[i][j] = col;
-			}
-	
 
-		/**
-		 * get the JSON representation of the color grid
-		 *
-		 * @return the JSON representation of the color grid
-		 **/
-		virtual const pair<string, string> getDataStructureRepresentation () 
-							const override {
+		private:
+			/**
+		 	 * get the JSON representation of the color grid
+		 	 *
+		 	 * @return the JSON representation of the color grid
+		 	 **/
+			virtual const pair<string, string> getDataStructureRepresentation () 
+								const override {
 				// Maintain a bytebuffer for the byte representations of each grid color
 
 			BYTE *byte_buf = new BYTE[4 * gridSize[0] * gridSize[1]];

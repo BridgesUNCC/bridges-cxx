@@ -14,11 +14,22 @@ namespace bridges {
 
 	template <typename E> 
 	class Grid : public  DataStructure {
+
+		private:
+			void allocateGrid(int rows = 10, int cols = 10) {
+						// to do: must check against maxSize!
+						// first allocate pointers for dimension 1
+				grid = new E*[rows];
+				for (int j = 0; j < rows; j++)  {
+					grid[j] = new E[cols];	
+				}
+			}
+
 		protected:
 			E  **grid = nullptr;
 
-  			int *gridSize = nullptr;
-			int *maxGridSize  = nullptr;
+  			int gridSize[2]  = {10, 10};
+			int maxGridSize[2]  = {480, 640};
 
 		public:
 			virtual const string getDStype() const override {
@@ -31,11 +42,14 @@ namespace bridges {
 			 *
 			 */
 			Grid() {
-				gridSize = new int[2];
 				gridSize[0] = gridSize[1] = 10;
-				maxGridSize = new int[2];	
 				maxGridSize[0] = 480; maxGridSize[1] = 640;
-				allocateGrid(gridSize[0], gridSize[1]);
+				allocateGrid();
+			}
+
+			Grid(int *size) {
+				gridSize[0] = size[0]; gridSize[1] = size[1];
+				allocateGrid (size[0], size[1]);
 			}
 
 			Grid(int rows, int cols) {
@@ -43,13 +57,6 @@ namespace bridges {
 				allocateGrid (rows, cols);
 			}
 
-			void allocateGrid(int rows, int cols) {
-						// to do: must check against maxSize!
-						// first allocate pointers for dimension 1
-					grid = new E*[rows];
-					for (int j = 0; j < cols; j++) 
-						grid[j] = new E[cols];	
-			}
 	
 			int* getDimensions() {
 				return gridSize;
