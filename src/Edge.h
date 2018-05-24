@@ -27,7 +27,7 @@ namespace bridges {
  */
 
 
-	template <typename K, typename E2>
+	template <typename K, typename E2 = K>
 	class Edge {
 		private:
 			// The weight of this edge

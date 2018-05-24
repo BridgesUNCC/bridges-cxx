@@ -109,30 +109,37 @@ namespace bridges {
 				}
 			}
 			/**
-			 * 	Loads edge specific information for the edge from "src" to 
-			 *   "dest" 
+			 * 	Gets vertex data for a graph vertex 
 			 *
-			 * @param src The key of the source Vertex
-			 * @param dest The key of the destination Vertex
-
+			 * @param src The key of the source vertex
+			 *
+			 * @return E1  vertex specific data
 			 */
-			void setEdgeData (const K& src, const K& dest, E2& data) {
+			E1  getVertexData (const K& src) {
 				try {
-					vertices.at(src); vertices.at(dest);
-					SLelement<Edge<K, E2> > *sle = adj_list.at(src);
-					while (sle) {
-						Edge<K, E2> ed = sle->getValue();
-						if(ed.getVertex() == dest){ //edge exists
-							ed.setEdgeData(data); //change edge data
-							sle->setValue(ed); //change slelement data
-							return;
-						}
-						sle = sle->getNext();
-					}
-					throw "Edge not found!";
+					Element<E1> *el = vertices.at(src);
+					return  (vertices.at(src))->getValue();
 				}
 				catch ( const out_of_range& oor) {
-					cerr << "setEdgeData(): Nonexistent vertices or " << 
+					cerr << "getVertexData(): vertex not found" << endl;
+					throw;
+				}
+								// should never reach here
+				throw "getVertexData(): vertex not found";
+			}
+			/**
+			 * 	Loads vertex specific information for a graph vertex
+			 *
+			 * @param src The key of the source Vertex
+			 *
+			 */
+			void setVertexData (const K& src, E1& data) {
+				try {
+					Element<E1> *el = vertices.at(src);
+					el->setValue (data);
+				}
+				catch ( const out_of_range& oor) {
+					cerr << "setVertexData(): Nonexistent vertices or " << 
 						" edge not found" << endl;
 					throw;
 				}
@@ -159,10 +166,44 @@ namespace bridges {
 						}
 						sle = sle->getNext();
 					}
+					throw "Edge not found!";
+				}
+				catch ( const out_of_range& oor) {
+					cerr << "getEdgeData(): Edge not found" << endl;
+					throw;
+				}
+				catch (const char* msg) {
+					cerr << msg << endl;
+				}
+								// should never reach here
+				throw "getEdgeData(): Edge not found";
+			}
+			/**
+			 * 	Loads edge specific information for the edge from "src" to 
+			 *   "dest" 
+			 *
+			 * @param src The key of the source Vertex
+			 * @param dest The key of the destination Vertex
+
+			 */
+			void setEdgeData (const K& src, const K& dest, E2& data) {
+				try {
+					vertices.at(src); vertices.at(dest);
+					SLelement<Edge<K, E2> > *sle = adj_list.at(src);
+					while (sle) {
+						Edge<K, E2> ed = sle->getValue();
+						if(ed.getVertex() == dest){ //edge exists
+							ed.setEdgeData(data); //change edge data
+							sle->setValue(ed); //change slelement data
+							return;
+						}
+						sle = sle->getNext();
+					}
 					throw "getEdgeData(): Edge not found!";
 				}
 				catch ( const out_of_range& oor) {
-					cerr << "getEdgeData(): Nonexistent vertices" << endl;
+					cerr << "setEdgeData(): Nonexistent vertices or " << 
+						" edge not found" << endl;
 					throw;
 				}
 				catch (const char* msg) {

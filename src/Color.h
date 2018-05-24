@@ -47,6 +47,13 @@ namespace bridges {
 			array<int, 4> channels{{255, 255, 255, 255}};
 		public:
 			/**
+			 *  Default constructor 
+			 *  Defaults to black
+			 */
+			Color() {
+				setRed(0); setGreen(0); setBlue(0); setAlpha(255);
+			}
+			/**
 			 * Constructs a color with the specified rgba color channel values [0,255].
 			 * If no alpha channel is provided, the default of 255(opaque) is used.
 			 *

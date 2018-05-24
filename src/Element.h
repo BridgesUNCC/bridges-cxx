@@ -15,7 +15,7 @@ using namespace std;
 namespace bridges {
 								// forward Declarations
 	template <typename K, typename E1, typename E2> class GraphAdjList;
-	template <typename K, typename T> class GraphAdjMatrix;
+	template <typename K, typename E1, typename E2> class GraphAdjMatrix;
 
 	/**
  	 *	@brief This is the fundamental building block for all data structures 
@@ -42,7 +42,7 @@ namespace bridges {
 	template <typename E> class Element {
 			//Used for access to generateJSON() and for links manipulation
 			template <typename K, typename E1, typename E2> friend class GraphAdjList;
-			template <typename K, typename T> friend class GraphAdjMatrix;
+			template <typename K, typename E1, typename E2> friend class GraphAdjMatrix;
 			template <typename K> friend class Array;
 
 		private:
