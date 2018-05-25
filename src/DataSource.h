@@ -13,6 +13,7 @@ using namespace std;
 #include "./data_src/GutenbergBook.h"
 #include "./data_src/CancerIncidence.h"
 #include "./data_src/ActorMovieIMDB.h"
+#include "./data_src/Song.h"
 
 
 namespace bridges{
@@ -188,10 +189,10 @@ namespace bridges{
 			return wrapper;
 		}
 		/**
-		 *	Valid endpoints:  ??
-		 *	Valid queryParams: format{simple}
+		 *	Valid endpoints:  https://bridgesdata.herokuapp.com/api/songs/find/
+		 *	Valid queryParams: song title, artist name
 		 */
-		Song* getSongData(string songTitle, string artistName) {
+		Song getSong(string songTitle, string artistName) {
 			using namespace rapidjson;
 
 			Document d;
@@ -209,21 +210,52 @@ namespace bridges{
 					// need to throw an exception or something
 			}
 			
-			d.Parse(ServerComm::makeRequest( url,
-				{"Accept: application/json"}).c_str());
+			d.Parse(ServerComm::makeRequest( url, {"Accept: application/json"}).c_str());
 
-			Song *song = new Song (
+			return Song (
 						d["artist"].GetString(),
 						d["song"].GetString(),
 						d["album"].GetString(),
 						d["lyrics"].GetString(),
 						d["release_date"].GetString()
-					)
-				);
-			}
-			return song;
+					);
 		}
+		/**
+		 *  Retrieives all the songs in the DB
+		 *
+		 *	Valid endpoints:  https://bridgesdata.herokuapp.com/api/songs/
+		 */
+		vector<Song> getSongData() {
+			using namespace rapidjson;
 
+			Document d;
+			vector<Song> all_songs;
+
+			string url = "https://bridgesdata.herokuapp.com/api/songs/";
+										// retrieve the data and parse
+			
+			d.Parse(ServerComm::makeRequest( url,
+				{"Accept: application/json"}).c_str());
+
+			const Value& D = d["data"];
+
+										// get the songs and put them into a vector
+			for (SizeType i = 0; i < D.Size(); i++) {
+				const Value& v = D[i];
+
+cout << v["artist"].GetString() << endl;
+				string artist 	= (v.HasMember("artist"))? v["artist"].GetString(): string();
+				string song 	= (v.HasMember("song"))	? v["song"].GetString(): string();
+				string album 	= (v.HasMember("album"))	? v["album"].GetString(): string();
+				string lyrics 	= (v.HasMember("lyrics"))? v["lyrics"].GetString(): string();
+				string release_date = (v.HasMember("release_date"))? 
+								v["release_date"].GetString(): string();
+
+
+				all_songs.push_back( Song ( artist, song, album, lyrics, release_date) );
+			}
+			return all_songs;
+		}
 		/**
 		 *
 		 *	Valid endpoints: 'poems','plays', <title>

@@ -11,6 +11,7 @@ using namespace std;
 #include "./data_src/GutenbergBook.h"
 #include "./data_src/CancerIncidence.h"
 #include "./data_src/ActorMovieIMDB.h"
+#include "./data_src/Song.h"
 
 namespace bridges {
 	namespace DataSource {
@@ -21,6 +22,8 @@ namespace bridges {
 		vector<CancerIncidence> getCancerIncidenceData(int);
 		vector<ActorMovieIMDB> getActorMovieIMDBData(int);
 		vector<ActorMovieIMDB> getActorMovieIMDBData2(int);
+		vector<Song> getSongData();
+		Song getSong(string, string);
 		
 	}
 	/**
@@ -37,6 +40,9 @@ namespace bridges {
 			friend vector<CancerIncidence> DataSource::getCancerIncidenceData(int);
 			friend vector<ActorMovieIMDB> DataSource::getActorMovieIMDBData(int);
 			friend vector<ActorMovieIMDB> DataSource::getActorMovieIMDBData2(int);
+			friend vector<Song> DataSource::getSongData();
+			friend Song DataSource::getSong(string, string);
+			friend vector<GutenbergBook> DataSource::getGutenbergBookData(int);
 
 			ServerComm() = delete; //Prevents instantiation
 

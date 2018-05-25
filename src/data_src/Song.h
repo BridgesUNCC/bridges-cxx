@@ -14,15 +14,13 @@
  *
  */
 
-#include DataSource.h
-
 #ifndef SONG_H
 #define SONG_H
 
 
 namespace bridges {
 
-	class Song : public  DataSource {
+	class Song {
 		private:
 			string 	artist, // song author			
 					song,	// song title
@@ -82,3 +80,5 @@ namespace bridges {
 	};
 
 } // namespace bridges
+
+#endif
