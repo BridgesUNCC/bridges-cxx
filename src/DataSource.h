@@ -187,6 +187,42 @@ namespace bridges{
 			}
 			return wrapper;
 		}
+		/**
+		 *	Valid endpoints:  ??
+		 *	Valid queryParams: format{simple}
+		 */
+		Song* getSongData(string songTitle, string artistName) {
+			using namespace rapidjson;
+
+			Document d;
+			vector<Song> wrapper;
+			string url = "https://bridgesdata.herokuapp.com/api/songs/find/";
+										// retrieve the data and parse
+			if (songTitle.size())
+				url += songTitle;
+			else{
+					// need to throw an exception or something
+			}
+			if (artistName.size())
+				url += "?artistName=" + artistName;
+			else{
+					// need to throw an exception or something
+			}
+			
+			d.Parse(ServerComm::makeRequest( url,
+				{"Accept: application/json"}).c_str());
+
+			Song *song = new Song (
+						d["artist"].GetString(),
+						d["song"].GetString(),
+						d["album"].GetString(),
+						d["lyrics"].GetString(),
+						d["release_date"].GetString()
+					)
+				);
+			}
+			return song;
+		}
 
 		/**
 		 *
