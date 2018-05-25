@@ -231,28 +231,28 @@ namespace bridges{
 			Document d;
 			vector<Song> all_songs;
 
-			string url = "https://bridgesdata.herokuapp.com/api/songs/";
+			string url = "http://bridgesdata.herokuapp.com/api/songs/";
 										// retrieve the data and parse
 			
 			d.Parse(ServerComm::makeRequest( url,
 				{"Accept: application/json"}).c_str());
 
+
 			const Value& D = d["data"];
 
-										// get the songs and put them into a vector
+							// get the songs and put them into a vector
 			for (SizeType i = 0; i < D.Size(); i++) {
 				const Value& v = D[i];
 
-cout << v["artist"].GetString() << endl;
+//cout << v["artist"].GetString() << endl;
 				string artist 	= (v.HasMember("artist"))? v["artist"].GetString(): string();
 				string song 	= (v.HasMember("song"))	? v["song"].GetString(): string();
 				string album 	= (v.HasMember("album"))	? v["album"].GetString(): string();
 				string lyrics 	= (v.HasMember("lyrics"))? v["lyrics"].GetString(): string();
 				string release_date = (v.HasMember("release_date"))? 
 								v["release_date"].GetString(): string();
-
-
 				all_songs.push_back( Song ( artist, song, album, lyrics, release_date) );
+
 			}
 			return all_songs;
 		}
