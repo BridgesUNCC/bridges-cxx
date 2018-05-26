@@ -161,13 +161,17 @@ namespace bridges{
 		 *	Valid queryParams: format{simple}
 		 */
 		vector<Shakespeare> getShakespeareData(string endpoint = "", 
-									bool simple = false) {
+									bool textonly = false) {
 			using namespace rapidjson;
 			Document d;
 			vector<Shakespeare> wrapper;
+			
 			string url = 
-				"http://bridgesdata.herokuapp.com/api/shakespeare/"+endpoint;
-			if(simple){
+				"http://bridgesdata.herokuapp.com/api/shakespeare/";
+
+			if (endpoint == "plays" || endpoint == "poems")
+				url += "/" + endpoint;
+			if (textonly){
 				url += "?format=simple";
 			}
 										// retrieve the data and parse
@@ -189,7 +193,7 @@ namespace bridges{
 			return wrapper;
 		}
 		/**
-		 *	Valid endpoints:  https://bridgesdata.herokuapp.com/api/songs/find/
+		 *	Valid endpoints:  http://bridgesdata.herokuapp.com/api/songs/find/
 		 *	Valid queryParams: song title, artist name
 		 */
 		Song getSong(string songTitle, string artistName) {
@@ -197,7 +201,7 @@ namespace bridges{
 
 			Document d;
 			vector<Song> wrapper;
-			string url = "https://bridgesdata.herokuapp.com/api/songs/find/";
+			string url = "http://bridgesdata.herokuapp.com/api/songs/find/";
 										// retrieve the data and parse
 			if (songTitle.size())
 				url += songTitle;
@@ -210,15 +214,21 @@ namespace bridges{
 					// need to throw an exception or something
 			}
 			
-			d.Parse(ServerComm::makeRequest( url, {"Accept: application/json"}).c_str());
+			d.Parse(ServerComm::makeRequest( url, 
+					{"Accept: application/json"}).c_str());
 
-			return Song (
-						d["artist"].GetString(),
-						d["song"].GetString(),
-						d["album"].GetString(),
-						d["lyrics"].GetString(),
-						d["release_date"].GetString()
-					);
+			string artist 	= (d.HasMember("artist"))? 
+							d["artist"].GetString(): string();
+			string song 	= (d.HasMember("song"))	? 
+							d["song"].GetString(): string();
+			string album 	= (d.HasMember("album"))	? 
+							d["album"].GetString(): string();
+			string lyrics 	= (d.HasMember("lyrics"))? 
+							d["lyrics"].GetString(): string();
+			string release_date = (d.HasMember("release_date"))? 
+							d["release_date"].GetString(): string();
+			
+			return Song (artist, song, album, lyrics, release_date);
 		}
 		/**
 		 *  Retrieives all the songs in the DB
