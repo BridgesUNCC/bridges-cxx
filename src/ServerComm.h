@@ -99,6 +99,8 @@ namespace bridges {
 					// Perform the request, res will get the return code
 					CURLcode res = curl_easy_perform(curl);
 
+cout << "Error:" << res << "  url:" << url << endl;
+
 					if (res != CURLE_OK) {
 						throw "curl_easy_perform() failed.\nCurl Error Code "
 						+ to_string(res) + "\n" + curl_easy_strerror(res) + 

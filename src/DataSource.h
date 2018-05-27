@@ -201,7 +201,7 @@ namespace bridges{
 
 			Document d;
 			vector<Song> wrapper;
-			string url = "http://bridgesdata.herokuapp.com/api/songs/find/";
+			string url = "https://bridgesdata.herokuapp.com/api/songs/find/";
 										// retrieve the data and parse
 			if (songTitle.size())
 				url += songTitle;
@@ -212,6 +212,12 @@ namespace bridges{
 				url += "?artistName=" + artistName;
 			else{
 					// need to throw an exception or something
+			}
+						// check for spaces in url and replace them by '%20'
+			string::size_type n = 0;
+		    while ( (n = url.find(" ", n)) != string::npos) {
+				url.replace(n, 1, "%20");
+				n++;
 			}
 			
 			d.Parse(ServerComm::makeRequest( url, 
