@@ -31,6 +31,18 @@ namespace bridges{
 
 	namespace DataSource {
 
+		/**
+		 *
+		 *  Get meta data of the IGN games collection.
+		 *
+		 *  This function retrieves  and formats the data into a list of
+		 *  Game objects
+		 *
+		 *  @throws Exception if the request fails
+		 *
+		 *  @return a list of Game objects,
+		 *
+		 */
 		vector<Game> getGameData() {
 			using namespace rapidjson;
 			Document d;
@@ -60,7 +72,17 @@ namespace bridges{
 			}
 			return wrapper;
 		}
-
+		/**
+		 *  Get ActorMovie IMDB Data
+		 *  retrieved, formatted into a list of ActorMovieIMDB objects
+		 *
+		 *  @param number the number of actor/movie pairs, but currently unused,
+		 *      returns all records.
+		 *  @throws Exception if the request fails
+		 *
+		 *  @return a list of ActorMovieIMDB objects, but only actor and 
+		 *			movie fields in this version
+		 */
 		vector<ActorMovieIMDB> getActorMovieIMDBData(int number = 0) {
 			using namespace rapidjson;
 			Document d;
@@ -84,7 +106,18 @@ namespace bridges{
 			return wrapper;
 		}
 
-		vector<ActorMovieIMDB> getActorMovieIMDBData2(int number = 0) {
+		
+		/**
+		 *  Get ActorMovie IMDB Data
+		 *  retrieved, formatted into a list of ActorMovieIMDB objects
+		 *
+		 *  @throws Exception if the request fails
+		 *
+		 *  @return a list of ActorMovieIMDB objects, consisting of  
+		 *	actor name, movie name, movie genre and movie rating is returned.
+		 *
+		 */
+		vector<ActorMovieIMDB> getActorMovieIMDBData2() {
 			using namespace rapidjson;
 			Document d;
 			vector<ActorMovieIMDB> wrapper;
@@ -110,7 +143,18 @@ namespace bridges{
 			return wrapper;
 		}
 
-		vector<EarthquakeUSGS> getEarthquakeData(int number = 0) {
+		/**
+		 *  Get USGS earthquake data
+		 *  USGS Tweet data (https://earthquake.usgs.gov/earthquakes/map/)
+		 *  retrieved, formatted into a list of EarthquakeUSGS objects
+		 *
+		 *  @param number the number of earthquake records retrieved, 
+		 *		limited to 5000
+		 *  @throws Exception if the request fails
+		 *
+		 *  @return a list of earthquake records
+		 */
+		vector<EarthquakeUSGS> getEarthquakeUSGSData(int number = 0) {
 			using namespace rapidjson;
 			Document d;
 			vector<EarthquakeUSGS> wrapper;
@@ -157,8 +201,23 @@ namespace bridges{
 			return wrapper;
 		}
 		/**
+		 *
+		 *  Get data of Shakespeare works (plays, poems)
+		 *
+		 *  This function retrieves  and formats the data into a
+		 *  a list of Shakespeare objects.
+		 *
 		 *	Valid endpoints: 'poems','plays', <title>
 		 *	Valid queryParams: format{simple}
+		 *
+		 *  @throws Exception if the request fails
+		 *
+		 *  @param works  can be either "plays" or "poems". If this is 
+		 *		specified, then only these types of works are retrieved.
+		 *  @param textOnly  if this is set, then only the text is retrieved.
+		 *
+		 *  @return an array of Shakespeare objects
+		 *
 		 */
 		vector<Shakespeare> getShakespeareData(string endpoint = "", 
 									bool textonly = false) {
@@ -193,8 +252,20 @@ namespace bridges{
 			return wrapper;
 		}
 		/**
+		 *
+		 *  Get data of a particular songs (including lyrics) using the Genius API
+		 *  (https://docs.genius.com/), given the song title and artist name.
 		 *	Valid endpoints:  http://bridgesdata.herokuapp.com/api/songs/find/
 		 *	Valid queryParams: song title, artist name
+		 *
+		 *  This function retrieves  and formats the data into a
+		 *  Song object. The song if not cached in the local DB is queried
+		 *  and added to the DB
+		 *
+		 *  @throws Exception if the request fails
+		 *
+		 *  @return a Song object,
+		 *
 		 */
 		Song getSong(string songTitle, string artistName) {
 			using namespace rapidjson;
@@ -237,9 +308,19 @@ namespace bridges{
 			return Song (artist, song, album, lyrics, release_date);
 		}
 		/**
-		 *  Retrieives all the songs in the DB
 		 *
+		 *  Get data of the songs (including lyrics) using the Genius API
+		 *  https://docs.genius.com/
 		 *	Valid endpoints:  https://bridgesdata.herokuapp.com/api/songs/
+		 *
+		 *  This function retrieves  and formats the data into a list of
+		 *  Song objects. This version of the API retrieves all the cached
+		 *  songs in the local DB.
+		 *
+		 *  @throws Exception if the request fails
+		 *
+		 *  @return a list of Song objects,
+		 *
 		 */
 		vector<Song> getSongData() {
 			using namespace rapidjson;
@@ -274,8 +355,13 @@ namespace bridges{
 		}
 		/**
 		 *
-		 *	Valid endpoints: 'poems','plays', <title>
-		 *	Valid queryParams: format{simple}
+		 *  Get meta data of the Gutenberg book collection (1000 books)
+		 *  This function retrieves,  and formats the data into a list of
+		 *  GutenbergBook objects
+		 *
+		 *  @throws Exception if the request fails
+		 *
+		 *  @return a list of GutenbergBook objects,
 		 *
 		 */
 		vector<GutenbergBook> getGutenbergBookData(int num = 0) {
