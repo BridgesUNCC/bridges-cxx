@@ -78,42 +78,42 @@ namespace bridges {
 					//setting verbose
 					if (0) {
 						res = curl_easy_setopt(curl, CURLOPT_VERBOSE, 1L);
-				       		if (! res == CURLE_OK)
+				       		if (res != CURLE_OK)
 							throw "curl_easy_setopt failed";
 						}
 					// setting error buffer
 					res = curl_easy_setopt(curl, CURLOPT_ERRORBUFFER, error_buffer);
-					if (! res == CURLE_OK)
+					if (res != CURLE_OK)
 						throw "curl_easy_setopt failed";
 
 					// set the URL to GET from
 					res = curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
-					if (! res == CURLE_OK)
+					if (res != CURLE_OK)
 						throw "curl_easy_setopt failed";
 					//pass pointer to callback function
 					res = curl_easy_setopt(curl, CURLOPT_WRITEDATA, &results);
-					if (! res == CURLE_OK)
+					if (res != CURLE_OK)
 						throw "curl_easy_setopt failed";
 					//sends all data to this function
 					res = curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, curlWriteFunction);
-					if (! res == CURLE_OK)
+					if (res != CURLE_OK)
 						throw "curl_easy_setopt failed";
 					// need this to catch http errors
 					res = curl_easy_setopt(curl, CURLOPT_FAILONERROR, 1L);
-					if (! res == CURLE_OK)
+					if (res != CURLE_OK)
 						throw "curl_easy_setopt failed";
 					if (data.length() > 0) {
 						// Now specify the POST data
 						res = curl_easy_setopt(curl, CURLOPT_POSTFIELDS, data.c_str());
-						if (! res == CURLE_OK)
+						if (res != CURLE_OK)
 							throw "curl_easy_setopt failed";
 						// Now specify the POST data size
 						res = curl_easy_setopt(curl, CURLOPT_POSTFIELDSIZE, data.length());
-						if (! res == CURLE_OK)
+						if (res != CURLE_OK)
 							throw "curl_easy_setopt failed";
 						//  a post request
 						res = curl_easy_setopt(curl, CURLOPT_POST, 1L);
-						if (! res == CURLE_OK)
+						if (res != CURLE_OK)
 							throw "curl_easy_setopt failed";
 					}
 
@@ -122,7 +122,7 @@ namespace bridges {
 						curlHeaders = curl_slist_append(curlHeaders, header.c_str());
 					}
 					res = curl_easy_setopt(curl, CURLOPT_HTTPHEADER, curlHeaders);
-					if (! res == CURLE_OK)
+					if (res != CURLE_OK)
 						throw "curl_easy_setopt failed";
 
 					// Perform the request, res will get the return code
