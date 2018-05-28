@@ -1,8 +1,3 @@
-/**
- * @brief This is a class in BRIDGES for representing an (n x n) grid.
- * @author David Burlinson, C++ port Kalpathi Subramanian
- * @param
-**/
 
 #include "DataStructure.h"
 #include <vector>
@@ -11,6 +6,18 @@
 using namespace std;
 
 namespace bridges {
+
+/**
+ * @brief This is a class in BRIDGES for representing an (n x n) grid.
+ *
+ * This class will be useful in applications such as image processing, board
+ * games, etc.
+ *
+ * @author David Burlinson, C++ port Kalpathi Subramanian
+ *
+ * @param E
+ **/
+
 
 	template <typename E> 
 	class Grid : public  DataStructure {
