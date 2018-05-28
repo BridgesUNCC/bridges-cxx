@@ -252,7 +252,7 @@ namespace bridges {
 				ServerComm::makeRequest(BASE_URL + to_string(assn_num) + "." +
 					(part > 9 ? "" : "0") + to_string(part) + "?apikey=" + api_key +
 											"&username=" + user_name,
-				{"Content-Type: application/json"}, ds_json);
+				{"Content-Type: text/plain"}, ds_json);
 				cout << "Success: Assignment posted to the server. " << endl <<
 					"Check out your visualization at:" << endl << endl
 					<< BASE_URL + to_string(assn_num) + "/" + user_name << endl << endl;
