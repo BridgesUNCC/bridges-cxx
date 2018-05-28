@@ -16,12 +16,12 @@ using namespace std;
 namespace bridges {
 	namespace DataSource {
 		vector<Game> getGameData();
-		vector<EarthquakeUSGS> getEarthquakeData(int);
+		vector<EarthquakeUSGS> getEarthquakeUSGSData(int);
 		vector<Shakespeare> getShakespeareData(string, bool);
 		vector<GutenbergBook> getGutenbergBookData(int);
 		vector<CancerIncidence> getCancerIncidenceData(int);
 		vector<ActorMovieIMDB> getActorMovieIMDBData(int);
-		vector<ActorMovieIMDB> getActorMovieIMDBData2(int);
+		vector<ActorMovieIMDB> getActorMovieIMDBData2();
 		vector<Song> getSongData();
 		Song getSong(string, string);
 		
@@ -31,15 +31,15 @@ namespace bridges {
 	 *			is not intended for external use
 	 */
 	class ServerComm {
-			//Used to access to this class private functions
+						//Used to access to this class private functions
 			friend void Bridges::visualize();
 			friend vector<Game> DataSource::getGameData();
-			friend vector<EarthquakeUSGS> DataSource::getEarthquakeData(int);
+			friend vector<EarthquakeUSGS> DataSource::getEarthquakeUSGSData(int);
 			friend vector<Shakespeare> DataSource::getShakespeareData(string, bool);
 			friend vector<GutenbergBook> DataSource::getGutenbergBookData(int);
 			friend vector<CancerIncidence> DataSource::getCancerIncidenceData(int);
 			friend vector<ActorMovieIMDB> DataSource::getActorMovieIMDBData(int);
-			friend vector<ActorMovieIMDB> DataSource::getActorMovieIMDBData2(int);
+			friend vector<ActorMovieIMDB> DataSource::getActorMovieIMDBData2();
 			friend vector<Song> DataSource::getSongData();
 			friend Song DataSource::getSong(string, string);
 			friend vector<GutenbergBook> DataSource::getGutenbergBookData(int);
@@ -99,7 +99,6 @@ namespace bridges {
 					// Perform the request, res will get the return code
 					CURLcode res = curl_easy_perform(curl);
 
-cout << "Error:" << res << "  url:" << url << endl;
 
 					if (res != CURLE_OK) {
 						throw "curl_easy_perform() failed.\nCurl Error Code "

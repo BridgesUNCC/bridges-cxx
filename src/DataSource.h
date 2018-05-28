@@ -272,7 +272,7 @@ namespace bridges{
 
 			Document d;
 			vector<Song> wrapper;
-			string url = "https://bridgesdata.herokuapp.com/api/songs/find/";
+			string url = "http://bridgesdata.herokuapp.com/api/songs/find/";
 										// retrieve the data and parse
 			if (songTitle.size())
 				url += songTitle;
