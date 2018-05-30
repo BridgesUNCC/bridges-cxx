@@ -174,8 +174,8 @@ namespace bridges {
 		 *  @param flag     this is the boolean flag for displaying a map overlay
 		 *
 		 **/
-		void setMapOverlay (bool flag) {
-			map_overlay = flag;
+		void setMapOverlay (bool overlay_flag) {
+			map_overlay = overlay_flag;
 		}
 
 		/**
@@ -239,6 +239,7 @@ namespace bridges {
 				QUOTE + "visual" + QUOTE + COLON + QUOTE + ds_type + QUOTE + COMMA +
 				QUOTE + "title" + QUOTE + COLON + QUOTE + getTitle() + QUOTE + COMMA +
 				QUOTE + "description" + QUOTE + COLON + QUOTE + getDescription() + QUOTE + COMMA +
+				QUOTE + "map_overlay" + QUOTE + COLON + ((map_overlay) ? "true" : "false") + COMMA +
 				QUOTE + "coord_system_type" + QUOTE + COLON + QUOTE + getCoordSystemType() + QUOTE + COMMA;
 
 			// for Array and Grid types, must pass dimensions
