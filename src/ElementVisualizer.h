@@ -14,7 +14,7 @@ namespace bridges {
 	 * Visualiztions, including the color, shape, and size of the node.
 	 * Defaults of green, circle, and 10.0 respectively.
 	 *
-	 * Size values must range from [10.0,50.0].
+	 * Size values must range from [1.0,50.0].
 	 * BRIDGES supports the following shapes: "circle", "square", "diamond",
 	 *  "cross", "triangle-down", "triangle-up"
 	 *
@@ -48,15 +48,15 @@ namespace bridges {
 				: color(hue), size(sz), shape(shp) {}
 			/**
 			 * Sets size to "sz"
-			 * Valid Range:[10,50]
+			 * Valid Range:[1,50]
 			 *
 			 * @param size The size in pixel weight of the element
 			 * @throw string If size is invalid
 			 */
 			void setSize(const double& sz) {
-				(sz < 10 || 50 < sz)
+				(sz < 1 || 50 < sz)
 				? throw "Invalid Size Value.. " + to_string(sz) +
-				" Must be in the [10.0,50.0] range"
+				" Must be in the [1.0,50.0] range"
 				: size = sz;
 			}
 			/** @return The size in pixel weight of the element*/
