@@ -42,7 +42,6 @@ namespace bridges {
 			friend vector<ActorMovieIMDB> DataSource::getActorMovieIMDBData2();
 			friend vector<Song> DataSource::getSongData();
 			friend Song DataSource::getSong(string, string);
-			friend vector<GutenbergBook> DataSource::getGutenbergBookData(int);
 
 			ServerComm() = delete; //Prevents instantiation
 
