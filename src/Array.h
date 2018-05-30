@@ -93,6 +93,10 @@ namespace bridges {
 			void setDimensions(int *dim) {
 				int sz = 1;
 				for (int k = 0; k < num_dims; k++) {
+					if (dims[k] <= 0) {
+						cout << "Dimensions of array must be positive!" << endl
+						<< "\tProvided dimension: " << dims[k] << endl;
+					}
 					dims[k] = dim[k];
 					sz *= dim[k];
 				}
