@@ -73,6 +73,10 @@ namespace bridges {
 				elvis = new ElementVisualizer;
 			}
 
+			virtual ~Element() {
+			  delete elvis;
+			}
+				
 			/**
 			 *	@return The ElementVisualizer of this element
 			 */
