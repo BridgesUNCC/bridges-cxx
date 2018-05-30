@@ -26,9 +26,9 @@ namespace bridges {
 		static DataStructure* ds_handle = nullptr;  // data structure handle
 		static string server_url = "http://bridges-cs.herokuapp.com";
 							// map overlay options
-		static string map_overlay_options[] = {"Cartesian", "albersUsa", "equirectangular"};
+		static string map_overlay_options[] = {"cartesian", "albersusa", "equirectangular"};
 		static bool map_overlay = false;
-		static string coord_system_type = "Cartesian";
+		static string coord_system_type = "cartesian";
 
 		/**
 		 *	@return flag indicating if JSON should be printed upon visualization
@@ -179,10 +179,10 @@ namespace bridges {
 		}
 
 		/**
-		 *  Sets the coordinate system type for location specific datasets; default is Cartesian
+		 *  Sets the coordinate system type for location specific datasets; default is cartesian
 		 *
 		 *	@param coord    this is the desired coordinate space argument
-		 *		Options are: ['Cartesian', 'albersUsa', 'equirectangular']. 'Cartesian' 
+		 *		Options are: ['cartesian', 'albersusa', 'equirectangular']. 'cartesian' 
 		 *		is the default
 		 *
 		 **/
@@ -192,7 +192,7 @@ namespace bridges {
 				coord_system_type = coord;
 			else  {
 				cout << "Unrecognized coordinate system \'" + coord + "\', defaulting to " 
-					<< "Cartesian. Options:";
+					<< "cartesian. Options:";
 				for (auto proj : map_overlay_options) 
 					cout <<  + "\t" ;
 				coord_system_type = "cartesian";
@@ -202,7 +202,7 @@ namespace bridges {
 		 *  Gets the coordinate system type for location specific datasets
 		 *
 		 *	@return coord system type ; will be one of   
-		 *	['Cartesian', 'albersUsa', 'equirectangular']. 'Cartesian' 
+		 *	['cartesian', 'albersUsa', 'equirectangular']. 'cartesian' 
 		 *
 		 **/
 		string  getCoordSystemType () {
