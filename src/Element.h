@@ -53,7 +53,7 @@ namespace bridges {
 			// appl. specific data stored with element
 			E value = E();
 			// this element's visualizer
-			ElementVisualizer *elvis;
+			ElementVisualizer* elvis;
 
 		protected:
 
@@ -73,6 +73,18 @@ namespace bridges {
 				elvis = new ElementVisualizer;
 			}
 
+	                Element(const Element& e)
+			  :label(e.label), value(e.value), elvis(new ElementVisualizer(*(e.elvis))), links(e.links) {
+			}
+
+			Element& operator= (const Element& e) {
+			  this->label = e.label;
+			  this->value = e.value;
+			  *(this->elvis) = *(e.elvis);
+			  this->links = e.links;
+			  return *this;
+			}
+				
 			virtual ~Element() {
 			  delete elvis;
 			}
