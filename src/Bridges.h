@@ -2,6 +2,8 @@
 #define BRIDGES_H
 
 #include <iostream>
+#include <algorithm>
+using namespace std;
 
 #include "DataStructure.h" //string, using std
 #include "ServerComm.h" //vector
@@ -23,6 +25,10 @@ namespace bridges {
 		static int *dims = nullptr;
 		static DataStructure* ds_handle = nullptr;  // data structure handle
 		static string server_url = "http://bridges-cs.herokuapp.com";
+							// map overlay options
+		static string map_overlay_options[] = {"Cartesian", "albersUsa", "equirectangular"};
+		static bool map_overlay = false;
+		static string coord_system_type = "Cartesian";
 
 		/**
 		 *	@return flag indicating if JSON should be printed upon visualization
@@ -162,6 +168,48 @@ namespace bridges {
 		}
 
 		/**
+		 *	Turns on map overlay for subsequent visualizations - used with location specific
+		 *	datasets
+		 *
+		 *  @param flag     this is the boolean flag for displaying a map overlay
+		 *
+		 **/
+		void setMapOverlay (bool flag) {
+			map_overlay = flag;
+		}
+
+		/**
+		 *  Sets the coordinate system type for location specific datasets; default is Cartesian
+		 *
+		 *	@param coord    this is the desired coordinate space argument
+		 *		Options are: ['Cartesian', 'albersUsa', 'equirectangular']. 'Cartesian' 
+		 *		is the default
+		 *
+		 **/
+		void setCoordSystemType (string coord) {
+			std::transform(coord.begin(), coord.end(), coord.begin(), ::tolower);
+			if (coord == "cartesian" ||coord == "albersusa" || coord == "equirectangular")
+				coord_system_type = coord;
+			else  {
+				cout << "Unrecognized coordinate system \'" + coord + "\', defaulting to " 
+					<< "Cartesian. Options:";
+				for (auto proj : map_overlay_options) 
+					cout <<  + "\t" ;
+				coord_system_type = "cartesian";
+			}
+		}
+		/**
+		 *  Gets the coordinate system type for location specific datasets
+		 *
+		 *	@return coord system type ; will be one of   
+		 *	['Cartesian', 'albersUsa', 'equirectangular']. 'Cartesian' 
+		 *
+		 **/
+		string  getCoordSystemType () {
+			return coord_system_type;
+		}
+
+		/**
 		 * Sends relevant data handle information to the server, and
 		 * upon successful completion, prints the URL to display the
 		 * Bridges visualization.
@@ -191,7 +239,7 @@ namespace bridges {
 				QUOTE + "visual" + QUOTE + COLON + QUOTE + ds_type + QUOTE + COMMA +
 				QUOTE + "title" + QUOTE + COLON + QUOTE + getTitle() + QUOTE + COMMA +
 				QUOTE + "description" + QUOTE + COLON + QUOTE + getDescription() + QUOTE + COMMA +
-				QUOTE + "coord_system_type" + QUOTE + COLON + QUOTE + "Cartesian" + QUOTE + COMMA;
+				QUOTE + "coord_system_type" + QUOTE + COLON + QUOTE + getCoordSystemType() + QUOTE + COMMA;
 
 			// for Array and Grid types, must pass dimensions
 			if (ds_type == "Array") {
