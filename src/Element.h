@@ -255,8 +255,9 @@ namespace bridges {
 		{SQUARE, "square"},
 		{DIAMOND, "diamond"},
 		{CROSS, "cross"},
-		{TRI_DOWN, "triangle-down"},
-		{TRI_UP, "triangle-up"}
+		{TRIANGLE, "triangle"},
+		{WYE, "wye"},
+		{STAR, "star"}
 	};
 
 

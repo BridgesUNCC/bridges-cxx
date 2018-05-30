@@ -6,7 +6,7 @@
 
 namespace bridges {
 	/** Enumeration of valid shapes for visualization */
-	enum Shape {CIRCLE, SQUARE, DIAMOND, CROSS, TRI_DOWN, TRI_UP};
+	enum Shape {CIRCLE, SQUARE, DIAMOND, CROSS, TRIANGLE, STAR, WYE};
 	/**
 	 * @brief This class maintains the visual properties of the  a Bridges element
 	 *

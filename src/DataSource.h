@@ -87,7 +87,8 @@ namespace bridges{
 			using namespace rapidjson;
 			Document d;
 			vector<ActorMovieIMDB> wrapper;
-			string url = "https://bridgesdata.herokuapp.com/api/imdb";
+			string url = "http://bridgesdata.herokuapp.com/api/imdb?limit=" + 
+								to_string(number);
 
 										// retrieve the data and parse
 			d.Parse(ServerComm::makeRequest( url,
