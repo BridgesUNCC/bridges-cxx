@@ -141,6 +141,7 @@ namespace bridges {
 					throw "curl_easy_init() failed!\nNothing retrieved from server.\n";
 				}
 
+				curl_global_cleanup();
 				return results;
 			}
 	}; //server comm
