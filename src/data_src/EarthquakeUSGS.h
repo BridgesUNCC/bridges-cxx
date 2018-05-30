@@ -28,14 +28,14 @@ namespace bridges {
 			string time;				// date
 
 									// access by date
-			int year, month, day,  hour, min, sec;
+			mutable int year, month, day,  hour, min, sec;
 
 			/**
 			 *  Gets the epoch time of the quake - used internally to get
 			 *	actual date - year, month, day, etc
 			 *
 			 */
-			void getDate () {
+			void getDate () const {
 								// get eq's epoch time
 				string s = getTime();
 
@@ -97,7 +97,7 @@ namespace bridges {
 			 *  @return string
 			 */
 
-			string getTime() {
+			string getTime() const {
 				return time;
 			}
 			
@@ -107,7 +107,7 @@ namespace bridges {
 			 *
 			 *  @return  string
 			 */
-			string getDateStr() {
+			string getDateStr() const {
 				getDate();
 				string mstr;
 
@@ -150,7 +150,7 @@ namespace bridges {
 			 *	@return (int)
 			 *
 			 */
-			int getYear() {
+			int getYear() const{
 				getDate();
 
 				return year;
@@ -161,7 +161,7 @@ namespace bridges {
 			 *	@return (int)
 			 *
 			 */
-			int getMonth() {
+			int getMonth() const {
 				getDate();
 
 				return month;
@@ -172,7 +172,7 @@ namespace bridges {
 			 *	@return (int)
 			 *
 			 */
-			int getDay() {
+			int getDay() const {
 				getDate();
 
 				return day;
@@ -183,7 +183,7 @@ namespace bridges {
 			 *	@return (int)
 			 *
 			 */
-			int getHour() {
+			int getHour() const {
 				getDate();
 
 				return hour;
@@ -194,7 +194,7 @@ namespace bridges {
 			 *	@return (int)
 			 *
 			 */
-			int getMinutes() {
+			int getMinutes() const {
 				getDate();
 
 				return min;
@@ -205,7 +205,7 @@ namespace bridges {
 			 *	@return (int)
 			 *
 			 */
-			int getSeconds() {
+			int getSeconds() const {
 				getDate();
 
 				return sec;
@@ -217,7 +217,7 @@ namespace bridges {
 			 *	@return (float)
 			 *
 			 */
-			float getLatit() {
+			float getLatit() const {
 				return this->latit;
 			}
 			/** 
@@ -235,7 +235,7 @@ namespace bridges {
 			 *	@return (float)
 			 *
 			 */
-			float getLongit() {
+			float getLongit() const {
 				return longit;
 			}
 			/** 
@@ -253,7 +253,7 @@ namespace bridges {
 			 *	@return (string)
 			 *
 			 */
-			string getLocation() {
+			string getLocation() const {
 				return location;
 			}
 			/** 
@@ -271,7 +271,7 @@ namespace bridges {
 			 *	@return (string)
 			 *
 			 */
-			string getTitle() {
+			string getTitle() const {
 				return this->title;
 			}
 			/** 
@@ -289,7 +289,7 @@ namespace bridges {
 			 *	@return (string)
 			 *
 			 */
-			string getUrl() {
+			string getUrl() const {
 				return url;
 			}
 			/** 
@@ -307,7 +307,7 @@ namespace bridges {
 			 *	@return (double)
 			 *
 			 */
-			double getMagnitude() {
+			double getMagnitude() const {
 				return this->magnitude;
 			}
 			/** 
