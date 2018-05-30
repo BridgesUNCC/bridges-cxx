@@ -134,6 +134,7 @@ namespace bridges {
 						"\n"
 						+ error_buffer + "\nPossibly Bad BRIDGES Credentials\n";
 					}
+					curl_slist_free_all(curlHeaders);
 					curl_easy_cleanup(curl);
 				}
 				else {
