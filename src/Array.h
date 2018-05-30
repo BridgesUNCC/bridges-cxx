@@ -63,6 +63,26 @@ namespace bridges {
 				Bridges::setDimensions(dims);
 			}
 
+			Array(int xsize) {
+				dims[0] = xsize; dims[1] = dims[2] = 1;
+				setNumDimensions(1);
+				setDimensions(dims);
+				Bridges::setDimensions(dims);
+			}
+			
+			Array(int xsize, int ysize) {
+				dims[0] = xsize; dims[1] = ysize; dims[2] = 1;
+				setNumDimensions(2);
+				setDimensions(dims);
+				Bridges::setDimensions(dims);
+			}
+			Array(int xsize, int ysize, int zsize) {
+				dims[0] = xsize; dims[1] = ysize; dims[2] = zsize;
+				setNumDimensions(3);
+				setDimensions(dims);
+				Bridges::setDimensions(dims);
+			}
+
 			void setNumDimensions(int nd) {
 				if (nd > 3) {
 					cout << "Only 1D, 2D and 3D arrays supported." << endl;
@@ -95,44 +115,86 @@ namespace bridges {
 					d[k] = dims[k];
 			}
 
-
-			Element<E>& getValue(int indx) {
-				return array_data[indx];
+			/**
+			 *
+			 *  Get the object at index x  - 1D array
+			 *
+			 *  @param x_indx - index into the array
+			 *
+			 *  @return Element<E>  object at 'indx'
+			 */
+			Element<E>& getElement(int x) {
+				return array_data[x];
 			}
 
-			void setValue(int indx, Element<E> el) {
+			/**
+			 *
+			 *  Get the object at x, y, z -- for 3D arrays
+			 *
+			 *  @param x  - column index
+			 *  @param y  - row index
+			 *
+			 *  @return Element<E>  object at x, y
+			 */
+			Element<E>& getElement(int x, int y) {
+				return array_data[y*dims[0] + x];
+			}
+			/**
+			 *
+			 *  Get the object at x, y, z -- for 3D arrays
+			 *
+			 *  @param x  - column index
+			 *  @param y  - row index
+			 *
+			 *  @return Element<E>  object at x, y, z
+			 */
+			Element<E>& getElement(int x, int y, int z) {
+				return array_data[z*dims[0]*dims[1] + y*dims[0] + x];
+			}
+
+			/**
+			 *
+			 *  Set the object at index x  - 1D array
+			 *
+			 *  @param x - index into the array
+			 *  @el - Element object
+			 *
+			 *  @return none
+			 */
+			void setElement(int indx, Element<E> el) {
 				array_data[indx] = el;
 			}
 
-			Element<E>& getValue(int x_indx, int y_indx) {
-				return array_data[x_indx + y_indx * dims[0]];
-			}
-
-			void setValue(int x_indx, int y_indx, Element<E> el) {
+			/**
+			 *
+			 *  Set the object at index x, y  - 2D array
+			 *
+			 *  @param x - col index into the array
+			 *  @param y - row index into the array
+			 *  @el - Element object
+			 *
+			 *  @return none
+			 */
+			void setElement(int x_indx, int y_indx, Element<E> el) {
 				array_data[x_indx + y_indx * dims[0]] = el;
 			}
+			/**
+			 *
+			 *  Set the object at index x, y, z  - 3D array
+			 *
+			 *  @param x - col index into the array
+			 *  @param y - row index into the array
+			 *  @param z - slice index into the array
+			 *  @el - Element object
+			 *
+			 *  @return none
+			 */
 
-
-			Element<E>& getValue(int x_indx, int y_indx, int z_indx) {
-				return array_data[x_indx + y_indx * dims[0] +
-							   z_indx * dims[1] * dims[0]];
-			}
-
-			void setValue(int x_indx, int y_indx, int z_indx, Element<E> el) {
+			void setElement(int x_indx, int y_indx, int z_indx, Element<E> el) {
 				array_data[x_indx + y_indx * dims[0] + z_indx * dims[0]*dims[1]] = el;
 			}
 
 			virtual const string getDStype() const override {
-				/*
-							string s = "1D_Array";
-							if (num_dims == 1)
-								return "1D_Array";
-							else if (num_dims == 2)
-								return "2D_Array";
-							else if (num_dims == 3)
-								return "3D_Array";
-				*/
-
 				return "Array";
 			}
 
