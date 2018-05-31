@@ -42,7 +42,7 @@ namespace bridges {
 				this->release_date = release_date;
 			}
 
-			string getArtist() {
+			string getArtist() const {
 				return artist;
 			}
 
@@ -50,28 +50,28 @@ namespace bridges {
 				this->artist = artist;
 			}
 
-			string getSongTitle() {
+			string getSongTitle() const {
 				return song;
 			}
 			void setSongTitle(string song) {
 				this->song = song;
 			}
 
-			string getAlbumTitle() {
+			string getAlbumTitle() const {
 				return album;
 			}
 			void setAlbumTitle(string album) {
 				this->album = album;
 			}
 
-			string getLyrics() {
+			string getLyrics() const {
 				return lyrics;
 			}
 			void setLyrics(string lyrics) {
 				this->lyrics = lyrics;
 			}
 
-			string getReleaseDate() {
+			string getReleaseDate() const {
 				return release_date;
 			}
 			void setReleaseDate(string release_date) {

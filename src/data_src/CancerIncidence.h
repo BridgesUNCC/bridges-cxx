@@ -62,7 +62,7 @@ class CancerIncidence {
 		 * @return cancer rate
 		 *
 		 */
-		double getAgeAdjustedRate() {
+		double getAgeAdjustedRate() const {
 			return age_adjusted_rate;
 		}
 
@@ -83,7 +83,7 @@ class CancerIncidence {
 		 * @return cancer conf interval (lower) rate
 		 *
 		 */
-		double getAgeAdjustedCI_Lower() {
+		double getAgeAdjustedCI_Lower() const {
 			return age_adjusted_rate_ci[0];
 		}
 
@@ -103,7 +103,7 @@ class CancerIncidence {
 		 * @return cancer conf interval (lower) rate
 		 *
 		 */
-		double getAgeAdjustedCI_Upper() {
+		double getAgeAdjustedCI_Upper() const {
 			return age_adjusted_rate_ci[1];
 		}
 
@@ -122,7 +122,7 @@ class CancerIncidence {
 		 *
 		 * @return crude cancer rate
 		 */
-		double getCrudeRate() {
+		double getCrudeRate() const {
 			return crude_rate;
 		}
 		/** 
@@ -140,7 +140,7 @@ class CancerIncidence {
 		 * @return cancer conf interval (lower) rate
 		 *
 		 */
-		double getCrudeRate_CI_Lower() {
+		double getCrudeRate_CI_Lower() const {
 			return crude_rate_ci[0];
 		}
 
@@ -160,7 +160,7 @@ class CancerIncidence {
 		 * @return cancer crude rate CI (upper) rate
 		 *
 		 */
-		double getCrudeRate_CI_Upper() {
+		double getCrudeRate_CI_Upper() const {
 			return crude_rate_ci[1];
 		}
 
@@ -179,7 +179,7 @@ class CancerIncidence {
 		 *
 		 * @return year
 		 */
-		int getYear() {
+		int getYear() const {
 			return year;
 		}
 
@@ -196,7 +196,7 @@ class CancerIncidence {
 		 *
 		 * @return gender (male, female, male and female)
 		 */
-		string getGender() {
+		string getGender() const {
 			return gender;
 		}
 		/** 
@@ -213,7 +213,7 @@ class CancerIncidence {
 		 *
 		 * @return race (All Races, etc)
 		 */
-		string getRace() {
+		string getRace() const {
 			return race;
 		}
 		/** 
@@ -230,7 +230,7 @@ class CancerIncidence {
 		 *
 		 * @return event (string)
 		 */
-		string getEventType() {
+		string getEventType() const {
 			return event_type;
 		}
 		/** 
@@ -247,7 +247,7 @@ class CancerIncidence {
 		 *
 		 * @return population (int)
 		 */
-		int getPopulation() {
+		int getPopulation() const {
 			return population;
 		}
 		/** 
@@ -264,7 +264,7 @@ class CancerIncidence {
 		 *
 		 * @return area (string)
 		 */
-		string getAffectedArea() {
+		string getAffectedArea() const {
 			return affected_area;
 		}
 		/** 
@@ -281,7 +281,7 @@ class CancerIncidence {
 		 *
 		 * @return incidence count (int)
 		 */
-		int getCount() {
+		int getCount() const {
 			return count;
 		}
 		/** 
@@ -298,7 +298,7 @@ class CancerIncidence {
 		 *
 		 * @return x coordinate
 		 */
-		double getLocationX() {
+		double getLocationX() const {
 			return loc[0];
 		}
 		/**
@@ -316,7 +316,7 @@ class CancerIncidence {
 		 *
 		 * @return y coordinate
 		 */
-		double getLocationY() {
+		double getLocationY() const {
 			return loc[1];
 		}
 		/**

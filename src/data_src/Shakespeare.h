@@ -39,19 +39,19 @@ namespace bridges {
 				this->type = type;
 				this->text = text;
 			}
-			string getTitle() {
+			string getTitle() const {
 				return title;
 			}
 			void setTitle (string title) {
 				this->title = title;
 			}
-			string getType() {
+			string getType() const {
 				return type;
 			}
 			void setType (string type) {
 				this->type = type;
 			}
-			string getText() {
+			string getText() const {
 				return text;
 			}
 			void setText (string text) {

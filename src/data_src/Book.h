@@ -56,84 +56,84 @@ class Book {
 			this->numDifficultWords = numDifficultWords;
 		}
 
-		string getAuthorName() {
+		string getAuthorName() const {
 			return authorName;
 		}
 		void setAuthorName(string authorName) {
 			this->authorName = authorName;
 		}
 
-		int getAuthorBirth() {
+		int getAuthorBirth() const {
 			return authorBirth;
 		}
 		void setAuthorBirth(int authorBirth) {
 			this->authorBirth = authorBirth;
 		}
 
-		int getAuthorDeath() {
+		int getAuthorDeath() const {
 			return authorDeath;
 		}
 		void setAuthorDeath(int authorDeath) {
 			this->authorDeath = authorDeath;
 		}
 
-		string getTitle() {
+		string getTitle() const {
 			return title;
 		}
 		void setTitle(string title) {
 			this->title = title;
 		}
 
-		vector<string>  getLang() {
+		vector<string>  getLang() const {
 			return lang;
 		}
 		void setLang(vector<string> lang)  {
 			this->lang = lang;
 		}
 
-		vector<string>  getGenre() {
+		vector<string>  getGenre() const {
 			return genre;
 		}
 		void setGenre(vector<string> genre)  {
 			this->genre = genre;
 		}
 
-		vector<string>  getSubject() {
+		vector<string>  getSubject() const {
 			return subject;
 		}
 		void setSubject(vector<string> subject)  {
 			this->subject = subject;
 		}
 
-		string getURL() {
+		string getURL() const {
 			return url;
 		}
 		void setURL(string url) {
 			this->url = url;
 		}
 
-		int getNumChars() {
-			return numChars;;
+		int getNumChars() const {
+			return numChars;
 		}
 		void setNumChars(int numChars) {
 			this->numChars = numChars;;
 		}
 
-		int getNumWords() {
+		int getNumWords() const {
 			return numWords;
 		}
 		void setNumWords(int numWords) {
 			this->numWords = numWords;
 		}
 
-		int getNumSentences() {
+		int getNumSentences() const {
 			return numSentences;
 		}
 		void setNumSentences(int numSentences) {
 			this->numSentences = numSentences;
 		}
 
-		int getNumDifficultWords() {
+		int getNumDifficultWords() const {
 			return numDifficultWords;
 		}
 		void setNumDifficultWords(int numDifficultWords) {

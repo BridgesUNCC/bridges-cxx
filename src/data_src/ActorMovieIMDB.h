@@ -36,7 +36,7 @@ class ActorMovieIMDB {
 		 *	@param actor  (string)
 		 *	@param movie  (string)
 	 	 */
-		ActorMovieIMDB(string a, string m){
+		ActorMovieIMDB(const string& a, const string& m){
 			actor = a;
 			movie = m;
 			rating = 0.0;
@@ -51,7 +51,7 @@ class ActorMovieIMDB {
 		 *	@param rating  (float)
 		 *	@param genres  (vector)
 	 	 */
-		ActorMovieIMDB(string a, string m, float r, vector<string> genr){
+		ActorMovieIMDB(const string& a, const string& m, float r, const vector<string>& genr){
 			actor = a;
 			movie = m;
 			rating = r;
@@ -65,7 +65,7 @@ class ActorMovieIMDB {
 	 	 * @return actor name (string)
 	 	 *
 	 	 */
-		string getActor() {
+		string getActor() const {
 			return actor;
 		}
 		/**
@@ -75,7 +75,7 @@ class ActorMovieIMDB {
 	 	 * @param actor name (string)
 	 	 *
 	 	 */
-		void setActor (string a) {
+		void setActor (const string& a) {
 			actor = a;
 		}
 
@@ -86,7 +86,7 @@ class ActorMovieIMDB {
 	 	 * @return movie name (string)
 	 	 *
 	 	 */
-		string getMovie() {
+		string getMovie() const {
 			return movie;
 		}
 		/**
@@ -96,7 +96,7 @@ class ActorMovieIMDB {
 	 	 * @param movie name (string)
 	 	 *
 	 	 */
-		void setMovie (string m) {
+		void setMovie (const string& m) {
 			movie = m;
 		}
 
@@ -107,7 +107,7 @@ class ActorMovieIMDB {
 	 	 * @return movie rating  (double)
 	 	 *
 	 	 */
-		double getMovieRating() {
+		double getMovieRating() const {
 			return rating;
 		}
 
@@ -129,7 +129,7 @@ class ActorMovieIMDB {
 	 	 * @return movie genres  (vector)
 	 	 *
 	 	 */
-		vector<string> getGenres() {
+		vector<string> getGenres() const {
 			return genres;
 		}
 
@@ -140,7 +140,7 @@ class ActorMovieIMDB {
 	 	 * @param movie genres (vector)
 	 	 *
 	 	 */
-		void setGenres(vector<string> g) {
+		void setGenres(const vector<string>& g) {
 			genres = g;
 		}
 	

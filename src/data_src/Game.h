@@ -42,27 +42,27 @@ namespace bridges {
 				this->genre = genre;
 			}
 
-			string getTitle() {
+			string getTitle() const {
 				return title;
 			}
 			void setTitle (string title) {
 				this->title = title;
 			}
 
-			string getPlatformType() {
+			string getPlatformType() const {
 				return platform;
 			}
 			void setPlatformType(string platform) {
 				this->platform = platform;
 			}
 
-			double getRating() {
+			double getRating() const {
 				return rating;
 			}
 			void setRating(double rating) {
 				this->rating = rating;
 			}
-			vector<string> getGameGenre() {
+			vector<string> getGameGenre() const {
 				return genre;
 			}
 			void setGameGenre(vector<string> genre) {
