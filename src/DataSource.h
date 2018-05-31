@@ -213,7 +213,7 @@ namespace bridges{
 		 *
 		 *  @throws Exception if the request fails
 		 *
-		 *  @param works  can be either "plays" or "poems". If this is 
+		 *  @param endpoint  can be either "plays" or "poems". If this is 
 		 *		specified, then only these types of works are retrieved.
 		 *  @param textOnly  if this is set, then only the text is retrieved.
 		 *
