@@ -111,7 +111,7 @@ namespace bridges {
 				return shape;
 			}
 			/**
-			 * Set the location attributes of an element
+			 * Set the location attributes of an element. Set location to INFINITY for bridges to chose the location.
 			 *
 			 * @param locX X coordinate of the element location
 			 * @param locY Y coordinate of the element location
