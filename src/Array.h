@@ -107,7 +107,6 @@ namespace bridges {
 				}
 				size = sz;
 				// allocate space for the array
-				cout << "Array Size: " << size;
 				array_data = new Element<E>[size];
 
 				// for json
