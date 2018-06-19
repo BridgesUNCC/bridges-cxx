@@ -91,6 +91,18 @@ namespace bridges {
 			}
 
 			/**
+			 *
+			 *  @param key The input key value that identifies the row being
+			 *				retrieved
+			 *
+			 *	@return The row  of this adjacency matrix corresponding to the
+			 *			key
+			 */
+			const unordered_map<K, int>& getMatrix(K key) const {
+				return matrix.at(key);
+			}
+
+			/**
 			 *	@return The graph verticies
 			 */
 			unordered_map<K, Element<E1> *>* getVertices() {
