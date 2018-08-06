@@ -22,7 +22,7 @@ using namespace bridges;
 int main()
 {
         //create the Bridges object
-    Bridges::initialize(19,"bridges_public","997924677918");
+    Bridges::initialize(19,"USER_ID","API_KEY");
     DataSource::getEarthquakeData();
     //create elements
     DLelement<string> e0("","Original");
@@ -46,7 +46,6 @@ int main()
     //visualize data structure
     Bridges::visualize();
 
-    /*Bridges::initialize("997924677918","bridges_public",6);
     Element<string> e("","Changed");
     e.setShape(DIAMOND);
     e.setColor(Color(0,0,0,128));
@@ -55,7 +54,6 @@ int main()
     Element<string> es[] = {e,e2};
     Bridges::setDataStructure(es,2);
     Bridges::visualize();*/
-    /*Bridges::initialize("997924677918","bridges_public",2);
     Element<int> e(0,"\\lol");
     cout << e.getRepresentation();
     Bridges::setDataStructure(&e);

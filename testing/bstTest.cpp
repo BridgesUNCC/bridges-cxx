@@ -7,7 +7,7 @@ using namespace bridges;
 
 int main() {
 	//create the Bridges object
-    Bridges::initialize(4, "kalpathi60", "486749122386");
+	Bridges::initialize(19,"USER_ID","API_KEY");
 
 	DataFormatter *dfm = new DataFormatter;
 
