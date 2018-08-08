@@ -84,7 +84,7 @@ namespace bridges {
 			 */
 			void setOpacity(double opacity) {
 				if (opacity >= 0.0 && opacity <= 1.0)
-					color.setAlpha(opacity * 255.);
+				  color.setAlpha((float) (opacity * 255.));
 			}
 
 			/**

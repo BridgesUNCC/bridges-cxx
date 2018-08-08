@@ -218,7 +218,7 @@ namespace bridges {
 			 *
 			 */
 			float getLatit() const {
-				return this->latit;
+			  return (float) this->latit;
 			}
 			/** 
 			 *	set latitude
@@ -236,7 +236,7 @@ namespace bridges {
 			 *
 			 */
 			float getLongit() const {
-				return longit;
+			  return (float) longit;
 			}
 			/** 
 			 *	set longitude of quake location

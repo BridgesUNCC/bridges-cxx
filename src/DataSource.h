@@ -139,7 +139,7 @@ namespace bridges{
 				for(SizeType j = 0; j < G.Size(); j++) {
 					genres.push_back(G[j].GetString());
 				}
-				wrapper.push_back(ActorMovieIMDB( actor, movie, rating, genres));
+				wrapper.push_back(ActorMovieIMDB( actor, movie, (float)rating, genres));
 			}
 			return wrapper;
 		}
