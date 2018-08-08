@@ -56,40 +56,27 @@ namespace bridges {
 
 		public:
 
-			EarthquakeUSGS() {
-				this->magnitude = 0.0;
-				this->latit = 0.0;
-				this->longit = 0.0;
-				this->location = "";
-				this->title = "";
-				this->url = "";
-				this->time = "";
-				this->year = this->month = this->day = this->hour =
-					this->min = this->sec = 0;
-				
-			}
+			EarthquakeUSGS()
+			  :magnitude(0.0), latit(0.0), longit(0.0),
+			  location(""), title(""), url(""), time(""),
+			  year(0), month(0), day(0), hour(0), min(0), sec(0)
+			  {
+			  }
 
-			EarthquakeUSGS(double magnitude_, double longit_, double latit_,
-				string location_, string title_, string url_, string time_) {
-				this->magnitude = magnitude_;
-				this->time = time_;
-				this->longit = longit_;
-				this->latit = latit_;
-				this->location = location_;
-				this->title = title_;
-				this->url = url_;
-				this->time = time_;
-			}
+			EarthquakeUSGS(double magnitude, double longit, double latit,
+				const string& location, const string& title, const string& url, const string& time)
+			  :magnitude(magnitude), latit(latit), longit(longit),
+			  location(location), title(title), url(url), time(time),
+			  year(0), month(0), day(0), hour(0), min(0), sec(0)
+			  {
+			  }
 
-			EarthquakeUSGS(EarthquakeUSGS *eq) {
-				this->magnitude = eq->magnitude;
-				this->latit = eq->latit;
-				this->longit = eq->longit;
-				this->location = eq->location;
-				this->title = eq->getTitle();
-				this->url = eq->url;
-				this->time = eq->time;
-			}
+			EarthquakeUSGS(const EarthquakeUSGS *eq)
+			  :magnitude(eq->magnitude), latit(eq->latit), longit(eq->longit),
+			  location(eq->location), title(eq->title), url(eq->url), time(eq->time),
+			  year(0), month(0), day(0), hour(0), min(0), sec(0)
+			  {
+			  }
 
 			/**
 			 *  return the epoch time of the quake
@@ -124,6 +111,7 @@ namespace bridges {
 					case 9 : mstr = "Oct. "; break;
 					case 10 : mstr = "Nov. "; break;
 					case 11 : mstr = "Dec. "; break;
+					default : mstr = "???. "; break; 
 				}
 
 						// put into a string
@@ -139,7 +127,7 @@ namespace bridges {
 			 *	@param tm (string)
 			 *
 			 */
-			void setTime (string tm) {
+			void setTime (const string& tm) {
 				// process tm to convert to a date
 				time = tm;
 			}
@@ -280,7 +268,7 @@ namespace bridges {
 			 *	@param (string)
 			 *
 			 */
-			void setTitle(string title) {
+			void setTitle(const string& title) {
 				this->title = title;
 			}
 			/** 
@@ -298,7 +286,7 @@ namespace bridges {
 			 *	@param (string)
 			 *
 			 */
-			void setUrl(string url) {
+			void setUrl(const string& url) {
 				this->url = url;
 			}
 			/** 
