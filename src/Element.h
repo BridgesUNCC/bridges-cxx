@@ -244,7 +244,7 @@ namespace bridges {
 					to_string(col.getRed()) + "," +
 					to_string(col.getGreen()) + "," +
 					to_string(col.getBlue()) + "," +
-					to_string(col.getAlpha() / 255.0f);
+				  to_string( ((float) (col.getAlpha()) / 255.0f));
 
 				return OPEN_BOX + strCSS + CLOSE_BOX;
 			}
