@@ -69,16 +69,16 @@ namespace bridges {
 				
 			}
 
-			EarthquakeUSGS(double magnitude, double longit, double latit,
-				string location, string title, string url, string time) {
-				this->magnitude = magnitude;
-				this->time = time;
-				this->longit = longit;
-				this->latit = latit;
-				this->location = location;
-				this->title = title;
-				this->url = url;
-				this->time = time;
+			EarthquakeUSGS(double magnitude_, double longit_, double latit_,
+				string location_, string title_, string url_, string time_) {
+				this->magnitude = magnitude_;
+				this->time = time_;
+				this->longit = longit_;
+				this->latit = latit_;
+				this->location = location_;
+				this->title = title_;
+				this->url = url_;
+				this->time = time_;
 			}
 
 			EarthquakeUSGS(EarthquakeUSGS *eq) {
