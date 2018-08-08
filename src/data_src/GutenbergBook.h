@@ -55,6 +55,7 @@ namespace bridges {
 				this->numWords = numWords;
 				this->numSentences = numSentences;
 				this->numDifficultWords = numDifficultWords;
+				this->downloads = downloads;
 			}
 
 			string getAuthorName() const {

@@ -35,7 +35,7 @@ namespace bridges {
 			// The destination vertex of this edge */
 			K vertex = K();
 			// The application specific data of this edge */
-			E2 edge_data = E2();;
+			E2 edge_data = E2();
 
 		public:
 
