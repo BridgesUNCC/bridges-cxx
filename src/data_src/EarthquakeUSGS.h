@@ -29,13 +29,16 @@ namespace bridges {
 
 									// access by date
 			mutable int year, month, day,  hour, min, sec;
-
+			mutable bool date_correct;
+			
 			/**
 			 *  Gets the epoch time of the quake - used internally to get
 			 *	actual date - year, month, day, etc
 			 *
 			 */
 			void getDate () const {
+			  if (date_correct)
+			    return;
 								// get eq's epoch time
 				string s = getTime();
 
@@ -52,6 +55,8 @@ namespace bridges {
 				hour = eqt->tm_hour;
 				sec = eqt->tm_sec;
 				min = eqt->tm_min;
+
+				date_correct = true;
 			}
 
 		public:
@@ -59,7 +64,8 @@ namespace bridges {
 			EarthquakeUSGS()
 			  :magnitude(0.0), latit(0.0), longit(0.0),
 			  location(""), title(""), url(""), time(""),
-			  year(0), month(0), day(0), hour(0), min(0), sec(0)
+			  year(0), month(0), day(0), hour(0), min(0), sec(0),
+			  date_correct(false)
 			  {
 			  }
 
@@ -67,14 +73,16 @@ namespace bridges {
 				const string& location, const string& title, const string& url, const string& time)
 			  :magnitude(magnitude), latit(latit), longit(longit),
 			  location(location), title(title), url(url), time(time),
-			  year(0), month(0), day(0), hour(0), min(0), sec(0)
+			  year(0), month(0), day(0), hour(0), min(0), sec(0),
+			  date_correct(false)
 			  {
 			  }
 
 			EarthquakeUSGS(const EarthquakeUSGS *eq)
 			  :magnitude(eq->magnitude), latit(eq->latit), longit(eq->longit),
 			  location(eq->location), title(eq->title), url(eq->url), time(eq->time),
-			  year(0), month(0), day(0), hour(0), min(0), sec(0)
+			  year(0), month(0), day(0), hour(0), min(0), sec(0),
+			  date_correct(false)
 			  {
 			  }
 
@@ -130,6 +138,7 @@ namespace bridges {
 			void setTime (const string& tm) {
 				// process tm to convert to a date
 				time = tm;
+				date_correct = false;
 			}
 
 			/** 
