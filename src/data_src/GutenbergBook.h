@@ -32,36 +32,30 @@ namespace bridges {
 			int downloads;
 
 		public:
-			GutenbergBook () {
-				authorName = title = url = "";
-				authorBirth =  authorDeath =
-						numChars = numWords = numSentences = numDifficultWords = 0;
+			GutenbergBook ()
+			  :authorName(""), authorBirth(0), authorDeath(0),
+			  title(""), lang(), genre(), subject(),
+			  numChars(0), numWords(0), numSentences(0), numDifficultWords(0),
+			  url(""), downloads(0)
+			{
 			}
-			GutenbergBook(string authorName, int authorBirth, int authorDeath,
-				string title, vector<string> lang, vector<string> genre,
-				vector<string> subject, int numChars, int numWords,
-				int numSentences, int numDifficultWords, string url,
-				int downloads) {
 
-				this->authorName = authorName;
-				this->authorBirth = authorBirth;
-				this->authorDeath = authorDeath;
-				this->title =  title;
-				this->lang = lang;
-				this->genre = genre;
-				this->subject = subject;
-				this->url = url;
-				this->numChars = numChars;
-				this->numWords = numWords;
-				this->numSentences = numSentences;
-				this->numDifficultWords = numDifficultWords;
-				this->downloads = downloads;
+			GutenbergBook(const string& authorName, int authorBirth, int authorDeath,
+				const string& title, const vector<string>& lang, const vector<string>& genre,
+				const vector<string>& subject, int numChars, int numWords,
+				int numSentences, int numDifficultWords, const string& url,
+				int downloads)
+			  :authorName(authorName), authorBirth(authorBirth), authorDeath(authorDeath),
+			  title(title), lang(lang), genre(genre), subject(subject),
+			  numChars(numChars), numWords(numWords), numSentences(numSentences), numDifficultWords(numDifficultWords),
+			  url(url), downloads(downloads)
+			{
 			}
 
 			string getAuthorName() const {
 				return authorName;
 			}
-			void setAuthorName(string authorName) {
+			void setAuthorName(const string& authorName) {
 				this->authorName = authorName;
 			}
 
@@ -82,35 +76,35 @@ namespace bridges {
 			string getTitle() const {
 				return title;
 			}
-			void setTitle(string title) {
+			void setTitle(const string& title) {
 				this->title = title;
 			}
 
 			vector<string>  getLang() const {
 				return lang;
 			}
-			void setLang(vector<string> lang)  {
+			void setLang(const vector<string>& lang)  {
 				this->lang = lang;
 			}
 
 			vector<string>  getGenre() const {
 				return genre;
 			}
-			void setGenre(vector<string> genre)  {
+			void setGenre(const vector<string>& genre)  {
 				this->genre = genre;
 			}
 
 			vector<string>  getSubject() const {
 				return subject;
 			}
-			void setSubject(vector<string> subject)  {
+			void setSubject(const vector<string>& subject)  {
 				this->subject = subject;
 			}
 
 			string getURL() const {
 				return url;
 			}
-			void setURL(string url) {
+			void setURL(const string& url) {
 				this->url = url;
 			}
 
@@ -118,7 +112,7 @@ namespace bridges {
 				return numChars;
 			}
 			void setNumChars(int numChars) {
-				this->numChars = numChars;;
+				this->numChars = numChars;
 			}
 
 			int getNumWords() const {
