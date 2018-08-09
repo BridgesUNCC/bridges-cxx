@@ -28,7 +28,7 @@ namespace bridges {
 			string time;				// date
 
 									// access by date
-			mutable int year, month, day,  hour, min, sec;
+			mutable int year, month, day,  hour, minu, sec; //calling min minu to bypass a VS macro
 			mutable bool date_correct;
 			
 			/**
@@ -54,7 +54,7 @@ namespace bridges {
 				day = eqt->tm_mday;
 				hour = eqt->tm_hour;
 				sec = eqt->tm_sec;
-				min = eqt->tm_min;
+				minu = eqt->tm_min;
 
 				date_correct = true;
 			}
@@ -64,7 +64,7 @@ namespace bridges {
 			EarthquakeUSGS()
 			  :magnitude(0.0), latit(0.0), longit(0.0),
 			  location(""), title(""), url(""), time(""),
-			  year(0), month(0), day(0), hour(0), min(0), sec(0),
+			  year(0), month(0), day(0), hour(0), minu(0), sec(0),
 			  date_correct(false)
 			  {
 			  }
@@ -73,7 +73,7 @@ namespace bridges {
 				const string& location, const string& title, const string& url, const string& time)
 			  :magnitude(magnitude), latit(latit), longit(longit),
 			  location(location), title(title), url(url), time(time),
-			  year(0), month(0), day(0), hour(0), min(0), sec(0),
+			  year(0), month(0), day(0), hour(0), minu(0), sec(0),
 			  date_correct(false)
 			  {
 			  }
@@ -81,7 +81,7 @@ namespace bridges {
 			EarthquakeUSGS(const EarthquakeUSGS *eq)
 			  :magnitude(eq->magnitude), latit(eq->latit), longit(eq->longit),
 			  location(eq->location), title(eq->title), url(eq->url), time(eq->time),
-			  year(0), month(0), day(0), hour(0), min(0), sec(0),
+			  year(0), month(0), day(0), hour(0), minu(0), sec(0),
 			  date_correct(false)
 			  {
 			  }
@@ -124,7 +124,7 @@ namespace bridges {
 
 						// put into a string
 				string date_str = "  " + mstr+ to_string(day) + "  " + to_string(year) +
-					"  " + to_string(hour)+":"+to_string(min)+":" + to_string(sec);
+					"  " + to_string(hour)+":"+to_string(minu)+":" + to_string(sec);
 
 				return date_str;
 			}
@@ -194,7 +194,7 @@ namespace bridges {
 			int getMinutes() const {
 				getDate();
 
-				return min;
+				return minu;
 			}
 			/** 
 			 *	get seconds of quake

@@ -1,6 +1,6 @@
 #!/bin/sh
 
-GITDESC=$(git describe --tags)
+GITDESC=$(git describe --tags --dirty)
 TARGETDIR="bridges-cxx-windows-${GITDESC}"
 ZIPFILE="${TARGETDIR}.zip"
 
