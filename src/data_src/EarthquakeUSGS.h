@@ -30,6 +30,14 @@ namespace bridges {
 									// access by date
 			mutable int year, month, day,  hour, minu, sec; //calling min minu to bypass a VS macro
 			mutable bool date_correct;
+
+#ifdef _WIN32
+			//visual studio 2017 has not yet adopted the posix gmtime_r but has its platform specific gmtime_s.
+			//this function converts the call (though drops error handling)
+			void gmtime_r(time_t* eq_time, struct tm *eqt) const{
+			  gmtime_s(eqt, eq_time);
+			}
+#endif
 			
 			/**
 			 *  Gets the epoch time of the quake - used internally to get
@@ -47,7 +55,9 @@ namespace bridges {
 
 								// convert to time_t 
 				
-				struct tm *eqt = gmtime(&eq_time);
+				struct tm reqt;
+				struct tm *eqt = &reqt;
+				gmtime_r(&eq_time, eqt);
 
 				year = eqt->tm_year + 1900;
 				month = eqt->tm_mon;
