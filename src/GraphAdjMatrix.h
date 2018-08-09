@@ -78,7 +78,7 @@ namespace bridges {
 					// add edge
 					matrix.at(src).at(dest) = wt;
 				}
-				catch (const out_of_range& oor) {
+				catch (const out_of_range& ) {
 					cerr << "Cannot addEdge between non-existent verticies." << endl;
 					throw;
 				}
@@ -135,7 +135,7 @@ namespace bridges {
 					Element<E1> *el = vertices.at(src);
 					return  (vertices.at(src))->getValue();
 				}
-				catch ( const out_of_range& oor) {
+				catch ( const out_of_range& ) {
 					cerr << "getVertexData(): vertex not found" << endl;
 					throw;
 				}
@@ -153,7 +153,7 @@ namespace bridges {
 					Element<E1> *el = vertices.at(src);
 					el->setValue (data);
 				}
-				catch ( const out_of_range& oor) {
+				catch ( const out_of_range& ) {
 					cerr << "setVertexData(): Nonexistent vertices or " << 
 						" edge not found" << endl;
 					throw;

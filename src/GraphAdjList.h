@@ -100,7 +100,7 @@ namespace bridges {
 							Edge<K, E2> (dest, wt, data), conv.str());
 
 				}
-				catch ( const out_of_range& oor) {
+				catch ( const out_of_range& ) {
 					cerr << "addEdge(): Nonexistent vertex?" << endl << 
 						"Create vertices first prior to adding edges that use that vertex" << endl
 						<<  "Cannot add edge between non-existent verticies"
@@ -120,7 +120,7 @@ namespace bridges {
 					Element<E1> *el = vertices.at(src);
 					return  (vertices.at(src))->getValue();
 				}
-				catch ( const out_of_range& oor) {
+				catch ( const out_of_range& ) {
 					cerr << "getVertexData(): vertex not found" << endl;
 					throw;
 				}
@@ -138,7 +138,7 @@ namespace bridges {
 					Element<E1> *el = vertices.at(src);
 					el->setValue (data);
 				}
-				catch ( const out_of_range& oor) {
+				catch ( const out_of_range& ) {
 					cerr << "setVertexData(): Nonexistent vertices or " << 
 						" edge not found" << endl;
 					throw;
@@ -168,7 +168,7 @@ namespace bridges {
 					}
 					throw "Edge not found!";
 				}
-				catch ( const out_of_range& oor) {
+				catch ( const out_of_range& ) {
 					cerr << "getEdgeData(): Edge not found" << endl;
 					throw;
 				}
@@ -201,7 +201,7 @@ namespace bridges {
 					}
 					throw "getEdgeData(): Edge not found!";
 				}
-				catch ( const out_of_range& oor) {
+				catch ( const out_of_range& ) {
 					cerr << "setEdgeData(): Nonexistent vertices or " << 
 						" edge not found" << endl;
 					throw;
@@ -239,7 +239,7 @@ namespace bridges {
 								new SLelement<Edge<K> > (adj_list.at(src),
 									Edge<K> (dest, wt, data), conv.str());// create edge
 			            }
-			            catch( const out_of_range& oor){
+			            catch( const out_of_range& ){
 							cerr<<"addEdge(): must create vertices first prior to adding "
 								<< "edges; cannot addEdge between non-existent verticies"
 								<< endl;
@@ -291,7 +291,7 @@ namespace bridges {
 				try {
 					return adj_list.at(k);
 				}
-				catch (const out_of_range& oor) {
+				catch (const out_of_range& ) {
 					cerr <<  "Cannot getAdjacencyList() of a non-existent vertex!"
 						<< endl;
 					throw;
@@ -312,7 +312,7 @@ namespace bridges {
 
 					return el->getVisualizer();
 				}
-				catch (const out_of_range& oor) {
+				catch (const out_of_range& ) {
 					cerr <<  "Graph vertex " << k << " not found in graph!" << endl;
 					throw;
 				}
@@ -333,7 +333,7 @@ namespace bridges {
 
 					return el1->getLinkVisualizer(el2);
 				}
-				catch (const out_of_range& oor) {
+				catch (const out_of_range& ) {
 					cerr <<  "Either source or destination node not found in graph!"
 						<< endl;
 					throw;
