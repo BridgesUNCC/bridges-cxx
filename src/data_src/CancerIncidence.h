@@ -204,7 +204,7 @@ class CancerIncidence {
 		 *
 		 * @param g 
 		 */
-		void setGender(string g) {
+		void setGender(const string& g) {
 			gender = g;
 		}
 
@@ -221,7 +221,7 @@ class CancerIncidence {
 		 *
 		 * @param string r 
 		 */
-		void setRace(string r) {
+		void setRace(const string& r) {
 			race = r;
 		}
 
@@ -238,7 +238,7 @@ class CancerIncidence {
 		 *
 		 * @param event (string) 
 		 */
-		void setEventType(string et) {
+		void setEventType(const string& et) {
 			event_type = et;
 		}
 
@@ -272,7 +272,7 @@ class CancerIncidence {
 		 *
 		 * @param area (string) 
 		 */
-		void setAffectedArea(string area) {
+		void setAffectedArea(const string& area) {
 			affected_area = area;
 		}
 
