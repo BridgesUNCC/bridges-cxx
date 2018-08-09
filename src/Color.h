@@ -7,6 +7,9 @@
 #include <unordered_map> //unordered_map
 #include <cmath> //log
 
+#include <sstream>
+#include <iomanip>
+
 #include "DataStructure.h" //string, using std
 
 namespace bridges {
@@ -117,13 +120,14 @@ namespace bridges {
 
 			/** @return The #hexadecimal representation (#RRGGBBAA) of this color */
 			string getHexValue() const {
-				const string HEX = to_hex(getRed() * 16777216 + getGreen() * 65536
-						+ getBlue() * 256 + getAlpha());
-				string prefix = "#";
-				for (auto i = HEX.size(); i < 8; i++) {
-					prefix += "0";
-				}
-				return prefix + HEX;
+			  std::stringstream ss;
+			  ss<<"#";
+			  ss<<std::hex<<std::setfill('0')<<std::setw(2)<<getRed();
+			  ss<<std::hex<<std::setfill('0')<<std::setw(2)<<getGreen();
+			  ss<<std::hex<<std::setfill('0')<<std::setw(2)<<getBlue();
+			  ss<<std::hex<<std::setfill('0')<<std::setw(2)<<getAlpha();
+
+			  return ss.str();
 			}
 			/** Sets red channel to "r" @param a rgba value to set red channel to  */
 			void setRed(int r) {
@@ -210,20 +214,6 @@ namespace bridges {
 				? throw "Invalid channel parameter: " + to_string(value) +
 				" Must be in the [0,255] range"
 				: channels.at(channel) = value;
-			}
-			/**
-			 * Converts decimal value to appropriate hexidecimal value
-			 *
-			 * @param val The value to convert
-			 * @return The hexadecimal value of "val"
-			 */
-			static string to_hex(const unsigned long& val) {
-				//number of characters needed - includes terminating character
-				char* buffer = new char[static_cast<int>((log(val) / log(16)) + 2)];
-				sprintf(buffer, "%x", static_cast<int>(val));
-				string hexValue = string(buffer);
-				delete[] buffer; //used new[] to have variable array size
-				return hexValue;
 			}
 	};//end of color class
 
