@@ -29,52 +29,50 @@ namespace bridges {
 					release_date;
 
 		public:
-			Song() {
-				artist = song = album = lyrics = release_date = "";
+			Song()
+			  :artist(""), song(""), album(""), lyrics(""), release_date("")
+			{
 			}
 
-			Song(string artist, string song, string album, string lyrics, 
-									string release_date) {
-				this->artist = artist;
-				this->song = song;
-				this->album = album;
-				this->lyrics = lyrics;
-				this->release_date = release_date;
+			Song(const string& artist, const string& song, const string& album, const string& lyrics, 
+									const string& release_date)
+			  :artist(artist), song(song), album(album), lyrics(lyrics), release_date(release_date)
+			{
 			}
 
 			string getArtist() const {
 				return artist;
 			}
 
-			void setArtist (string artist) {
+			void setArtist (const string& artist) {
 				this->artist = artist;
 			}
 
 			string getSongTitle() const {
 				return song;
 			}
-			void setSongTitle(string song) {
+			void setSongTitle(const string& song) {
 				this->song = song;
 			}
 
 			string getAlbumTitle() const {
 				return album;
 			}
-			void setAlbumTitle(string album) {
+			void setAlbumTitle(const string& album) {
 				this->album = album;
 			}
 
 			string getLyrics() const {
 				return lyrics;
 			}
-			void setLyrics(string lyrics) {
+			void setLyrics(const string& lyrics) {
 				this->lyrics = lyrics;
 			}
 
 			string getReleaseDate() const {
 				return release_date;
 			}
-			void setReleaseDate(string release_date) {
+			void setReleaseDate(const string& release_date) {
 				this->release_date = release_date;
 			}
 	};
