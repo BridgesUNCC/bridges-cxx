@@ -29,30 +29,28 @@ namespace bridges {
 
 		public:
 
-			Game() {
-				title = platform = "";
-				rating = 0.0;
-			}
+			Game()
+			  : title(""), platform(""), rating(0), genre()
+			  {
+			  }
 
-			Game(string title, string platform, double rating,
-				vector<string> genre) {
-				this->title = title;
-				this->platform = platform;
-				this->rating = rating;
-				this->genre = genre;
+			Game(const string& title, const string& platform, double rating,
+				const vector<string>& genre)
+			  :title(title), platform(platform), rating(rating), genre(genre)
+			{
 			}
 
 			string getTitle() const {
 				return title;
 			}
-			void setTitle (string title) {
+			void setTitle (const string& title) {
 				this->title = title;
 			}
 
 			string getPlatformType() const {
 				return platform;
 			}
-			void setPlatformType(string platform) {
+			void setPlatformType(const string& platform) {
 				this->platform = platform;
 			}
 
@@ -65,7 +63,7 @@ namespace bridges {
 			vector<string> getGameGenre() const {
 				return genre;
 			}
-			void setGameGenre(vector<string> genre) {
+			void setGameGenre(const vector<string>& genre) {
 				this->genre = genre;
 			}
 	};
