@@ -23,7 +23,9 @@ namespace bridges {
 	class Grid : public  DataStructure {
 
 		private:
-			void allocateGrid(int rows = 10, int cols = 10) {
+			void allocateGrid() {
+			  int rows = gridSize[0];
+			  int cols = gridSize[1];
 						// to do: must check against maxSize!
 						// first allocate pointers for dimension 1
 				grid = new E*[rows];
@@ -35,7 +37,7 @@ namespace bridges {
 		protected:
 			E  **grid = nullptr;
 
-  			int *gridSize = nullptr; ;
+  			int gridSize[2];
 			int maxGridSize[2]  = {480, 640};
 
 		public:
@@ -48,26 +50,35 @@ namespace bridges {
 			 * Grid constructors
 			 *
 			 */
-			Grid() {
-				setDimensions(10, 10);
-				allocateGrid();
-			}
-
-			Grid(int *size) {
-				setDimensions(size[0], size[1]);
-				allocateGrid (size[0], size[1]);
-			}
 
 			Grid(int rows, int cols) {
 				setDimensions(rows, cols);
-				allocateGrid (rows, cols);
+			}
+
+			Grid()
+			  :Grid(10,10)
+			{
+			}
+
+			
+			explicit Grid(int *size)
+			  :Grid(size[0], size[1])
+			  {			    
+			  }
+
+			virtual ~Grid() {
+			  if(grid) {
+			    for (int i = 0; i < gridSize[0]; i++)  {
+			      delete[] grid[i];
+			    }
+			    delete[] grid;
+			  }			      
 			}
 
 			void setDimensions(int rows, int cols) {
-				if (!gridSize)
-					gridSize = new int[2];
 				gridSize[0] = rows; gridSize[1] = cols;
 				Bridges::setDimensions (gridSize);
+				allocateGrid ();
 			}
 	
 			int* getDimensions() {
@@ -84,6 +95,9 @@ namespace bridges {
 					// to do! Need to check row col against bounds!
 				grid[row][col]  = val;
 			}
+
+			Grid(const Grid&) = delete; //would be incorrect, so disabled.
+			Grid& operator=(const Grid&) = delete; //would be incorrect, so disabled.
 
 	}; // end class Grid
 
