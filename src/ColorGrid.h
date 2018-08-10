@@ -29,7 +29,6 @@ namespace bridges {
 		 	 **/
 			void initializeGrid (int rows, int cols, Color col) {
 							// fill elements with base color
-cout << "Size:" << gridSize[0] << "," << gridSize[1] << endl;
 				for (int i = 0; i < gridSize[0]; i++) 
 				for (int j = 0; j < gridSize[1]; j++)
 					grid[i][j] = col;
