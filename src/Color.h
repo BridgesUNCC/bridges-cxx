@@ -50,11 +50,14 @@ namespace bridges {
 			array<int, 4> channels{{255, 255, 255, 255}};
 		public:
 			/**
-			 *  Default constructor 
+			 *  Default constructor
 			 *  Defaults to black
 			 */
 			Color() {
-				setRed(0); setGreen(0); setBlue(0); setAlpha(255);
+				setRed(0);
+				setGreen(0);
+				setBlue(0);
+				setAlpha(255);
 			}
 			/**
 			 * Constructs a color with the specified rgba color channel values [0,255].
@@ -120,14 +123,14 @@ namespace bridges {
 
 			/** @return The #hexadecimal representation (#RRGGBBAA) of this color */
 			string getHexValue() const {
-			  std::stringstream ss;
-			  ss<<"#";
-			  ss<<std::hex<<std::setfill('0')<<std::setw(2)<<getRed();
-			  ss<<std::hex<<std::setfill('0')<<std::setw(2)<<getGreen();
-			  ss<<std::hex<<std::setfill('0')<<std::setw(2)<<getBlue();
-			  ss<<std::hex<<std::setfill('0')<<std::setw(2)<<getAlpha();
+				std::stringstream ss;
+				ss << "#";
+				ss << std::hex << std::setfill('0') << std::setw(2) << getRed();
+				ss << std::hex << std::setfill('0') << std::setw(2) << getGreen();
+				ss << std::hex << std::setfill('0') << std::setw(2) << getBlue();
+				ss << std::hex << std::setfill('0') << std::setw(2) << getAlpha();
 
-			  return ss.str();
+				return ss.str();
 			}
 			/** Sets red channel to "r" @param a rgba value to set red channel to  */
 			void setRed(int r) {
@@ -171,7 +174,7 @@ namespace bridges {
 			 */
 			void setValue(string name) {
 				for (char& c : name) {
-				  c = (char) tolower((unsigned char)c);   //convert to lowercase
+					c = (char) tolower((unsigned char)c);   //convert to lowercase
 				}
 				auto it = ColorNames.find(name);
 
@@ -188,7 +191,7 @@ namespace bridges {
 					const int chanMultiplier = (chanChars == 1) ? 17 : 1;
 					for (size_t i = 0; i < name.size() / chanChars; i++) {
 						//converts and save hex val to rgba val
-					  channels.at(i) = (int) strtol(name.substr(i * chanChars,
+						channels.at(i) = (int) strtol(name.substr(i * chanChars,
 									chanChars).c_str(), nullptr, 16) * chanMultiplier;
 					}
 				}

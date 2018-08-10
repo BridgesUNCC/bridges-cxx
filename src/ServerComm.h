@@ -24,14 +24,14 @@ namespace bridges {
 		vector<ActorMovieIMDB> getActorMovieIMDBData2();
 		vector<Song> getSongData();
 		Song getSong(string, string);
-		
+
 	}
 	/**
 	 *	@brief This is a detail class for the Bridges namespace and
 	 *			is not intended for external use
 	 */
 	class ServerComm {
-						//Used to access to this class private functions
+			//Used to access to this class private functions
 			friend void Bridges::visualize();
 			friend vector<Game> DataSource::getGameData();
 			friend vector<EarthquakeUSGS> DataSource::getEarthquakeUSGSData(int);
@@ -77,9 +77,9 @@ namespace bridges {
 					//setting verbose
 					if (0) {
 						res = curl_easy_setopt(curl, CURLOPT_VERBOSE, 1L);
-				       		if (res != CURLE_OK)
+						if (res != CURLE_OK)
 							throw "curl_easy_setopt failed";
-						}
+					}
 					// setting error buffer
 					res = curl_easy_setopt(curl, CURLOPT_ERRORBUFFER, error_buffer);
 					if (res != CURLE_OK)
@@ -129,7 +129,7 @@ namespace bridges {
 
 					if (res != CURLE_OK) {
 						throw "curl_easy_perform() failed.\nCurl Error Code "
-						+ to_string(res) + "\n" + curl_easy_strerror(res) + 
+						+ to_string(res) + "\n" + curl_easy_strerror(res) +
 						"\n"
 						+ error_buffer + "\nPossibly Bad BRIDGES Credentials\n";
 					}

@@ -64,20 +64,25 @@ namespace bridges {
 			}
 
 			Array(int xsize) {
-				dims[0] = xsize; dims[1] = dims[2] = 1;
+				dims[0] = xsize;
+				dims[1] = dims[2] = 1;
 				setNumDimensions(1);
 				setDimensions(dims);
 				Bridges::setDimensions(dims);
 			}
-			
+
 			Array(int xsize, int ysize) {
-				dims[0] = xsize; dims[1] = ysize; dims[2] = 1;
+				dims[0] = xsize;
+				dims[1] = ysize;
+				dims[2] = 1;
 				setNumDimensions(2);
 				setDimensions(dims);
 				Bridges::setDimensions(dims);
 			}
 			Array(int xsize, int ysize, int zsize) {
-				dims[0] = xsize; dims[1] = ysize; dims[2] = zsize;
+				dims[0] = xsize;
+				dims[1] = ysize;
+				dims[2] = zsize;
 				setNumDimensions(3);
 				setDimensions(dims);
 				Bridges::setDimensions(dims);
@@ -95,7 +100,7 @@ namespace bridges {
 				for (int k = 0; k < num_dims; k++) {
 					if (dims[k] <= 0) {
 						cout << "Dimensions of array must be positive!" << endl
-						<< "\tProvided dimension: " << dims[k] << endl;
+							<< "\tProvided dimension: " << dims[k] << endl;
 					}
 					dims[k] = dim[k];
 					sz *= dim[k];
@@ -140,7 +145,7 @@ namespace bridges {
 			 *  @return Element<E>  object at x, y
 			 */
 			Element<E>& getElement(int x, int y) {
-				return array_data[y*dims[0] + x];
+				return array_data[y * dims[0] + x];
 			}
 			/**
 			 *
@@ -152,7 +157,7 @@ namespace bridges {
 			 *  @return Element<E>  object at x, y, z
 			 */
 			Element<E>& getElement(int x, int y, int z) {
-				return array_data[z*dims[0]*dims[1] + y*dims[0] + x];
+				return array_data[z * dims[0] * dims[1] + y * dims[0] + x];
 			}
 
 			/**

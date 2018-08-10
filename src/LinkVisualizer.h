@@ -61,8 +61,8 @@ namespace bridges {
 			 *
 			 * @param lab The label of the element
 			 */
-			 void setLabel(const string& lab) {
-				 label = lab;
+			void setLabel(const string& lab) {
+				label = lab;
 			}
 
 			/**

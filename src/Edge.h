@@ -8,23 +8,23 @@ using namespace std;
 
 namespace bridges {
 
-/**
- * @brief This helper class is used by the graph
- *  classes - GraphAdjList , GraphAdjMatrix -  to keep track of edge
- *  information
- *
- * This class is used to assign a visual connection between two Elements in the
- * Bridges Visualization.
- * <p>
- * Bridges will represent these as arrows between two
- * Elements. The starting Element of the arrow will be referred to as the source
- * Element and the ending Element of the arrow will be referred to as the
- * terminating Element.
- *
- * @author krs
- *
- * @param <E>
- */
+	/**
+	 * @brief This helper class is used by the graph
+	 *  classes - GraphAdjList , GraphAdjMatrix -  to keep track of edge
+	 *  information
+	 *
+	 * This class is used to assign a visual connection between two Elements in the
+	 * Bridges Visualization.
+	 * <p>
+	 * Bridges will represent these as arrows between two
+	 * Elements. The starting Element of the arrow will be referred to as the source
+	 * Element and the ending Element of the arrow will be referred to as the
+	 * terminating Element.
+	 *
+	 * @author krs
+	 *
+	 * @param <E>
+	 */
 
 
 	template <typename K, typename E2 = K>

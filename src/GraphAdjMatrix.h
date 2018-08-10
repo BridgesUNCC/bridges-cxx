@@ -34,7 +34,7 @@ namespace bridges {
 		private:
 			unordered_map<K, Element<E1>* > vertices; // graph vertices
 			unordered_map<K, unordered_map<K, int> > matrix; // adjacency matrix
-									// maintain edge specific data
+			// maintain edge specific data
 			unordered_map<K, unordered_map<K, E2> > edge_data;
 
 		public:
@@ -124,7 +124,7 @@ namespace bridges {
 				return vertices.at(key);
 			}
 			/**
-			 * 	Gets vertex data for a graph vertex 
+			 * 	Gets vertex data for a graph vertex
 			 *
 			 * @param src The key of the source vertex
 			 *
@@ -139,7 +139,7 @@ namespace bridges {
 					cerr << "getVertexData(): vertex not found" << endl;
 					throw;
 				}
-								// should never reach here
+				// should never reach here
 				throw "getVertexData(): vertex not found";
 			}
 			/**
@@ -154,7 +154,7 @@ namespace bridges {
 					el->setValue (data);
 				}
 				catch ( const out_of_range& ) {
-					cerr << "setVertexData(): Nonexistent vertices or " << 
+					cerr << "setVertexData(): Nonexistent vertices or " <<
 						" edge not found" << endl;
 					throw;
 				}
@@ -163,7 +163,7 @@ namespace bridges {
 				}
 			}
 			/**
-			 * 	Gets edge data for the edge from "src" to "dest" 
+			 * 	Gets edge data for the edge from "src" to "dest"
 			 *
 			 * @param src The key of the source Vertex
 			 * @param dest The key of the destination Vertex
@@ -172,11 +172,12 @@ namespace bridges {
 			 */
 			E2&	getEdgeData (const K& src, const K& dest) {
 				try {
-					vertices.at(src); vertices.at(dest);
+					vertices.at(src);
+					vertices.at(dest);
 					return edge_data[src][dest];
 				}
 				catch ( const out_of_range& oor) {
-					cerr << "getEdgeData(): Nonexistent vertices or " << 
+					cerr << "getEdgeData(): Nonexistent vertices or " <<
 						" edge not found" << endl;
 					throw;
 				}
@@ -184,12 +185,12 @@ namespace bridges {
 					cerr << msg << endl;
 					throw;
 				}
-								// should never reach here
+				// should never reach here
 				throw "getEdgeData(): Edge not found";
 			}
 			/**
-			 * 	Loads edge specific information for the edge from "src" to 
-			 *   "dest" 
+			 * 	Loads edge specific information for the edge from "src" to
+			 *   "dest"
 			 *
 			 * @param src The key of the source Vertex
 			 * @param dest The key of the destination Vertex
@@ -197,11 +198,12 @@ namespace bridges {
 			 */
 			void setEdgeData (const K& src, const K& dest, E2& data) {
 				try {
-					vertices.at(src); vertices.at(dest);
+					vertices.at(src);
+					vertices.at(dest);
 					edge_data[src][dest] = data;
 				}
 				catch ( const out_of_range& oor) {
-					cerr << "setEdgeData(): Nonexistent vertices or " << 
+					cerr << "setEdgeData(): Nonexistent vertices or " <<
 						" edge not found" << endl;
 					throw;
 				}
