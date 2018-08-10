@@ -22,12 +22,10 @@ namespace bridges {
 			/**
 		 	 * initializes the grid with the passed color
 		 	 *
-		 	 * @param rows - int representing the number of rows of the grid
-		 	 * @param cols - int representing the number of columns of the grid
 		 	 * @param color - Color object
 		 	 *
 		 	 **/
-			void initializeGrid (int rows, int cols, Color col) {
+			void initializeGrid (Color col) {
 							// fill elements with base color
 				for (int i = 0; i < gridSize[0]; i++) 
 				for (int j = 0; j < gridSize[1]; j++)
@@ -44,7 +42,7 @@ namespace bridges {
 		 	 *
 		 	 **/
 			ColorGrid () : Grid<Color> (){
-				initializeGrid(gridSize[0], gridSize[1], baseColor);
+				initializeGrid(baseColor);
   			}
 
 			/**
@@ -55,7 +53,7 @@ namespace bridges {
 		 	 *
 		 	 **/
 			ColorGrid (int rows, int cols) : Grid<Color> (rows, cols) {
-				initializeGrid(rows, cols, baseColor);
+				initializeGrid(baseColor);
 			}
 
 			/**
@@ -68,7 +66,7 @@ namespace bridges {
 		 	 **/
 			ColorGrid (int rows, int cols, Color color) : Grid<Color> (rows, cols) {
 				baseColor = color;
-				initializeGrid(rows, cols, color);
+				initializeGrid(color);
 			}
 
 
@@ -97,6 +95,8 @@ namespace bridges {
 						// get the base64 representation of the color array
 			string nodes_str = 
 					base64::base64_encode (byte_buf, 4*gridSize[0]*gridSize[1]);
+
+			delete[] byte_buf;
 			string links_str = "";
 
 						// Add the byte representation of the grid
