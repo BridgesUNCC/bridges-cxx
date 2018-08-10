@@ -45,33 +45,37 @@ namespace bridges {
 			int size;
 
 		public:
-			Array() {
-				array_data = NULL;
-				num_dims = 1;
-				dims[0] = dims[1] = dims[2] = 1;
-				size = 0;
+			Array()
+			  :array_data(nullptr), num_dims(1), dims({0,0,0}), size(0)
+			  {
 			}
 
-			~Array() {
+			virtual ~Array() {
+			  if (array_data != nullptr)
 				delete [] array_data;
 			}
 
-			Array(int num_dims, int *dims) {
+			Array(int num_dims, int *dims)
+			  :array_data(nullptr)
+			{
 				setNumDimensions(num_dims);
 				setDimensions(dims);
 				// for json
 				Bridges::setDimensions(dims);
 			}
 
-			Array(int xsize) {
-				dims[0] = xsize;
-				dims[1] = dims[2] = 1;
-				setNumDimensions(1);
-				setDimensions(dims);
-				Bridges::setDimensions(dims);
+			///builds a 1D array.
+			///@param xsize size of the array's only dimension
+			Array(int xsize)
+			  :Array(1,&xsize)
+			{
 			}
 
-			Array(int xsize, int ysize) {
+			///builds a 2D array.
+			///@param xsize size of the array's first dimension
+			///@param ysize size of the array's second dimension
+			Array(int xsize, int ysize)
+			  :Array() {
 				dims[0] = xsize;
 				dims[1] = ysize;
 				dims[2] = 1;
@@ -79,7 +83,14 @@ namespace bridges {
 				setDimensions(dims);
 				Bridges::setDimensions(dims);
 			}
-			Array(int xsize, int ysize, int zsize) {
+
+			///builds a 3D array.
+			///@param xsize size of the array's first dimension
+			///@param ysize size of the array's second dimension
+			///@param zsize size of the array's third dimension
+			Array(int xsize, int ysize, int zsize)
+			  :Array()
+			  {
 				dims[0] = xsize;
 				dims[1] = ysize;
 				dims[2] = zsize;
@@ -95,29 +106,40 @@ namespace bridges {
 				}
 				num_dims = nd;
 			}
+
+			int getNumDimensions() const {
+			  return num_dims;
+			}
+			
+			///change the size of the array dimensions
+			///@param dim give the size of the dimension. dim should be of size at least getNumDimensions() or undefined behavior could happen.
 			void setDimensions(int *dim) {
 				int sz = 1;
 				for (int k = 0; k < num_dims; k++) {
-					if (dims[k] <= 0) {
+					if (dim[k] <= 0) {
 						cout << "Dimensions of array must be positive!" << endl
-							<< "\tProvided dimension: " << dims[k] << endl;
+							<< "\tProvided dimension: " << dim[k] << endl;
 					}
 					dims[k] = dim[k];
 					sz *= dim[k];
 				}
 				// first check the dimensions are all positive
-				if (sz < 0) {
+				if (sz <= 0) {
 					cout << "Negative size in dimension encountered" << endl;
 					exit(-1);
 				}
 				size = sz;
 				// allocate space for the array
+				if (array_data != nullptr)
+				  delete[] array_data;
 				array_data = new Element<E>[size];
 
 				// for json
 				Bridges::setDimensions(dims);
 			}
 
+			///returns the size of the dimensions
+			///@param dim will contain the size of the dimension. dim should be of size at least getNumDimensions() or undefined behavior could happen.
 			void  getDimensions(int *d) {
 				for (int k = 0; k < num_dims; k++)
 					d[k] = dims[k];
