@@ -46,7 +46,7 @@ namespace bridges {
 
 		public:
 			Array()
-			  :array_data(nullptr), num_dims(1), dims({0,0,0}), size(0)
+			  :array_data(nullptr), num_dims(1), dims{0,0,0}, size(0)
 			  {
 			}
 
