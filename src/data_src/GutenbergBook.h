@@ -33,11 +33,10 @@ namespace bridges {
 
 		public:
 			GutenbergBook ()
-			  :authorName(""), authorBirth(0), authorDeath(0),
-			  title(""), lang(), genre(), subject(),
-			  numChars(0), numWords(0), numSentences(0), numDifficultWords(0),
-			  url(""), downloads(0)
-			{
+				: authorName(""), authorBirth(0), authorDeath(0),
+				  title(""), lang(), genre(), subject(),
+				  numChars(0), numWords(0), numSentences(0), numDifficultWords(0),
+				  url(""), downloads(0) {
 			}
 
 			GutenbergBook(const string& authorName, int authorBirth, int authorDeath,
@@ -45,11 +44,10 @@ namespace bridges {
 				const vector<string>& subject, int numChars, int numWords,
 				int numSentences, int numDifficultWords, const string& url,
 				int downloads)
-			  :authorName(authorName), authorBirth(authorBirth), authorDeath(authorDeath),
-			  title(title), lang(lang), genre(genre), subject(subject),
-			  numChars(numChars), numWords(numWords), numSentences(numSentences), numDifficultWords(numDifficultWords),
-			  url(url), downloads(downloads)
-			{
+				: authorName(authorName), authorBirth(authorBirth), authorDeath(authorDeath),
+				  title(title), lang(lang), genre(genre), subject(subject),
+				  numChars(numChars), numWords(numWords), numSentences(numSentences), numDifficultWords(numDifficultWords),
+				  url(url), downloads(downloads) {
 			}
 
 			string getAuthorName() const {

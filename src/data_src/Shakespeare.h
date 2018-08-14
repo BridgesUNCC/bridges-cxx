@@ -32,12 +32,10 @@ namespace bridges {
 
 		public:
 			Shakespeare()
-			  :title(""), type(""), text("")
-			{
+				: title(""), type(""), text("") {
 			}
 			Shakespeare(const string& title, const string& type, const string& text)
-			  :title(title), type(type), text(text)
-			{
+				: title(title), type(type), text(text) {
 			}
 			string getTitle() const {
 				return title;

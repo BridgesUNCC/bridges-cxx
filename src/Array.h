@@ -46,18 +46,16 @@ namespace bridges {
 
 		public:
 			Array()
-			  :array_data(nullptr), num_dims(1), dims{0,0,0}, size(0)
-			  {
+				: array_data(nullptr), num_dims(1), dims{0, 0, 0}, size(0) {
 			}
 
 			virtual ~Array() {
-			  if (array_data != nullptr)
-				delete [] array_data;
+				if (array_data != nullptr)
+					delete [] array_data;
 			}
 
 			Array(int num_dims, int *dims)
-			  :array_data(nullptr)
-			{
+				: array_data(nullptr) {
 				setNumDimensions(num_dims);
 				setDimensions(dims);
 				// for json
@@ -67,15 +65,14 @@ namespace bridges {
 			///builds a 1D array.
 			///@param xsize size of the array's only dimension
 			Array(int xsize)
-			  :Array(1,&xsize)
-			{
+				: Array(1, &xsize) {
 			}
 
 			///builds a 2D array.
 			///@param xsize size of the array's first dimension
 			///@param ysize size of the array's second dimension
 			Array(int xsize, int ysize)
-			  :Array() {
+				: Array() {
 				dims[0] = xsize;
 				dims[1] = ysize;
 				dims[2] = 1;
@@ -89,8 +86,7 @@ namespace bridges {
 			///@param ysize size of the array's second dimension
 			///@param zsize size of the array's third dimension
 			Array(int xsize, int ysize, int zsize)
-			  :Array()
-			  {
+				: Array() {
 				dims[0] = xsize;
 				dims[1] = ysize;
 				dims[2] = zsize;
@@ -108,9 +104,9 @@ namespace bridges {
 			}
 
 			int getNumDimensions() const {
-			  return num_dims;
+				return num_dims;
 			}
-			
+
 			///change the size of the array dimensions
 			///@param dim give the size of the dimension. dim should be of size at least getNumDimensions() or undefined behavior could happen.
 			void setDimensions(int *dim) {
@@ -131,7 +127,7 @@ namespace bridges {
 				size = sz;
 				// allocate space for the array
 				if (array_data != nullptr)
-				  delete[] array_data;
+					delete[] array_data;
 				array_data = new Element<E>[size];
 
 				// for json
@@ -242,7 +238,7 @@ namespace bridges {
 			Array(const Array&) = delete; //would be incorrect, so disabled.
 			Array& operator=(const Array&) = delete; //would be incorrect, so disabled.
 
-			
+
 		private:
 			static const pair<string, string>generateJSON( const vector<const Element<E>*>& nodes) {
 				if (MAX_ELEMENTS_ALLOWED <= nodes.size()) {

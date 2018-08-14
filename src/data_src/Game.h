@@ -30,14 +30,12 @@ namespace bridges {
 		public:
 
 			Game()
-			  : title(""), platform(""), rating(0), genre()
-			  {
-			  }
+				: title(""), platform(""), rating(0), genre() {
+			}
 
 			Game(const string& title, const string& platform, double rating,
 				const vector<string>& genre)
-			  :title(title), platform(platform), rating(rating), genre(genre)
-			{
+				: title(title), platform(platform), rating(rating), genre(genre) {
 			}
 
 			string getTitle() const {

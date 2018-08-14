@@ -22,7 +22,7 @@ namespace bridges {
 
 	class Song {
 		private:
-			string 	artist, // song author			
+			string 	artist, // song author
 					song,	// song title
 					album,	// album title
 					lyrics,	// full lyrics
@@ -30,14 +30,12 @@ namespace bridges {
 
 		public:
 			Song()
-			  :artist(""), song(""), album(""), lyrics(""), release_date("")
-			{
+				: artist(""), song(""), album(""), lyrics(""), release_date("") {
 			}
 
-			Song(const string& artist, const string& song, const string& album, const string& lyrics, 
-									const string& release_date)
-			  :artist(artist), song(song), album(album), lyrics(lyrics), release_date(release_date)
-			{
+			Song(const string& artist, const string& song, const string& album, const string& lyrics,
+				const string& release_date)
+				: artist(artist), song(song), album(album), lyrics(lyrics), release_date(release_date) {
 			}
 
 			string getArtist() const {
