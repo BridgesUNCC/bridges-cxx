@@ -48,6 +48,8 @@ cp -r ${CURLPATH}/lib/* ${TARGETLIB}/
 #copy curl bin
 cp -r ${CURLPATH}/bin/* ${TARGETBIN}/
 
+#copy instructions
+cp instructions.txt ${TARGETDIR}/
 
 zip -r ${ZIPFILE} ${TARGETDIR}
 

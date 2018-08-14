@@ -1,0 +1,7 @@
+1/ Put the bin/ directory of the archive in your PATH. (You may need to restart your IDE after doing that)
+
+2/ Put the include/ directory in the list searched by the prepropcessor of your compiler.
+
+3/ Put the lib/ directory in the list searched by the linker of your compiler.
+
+4/ Add libcurl.lib to the list of libraries to link against.
