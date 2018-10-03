@@ -38,7 +38,7 @@ namespace bridges {
 			E  **grid = nullptr;
 
 			int gridSize[2];
-			int maxGridSize[2]  = {480, 640};
+			int maxGridSize[2]  = {1080, 1920};
 
 		public:
 			virtual const string getDStype() const override {
@@ -76,6 +76,12 @@ namespace bridges {
 			void setDimensions(int rows, int cols) {
 				gridSize[0] = rows;
 				gridSize[1] = cols;
+				if (rows > maxGridSize[0] ||cols > maxGridSize[1]) {
+					cerr << "Grid Maximum Size (1080 x 1920) exceeded!\n"
+						<< "Provided Size: " << rows << " x " << cols 
+						<< ".  Aborting" << endl << endl;
+					exit(-1);
+				}
 				Bridges::setDimensions (gridSize);
 				allocateGrid ();
 			}
