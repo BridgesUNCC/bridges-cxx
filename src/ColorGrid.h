@@ -1,11 +1,13 @@
+
 #include <string>
 using namespace std;
+
+#ifndef COLOR_GRID_H
+#define COLOR_GRID_H 1
 
 #include "Grid.h"
 #include "Color.h"
 #include "base64.h"
-
-
 
 /**
  * @brief This is a class in BRIDGES for representing an (n x n) grid.
@@ -117,3 +119,5 @@ namespace bridges {
 			}
 	};
 } // end namespace bridges
+
+#endif
