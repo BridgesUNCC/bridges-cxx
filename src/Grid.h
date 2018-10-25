@@ -1,3 +1,6 @@
+#ifndef GRID_H
+
+#define GRID_H
 
 #include "DataStructure.h"
 #include <vector>
@@ -76,9 +79,9 @@ namespace bridges {
 			void setDimensions(int rows, int cols) {
 				gridSize[0] = rows;
 				gridSize[1] = cols;
-				if (rows > maxGridSize[0] ||cols > maxGridSize[1]) {
+				if (rows > maxGridSize[0] || cols > maxGridSize[1]) {
 					cerr << "Grid Maximum Size (1080 x 1920) exceeded!\n"
-						<< "Provided Size: " << rows << " x " << cols 
+						<< "Provided Size: " << rows << " x " << cols
 						<< ".  Aborting" << endl << endl;
 					exit(-1);
 				}
@@ -107,3 +110,5 @@ namespace bridges {
 	}; // end class Grid
 
 } // end - namespace bridges
+
+#endif

@@ -1,3 +1,7 @@
+#ifndef ML_ELEMENT_H
+
+#define ML_ELEMENT_H
+
 #include "SLelement.h"
 
 namespace bridges {
@@ -266,3 +270,5 @@ namespace bridges {
 	};
 
 } // end namespace bridges
+
+#endif
