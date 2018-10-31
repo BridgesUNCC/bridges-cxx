@@ -63,8 +63,8 @@ namespace bridges {
 			 *	@return flag indicating if JSON should be printed upon visualization
 			 *
 			 */
-			bool& getVisualizeJSONFlag() {
-				return jsonFlag;;
+			bool getVisualizeJSONFlag() const {
+				return jsonFlag;
 			}
 
 			/**
@@ -82,7 +82,7 @@ namespace bridges {
 			 *			for the server
 			 *
 			 */
-			string& getUserName() {
+			const string& getUserName() const {
 				return user_name;
 			}
 			/**
@@ -90,7 +90,7 @@ namespace bridges {
 			 *	@param  user_name   BRIDGES user id to set
 			 *
 			 */
-			void setUserName(string name) {
+			void setUserName(const string& name) {
 				user_name = name;
 			}
 			/**
@@ -98,13 +98,13 @@ namespace bridges {
 			 *	@return BRIDGES api key credential for the server
 			 *
 			 */
-			string& getApiKey() {
+			const string& getApiKey()  const{
 				return api_key;
 			}
 			/**
 			 *	@param key API key to set for user
 			 */
-			void setApiKey(string key) {
+			void setApiKey(const string& key) {
 				api_key = key;
 			}
 			/**
@@ -112,7 +112,7 @@ namespace bridges {
 			 *	@return assignment number for holding the visualization on the server
 			 *
 			 */
-			unsigned int& getAssignment() {
+			unsigned int getAssignment() const {
 				return assn_num;
 			}
 			/**
@@ -134,7 +134,7 @@ namespace bridges {
 			 *
 			 */
 
-			string& getTitle() {
+			const string& getTitle() const {
 				return title;
 			}
 
@@ -145,20 +145,20 @@ namespace bridges {
 			 *  @param t  title of visualization
 			 *
 			 */
-			void setTitle(string t) {
+			void setTitle(const string& t) {
 				title = t;
 			}
 			/**
 			 *	@return description of visualization
 			 */
 
-			string& getDescription() {
+			const string& getDescription() const {
 				return description;
 			}
 			/**
 			 *	@return descr description of visualization
 			 */
-			void setDescription(string descr) {
+			void setDescription(const string& descr) {
 				description = descr;
 			}
 
@@ -178,7 +178,7 @@ namespace bridges {
 			 *  @return member holding the data structure handle
 			 *
 			 */
-			DataStructure*& getDataStructure() {
+			DataStructure* getDataStructure() {
 				return ds_handle;
 			}
 
@@ -201,7 +201,7 @@ namespace bridges {
 			 *      Options are: ['live', 'local', 'clone'], and 'live' is the default;
 			 *
 			 */
-			void setServer(string server_type) {
+			void setServer(const string& server_type) {
 				if (server_type == "live")
 					server_url = "http://bridges-cs.herokuapp.com";
 				else if (server_type == "clone")
@@ -250,7 +250,7 @@ namespace bridges {
 			 *	['cartesian', 'albersUsa', 'equirectangular']. 'cartesian'
 			 *
 			 **/
-			string  getCoordSystemType () {
+			const string&  getCoordSystemType () {
 				return coord_system_type;
 			}
 
@@ -309,6 +309,8 @@ namespace bridges {
 						"\t Assignment Number: " << assn_num << endl;
 				}
 			}
+
+	private:
 			string getJSONHeader () {
 				return  OPEN_CURLY +
 					QUOTE + "visual" + QUOTE + COLON + QUOTE + ds_handle->getDStype() + QUOTE + COMMA +
