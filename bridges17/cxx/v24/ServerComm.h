@@ -14,6 +14,7 @@ using namespace std;
 #include "./data_src/Song.h"
 
 namespace bridges {
+/*
 	namespace DataSource {
 		vector<Game> getGameData();
 		vector<EarthquakeUSGS> getEarthquakeUSGSData(int);
@@ -26,6 +27,7 @@ namespace bridges {
 		Song getSong(string, string);
 
 	}
+*/
 	/**
 	 *	@brief This is a detail class for the Bridges namespace and
 	 *			is not intended for external use
@@ -34,6 +36,7 @@ namespace bridges {
 			//Used to access to this class private functions
 			friend class Bridges;
 			friend class DataSource;
+/*
 			friend vector<Game> DataSource::getGameData();
 			friend vector<EarthquakeUSGS> DataSource::getEarthquakeUSGSData(int);
 			friend vector<Shakespeare> DataSource::getShakespeareData(string, bool);
@@ -43,6 +46,7 @@ namespace bridges {
 			friend vector<ActorMovieIMDB> DataSource::getActorMovieIMDBData2();
 			friend vector<Song> DataSource::getSongData();
 			friend Song DataSource::getSong(string, string);
+*/
 
 			ServerComm() = delete; //Prevents instantiation
 

@@ -137,7 +137,8 @@ namespace bridges {
 				//TODO: Check for exceeding max node
 				string json_str =
 					(OPEN_CURLY +
-						this->preOrder((TreeElement<E>*)Bridges::getDataStructure())
+//						this->preOrder((TreeElement<E>*)Bridges::getDataStructure())
+						this->preOrder((TreeElement<E>*)this)
 						+ CLOSE_CURLY);
 
 				return pair<string, string> (json_str, "");
