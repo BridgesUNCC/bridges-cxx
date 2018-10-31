@@ -95,6 +95,7 @@ namespace bridges {
 					}
 				}
 				// get the base64 representation of the color array
+				base64 *b64 = new base64;
 				string grid_json  =
 					QUOTE + "dimensions" + QUOTE + COLON +
                     OPEN_BOX +
@@ -103,7 +104,7 @@ namespace bridges {
 
 					QUOTE + "nodes" + QUOTE + COLON +  
 					OPEN_BOX + QUOTE +
-						base64::base64_encode (byte_buf, 4 * gridSize[0] * gridSize[1]) +
+						b64->encode (byte_buf, 4 * gridSize[0] * gridSize[1]) +
 					QUOTE + CLOSE_BOX + 
 					CLOSE_CURLY;
 						
