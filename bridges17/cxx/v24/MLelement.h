@@ -194,7 +194,7 @@ namespace bridges {
 			 *
 			 * @return A pair holding the nodes and links JSON strings respectively
 			 */
-			virtual const pair<string, string> getDataStructureRepresentation() const override final {
+			virtual const string getDataStructureRepresentation() const override final {
 				vector<const MLelement<E>*> nodes;
 
 				// get the list of nodes
@@ -246,7 +246,14 @@ namespace bridges {
 					links_JSON = links_JSON.erase(links_JSON.size() - 1);
 				}
 
-				return pair<string, string> (nodes_JSON, links_JSON);
+				string ml_list_json =
+					QUOTE + "nodes"  + QUOTE + COLON +
+					OPEN_BOX + nodes_JSON + CLOSE_BOX + COMMA +
+					QUOTE + "links" + QUOTE + COLON + OPEN_BOX +
+					links_JSON + CLOSE_BOX +
+					CLOSE_CURLY;
+
+				return ml_list_json;
 			}
 			/**
 			 *  Get the list of nodes

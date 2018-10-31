@@ -133,15 +133,16 @@ namespace bridges {
 			 * Also each child that is NULL is explicitly specified as NULL for
 			 * visualization convenience
 			 */
-			virtual const pair<string, string> getDataStructureRepresentation() const override final {
+			virtual const string getDataStructureRepresentation() const override final {
 				//TODO: Check for exceeding max node
-				string json_str =
+				string tree_json =
+					QUOTE + "nodes"  + QUOTE + COLON +
 					(OPEN_CURLY +
 //						this->preOrder((TreeElement<E>*)Bridges::getDataStructure())
 						this->preOrder((TreeElement<E>*)this)
-						+ CLOSE_CURLY);
+						+ CLOSE_CURLY + CLOSE_CURLY);
 
-				return pair<string, string> (json_str, "");
+				return tree_json;
 			}
 
 			/**

@@ -85,7 +85,6 @@ namespace bridges {
 						<< ".  Aborting" << endl << endl;
 					exit(-1);
 				}
-				Bridges::setDimensions (gridSize);
 				allocateGrid ();
 			}
 

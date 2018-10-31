@@ -288,67 +288,13 @@ namespace bridges {
 				// generate the JSON of the data structure
 
 				string ds_type = ds_handle->getDStype();
-/*
-				string ds_json_prefix = OPEN_CURLY +
-					QUOTE + "visual" + QUOTE + COLON + QUOTE + ds_type + QUOTE + COMMA +
-					QUOTE + "title" + QUOTE + COLON + QUOTE + getTitle() + QUOTE + COMMA +
-					QUOTE + "description" + QUOTE + COLON + QUOTE + getDescription() + QUOTE + COMMA +
-					QUOTE + "map_overlay" + QUOTE + COLON + ((map_overlay) ? "true" : "false") + COMMA +
-					QUOTE + "coord_system_type" + QUOTE + COLON + QUOTE + getCoordSystemType() + QUOTE + COMMA;
-*/
-
-				// for Array and Grid types, must pass dimensions
-/*
-				if (ds_type == "Array") {
-					// get dimensions
-					// write dimensions
-					ds_json += QUOTE + "dims" + QUOTE + COLON +
-						OPEN_BOX +
-						to_string(dims[0]) + COMMA +
-						to_string(dims[1]) + COMMA +
-						to_string(dims[2]) +
-						CLOSE_BOX + COMMA;
-				}
-				else if (ds_type == "ColorGrid") {
-					// get dimensions
-					ds_json += QUOTE + "dimensions" + QUOTE + COLON +
-						OPEN_BOX +
-						to_string(dims[0]) + COMMA + to_string(dims[1]) +
-						CLOSE_BOX + COMMA;
-				}
-*/
 
 				//
-				// get the nodes and link representations
+				// get the JSON of the data strcture
+				// each data structure is responsible for generating its JSON
 				//
 
-	//			ds_json +=  QUOTE + "nodes"  + QUOTE + COLON;
-	//			const pair<string, string> json_nodes_links =
-	//				ds_handle->getDataStructureRepresentation(ds_json_prefix);
 				string ds_json = getJSONHeader() + ds_handle->getDataStructureRepresentation();
-
-				//
-				// for tree structures, get a hierarchical JSON representation
-				// of the nodes and links
-				//
-/*
-				if  (ds_type == "Tree" || ds_type == "BinaryTree" ||
-					ds_type == "BinarySearchTree" || ds_type == "AVLTree" ) {
-					ds_json += json_nodes_links.first + CLOSE_CURLY;
-				}
-				else if (ds_type == "ColorGrid") {
-					ds_json +=
-						OPEN_BOX + QUOTE + json_nodes_links.first + QUOTE + CLOSE_BOX
-						+ CLOSE_CURLY;
-				}
-				else {
-					ds_json +=
-						OPEN_BOX + json_nodes_links.first + CLOSE_BOX + COMMA +
-						QUOTE + "links" + QUOTE + COLON + OPEN_BOX +
-						json_nodes_links.second + CLOSE_BOX +
-						CLOSE_CURLY;
-				}
-*/
 
 				//
 				// print JSON if flag is on
@@ -357,11 +303,11 @@ namespace bridges {
 					cout << "JSON String:\t" << ds_json << endl;
 				}
 
-				try {
+				try {						// send the JSON of assignment to the server
 					ServerComm::makeRequest(BASE_URL + to_string(assn_num) + "." +
 						(subAssignNum > 9 ? "" : "0") + to_string(subAssignNum) + "?apikey=" + api_key +
-						"&username=" + user_name,
-					{"Content-Type: text/plain"}, ds_json);
+						"&username=" + user_name, {"Content-Type: text/plain"}, ds_json);
+
 					cout << "Success: Assignment posted to the server. " << endl <<
 						"Check out your visualization at:" << endl << endl
 						<< BASE_URL + to_string(assn_num) + "/" + user_name << endl << endl;
