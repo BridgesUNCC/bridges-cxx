@@ -30,8 +30,6 @@ namespace bridges {
 
 			unsigned int assn_num = 0;				// assignment id
 
-			int *dims = nullptr;
-
 			DataStructure* ds_handle = nullptr;  	// data structure handle
 
 			string server_url = "http://bridges-cs.herokuapp.com";
@@ -47,6 +45,9 @@ namespace bridges {
 
 
 		public:
+			Bridges() {
+				Bridges (0, "", "");
+			}
 			Bridges (const string& name, const string& key) {
 				Bridges (0, name, key);
 			}
@@ -159,16 +160,6 @@ namespace bridges {
 			 */
 			void setDescription(string descr) {
 				description = descr;
-			}
-
-			/**
-			 *	set dimensions of array
-			 *
-			 *  @param  d - dimensions of the data structure (array, Grid)
-			 *
-			 */
-			void setDimensions(int *d) {
-				dims = d;
 			}
 
 			/**
@@ -285,10 +276,6 @@ namespace bridges {
 					return;
 				}
 
-				// generate the JSON of the data structure
-
-				string ds_type = ds_handle->getDStype();
-
 				//
 				// get the JSON of the data strcture
 				// each data structure is responsible for generating its JSON
@@ -300,7 +287,7 @@ namespace bridges {
 				// print JSON if flag is on
 				//
 				if (getVisualizeJSONFlag()) {
-					cout << "JSON String:\t" << ds_json << endl;
+					cout << "JSON[" + ds_handle->getDStype() + "]:\t" << ds_json << endl;
 				}
 
 				try {						// send the JSON of assignment to the server
