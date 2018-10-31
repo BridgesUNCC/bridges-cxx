@@ -259,9 +259,9 @@ namespace bridges {
 			/**
 			 * Gets the JSON representation of this Graph's nodes and links
 			 *
-			 * @return A pair holding the nodes and links JSON strings respectively
+			 * @return A string holding the nodes JSON of hte graph 
 			 */
-			virtual const pair<string, string> getDataStructureRepresentation() const override {
+			virtual const string getDataStructureRepresentation() const override {
 
 				// map the nodes to a sequence of ids, 0...N-1
 				// then get the JSON string for nodes placeholder
@@ -271,7 +271,7 @@ namespace bridges {
 				int i = 0;
 				string nodes_JSON = "", links_JSON = "";
 
-				for (const auto& v : vertices) {
+				for (const auto& v : this->vertices) {
 					if (node_map.emplace(v.first, i).second) {
 						i++;
 						nodes_JSON += v.second->getElementRepresentation() + COMMA;
@@ -303,8 +303,15 @@ namespace bridges {
 				if (links_JSON.size()) {
 					links_JSON = links_JSON.erase(links_JSON.size() - 1);
 				}
+				
+				string graph_amatrix_json = 
+					QUOTE + "nodes"  + QUOTE + COLON +
+					OPEN_BOX + nodes_JSON + CLOSE_BOX + COMMA +
+					QUOTE + "links" + QUOTE + COLON + OPEN_BOX +
+					links_JSON+ CLOSE_BOX +
+					CLOSE_CURLY;
 
-				return pair<string, string> (nodes_JSON, links_JSON);
+				return graph_amatrix_json;
 			}
 	}; //end of GraphAdjList class
 
