@@ -14,7 +14,7 @@ namespace bridges {
 	 *  data structure representation to the Bridges server (up to 5000 elements)
 	 *
 	 * @author Kalpathi Subramanian, Dakota Carmer
-	 * @date  7/26/15, 6/5/17
+	 * @date  7/26/15, 6/5/17, 10/30/18
 	 */
 	class Bridges {
 		private:
@@ -288,14 +288,17 @@ namespace bridges {
 				// generate the JSON of the data structure
 
 				string ds_type = ds_handle->getDStype();
-				string ds_json = OPEN_CURLY +
+/*
+				string ds_json_prefix = OPEN_CURLY +
 					QUOTE + "visual" + QUOTE + COLON + QUOTE + ds_type + QUOTE + COMMA +
 					QUOTE + "title" + QUOTE + COLON + QUOTE + getTitle() + QUOTE + COMMA +
 					QUOTE + "description" + QUOTE + COLON + QUOTE + getDescription() + QUOTE + COMMA +
 					QUOTE + "map_overlay" + QUOTE + COLON + ((map_overlay) ? "true" : "false") + COMMA +
 					QUOTE + "coord_system_type" + QUOTE + COLON + QUOTE + getCoordSystemType() + QUOTE + COMMA;
+*/
 
 				// for Array and Grid types, must pass dimensions
+/*
 				if (ds_type == "Array") {
 					// get dimensions
 					// write dimensions
@@ -313,19 +316,22 @@ namespace bridges {
 						to_string(dims[0]) + COMMA + to_string(dims[1]) +
 						CLOSE_BOX + COMMA;
 				}
+*/
 
 				//
 				// get the nodes and link representations
 				//
 
-				ds_json +=  QUOTE + "nodes"  + QUOTE + COLON;
-				const pair<string, string> json_nodes_links =
-					ds_handle->getDataStructureRepresentation();
+	//			ds_json +=  QUOTE + "nodes"  + QUOTE + COLON;
+	//			const pair<string, string> json_nodes_links =
+	//				ds_handle->getDataStructureRepresentation(ds_json_prefix);
+				string ds_json = getJSONHeader() + ds_handle->getDataStructureRepresentation();
 
 				//
 				// for tree structures, get a hierarchical JSON representation
 				// of the nodes and links
 				//
+/*
 				if  (ds_type == "Tree" || ds_type == "BinaryTree" ||
 					ds_type == "BinarySearchTree" || ds_type == "AVLTree" ) {
 					ds_json += json_nodes_links.first + CLOSE_CURLY;
@@ -342,6 +348,7 @@ namespace bridges {
 						json_nodes_links.second + CLOSE_BOX +
 						CLOSE_CURLY;
 				}
+*/
 
 				//
 				// print JSON if flag is on
@@ -368,6 +375,15 @@ namespace bridges {
 						"\t API Key: " << api_key << endl <<
 						"\t Assignment Number: " << assn_num << endl;
 				}
+			}
+			string getJSONHeader () {
+				return  OPEN_CURLY +
+					QUOTE + "visual" + QUOTE + COLON + QUOTE + ds_handle->getDStype() + QUOTE + COMMA +
+					QUOTE + "title" + QUOTE + COLON + QUOTE + getTitle() + QUOTE + COMMA +
+					QUOTE + "description" + QUOTE + COLON + QUOTE + getDescription() + QUOTE + COMMA +
+					QUOTE + "map_overlay" + QUOTE + COLON + ((map_overlay) ? "true" : "false") + COMMA +
+					QUOTE + "coord_system_type" + QUOTE + COLON + QUOTE + getCoordSystemType() + QUOTE + 
+					COMMA;
 			}
 		};	//end of class Bridges 
 

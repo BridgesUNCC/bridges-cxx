@@ -224,8 +224,7 @@ namespace bridges {
 				return "Array";
 			}
 
-			virtual const pair<string, string> getDataStructureRepresentation()
-			const override final {
+			virtual const string getDataStructureRepresentation() const override final {
 				vector<const Element<E>*> nodes;
 
 				for (int k = 0; k < size; k++) {
@@ -240,7 +239,7 @@ namespace bridges {
 
 
 		private:
-			static const pair<string, string>generateJSON( const vector<const Element<E>*>& nodes) {
+			const string generateJSON( const vector<const Element<E>*>& nodes) {
 				if (MAX_ELEMENTS_ALLOWED <= nodes.size()) {
 					// cant exceed max number of elements
 					throw "Max allowed elements(for visualization) exceeded.. " +
@@ -267,7 +266,7 @@ namespace bridges {
 					nodes_JSON = nodes_JSON.erase(nodes_JSON.size() - 1);
 				}
 
-				return pair<string, string>(nodes_JSON, "");
+				return nodes_JSON;
 			};
 
 

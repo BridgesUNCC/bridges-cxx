@@ -102,7 +102,7 @@ namespace bridges {
 			 * @param arr_size The size of the array determined by this
 			 * @return A pair holding the nodes and links JSON strings respectively
 			 */
-			virtual const pair<string, string> getDataStructureRepresentation() const = 0;
+			virtual const string getDataStructureRepresentation() const = 0;
 
 	};  //end of DataStructure class
 
