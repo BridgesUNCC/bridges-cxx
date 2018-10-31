@@ -42,8 +42,6 @@ namespace bridges {
 	 */
 	class Color {
 		private:
-			// The regex used to verify #hexadecimal color input
-			static const regex HEX_RANGE;
 			// The named colors' rgba channel value mappings
 			static const unordered_map<string, const array<int, 4>>ColorNames;
 			// The rgba channel values of this Color
@@ -173,6 +171,10 @@ namespace bridges {
 			 * @throw string If name is an invalid color
 			 */
 			void setValue(string name) {
+			  //marking static to avoid rebuilding the regexp every time.
+			  //greedy, so checks for 8(RRGGBBAA), then 6(RRGGBB) then 4(RGBA) then 3(RGB) 
+			  static const regex HEX_RANGE("^#([[:xdigit:]]{8}|[[:xdigit:]]{6}|[[:xdigit:]]{3,4})$");
+			  
 				for (char& c : name) {
 					c = (char) tolower((unsigned char)c);   //convert to lowercase
 				}
@@ -220,7 +222,6 @@ namespace bridges {
 			}
 	};//end of color class
 
-	const regex Color::HEX_RANGE("^#([[:xdigit:]]{8}|[[:xdigit:]]{6}|[[:xdigit:]]{3,4})$");//greedy, so checks for 8(RRGGBBAA), then 6(RRGGBB) then 4(RGBA) then 3(RGB)
 	const unordered_map<string, const array<int, 4>>
 	Color::ColorNames {
 		{"red",     {{255,  0,  0, 255}}},  //Primary
