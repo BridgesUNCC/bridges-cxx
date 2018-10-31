@@ -60,7 +60,7 @@ namespace bridges {
 			return (isalnum(c) || (c == '+') || (c == '/'));
 		}
 
-		string base64_encode(BYTE const* buf, unsigned int bufLen) {
+		string inline base64_encode(BYTE const* buf, unsigned int bufLen) {
 			string ret;
 			int i = 0;
 			int j = 0;
@@ -104,7 +104,7 @@ namespace bridges {
 			return ret;
 		}
 
-		vector<BYTE> base64_decode(string const& encoded_string) {
+		vector<BYTE> inline base64_decode(string const& encoded_string) {
 			size_t in_len = encoded_string.size();
 			int i = 0;
 			//  int j = 0;
