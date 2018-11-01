@@ -24,8 +24,12 @@ namespace bridges {
 	class LinkVisualizer {
 		public:
 
-	  static constexpr double DEFAULT_THICKNESS(){return 1.0;}
-			static Color DEFAULT_COLOR(){return Color("steelblue");}; //SteelBlue
+			static constexpr double DEFAULT_THICKNESS() {
+				return 1.0;
+			}
+			static Color DEFAULT_COLOR() {
+				return Color("steelblue");
+			}; //SteelBlue
 
 		private:
 
@@ -43,8 +47,8 @@ namespace bridges {
 			 * @param thick Link thickness
 			 *
 			 */
-	LinkVisualizer(Color col = DEFAULT_COLOR(),
-		       double th = DEFAULT_THICKNESS()):
+			LinkVisualizer(Color col = DEFAULT_COLOR(),
+				double th = DEFAULT_THICKNESS()):
 				color(col) {
 				setThickness(th);
 			}

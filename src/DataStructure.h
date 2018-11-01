@@ -71,7 +71,7 @@ namespace bridges {
 	class DataStructure {
 			// Used for access to getDataStructureRepresentation()
 			friend class Bridges;
-//			friend void Bridges::visualize();
+			//			friend void Bridges::visualize();
 
 		public:
 			/**

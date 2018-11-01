@@ -43,26 +43,26 @@ namespace bridges {
 	class Color {
 		private:
 			// The named colors' rgba channel value mappings
-	  static const unordered_map<string, const array<int, 4>> & ColorNames() {
+			static const unordered_map<string, const array<int, 4>> & ColorNames() {
 
-	    static unordered_map<string, const array<int, 4>> cn {
-		{"red",     {{255,  0,  0, 255}}},  //Primary
-		{"yellow",  {{255, 255,  0, 255}}}, //subtractive Primary
-		{"blue",    {{  0,  0, 255, 255}}}, //Primary
-		{"cyan",    {{0, 255, 255, 255}}}, //subtractive primary
-		{"magenta", {{255, 0, 255, 255}}}, //subtractive primary
-		{"orange",  {{255, 165,  0, 255}}}, //Secondary
-		{"green",   {{  0, 255,  0, 255}}}, //Secondary(full 255 is considered lime by CSS)
-		{"purple",  {{128,  0, 128, 255}}}, //Secondary
-		{"brown",   {{165, 42, 42, 255}}},  //Neutral
-		{"black",   {{  0,  0,  0, 255}}},  //Monochrome
-		{"grey",    {{192, 192, 192, 255}}}, //Monochrome
-		{"white",   {{255, 255, 255, 255}}}, //Monochrome
-		  {"steelblue", {{70, 130, 180, 255}}}
-	    };
-	    return cn;
-	    
-	  }
+				static unordered_map<string, const array<int, 4>> cn {
+					{"red",     {{255,  0,  0, 255}}},  //Primary
+					{"yellow",  {{255, 255,  0, 255}}}, //subtractive Primary
+					{"blue",    {{  0,  0, 255, 255}}}, //Primary
+					{"cyan",    {{0, 255, 255, 255}}}, //subtractive primary
+					{"magenta", {{255, 0, 255, 255}}}, //subtractive primary
+					{"orange",  {{255, 165,  0, 255}}}, //Secondary
+					{"green",   {{  0, 255,  0, 255}}}, //Secondary(full 255 is considered lime by CSS)
+					{"purple",  {{128,  0, 128, 255}}}, //Secondary
+					{"brown",   {{165, 42, 42, 255}}},  //Neutral
+					{"black",   {{  0,  0,  0, 255}}},  //Monochrome
+					{"grey",    {{192, 192, 192, 255}}}, //Monochrome
+					{"white",   {{255, 255, 255, 255}}}, //Monochrome
+					{"steelblue", {{70, 130, 180, 255}}}
+				};
+				return cn;
+
+			}
 
 			// The rgba channel values of this Color
 			array<int, 4> channels{{255, 255, 255, 255}};
@@ -191,10 +191,10 @@ namespace bridges {
 			 * @throw string If name is an invalid color
 			 */
 			void setValue(string name) {
-			  //marking static to avoid rebuilding the regexp every time.
-			  //greedy, so checks for 8(RRGGBBAA), then 6(RRGGBB) then 4(RGBA) then 3(RGB) 
-			  static const regex HEX_RANGE("^#([[:xdigit:]]{8}|[[:xdigit:]]{6}|[[:xdigit:]]{3,4})$");
-			  
+				//marking static to avoid rebuilding the regexp every time.
+				//greedy, so checks for 8(RRGGBBAA), then 6(RRGGBB) then 4(RGBA) then 3(RGB)
+				static const regex HEX_RANGE("^#([[:xdigit:]]{8}|[[:xdigit:]]{6}|[[:xdigit:]]{3,4})$");
+
 				for (char& c : name) {
 					c = (char) tolower((unsigned char)c);   //convert to lowercase
 				}

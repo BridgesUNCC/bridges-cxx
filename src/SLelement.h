@@ -122,19 +122,19 @@ namespace bridges {
 
 				pair<string, string> json_nodes_links = generateJSON(nodes);
 
-				string sl_list_json = 
-						QUOTE + "nodes"  + QUOTE + COLON + 
-						OPEN_BOX + json_nodes_links.first + CLOSE_BOX + COMMA +
-                        QUOTE + "links" + QUOTE + COLON + OPEN_BOX +
-                        json_nodes_links.second + CLOSE_BOX +
-                        CLOSE_CURLY;
+				string sl_list_json =
+					QUOTE + "nodes"  + QUOTE + COLON +
+					OPEN_BOX + json_nodes_links.first + CLOSE_BOX + COMMA +
+					QUOTE + "links" + QUOTE + COLON + OPEN_BOX +
+					json_nodes_links.second + CLOSE_BOX +
+					CLOSE_CURLY;
 
 
 				return sl_list_json;
 			}
 		protected:
-			virtual const pair<string, string> generateJSON(vector<const SLelement<E>*> nodes) 
-																	const {
+			virtual const pair<string, string> generateJSON(vector<const SLelement<E>*> nodes)
+			const {
 				// map the nodes to a sequence of ids, 0...N-1
 				// then get the JSON string for nodes placeholder
 				// nullptr prevents insertion of other nullptrs

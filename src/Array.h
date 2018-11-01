@@ -59,7 +59,7 @@ namespace bridges {
 				setNumDimensions(num_dims);
 				setDimensions(dims);
 				// for json
-//				Bridges::setDimensions(dims);
+				//				Bridges::setDimensions(dims);
 			}
 
 			///builds a 1D array.
@@ -78,7 +78,7 @@ namespace bridges {
 				dims[2] = 1;
 				setNumDimensions(2);
 				setDimensions(dims);
-//				Bridges::setDimensions(dims);
+				//				Bridges::setDimensions(dims);
 			}
 
 			///builds a 3D array.
@@ -92,7 +92,7 @@ namespace bridges {
 				dims[2] = zsize;
 				setNumDimensions(3);
 				setDimensions(dims);
-//				Bridges::setDimensions(dims);
+				//				Bridges::setDimensions(dims);
 			}
 
 			void setNumDimensions(int nd) {
@@ -131,7 +131,7 @@ namespace bridges {
 				array_data = new Element<E>[size];
 
 				// for json
-//				Bridges::setDimensions(dims);
+				//				Bridges::setDimensions(dims);
 			}
 
 			///returns the size of the dimensions
@@ -230,19 +230,19 @@ namespace bridges {
 				for (int k = 0; k < size; k++) {
 					nodes.push_back(&array_data[k]);
 				}
-										//  first write out dimensions
-				string array_json = 
-						QUOTE + "dims" + QUOTE + COLON +
-                        OPEN_BOX +
-                        to_string(dims[0]) + COMMA +
-                        to_string(dims[1]) + COMMA +
-                        to_string(dims[2]) +
-                        CLOSE_BOX + COMMA + 
+				//  first write out dimensions
+				string array_json =
+					QUOTE + "dims" + QUOTE + COLON +
+					OPEN_BOX +
+					to_string(dims[0]) + COMMA +
+					to_string(dims[1]) + COMMA +
+					to_string(dims[2]) +
+					CLOSE_BOX + COMMA +
 
-						QUOTE + "nodes"  + QUOTE + COLON + 
-						OPEN_BOX +
-							generateJSON(nodes) + 
-						CLOSE_BOX + CLOSE_CURLY;
+					QUOTE + "nodes"  + QUOTE + COLON +
+					OPEN_BOX +
+					generateJSON(nodes) +
+					CLOSE_BOX + CLOSE_CURLY;
 
 				return array_json;
 			}
@@ -252,7 +252,7 @@ namespace bridges {
 
 
 		private:
-			const string generateJSON( const vector<const Element<E>*>& nodes) const{
+			const string generateJSON( const vector<const Element<E>*>& nodes) const {
 				if (MAX_ELEMENTS_ALLOWED <= nodes.size()) {
 					// cant exceed max number of elements
 					throw "Max allowed elements(for visualization) exceeded.. " +

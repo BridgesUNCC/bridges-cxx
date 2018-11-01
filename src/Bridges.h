@@ -21,8 +21,8 @@ namespace bridges {
 
 			bool jsonFlag = false;   				// if JSON is to be printed
 
-			string user_name = string(), 
-				api_key = string(); 				// user credentials
+			string user_name = string(),
+				   api_key = string(); 				// user credentials
 
 			string description = string();			// visualization description
 
@@ -36,7 +36,7 @@ namespace bridges {
 
 			string BASE_URL = server_url + "/assignments/";
 
-													// map overlay options
+			// map overlay options
 			string map_overlay_options[3] = {"cartesian", "albersusa", "equirectangular"};
 			bool map_overlay = false;
 			string coord_system_type = "cartesian";
@@ -98,7 +98,7 @@ namespace bridges {
 			 *	@return BRIDGES api key credential for the server
 			 *
 			 */
-			const string& getApiKey()  const{
+			const string& getApiKey()  const {
 				return api_key;
 			}
 			/**
@@ -256,13 +256,13 @@ namespace bridges {
 
 			/**
 			 *
-			 * 	Sends relevant meta-data and representation of the data structure to the BRIDGES server, 
+			 * 	Sends relevant meta-data and representation of the data structure to the BRIDGES server,
 			 *	and upon successful completion, prints the URL to display the Bridges visualization.
 			 *
 			 */
 			void visualize() {
 
-cout << "ds handle: " << ds_handle  << endl;
+				cout << "ds handle: " << ds_handle  << endl;
 				if (assn_num != lastAssignNum) { 		// reset if a new assignment
 					lastAssignNum = assn_num;
 					subAssignNum = 0;
@@ -311,17 +311,17 @@ cout << "ds handle: " << ds_handle  << endl;
 				}
 			}
 
-	private:
+		private:
 			string getJSONHeader () {
 				return  OPEN_CURLY +
 					QUOTE + "visual" + QUOTE + COLON + QUOTE + ds_handle->getDStype() + QUOTE + COMMA +
 					QUOTE + "title" + QUOTE + COLON + QUOTE + getTitle() + QUOTE + COMMA +
 					QUOTE + "description" + QUOTE + COLON + QUOTE + getDescription() + QUOTE + COMMA +
 					QUOTE + "map_overlay" + QUOTE + COLON + ((map_overlay) ? "true" : "false") + COMMA +
-					QUOTE + "coord_system_type" + QUOTE + COLON + QUOTE + getCoordSystemType() + QUOTE + 
+					QUOTE + "coord_system_type" + QUOTE + COLON + QUOTE + getCoordSystemType() + QUOTE +
 					COMMA;
 			}
-		};	//end of class Bridges 
+	};	//end of class Bridges
 
 
 }	// end of bridges namespace

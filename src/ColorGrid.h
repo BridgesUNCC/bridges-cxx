@@ -82,7 +82,7 @@ namespace bridges {
 
 				// Maintain a bytebuffer for the byte representations of each grid color
 
-						// set the grid dimensions for the visualizer
+				// set the grid dimensions for the visualizer
 				BYTE *byte_buf = new BYTE[4 * gridSize[0] * gridSize[1]];
 
 				int k = 0;
@@ -97,19 +97,19 @@ namespace bridges {
 				// get the base64 representation of the color array
 				string grid_json  =
 					QUOTE + "dimensions" + QUOTE + COLON +
-                    OPEN_BOX +
-                    	to_string(gridSize[0]) + COMMA + to_string(gridSize[1]) +
-                    CLOSE_BOX + COMMA +
+					OPEN_BOX +
+					to_string(gridSize[0]) + COMMA + to_string(gridSize[1]) +
+					CLOSE_BOX + COMMA +
 
-					QUOTE + "nodes" + QUOTE + COLON +  
+					QUOTE + "nodes" + QUOTE + COLON +
 					OPEN_BOX + QUOTE +
-				  base64::encode (byte_buf, 4 * gridSize[0] * gridSize[1]) +
-					QUOTE + CLOSE_BOX + 
+					base64::encode (byte_buf, 4 * gridSize[0] * gridSize[1]) +
+					QUOTE + CLOSE_BOX +
 					CLOSE_CURLY;
-						
+
 				delete[] byte_buf;
 
-				return grid_json; 
+				return grid_json;
 			}
 	};
 } // end namespace bridges

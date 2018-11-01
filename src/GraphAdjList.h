@@ -391,13 +391,13 @@ namespace bridges {
 					links_JSON = links_JSON.erase(links_JSON.size() - 1);
 				}
 
-				string graph_alist_json = 
+				string graph_alist_json =
 					QUOTE + "nodes"  + QUOTE + COLON +
 					OPEN_BOX + nodes_JSON + CLOSE_BOX + COMMA +
 					QUOTE + "links" + QUOTE + COLON + OPEN_BOX +
 					links_JSON + CLOSE_BOX +
 					CLOSE_CURLY;
-					
+
 
 				return graph_alist_json;
 			}

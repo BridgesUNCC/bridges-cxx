@@ -138,7 +138,7 @@ namespace bridges {
 				string tree_json =
 					QUOTE + "nodes"  + QUOTE + COLON +
 					(OPEN_CURLY +
-//						this->preOrder((TreeElement<E>*)Bridges::getDataStructure())
+						//						this->preOrder((TreeElement<E>*)Bridges::getDataStructure())
 						this->preOrder((TreeElement<E>*)this)
 						+ CLOSE_CURLY + CLOSE_CURLY);
 

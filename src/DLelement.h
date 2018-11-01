@@ -179,11 +179,11 @@ namespace bridges {
 				}
 
 				string dl_list_json =
-						QUOTE + "nodes"  + QUOTE + COLON +
-						OPEN_BOX + nodes_JSON + CLOSE_BOX + COMMA +
-						QUOTE + "links" + QUOTE + COLON + 
-						OPEN_BOX + links_JSON + CLOSE_BOX +
-						CLOSE_CURLY;
+					QUOTE + "nodes"  + QUOTE + COLON +
+					OPEN_BOX + nodes_JSON + CLOSE_BOX + COMMA +
+					QUOTE + "links" + QUOTE + COLON +
+					OPEN_BOX + links_JSON + CLOSE_BOX +
+					CLOSE_CURLY;
 
 
 				return dl_list_json;

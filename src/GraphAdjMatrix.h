@@ -259,7 +259,7 @@ namespace bridges {
 			/**
 			 * Gets the JSON representation of this Graph's nodes and links
 			 *
-			 * @return A string holding the nodes JSON of hte graph 
+			 * @return A string holding the nodes JSON of hte graph
 			 */
 			virtual const string getDataStructureRepresentation() const override {
 
@@ -303,12 +303,12 @@ namespace bridges {
 				if (links_JSON.size()) {
 					links_JSON = links_JSON.erase(links_JSON.size() - 1);
 				}
-				
-				string graph_amatrix_json = 
+
+				string graph_amatrix_json =
 					QUOTE + "nodes"  + QUOTE + COLON +
 					OPEN_BOX + nodes_JSON + CLOSE_BOX + COMMA +
 					QUOTE + "links" + QUOTE + COLON + OPEN_BOX +
-					links_JSON+ CLOSE_BOX +
+					links_JSON + CLOSE_BOX +
 					CLOSE_CURLY;
 
 				return graph_amatrix_json;

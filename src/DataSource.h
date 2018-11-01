@@ -52,8 +52,8 @@ namespace bridges {
 
 				// request the game dataset and parse it
 				d.Parse(
-					ServerComm::makeRequest("http://bridgesdata.herokuapp.com/api/games", 
-							{"Accept: application/json"}).c_str());
+					ServerComm::makeRequest("http://bridgesdata.herokuapp.com/api/games",
+				{"Accept: application/json"}).c_str());
 
 				const Value& D = d["data"];
 				vector<Game> wrapper;
@@ -160,7 +160,7 @@ namespace bridges {
 				vector<EarthquakeUSGS> wrapper;
 				if (number <= 0) {
 					d.Parse(ServerComm::makeRequest( "http://earthquakes-uncc.herokuapp.com/eq",
-										{"Accept: application/json"}).c_str());
+					{"Accept: application/json"}).c_str());
 					for (SizeType i = 0; i < d.Size(); i++) {
 						const Value& V = d[i]["properties"];
 						const Value& G = d[i]["geometry"]["coordinates"];
