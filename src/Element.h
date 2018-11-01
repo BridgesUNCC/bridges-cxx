@@ -225,7 +225,7 @@ namespace bridges {
 					+ COMMA +
 					(!lv.getLabel().empty() ?
 						(QUOTE + "label" + QUOTE + COLON +
-							QUOTE + lv.getLabel() + QUOTE + COMMA) : "") +
+							JSONencode( lv.getLabel()) + COMMA) : "") +
 					QUOTE + "thickness" + QUOTE + COLON +
 					removeTrailingZeros(lv.getThickness()) + COMMA +
 					QUOTE + "weight"    + QUOTE + COLON +
