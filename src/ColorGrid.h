@@ -78,11 +78,11 @@ namespace bridges {
 			 *
 			 * @return the JSON representation of the color grid
 			 **/
-			virtual const pair<string, string> getDataStructureRepresentation ()
-			const override {
+			virtual const string getDataStructureRepresentation () const override {
+
 				// Maintain a bytebuffer for the byte representations of each grid color
 
-				// set the grid dimensions for the visualizer
+						// set the grid dimensions for the visualizer
 				BYTE *byte_buf = new BYTE[4 * gridSize[0] * gridSize[1]];
 
 				int k = 0;
@@ -95,27 +95,22 @@ namespace bridges {
 					}
 				}
 				// get the base64 representation of the color array
-				string nodes_str =
-					base64::base64_encode (byte_buf, 4 * gridSize[0] * gridSize[1]);
+				base64 *b64 = new base64;
+				string grid_json  =
+					QUOTE + "dimensions" + QUOTE + COLON +
+                    OPEN_BOX +
+                    	to_string(gridSize[0]) + COMMA + to_string(gridSize[1]) +
+                    CLOSE_BOX + COMMA +
 
+					QUOTE + "nodes" + QUOTE + COLON +  
+					OPEN_BOX + QUOTE +
+						b64->encode (byte_buf, 4 * gridSize[0] * gridSize[1]) +
+					QUOTE + CLOSE_BOX + 
+					CLOSE_CURLY;
+						
 				delete[] byte_buf;
-				string links_str = "";
 
-				// Add the byte representation of the grid
-				/*
-							string json_str = QUOTE + "nodes" + QUOTE + COLON +
-								OPEN_BOX  +
-										QUOTE + base64_grid_str + QUOTE +
-								CLOSE_BOX + COMMA;
-
-										// Specify the dimensions of the grid
-				    		json_str += QUOTE + "dimensions" + QUOTE + COLON +
-								OPEN_BOX +
-										to_string(gridSize[0]) + "," + to_string(gridSize[1]) +
-								CLOSE_BOX + CLOSE_CURLY;
-				*/
-
-				return pair<string, string> (nodes_str, links_str);
+				return grid_json; 
 			}
 	};
 } // end namespace bridges

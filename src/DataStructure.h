@@ -58,11 +58,6 @@ namespace bridges {
 	// Maximum number of elements that can be visualized
 	constexpr int MAX_ELEMENTS_ALLOWED = 5000;
 
-	//Forward Declaration for Befriendment
-	namespace Bridges {
-		void visualize();
-	}
-
 	/**
 	 * @brief This is the superclass of all data structure types in BRIDGES
 	 *
@@ -75,7 +70,8 @@ namespace bridges {
 	 */
 	class DataStructure {
 			// Used for access to getDataStructureRepresentation()
-			friend void Bridges::visualize();
+			friend class Bridges;
+//			friend void Bridges::visualize();
 
 		public:
 			/**
@@ -106,7 +102,7 @@ namespace bridges {
 			 * @param arr_size The size of the array determined by this
 			 * @return A pair holding the nodes and links JSON strings respectively
 			 */
-			virtual const pair<string, string> getDataStructureRepresentation() const = 0;
+			virtual const string getDataStructureRepresentation() const = 0;
 
 	};  //end of DataStructure class
 

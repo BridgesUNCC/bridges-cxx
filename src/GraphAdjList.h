@@ -347,8 +347,7 @@ namespace bridges {
 			 *
 			 * @return A pair holding the nodes and links JSON strings respectively
 			 */
-			virtual const pair<string, string> getDataStructureRepresentation()
-			const override {
+			virtual const string getDataStructureRepresentation() const override {
 
 				// map the nodes to a sequence of ids, 0...N-1
 				// then get the JSON string for nodes placeholder
@@ -392,7 +391,15 @@ namespace bridges {
 					links_JSON = links_JSON.erase(links_JSON.size() - 1);
 				}
 
-				return pair<string, string> (nodes_JSON, links_JSON);
+				string graph_alist_json = 
+					QUOTE + "nodes"  + QUOTE + COLON +
+					OPEN_BOX + nodes_JSON + CLOSE_BOX + COMMA +
+					QUOTE + "links" + QUOTE + COLON + OPEN_BOX +
+					links_JSON + CLOSE_BOX +
+					CLOSE_CURLY;
+					
+
+				return graph_alist_json;
 			}
 	}; //end of GraphAdjList class
 

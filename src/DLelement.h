@@ -120,7 +120,7 @@ namespace bridges {
 
 		private:
 
-			virtual const pair<string, string> getDataStructureRepresentation() const override {
+			virtual const string  getDataStructureRepresentation() const override {
 
 				vector<const DLelement<E>*> nodes;
 
@@ -178,7 +178,15 @@ namespace bridges {
 					links_JSON = links_JSON.erase(links_JSON.size() - 1);
 				}
 
-				return pair<string, string> (nodes_JSON, links_JSON);
+				string dl_list_json =
+						QUOTE + "nodes"  + QUOTE + COLON +
+						OPEN_BOX + nodes_JSON + CLOSE_BOX + COMMA +
+						QUOTE + "links" + QUOTE + COLON + 
+						OPEN_BOX + links_JSON + CLOSE_BOX +
+						CLOSE_CURLY;
+
+
+				return dl_list_json;
 			}
 
 			/**
