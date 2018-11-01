@@ -8,6 +8,11 @@ using namespace std;
 #include "DataStructure.h" //string, using std
 #include "ServerComm.h" //vector
 
+#include <rapidjson/document.h>
+#include <rapidjson/stringbuffer.h>
+#include <rapidjson/writer.h>
+
+
 namespace bridges {
 	/**
 	 * @brief This class contains methods to connect and transmit a user's
@@ -311,14 +316,34 @@ namespace bridges {
 				}
 			}
 
+			///encodes a string object into a JSON string. that is to say, the string is escaped properly and surrounded by quotes
+			static string JSONencode(const string &str) {
+
+				rapidjson::Value s;
+				s.SetString(rapidjson::StringRef(str.c_str()));
+
+
+				rapidjson::StringBuffer buffer;
+				rapidjson::Writer<rapidjson::StringBuffer> writer(buffer);
+				s.Accept(writer);
+
+				const char* output = buffer.GetString();
+
+				string ss = output;
+				return ss;
+			}
+
 		private:
+
+
+
 			string getJSONHeader () {
 				return  OPEN_CURLY +
-					QUOTE + "visual" + QUOTE + COLON + QUOTE + ds_handle->getDStype() + QUOTE + COMMA +
-					QUOTE + "title" + QUOTE + COLON + QUOTE + getTitle() + QUOTE + COMMA +
-					QUOTE + "description" + QUOTE + COLON + QUOTE + getDescription() + QUOTE + COMMA +
+					QUOTE + "visual" + QUOTE + COLON + JSONencode(ds_handle->getDStype()) + COMMA +
+					QUOTE + "title" + QUOTE + COLON + JSONencode(getTitle()) + COMMA +
+					QUOTE + "description" + QUOTE + COLON + JSONencode( getDescription()) + COMMA +
 					QUOTE + "map_overlay" + QUOTE + COLON + ((map_overlay) ? "true" : "false") + COMMA +
-					QUOTE + "coord_system_type" + QUOTE + COLON + QUOTE + getCoordSystemType() + QUOTE +
+					QUOTE + "coord_system_type" + QUOTE + COLON + JSONencode(getCoordSystemType()) +
 					COMMA;
 			}
 	};	//end of class Bridges
