@@ -5,6 +5,8 @@
 
 #include "BSTElement.h" //string, sstream, using std
 
+#include <JSONutil.h>
+
 namespace bridges {
 	/**
 	 * @brief This class can be used to create K-d Tree  elements, derived
@@ -128,7 +130,8 @@ namespace bridges {
 			}
 		protected:
 			virtual const string getElementRepresentation() const override {
-				string json =  BSTElement<K, E>::getElementRepresentation();
+			  using bridges::JSONUtil::JSONencode;
+			  string json =  BSTElement<K, E>::getElementRepresentation();
 				stringstream conv;
 				return json;
 				conv << dimension;
@@ -136,9 +139,8 @@ namespace bridges {
 				conv << thickness;
 				return json.insert(
 						json.size() - 1,
-						COMMA + QUOTE + "dimension" + QUOTE + COLON + QUOTE + conv.str() +
-						COMMA + QUOTE + "thickness" + QUOTE + COLON + QUOTE + conv.str() +
-						QUOTE
+						COMMA + QUOTE + "dimension" + QUOTE + COLON + JSONencode(conv.str()) +
+						COMMA + QUOTE + "thickness" + QUOTE + COLON + JSONencode(conv.str())
 					);
 			}
 	}; //end of KdtreeElement class
