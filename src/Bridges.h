@@ -267,7 +267,6 @@ namespace bridges {
 			 */
 			void visualize() {
 
-				cout << "ds handle: " << ds_handle  << endl;
 				if (assn_num != lastAssignNum) { 		// reset if a new assignment
 					lastAssignNum = assn_num;
 					subAssignNum = 0;
@@ -283,7 +282,7 @@ namespace bridges {
 				}
 
 				//
-				// get the JSON of the data strcture
+				// get the JSON of the data structure
 				// each data structure is responsible for generating its JSON
 				//
 
