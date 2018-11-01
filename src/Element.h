@@ -201,7 +201,7 @@ namespace bridges {
 					ShapeNames.at(elvis->getShape()) + QUOTE + COMMA +
 					QUOTE + "size" + QUOTE + COLON +
 					removeTrailingZeros(elvis->getSize()) + COMMA +
-				  QUOTE + "name" + QUOTE + COLON + JSONencode( label) +
+					QUOTE + "name" + QUOTE + COLON + JSONencode( label) +
 					CLOSE_CURLY;
 			}
 			/**
@@ -216,9 +216,9 @@ namespace bridges {
 			 */
 			static const string getLinkRepresentation(const LinkVisualizer& lv,
 				const string& src, const string& dest) {
-			  using bridges::JSONUtil::JSONencode;
+				using bridges::JSONUtil::JSONencode;
 
-			  
+
 				//write out LinkVisualizer properties
 				return OPEN_CURLY +
 					QUOTE + "color"     + QUOTE + COLON + getCSSRepresentation(lv.getColor())
@@ -281,115 +281,3 @@ namespace bridges {
 }//end of bridges namespace
 
 #endif
-
-
-
-/**
- * Generates the JSON of the given the nodes and associated links
- *
- * @param nodes List of nodes
- * @throw string If maximum elements exceeded
- * @return A pair holding the nodes and links JSON strings respectively
- */
-/*
-			static const pair<string, string> generateJSON(
-				const unordered_set<const Element*>& nodes) {
-				// cant exceed max number of elements
-				if (MAX_ELEMENTS_ALLOWED <= nodes.size()) {
-					throw "Max allowed elements(for visualization) exceeded.."
-					+ to_string(nodes.size()) +
-					" Must be less than " + to_string(MAX_ELEMENTS_ALLOWED);
-				}
-				// map the nodes to a sequence of ids, 0...N-1
-				// then get the JSON string for nodes placeholder
-				// nullptr prevents insertion of other nullptrs
-				unordered_map<const Element*, int> map{{nullptr, -1}};
-
-				string nodes_JSON, links_JSON;
-
-				int i = 0; // get the JSON string for nodes
-				for (const auto* e : nodes) {
-					// short circut only incriments i and
-					//gets rep upon successful emplacement
-					if (map.emplace(e, i).second && ++i) {
-						nodes_JSON += e->getElementRepresentation() + COMMA;
-					}
-				}
-				map.erase(nullptr); //Remove trailing comma and nullptr entry
-				if (nodes_JSON.size()) {
-					nodes_JSON = nodes_JSON.erase(nodes_JSON.size() - 1);
-				}
-				for (const auto& ele_int : map) { //each pair<Element*,int> in map
-					for (const auto& ele_lv : ele_int.first->links) {
-						//each pair<Element*,LinkVisualizer>
-						// in Element*->links
-
-						//mapping of destination node
-						auto it = map.find(ele_lv.first);
-						//only add link if dest node exists
-						if (it != map.end()) {
-							links_JSON += getLinkRepresentation(ele_lv.second,
-									to_string(ele_int.second), to_string(it->second))
-								+ COMMA;
-						}
-					}
-				}
-				if (links_JSON.size()) {
-					//Remove trailing comma
-					links_JSON = links_JSON.erase(links_JSON.size() - 1);
-				}
-				return pair<string, string>(nodes_JSON, links_JSON);
-			}
-
-			static const pair<string, string>	generateOrderedJSON(
-				const vector<const Element*>& nodes) {
-
-				if (MAX_ELEMENTS_ALLOWED <= nodes.size()) {
-					// cant exceed max number of elements
-					throw "Max allowed elements(for visualization) exceeded.. " +
-					to_string(nodes.size()) + " Must be less than " +
-					to_string(MAX_ELEMENTS_ALLOWED);
-				}
-				// map the nodes to a sequence of ids, 0...N-1
-				// then get the JSON string for nodes placeholder
-				// nullptr prevents insertion of other nullptrs
-				unordered_map<const Element*, int> node_map { {nullptr, -1} };
-
-				string nodes_JSON, links_JSON;
-
-				int i = 0; 		// get the JSON string for nodes
-				for (const auto* e : nodes) {
-					if (node_map.emplace(e, i).second)  {
-						// successful emplacement
-						i++;
-						nodes_JSON += e->getElementRepresentation() + COMMA;
-					}
-				}
-				//Remove trailing comma and nullptr entry
-				node_map.erase(nullptr);
-				if (nodes_JSON.size()) {
-					nodes_JSON = nodes_JSON.erase(nodes_JSON.size() - 1);
-				}
-				// for each pair<Element*,int> in map
-				for (const auto& ele_int : node_map) {
-					// for each pair<Element*,LinkVisualizer>
-					// in Element*->links
-					for (const auto& ele_lv : ele_int.first->links) {
-						// mapping of destination node
-						auto it = node_map.find(ele_lv.first);
-						if (it != node_map.end() ) { 	//only add link if dest node exists
-							links_JSON += getLinkRepresentation(ele_lv.second,
-									to_string(ele_int.second),
-									to_string(it->second)) + COMMA;
-						}
-					}
-				}
-				//Remove trailing comma
-				if (links_JSON.size()) {
-					links_JSON = links_JSON.erase(links_JSON.size() - 1);
-				}
-
-				return pair<string, string>(nodes_JSON, links_JSON);
-			}
-*/
-// temp
