@@ -97,11 +97,6 @@ namespace bridges {
 			void setNext(CircSLelement<E> *next) {
 				SLelement<E>::setNext(next);
 			}
-
-			//		virtual const pair<string, string> getDataStructureRepresentation(const
-			//						unsigned int& arr_size) const override final {
-			//			return pair<string, string>("","");
-			//		}
 	};
 
 } // namespace bridges
