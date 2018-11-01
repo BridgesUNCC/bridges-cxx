@@ -4,6 +4,8 @@
 #include <sstream>
 
 #include "BinTreeElement.h" //string, sstream, using std
+#include <JSONutil.h>
+
 
 namespace bridges {
 	/**
@@ -110,13 +112,14 @@ namespace bridges {
 			}
 		protected:
 			virtual const string getElementRepresentation() const override {
+				using bridges::JSONUtil::JSONencode;
+
 				string json = Element<E>::getElementRepresentation();
 				stringstream conv;
 				conv << key;
 				return json.insert(
 						json.size() - 1,
-						COMMA + QUOTE + "key" + QUOTE + COLON + QUOTE + conv.str() +
-						QUOTE
+						COMMA + QUOTE + "key" + QUOTE + COLON + JSONencode(conv.str())
 					);
 			}
 	}; //end of BSTElement class
