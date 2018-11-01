@@ -8,10 +8,7 @@ using namespace std;
 #include "DataStructure.h" //string, using std
 #include "ServerComm.h" //vector
 
-#include <rapidjson/document.h>
-#include <rapidjson/stringbuffer.h>
-#include <rapidjson/writer.h>
-
+#include <JSONutil.h>
 
 namespace bridges {
 	/**
@@ -315,28 +312,13 @@ namespace bridges {
 				}
 			}
 
-			///encodes a string object into a JSON string. that is to say, the string is escaped properly and surrounded by quotes
-			static string JSONencode(const string &str) {
-
-				rapidjson::Value s;
-				s.SetString(rapidjson::StringRef(str.c_str()));
-
-
-				rapidjson::StringBuffer buffer;
-				rapidjson::Writer<rapidjson::StringBuffer> writer(buffer);
-				s.Accept(writer);
-
-				const char* output = buffer.GetString();
-
-				string ss = output;
-				return ss;
-			}
-
 		private:
 
 
 
 			string getJSONHeader () {
+				using bridges::JSONUtil::JSONencode;
+
 				return  OPEN_CURLY +
 					QUOTE + "visual" + QUOTE + COLON + JSONencode(ds_handle->getDStype()) + COMMA +
 					QUOTE + "title" + QUOTE + COLON + JSONencode(getTitle()) + COMMA +

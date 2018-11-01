@@ -11,6 +11,7 @@ using namespace std;
 #include "DataStructure.h"
 #include "ElementVisualizer.h"
 #include "LinkVisualizer.h"
+#include <JSONutil.h>
 
 namespace bridges {
 	// forward Declarations
@@ -179,6 +180,7 @@ namespace bridges {
 			 *	@return The JSON string of this element's properties
 			 */
 			virtual const string getElementRepresentation() const {
+				using bridges::JSONUtil::JSONencode;
 				//write out ElementVisualizer properties
 
 				// first check if location is set and needs to be included
@@ -199,7 +201,7 @@ namespace bridges {
 					ShapeNames.at(elvis->getShape()) + QUOTE + COMMA +
 					QUOTE + "size" + QUOTE + COLON +
 					removeTrailingZeros(elvis->getSize()) + COMMA +
-					QUOTE + "name" + QUOTE + COLON + QUOTE + label + QUOTE +
+				  QUOTE + "name" + QUOTE + COLON + JSONencode( label) +
 					CLOSE_CURLY;
 			}
 			/**
@@ -214,6 +216,9 @@ namespace bridges {
 			 */
 			static const string getLinkRepresentation(const LinkVisualizer& lv,
 				const string& src, const string& dest) {
+			  using bridges::JSONUtil::JSONencode;
+
+			  
 				//write out LinkVisualizer properties
 				return OPEN_CURLY +
 					QUOTE + "color"     + QUOTE + COLON + getCSSRepresentation(lv.getColor())
