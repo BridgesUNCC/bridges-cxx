@@ -43,14 +43,8 @@ using namespace std;
 namespace bridges {
 	typedef unsigned char BYTE;
 
-	class base64 {
 
-
-		private:
-
-//			string base64_encode(BYTE const* buf, unsigned int bufLen);
-//			vector<BYTE> base64_decode(std::string const&);
-
+	namespace base64 {
 
 			const string base64_chars =
 				"ABCDEFGHIJKLMNOPQRSTUVWXYZ"
@@ -60,11 +54,6 @@ namespace bridges {
 
 			inline bool is_base64(BYTE c) {
 				return (isalnum(c) || (c == '+') || (c == '/'));
-			}
-
-		public:
-
-			base64() {
 			}
 
 			string inline encode(BYTE const* buf, unsigned int bufLen) {
@@ -154,8 +143,7 @@ namespace bridges {
 				return ret;
 			}
 
-	};  // end class base64
-
+	} // end namespace base64
 }  // end namespace bridges
 
 #endif

@@ -43,7 +43,27 @@ namespace bridges {
 	class Color {
 		private:
 			// The named colors' rgba channel value mappings
-			static const unordered_map<string, const array<int, 4>>ColorNames;
+	  static const unordered_map<string, const array<int, 4>> & ColorNames() {
+
+	    static unordered_map<string, const array<int, 4>> cn {
+		{"red",     {{255,  0,  0, 255}}},  //Primary
+		{"yellow",  {{255, 255,  0, 255}}}, //subtractive Primary
+		{"blue",    {{  0,  0, 255, 255}}}, //Primary
+		{"cyan",    {{0, 255, 255, 255}}}, //subtractive primary
+		{"magenta", {{255, 0, 255, 255}}}, //subtractive primary
+		{"orange",  {{255, 165,  0, 255}}}, //Secondary
+		{"green",   {{  0, 255,  0, 255}}}, //Secondary(full 255 is considered lime by CSS)
+		{"purple",  {{128,  0, 128, 255}}}, //Secondary
+		{"brown",   {{165, 42, 42, 255}}},  //Neutral
+		{"black",   {{  0,  0,  0, 255}}},  //Monochrome
+		{"grey",    {{192, 192, 192, 255}}}, //Monochrome
+		{"white",   {{255, 255, 255, 255}}}, //Monochrome
+		  {"steelblue", {{70, 130, 180, 255}}}
+	    };
+	    return cn;
+	    
+	  }
+
 			// The rgba channel values of this Color
 			array<int, 4> channels{{255, 255, 255, 255}};
 		public:
@@ -178,9 +198,9 @@ namespace bridges {
 				for (char& c : name) {
 					c = (char) tolower((unsigned char)c);   //convert to lowercase
 				}
-				auto it = ColorNames.find(name);
+				auto it = ColorNames().find(name);
 
-				if (it != ColorNames.end()) {
+				if (it != ColorNames().end()) {
 					channels = it->second;   //Named value
 				}
 				else if (regex_match(name, HEX_RANGE)) { //#Hex value
@@ -199,7 +219,7 @@ namespace bridges {
 				}
 				else { //invalid color
 					string errStr = "Invalid Color: " + name + "\nMust be a hexadecimal(#RRGGBBAA, #RRGGBB, #RGBA, or #RGB) color representation\nOr one of these supported named colors: ";
-					for (const auto& p : ColorNames) {
+					for (const auto& p : ColorNames()) {
 						errStr += " \"" + p.first + "\"";
 					}
 					errStr += "\n";
@@ -221,22 +241,5 @@ namespace bridges {
 				: channels.at(channel) = value;
 			}
 	};//end of color class
-
-	const unordered_map<string, const array<int, 4>>
-	Color::ColorNames {
-		{"red",     {{255,  0,  0, 255}}},  //Primary
-		{"yellow",  {{255, 255,  0, 255}}}, //subtractive Primary
-		{"blue",    {{  0,  0, 255, 255}}}, //Primary
-		{"cyan",    {{0, 255, 255, 255}}}, //subtractive primary
-		{"magenta", {{255, 0, 255, 255}}}, //subtractive primary
-		{"orange",  {{255, 165,  0, 255}}}, //Secondary
-		{"green",   {{  0, 255,  0, 255}}}, //Secondary(full 255 is considered lime by CSS)
-		{"purple",  {{128,  0, 128, 255}}}, //Secondary
-		{"brown",   {{165, 42, 42, 255}}},  //Neutral
-		{"black",   {{  0,  0,  0, 255}}},  //Monochrome
-		{"grey",    {{192, 192, 192, 255}}}, //Monochrome
-		{"white",   {{255, 255, 255, 255}}}, //Monochrome
-		{"steelblue", {{70, 130, 180, 255}}}
-	};
 }//end of bridge namespace
 #endif

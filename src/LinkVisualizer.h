@@ -14,7 +14,7 @@ namespace bridges {
 	 * Objects of this class are stored as properties of Elements.
 	 * A user may manipulate the LinkVisualizer returned from the Element's getLinkVisualizer() method.
 	 *
-	 * BRIDGES supports color of any legal named CSS or #hexadecimal value. Defalt:
+	 * BRIDGES supports color of any legal named CSS or #hexadecimal value. Default:
 	 *  opaque black
 	 * Thickness values must range from [1.0,10.0]. Default: 1.0
 	 *
@@ -24,14 +24,14 @@ namespace bridges {
 	class LinkVisualizer {
 		public:
 
-			static constexpr double DEFAULT_THICKNESS = 1.0;
-			static const Color DEFAULT_COLOR; //SteelBlue
+	  static constexpr double DEFAULT_THICKNESS(){return 1.0;}
+			static Color DEFAULT_COLOR(){return Color("steelblue");}; //SteelBlue
 
 		private:
 
-			Color color = DEFAULT_COLOR;
+			Color color = DEFAULT_COLOR();
 			string label = "";
-			double thickness = DEFAULT_THICKNESS;
+			double thickness = DEFAULT_THICKNESS();
 			double weight = 1.0;
 
 		public:
@@ -43,8 +43,8 @@ namespace bridges {
 			 * @param thick Link thickness
 			 *
 			 */
-			LinkVisualizer(Color col = DEFAULT_COLOR,
-				double th = DEFAULT_THICKNESS):
+	LinkVisualizer(Color col = DEFAULT_COLOR(),
+		       double th = DEFAULT_THICKNESS()):
 				color(col) {
 				setThickness(th);
 			}
@@ -119,9 +119,6 @@ namespace bridges {
 				return color;
 			}
 	}; //end of LinkVisualizer class
-
-	constexpr double LinkVisualizer::DEFAULT_THICKNESS;
-	const Color LinkVisualizer::DEFAULT_COLOR("SteelBlue");
 
 }//end of bridges namespace
 #endif

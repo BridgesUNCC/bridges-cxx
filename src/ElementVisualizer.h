@@ -25,13 +25,13 @@ namespace bridges {
 	 */
 	class ElementVisualizer {
 		public:
-			static const Color DEFAULT_COLOR; //green
-			static constexpr Shape DEFAULT_SHAPE = CIRCLE; //circle
-			static constexpr double DEFAULT_SIZE = 10;
+	  static const Color DEFAULT_COLOR() {return Color("steelblue");}
+	  static constexpr Shape DEFAULT_SHAPE () {return CIRCLE;}
+	  static constexpr double DEFAULT_SIZE () {return 10.;}
 		private:
-			Color color = DEFAULT_COLOR;
-			double size = DEFAULT_SIZE;
-			Shape shape = DEFAULT_SHAPE;
+			Color color = DEFAULT_COLOR();
+			double size = DEFAULT_SIZE();
+			Shape shape = DEFAULT_SHAPE();
 			double locationX = INFINITY, locationY = INFINITY; // location of element
 		public:
 			/**
@@ -42,9 +42,9 @@ namespace bridges {
 			 * @param sz The Size for display
 			 * @param shp The Shape for display
 			 */
-			ElementVisualizer(const Color& hue = DEFAULT_COLOR,
-				const double& sz = DEFAULT_SIZE,
-				const Shape& shp = DEFAULT_SHAPE)
+	ElementVisualizer(const Color& hue = DEFAULT_COLOR(),
+			  const double& sz = DEFAULT_SIZE(),
+			  const Shape& shp = DEFAULT_SHAPE())
 				: color(hue), size(sz), shape(shp) {}
 			/**
 			 * Sets size to "sz"
@@ -135,8 +135,5 @@ namespace bridges {
 			}
 	};//end of ElementVisualizer class
 
-	const       Color ElementVisualizer::DEFAULT_COLOR("steelblue");
-	constexpr   Shape ElementVisualizer::DEFAULT_SHAPE;
-	constexpr   double ElementVisualizer::DEFAULT_SIZE;
 }//end of bridges namespace
 #endif
