@@ -259,7 +259,7 @@ namespace bridges {
 			/**
 			 * Gets the JSON representation of this Graph's nodes and links
 			 *
-			 * @return A string holding the nodes JSON of hte graph
+			 * @return A string holding the nodes JSON of the graph
 			 */
 			virtual const string getDataStructureRepresentation() const override {
 
