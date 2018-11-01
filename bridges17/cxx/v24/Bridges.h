@@ -262,6 +262,7 @@ namespace bridges {
 			 */
 			void visualize() {
 
+cout << "ds handle: " << ds_handle  << endl;
 				if (assn_num != lastAssignNum) { 		// reset if a new assignment
 					lastAssignNum = assn_num;
 					subAssignNum = 0;
