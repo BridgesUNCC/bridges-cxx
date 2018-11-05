@@ -71,8 +71,7 @@ namespace bridges {
 			}
 			/** @return the data structure type */
 			virtual const string getDStype() const override {
-				//			return "KD_Tree";
-				return "BinarySearchTree";
+				return "KdTree";
 			}
 			/**
 			 *	@return return the partitioning of this node
@@ -130,21 +129,20 @@ namespace bridges {
 			}
 		protected:
 			virtual const string getElementRepresentation() const override {
-			  using bridges::JSONUtil::JSONencode;
-			  string json =  BSTElement<K, E>::getElementRepresentation();
-				stringstream conv;
-				return json;
-				conv << dimension;
-				conv.clear();
-				conv << thickness;
+				using bridges::JSONUtil::JSONencode;
+				string json =  BSTElement<K, E>::getElementRepresentation();
+				stringstream dim_str, thck_str;
+				dim_str << dimension;
+				thck_str << thickness;
 				return json.insert(
-						json.size() - 1,
-						COMMA + QUOTE + "dimension" + QUOTE + COLON + JSONencode(conv.str()) +
-						COMMA + QUOTE + "thickness" + QUOTE + COLON + JSONencode(conv.str())
-					);
+					json.size() - 1,
+					COMMA + QUOTE + "dimension" + QUOTE + COLON + 
+									JSONencode(dim_str.str()) +
+					COMMA + QUOTE + "thickness" + QUOTE + COLON + 
+									JSONencode(thck_str.str())
+				);
 			}
 	}; //end of KdtreeElement class
-
 
 }//end of bridges namespace
 #endif
