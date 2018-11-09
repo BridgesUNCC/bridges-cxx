@@ -135,12 +135,12 @@ namespace bridges {
 				dim_str << dimension;
 				thck_str << thickness;
 				return json.insert(
-					json.size() - 1,
-					COMMA + QUOTE + "dimension" + QUOTE + COLON + 
-									JSONencode(dim_str.str()) +
-					COMMA + QUOTE + "thickness" + QUOTE + COLON + 
-									JSONencode(thck_str.str())
-				);
+						json.size() - 1,
+						COMMA + QUOTE + "dimension" + QUOTE + COLON +
+						JSONencode(dim_str.str()) +
+						COMMA + QUOTE + "thickness" + QUOTE + COLON +
+						JSONencode(thck_str.str())
+					);
 			}
 	}; //end of KdtreeElement class
 
