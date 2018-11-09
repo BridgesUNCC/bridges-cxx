@@ -1,5 +1,5 @@
-
 #include "DataStructure.h"
+#include "Symbol.h"
 #include <vector>
 
 using namespace std;
@@ -23,8 +23,12 @@ namespace bridges {
 	class Shape : public Symbol {
 
 		private:
-			static final String DEFAULT_SHAPE = "circle";
-			string shape = "circle";
+			string getDefaultShape() {
+				static string default_shape = "circle";
+
+				return default_shape;
+			}
+			string shape = getDefaultShape();
 
 			int size = 10;		// css attributes and defaults
 
@@ -54,23 +58,18 @@ namespace bridges {
 			 * @param Shape the Shape to draw
 			 */
 			void setShape(string shape) {
-				switch (shape.toLowerCase()) {
-					case "circle":
-						shape = "circle";
-						radius = size / 2;
-						break;
-					case "rectangle":
-						shape = "rect";
-						width = size;
-						height = size;
-						break;
-					case "polygon":
-						shape = "polygon";
-						points = new vector<float>(10);
-						break;
-					default:
-						throw "Invalid Bridges shape : " + shape +
-						". Try circle, rectangle or polygon.";
+				transform(shape.begin(), shape.end(), shape.begin(), ::tolower);
+				if (shape == "circle") {
+					radius = size / 2;
+				}
+				else if (shape == "rectangle") {
+					width = height = size;
+				}
+				else if (shape == "polygon") {
+					points = new vector<float>(50);
+				}
+				else {
+					throw "Invalid Bridges shape : ` + shape + '. Try circle, rectangle or polygon.";
 				}
 			}
 			/**
@@ -80,20 +79,14 @@ namespace bridges {
 			 */
 			void setSize(int sz) {
 				if (size <= 0 || size > 300) {
-					throw "Illegal Size Value! Please enter a size value between "
-					+ "0 and 300.";
+					throw "Illegal Size Value! Please enter a size in the range(0-300)";
 				}
 				else {
 					size = sz;
-					switch (shape) {
-						case "circle":
-							this.radius = size / 2;
-							break;
-						case "rect":
-							width = sz;
-							height = sz;
-							break;
-					}
+					if (shape == "circle")
+						radius = sz / 2;
+					else if	(shape == "rect")
+						width = height = sz;
 				}
 			}
 
@@ -106,39 +99,39 @@ namespace bridges {
 			 */
 			vector<float> getDimensions() {
 				vector<float> dims(4);
-				switch (this.shape) {
-					case "circle":
-						dims[0] = locationX - radius;
-						dims[1] = locationX + radius;
-						dims[2] = locationY - radius
-							dims[3] = locationY + radius;
-
-					case "rect":
-						dims[0] = locationX - width / 2;
-						dims[1] = locationX + width / 2,
-							dims[2] = locationY - width / 2
-								dims[3] = locationY + width / 2);
-
-					case "polygon":
-							dims[0] = dims[2] = INFINITY;
-							dims[1] = dims[3] = -INFINITY;
-							float x, y
-							for (int i = 0; i < points.size(); i += 2) {
-							x = points[i];
-							y = points[i + 1];
-							if (x < minx)
-								minx = x;
-							if (x > maxx)
-								maxx = x;
-							if (y < miny)
-								miny = y;
-							if (y > maxy)
-								maxy = y;
-						}
-					default:
-							dims[0] = dims[1] = dims[2] = dims[3] = 0.0f;
-						}
-				returns dims;
+				if (shape == "circle") {
+					dims[0] = location[0] - radius;
+					dims[1] = location[0] + radius;
+					dims[2] = location[1] - radius;
+					dims[3] = location[1] + radius;
+				}
+				else if (shape == "rect") {
+					dims[0] = location[0] - width / 2;
+					dims[1] = location[0] + width / 2,
+						dims[2] = location[1] - width / 2;
+					dims[3] = location[1] + width / 2;
+				}
+				else if (shape == "polygon") {
+					dims[0] = dims[2] = INFINITY;
+					dims[1] = dims[3] = -INFINITY;
+					float x, y;
+					for (int i = 0; i < points->size(); i += 2) {
+						x = points->at(i);
+						y = points->at(i + 1);
+						if (x < dims[0])
+							dims[0] = x;
+						if (x > dims[2])
+							dims[2] = x;
+						if (y < dims[1])
+							dims[1] = y;
+						if (y > dims[3])
+							dims[3] = y;
+					}
+				}
+				else {
+					dims[0] = dims[1] = dims[2] = dims[3] = 0.0f;
+				}
+				return dims;
 			}
 
 			/**
@@ -151,36 +144,31 @@ namespace bridges {
 			 */
 			void setSize(int w, int h) 	{
 				if (size <= 0 || size > 300) {
-					throw "Illegal Size Value! Please enter a size value between "
-					+ "0 and 300.";
+					throw "Illegal Size Value! Please enter a size in the range 0-300";
 				}
 				else {
-					switch (this.shape) {
-						case "rect":
-							width = w;
-							height = h;
-							break;
+					if (shape == "rect") {
+						width = w;
+						height = h;
 					}
 				}
-				return this;
 			}
 
 			void addPoint(int x, int y) {
 
 				float fx = float(x), fy = float(y);
 				if (shape == "polygon") {
-					if 	(fx > -INFINITY)
-						&& (fx < INFINITY) &&
+					if 	((fx > -INFINITY) && (fx < INFINITY) &&
 						(fy > -INFINITY) && (fy < INFINITY)) {
-						points.push_back(x);
-						points.push_back(y);
+						points->push_back(x);
+						points->push_back(y);
 					}
 				}
 				else {
 					throw "points are valid only for polygons!";
 				}
 			}
-			vector<float> getPoints() {
+			vector<float> *getPoints() {
 				if (shape == "polygon")
 					return points;
 				else
@@ -196,30 +184,30 @@ namespace bridges {
 			 * }
 			 * @returns the encoded JSON string
 			 */
-			string getJSONRepresentation() {
-				string shape_json = Symbol::getJSONRepresentation();
+			string getDataStructureRepresentation() {
+				string shape_json = Symbol::getDataStructureRepresentation();
 				shape_json +=
-					QUOTE + "name" + QUOTE + COLON +  QUOTE + label + QUOTE + COMMA
+					QUOTE + "name" + QUOTE + COLON +  QUOTE + label + QUOTE + COMMA +
 					QUOTE + "shape" + QUOTE + COLON + QUOTE + shape + QUOTE + COMMA;
-				if (shape = "circle")
-					shape_json += QUOTE + "r" + QUOTE + radius + COMMA;
+				if (shape == "circle")
+					shape_json += QUOTE + "r" + QUOTE + to_string(radius) + COMMA;
 
 				// set up width and height of rectangles
 				if (shape == "rect")
-					shape_json += QUOTE + "width" + QUOTE + width + COMMA +
-						QUOTE + "height" + QUOTE + height + COMMA;
+					shape_json += QUOTE + "width" + QUOTE + to_string(width) + COMMA +
+						QUOTE + "height" + QUOTE + to_string(height) + COMMA;
 
 				// add point list to polygons
 				if (shape == "polygon") {
 					shape_json += QUOTE + "points" + QUOTE + COMMA + "OPEN_BOX";
 					vector<float>::iterator it;
-					for (it = points.begin(); it != points.end(); it++) {
-						shape_json += *it + COMMA;
+					for (it = points->begin(); it != points->end(); it++) {
+						shape_json += to_string(*it) + COMMA;
 					}
 				}
+				return shape_json;
 			}
-			return shape_json;
-	}
+	};
 
 } // namespace bridges
 

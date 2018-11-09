@@ -1,9 +1,12 @@
 #include <cmath>
 #include <string>
+#include <vector>
+#include <unordered_map>
 
 using namespace std;
 
 #include "DataStructure.h"
+#include "Symbol.h"
 
 namespace bridges {
 
@@ -14,12 +17,12 @@ namespace bridges {
 	 *	@date 10/9/18
 	 *
 	*/
-	class SymbolCollection : public  DataStruct {
+	class SymbolCollection : public  DataStructure {
 			// keep track of the shape elements; useful
 			// to maintain their properties
 		private:
 
-			unordered_map<string, Symbol> symbols;
+			unordered_map<int, Symbol> symbols;
 
 			// 	default domain (assuming square coordinate space)
 			// 	domian emanates in x and y directions, both positive and negative,
@@ -51,10 +54,10 @@ namespace bridges {
 			 *
 			 *   @param s  symbol being added
 			 */
-			void addSymbol(Symbol s) {
+			void addSymbol(Symbol *s) {
 				// note: it is the user's responsibility to handle
 				//  duplicates where desired
-				symbols[s.getIdentifier()] = s;
+				symbols[s->getIdentifier()] = *s;
 			}
 
 		private:
@@ -63,7 +66,7 @@ namespace bridges {
 			 *	to ensure all shapes are shown
 			 */
 			void updateAxisDomains(Symbol s) {
-				float[] dims = s.getDimensions();
+				vector<float> dims = s.getDimensions();
 
 				// check x axis
 				if (fabs(dims[0]) > domain) {
@@ -75,7 +78,7 @@ namespace bridges {
 
 				// check y axis
 				if (fabs(dims[2]) > domain) {
-					domain = Math.abs(dims[2]);
+					domain = fabs(dims[2]);
 				}
 				if (fabs(dims[3]) > domain) {
 					domain = fabs(dims[3]);
@@ -91,20 +94,24 @@ namespace bridges {
 					// update axis domains where appropriate for each shape
 					updateAxisDomains(entry.second);
 
-					symbol_json += entry.second.getRepresentation() + COMMA;
+					symbol_json += entry.second.getDataStructureRepresentation() + COMMA;
 				}
 				// remove last comma
-				if (symbols.size()
-					symbol_json.erase(symbols_json.size() - 1);
+				if (symbols.size()) {
+					symbol_json.erase(symbol_json.size() - 1);
 
-					string symbol_prefix  = QUOTE + "domainX" + QUOTE +
+					symbol_json = QUOTE + "domainX" + QUOTE +
 						OPEN_BOX +
-						-domain + COMMA + domain +
-						CLOSE_BOX + COMMA + QUOTE + "domainY" + QUOTE +
-						OPEN_BOX + -domain + COMMA + domain + CLOSE_BOX + COMMA +
+						to_string(-domain) + COMMA + to_string(domain) +
+						CLOSE_BOX + COMMA +
+						QUOTE + "domainY" + QUOTE +
+						OPEN_BOX +
+						to_string(-domain) + COMMA + to_string(domain) +
+						CLOSE_BOX + COMMA +
 						QUOTE + "symbols" + QUOTE + symbol_json + CLOSE_CURLY;
-
+				}
+				return symbol_json;
 			}
-}
+	}
 
 } // namespace bridges

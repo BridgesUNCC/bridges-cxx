@@ -150,19 +150,27 @@ namespace bridges {
 
 				return ss.str();
 			}
-			/** Sets red channel to "r" @param a rgba value to set red channel to  */
+			/** Sets red channel to "r"
+			 *	@param a rgba value to set red channel to
+			 */
 			void setRed(int r) {
 				setChannel(r, 0);
 			}
-			/** Sets green channel to "g" @param a rgba value to set green channel to */
+			/** Sets green channel to "g"
+			 * 	@param a rgba value to set green channel to
+			 */
 			void setGreen(int g) {
 				setChannel(g, 1);
 			}
-			/** Sets blue channel to "b" @param a rgba value to set blue channel to */
+			/** Sets blue channel to "b"
+			 *	@param a rgba value to set blue channel to
+			 */
 			void setBlue(int b) {
 				setChannel(b, 2);
 			}
-			/** Sets alpha channel to "a" @param a rgba value to set alpha channel to */
+			/** Sets alpha channel to "a"
+			 *	@param a rgba value to set alpha channel to
+			 */
 			void setAlpha(int a) {
 				setChannel(a, 3);
 			}
@@ -226,23 +234,29 @@ namespace bridges {
 					throw errStr;
 				}
 			}
-			string getRepresentation () {
-				return string("[" + getRed() + "," + getGreen() + "," +
-						getBlue() + "," + getAlpha() + "]");
-private:
-				/**
-				 * Sets the channel specified by "channel" to "value"
-				 *
-				 * @param channel The channel to change
-				 * @param value The rgba value to set the channel to
-				 * @throw string Throw if value is invalid
-				 */
-				void setChannel(const int& value, const int& channel) {
-					(value < 0 || 255 < value)
-					? throw "Invalid channel parameter: " + to_string(value) +
-					" Must be in the [0,255] range"
-					: channels.at(channel) = value;
-				}
-			};//end of color class
-	}//end of bridge namespace
+			const string getRepresentation () const {
+				return string(
+						"[" + 	to_string(getRed()) + "," +
+						to_string(getGreen()) + "," +
+						to_string(getBlue()) + "," +
+						to_string(getAlpha()) +
+						"]");
+			}
+		private:
+
+			/**
+			 * Sets the channel specified by "channel" to "value"
+			 *
+			 * @param channel The channel to change
+			 * @param value The rgba value to set the channel to
+			 * @throw string Throw if value is invalid
+			 */
+			void setChannel(const int& value, const int& channel) {
+				(value < 0 || 255 < value)
+				? throw "Invalid channel parameter: " + to_string(value) +
+				" Must be in the [0,255] range"
+				: channels.at(channel) = value;
+			}
+	};//end of color class
+}//end of bridge namespace
 #endif

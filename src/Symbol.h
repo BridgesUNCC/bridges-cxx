@@ -5,6 +5,7 @@
 using namespace std;
 
 #include "DataStructure.h"
+#include "Color.h"
 
 #ifndef SYMBOL_H
 
@@ -22,45 +23,84 @@ namespace bridges {
 	 * @date 10/8/18
 	 *
 	*/
-	class Symbol: public DataStruct {
+	class Symbol: public DataStructure {
 
 		private:
 
-			static	int ids = 0;
-			string identifier;
+			int identifier;
+
+			/**
+			 *	these functions maintain default attributes for symbols
+			 */
+			Color getDefaultFillColor() const {
+				static Color default_fill_color("blue");
+
+				return default_fill_color;
+			}
+			Color getDefaultStrokeColor() const {
+				static Color default_stroke_color("white");
+
+				return default_stroke_color;
+			}
+			float getDefaultOpacity() const {
+				static float default_opacity = 1.0f;
+
+				return default_opacity;
+			}
+
+			float getDefaultStrokeWidth() const {
+				static float default_stroke_width = 1.0f;
+
+				return default_stroke_width;
+			}
+
+			int getDefaultStrokeDash() const {
+				static int default_stroke_dash = 1;
+
+				return default_stroke_dash;
+			}
+
+			float *getDefaultLocation() const {
+				static float default_location[2] = {0.0f, 0.0f};
+
+				return default_location;
+			}
 
 		protected:
 			string label = string();
 			// default css attributes for Symbols
-			Color fillColor = new Color("blue");
-			float opacity = DEFAULT_OPACITY;
-			Color strokeColor = new Color("white");
-			float strokeWidth = DEFAULT_STROKEWIDTH;
-			int strokeDash = DEFAULT_STROKEDASH;
+			Color fillColor = getDefaultFillColor();
+			float opacity = getDefaultOpacity();
+			Color strokeColor = getDefaultStrokeColor();
+			float strokeWidth = getDefaultStrokeWidth();
+			int strokeDash = getDefaultStrokeDash();
 
 			// default location attributes for Symbols
-			float locationX = DEFAULT_LOCATIONX;
-			float locationY = DEFAULT_LOCATIONY;
+			float *location = getDefaultLocation();
 
-			// Static default attribute values for all Symbols
-			Color DEFAULT_FILLCOLOR = new Color("blue");
-			float DEFAULT_OPACITY = 1.0f;
-			Color DEFAULT_STROKECOLOR = new Color("white");
-			float DEFAULT_STROKEWIDTH = 1.0f;
-			int DEFAULT_STROKEDASH = 1;
-			float DEFAULT_LOCATIONX = 0.0f;
-			float DEFAULT_LOCATIONY = 0.0f;
 
 
 		public:
-			string getDataStructType() {
+			const string getDStype() const {
 				return "Symbol";
 			}
 
 			Symbol() {
-				identifier = ids.toString();
+				identifier = getIdentifier();
 				label = string();
+			}
+
+			/**
+			 * 	Maintains unique identifiers of symbols
+			 * 	and returns the Symbol's unique identifier
+			 *
+			 * 	@return the string identifier
+			 */
+			int getIdentifier() {
+				static int ids = 0;
 				ids++;
+
+				return ids - 1;
 			}
 
 			/**
@@ -68,20 +108,12 @@ namespace bridges {
 			 *
 			 * @param lbl the label to set
 			 */
-			void setLabel(String lbl) {
+			void setLabel(string lbl) {
 				label = lbl;
 			}
 
 			string getLabel() {
 				return label;
-			}
-
-			/**
-			 * this method returns the Symbol's unique identifier
-			 * @return the string identifier
-			 */
-			String getIdentifier() {
-				return identifier;
 			}
 
 			void setColor(Color c) {
@@ -100,11 +132,12 @@ namespace bridges {
 			}
 
 			void setStrokeWidth(float strk_width) {
-				if (strokewidth <= 0.0f || strokewidth > 10.0f)
-					throw "Stroke width must be between 0 and 10");
-					else
-						strokeWidth = strk_width;
-					}
+				if (strokeWidth <= 0.0f || strokeWidth > 10.0f)
+					throw "Stroke width must be between 0 and 10";
+				else
+					strokeWidth = strk_width;
+			}
+
 			float getStrokeWidth() {
 				return strokeWidth;
 			}
@@ -122,7 +155,7 @@ namespace bridges {
 
 			void setStrokeDash(int dash) {
 				if (dash < 0 || dash > 10)
-					new "Dash must be between 0 and 10 (inclusive)";
+					throw "Dash must be between 0 and 10 (inclusive)";
 				else
 					strokeDash = dash;
 			}
@@ -138,17 +171,17 @@ namespace bridges {
 			void setLocation(float x, float y) {
 				if ((x > -INFINITY && x < INFINITY) &&
 					(y > -INFINITY && y < INFINITY)) {
-					locationX = x;
-					locationY = y;
+					location[0] = x;
+					location[1] = y;
 				}
 				else
 					throw "Coordinates must be real numbers";
 			}
-			float[] getLocation() {
-				return new Float[] {this.locationX, this.locationY};
+			float *getLocation() {
+				return location;
 			}
 			vector<float> getDimensions() {
-				vector<float> dims(0.0f, 0.0f, 0.0f, 0.0f);
+				vector<float> dims(4, 0.0f);
 
 				return dims;
 			}
@@ -162,49 +195,50 @@ namespace bridges {
 			 * }
 			 * @returns the encoded JSON string
 			 */
-			string getJSONRepresentation() {
+			virtual const string getDataStructureRepresentation() const override {
 				string symbol_json = OPEN_CURLY;
 
 				if (fillColor.getRepresentation() !=
-					DEFAULT_FILLCOLOR.getRepresentation()) {
+					getDefaultFillColor().getRepresentation()) {
 					symbol_json += QUOTE + "fill" + QUOTE + COLON +
 						fillColor.getRepresentation() + COMMA;
 				}
 
-				if (opacity != DEFAULT_OPACITY) {
+				if (opacity != getDefaultOpacity()) {
 					symbol_json + QUOTE + "opacity" + QUOTE + COLON +
-					opacity + COMMA;
+					to_string(opacity) + COMMA;
 				}
 
 				if (strokeColor.getRepresentation() !=
-					DEFAULT_STROKECOLOR.getRepresentation()) {
+					getDefaultStrokeColor().getRepresentation()) {
 					symbol_json += QUOTE + "stroke" + QUOTE + COLON +
 						strokeColor.getRepresentation() + COMMA;
 				}
 
-				if (strokeWidth != DEFAULT_STROKEWIDTH) {
+				if (strokeWidth != getDefaultStrokeWidth()) {
 					symbol_json += QUOTE + "stroke-width" + QUOTE + COLON +
-						strokeWidth + COMMA;
+						to_string(strokeWidth) + COMMA;
 				}
 
-				if (strokeDash != DEFAULT_STROKEDASH) {
+				if (strokeDash != getDefaultStrokeDash()) {
 					symbol_json += QUOTE + "stroke-dasharray" + QUOTE + COLON +
-						strokeDash + COMMA;
+						to_string(strokeDash) + COMMA;
 				}
 
-				if (locationX != DEFAULT_LOCATIONX ||
-					locationY != DEFAULT_LOCATIONY) {
+				float *def_loc = getDefaultLocation();
+				if (location[0] != def_loc[0] ||
+					location[1] != def_loc[1]) {
 					symbol_json += QUOTE + "location" + QUOTE + COLON +
 						OPEN_CURLY +
-						QUOTE + "x" + QUOTE + locationX + COMMA +
-						QUOTE + "y" + QUOTE + locationY +
+						QUOTE + "x" + QUOTE + to_string(location[0]) + COMMA +
+						QUOTE + "y" + QUOTE + to_string(location[1]) +
 						CLOSE_CURLY;
 				}
 				symbol_json += CLOSE_CURLY;
 
 				return symbol_json;
 			}
-	}
+	};
 
 } // namespace bridges
 
