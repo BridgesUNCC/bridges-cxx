@@ -226,20 +226,23 @@ namespace bridges {
 					throw errStr;
 				}
 			}
-		private:
-			/**
-			 * Sets the channel specified by "channel" to "value"
-			 *
-			 * @param channel The channel to change
-			 * @param value The rgba value to set the channel to
-			 * @throw string Throw if value is invalid
-			 */
-			void setChannel(const int& value, const int& channel) {
-				(value < 0 || 255 < value)
-				? throw "Invalid channel parameter: " + to_string(value) +
-				" Must be in the [0,255] range"
-				: channels.at(channel) = value;
-			}
-	};//end of color class
-}//end of bridge namespace
+			string getRepresentation () {
+				return string("[" + getRed() + "," + getGreen() + "," +
+						getBlue() + "," + getAlpha() + "]");
+private:
+				/**
+				 * Sets the channel specified by "channel" to "value"
+				 *
+				 * @param channel The channel to change
+				 * @param value The rgba value to set the channel to
+				 * @throw string Throw if value is invalid
+				 */
+				void setChannel(const int& value, const int& channel) {
+					(value < 0 || 255 < value)
+					? throw "Invalid channel parameter: " + to_string(value) +
+					" Must be in the [0,255] range"
+					: channels.at(channel) = value;
+				}
+			};//end of color class
+	}//end of bridge namespace
 #endif

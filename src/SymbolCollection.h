@@ -1,91 +1,110 @@
-package bridges.base;
+#include <cmath>
+#include <string>
 
-import bridges.base.DataStruct;
+using namespace std;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Map.Entry;
+#include "DataStructure.h"
 
-import org.json.simple.JSONArray;
+namespace bridges {
 
-
-
-/*
- * @brief the ShapeCollection represents a collection of symbols (shapes, polygons, and text) to visualize in Bridges
- * @author David Burlinson
-*/
-public class SymbolCollection extends DataStruct {
-  // keep track of the shape elements; useful
-  // to maintain their properties
-  private final HashMap<String, Symbol> symbols;
-
-  // default domain (assuming square coordinate space)
-  //  domian emanates in x and y directions, both positive and negative, from 0,0
-  protected Float domain = 100.0f;
-
-  /**
+	/*
+	 * 	@brief the ShapeCollection represents a collection of symbols (shapes,
+	 *		polygons, and text) to visualize in Bridges
+	 * 	@author Kalpathi Subramanian
+	 *	@date 10/9/18
 	 *
-	 *	Constructor
-	 */
-  public SymbolCollection() {
-    symbols = new HashMap<String, Symbol>();
-  }
+	*/
+	class SymbolCollection : public  DataStruct {
+			// keep track of the shape elements; useful
+			// to maintain their properties
+		private:
 
-  /**
-   *	This method gets the data structure type
-   *
-   *	@return  The date structure type as a string
-   *
-   */
-  public String getDataStructType() {
-    return "SymbolCollection";
-  }
+			unordered_map<string, Symbol> symbols;
 
- /**
-  *   This method adds a symbol to the collection
-  */
-  public void addSymbol(Symbol s) {
-    // note: it is the user's responsibility to handle
-    //  duplicates where desired
-    symbols.put(s.getIdentifier(), s);
-  }
+			// 	default domain (assuming square coordinate space)
+			// 	domian emanates in x and y directions, both positive and negative,
+			//	from 0,0
 
-  /*
-   *   This method examines whether the axes should be expanded to ensure all shapes are shown
-   */
-  private void updateAxisDomains(Symbol s) {
-    Float[] dims = s.getDimensions();
+		protected:
+			float domain = 100.0f;
 
-    // check x axis
-    if(Math.abs(dims[0]) > domain) {
-      domain = Math.abs(dims[0]);
-    }
-    if(Math.abs(dims[1]) > domain) {
-      domain = Math.abs(dims[1]);
-    }
+		public:
+			/**
+			 *
+			 *	Constructor
+			 */
+			SymbolCollection() {
+			}
 
-    // check y axis
-    if(Math.abs(dims[2]) > domain) {
-      domain = Math.abs(dims[2]);
-    }
-    if(Math.abs(dims[3]) > domain) {
-      domain = Math.abs(dims[3]);
-    }
-  }
+			/**
+			  *	This method gets the data structure type
+			  *
+			  *	@return  The date structure type as a string
+			  *
+			  */
+			string getDataStructType() {
+				return "SymbolCollection";
+			}
 
-  /*
-   *	Get the JSON representation of the the data structure
-   */
-  public String getDataStructureRepresentation() {
-    JSONArray symbol_json = new JSONArray();
-    for(Entry<String, Symbol> symbol : symbols.entrySet()) {
+			/**
+			 *   This method adds a symbol to the collection
+			 *
+			 *   @param s  symbol being added
+			 */
+			void addSymbol(Symbol s) {
+				// note: it is the user's responsibility to handle
+				//  duplicates where desired
+				symbols[s.getIdentifier()] = s;
+			}
 
-      // update axis domains where appropriate for each shape
-      updateAxisDomains(symbol.getValue());
+		private:
+			/*
+			 *  This method examines whether the axes should be expanded
+			 *	to ensure all shapes are shown
+			 */
+			void updateAxisDomains(Symbol s) {
+				float[] dims = s.getDimensions();
 
-      symbol_json.add(symbol.getValue().getJSONRepresentation());
-    }
+				// check x axis
+				if (fabs(dims[0]) > domain) {
+					domain = fabs(dims[0]);
+				}
+				if (fabs(dims[1]) > domain) {
+					domain = fabs(dims[1]);
+				}
 
-    return "\"domainX\":[" + -domain + "," + domain + "],\"domainY\":[" + -domain + "," + domain + "]," + "\"symbols\":" + symbol_json + "}";
-  }
+				// check y axis
+				if (fabs(dims[2]) > domain) {
+					domain = Math.abs(dims[2]);
+				}
+				if (fabs(dims[3]) > domain) {
+					domain = fabs(dims[3]);
+				}
+			}
+
+			/*
+			 *	Get the JSON representation of the the data structure
+			 */
+			string getDataStructureRepresentation() {
+				string symbol_json = string();
+				for (auto& entry : symbols) {
+					// update axis domains where appropriate for each shape
+					updateAxisDomains(entry.second);
+
+					symbol_json += entry.second.getRepresentation() + COMMA;
+				}
+				// remove last comma
+				if (symbols.size()
+					symbol_json.erase(symbols_json.size() - 1);
+
+					string symbol_prefix  = QUOTE + "domainX" + QUOTE +
+						OPEN_BOX +
+						-domain + COMMA + domain +
+						CLOSE_BOX + COMMA + QUOTE + "domainY" + QUOTE +
+						OPEN_BOX + -domain + COMMA + domain + CLOSE_BOX + COMMA +
+						QUOTE + "symbols" + QUOTE + symbol_json + CLOSE_CURLY;
+
+			}
 }
+
+} // namespace bridges
