@@ -45,7 +45,7 @@ namespace bridges {
 			  *	@return  The date structure type as a string
 			  *
 			  */
-			string getDataStructType() {
+			virtual const string getDStype() const {
 				return "SymbolCollection";
 			}
 
@@ -88,7 +88,7 @@ namespace bridges {
 			/*
 			 *	Get the JSON representation of the the data structure
 			 */
-			string getDataStructureRepresentation() {
+			virtual const string getDataStructureRepresentation() const {
 				string symbol_json = string();
 				for (auto& entry : symbols) {
 					// update axis domains where appropriate for each shape
@@ -112,6 +112,6 @@ namespace bridges {
 				}
 				return symbol_json;
 			}
-	}
+	};
 
 } // namespace bridges

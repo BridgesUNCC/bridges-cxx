@@ -84,7 +84,7 @@ namespace bridges {
 				else {
 					size = sz;
 					if (shape == "circle")
-						radius = sz / 2;
+						radius = sz/2;
 					else if	(shape == "rect")
 						width = height = sz;
 				}
