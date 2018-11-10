@@ -198,7 +198,8 @@ namespace bridges {
 			 * }
 			 * @returns the encoded JSON string
 			 */
-			string getDataStructureRepresentation() {
+			virtual const string getDataStructureRepresentation() const override{
+cout << "calling Shape::getDSR().." << endl;
 				string shape_json = Symbol::getDataStructureRepresentation();
 				shape_json +=
 					QUOTE + "name" + QUOTE + COLON +  QUOTE + label + QUOTE + COMMA +
