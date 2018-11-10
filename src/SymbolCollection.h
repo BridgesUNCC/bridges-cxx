@@ -8,6 +8,10 @@ using namespace std;
 #include "DataStructure.h"
 #include "Symbol.h"
 
+#ifndef SYMBOL_COLLECTION_H
+
+#define SYMBOL_COLLECTION_H
+
 namespace bridges {
 
 	/*
@@ -58,6 +62,9 @@ namespace bridges {
 				// note: it is the user's responsibility to handle
 				//  duplicates where desired
 				symbols[s->getIdentifier()] = *s;
+
+				// update the axes limits for the visualization
+				updateAxisDomains(s);
 			}
 
 		private:
@@ -65,8 +72,8 @@ namespace bridges {
 			 *  This method examines whether the axes should be expanded
 			 *	to ensure all shapes are shown
 			 */
-			void updateAxisDomains(Symbol s) {
-				vector<float> dims = s.getDimensions();
+			void updateAxisDomains(Symbol *s) {
+				vector<float> dims = s->getDimensions();
 
 				// check x axis
 				if (fabs(dims[0]) > domain) {
@@ -91,27 +98,27 @@ namespace bridges {
 			virtual const string getDataStructureRepresentation() const {
 				string symbol_json = string();
 				for (auto& entry : symbols) {
-					// update axis domains where appropriate for each shape
-					updateAxisDomains(entry.second);
-
-					symbol_json += entry.second.getDataStructureRepresentation() + COMMA;
+					symbol_json +=
+						entry.second.getDataStructureRepresentation() + COMMA;
 				}
 				// remove last comma
 				if (symbols.size()) {
 					symbol_json.erase(symbol_json.size() - 1);
 
-					symbol_json = QUOTE + "domainX" + QUOTE +
+					symbol_json = QUOTE + "domainX" + QUOTE + COLON +
 						OPEN_BOX +
 						to_string(-domain) + COMMA + to_string(domain) +
 						CLOSE_BOX + COMMA +
-						QUOTE + "domainY" + QUOTE +
+						QUOTE + "domainY" + QUOTE + COLON +
 						OPEN_BOX +
 						to_string(-domain) + COMMA + to_string(domain) +
 						CLOSE_BOX + COMMA +
-						QUOTE + "symbols" + QUOTE + symbol_json + CLOSE_CURLY;
+						QUOTE + "symbols" + QUOTE + COLON + symbol_json + CLOSE_CURLY;
 				}
 				return symbol_json;
 			}
 	};
 
 } // namespace bridges
+
+#endif

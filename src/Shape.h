@@ -32,7 +32,7 @@ namespace bridges {
 
 			int size = 10;		// css attributes and defaults
 
-			vector<float> *points = nullptr;
+			vector<float> *points = new vector<float>;
 
 			int radius = size;	// radius of shape - from center
 
@@ -44,8 +44,8 @@ namespace bridges {
 			Shape() {
 			}
 
-			Shape(string shape) {
-				setShape(shape);
+			Shape(string shp) {
+				setShape(shp);
 			}
 
 			string getDataStructType() {
@@ -53,12 +53,24 @@ namespace bridges {
 			}
 
 			/**
+			 *	This method gets the name of the shape
+			 *
+			 *  @return name   shape name
+			 */
+			string getName()  const {
+				return shape;
+			}
+
+			/**
 			 * This method sets the Shape
 			 *
 			 * @param Shape the Shape to draw
 			 */
-			void setShape(string shape) {
-				transform(shape.begin(), shape.end(), shape.begin(), ::tolower);
+			void setShape(string shape_name) {
+				shape = shape_name;
+				transform(shape.begin(), shape.end(),
+					shape.begin(), ::tolower);
+				cout << "setShape(): shape:" << shape << endl;
 				if (shape == "circle") {
 					radius = size / 2;
 				}
@@ -84,7 +96,7 @@ namespace bridges {
 				else {
 					size = sz;
 					if (shape == "circle")
-						radius = sz/2;
+						radius = sz / 2;
 					else if	(shape == "rect")
 						width = height = sz;
 				}
@@ -156,10 +168,12 @@ namespace bridges {
 
 			void addPoint(int x, int y) {
 
-				float fx = float(x), fy = float(y);
+				float fx = float(x);
+				float fy = float(y);
 				if (shape == "polygon") {
 					if 	((fx > -INFINITY) && (fx < INFINITY) &&
 						(fy > -INFINITY) && (fy < INFINITY)) {
+
 						points->push_back(x);
 						points->push_back(y);
 					}
@@ -205,6 +219,7 @@ namespace bridges {
 						shape_json += to_string(*it) + COMMA;
 					}
 				}
+				cout << "JSON (Shape.h)" << shape_json << endl;
 				return shape_json;
 			}
 	};

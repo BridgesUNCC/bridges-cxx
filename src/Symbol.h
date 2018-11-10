@@ -81,7 +81,7 @@ namespace bridges {
 
 
 		public:
-			const string getDStype() const {
+			const string getDStype() const override {
 				return "Symbol";
 			}
 
