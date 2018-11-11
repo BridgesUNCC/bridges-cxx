@@ -99,7 +99,7 @@ namespace bridges {
 				string symbol_json = string();
 				for (auto& entry : symbols) {
 					symbol_json +=
-						entry.second.getDataStructureRepresentation() + COMMA;
+						entry.second.getSymbolRepresentation() + COMMA;
 				}
 				// remove last comma
 				if (symbols.size()) {
@@ -113,7 +113,8 @@ namespace bridges {
 						OPEN_BOX +
 						to_string(-domain) + COMMA + to_string(domain) +
 						CLOSE_BOX + COMMA +
-						QUOTE + "symbols" + QUOTE + COLON + symbol_json + CLOSE_CURLY;
+						QUOTE + "symbols" + QUOTE + COLON + 
+							OPEN_BOX + symbol_json + CLOSE_BOX + CLOSE_CURLY;
 				}
 				return symbol_json;
 			}
