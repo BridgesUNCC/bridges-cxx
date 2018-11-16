@@ -323,7 +323,7 @@ namespace bridges {
 					dims[0] = dims[1] = INFINITY;
 					dims[2] = dims[3] = -INFINITY;
 					float x, y;
-					for (std::size_t i = 0, size = geom_properties.points->size(); i != size; i += 2) {
+					for (std::size_t i = 0, size = geom_properties.points->size(); i < size; i += 2) {
 						x = geom_properties.points->at(i);
 						y = geom_properties.points->at(i + 1);
 						if (x < dims[0])
