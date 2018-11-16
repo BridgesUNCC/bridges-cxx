@@ -36,7 +36,7 @@ namespace bridges {
 										// geoemtric properties of symbol
 			struct geometry {
 				int size = 10;			// size of shape
-				int	width = 10, 
+				int	width = 10,
 					height = 10;		// height, width of bound box of symbol
 				int radius = size; 		// radius of shape - from center
 				float location[2];		// symbol location
@@ -45,17 +45,17 @@ namespace bridges {
 
 
 								// non-geometric properties of symbol
-			struct attributes { 
+			struct attributes {
 				string label = string();
 				Color fillColor, strokeColor;
 				float opacity;
 				float strokeWidth;
 				int strokeDash;
-				int fontSize = 12;	
+				int fontSize = 12;
 				int textWidth = 100;
 				int textHeight = 50;
 
-				
+
 			} attributes;
 
 			/**
@@ -116,7 +116,7 @@ namespace bridges {
 
 			Symbol(string symb) {
 				identifier = getIdentifier();
-				setSymbol(symb);	
+				setSymbol(symb);
 			}
 			/**
 			 * 	Maintains unique identifiers of symbols
@@ -266,15 +266,35 @@ namespace bridges {
 			 * @param size
 			 */
 			void setSize(int sz) {
-				if (geom_properties.size <= 0 || geom_properties.size > 300) {
+				if (sz <= 0 || sz > 300) {
 					throw "Illegal Size Value! Please enter a size in the range(0-300)";
 				}
 				else {
 					geom_properties.size = sz;
-					if (name == "circle")
+					if (shape_type == "circle")
 						geom_properties.radius = sz/2;
-					else if	(name == "rect")
+					else if	(shape_type == "rect")
 						geom_properties.width = geom_properties.height = sz;
+				}
+			}
+
+			int getSize() {
+				return geom_properties.size;
+			}
+
+			int getRadius() {
+				if (shape_type == "circle") {
+						return geom_properties.radius;
+				} else {
+						throw "You may only get radius on circle symbol types";
+				}
+			}
+
+			int getWidth() {
+				if (shape_type == "rect") {
+						return geom_properties.width;
+				} else {
+						throw "You may only get width on rect symbol types";
 				}
 			}
 
@@ -303,7 +323,7 @@ namespace bridges {
 					dims[0] = dims[1] = INFINITY;
 					dims[2] = dims[3] = -INFINITY;
 					float x, y;
-					for (int i = 0; i < geom_properties.points->size(); i += 2) {
+					for (std::size_t i = 0, size = geom_properties.points->size(); i < size; i += 2) {
 						x = geom_properties.points->at(i);
 						y = geom_properties.points->at(i + 1);
 						if (x < dims[0])
@@ -422,29 +442,29 @@ namespace bridges {
 									// next get the geometric properties
 
 				if (shape_type != "text") {
-					symbol_json += 
+					symbol_json +=
 						QUOTE + "name" + QUOTE + COLON +  QUOTE + name + QUOTE + COMMA +
 						QUOTE + "shape" + QUOTE + COLON + QUOTE + shape_type + QUOTE + COMMA;
 				}
 									// circle has radius
 				if (shape_type == "circle")
-					symbol_json += QUOTE + "r" + QUOTE + COLON + 
+					symbol_json += QUOTE + "r" + QUOTE + COLON +
 								to_string(geom_properties.radius);
 
 									// set up width and height of rectangles
 				if (shape_type == "rect") {
-					symbol_json += 
+					symbol_json +=
 						QUOTE + "width" + QUOTE + COLON + to_string(geom_properties.width) + COMMA +
 						QUOTE + "height" + QUOTE + COLON + to_string(geom_properties.height);
 				}
 
 				if (shape_type == "text") {
-					symbol_json += 
-						QUOTE + "name" + QUOTE + COLON + QUOTE + attributes.label 
-														+ QUOTE + COMMA + 
+					symbol_json +=
+						QUOTE + "name" + QUOTE + COLON + QUOTE + attributes.label
+														+ QUOTE + COMMA +
 						QUOTE + "shape" + QUOTE + COLON + QUOTE + "text" + QUOTE + COMMA;
 					if (attributes.fontSize != getDefaultFontSize())
-						symbol_json += QUOTE + "fontSize" + QUOTE + COLON + 
+						symbol_json += QUOTE + "fontSize" + QUOTE + COLON +
 									to_string(attributes.fontSize);
 				}
 
@@ -453,7 +473,7 @@ namespace bridges {
 					symbol_json += QUOTE + "points" + QUOTE + COLON + OPEN_BOX;
 					vector<float>::iterator it;
 					string s;
-					for (it = geom_properties.points->begin(); 
+					for (it = geom_properties.points->begin();
 						it != geom_properties.points->end(); it++) {
 									// remove trailing zeros
 						s = removeTrailingZeros2(*it);
