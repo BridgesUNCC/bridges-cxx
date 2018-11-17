@@ -266,16 +266,38 @@ namespace bridges {
 			 * @param size
 			 */
 			void setSize(int sz) {
-				if (sz <= 0 || sz > 300) {
-					throw "Illegal Size Value! Please enter a size in the range(0-300)";
-				}
-				else {
-					geom_properties.size = sz;
-					if (shape_type == "circle")
-						geom_properties.radius = sz/2;
-					else if	(shape_type == "rect")
-						geom_properties.width = geom_properties.height = sz;
-				}
+					if (sz <= 0 || sz > 300) {
+							throw "Illegal Size Value! Please enter a size in the range(0-300)";
+					}
+					else {
+							geom_properties.size = sz;
+							if (shape_type == "circle") {
+									geom_properties.radius = sz/2;
+							} else if (shape_type == "rect") {
+									geom_properties.width = geom_properties.height = sz;
+							} else if (shape_type == "text") {
+									attributes.textWidth = attributes.textHeight = sz;
+							}
+					}
+			}
+
+			void setSize(int width, int height) {
+					if (width <= 0 || width > 300 || height <= 0 || height > 300) {
+							throw "Illegal Size Value! Please enter a size in the range(0-300)";
+					} else if (shape_type == "circle") {
+						throw "Circle symbol types only have on size dimension, radius";
+					} else {
+							geom_properties.size = width * height;
+							if	(shape_type == "rect"){
+									geom_properties.width = width;
+									geom_properties.height = height;
+							}
+							else if (shape_type == "text") {
+									attributes.textWidth = width;
+									attributes.textHeight = height;
+							}
+					}
+
 			}
 
 			int getSize() {
@@ -288,6 +310,14 @@ namespace bridges {
 				} else {
 						throw "You may only get radius on circle symbol types";
 				}
+			}
+
+			int getHeight() {
+					if (shape_type == "rect") {
+							return geom_properties.height;
+					} else {
+							throw "You may only get height on rect symbol types";
+					}
 			}
 
 			int getWidth() {
@@ -462,9 +492,9 @@ namespace bridges {
 					symbol_json +=
 						QUOTE + "name" + QUOTE + COLON + QUOTE + attributes.label
 														+ QUOTE + COMMA +
-						QUOTE + "shape" + QUOTE + COLON + QUOTE + "text" + QUOTE + COMMA;
+						QUOTE + "shape" + QUOTE + COLON + QUOTE + "text" + QUOTE;
 					if (attributes.fontSize != getDefaultFontSize())
-						symbol_json += QUOTE + "fontSize" + QUOTE + COLON +
+						symbol_json += COMMA + QUOTE + "fontSize" + QUOTE + COLON +
 									to_string(attributes.fontSize);
 				}
 
