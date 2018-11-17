@@ -266,20 +266,19 @@ namespace bridges {
 			 * @param size
 			 */
 			void setSize(int sz) {
-				if (sz <= 0 || sz > 300) {
-					throw "Illegal Size Value! Please enter a size in the range(0-300)";
-				}
-				else {
-					geom_properties.size = sz;
-					if (shape_type == "circle")
-						geom_properties.radius = sz/2;
-					else if	(shape_type == "rect")
-						geom_properties.width = geom_properties.height = sz;
+					if (sz <= 0 || sz > 300) {
+							throw "Illegal Size Value! Please enter a size in the range(0-300)";
 					}
-					else if (shape_type == "text") {
-						attributes.textWidth = attributes.textHeight = sz;
-				    }
-				}
+					else {
+							geom_properties.size = sz;
+							if (shape_type == "circle") {
+									geom_properties.radius = sz/2;
+							} else if (shape_type == "rect") {
+									geom_properties.width = geom_properties.height = sz;
+							} else if (shape_type == "text") {
+									attributes.textWidth = attributes.textHeight = sz;
+							}
+					}
 			}
 
 			void setSize(int width, int height) {
@@ -319,26 +318,6 @@ namespace bridges {
 					} else {
 							throw "You may only get height on rect symbol types";
 					}
-			}
-
-			int getWidth() {
-				if (shape_type == "rect") {
-						return geom_properties.width;
-				} else {
-						throw "You may only get width on rect symbol types";
-				}
-			}
-
-			int getSize() {
-				return geom_properties.size;
-			}
-
-			int getRadius() {
-				if (shape_type == "circle") {
-						return geom_properties.radius;
-				} else {
-						throw "You may only get radius on circle symbol types";
-				}
 			}
 
 			int getWidth() {
@@ -513,9 +492,9 @@ namespace bridges {
 					symbol_json +=
 						QUOTE + "name" + QUOTE + COLON + QUOTE + attributes.label
 														+ QUOTE + COMMA +
-						QUOTE + "shape" + QUOTE + COLON + QUOTE + "text" + QUOTE + COMMA;
+						QUOTE + "shape" + QUOTE + COLON + QUOTE + "text" + QUOTE;
 					if (attributes.fontSize != getDefaultFontSize())
-						symbol_json += QUOTE + "fontSize" + QUOTE + COLON +
+						symbol_json += COMMA + QUOTE + "fontSize" + QUOTE + COLON +
 									to_string(attributes.fontSize);
 				}
 
