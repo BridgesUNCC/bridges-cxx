@@ -270,11 +270,10 @@ namespace bridges {
 					throw "Illegal Size Value! Please enter a size in the range(0-300)";
 				}
 				else {
-					geom_properties.size = sz * sz;
-					if (shape_type == "circle"){
+					geom_properties.size = sz;
+					if (shape_type == "circle")
 						geom_properties.radius = sz/2;
-				    }
-					else if	(shape_type == "rect"){
+					else if	(shape_type == "rect")
 						geom_properties.width = geom_properties.height = sz;
 					}
 					else if (shape_type == "text") {
@@ -320,6 +319,26 @@ namespace bridges {
 					} else {
 							throw "You may only get height on rect symbol types";
 					}
+			}
+
+			int getWidth() {
+				if (shape_type == "rect") {
+						return geom_properties.width;
+				} else {
+						throw "You may only get width on rect symbol types";
+				}
+			}
+
+			int getSize() {
+				return geom_properties.size;
+			}
+
+			int getRadius() {
+				if (shape_type == "circle") {
+						return geom_properties.radius;
+				} else {
+						throw "You may only get radius on circle symbol types";
+				}
 			}
 
 			int getWidth() {
