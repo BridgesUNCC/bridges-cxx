@@ -113,7 +113,7 @@ namespace bridges {
 						OPEN_BOX +
 						to_string(-domain) + COMMA + to_string(domain) +
 						CLOSE_BOX + COMMA +
-						QUOTE + "symbols" + QUOTE + COLON + 
+						QUOTE + "symbols" + QUOTE + COLON +
 							OPEN_BOX + symbol_json + CLOSE_BOX + CLOSE_CURLY;
 				}
 				return symbol_json;
