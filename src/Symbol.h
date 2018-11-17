@@ -275,6 +275,57 @@ namespace bridges {
 						geom_properties.radius = sz/2;
 					else if	(shape_type == "rect")
 						geom_properties.width = geom_properties.height = sz;
+					}
+					else if (shape_type == "text") {
+						attributes.textWidth = attributes.textHeight = sz;
+				    }
+				}
+			}
+
+			void setSize(int width, int height) {
+					if (width <= 0 || width > 300 || height <= 0 || height > 300) {
+							throw "Illegal Size Value! Please enter a size in the range(0-300)";
+					} else if (shape_type == "circle") {
+						throw "Circle symbol types only have on size dimension, radius";
+					} else {
+							geom_properties.size = width * height;
+							if	(shape_type == "rect"){
+									geom_properties.width = width;
+									geom_properties.height = height;
+							}
+							else if (shape_type == "text") {
+									attributes.textWidth = width;
+									attributes.textHeight = height;
+							}
+					}
+
+			}
+
+			int getSize() {
+				return geom_properties.size;
+			}
+
+			int getRadius() {
+				if (shape_type == "circle") {
+						return geom_properties.radius;
+				} else {
+						throw "You may only get radius on circle symbol types";
+				}
+			}
+
+			int getHeight() {
+					if (shape_type == "rect") {
+							return geom_properties.height;
+					} else {
+							throw "You may only get height on rect symbol types";
+					}
+			}
+
+			int getWidth() {
+				if (shape_type == "rect") {
+						return geom_properties.width;
+				} else {
+						throw "You may only get width on rect symbol types";
 				}
 			}
 
