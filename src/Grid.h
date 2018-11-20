@@ -93,7 +93,7 @@ namespace bridges {
 			}
 
 			// get the (row, col) element in the grid
-			E get(int row, int col) {
+			E get(int row, int col) const{
 				// to do! Need to check row col against bounds!
 				return grid[row][col];
 			}

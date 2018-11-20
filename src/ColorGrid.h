@@ -72,6 +72,19 @@ namespace bridges {
 			}
 
 
+			/**
+			 * Copy Constructor
+			 **/
+			ColorGrid (const ColorGrid& cg)
+			  :Grid<Color> (cg.gridSize[0], cg.gridSize[1]),
+			  baseColor(cg.baseColor)
+			  {
+			    for (int i = 0; i < gridSize[0]; i++) {
+			      for (int j = 0; j < gridSize[1]; j++) {
+				set (i, j, cg.get(i,j));
+			      }
+			    }			    
+			  }
 		private:
 			/**
 			 * get the JSON representation of the color grid
