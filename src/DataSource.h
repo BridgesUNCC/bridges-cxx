@@ -539,7 +539,6 @@ namespace bridges {
 			  
 			  
 			  //std::cout<<base64_encoded_assignment<<std::endl;
-			  
 			  std::vector<bridges::BYTE> decoded = bridges::base64::decode(base64_encoded_assignment);
 
 			  //std::cerr<<"length: "<<decoded.size()<<std::endl;
