@@ -19,6 +19,9 @@ namespace bridges {
 
 	class ColorGrid : public Grid<Color> {
 		private:
+	  int debug() const{
+	    return 0;
+	  }
 			Color baseColor = Color("black");
 
 			/**
@@ -112,14 +115,19 @@ namespace bridges {
 			std::vector<BYTE> getRLEencoding() const {
 				std::vector<BYTE> vec;
 
-				BYTE count = 0;
+				int count = 0;
 				BYTE r,g,b,a;
 
 				auto commit = [&]() {
 				  if (count == 0)
 				    return;
-						    
-				  vec.push_back(count);
+
+				  if (debug())
+				    std::cerr<<"RLEencodingstream: "<<(int)count<<" "<<(int)r<<" "<<(int)g<<" "<<(int)b<<" "<<(int)a<<std::endl;
+				  
+				  BYTE repeat = (BYTE) (count - 1);
+				  
+				  vec.push_back(repeat);
 				  vec.push_back(r);
 				  vec.push_back(g);
 				  vec.push_back(b);
@@ -139,7 +147,7 @@ namespace bridges {
 				  BYTE la = grid[posX][posY].getAlpha();
 
 				  if (count == 0) {
-				    count=1;
+				    count = 1;
 				    r = lr;
 				    g = lg;
 				    b = lb;
@@ -171,11 +179,11 @@ namespace bridges {
 				//there could be something uncommitted at this point.
 				commit();
 
-
-				std::cerr<<"RLE length: "<<vec.size()
-					 <<" raw length: "<<gridSize[0]*gridSize[1]*4
-					 <<" Compression rate:"<<(float)(vec.size())/(gridSize[0]*gridSize[1]*4)
-					 <<std::endl;
+				if (debug())
+				  std::cerr<<"RLE length: "<<vec.size()
+					   <<" raw length: "<<gridSize[0]*gridSize[1]*4
+					   <<" Compression rate:"<<(float)(vec.size())/(gridSize[0]*gridSize[1]*4)
+					   <<std::endl;
 				return vec;
 			}
 
@@ -193,6 +201,12 @@ namespace bridges {
 			  if (1 || (int)(byte_buf.size()) > gridSize[0]*gridSize[1]*4){
 			    encoding = "RAW";
 			    byte_buf = getRAWencoding();
+			    if (debug())
+			      std::cerr<<"encoding ColorGrid as RAW"<<std::endl;
+			  }
+			  else {
+			    if (debug())
+			      std::cerr<<"encoding ColorGrid as RLE"<<std::endl;
 			  }
 			  
 				// set the grid dimensions for the visualizer

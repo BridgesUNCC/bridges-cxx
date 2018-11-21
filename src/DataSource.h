@@ -30,6 +30,9 @@ namespace bridges {
 	 */
 
 	class DataSource {
+	  int debug() const{
+	    return 0;
+	  }
 		public:
 
 			DataSource() {
@@ -504,6 +507,16 @@ namespace bridges {
 			  if (assignment_type != "ColorGrid") 
 			    throw "Malformed ColorGrid JSON: Not a ColorGrid";
 
+			  std::string encoding = "RAW";
+			  const auto& enc = data.FindMember("encoding");
+			  if (enc != data.MemberEnd()) { //enc == data.MemberEnd() is not an error, mean RAW encoding
+			    if (enc->value.IsString() == false)
+			      throw "Malformed ColorGrid JSON: \"encoding\" should be a string";
+			    encoding = enc->value.GetString();
+			    if (encoding != "RAW" && encoding != "RLE")
+			      throw "Malformed ColorGrid JSON: encoding not supported";
+			  }
+			  
 			  //Access doc["assignmentJSON"]["data"][0]["dimensions"]
 			  const auto& dimensions = data.FindMember("dimensions");
 			  if (dimensions == data.MemberEnd() ||
@@ -523,8 +536,9 @@ namespace bridges {
 			  
 			  int dimx = dimarray[0].GetInt();
 			  int dimy = dimarray[1].GetInt();
-			  
-			  //std::cerr<<"Dimensions: "<<dimx<<"x"<<dimy<<std::endl;
+
+			  if (debug()) 
+			    std::cerr<<"Dimensions: "<<dimx<<"x"<<dimy<<std::endl;
 
 			  //Access doc["assignmentJSON"]["data"][0]["nodes"]
 			  const auto& nodes = data.FindMember("nodes");
@@ -541,32 +555,75 @@ namespace bridges {
 			  //std::cout<<base64_encoded_assignment<<std::endl;
 			  std::vector<bridges::BYTE> decoded = bridges::base64::decode(base64_encoded_assignment);
 
-			  //std::cerr<<"length: "<<decoded.size()<<std::endl;
-			  if (decoded.size() < dimx*dimy*4)
-			    throw "Malformed ColorGrid JSON: nodes is smaller than expected";
-
-			  //first pixel
-			  //std::cerr<<(int)decoded[0]<<" "<<(int)decoded[1]<<" "<<(int)decoded[2]<<" "<<(int)decoded[3]<<std::endl;
-			  
-			  //bridges::ColorGrid* ptr = new bridges::ColorGrid (dimx, dimy);
 			  bridges::ColorGrid cg (dimx, dimy);
-			  
-			  size_t base = 0;
-			  
-			  for (int x=0; x<dimx; ++x) {
-			    for (int y=0; y<dimy; ++y) {
-			      bridges::Color c ((int)decoded[base],
-						(int)decoded[base+1],
-						(int)decoded[base+2],
-						(int)decoded[base+3]
-						);
+			    
+
+			  if (encoding == "RAW") {
+			    if (debug())
+			      std::cerr<<"decoding RAW"<<std::endl;
+			    if (debug())
+			      std::cerr<<"length: "<<decoded.size()<<std::endl;
+			    if (decoded.size() < dimx*dimy*4)
+			      throw "Malformed ColorGrid JSON: nodes is smaller than expected";
+			    
+			    //first pixel
+			    //std::cerr<<(int)decoded[0]<<" "<<(int)decoded[1]<<" "<<(int)decoded[2]<<" "<<(int)decoded[3]<<std::endl;
+			    
+			    //bridges::ColorGrid* ptr = new bridges::ColorGrid (dimx, dimy);
+			    
+			    size_t base = 0;
+			    
+			    for (int x=0; x<dimx; ++x) {
+			      for (int y=0; y<dimy; ++y) {
+				bridges::Color c ((int)decoded[base],
+						  (int)decoded[base+1],
+						  (int)decoded[base+2],
+						  (int)decoded[base+3]
+						  );
+				
+				cg.set(x, y, c);
+				base += 4;
+			      }
+			    }
+			  } else if (encoding == "RLE") {
+			    if (debug())
+			      std::cerr<<"Decoding RLE"<<std::endl;
+			    
+			    int currentInDecoded = 0;
+			    int currentInCG = 0;
+			    while (currentInDecoded != decoded.size()) {
+			      if (currentInDecoded + 5 > decoded.size())
+				throw "Malformed ColorGrid JSON: nodes is not a multiple of 5";
+
+
 			      
-			      cg.set(x, y, c);
-			      base += 4;
+			      int repeat = (BYTE) decoded[currentInDecoded++];
+			      int r = (BYTE) decoded[currentInDecoded++];
+			      int g = (BYTE) decoded[currentInDecoded++];
+			      int b = (BYTE) decoded[currentInDecoded++];
+			      int a = (BYTE) decoded[currentInDecoded++];
+
+			      if (debug())
+				std::cerr<<"indecoded: "<<currentInDecoded
+					 <<" repeat: "<<(int)repeat
+					 <<" color("<<(int)r<<","<<(int)g<<","<<(int)b<<","<<(int)a<<")"
+					 <<std::endl;
+			      
+			      bridges::Color c (r,g,b,a);
+			      while (repeat >= 0) {
+				int posX = currentInCG / dimx;
+				int posY = currentInCG % dimx;
+				if (posX >= dimx || posY >= dimy)
+				  throw "Malformed ColorGrid JSON: Too much data in nodes";
+
+				cg.set(posX, posY, c);
+				
+				currentInCG++;
+				repeat --;
+			      }
 			    }
 			  }
 
-			  //return ptr;
 			  return cg;
 
 			}
