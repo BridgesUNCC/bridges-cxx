@@ -31,7 +31,7 @@ namespace bridges {
 
 	class DataSource {
 			int debug() const {
-				return 0;
+				return 1;
 			}
 		public:
 
@@ -611,18 +611,25 @@ namespace bridges {
 								<< std::endl;
 
 						bridges::Color c (r, g, b, a);
+						
 						while (repeat >= 0) {
-							int posX = currentInCG / dimx;
-							int posY = currentInCG % dimx;
-							if (posX >= dimx || posY >= dimy)
-								throw "Malformed ColorGrid JSON: Too much data in nodes";
-
-							cg.set(posX, posY, c);
+							int posX = currentInCG / dimy;
+							int posY = currentInCG % dimy;
+							if (posX >= dimx || posY >= dimy) {
+							  if (debug())
+							    std::cerr<<posX<<" "<<dimx<<" "<<posY<<" "<<dimy<<std::endl;
+							  throw "Malformed ColorGrid JSON: Too much data in nodes";
+							}
+x							cg.set(posX, posY, c);
 
 							currentInCG++;
 							repeat --;
 						}
 					}
+					if (debug())
+					  std::cerr<<"written "<<currentInCG<<" pixels"<<std::endl;
+					if (currentInCG != dimx*dimy)
+					  throw "Malformed ColorGrid JSON: Not enough data in nodes";
 				}
 
 				return cg;

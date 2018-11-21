@@ -115,16 +115,19 @@ namespace bridges {
 				std::vector<BYTE> vec;
 
 				int count = 0;
+				int totalcount = 0;
 				BYTE r, g, b, a;
 
 				auto commit = [&]() {
 					if (count == 0)
 						return;
 
-					if (debug())
-						std::cerr << "RLEencodingstream: " << (int)count << " " << (int)r << " " << (int)g << " " << (int)b << " " << (int)a << std::endl;
-
+					totalcount += count;
+					
 					BYTE repeat = (BYTE) (count - 1);
+
+					if (debug())
+										  std::cerr << "RLEencodingstream: " << (int)repeat << " " << (int)r << " " << (int)g << " " << (int)b << " " << (int)a << std::endl;
 
 					vec.push_back(repeat);
 					vec.push_back(r);
@@ -138,7 +141,7 @@ namespace bridges {
 				int pos = 0;
 				while (pos < gridSize[0]*gridSize[1]) {
 
-					int posX = pos / gridSize[0];
+					int posX = pos / gridSize[1];
 					int posY = pos % gridSize[1];
 					BYTE lr = grid[posX][posY].getRed();
 					BYTE lg = grid[posX][posY].getGreen();
@@ -169,7 +172,7 @@ namespace bridges {
 						}
 					}
 
-					if (count == 255) {
+					if (count == 256) {
 						commit();
 					}
 
@@ -178,6 +181,9 @@ namespace bridges {
 				//there could be something uncommitted at this point.
 				commit();
 
+				if (totalcount != gridSize[0]*gridSize[1])
+				  throw "what happened in RLE construction?";
+				
 				if (debug())
 					std::cerr << "RLE length: " << vec.size()
 						<< " raw length: " << gridSize[0]*gridSize[1] * 4
@@ -197,7 +203,7 @@ namespace bridges {
 				// Maintain a bytebuffer for the byte representations of each grid color
 				std::vector<BYTE> byte_buf = getRLEencoding();
 				std::string encoding = "RLE";
-				if (1 || (int)(byte_buf.size()) > gridSize[0]*gridSize[1] * 4) {
+				if (1|| (int)(byte_buf.size()) > gridSize[0]*gridSize[1] * 4) {
 					encoding = "RAW";
 					byte_buf = getRAWencoding();
 					if (debug())
