@@ -30,9 +30,9 @@ namespace bridges {
 	 */
 
 	class DataSource {
-	  int debug() const{
-	    return 0;
-	  }
+			int debug() const {
+				return 0;
+			}
 		public:
 
 			DataSource() {
@@ -470,187 +470,188 @@ namespace bridges {
 
 
 			bridges::ColorGrid getColorGridFromAssignment(const std::string& user,
-								      int assignment,
-								      int subassignment=0) {
-			  
-			  std::string s = this->getAssignment(user, assignment, subassignment);
+				int assignment,
+				int subassignment = 0) {
 
-			  rapidjson::Document doc;
-			  doc.Parse(s.c_str());
-			  if (doc.HasParseError())
-			    throw "Malformed JSON";
-			  
-			  //Access doc["assignmentJSON"]
-			  const auto& assjson = doc.FindMember("assignmentJSON");
+				std::string s = this->getAssignment(user, assignment, subassignment);
 
-			  if (assjson == doc.MemberEnd())
-			    throw "Malformed ColorGrid JSON: no assignmentJSON";
+				rapidjson::Document doc;
+				doc.Parse(s.c_str());
+				if (doc.HasParseError())
+					throw "Malformed JSON";
 
-			  //Access doc["assignmentJSON"]["data"]
-			  const auto& dataArray = assjson->value.FindMember("data");
+				//Access doc["assignmentJSON"]
+				const auto& assjson = doc.FindMember("assignmentJSON");
 
-			  if (dataArray == assjson->value.MemberEnd()
-			      || dataArray->value.IsArray() == false)
-			    throw "Malformed ColorGrid JSON: No data";
-			  
-			  const auto& data = dataArray->value.GetArray()[0];
+				if (assjson == doc.MemberEnd())
+					throw "Malformed ColorGrid JSON: no assignmentJSON";
 
-			  //Access doc["assignmentJSON"]["data"][0]["visual"]
-			  const auto& dataVisual = data.FindMember("visual");
+				//Access doc["assignmentJSON"]["data"]
+				const auto& dataArray = assjson->value.FindMember("data");
 
-			  if (dataVisual == data.MemberEnd() ||
-			      dataVisual->value.IsString() == false)
-			    throw "Malformed ColorGrid JSON";
-			  
-			  std::string assignment_type = dataVisual->value.GetString();
+				if (dataArray == assjson->value.MemberEnd()
+					|| dataArray->value.IsArray() == false)
+					throw "Malformed ColorGrid JSON: No data";
 
-			  if (assignment_type != "ColorGrid") 
-			    throw "Malformed ColorGrid JSON: Not a ColorGrid";
+				const auto& data = dataArray->value.GetArray()[0];
 
-			  std::string encoding = "RAW";
-			  const auto& enc = data.FindMember("encoding");
-			  if (enc != data.MemberEnd()) { //enc == data.MemberEnd() is not an error, mean RAW encoding
-			    if (enc->value.IsString() == false)
-			      throw "Malformed ColorGrid JSON: \"encoding\" should be a string";
-			    encoding = enc->value.GetString();
-			    if (encoding != "RAW" && encoding != "RLE")
-			      throw "Malformed ColorGrid JSON: encoding not supported";
-			  }
-			  
-			  //Access doc["assignmentJSON"]["data"][0]["dimensions"]
-			  const auto& dimensions = data.FindMember("dimensions");
-			  if (dimensions == data.MemberEnd() ||
-			      dimensions->value.IsArray() == false ||
-			      dimensions->value.GetArray().Size() < 2)
-			    throw "Malformed ColorGrid JSON: dimensions is wrong";
-			    
+				//Access doc["assignmentJSON"]["data"][0]["visual"]
+				const auto& dataVisual = data.FindMember("visual");
 
-			  //Access doc["assignmentJSON"]["data"][0]["dimensions"][0]
-			  //   and doc["assignmentJSON"]["data"][0]["dimensions"][1]
-			  const auto& dimarray = dimensions->value.GetArray();
+				if (dataVisual == data.MemberEnd() ||
+					dataVisual->value.IsString() == false)
+					throw "Malformed ColorGrid JSON";
 
-			  if (dimarray[0].IsInt() == false ||
-			      dimarray[1].IsInt() == false)
-			    throw "Malformed ColorGrid JSON: Malformed dimensions";
-			      
-			  
-			  int dimx = dimarray[0].GetInt();
-			  int dimy = dimarray[1].GetInt();
+				std::string assignment_type = dataVisual->value.GetString();
 
-			  if (debug()) 
-			    std::cerr<<"Dimensions: "<<dimx<<"x"<<dimy<<std::endl;
+				if (assignment_type != "ColorGrid")
+					throw "Malformed ColorGrid JSON: Not a ColorGrid";
 
-			  //Access doc["assignmentJSON"]["data"][0]["nodes"]
-			  const auto& nodes = data.FindMember("nodes");
-			  if (nodes == data.MemberEnd() ||
-			      nodes->value.IsArray() == false ||
-			      nodes->value.GetArray().Size() < 1 ||
-			      nodes->value.GetArray()[0].IsString() == false)
-			    throw "Malformed ColorGrid JSON: malformed nodes";
-			  
-			  //Access doc["assignmentJSON"]["data"][0]["nodes"][0]
-			  std::string base64_encoded_assignment = nodes->value.GetArray()[0].GetString();
-			  
-			  
-			  //std::cout<<base64_encoded_assignment<<std::endl;
-			  std::vector<bridges::BYTE> decoded = bridges::base64::decode(base64_encoded_assignment);
+				std::string encoding = "RAW";
+				const auto& enc = data.FindMember("encoding");
+				if (enc != data.MemberEnd()) { //enc == data.MemberEnd() is not an error, mean RAW encoding
+					if (enc->value.IsString() == false)
+						throw "Malformed ColorGrid JSON: \"encoding\" should be a string";
+					encoding = enc->value.GetString();
+					if (encoding != "RAW" && encoding != "RLE")
+						throw "Malformed ColorGrid JSON: encoding not supported";
+				}
 
-			  bridges::ColorGrid cg (dimx, dimy);
-			    
-
-			  if (encoding == "RAW") {
-			    if (debug())
-			      std::cerr<<"decoding RAW"<<std::endl;
-			    if (debug())
-			      std::cerr<<"length: "<<decoded.size()<<std::endl;
-			    if (decoded.size() < dimx*dimy*4)
-			      throw "Malformed ColorGrid JSON: nodes is smaller than expected";
-			    
-			    //first pixel
-			    //std::cerr<<(int)decoded[0]<<" "<<(int)decoded[1]<<" "<<(int)decoded[2]<<" "<<(int)decoded[3]<<std::endl;
-			    
-			    //bridges::ColorGrid* ptr = new bridges::ColorGrid (dimx, dimy);
-			    
-			    size_t base = 0;
-			    
-			    for (int x=0; x<dimx; ++x) {
-			      for (int y=0; y<dimy; ++y) {
-				bridges::Color c ((int)decoded[base],
-						  (int)decoded[base+1],
-						  (int)decoded[base+2],
-						  (int)decoded[base+3]
-						  );
-				
-				cg.set(x, y, c);
-				base += 4;
-			      }
-			    }
-			  } else if (encoding == "RLE") {
-			    if (debug())
-			      std::cerr<<"Decoding RLE"<<std::endl;
-			    
-			    int currentInDecoded = 0;
-			    int currentInCG = 0;
-			    while (currentInDecoded != decoded.size()) {
-			      if (currentInDecoded + 5 > decoded.size())
-				throw "Malformed ColorGrid JSON: nodes is not a multiple of 5";
+				//Access doc["assignmentJSON"]["data"][0]["dimensions"]
+				const auto& dimensions = data.FindMember("dimensions");
+				if (dimensions == data.MemberEnd() ||
+					dimensions->value.IsArray() == false ||
+					dimensions->value.GetArray().Size() < 2)
+					throw "Malformed ColorGrid JSON: dimensions is wrong";
 
 
-			      
-			      int repeat = (BYTE) decoded[currentInDecoded++];
-			      int r = (BYTE) decoded[currentInDecoded++];
-			      int g = (BYTE) decoded[currentInDecoded++];
-			      int b = (BYTE) decoded[currentInDecoded++];
-			      int a = (BYTE) decoded[currentInDecoded++];
+				//Access doc["assignmentJSON"]["data"][0]["dimensions"][0]
+				//   and doc["assignmentJSON"]["data"][0]["dimensions"][1]
+				const auto& dimarray = dimensions->value.GetArray();
 
-			      if (debug())
-				std::cerr<<"indecoded: "<<currentInDecoded
-					 <<" repeat: "<<(int)repeat
-					 <<" color("<<(int)r<<","<<(int)g<<","<<(int)b<<","<<(int)a<<")"
-					 <<std::endl;
-			      
-			      bridges::Color c (r,g,b,a);
-			      while (repeat >= 0) {
-				int posX = currentInCG / dimx;
-				int posY = currentInCG % dimx;
-				if (posX >= dimx || posY >= dimy)
-				  throw "Malformed ColorGrid JSON: Too much data in nodes";
+				if (dimarray[0].IsInt() == false ||
+					dimarray[1].IsInt() == false)
+					throw "Malformed ColorGrid JSON: Malformed dimensions";
 
-				cg.set(posX, posY, c);
-				
-				currentInCG++;
-				repeat --;
-			      }
-			    }
-			  }
 
-			  return cg;
+				int dimx = dimarray[0].GetInt();
+				int dimy = dimarray[1].GetInt();
+
+				if (debug())
+					std::cerr << "Dimensions: " << dimx << "x" << dimy << std::endl;
+
+				//Access doc["assignmentJSON"]["data"][0]["nodes"]
+				const auto& nodes = data.FindMember("nodes");
+				if (nodes == data.MemberEnd() ||
+					nodes->value.IsArray() == false ||
+					nodes->value.GetArray().Size() < 1 ||
+					nodes->value.GetArray()[0].IsString() == false)
+					throw "Malformed ColorGrid JSON: malformed nodes";
+
+				//Access doc["assignmentJSON"]["data"][0]["nodes"][0]
+				std::string base64_encoded_assignment = nodes->value.GetArray()[0].GetString();
+
+
+				//std::cout<<base64_encoded_assignment<<std::endl;
+				std::vector<bridges::BYTE> decoded = bridges::base64::decode(base64_encoded_assignment);
+
+				bridges::ColorGrid cg (dimx, dimy);
+
+
+				if (encoding == "RAW") {
+					if (debug())
+						std::cerr << "decoding RAW" << std::endl;
+					if (debug())
+						std::cerr << "length: " << decoded.size() << std::endl;
+					if (decoded.size() < dimx * dimy * 4)
+						throw "Malformed ColorGrid JSON: nodes is smaller than expected";
+
+					//first pixel
+					//std::cerr<<(int)decoded[0]<<" "<<(int)decoded[1]<<" "<<(int)decoded[2]<<" "<<(int)decoded[3]<<std::endl;
+
+					//bridges::ColorGrid* ptr = new bridges::ColorGrid (dimx, dimy);
+
+					size_t base = 0;
+
+					for (int x = 0; x < dimx; ++x) {
+						for (int y = 0; y < dimy; ++y) {
+							bridges::Color c ((int)decoded[base],
+								(int)decoded[base + 1],
+								(int)decoded[base + 2],
+								(int)decoded[base + 3]
+							);
+
+							cg.set(x, y, c);
+							base += 4;
+						}
+					}
+				}
+				else if (encoding == "RLE") {
+					if (debug())
+						std::cerr << "Decoding RLE" << std::endl;
+
+					int currentInDecoded = 0;
+					int currentInCG = 0;
+					while (currentInDecoded != decoded.size()) {
+						if (currentInDecoded + 5 > decoded.size())
+							throw "Malformed ColorGrid JSON: nodes is not a multiple of 5";
+
+
+
+						int repeat = (BYTE) decoded[currentInDecoded++];
+						int r = (BYTE) decoded[currentInDecoded++];
+						int g = (BYTE) decoded[currentInDecoded++];
+						int b = (BYTE) decoded[currentInDecoded++];
+						int a = (BYTE) decoded[currentInDecoded++];
+
+						if (debug())
+							std::cerr << "indecoded: " << currentInDecoded
+								<< " repeat: " << (int)repeat
+								<< " color(" << (int)r << "," << (int)g << "," << (int)b << "," << (int)a << ")"
+								<< std::endl;
+
+						bridges::Color c (r, g, b, a);
+						while (repeat >= 0) {
+							int posX = currentInCG / dimx;
+							int posY = currentInCG % dimx;
+							if (posX >= dimx || posY >= dimy)
+								throw "Malformed ColorGrid JSON: Too much data in nodes";
+
+							cg.set(posX, posY, c);
+
+							currentInCG++;
+							repeat --;
+						}
+					}
+				}
+
+				return cg;
 
 			}
-	private:
+		private:
 			/***
 			 * This function obtains the JSON representation of a particular subassignment
 			 ***/
 			std::string getAssignment(std::string user,
-						  int assignment,
-						  int subassignment=0) {
-			  std::vector<std::string> headers;
-			  
-			  std::stringstream ss;
+				int assignment,
+				int subassignment = 0) {
+				std::vector<std::string> headers;
 
-			  ///should probably get the server name from a Bridges object
-			  ss<<"http://bridges-cs.herokuapp.com/assignmentJSON/"
-			    <<assignment<<".";
-			  ss<<std::setfill('0') << std::setw(2) << subassignment;
-			  ss<<"/"<<user;
-			  
-			  std::string url = ss.str();
-			  
-			  //  std::cout<<"URL: "<<url<<std::endl;
-			  
-			  std::string s = bridges::ServerComm::makeRequest(url, headers);
-			  
-			  return s;
+				std::stringstream ss;
+
+				///should probably get the server name from a Bridges object
+				ss << "http://bridges-cs.herokuapp.com/assignmentJSON/"
+					<< assignment << ".";
+				ss << std::setfill('0') << std::setw(2) << subassignment;
+				ss << "/" << user;
+
+				std::string url = ss.str();
+
+				//  std::cout<<"URL: "<<url<<std::endl;
+
+				std::string s = bridges::ServerComm::makeRequest(url, headers);
+
+				return s;
 			}
 	}; // namespace DataSource
 

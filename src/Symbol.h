@@ -33,7 +33,7 @@ namespace bridges {
 
 			string shape_type; 			// rect, circle, polygon, label
 
-										// geoemtric properties of symbol
+			// geoemtric properties of symbol
 			struct geometry {
 				int size = 10;			// size of shape
 				int	width = 10,
@@ -44,7 +44,7 @@ namespace bridges {
 			} geom_properties;
 
 
-								// non-geometric properties of symbol
+			// non-geometric properties of symbol
 			struct attributes {
 				string label = string();
 				Color fillColor, strokeColor;
@@ -98,10 +98,10 @@ namespace bridges {
 				return default_stroke_dash;
 			}
 			string getDefaultSymbol() {
-                static string default_symbol = "circle";
+				static string default_symbol = "circle";
 
-                return default_symbol;
-            }
+				return default_symbol;
+			}
 			int getDefaultFontSize() const {
 				static int default_font_size = 12;
 
@@ -150,7 +150,7 @@ namespace bridges {
 				transform(name.begin(), name.end(), name.begin(), ::tolower);
 				if (shape_name == "circle") {
 					shape_type = "circle";
-					geom_properties.radius = geom_properties.size/2;
+					geom_properties.radius = geom_properties.size / 2;
 				}
 				else if (shape_name == "rectangle") {
 					shape_type = "rect";
@@ -266,37 +266,41 @@ namespace bridges {
 			 * @param size
 			 */
 			void setSize(int sz) {
-					if (sz <= 0 || sz > 300) {
-							throw "Illegal Size Value! Please enter a size in the range(0-300)";
+				if (sz <= 0 || sz > 300) {
+					throw "Illegal Size Value! Please enter a size in the range(0-300)";
+				}
+				else {
+					geom_properties.size = sz;
+					if (shape_type == "circle") {
+						geom_properties.radius = sz / 2;
 					}
-					else {
-							geom_properties.size = sz;
-							if (shape_type == "circle") {
-									geom_properties.radius = sz/2;
-							} else if (shape_type == "rect") {
-									geom_properties.width = geom_properties.height = sz;
-							} else if (shape_type == "text") {
-									attributes.textWidth = attributes.textHeight = sz;
-							}
+					else if (shape_type == "rect") {
+						geom_properties.width = geom_properties.height = sz;
 					}
+					else if (shape_type == "text") {
+						attributes.textWidth = attributes.textHeight = sz;
+					}
+				}
 			}
 
 			void setSize(int width, int height) {
-					if (width <= 0 || width > 300 || height <= 0 || height > 300) {
-							throw "Illegal Size Value! Please enter a size in the range(0-300)";
-					} else if (shape_type == "circle") {
-						throw "Circle symbol types only have on size dimension, radius";
-					} else {
-							geom_properties.size = width * height;
-							if	(shape_type == "rect"){
-									geom_properties.width = width;
-									geom_properties.height = height;
-							}
-							else if (shape_type == "text") {
-									attributes.textWidth = width;
-									attributes.textHeight = height;
-							}
+				if (width <= 0 || width > 300 || height <= 0 || height > 300) {
+					throw "Illegal Size Value! Please enter a size in the range(0-300)";
+				}
+				else if (shape_type == "circle") {
+					throw "Circle symbol types only have on size dimension, radius";
+				}
+				else {
+					geom_properties.size = width * height;
+					if	(shape_type == "rect") {
+						geom_properties.width = width;
+						geom_properties.height = height;
 					}
+					else if (shape_type == "text") {
+						attributes.textWidth = width;
+						attributes.textHeight = height;
+					}
+				}
 
 			}
 
@@ -306,25 +310,28 @@ namespace bridges {
 
 			int getRadius() {
 				if (shape_type == "circle") {
-						return geom_properties.radius;
-				} else {
-						throw "You may only get radius on circle symbol types";
+					return geom_properties.radius;
+				}
+				else {
+					throw "You may only get radius on circle symbol types";
 				}
 			}
 
 			int getHeight() {
-					if (shape_type == "rect") {
-							return geom_properties.height;
-					} else {
-							throw "You may only get height on rect symbol types";
-					}
+				if (shape_type == "rect") {
+					return geom_properties.height;
+				}
+				else {
+					throw "You may only get height on rect symbol types";
+				}
 			}
 
 			int getWidth() {
 				if (shape_type == "rect") {
-						return geom_properties.width;
-				} else {
-						throw "You may only get width on rect symbol types";
+					return geom_properties.width;
+				}
+				else {
+					throw "You may only get width on rect symbol types";
 				}
 			}
 
@@ -343,11 +350,11 @@ namespace bridges {
 					dims[2] = geom_properties.location[1] - geom_properties.radius;
 					dims[3] = geom_properties.location[1] + geom_properties.radius;
 				}
-				else if ( (shape_type == "rect") || (shape_type == "label") ){
-					dims[0] = geom_properties.location[0] - geom_properties.width/2;
-					dims[1] = geom_properties.location[0] + geom_properties.width/2,
-					dims[2] = geom_properties.location[1] - geom_properties.height/2;
-					dims[3] = geom_properties.location[1] + geom_properties.height/2;
+				else if ( (shape_type == "rect") || (shape_type == "label") ) {
+					dims[0] = geom_properties.location[0] - geom_properties.width / 2;
+					dims[1] = geom_properties.location[0] + geom_properties.width / 2,
+						dims[2] = geom_properties.location[1] - geom_properties.height / 2;
+					dims[3] = geom_properties.location[1] + geom_properties.height / 2;
 				}
 				else if (shape_type == "polygon") {
 					dims[0] = dims[1] = INFINITY;
@@ -427,7 +434,7 @@ namespace bridges {
 			 */
 			const string getSymbolRepresentation() const {
 
-									// first get all the non-geometric attributes
+				// first get all the non-geometric attributes
 
 				string symbol_json = OPEN_CURLY;
 
@@ -463,25 +470,25 @@ namespace bridges {
 					geom_properties.location[1] != def_loc[1]) {
 					symbol_json += QUOTE + "location" + QUOTE + COLON +
 						OPEN_CURLY +
-							QUOTE + "x" + QUOTE + COLON  +
-									to_string(geom_properties.location[0]) + COMMA +
-							QUOTE + "y" + QUOTE + COLON +
-									to_string(geom_properties.location[1]) +
+						QUOTE + "x" + QUOTE + COLON  +
+						to_string(geom_properties.location[0]) + COMMA +
+						QUOTE + "y" + QUOTE + COLON +
+						to_string(geom_properties.location[1]) +
 						CLOSE_CURLY   + COMMA;
 				}
-									// next get the geometric properties
+				// next get the geometric properties
 
 				if (shape_type != "text") {
 					symbol_json +=
 						QUOTE + "name" + QUOTE + COLON +  QUOTE + name + QUOTE + COMMA +
 						QUOTE + "shape" + QUOTE + COLON + QUOTE + shape_type + QUOTE + COMMA;
 				}
-									// circle has radius
+				// circle has radius
 				if (shape_type == "circle")
 					symbol_json += QUOTE + "r" + QUOTE + COLON +
-								to_string(geom_properties.radius);
+						to_string(geom_properties.radius);
 
-									// set up width and height of rectangles
+				// set up width and height of rectangles
 				if (shape_type == "rect") {
 					symbol_json +=
 						QUOTE + "width" + QUOTE + COLON + to_string(geom_properties.width) + COMMA +
@@ -491,21 +498,21 @@ namespace bridges {
 				if (shape_type == "text") {
 					symbol_json +=
 						QUOTE + "name" + QUOTE + COLON + QUOTE + attributes.label
-														+ QUOTE + COMMA +
+						+ QUOTE + COMMA +
 						QUOTE + "shape" + QUOTE + COLON + QUOTE + "text" + QUOTE;
 					if (attributes.fontSize != getDefaultFontSize())
 						symbol_json += COMMA + QUOTE + "fontSize" + QUOTE + COLON +
-									to_string(attributes.fontSize);
+							to_string(attributes.fontSize);
 				}
 
-									// add point list to polygons
+				// add point list to polygons
 				if (shape_type == "polygon") {
 					symbol_json += QUOTE + "points" + QUOTE + COLON + OPEN_BOX;
 					vector<float>::iterator it;
 					string s;
 					for (it = geom_properties.points->begin();
 						it != geom_properties.points->end(); it++) {
-									// remove trailing zeros
+						// remove trailing zeros
 						s = removeTrailingZeros2(*it);
 						symbol_json += s + COMMA;
 					}
@@ -519,14 +526,14 @@ namespace bridges {
 			}
 
 			const string removeTrailingZeros2(const double& num) const {
-                if (static_cast<int>(num) == num) {
-                    return to_string(static_cast<int>(num));
-                }  				 //if integer return as int
-                string numRep = to_string(num);
-                				//removes trailing 0s
-                numRep.erase(numRep.find_last_not_of("0") + 1);
-                return numRep;
-            }
+				if (static_cast<int>(num) == num) {
+					return to_string(static_cast<int>(num));
+				}  				 //if integer return as int
+				string numRep = to_string(num);
+				//removes trailing 0s
+				numRep.erase(numRep.find_last_not_of("0") + 1);
+				return numRep;
+			}
 
 	};
 
