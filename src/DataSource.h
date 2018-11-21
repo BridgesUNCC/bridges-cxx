@@ -31,7 +31,7 @@ namespace bridges {
 
 	class DataSource {
 			int debug() const {
-				return 1;
+				return 0;
 			}
 		public:
 
@@ -620,7 +620,7 @@ namespace bridges {
 							    std::cerr<<posX<<" "<<dimx<<" "<<posY<<" "<<dimy<<std::endl;
 							  throw "Malformed ColorGrid JSON: Too much data in nodes";
 							}
-x							cg.set(posX, posY, c);
+							cg.set(posX, posY, c);
 
 							currentInCG++;
 							repeat --;
