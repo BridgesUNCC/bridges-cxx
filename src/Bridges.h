@@ -9,6 +9,7 @@ using namespace std;
 #include "ServerComm.h" //vector
 
 #include <JSONutil.h>
+#include <alltypes.h>
 
 namespace bridges {
 	/**
@@ -21,6 +22,8 @@ namespace bridges {
 	class Bridges {
 		private:
 
+	  static string getDefaultServerURL() {return "http://bridges-cs.herokuapp.com";}
+	  
 			bool jsonFlag = false;   				// if JSON is to be printed
 
 			string user_name = string(),
@@ -313,7 +316,9 @@ namespace bridges {
 			}
 
 		private:
-
+			string getServerURL() const {
+			  return server_url;
+			}
 
 
 			string getJSONHeader () {
@@ -327,6 +332,8 @@ namespace bridges {
 					QUOTE + "coord_system_type" + QUOTE + COLON + JSONencode(getCoordSystemType()) +
 					COMMA;
 			}
+
+			friend DataSource;
 	};	//end of class Bridges
 
 

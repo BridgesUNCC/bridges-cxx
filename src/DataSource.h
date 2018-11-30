@@ -33,10 +33,10 @@ namespace bridges {
 			int debug() const {
 				return 0;
 			}
+			bridges::Bridges* bridges_inst;
 		public:
-
-			DataSource() {
-			}
+			DataSource(bridges::Bridges* br = nullptr)
+			  :bridges_inst(br) {}
 
 			/**
 			 *
@@ -647,7 +647,11 @@ namespace bridges {
 				std::stringstream ss;
 
 				///should probably get the server name from a Bridges object
-				ss << "http://bridges-cs.herokuapp.com/assignmentJSON/"
+				if (bridges_inst)
+				  ss << bridges_inst->getServerURL();
+				else
+				  ss << bridges::Bridges::getDefaultServerURL();
+				ss << "/assignmentJSON/"
 					<< assignment << ".";
 				ss << std::setfill('0') << std::setw(2) << subassignment;
 				ss << "/" << user;
