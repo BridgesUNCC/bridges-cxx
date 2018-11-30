@@ -126,7 +126,7 @@ namespace bridges {
 					
 					BYTE repeat = (BYTE) (count - 1);
 
-					if (debug())
+					if (debug() > 1)
 										  std::cerr << "RLEencodingstream: " << (int)repeat << " " << (int)r << " " << (int)g << " " << (int)b << " " << (int)a << std::endl;
 
 					vec.push_back(repeat);
@@ -203,7 +203,7 @@ namespace bridges {
 				// Maintain a bytebuffer for the byte representations of each grid color
 				std::vector<BYTE> byte_buf = getRLEencoding();
 				std::string encoding = "RLE";
-				if (1|| (int)(byte_buf.size()) > gridSize[0]*gridSize[1] * 4) {
+				if ((int)(byte_buf.size()) > gridSize[0]*gridSize[1] * 4) {
 					encoding = "RAW";
 					byte_buf = getRAWencoding();
 					if (debug())
