@@ -469,7 +469,18 @@ namespace bridges {
 				return wrapper;
 			}
 
-
+			/**Reconstruct a GraphAdjList from an existing GraphAdjList on the Bridges server
+			 *
+			 * The reconstructed assignment sees vertices identified as integers in the order they are stored in the server.
+			 * The data associated with a vertex is a string that come from the label of that vertices.
+			 * The data associated with an edge is the string that come from the label of that edge.
+			 * The edge weights are also reobtained from the bridges server. 
+			 *
+			 * @return the ColorGrid stored in the bridges server
+			 * @param user the name of the user who uploaded the assignment
+			 * @param assignment the ID of the assignment to get
+			 * @param subassignment the ID of the subassignment to get
+			 **/
 			bridges::GraphAdjList<int, std::string> getGraphFromAssignment (const std::string& user,
 											int assignment,
 											int subassignment = 0) {
@@ -590,7 +601,14 @@ namespace bridges {
 			  
 			  return gr;
 			}
-			
+
+			/**Reconstruct a ColorGrid from an existing ColorGrid on the Bridges server
+			 *
+			 * @return the ColorGrid stored in the bridges server
+			 * @param user the name of the user who uploaded the assignment
+			 * @param assignment the ID of the assignment to get
+			 * @param subassignment the ID of the subassignment to get
+			 **/
 			bridges::ColorGrid getColorGridFromAssignment(const std::string& user,
 				int assignment,
 				int subassignment = 0) {
@@ -759,7 +777,12 @@ namespace bridges {
 			}
 		private:
 			/***
-			 * This function obtains the JSON representation of a particular subassignment
+			 * This function obtains the JSON representation of a particular subassignment.
+			 *
+			 * @return a string that is the JSON representation of the subassignment as stored by the Bridges server.
+			 * @param user the name of the user who uploaded the assignment
+			 * @param assignment the ID of the assignment to get
+			 * @param subassignment the ID of the subassignment to get
 			 ***/
 			std::string getAssignment(std::string user,
 				int assignment,
