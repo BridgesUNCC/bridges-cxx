@@ -95,7 +95,7 @@ namespace bridges {
 			/**
 			 *	@return The edge data
 			 */
-			E2& getEdgeData() const {
+			const E2& getEdgeData() const {
 				return edge_data;
 			}
 			/**

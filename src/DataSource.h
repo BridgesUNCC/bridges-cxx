@@ -15,6 +15,7 @@ using namespace std;
 #include "./data_src/Song.h"
 #include "ColorGrid.h"
 #include "base64.h"
+#include <GraphAdjList.h>
 
 namespace bridges {
 	/**
@@ -469,6 +470,127 @@ namespace bridges {
 			}
 
 
+			bridges::GraphAdjList<int, std::string> getGraphFromAssignment (const std::string& user,
+											int assignment,
+											int subassignment = 0) {
+			  bridges::GraphAdjList<int, std::string> gr;
+
+				std::string s = this->getAssignment(user, assignment, subassignment);
+
+				rapidjson::Document doc;
+				doc.Parse(s.c_str());
+				if (doc.HasParseError())
+					throw "Malformed JSON";
+
+				//Access doc["assignmentJSON"]
+				const auto& assjson = doc.FindMember("assignmentJSON");
+
+				if (assjson == doc.MemberEnd())
+					throw "Malformed GraphAdjacencyList JSON: no assignmentJSON";
+
+				//Access doc["assignmentJSON"]["data"]
+				const auto& dataArray = assjson->value.FindMember("data");
+
+				if (dataArray == assjson->value.MemberEnd()
+					|| dataArray->value.IsArray() == false)
+					throw "Malformed GraphAdjacencyList JSON: No data";
+
+				const auto& data = dataArray->value.GetArray()[0];
+
+				//Access doc["assignmentJSON"]["data"][0]["visual"]
+				const auto& dataVisual = data.FindMember("visual");
+
+				if (dataVisual == data.MemberEnd() ||
+					dataVisual->value.IsString() == false)
+					throw "Malformed GraphAdjacencyList JSON";
+
+				std::string assignment_type = dataVisual->value.GetString();
+
+				if (assignment_type != "GraphAdjacencyList")
+					throw "Malformed GraphAdjacencyList JSON: Not a GraphAdjacencyList";
+
+				//reconstructing vertices out of nodes, and using the optional "name" as the data associated
+				{
+				  const auto& nodes = data.FindMember("nodes");
+				  if (nodes == data.MemberEnd() ||
+				      nodes->value.IsArray() == false)
+				    throw "Malformed GraphAdjacencyList JSON: malformed nodes";
+				  
+				  
+				  const auto& nodeArray = nodes->value.GetArray();
+				  int nbVertex = nodeArray.Size();
+				  for (int i = 0; i< nbVertex; ++i) {
+				    std::string name;
+				    
+				    const auto& vertexJSONstr = nodeArray[i];
+				    
+				    const auto& nameJSON = vertexJSONstr.FindMember("name");
+				    if (nameJSON != vertexJSONstr.MemberEnd()
+					&& nameJSON->value.IsString()) {
+				      name = nameJSON->value.GetString();
+				    }
+				    gr.addVertex(i, name);
+				  }
+				}
+
+				//reconstructing links, and using "label" as data associated with the link
+				{
+				  const auto& links = data.FindMember("links");
+				  if (links == data.MemberEnd() ||
+				      links->value.IsArray() == false)
+				    throw "Malformed GraphAdjacencyList JSON: malformed links";
+				  
+				  const auto& linkArray = links->value.GetArray();
+				  int nbLink = linkArray.Size();
+				  for (int i = 0; i< nbLink; ++i) {
+				    std::string name;
+				    int src;
+				    int dest;
+				    int wgt;
+				    
+				    const auto& linkJSONstr = linkArray[i];
+
+				    //checking label. Maybe does not exist? (is that field optional?)
+				    const auto& nameJSON = linkJSONstr.FindMember("label");
+				    if (nameJSON != linkJSONstr.MemberEnd()
+					&& nameJSON->value.IsString()) {
+				      name = nameJSON->value.GetString();
+				    }
+
+				    //checking source
+				    const auto& srcJSON = linkJSONstr.FindMember("source");
+				    if (srcJSON == linkJSONstr.MemberEnd()
+					|| srcJSON->value.IsInt() == false) {
+				      throw "Malformed GraphAdjacencyList JSON: malformed link";
+				    }
+				    src = srcJSON->value.GetInt();
+				    
+				    
+				    //checking destination
+				    const auto& dstJSON = linkJSONstr.FindMember("target");
+				    if (dstJSON == linkJSONstr.MemberEnd()
+					|| dstJSON->value.IsInt() == false) {
+				      throw "Malformed GraphAdjacencyList JSON: malformed link";
+				    }
+				    dest = dstJSON->value.GetInt();
+
+				    //checking weight. //why is weight a mandatory parameter?
+				    const auto& wgtJSON = linkJSONstr.FindMember("weight");
+				    if (wgtJSON == linkJSONstr.MemberEnd()
+					|| wgtJSON->value.IsInt() == false) {
+				      throw "Malformed GraphAdjacencyList JSON: malformed link";
+				    }
+				    wgt = wgtJSON->value.GetInt();
+
+				    
+				    //adding edge.
+				    gr.addEdge(src, dest, wgt, name);
+				  }
+				}
+			  
+			  return gr;
+			}
+			
 			bridges::ColorGrid getColorGridFromAssignment(const std::string& user,
 				int assignment,
 				int subassignment = 0) {
