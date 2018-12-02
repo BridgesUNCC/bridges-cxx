@@ -66,7 +66,7 @@ namespace bridges {
 			 *
 			 * @param rows - int representing the number of rows of the grid
 			 * @param cols - int representing the number of columns of the grid
-			 * @param color - Color object
+			 * @param color - Color object to use as default color
 			 *
 			 **/
 			ColorGrid (int rows, int cols, Color color) : Grid<Color> (rows, cols) {
