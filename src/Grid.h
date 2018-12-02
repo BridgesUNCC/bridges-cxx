@@ -37,6 +37,16 @@ namespace bridges {
 				}
 			}
 
+			void deallocateGrid() {
+			  if (grid) {
+			    for (int i = 0; i < gridSize[0]; i++)  {
+			      delete[] grid[i];
+			    }
+			    delete[] grid;
+			  }
+			  grid = nullptr;
+			}
+			
 		protected:
 			E  **grid = nullptr;
 
@@ -67,15 +77,35 @@ namespace bridges {
 				: Grid(size[0], size[1]) {
 			}
 
+			Grid(const Grid& g) 
+			  : Grid(g.gridSize[0], g.gridSize[1]) {
+			  for (int i = 0; i < gridSize[0]; i++) {
+			    for (int j = 0; j < gridSize[1]; j++) {
+			      set (i, j, g.get(i, j));
+			    }
+			  }
+			}
+			
 			virtual ~Grid() {
-				if (grid) {
-					for (int i = 0; i < gridSize[0]; i++)  {
-						delete[] grid[i];
-					}
-					delete[] grid;
-				}
+			  deallocateGrid();
 			}
 
+			Grid& operator=(const Grid& g) {
+			  if (this->gridSize[0] != g.gridSize[0] ||
+			      this->gridSize[1] != g.gridSize[1] ) {
+			    deallocateGrid();
+			    setDimensions(g.gridSize[0], g.gridSize[1]);
+			  }
+			  for (int i = 0; i < gridSize[0]; i++) {
+			    for (int j = 0; j < gridSize[1]; j++) {
+			      set (i, j, g.get(i, j));
+			    }
+			  }
+
+			  return *this;
+			}
+			
+			
 			void setDimensions(int rows, int cols) {
 				gridSize[0] = rows;
 				gridSize[1] = cols;
@@ -107,8 +137,6 @@ namespace bridges {
 				grid[row][col]  = val;
 			}
 
-			Grid(const Grid&) = delete; //would be incorrect, so disabled.
-			Grid& operator=(const Grid&) = delete; //would be incorrect, so disabled.
 
 	}; // end class Grid
 
