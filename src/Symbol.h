@@ -81,7 +81,8 @@ namespace bridges {
 				return default_stroke_color;
 			}
 			float getDefaultOpacity() const {
-				static float default_opacity = 1.0f;
+				static float default_ohttp://bridges-clone.herokuapp.com/assignments/9/kalpathi60
+pacity = 1.0f;
 
 				return default_opacity;
 			}
