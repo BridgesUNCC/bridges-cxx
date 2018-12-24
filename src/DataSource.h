@@ -280,11 +280,14 @@ namespace bridges {
 					url += songTitle;
 				else {
 					// need to throw an exception or something
+					cout << "error!" << endl;
 				}
+
 				if (artistName.size())
 					url += "?artistName=" + artistName;
 				else {
 					// need to throw an exception or something
+					cout << "error!" << endl;
 				}
 				// check for spaces in url and replace them by '%20'
 				string::size_type n = 0;

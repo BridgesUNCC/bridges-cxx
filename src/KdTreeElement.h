@@ -71,7 +71,7 @@ namespace bridges {
 			}
 			/** @return the data structure type */
 			virtual const string getDStype() const override {
-				return "KdTree";
+				return "KDTree";
 			}
 			/**
 			 *	@return return the partitioning of this node
