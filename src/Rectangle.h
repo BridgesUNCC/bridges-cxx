@@ -117,10 +117,6 @@ namespace bridges {
 				shape_json +=
 					QUOTE + "name" + QUOTE + COLON +  QUOTE + getLabel() + QUOTE + COMMA +
 					QUOTE + "shape" + QUOTE + COLON + QUOTE + shape + QUOTE + COMMA;
-/*
-				if (shape == "circle")
-					shape_json += QUOTE + "r" + QUOTE + to_string(radius) + COMMA;
-*/
 
 				// set up width and height of rectangles
 				if (shape == "rect")
@@ -128,16 +124,6 @@ namespace bridges {
 						QUOTE + "height" + QUOTE + COLON + to_string(height) + 
 					CLOSE_CURLY;
 
-				// add point list to polygons
-/*
-				if (shape == "polygon") {
-					shape_json += QUOTE + "points" + QUOTE + COMMA + "OPEN_BOX";
-					vector<float>::iterator it;
-					for (it = points->begin(); it != points->end(); it++) {
-						shape_json += to_string(*it) + COMMA;
-					}
-				}
-*/
 				cout << "JSON (Shape.h)" << shape_json << endl;
 				return shape_json;
 

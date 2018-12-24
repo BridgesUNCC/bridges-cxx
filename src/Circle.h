@@ -69,8 +69,10 @@ namespace bridges {
 			 * @return array of 4 values
 			 */
 			vector<float> getDimensions() {
+
 				vector<float> dims(4);
 				float *location = getLocation();
+
 				dims[0] = location[0] - radius;
 				dims[1] = location[0] + radius;
 				dims[2] = location[1] - radius;
@@ -91,17 +93,6 @@ namespace bridges {
 					shape_json += QUOTE + "r" + QUOTE + COLON + to_string(radius)
 										 + CLOSE_CURLY;
 
-				// add point list to polygons
-/*
-				if (shape == "polygon") {
-					shape_json += QUOTE + "points" + QUOTE + COMMA + "OPEN_BOX";
-					vector<float>::iterator it;
-					for (it = points->begin(); it != points->end(); it++) {
-						shape_json += to_string(*it) + COMMA;
-					}
-				}
-*/
-				cout << "JSON (Shape.h)" << shape_json << endl;
 				return shape_json;
 
 			}
