@@ -135,7 +135,6 @@ namespace bridges {
 					CLOSE_CURLY;
 
 
-				cout << "JSON (Shape.h)" << shape_json << endl;
 				return shape_json;
 
 			}

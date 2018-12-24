@@ -38,6 +38,13 @@ namespace bridges {
 				width = w; height = h;
 			}
 
+			Rectangle (int locx, int locy, int w, int h) {
+				setLocation (float(locx), float(locy));
+				if (w < 0 || h < 0) 
+					throw "Illegal height or width! Height and Width values need to be positive";
+				width = w; height = h;
+			}
+
 			string getDataStructType() {
 				return "rect";
 			}
@@ -84,8 +91,10 @@ namespace bridges {
 			 * @return array of 4 values
 			 */
 			vector<float> getDimensions() {
+
 				vector<float> dims(4);
 				float *location = getLocation();
+
 				dims[0] = location[0] - width / 2;
 				dims[1] = location[0] + width / 2,
 				dims[2] = location[1] - height / 2;
@@ -94,15 +103,19 @@ namespace bridges {
 				return dims;
 			}
 
-			/**
-			 * This method sets the size given height and width arguments
+			/*
+			 * This method sets the location and size of the rectangle
 			 *
+			 * @pram locx  x coordinate of location
+			 * @pram locy  y coordinate of location
 			 * @param w  width of rectangle
 			 * @param h  height of rectangle
 			 *
 			 * @return none
 			 */
-			void setSize(int w, int h) 	{
+			void setRectangle(int locx, int locy, int w, int h) 	{
+
+				setLocation (float(locx), float(locy));
 				if (w <= 0 || w > 300 || h <=0 ||  w > 300) {
 					throw "Illegal Size Value! Please enter values in the range 0-300";
 				}
@@ -110,7 +123,7 @@ namespace bridges {
 				height = h;
 			}
 
-			const string getSymbolRepresentation() const {
+			virtual const string getSymbolRepresentation() const {
 
 				string shape_json = getSymbolAttributeRepresentation();
 
@@ -124,7 +137,6 @@ namespace bridges {
 						QUOTE + "height" + QUOTE + COLON + to_string(height) + 
 					CLOSE_CURLY;
 
-				cout << "JSON (Shape.h)" << shape_json << endl;
 				return shape_json;
 
 			}

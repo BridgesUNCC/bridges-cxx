@@ -103,7 +103,6 @@ namespace bridges {
 				}
 				// remove last comma
 				if (symbols.size()) {
-cout << "here!!" << endl;
 					symbol_json.erase(symbol_json.size() - 1);
 
 					symbol_json = QUOTE + "domainX" + QUOTE + COLON +

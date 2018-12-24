@@ -70,8 +70,17 @@ namespace bridges {
 					throw "points are valid only for polygons!";
 				}
 			}
+			/**
+			 * This method returns the point list of the polygon
+			 *
+			 * @return points  point list of the polygon - sequence of x, y values
+			 */
 			vector<float> *getPoints() {
 				return points;
+			}
+
+			void setPolygon (vector<float> pts) {
+				*points = pts;
 			}
 
 			/**
@@ -119,7 +128,6 @@ namespace bridges {
 					shape_json.erase(shape_json.size() - 1);
 				shape_json += CLOSE_BOX + CLOSE_CURLY;
 
-				cout << "JSON (Shape.h)" << shape_json << endl;
 				return shape_json;
 			}
 	};

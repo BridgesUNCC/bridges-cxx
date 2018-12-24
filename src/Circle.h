@@ -37,6 +37,15 @@ namespace bridges {
 				radius = r;
 			}
 
+			// provides both location and radius 
+
+			Circle (int locx, int locy, int r) {
+				setLocation (locx, locy);
+				if (r < 0)
+					throw "Illegal value for radius. Must be positive";
+				radius = r;
+			}
+
 			string getDataStructType() {
 				return "circle";
 			}
@@ -56,6 +65,21 @@ namespace bridges {
 			 * @param r  radius
 			 */
 			void setRadius(int r) {
+				if (r < 0)
+					throw "Illegal value for radius. Must be positive";
+				radius = r;
+			}
+
+			/**
+			 * This method sets the circle dimensions
+			 *
+			 * @param locx  x coordinat of location
+			 * @param locy  y coordinat of location
+			 * @param r  radius
+			 * @return none
+			 */
+			void setCircle (int locx, int locy, int r) {
+				setLocation (locx, locy);
 				if (r < 0)
 					throw "Illegal value for radius. Must be positive";
 				radius = r;
