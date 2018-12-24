@@ -27,7 +27,9 @@ namespace bridges {
  
 		public:
 
-			// constructors
+			/** 
+			 * 	constructors
+			 */
 			Label() {
 				fontSize = 12;
 				textWidth = 100;
@@ -112,6 +114,12 @@ namespace bridges {
 				return textHeight;
 			}
 
+			
+            /**
+             * This method returns the bounding box dimensions of the shape
+             *
+             * @return vector of floats  
+             */
 			vector<float> getDimensions() {
 				vector<float> dims(4);
 
@@ -125,6 +133,11 @@ namespace bridges {
                 return dims;
             }
 
+            /**
+             * This method returns the JSON representation of the shape
+             *
+             * @return string  JSON string
+             */
 			const string getSymbolRepresentation() const {
 
 				string shape_json = getSymbolAttributeRepresentation();

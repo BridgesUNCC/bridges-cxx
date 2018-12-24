@@ -20,13 +20,16 @@ namespace bridges {
 	*/
 	class Circle : public Symbol {
 		private:
+
 			string shape = "circle";
 								// height, width of rectangle
 			int radius = 10;
 
 		public:
 
-			// constructors
+			/**
+             *  constructors
+             */
 			Circle () {
 				radius = 10;
 			}
@@ -105,6 +108,11 @@ namespace bridges {
 				return dims;
 			}
 
+            /**
+             * This method returns the JSON representation of the shape
+             *
+             * @return string  JSON string
+             */
 			const string getSymbolRepresentation() const {
 
 				string shape_json = getSymbolAttributeRepresentation();

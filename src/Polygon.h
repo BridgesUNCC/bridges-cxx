@@ -108,6 +108,11 @@ namespace bridges {
 				return dims;
 			}
 
+			/**
+			 * This method returns the JSON representation of the shape
+			 *
+			 * @return string  JSON string
+			 */
 			const string getSymbolRepresentation() const {
 
 				string shape_json = getSymbolAttributeRepresentation();

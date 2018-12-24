@@ -27,7 +27,9 @@ namespace bridges {
 
 		public:
 
-			// constructors
+			/**
+             *  constructors
+             */
 			Rectangle() {
 				width = height = 10;
 			}
@@ -123,6 +125,11 @@ namespace bridges {
 				height = h;
 			}
 
+			/**
+             * This method returns the JSON representation of the shape
+             *
+             * @return string  JSON string
+             */
 			virtual const string getSymbolRepresentation() const {
 
 				string shape_json = getSymbolAttributeRepresentation();
