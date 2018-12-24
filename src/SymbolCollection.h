@@ -26,7 +26,7 @@ namespace bridges {
 			// to maintain their properties
 		private:
 
-			unordered_map<int, Symbol> symbols;
+			unordered_map<int, Symbol*> symbols;
 
 			// 	default domain (assuming square coordinate space)
 			// 	domian emanates in x and y directions, both positive and negative,
@@ -61,7 +61,7 @@ namespace bridges {
 			void addSymbol(Symbol *s) {
 				// note: it is the user's responsibility to handle
 				//  duplicates where desired
-				symbols[s->getIdentifier()] = *s;
+				symbols[s->getIdentifier()] = s;
 
 				// update the axes limits for the visualization
 				updateAxisDomains(s);
@@ -99,10 +99,11 @@ namespace bridges {
 				string symbol_json = string();
 				for (auto& entry : symbols) {
 					symbol_json +=
-						entry.second.getSymbolRepresentation() + COMMA;
+						entry.second->getSymbolRepresentation() + COMMA;
 				}
 				// remove last comma
 				if (symbols.size()) {
+cout << "here!!" << endl;
 					symbol_json.erase(symbol_json.size() - 1);
 
 					symbol_json = QUOTE + "domainX" + QUOTE + COLON +

@@ -81,8 +81,7 @@ namespace bridges {
 				return default_stroke_color;
 			}
 			float getDefaultOpacity() const {
-				static float default_ohttp://bridges-clone.herokuapp.com/assignments/9/kalpathi60
-pacity = 1.0f;
+				static float default_opacity = 1.0f;
 
 				return default_opacity;
 			}
@@ -114,6 +113,9 @@ pacity = 1.0f;
 				identifier = getIdentifier();
 				setSymbol(getDefaultSymbol());
 			}
+
+						// method to get the JSON representation of the symbol
+			virtual const string getSymbolRepresentation() const  = 0;
 
 			Symbol(string symb) {
 				identifier = getIdentifier();
@@ -183,7 +185,7 @@ pacity = 1.0f;
 				attributes.label = lbl;
 			}
 
-			string getLabel() {
+			string getLabel() const {
 				return attributes.label;
 			}
 
@@ -433,6 +435,7 @@ pacity = 1.0f;
 			 *
 			 * @returns the encoded JSON string
 			 */
+/*
 			const string getSymbolRepresentation() const {
 
 				// first get all the non-geometric attributes
@@ -524,6 +527,57 @@ pacity = 1.0f;
 
 
 				return symbol_json;
+			}
+*/
+
+		protected:
+
+			const string getSymbolAttributeRepresentation() const {
+
+				// first get all the non-geometric attributes
+
+				string symbol_attr_json = OPEN_CURLY;
+
+				if (attributes.fillColor.getRepresentation() !=
+					getDefaultFillColor().getRepresentation()) {
+					symbol_attr_json += QUOTE + "fill" + QUOTE + COLON +
+						attributes.fillColor.getRepresentation() + COMMA;
+				}
+
+				if (attributes.opacity != getDefaultOpacity()) {
+					symbol_attr_json + QUOTE + "opacity" + QUOTE + COLON +
+					to_string(attributes.opacity) + COMMA;
+				}
+
+				if (attributes.strokeColor.getRepresentation() !=
+					getDefaultStrokeColor().getRepresentation()) {
+					symbol_attr_json += QUOTE + "stroke" + QUOTE + COLON +
+						attributes.strokeColor.getRepresentation() + COMMA;
+				}
+
+				if (attributes.strokeWidth != getDefaultStrokeWidth()) {
+					symbol_attr_json += QUOTE + "stroke-width" + QUOTE + COLON +
+						to_string(attributes.strokeWidth) + COMMA;
+				}
+
+				if (attributes.strokeDash != getDefaultStrokeDash()) {
+					symbol_attr_json += QUOTE + "stroke-dasharray" + QUOTE + COLON +
+						to_string(attributes.strokeDash) + COMMA;
+				}
+
+				float *def_loc = getDefaultLocation();
+				if (geom_properties.location[0] != def_loc[0] ||
+					geom_properties.location[1] != def_loc[1]) {
+					symbol_attr_json += QUOTE + "location" + QUOTE + COLON +
+						OPEN_CURLY +
+						QUOTE + "x" + QUOTE + COLON  +
+						to_string(geom_properties.location[0]) + COMMA +
+						QUOTE + "y" + QUOTE + COLON +
+						to_string(geom_properties.location[1]) +
+						CLOSE_CURLY   + COMMA;
+				}
+
+				return symbol_attr_json;
 			}
 
 			const string removeTrailingZeros2(const double& num) const {
