@@ -155,7 +155,7 @@ namespace bridges {
 
 			/**
 			 *
-			 *  Get the object at x, y, z -- for 3D arrays
+			 *  Get the object at x, y, z -- for 2D arrays
 			 *
 			 *  @param x  - column index
 			 *  @param y  - row index
