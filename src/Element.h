@@ -47,8 +47,23 @@ namespace bridges {
 			template <typename K> friend class Array;
 
 		private:
-			static const unordered_map<const Shape, const string, hash<int>>
-				ShapeNames;
+			static const unordered_map<const Shape, const string, hash<int>>& ShapeNames() {
+
+			  static std::unordered_map<const Shape, const string, hash<int>> sn = 
+			    {
+			      {CIRCLE, "circle"},
+			      {SQUARE, "square"},
+			      {DIAMOND, "diamond"},
+			      {CROSS, "cross"},
+			      {TRIANGLE, "triangle"},
+			      {WYE, "wye"},
+			      {STAR, "star"}
+			    };
+			  return sn;
+			}
+
+
+			
 			//this element's label
 			string label;
 			// appl. specific data stored with element
@@ -198,7 +213,7 @@ namespace bridges {
 					+ COMMA +
 					loc_str +
 					QUOTE + "shape" + QUOTE + COLON + QUOTE +
-					ShapeNames.at(elvis->getShape()) + QUOTE + COMMA +
+					ShapeNames().at(elvis->getShape()) + QUOTE + COMMA +
 					QUOTE + "size" + QUOTE + COLON +
 					removeTrailingZeros(elvis->getSize()) + COMMA +
 					QUOTE + "name" + QUOTE + COLON + JSONencode( label) +
@@ -265,17 +280,6 @@ namespace bridges {
 
 			// temp
 	};	//end of Element class
-
-	template <typename E> const unordered_map<const Shape, const string, hash<int>>
-	Element<E>::ShapeNames {
-		{CIRCLE, "circle"},
-		{SQUARE, "square"},
-		{DIAMOND, "diamond"},
-		{CROSS, "cross"},
-		{TRIANGLE, "triangle"},
-		{WYE, "wye"},
-		{STAR, "star"}
-	};
 
 
 }//end of bridges namespace
