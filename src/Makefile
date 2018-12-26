@@ -7,3 +7,6 @@ base:
 	astyle $(STYLE_PARAMS) *.h
 datasrc:
 	astyle $(STYLE_PARAMS) data_src/*.h
+
+clean:
+	rm -f *.orig
