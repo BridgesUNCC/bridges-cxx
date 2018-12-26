@@ -11,7 +11,7 @@ using namespace std;
 namespace bridges {
 
 	/*
-	 * @brief This class defines a rectangle and is part of the symbol collection. 
+	 * @brief This class defines a rectangle and is part of the symbol collection.
 	 *		A rectangle has height and width
 	 *
 	 * @author Kalpathi Subramanian
@@ -21,7 +21,7 @@ namespace bridges {
 	class Polygon : public Symbol {
 		private:
 			string shape = "polygon";
-								// height, width of rectangle
+			// height, width of rectangle
 			vector<float> *points = nullptr;
 			int radius = 10;
 
@@ -96,15 +96,19 @@ namespace bridges {
 				dims[0] = dims[1] = INFINITY;
 				dims[2] = dims[3] = -INFINITY;
 				float x, y;
-				for (std::size_t i = 0, size = points->size(); 
-										i < size; i += 2) {
+				for (std::size_t i = 0, size = points->size();
+					i < size; i += 2) {
 					x = points->at(i);
 					y = points->at(i + 1);
-					if (x < dims[0]) dims[0] = x;
-					if (x > dims[2]) dims[2] = x;
-					if (y < dims[1]) dims[1] = y;
-					if (y > dims[3]) dims[3] = y;
-                }
+					if (x < dims[0])
+						dims[0] = x;
+					if (x > dims[2])
+						dims[2] = x;
+					if (y < dims[1])
+						dims[1] = y;
+					if (y > dims[3])
+						dims[3] = y;
+				}
 				return dims;
 			}
 
@@ -121,14 +125,14 @@ namespace bridges {
 					QUOTE + "name" + QUOTE + COLON +  QUOTE + getLabel() + QUOTE + COMMA +
 					QUOTE + "shape" + QUOTE + COLON + QUOTE + shape + QUOTE + COMMA;
 
-									// add point list to polygons
+				// add point list to polygons
 				shape_json += QUOTE + "points" + QUOTE + COLON + OPEN_BOX;
 				vector<float>::iterator it;
 				for (it = points->begin(); it != points->end(); it++) {
 					shape_json += to_string(*it) + COMMA;
 				}
 
-									// remove last comma
+				// remove last comma
 				if (points->size())
 					shape_json.erase(shape_json.size() - 1);
 				shape_json += CLOSE_BOX + CLOSE_CURLY;

@@ -11,7 +11,7 @@ using namespace std;
 namespace bridges {
 
 	/*
-	 * @brief This class defines a rectangle and is part of the symbol collection. 
+	 * @brief This class defines a rectangle and is part of the symbol collection.
 	 *		A rectangle has height and width
 	 *
 	 * @author Kalpathi Subramanian
@@ -22,14 +22,14 @@ namespace bridges {
 		private:
 
 			string shape = "circle";
-								// height, width of rectangle
+			// height, width of rectangle
 			int radius = 10;
 
 		public:
 
 			/**
-             *  constructors
-             */
+			 *  constructors
+			 */
 			Circle () {
 				radius = 10;
 			}
@@ -40,7 +40,7 @@ namespace bridges {
 				radius = r;
 			}
 
-			// provides both location and radius 
+			// provides both location and radius
 
 			Circle (int locx, int locy, int r) {
 				setLocation (locx, locy);
@@ -108,11 +108,11 @@ namespace bridges {
 				return dims;
 			}
 
-            /**
-             * This method returns the JSON representation of the shape
-             *
-             * @return string  JSON string
-             */
+			/**
+			 * This method returns the JSON representation of the shape
+			 *
+			 * @return string  JSON string
+			 */
 			const string getSymbolRepresentation() const {
 
 				string shape_json = getSymbolAttributeRepresentation();
@@ -123,7 +123,7 @@ namespace bridges {
 
 				if (shape == "circle")
 					shape_json += QUOTE + "r" + QUOTE + COLON + to_string(radius)
-										 + CLOSE_CURLY;
+						+ CLOSE_CURLY;
 
 				return shape_json;
 

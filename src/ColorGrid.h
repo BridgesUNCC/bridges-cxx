@@ -84,13 +84,13 @@ namespace bridges {
 			}
 
 			ColorGrid& operator= (const ColorGrid& cg) {
-			  Grid::operator=(cg);
-			  
-			  this->baseColor = cg.baseColor;
-			  
-			  return *this;
+				Grid::operator=(cg);
+
+				this->baseColor = cg.baseColor;
+
+				return *this;
 			}
-			
+
 		private:
 
 			/**
@@ -127,11 +127,11 @@ namespace bridges {
 						return;
 
 					totalcount += count;
-					
+
 					BYTE repeat = (BYTE) (count - 1);
 
 					if (debug() > 1)
-										  std::cerr << "RLEencodingstream: " << (int)repeat << " " << (int)r << " " << (int)g << " " << (int)b << " " << (int)a << std::endl;
+						std::cerr << "RLEencodingstream: " << (int)repeat << " " << (int)r << " " << (int)g << " " << (int)b << " " << (int)a << std::endl;
 
 					vec.push_back(repeat);
 					vec.push_back(r);
@@ -186,8 +186,8 @@ namespace bridges {
 				commit();
 
 				if (totalcount != gridSize[0]*gridSize[1])
-				  throw "what happened in RLE construction?";
-				
+					throw "what happened in RLE construction?";
+
 				if (debug())
 					std::cerr << "RLE length: " << vec.size()
 						<< " raw length: " << gridSize[0]*gridSize[1] * 4

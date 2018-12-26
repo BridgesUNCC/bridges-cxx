@@ -36,10 +36,10 @@ namespace bridges {
 
 			string shape_type = "circle"; 	// rect, circle, polygon, label
 
-											// specify default attributes 
-											// defaults are not sent through JSON
+			// specify default attributes
+			// defaults are not sent through JSON
 
-			float 	default_location[2] = {0.0f, 0.0f}; 
+			float 	default_location[2] = {0.0f, 0.0f};
 			Color 	default_fill_color{"blue"};
 			Color 	default_stroke_color{"white"};
 			int 	default_stroke_dash = 1;
@@ -48,18 +48,18 @@ namespace bridges {
 			string 	default_symbol = "circle";
 			int 	default_font_size = 12;
 
-										// symbol attributes
+			// symbol attributes
 
 			string label = string();
-			Color fillColor{"blue"}, 
-				strokeColor{"white"};
+			Color fillColor{"blue"},
+				  strokeColor{"white"};
 			float opacity = 1.0f;
 			float strokeWidth = 1.0f;
 			int strokeDash = 1;
 			int fontSize = 12;
 			int textWidth = 100;
 			int textHeight = 50;
-												// symbol location
+			// symbol location
 			float location[2] = {0.0f, 0.0f};
 
 			/**
@@ -75,10 +75,10 @@ namespace bridges {
 				identifier = getIdentifier();
 			}
 
-						// method to get the JSON representation of the symbol
+			// method to get the JSON representation of the symbol
 			virtual const string getSymbolRepresentation() const  = 0;
 
-						// method to get the bounding box (dimensions) of the shape
+			// method to get the bounding box (dimensions) of the shape
 			virtual vector<float> getDimensions() = 0;
 
 			Symbol(string symb) {
@@ -194,19 +194,19 @@ namespace bridges {
 
 				if (fillColor.getRepresentation() !=
 					default_fill_color.getRepresentation()) {
-						symbol_attr_json += QUOTE + "fill" + QUOTE + COLON +
-							fillColor.getRepresentation() + COMMA;
+					symbol_attr_json += QUOTE + "fill" + QUOTE + COLON +
+						fillColor.getRepresentation() + COMMA;
 				}
 
 				if (opacity != default_opacity) {
 					symbol_attr_json + QUOTE + "opacity" + QUOTE + COLON +
-						to_string(opacity) + COMMA;
+					to_string(opacity) + COMMA;
 				}
 
 				if (strokeColor.getRepresentation() !=
 					default_stroke_color.getRepresentation()) {
-						symbol_attr_json += QUOTE + "stroke" + QUOTE + COLON +
-							strokeColor.getRepresentation() + COMMA;
+					symbol_attr_json += QUOTE + "stroke" + QUOTE + COLON +
+						strokeColor.getRepresentation() + COMMA;
 				}
 
 				if (strokeWidth != default_stroke_width) {

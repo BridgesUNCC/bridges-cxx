@@ -38,15 +38,15 @@ namespace bridges {
 			}
 
 			void deallocateGrid() {
-			  if (grid) {
-			    for (int i = 0; i < gridSize[0]; i++)  {
-			      delete[] grid[i];
-			    }
-			    delete[] grid;
-			  }
-			  grid = nullptr;
+				if (grid) {
+					for (int i = 0; i < gridSize[0]; i++)  {
+						delete[] grid[i];
+					}
+					delete[] grid;
+				}
+				grid = nullptr;
 			}
-			
+
 		protected:
 			E  **grid = nullptr;
 
@@ -77,35 +77,35 @@ namespace bridges {
 				: Grid(size[0], size[1]) {
 			}
 
-			Grid(const Grid& g) 
-			  : Grid(g.gridSize[0], g.gridSize[1]) {
-			  for (int i = 0; i < gridSize[0]; i++) {
-			    for (int j = 0; j < gridSize[1]; j++) {
-			      set (i, j, g.get(i, j));
-			    }
-			  }
+			Grid(const Grid& g)
+				: Grid(g.gridSize[0], g.gridSize[1]) {
+				for (int i = 0; i < gridSize[0]; i++) {
+					for (int j = 0; j < gridSize[1]; j++) {
+						set (i, j, g.get(i, j));
+					}
+				}
 			}
-			
+
 			virtual ~Grid() {
-			  deallocateGrid();
+				deallocateGrid();
 			}
 
 			Grid& operator=(const Grid& g) {
-			  if (this->gridSize[0] != g.gridSize[0] ||
-			      this->gridSize[1] != g.gridSize[1] ) {
-			    deallocateGrid();
-			    setDimensions(g.gridSize[0], g.gridSize[1]);
-			  }
-			  for (int i = 0; i < gridSize[0]; i++) {
-			    for (int j = 0; j < gridSize[1]; j++) {
-			      set (i, j, g.get(i, j));
-			    }
-			  }
+				if (this->gridSize[0] != g.gridSize[0] ||
+					this->gridSize[1] != g.gridSize[1] ) {
+					deallocateGrid();
+					setDimensions(g.gridSize[0], g.gridSize[1]);
+				}
+				for (int i = 0; i < gridSize[0]; i++) {
+					for (int j = 0; j < gridSize[1]; j++) {
+						set (i, j, g.get(i, j));
+					}
+				}
 
-			  return *this;
+				return *this;
 			}
-			
-			
+
+
 			void setDimensions(int rows, int cols) {
 				gridSize[0] = rows;
 				gridSize[1] = cols;
@@ -124,15 +124,15 @@ namespace bridges {
 
 			// get the (row, col) element in the grid
 			E get(int row, int col) const {
-			  if (row >= gridSize[0] || col>=gridSize[1])
-			    throw "invalid location in Grid";
+				if (row >= gridSize[0] || col >= gridSize[1])
+					throw "invalid location in Grid";
 
 				return grid[row][col];
 			}
 			// set the (row, col) element in the grid
 			void set(int row, int col, E val) {
-			  if (row >= gridSize[0] || col>=gridSize[1])
-			    throw "invalid location in Grid";
+				if (row >= gridSize[0] || col >= gridSize[1])
+					throw "invalid location in Grid";
 
 				grid[row][col]  = val;
 			}

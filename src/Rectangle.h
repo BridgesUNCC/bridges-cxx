@@ -11,7 +11,7 @@ using namespace std;
 namespace bridges {
 
 	/*
-	 * @brief This class defines a rectangle and is part of the symbol collection. 
+	 * @brief This class defines a rectangle and is part of the symbol collection.
 	 *		A rectangle has height and width
 	 *
 	 * @author Kalpathi Subramanian
@@ -21,30 +21,32 @@ namespace bridges {
 	class Rectangle : public Symbol {
 		private:
 			string shape = "rect";
-								// height, width of rectangle
-			int width = 10,		
+			// height, width of rectangle
+			int width = 10,
 				height = 10;
 
 		public:
 
 			/**
-             *  constructors
-             */
+			 *  constructors
+			 */
 			Rectangle() {
 				width = height = 10;
 			}
 
 			Rectangle (int w, int h) {
-				if (w < 0 || h < 0) 
+				if (w < 0 || h < 0)
 					throw "Illegal height or width! Height and Width values need to be positive";
-				width = w; height = h;
+				width = w;
+				height = h;
 			}
 
 			Rectangle (int locx, int locy, int w, int h) {
 				setLocation (float(locx), float(locy));
-				if (w < 0 || h < 0) 
+				if (w < 0 || h < 0)
 					throw "Illegal height or width! Height and Width values need to be positive";
-				width = w; height = h;
+				width = w;
+				height = h;
 			}
 
 			string getDataStructType() {
@@ -99,7 +101,7 @@ namespace bridges {
 
 				dims[0] = location[0] - width / 2;
 				dims[1] = location[0] + width / 2,
-				dims[2] = location[1] - height / 2;
+					dims[2] = location[1] - height / 2;
 				dims[3] = location[1] + height / 2;
 
 				return dims;
@@ -118,7 +120,7 @@ namespace bridges {
 			void setRectangle(int locx, int locy, int w, int h) 	{
 
 				setLocation (float(locx), float(locy));
-				if (w <= 0 || w > 300 || h <=0 ||  w > 300) {
+				if (w <= 0 || w > 300 || h <= 0 ||  w > 300) {
 					throw "Illegal Size Value! Please enter values in the range 0-300";
 				}
 				width = w;
@@ -126,10 +128,10 @@ namespace bridges {
 			}
 
 			/**
-             * This method returns the JSON representation of the shape
-             *
-             * @return string  JSON string
-             */
+			 * This method returns the JSON representation of the shape
+			 *
+			 * @return string  JSON string
+			 */
 			virtual const string getSymbolRepresentation() const {
 
 				string shape_json = getSymbolAttributeRepresentation();
@@ -141,8 +143,8 @@ namespace bridges {
 				// set up width and height of rectangles
 				if (shape == "rect")
 					shape_json += QUOTE + "width" + QUOTE + COLON + to_string(width) + COMMA +
-						QUOTE + "height" + QUOTE + COLON + to_string(height) + 
-					CLOSE_CURLY;
+						QUOTE + "height" + QUOTE + COLON + to_string(height) +
+						CLOSE_CURLY;
 
 				return shape_json;
 

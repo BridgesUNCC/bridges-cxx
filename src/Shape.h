@@ -198,33 +198,33 @@ namespace bridges {
 			 * }
 			 * @returns the encoded JSON string
 			 */
-/*
-			virtual const string getDataStructureRepresentation() const override {
-				cout << "calling Shape::getDSR().." << endl;
-				string shape_json = Symbol::getDataStructureRepresentation();
-				shape_json +=
-					QUOTE + "name" + QUOTE + COLON +  QUOTE + label + QUOTE + COMMA +
-					QUOTE + "shape" + QUOTE + COLON + QUOTE + shape + QUOTE + COMMA;
-				if (shape == "circle")
-					shape_json += QUOTE + "r" + QUOTE + to_string(radius) + COMMA;
+			/*
+						virtual const string getDataStructureRepresentation() const override {
+							cout << "calling Shape::getDSR().." << endl;
+							string shape_json = Symbol::getDataStructureRepresentation();
+							shape_json +=
+								QUOTE + "name" + QUOTE + COLON +  QUOTE + label + QUOTE + COMMA +
+								QUOTE + "shape" + QUOTE + COLON + QUOTE + shape + QUOTE + COMMA;
+							if (shape == "circle")
+								shape_json += QUOTE + "r" + QUOTE + to_string(radius) + COMMA;
 
-				// set up width and height of rectangles
-				if (shape == "rect")
-					shape_json += QUOTE + "width" + QUOTE + to_string(width) + COMMA +
-						QUOTE + "height" + QUOTE + to_string(height) + COMMA;
+							// set up width and height of rectangles
+							if (shape == "rect")
+								shape_json += QUOTE + "width" + QUOTE + to_string(width) + COMMA +
+									QUOTE + "height" + QUOTE + to_string(height) + COMMA;
 
-				// add point list to polygons
-				if (shape == "polygon") {
-					shape_json += QUOTE + "points" + QUOTE + COMMA + "OPEN_BOX";
-					vector<float>::iterator it;
-					for (it = points->begin(); it != points->end(); it++) {
-						shape_json += to_string(*it) + COMMA;
-					}
-				}
-				cout << "JSON (Shape.h)" << shape_json << endl;
-				return shape_json;
-			}
-*/
+							// add point list to polygons
+							if (shape == "polygon") {
+								shape_json += QUOTE + "points" + QUOTE + COMMA + "OPEN_BOX";
+								vector<float>::iterator it;
+								for (it = points->begin(); it != points->end(); it++) {
+									shape_json += to_string(*it) + COMMA;
+								}
+							}
+							cout << "JSON (Shape.h)" << shape_json << endl;
+							return shape_json;
+						}
+			*/
 	};
 
 } // namespace bridges

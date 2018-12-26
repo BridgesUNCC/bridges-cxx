@@ -37,7 +37,7 @@ namespace bridges {
 			bridges::Bridges* bridges_inst;
 		public:
 			DataSource(bridges::Bridges* br = nullptr)
-			  :bridges_inst(br) {}
+				: bridges_inst(br) {}
 
 			/**
 			 *
@@ -477,7 +477,7 @@ namespace bridges {
 			 * The reconstructed assignment sees vertices identified as integers in the order they are stored in the server.
 			 * The data associated with a vertex is a string that come from the label of that vertices.
 			 * The data associated with an edge is the string that come from the label of that edge.
-			 * The edge weights are also reobtained from the bridges server. 
+			 * The edge weights are also reobtained from the bridges server.
 			 *
 			 * @return the ColorGrid stored in the bridges server
 			 * @param user the name of the user who uploaded the assignment
@@ -485,9 +485,9 @@ namespace bridges {
 			 * @param subassignment the ID of the subassignment to get
 			 **/
 			bridges::GraphAdjList<int, std::string> getGraphFromAssignment (const std::string& user,
-											int assignment,
-											int subassignment = 0) {
-			  bridges::GraphAdjList<int, std::string> gr;
+				int assignment,
+				int subassignment = 0) {
+				bridges::GraphAdjList<int, std::string> gr;
 
 				std::string s = this->getAssignment(user, assignment, subassignment);
 
@@ -525,84 +525,84 @@ namespace bridges {
 
 				//reconstructing vertices out of nodes, and using the optional "name" as the data associated
 				{
-				  const auto& nodes = data.FindMember("nodes");
-				  if (nodes == data.MemberEnd() ||
-				      nodes->value.IsArray() == false)
-				    throw "Malformed GraphAdjacencyList JSON: malformed nodes";
-				  
-				  
-				  const auto& nodeArray = nodes->value.GetArray();
-				  int nbVertex = nodeArray.Size();
-				  for (int i = 0; i< nbVertex; ++i) {
-				    std::string name;
-				    
-				    const auto& vertexJSONstr = nodeArray[i];
-				    
-				    const auto& nameJSON = vertexJSONstr.FindMember("name");
-				    if (nameJSON != vertexJSONstr.MemberEnd()
-					&& nameJSON->value.IsString()) {
-				      name = nameJSON->value.GetString();
-				    }
-				    gr.addVertex(i, name);
-				  }
+					const auto& nodes = data.FindMember("nodes");
+					if (nodes == data.MemberEnd() ||
+						nodes->value.IsArray() == false)
+						throw "Malformed GraphAdjacencyList JSON: malformed nodes";
+
+
+					const auto& nodeArray = nodes->value.GetArray();
+					int nbVertex = nodeArray.Size();
+					for (int i = 0; i < nbVertex; ++i) {
+						std::string name;
+
+						const auto& vertexJSONstr = nodeArray[i];
+
+						const auto& nameJSON = vertexJSONstr.FindMember("name");
+						if (nameJSON != vertexJSONstr.MemberEnd()
+							&& nameJSON->value.IsString()) {
+							name = nameJSON->value.GetString();
+						}
+						gr.addVertex(i, name);
+					}
 				}
 
 				//reconstructing links, and using "label" as data associated with the link
 				{
-				  const auto& links = data.FindMember("links");
-				  if (links == data.MemberEnd() ||
-				      links->value.IsArray() == false)
-				    throw "Malformed GraphAdjacencyList JSON: malformed links";
-				  
-				  const auto& linkArray = links->value.GetArray();
-				  int nbLink = linkArray.Size();
-				  for (int i = 0; i< nbLink; ++i) {
-				    std::string name;
-				    int src;
-				    int dest;
-				    int wgt;
-				    
-				    const auto& linkJSONstr = linkArray[i];
+					const auto& links = data.FindMember("links");
+					if (links == data.MemberEnd() ||
+						links->value.IsArray() == false)
+						throw "Malformed GraphAdjacencyList JSON: malformed links";
 
-				    //checking label. Maybe does not exist? (is that field optional?)
-				    const auto& nameJSON = linkJSONstr.FindMember("label");
-				    if (nameJSON != linkJSONstr.MemberEnd()
-					&& nameJSON->value.IsString()) {
-				      name = nameJSON->value.GetString();
-				    }
+					const auto& linkArray = links->value.GetArray();
+					int nbLink = linkArray.Size();
+					for (int i = 0; i < nbLink; ++i) {
+						std::string name;
+						int src;
+						int dest;
+						int wgt;
 
-				    //checking source
-				    const auto& srcJSON = linkJSONstr.FindMember("source");
-				    if (srcJSON == linkJSONstr.MemberEnd()
-					|| srcJSON->value.IsInt() == false) {
-				      throw "Malformed GraphAdjacencyList JSON: malformed link";
-				    }
-				    src = srcJSON->value.GetInt();
-				    
-				    
-				    //checking destination
-				    const auto& dstJSON = linkJSONstr.FindMember("target");
-				    if (dstJSON == linkJSONstr.MemberEnd()
-					|| dstJSON->value.IsInt() == false) {
-				      throw "Malformed GraphAdjacencyList JSON: malformed link";
-				    }
-				    dest = dstJSON->value.GetInt();
+						const auto& linkJSONstr = linkArray[i];
 
-				    //checking weight. //why is weight a mandatory parameter?
-				    const auto& wgtJSON = linkJSONstr.FindMember("weight");
-				    if (wgtJSON == linkJSONstr.MemberEnd()
-					|| wgtJSON->value.IsInt() == false) {
-				      throw "Malformed GraphAdjacencyList JSON: malformed link";
-				    }
-				    wgt = wgtJSON->value.GetInt();
+						//checking label. Maybe does not exist? (is that field optional?)
+						const auto& nameJSON = linkJSONstr.FindMember("label");
+						if (nameJSON != linkJSONstr.MemberEnd()
+							&& nameJSON->value.IsString()) {
+							name = nameJSON->value.GetString();
+						}
 
-				    
-				    //adding edge.
-				    gr.addEdge(src, dest, wgt, name);
-				  }
+						//checking source
+						const auto& srcJSON = linkJSONstr.FindMember("source");
+						if (srcJSON == linkJSONstr.MemberEnd()
+							|| srcJSON->value.IsInt() == false) {
+							throw "Malformed GraphAdjacencyList JSON: malformed link";
+						}
+						src = srcJSON->value.GetInt();
+
+
+						//checking destination
+						const auto& dstJSON = linkJSONstr.FindMember("target");
+						if (dstJSON == linkJSONstr.MemberEnd()
+							|| dstJSON->value.IsInt() == false) {
+							throw "Malformed GraphAdjacencyList JSON: malformed link";
+						}
+						dest = dstJSON->value.GetInt();
+
+						//checking weight. //why is weight a mandatory parameter?
+						const auto& wgtJSON = linkJSONstr.FindMember("weight");
+						if (wgtJSON == linkJSONstr.MemberEnd()
+							|| wgtJSON->value.IsInt() == false) {
+							throw "Malformed GraphAdjacencyList JSON: malformed link";
+						}
+						wgt = wgtJSON->value.GetInt();
+
+
+						//adding edge.
+						gr.addEdge(src, dest, wgt, name);
+					}
 				}
-			  
-			  return gr;
+
+				return gr;
 			}
 
 			/**Reconstruct a ColorGrid from an existing ColorGrid on the Bridges server
@@ -754,14 +754,14 @@ namespace bridges {
 								<< std::endl;
 
 						bridges::Color c (r, g, b, a);
-						
+
 						while (repeat >= 0) {
 							int posX = currentInCG / dimy;
 							int posY = currentInCG % dimy;
 							if (posX >= dimx || posY >= dimy) {
-							  if (debug())
-							    std::cerr<<posX<<" "<<dimx<<" "<<posY<<" "<<dimy<<std::endl;
-							  throw "Malformed ColorGrid JSON: Too much data in nodes";
+								if (debug())
+									std::cerr << posX << " " << dimx << " " << posY << " " << dimy << std::endl;
+								throw "Malformed ColorGrid JSON: Too much data in nodes";
 							}
 							cg.set(posX, posY, c);
 
@@ -770,9 +770,9 @@ namespace bridges {
 						}
 					}
 					if (debug())
-					  std::cerr<<"written "<<currentInCG<<" pixels"<<std::endl;
-					if (currentInCG != dimx*dimy)
-					  throw "Malformed ColorGrid JSON: Not enough data in nodes";
+						std::cerr << "written " << currentInCG << " pixels" << std::endl;
+					if (currentInCG != dimx * dimy)
+						throw "Malformed ColorGrid JSON: Not enough data in nodes";
 				}
 
 				return cg;
@@ -796,9 +796,9 @@ namespace bridges {
 
 				///should probably get the server name from a Bridges object
 				if (bridges_inst)
-				  ss << bridges_inst->getServerURL();
+					ss << bridges_inst->getServerURL();
 				else
-				  ss << bridges::Bridges::getDefaultServerURL();
+					ss << bridges::Bridges::getDefaultServerURL();
 				ss << "/assignmentJSON/"
 					<< assignment << ".";
 				ss << std::setfill('0') << std::setw(2) << subassignment;

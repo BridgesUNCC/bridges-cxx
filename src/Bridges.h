@@ -22,8 +22,10 @@ namespace bridges {
 	class Bridges {
 		private:
 
-	  static string getDefaultServerURL() {return "http://bridges-cs.herokuapp.com";}
-	  
+			static string getDefaultServerURL() {
+				return "http://bridges-cs.herokuapp.com";
+			}
+
 			bool jsonFlag = false;   				// if JSON is to be printed
 
 			string user_name = string(),
@@ -317,7 +319,7 @@ namespace bridges {
 
 		private:
 			string getServerURL() const {
-			  return server_url;
+				return server_url;
 			}
 
 
