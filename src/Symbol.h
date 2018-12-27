@@ -68,11 +68,19 @@ namespace bridges {
 			 *
 			 */
 
+	private:
+			int getNewIdentifier() {
+				static int ids = 0;
+				ids++;
+
+				return ids - 1;
+			}
+			
 
 		public:
 
 			Symbol() {
-				identifier = getIdentifier();
+				identifier = getNewIdentifier();
 			}
 
 			// method to get the JSON representation of the symbol
@@ -82,19 +90,16 @@ namespace bridges {
 			virtual vector<float> getDimensions() = 0;
 
 			Symbol(string symb) {
-				identifier = getIdentifier();
+				identifier = getNewIdentifier();
 			}
 			/**
 			 * 	Maintains unique identifiers of symbols
 			 * 	and returns the Symbol's unique identifier
 			 *
-			 * 	@return the string identifier
+			 * 	@return the identifier
 			 */
 			int getIdentifier() {
-				static int ids = 0;
-				ids++;
-
-				return ids - 1;
+				return identifier;
 			}
 
 			/**
