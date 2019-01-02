@@ -182,13 +182,9 @@ namespace bridges {
 			 *	@return to_string of "num" without unnessasary trailing 0s
 			 */
 			static string removeTrailingZeros(const double& num) {
-				if (static_cast<int>(num) == num) {
-					return to_string(static_cast<int>(num));
-				}	//if integer return as int
-				string numRep = to_string(num);
-				//removes trailing 0s
-				numRep.erase(numRep.find_last_not_of("0") + 1);
-				return numRep;
+			  std::stringstream ss;
+			  ss<<num;
+			  return ss.str();
 			}
 
 			/**

@@ -131,7 +131,7 @@ namespace bridges {
 			}
 			// set the (row, col) element in the grid
 			void set(int row, int col, E val) {
-				if (row<0 || col<0 ||row >= gridSize[0] || col >= gridSize[1])
+				if (row<0 || col<0 || row >= gridSize[0] || col >= gridSize[1])
 					throw "invalid location in Grid";
 
 				grid[row][col]  = val;
