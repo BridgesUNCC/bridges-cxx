@@ -276,18 +276,16 @@ namespace bridges {
 				vector<Song> wrapper;
 				string url = "http://bridgesdata.herokuapp.com/api/songs/find/";
 				// retrieve the data and parse
-				if (songTitle.size())
+				if (songTitle.size() > 0)
 					url += songTitle;
 				else {
-					// need to throw an exception or something
-					cout << "error!" << endl;
+				  throw "Incorrect use of getSong. songTitle should be given.";
 				}
 
 				if (artistName.size())
 					url += "?artistName=" + artistName;
 				else {
-					// need to throw an exception or something
-					cout << "error!" << endl;
+				  throw "Incorrect use of getSong. artistName should be given."; 
 				}
 				// check for spaces in url and replace them by '%20'
 				string::size_type n = 0;
