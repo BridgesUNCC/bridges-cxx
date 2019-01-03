@@ -237,13 +237,6 @@ namespace bridges {
 
 				return symbol_attr_json;
 			}
-
-			const string removeTrailingZeros2(const double& num) const {
-			  std::stringstream ss;
-			  ss<<num;
-			  return ss.str();
-			}
-
 	};
 
 } // namespace bridges
