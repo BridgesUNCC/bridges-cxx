@@ -180,6 +180,7 @@ namespace bridges {
 			*/
 
 			string  preOrder(TreeElement<E>* root) const {
+			  using bridges::JSONUtil::JSONencode;
 				string json_str = "", children = "", link_props = "", elem_rep = "";
 				string t_str;
 				if (root != NULL) {
@@ -206,9 +207,9 @@ namespace bridges {
 									QUOTE + "color" + QUOTE + COLON +
 									this->getCSSRepresentation(c) + COMMA +
 									QUOTE + "thickness" + QUOTE + COLON +
-									this->removeTrailingZeros(lv->getThickness()) + COMMA +
+									JSONencode(lv->getThickness()) + COMMA +
 									QUOTE + "weight" + QUOTE + COLON +
-									this->removeTrailingZeros(lv->getWeight()) +
+									JSONencode(lv->getWeight()) +
 									CLOSE_CURLY + COMMA;
 							}
 							else
