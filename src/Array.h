@@ -225,6 +225,8 @@ namespace bridges {
 			}
 
 			virtual const string getDataStructureRepresentation() const override final {
+			  using bridges::JSONUtil::JSONencode;
+
 				vector<const Element<E>*> nodes;
 
 				for (int k = 0; k < size; k++) {
@@ -234,9 +236,9 @@ namespace bridges {
 				string array_json =
 					QUOTE + "dims" + QUOTE + COLON +
 					OPEN_BOX +
-					to_string(dims[0]) + COMMA +
-					to_string(dims[1]) + COMMA +
-					to_string(dims[2]) +
+					JSONencode(dims[0]) + COMMA +
+					JSONencode(dims[1]) + COMMA +
+					JSONencode(dims[2]) +
 					CLOSE_BOX + COMMA +
 
 					QUOTE + "nodes"  + QUOTE + COLON +
