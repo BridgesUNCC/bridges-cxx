@@ -203,6 +203,7 @@ namespace bridges {
 			 * @return the JSON representation of the color grid
 			 **/
 			virtual const string getDataStructureRepresentation () const override {
+			  using bridges::JSONUtil::JSONencode;
 
 				// Maintain a bytebuffer for the byte representations of each grid color
 				std::vector<BYTE> byte_buf = getRLEencoding();
@@ -224,7 +225,7 @@ namespace bridges {
 					QUOTE + "encoding" + QUOTE + COLON + QUOTE + encoding + QUOTE + COMMA +
 					QUOTE + "dimensions" + QUOTE + COLON +
 					OPEN_BOX +
-					to_string(gridSize[0]) + COMMA + to_string(gridSize[1]) +
+					JSONencode(gridSize[0]) + COMMA + JSONencode(gridSize[1]) +
 					CLOSE_BOX + COMMA +
 
 					QUOTE + "nodes" + QUOTE + COLON +
