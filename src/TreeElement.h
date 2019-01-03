@@ -151,34 +151,6 @@ namespace bridges {
 			 *
 			 * @return the JSON string
 			 */
-			/*
-					string generateHierarchicalJSON() const {
-			            string json = this->getRepresentation(); //This nodes rep
-			            if(children.size()>0) {
-			                json = json.substr(0, json.size()-1);// remove end curly brace
-			                json+= COMMA + QUOTE + "children" + QUOTE + COLON + OPEN_BOX;
-			                for(const auto& ele : children){ // each TreeElement* in children
-			                    if(!ele){json+= OPEN_CURLY+QUOTE+"name"+QUOTE+COLON+"null"+CLOSE_CURLY;}
-			                    else {
-			                        json += preOrder(ele);
-			                        json = json.substr(0, json.size()-1);// remove end curly brace
-
-			                        json+=COMMA+QUOTE+"linkProperties"+QUOTE+COLON+OPEN_CURLY;
-			                        if(LinkVisualizer* lv = this->getLinkVisualizer(ele)) {
-										json += QUOTE+"color" + QUOTE+COLON+this->getCSSRepresentation(lv->getColor())+COMMA+
-											QUOTE+"thickness"+QUOTE+COLON+this->removeTrailingZeros(lv->getThickness())+COMMA+
-											QUOTE+"weight" +QUOTE+COLON+this->removeTrailingZeros(lv->getWeight());
-			                        }
-			                        json+=CLOSE_CURLY;
-			                    }
-			                    json+=COMMA;
-			                }
-			                json = json.substr(0, json.size()-1)+CLOSE_BOX+CLOSE_CURLY;// remove last comma, end of children
-			            }
-			            return json;
-			        }
-			*/
-
 			string  preOrder(TreeElement<E>* root) const {
 			  using bridges::JSONUtil::JSONencode;
 				string json_str = "", children = "", link_props = "", elem_rep = "";
