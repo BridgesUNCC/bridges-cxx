@@ -615,85 +615,42 @@ namespace bridges {
 				int subassignment = 0) {
 
 				std::string s = this->getAssignment(user, assignment, subassignment);
-
+				
 				rapidjson::Document doc;
 				doc.Parse(s.c_str());
 				if (doc.HasParseError())
 					throw "Malformed JSON";
 
-				//Access doc["assignmentJSON"]
-				const auto& assjson = doc.FindMember("assignmentJSON");
-
-				if (assjson == doc.MemberEnd())
-					throw "Malformed ColorGrid JSON: no assignmentJSON";
-
-				//Access doc["assignmentJSON"]["data"]
-				const auto& dataArray = assjson->value.FindMember("data");
-
-				if (dataArray == assjson->value.MemberEnd()
-					|| dataArray->value.IsArray() == false)
-					throw "Malformed ColorGrid JSON: No data";
-
-				const auto& data = dataArray->value.GetArray()[0];
-
-				//Access doc["assignmentJSON"]["data"][0]["visual"]
-				const auto& dataVisual = data.FindMember("visual");
-
-				if (dataVisual == data.MemberEnd() ||
-					dataVisual->value.IsString() == false)
-					throw "Malformed ColorGrid JSON";
-
-				std::string assignment_type = dataVisual->value.GetString();
-
-				if (assignment_type != "ColorGrid")
-					throw "Malformed ColorGrid JSON: Not a ColorGrid";
-
-				std::string encoding = "RAW";
-				const auto& enc = data.FindMember("encoding");
-				if (enc != data.MemberEnd()) { //enc == data.MemberEnd() is not an error, mean RAW encoding
-					if (enc->value.IsString() == false)
-						throw "Malformed ColorGrid JSON: \"encoding\" should be a string";
-					encoding = enc->value.GetString();
-					if (encoding != "RAW" && encoding != "RLE")
-						throw "Malformed ColorGrid JSON: encoding not supported";
+				try {
+				  std::string assignment_type = doc["assignment_type"].GetString();
+				
+				  if (assignment_type != "ColorGrid")
+				    throw "Malformed ColorGrid JSON: Not a ColorGrid";
+				} catch (rapidjson_exception re) {
+				  throw "Malformed JSON: Not a Bridges assignment?";
 				}
 
-				//Access doc["assignmentJSON"]["data"][0]["dimensions"]
-				const auto& dimensions = data.FindMember("dimensions");
-				if (dimensions == data.MemberEnd() ||
-					dimensions->value.IsArray() == false ||
-					dimensions->value.GetArray().Size() < 2)
-					throw "Malformed ColorGrid JSON: dimensions is wrong";
-
-
-				//Access doc["assignmentJSON"]["data"][0]["dimensions"][0]
-				//   and doc["assignmentJSON"]["data"][0]["dimensions"][1]
-				const auto& dimarray = dimensions->value.GetArray();
-
-				if (dimarray[0].IsInt() == false ||
-					dimarray[1].IsInt() == false)
-					throw "Malformed ColorGrid JSON: Malformed dimensions";
-
-
-				int dimx = dimarray[0].GetInt();
-				int dimy = dimarray[1].GetInt();
-
-				if (debug())
-					std::cerr << "Dimensions: " << dimx << "x" << dimy << std::endl;
-
-				//Access doc["assignmentJSON"]["data"][0]["nodes"]
-				const auto& nodes = data.FindMember("nodes");
-				if (nodes == data.MemberEnd() ||
-					nodes->value.IsArray() == false ||
-					nodes->value.GetArray().Size() < 1 ||
-					nodes->value.GetArray()[0].IsString() == false)
-					throw "Malformed ColorGrid JSON: malformed nodes";
-
-				//Access doc["assignmentJSON"]["data"][0]["nodes"][0]
-				std::string base64_encoded_assignment = nodes->value.GetArray()[0].GetString();
-
-
-				//std::cout<<base64_encoded_assignment<<std::endl;
+				
+				try {
+				  auto& data = doc["data"][0];
+				
+				  std::string encoding = data["encoding"].GetString();
+				  if (encoding != "RAW" && encoding != "RLE")
+				    throw "Malformed ColorGrid JSON: encoding not supported";
+				  
+				  
+				  //Access doc["data"][0]["dimensions"]
+				  const auto& dimensions = data["dimensions"];
+				  int dimx = dimensions[0].GetInt();
+				  int dimy = dimensions[1].GetInt();
+				  
+				  if (debug())
+				    std::cerr << "Dimensions: " << dimx << "x" << dimy << std::endl;
+				  
+				  //Access doc["data"][0]["nodes"][0]
+				  std::string base64_encoded_assignment = data["nodes"][0].GetString();
+				  
+				
 				std::vector<bridges::BYTE> decoded = bridges::base64::decode(base64_encoded_assignment);
 
 				bridges::ColorGrid cg (dimx, dimy);
@@ -774,6 +731,10 @@ namespace bridges {
 				}
 
 				return cg;
+				}
+				catch (rapidjson_exception re) {
+				  throw "Malformed ColorGrid JSON";
+				}
 
 			}
 		private:
