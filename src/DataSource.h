@@ -5,7 +5,7 @@
 #include <string>
 using namespace std;
 
-#include <rapidjson/document.h>
+#include <JSONutil.h>
 #include "./data_src/EarthquakeUSGS.h"
 #include "./data_src/Game.h"
 #include "./data_src/Shakespeare.h"

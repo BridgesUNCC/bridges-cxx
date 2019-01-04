@@ -1,6 +1,25 @@
 #ifndef JSON_UTIL_
 #define JSON_UTIL_
 
+#include <sstream>
+
+struct rapidjson_exception {
+  std::string why;
+  std::string filename;
+  int linenumber;
+  
+  rapidjson_exception(const std::string & why, const std::string& filename, const int linenumber)
+  :why(why), filename(filename), linenumber(linenumber){}
+
+  operator std::string() const {
+    std::stringstream ss;
+    ss<<why<<" "<<filename<<" "<<linenumber;
+    return ss.str();
+  }
+};
+
+#define RAPIDJSON_ASSERT(x) if (!( x )) { throw rapidjson_exception( #x, __FILE__, __LINE__ ) ;}
+
 #include <rapidjson/document.h>
 #include <rapidjson/stringbuffer.h>
 #include <rapidjson/writer.h>
