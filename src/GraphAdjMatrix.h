@@ -262,7 +262,7 @@ namespace bridges {
 			 * @return A string holding the nodes JSON of the graph
 			 */
 			virtual const string getDataStructureRepresentation() const override {
-			  using bridges::JSONUtil::JSONencode;
+				using bridges::JSONUtil::JSONencode;
 
 				// map the nodes to a sequence of ids, 0...N-1
 				// then get the JSON string for nodes placeholder

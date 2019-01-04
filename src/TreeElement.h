@@ -152,7 +152,7 @@ namespace bridges {
 			 * @return the JSON string
 			 */
 			string  preOrder(TreeElement<E>* root) const {
-			  using bridges::JSONUtil::JSONencode;
+				using bridges::JSONUtil::JSONencode;
 				string json_str = "", children = "", link_props = "", elem_rep = "";
 				string t_str;
 				if (root != NULL) {

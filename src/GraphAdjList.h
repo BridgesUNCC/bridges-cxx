@@ -348,8 +348,8 @@ namespace bridges {
 			 * @return A pair holding the nodes and links JSON strings respectively
 			 */
 			virtual const string getDataStructureRepresentation() const override {
-			  using bridges::JSONUtil::JSONencode;
-			  
+				using bridges::JSONUtil::JSONencode;
+
 				// map the nodes to a sequence of ids, 0...N-1
 				// then get the JSON string for nodes placeholder
 				// nullptr prevents insertion of other nullptrs

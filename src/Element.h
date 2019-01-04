@@ -49,21 +49,20 @@ namespace bridges {
 		private:
 			static const unordered_map<const Shape, const string, hash<int>>& ShapeNames() {
 
-			  static std::unordered_map<const Shape, const string, hash<int>> sn = 
-			    {
-			      {CIRCLE, "circle"},
-			      {SQUARE, "square"},
-			      {DIAMOND, "diamond"},
-			      {CROSS, "cross"},
-			      {TRIANGLE, "triangle"},
-			      {WYE, "wye"},
-			      {STAR, "star"}
-			    };
-			  return sn;
+				static std::unordered_map<const Shape, const string, hash<int>> sn = {
+					{CIRCLE, "circle"},
+					{SQUARE, "square"},
+					{DIAMOND, "diamond"},
+					{CROSS, "cross"},
+					{TRIANGLE, "triangle"},
+					{WYE, "wye"},
+					{STAR, "star"}
+				};
+				return sn;
 			}
 
 
-			
+
 			//this element's label
 			string label;
 			// appl. specific data stored with element
@@ -232,8 +231,8 @@ namespace bridges {
 					JSONencode(lv.getThickness()) + COMMA +
 					QUOTE + "weight"    + QUOTE + COLON +
 					JSONencode(lv.getWeight()) + COMMA +
-				  QUOTE + "source"    + QUOTE + COLON + JSONencode(src)  + COMMA +
-				  QUOTE + "target"    + QUOTE + COLON + JSONencode(dest) +
+					QUOTE + "source"    + QUOTE + COLON + JSONencode(src)  + COMMA +
+					QUOTE + "target"    + QUOTE + COLON + JSONencode(dest) +
 					CLOSE_CURLY;
 			}
 			/**

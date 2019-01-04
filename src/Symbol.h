@@ -68,14 +68,14 @@ namespace bridges {
 			 *
 			 */
 
-	private:
+		private:
 			int getNewIdentifier() {
 				static int ids = 0;
 				ids++;
 
 				return ids - 1;
 			}
-			
+
 
 		public:
 

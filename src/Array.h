@@ -226,7 +226,7 @@ namespace bridges {
 			}
 
 			virtual const string getDataStructureRepresentation() const override final {
-			  using bridges::JSONUtil::JSONencode;
+				using bridges::JSONUtil::JSONencode;
 
 				vector<const Element<E>*> nodes;
 
