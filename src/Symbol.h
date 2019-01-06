@@ -14,7 +14,7 @@ using namespace std;
 
 namespace bridges {
 
-	/*
+	/**
 	 * @brief This is an abstract class for deriving a
 	 *  number of Symbol shape objects, for use in a SymbolCollection.
 	 *  Symbols correspond to a simplified subset of SVG paths
@@ -26,7 +26,7 @@ namespace bridges {
 	 * @author Kalpathi Subramanian
 	 * @date 12/24/18
 	 *
-	*/
+	 */
 	class Symbol {
 
 		private:

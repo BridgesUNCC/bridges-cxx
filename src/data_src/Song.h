@@ -1,3 +1,9 @@
+
+#ifndef SONG_H
+#define SONG_H
+
+
+namespace bridges {
 /**
  * @brief  A Song object, used along with the Songs data source.
  *
@@ -13,12 +19,6 @@
  * @date   5/24/18
  *
  */
-
-#ifndef SONG_H
-#define SONG_H
-
-
-namespace bridges {
 
 	class Song {
 		private:

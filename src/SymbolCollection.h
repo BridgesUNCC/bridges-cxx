@@ -14,13 +14,13 @@ using namespace std;
 
 namespace bridges {
 
-	/*
+	/**
 	 * 	@brief the ShapeCollection represents a collection of symbols (shapes,
 	 *		polygons, and text) to visualize in Bridges
 	 * 	@author Kalpathi Subramanian
 	 *	@date 10/9/18
 	 *
-	*/
+	 */
 	class SymbolCollection : public  DataStructure {
 			// keep track of the shape elements; useful
 			// to maintain their properties
