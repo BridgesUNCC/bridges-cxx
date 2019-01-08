@@ -14,7 +14,7 @@ using namespace std;
 
 namespace bridges {
 
-	/*
+	/**
 	 * @brief This is an abstract class for deriving a
 	 *  number of Symbol shape objects, for use in a SymbolCollection.
 	 *  Symbols correspond to a simplified subset of SVG paths
@@ -23,7 +23,7 @@ namespace bridges {
 	 *  Currently shapes supported are rectangle, circle, polygon, label; each shape
 	 *	has a name, location (x, y) and appropriate geometric and non-geometric attributes
 	 *
-	 * @author Kalpathi Subramanian
+	 * @author David Burlinson, Kalpathi Subramanian
 	 * @date 12/24/18
 	 *
 	*/

@@ -8,6 +8,13 @@ using namespace std;
 #include "DataStructure.h"
 #include "Symbol.h"
 
+/**
+ * @brief the SymbolCollection object is a container object to hold a collection of symbols 
+ *	(rectangles, polygons, circles, labels).
+ *
+ * @author David Burlinson, Kalpathi Subramanian
+ */
+
 #ifndef SYMBOL_COLLECTION_H
 
 #define SYMBOL_COLLECTION_H

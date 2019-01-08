@@ -2,6 +2,7 @@
 #include "Symbol.h"
 #include <vector>
 
+
 using namespace std;
 
 #ifndef  RECTANGLE_H
@@ -10,7 +11,8 @@ using namespace std;
 
 namespace bridges {
 
-	/*
+
+	/**
 	 * @brief This class defines a rectangle and is part of the symbol collection.
 	 *		A rectangle has height and width
 	 *
