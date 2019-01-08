@@ -124,14 +124,14 @@ namespace bridges {
 
 			// get the (row, col) element in the grid
 			E get(int row, int col) const {
-				if (row >= gridSize[0] || col >= gridSize[1])
+				if (row < 0 || col < 0 || row >= gridSize[0] || col >= gridSize[1])
 					throw "invalid location in Grid";
 
 				return grid[row][col];
 			}
 			// set the (row, col) element in the grid
 			void set(int row, int col, E val) {
-				if (row >= gridSize[0] || col >= gridSize[1])
+				if (row < 0 || col < 0 || row >= gridSize[0] || col >= gridSize[1])
 					throw "invalid location in Grid";
 
 				grid[row][col]  = val;

@@ -19,7 +19,6 @@ namespace bridges {
  	 * @date 12/23/18
  	 *
  	 */
-
 	class Polygon : public Symbol {
 		private:
 			string shape = "polygon";

@@ -26,7 +26,7 @@ namespace bridges {
 	 * @author David Burlinson, Kalpathi Subramanian
 	 * @date 12/24/18
 	 *
-	*/
+	 */
 	class Symbol {
 
 		private:
@@ -68,14 +68,14 @@ namespace bridges {
 			 *
 			 */
 
-	private:
+		private:
 			int getNewIdentifier() {
 				static int ids = 0;
 				ids++;
 
 				return ids - 1;
 			}
-			
+
 
 		public:
 
@@ -237,17 +237,6 @@ namespace bridges {
 
 				return symbol_attr_json;
 			}
-
-			const string removeTrailingZeros2(const double& num) const {
-				if (static_cast<int>(num) == num) {
-					return to_string(static_cast<int>(num));
-				}  				 //if integer return as int
-				string numRep = to_string(num);
-				//removes trailing 0s
-				numRep.erase(numRep.find_last_not_of("0") + 1);
-				return numRep;
-			}
-
 	};
 
 } // namespace bridges

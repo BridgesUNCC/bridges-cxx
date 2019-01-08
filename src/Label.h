@@ -21,7 +21,7 @@ namespace bridges {
 	 * @author Kalpathi Subramanian
 	 * @date 12/23/18
 	 *
-	*/
+	 */
 	class Label : public Symbol {
 		private:
 			// height, width of rectangle

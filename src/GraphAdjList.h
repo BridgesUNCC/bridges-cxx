@@ -348,6 +348,7 @@ namespace bridges {
 			 * @return A pair holding the nodes and links JSON strings respectively
 			 */
 			virtual const string getDataStructureRepresentation() const override {
+				using bridges::JSONUtil::JSONencode;
 
 				// map the nodes to a sequence of ids, 0...N-1
 				// then get the JSON string for nodes placeholder
@@ -381,8 +382,8 @@ namespace bridges {
 						Element<E1>* dest_vert = vertices.at(it->getValue().getVertex() );
 						links_JSON +=  src_vert->getLinkRepresentation(
 								*(src_vert->getLinkVisualizer(dest_vert)),
-								to_string(node_map.at(v.first)),
-								to_string(node_map.at(it->getValue().getVertex())) ) + COMMA;
+								JSONencode(node_map.at(v.first)),
+								JSONencode(node_map.at(it->getValue().getVertex())) ) + COMMA;
 					}
 				}
 

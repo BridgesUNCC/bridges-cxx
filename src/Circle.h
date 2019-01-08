@@ -19,7 +19,6 @@ namespace bridges {
  	 * @date 12/24/18
  	 *
  	 */
-
 	class Circle : public Symbol {
 		private:
 

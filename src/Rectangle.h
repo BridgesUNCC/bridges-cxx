@@ -11,7 +11,6 @@ using namespace std;
 
 namespace bridges {
 
-
 	/**
 	 * @brief This class defines a rectangle and is part of the symbol collection.
 	 *		A rectangle has height and width
@@ -19,7 +18,7 @@ namespace bridges {
 	 * @author Kalpathi Subramanian
 	 * @date 12/23/18
 	 *
-	*/
+	 */
 	class Rectangle : public Symbol {
 		private:
 			string shape = "rect";

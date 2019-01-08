@@ -63,9 +63,9 @@ namespace bridges {
 			}
 
 			///builds a 1D array.
-			///@param xsize size of the array's only dimension
-			Array(int xsize)
-				: Array(1, &xsize) {
+			///@param num_element size of the array's only dimension
+			Array(int num_element)
+				: Array(1, &num_element) {
 			}
 
 			///builds a 2D array.
@@ -143,19 +143,19 @@ namespace bridges {
 
 			/**
 			 *
-			 *  Get the object at index x  - 1D array
+			 *  Get the object at index ind  - 1D array
 			 *
-			 *  @param x_indx - index into the array
+			 *  @param ind - index into the array
 			 *
-			 *  @return Element<E>  object at 'indx'
+			 *  @return Element<E>  object at 'ind'
 			 */
-			Element<E>& getElement(int x) {
-				return array_data[x];
+			Element<E>& getElement(int ind) {
+				return array_data[ind];
 			}
 
 			/**
 			 *
-			 *  Get the object at x, y, z -- for 2D arrays
+			 *  Get the object at x, y -- for 2D arrays
 			 *
 			 *  @param x  - column index
 			 *  @param y  - row index
@@ -171,6 +171,7 @@ namespace bridges {
 			 *
 			 *  @param x  - column index
 			 *  @param y  - row index
+			 *  @param z  - slice index
 			 *
 			 *  @return Element<E>  object at x, y, z
 			 */
@@ -180,15 +181,15 @@ namespace bridges {
 
 			/**
 			 *
-			 *  Set the object at index x  - 1D array
+			 *  Set the object at index ind  - 1D array
 			 *
-			 *  @param x - index into the array
-			 *  @el - Element object
+			 *  @param ind - index into the array
+			 *  @param el - Element object
 			 *
 			 *  @return none
 			 */
-			void setElement(int indx, Element<E> el) {
-				array_data[indx] = el;
+			void setElement(int ind, Element<E> el) {
+				array_data[ind] = el;
 			}
 
 			/**
@@ -197,7 +198,7 @@ namespace bridges {
 			 *
 			 *  @param x - col index into the array
 			 *  @param y - row index into the array
-			 *  @el - Element object
+			 *  @param el - Element object
 			 *
 			 *  @return none
 			 */
@@ -211,7 +212,7 @@ namespace bridges {
 			 *  @param x - col index into the array
 			 *  @param y - row index into the array
 			 *  @param z - slice index into the array
-			 *  @el - Element object
+			 *  @param el - Element object
 			 *
 			 *  @return none
 			 */
@@ -225,6 +226,8 @@ namespace bridges {
 			}
 
 			virtual const string getDataStructureRepresentation() const override final {
+				using bridges::JSONUtil::JSONencode;
+
 				vector<const Element<E>*> nodes;
 
 				for (int k = 0; k < size; k++) {
@@ -234,9 +237,9 @@ namespace bridges {
 				string array_json =
 					QUOTE + "dims" + QUOTE + COLON +
 					OPEN_BOX +
-					to_string(dims[0]) + COMMA +
-					to_string(dims[1]) + COMMA +
-					to_string(dims[2]) +
+					JSONencode(dims[0]) + COMMA +
+					JSONencode(dims[1]) + COMMA +
+					JSONencode(dims[2]) +
 					CLOSE_BOX + COMMA +
 
 					QUOTE + "nodes"  + QUOTE + COLON +

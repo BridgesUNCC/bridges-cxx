@@ -49,21 +49,20 @@ namespace bridges {
 		private:
 			static const unordered_map<const Shape, const string, hash<int>>& ShapeNames() {
 
-			  static std::unordered_map<const Shape, const string, hash<int>> sn = 
-			    {
-			      {CIRCLE, "circle"},
-			      {SQUARE, "square"},
-			      {DIAMOND, "diamond"},
-			      {CROSS, "cross"},
-			      {TRIANGLE, "triangle"},
-			      {WYE, "wye"},
-			      {STAR, "star"}
-			    };
-			  return sn;
+				static std::unordered_map<const Shape, const string, hash<int>> sn = {
+					{CIRCLE, "circle"},
+					{SQUARE, "square"},
+					{DIAMOND, "diamond"},
+					{CROSS, "cross"},
+					{TRIANGLE, "triangle"},
+					{WYE, "wye"},
+					{STAR, "star"}
+				};
+				return sn;
 			}
 
 
-			
+
 			//this element's label
 			string label;
 			// appl. specific data stored with element
@@ -179,19 +178,6 @@ namespace bridges {
 
 		protected:
 			/**
-			 *	@return to_string of "num" without unnessasary trailing 0s
-			 */
-			static string removeTrailingZeros(const double& num) {
-				if (static_cast<int>(num) == num) {
-					return to_string(static_cast<int>(num));
-				}	//if integer return as int
-				string numRep = to_string(num);
-				//removes trailing 0s
-				numRep.erase(numRep.find_last_not_of("0") + 1);
-				return numRep;
-			}
-
-			/**
 			 *	@return The JSON string of this element's properties
 			 */
 			virtual const string getElementRepresentation() const {
@@ -204,8 +190,8 @@ namespace bridges {
 					(elvis->getLocationY() != INFINITY) ) {
 					loc_str =  QUOTE + "location" + QUOTE + COLON +
 						OPEN_BOX +
-						to_string(elvis->getLocationX())  + COMMA +
-						to_string(elvis->getLocationY()) +
+						JSONencode(elvis->getLocationX())  + COMMA +
+						JSONencode(elvis->getLocationY()) +
 						CLOSE_BOX + COMMA;
 				}
 				return  OPEN_CURLY +
@@ -215,7 +201,7 @@ namespace bridges {
 					QUOTE + "shape" + QUOTE + COLON + QUOTE +
 					ShapeNames().at(elvis->getShape()) + QUOTE + COMMA +
 					QUOTE + "size" + QUOTE + COLON +
-					removeTrailingZeros(elvis->getSize()) + COMMA +
+					JSONencode(elvis->getSize()) + COMMA +
 					QUOTE + "name" + QUOTE + COLON + JSONencode( label) +
 					CLOSE_CURLY;
 			}
@@ -242,11 +228,11 @@ namespace bridges {
 						(QUOTE + "label" + QUOTE + COLON +
 							JSONencode( lv.getLabel()) + COMMA) : "") +
 					QUOTE + "thickness" + QUOTE + COLON +
-					removeTrailingZeros(lv.getThickness()) + COMMA +
+					JSONencode(lv.getThickness()) + COMMA +
 					QUOTE + "weight"    + QUOTE + COLON +
-					removeTrailingZeros(lv.getWeight()) + COMMA +
-					QUOTE + "source"    + QUOTE + COLON + src  + COMMA +
-					QUOTE + "target"    + QUOTE + COLON + dest +
+					JSONencode(lv.getWeight()) + COMMA +
+					QUOTE + "source"    + QUOTE + COLON + JSONencode(src)  + COMMA +
+					QUOTE + "target"    + QUOTE + COLON + JSONencode(dest) +
 					CLOSE_CURLY;
 			}
 			/**
@@ -256,15 +242,16 @@ namespace bridges {
 			 * @return Equivilant Legal CSS color representation
 			 */
 			static const string getCSSRepresentation(const Color& col) {
+				using bridges::JSONUtil::JSONencode;
 				if (col.isTransparent()) {
 					//leaves off other channels if transparent
 					return "[0, 0, 0, 0.0f]";
 				}
 				const string strCSS =
-					to_string(col.getRed()) + "," +
-					to_string(col.getGreen()) + "," +
-					to_string(col.getBlue()) + "," +
-					to_string( ((float) (col.getAlpha()) / 255.0f));
+					JSONencode(col.getRed()) + "," +
+					JSONencode(col.getGreen()) + "," +
+					JSONencode(col.getBlue()) + "," +
+					JSONencode( ((float) (col.getAlpha()) / 255.0f));
 
 				return OPEN_BOX + strCSS + CLOSE_BOX;
 			}
