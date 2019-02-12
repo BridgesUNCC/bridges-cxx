@@ -23,7 +23,7 @@ namespace bridges {
 	 *  Currently shapes supported are rectangle, circle, polygon, label; each shape
 	 *	has a name, location (x, y) and appropriate geometric and non-geometric attributes
 	 *
-	 * @author Kalpathi Subramanian
+	 * @author David Burlinson, Kalpathi Subramanian
 	 * @date 12/24/18
 	 *
 	 */

@@ -4,15 +4,19 @@
 
 using namespace std;
 
+/**
+ */
+
 #ifndef  LABEL_H
 
 #define LABEL_H
 
+
 namespace bridges {
 
 	/**
-	 * @brief This class defines a rectangle and is part of the symbol collection.
-	 *		A rectangle has height and width
+ 	 * @brief This is a label object and used for defining text labels
+ 	 *   as part of the symbol collection.
 	 *
 	 * @author Kalpathi Subramanian
 	 * @date 12/23/18

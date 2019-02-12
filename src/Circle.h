@@ -4,6 +4,7 @@
 
 using namespace std;
 
+
 #ifndef  CIRCLE_H
 
 #define CIRCLE_H
@@ -11,13 +12,13 @@ using namespace std;
 namespace bridges {
 
 	/**
-	 * @brief This class defines a rectangle and is part of the symbol collection.
-	 *		A rectangle has height and width
-	 *
-	 * @author Kalpathi Subramanian
-	 * @date 12/23/18
-	 *
-	 */
+ 	 * @brief This class defines a circle and is part of the symbol collection.
+ 	 *      A circle  has a radius
+ 	 *
+ 	 * @author Kalpathi Subramanian
+ 	 * @date 12/24/18
+ 	 *
+ 	 */
 	class Circle : public Symbol {
 		private:
 

@@ -2,6 +2,7 @@
 #include "Symbol.h"
 #include <vector>
 
+
 using namespace std;
 
 #ifndef  RECTANGLE_H
