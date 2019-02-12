@@ -1,5 +1,5 @@
-#ifndef BRIDGES2_H
-#define BRIDGES2_H
+#ifndef BRIDGES_H
+#define BRIDGES_H
 
 #include <iostream>
 #include <algorithm>
@@ -47,6 +47,9 @@ namespace bridges {
 			string map_overlay_options[3] = {"cartesian", "albersusa", "equirectangular"};
 			bool map_overlay = false;
 			string coord_system_type = "cartesian";
+
+			// world coordinate window
+			vector<double> wc_window;
 
 			unsigned int lastAssignNum = 0, subAssignNum = 0;
 
@@ -231,16 +234,17 @@ namespace bridges {
 			}
 
 			/**
-			 *  Sets the coordinate system type for location specific datasets; default is cartesian
+			 *  Sets the coordinate system type for location specific data; default is cartesian
 			 *
 			 *	@param coord    this is the desired coordinate space argument
-			 *		Options are: ['cartesian', 'albersusa', 'equirectangular']. 'cartesian'
-			 *		is the default
+			 *		Options are: ['cartesian', 'albersusa', 'equirectangular', 'window']. 
+		     *		'cartesian' is the default
 			 *
 			 **/
 			void setCoordSystemType (string coord) {
 				std::transform(coord.begin(), coord.end(), coord.begin(), ::tolower);
-				if (coord == "cartesian" || coord == "albersusa" || coord == "equirectangular")
+				if (coord == "cartesian" || coord == "albersusa" || coord == "equirectangular"
+						|| coord == "window")
 					coord_system_type = coord;
 				else  {
 					cout << "Unrecognized coordinate system \'" + coord + "\', defaulting to "
@@ -259,6 +263,28 @@ namespace bridges {
 			 **/
 			const string&  getCoordSystemType () {
 				return coord_system_type;
+			}
+
+			/**
+			 *  sets the world coordinate window defining the space of the user
+			 *	defined objects (or nodes)
+			 *
+			 *  @param xmin   minimum window x
+			 *  @param ymin   minimum window y
+			 *  @param xmax   maximum window x
+			 *  @param ymax   maximum window y
+			 *
+			 *  @return none
+			 **/
+			void setWindow (int xmin, int ymin, int xmax, int ymax) {
+				setWindow(double(xmin), double(ymin), double(xmax), double(ymax));
+			}
+
+			void setWindow (double xmin, double ymin, double xmax, double ymax) {
+				wc_window.push_back(xmin);
+				wc_window.push_back(ymin);
+				wc_window.push_back(xmax);
+				wc_window.push_back(ymax);
 			}
 
 			/**
@@ -326,18 +352,28 @@ namespace bridges {
 			string getJSONHeader () {
 				using bridges::JSONUtil::JSONencode;
 
-				return  OPEN_CURLY +
+				string json_header = OPEN_CURLY +
 					QUOTE + "visual" + QUOTE + COLON + JSONencode(ds_handle->getDStype()) + COMMA +
 					QUOTE + "title" + QUOTE + COLON + JSONencode(getTitle()) + COMMA +
 					QUOTE + "description" + QUOTE + COLON + JSONencode( getDescription()) + COMMA +
 					QUOTE + "map_overlay" + QUOTE + COLON + ((map_overlay) ? "true" : "false") + COMMA +
 					QUOTE + "coord_system_type" + QUOTE + COLON + JSONencode(getCoordSystemType()) +
 					COMMA;
+
+					if (wc_window.size() == 4) {		// world coord window has been specified
+						json_header += QUOTE + string("window") + QUOTE + COLON + OPEN_BOX;
+						json_header += std::to_string(wc_window[0]) + COMMA + 
+								std::to_string(wc_window[1]) + COMMA + 
+								std::to_string(wc_window[2]) + COMMA + std::to_string(wc_window[3]);
+						json_header += CLOSE_BOX + COMMA;
+
+					}
+
+				return json_header;
 			}
 
 			friend DataSource;
 	};	//end of class Bridges
-
 
 }	// end of bridges namespace
 #endif
