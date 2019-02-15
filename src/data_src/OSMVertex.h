@@ -32,7 +32,7 @@ namespace bridges {
 			OSMVertex() : latitude(0.0), longitude(0.0) {
 			}
 
-			OSMVertex (double longit, double latit) 
+			OSMVertex (double latit, double longit) 
 				: latitude(latit), longitude(longit) {
 			}
 
