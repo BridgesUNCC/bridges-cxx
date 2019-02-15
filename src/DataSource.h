@@ -469,6 +469,11 @@ namespace bridges {
 				}
 				return wrapper;
 			}
+			void getOSMData (string location, vector<OSMVertex>& vertices, vector<OSMEdge>& edges) {
+			}
+			GraphAdjList  getOSMDataAsGraph (string location, double latitudeMin, longitutdeMin, 
+												longitMax, longitutdeMax) {
+			}
 
 			/**Reconstruct a GraphAdjList from an existing GraphAdjList on the Bridges server
 			 *
