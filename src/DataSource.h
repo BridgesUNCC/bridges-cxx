@@ -3,6 +3,8 @@
 
 #include <vector>
 #include <string>
+#include <unordered_map>
+
 using namespace std;
 
 #include <JSONutil.h>
@@ -13,6 +15,7 @@ using namespace std;
 #include "./data_src/CancerIncidence.h"
 #include "./data_src/ActorMovieIMDB.h"
 #include "./data_src/Song.h"
+#include "./data_src/OSMData.h"
 #include "./data_src/OSMVertex.h"
 #include "./data_src/OSMEdge.h"
 #include "ColorGrid.h"
@@ -474,8 +477,7 @@ namespace bridges {
 				}
 				return wrapper;
 			}
-			void getOSMData (string location, vector<OSMVertex>& vertices, 
-											vector<OSMEdge>& edges) {
+			OSMData *getOSMData (string location) {
 				using namespace rapidjson;
 
 				Document osm_data;
@@ -489,26 +491,64 @@ namespace bridges {
 
 				cout << osm_json <<endl;
 								// parse the json
-				if (osm_data.Parse(osm_json.c_str()).HasParseError()) {
-					cout << "\nError(offset " <<  (unsigned)osm_data.GetErrorOffset() << 
-        				GetParseError_En(osm_data.GetParseError());
+//				if (osm_data.Parse(osm_json.c_str()).HasParseError()) {
+//					cout << "\nError(offset " <<  (unsigned)osm_data.GetErrorOffset() << 
+//       				GetParseError_En(osm_data.GetParseError());
 //					cout << "Aha! Parse error!" << endl;
+//				}
+				osm_data.Parse<ParseFlag::kParseStopWhenDoneFlag>(osm_json.c_str());
+
+				
+
+								// create an osm data object
+				OSMData *osm = new OSMData;
+
+				unordered_map<long, int> vert_map; // to remap the vertex ids
+
+				if (osm_data.HasMember("nodes")) {
+					Value& nodes = osm_data["nodes"];
+
+					vector<long> vertex_ids, vertices;
+														// get the vertices
+					for (SizeType i = 0; i < nodes.Size(); i++) {
+						const Value& node = nodes[i];
+						long id = node[0].GetInt64();
+										// map vertex ids to 0...maxVert range
+						vert_map[id] = i;
+						vertex_ids.push_back(id);
+						double lat = node[1].GetDouble(), longit = node[2].GetDouble();
+						vertices.push_back(OSMVertex(lat, longit));
+						cout<< i << ":" << id << "," << lat  << "," << longit << endl;
+					}
 				}
+										// add vertices to object
+				osm->setVertices(vertices);
+										// get the edges
+				if (osm_data.HasMember("edges")) {
+					Value& links = osm_data["edges"];
 
-				cout << "Size:" << sizeof(osm_data) << endl;
-				assert(osm_data.HasMember("nodes"));
-//				const auto& nodesArray = osm_data.FindMember("nodes");
-										// get the JSON data
-//				if (osm_data.HasMember("nodes"))
-//					cout << "has nodes member:" << endl;
-//				cout << "after.." <<endl;
-//				const Value& osm_nodes = osm_data["nodes"];
-//				const Value& osm_edges = osm_data["edges"];
+					for (SizeType i = 0; i < links.Size(); i++) {
+						const Value& link = links[i];
+						long id1 = link[0].GetInt64();
+						long id2 = link[1].GetInt64();
+						double dist = link[2].GetDouble();
 
-//				cout << osm_nodes.Size() << "vertices" << endl; 
-//				cout << osm_edges.Size() << "edges" << endl; 
-				cout << "end of osm data" << endl;
-				exit(0);
+						cout<< i << ":" << vert_map[id1] << "," << vert_map[id2]  << "," << dist<< endl;
+
+						edges.push_back(OSMEdge(vert_map[id1], vert_map[id2], dist));
+					}
+				}
+			}
+										// add edges to object
+			osm->setEdges(edges);
+
+			if (osm_data.HasMember("meta") {
+										// get lat long range
+				Value& meta = osm_data["meta"];
+				osm.setLatLongRange(meta["lat_min".getDouble(), meta["lat_max".getDouble(), 
+							meta["long_min".getDouble(), meta["long_max".getDouble()); 
+										// get dataset name
+				osm.setName(meta["name"];
 			}
 
 //			GraphAdjList  getOSMDataAsGraph (string location, double latitudeMin, 
