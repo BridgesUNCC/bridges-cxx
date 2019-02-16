@@ -13,6 +13,8 @@ using namespace std;
 #include "./data_src/CancerIncidence.h"
 #include "./data_src/ActorMovieIMDB.h"
 #include "./data_src/Song.h"
+#include "./data_src/OSMVertex.h"
+#include "./data_src/OSMEdge.h"
 #include "ColorGrid.h"
 #include "base64.h"
 #include <GraphAdjList.h>
@@ -469,11 +471,34 @@ namespace bridges {
 				}
 				return wrapper;
 			}
-			void getOSMData (string location, vector<OSMVertex>& vertices, vector<OSMEdge>& edges) {
+			void getOSMData (string location, vector<OSMVertex>& vertices, 
+											vector<OSMEdge>& edges) {
+				using namespace rapidjson;
+
+				Document osm_data;
+				std::transform(location.begin(), location.end(), location.begin(), 
+													::tolower);
+				string url = string("http://osm-api.herokuapp.com/name/") + location;
+				cout << "url(before):" << url << endl;
+
+				osm_data.Parse(ServerComm::makeRequest(url, {"Accept: application/json"}).c_str());
+				cout << "url2:" << url << endl;
+							//Access doc["data"]
+				const auto& nodesArray = osm_data.FindMember("nodes");
+										// get the JSON data
+//				cout << "has nodes member:" << osm_data.HasMember("nodes") << endl;
+//				const Value& osm_nodes = osm_data["nodes"];
+//				const Value& osm_edges = osm_data["edges"];
+
+//				cout << osm_nodes.Size() << "vertices" << endl; 
+//				cout << osm_edges.Size() << "edges" << endl; 
+//				for (SizeType i = 0; i < osm_nodes.Size(); i++) {
+//				}
 			}
-			GraphAdjList  getOSMDataAsGraph (string location, double latitudeMin, longitutdeMin, 
-												longitMax, longitutdeMax) {
-			}
+
+//			GraphAdjList  getOSMDataAsGraph (string location, double latitudeMin, 
+//					double longitutdeMin, double longitMax, double longitutdeMax) {
+//			}
 
 			/**Reconstruct a GraphAdjList from an existing GraphAdjList on the Bridges server
 			 *
