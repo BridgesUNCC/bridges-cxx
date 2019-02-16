@@ -18,6 +18,9 @@ using namespace std;
 #include "ColorGrid.h"
 #include "base64.h"
 #include <GraphAdjList.h>
+#include "rapidjson/document.h"
+#include "assert.h"
+#include "rapidjson/error/en.h"
 
 namespace bridges {
 	/**
@@ -481,19 +484,31 @@ namespace bridges {
 				string url = string("http://osm-api.herokuapp.com/name/") + location;
 				cout << "url(before):" << url << endl;
 
-				osm_data.Parse(ServerComm::makeRequest(url, {"Accept: application/json"}).c_str());
-				cout << "url2:" << url << endl;
-							//Access doc["data"]
-				const auto& nodesArray = osm_data.FindMember("nodes");
+								// get the OSM data json
+				string osm_json = ServerComm::makeRequest(url, {"Accept: application/json"});
+
+				cout << osm_json <<endl;
+								// parse the json
+				if (osm_data.Parse(osm_json.c_str()).HasParseError()) {
+					cout << "\nError(offset " <<  (unsigned)osm_data.GetErrorOffset() << 
+        				GetParseError_En(osm_data.GetParseError());
+//					cout << "Aha! Parse error!" << endl;
+				}
+
+				cout << "Size:" << sizeof(osm_data) << endl;
+				assert(osm_data.HasMember("nodes"));
+//				const auto& nodesArray = osm_data.FindMember("nodes");
 										// get the JSON data
-//				cout << "has nodes member:" << osm_data.HasMember("nodes") << endl;
+//				if (osm_data.HasMember("nodes"))
+//					cout << "has nodes member:" << endl;
+//				cout << "after.." <<endl;
 //				const Value& osm_nodes = osm_data["nodes"];
 //				const Value& osm_edges = osm_data["edges"];
 
 //				cout << osm_nodes.Size() << "vertices" << endl; 
 //				cout << osm_edges.Size() << "edges" << endl; 
-//				for (SizeType i = 0; i < osm_nodes.Size(); i++) {
-//				}
+				cout << "end of osm data" << endl;
+				exit(0);
 			}
 
 //			GraphAdjList  getOSMDataAsGraph (string location, double latitudeMin, 
