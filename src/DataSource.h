@@ -47,6 +47,10 @@ namespace bridges {
 			DataSource(bridges::Bridges* br = nullptr)
 				: bridges_inst(br) {}
 
+			DataSource(bridges::Bridges& br )
+				: bridges_inst(&br) {}
+
+			
 			/**
 			 *
 			 *  Get meta data of the IGN games collection.
