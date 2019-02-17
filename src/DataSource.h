@@ -553,10 +553,24 @@ namespace bridges {
 				return osm;
 			}
 
-//			GraphAdjList  getOSMDataAsGraph (string location, double latitudeMin, 
-//					double longitutdeMin, double longitMax, double longitutdeMax) {
-//			}
+/*
+			GraphAdjList<int, int> *getOSMDataAsGraph (string location, 
+										double *location_range) { 
 
+								// get the open street map data for this location
+				OSMData *osm_data = getOSMData (string location);
+
+								// get the vertices and edges
+				vector<OSMVertex> vertices = osm_data->getVertices();
+				vector<OSMEdge> edges = osm_data->getEdges();
+
+								// build a graph from this dataset
+				GraphAdjList<int, int> *graph = new GraphAdjList<int, int>
+				loc_range[0] = osm_data->getLatLongRange
+				
+			}
+
+*/
 			/**Reconstruct a GraphAdjList from an existing GraphAdjList on the Bridges server
 			 *
 			 * The reconstructed assignment sees vertices identified as integers in the order they are stored in the server.
