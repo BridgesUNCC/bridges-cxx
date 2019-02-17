@@ -26,6 +26,10 @@ namespace bridges {
 										// edges
 			vector<OSMEdge> edges;
 
+			double degreeToRadians(double deg) {
+				return deg*M_PI/180.;
+			}
+
 		public:
 
 			OSMData() {
@@ -78,12 +82,28 @@ namespace bridges {
 				longitude_range[1] = longit_range[1];
 			}
 			/**
+			 *   set the range of the dataset 
+			 *
+			 *   @param  lat_min 
+			 *   @param  long_min 
+			 *   @param  lat_max,
+			 *   @param  long_max,
+			 *	 @return none
+			 *
+			 */
+			void setLatLongRange (double lat_min, double lat_max, double long_min, double long_max) {
+				latitude_range[0] = lat_min;
+				latitude_range[1] = lat_max;
+				longitude_range[0] = long_min;
+				longitude_range[1] = long_max;
+			}
+			/**
 			 *   get vertices
 			 *
 			 *   @return  vertices (std::vector) 
 			 *
 			 */
-			void getVertices () {
+			vector<OSMVertex> getVertices () const {
 				return vertices;
 			}
 			/**
@@ -101,7 +121,7 @@ namespace bridges {
 			 *   @return  edges (std::vector) 
 			 *
 			 */
-			void getEdges () {
+			vector<OSMEdge> getEdges () const {
 				return edges;
 			}
 			/**
@@ -110,10 +130,21 @@ namespace bridges {
 			 *   @param  edges (std::vector) 
 			 *
 			 */
-			void setEdges (vector<OSMVertex> e) {
+			void setEdges (vector<OSMEdge> e) {
 				edges = e;
 			}
-	}
+			/** 
+			 * 	convert lat/long coords to Cartesian
+			 *
+			 */
+			void toCartesianCoords(double lat, double longit, double *coords) {
+				const double R = 6378.; // Radius of the earth in km
+				double lat_rad  = degreeToRadians(lat);
+				double longit_rad  = degreeToRadians(longit);
+				coords[0] = R * cos(lat_rad) * cos (longit_rad);
+				coords[1] = R * cos(lat_rad) * sin (longit_rad);
+			}
+	};
 
 } // end namespace bridges
 

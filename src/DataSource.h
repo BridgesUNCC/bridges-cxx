@@ -506,9 +506,10 @@ namespace bridges {
 				unordered_map<long, int> vert_map; // to remap the vertex ids
 
 				if (osm_data.HasMember("nodes")) {
+					vector<OSMVertex> vertices;
 					Value& nodes = osm_data["nodes"];
 
-					vector<long> vertex_ids, vertices;
+					vector<long> vertex_ids;
 														// get the vertices
 					for (SizeType i = 0; i < nodes.Size(); i++) {
 						const Value& node = nodes[i];
@@ -520,11 +521,13 @@ namespace bridges {
 						vertices.push_back(OSMVertex(lat, longit));
 						cout<< i << ":" << id << "," << lat  << "," << longit << endl;
 					}
+					osm->setVertices(vertices);
 				}
 										// add vertices to object
-				osm->setVertices(vertices);
 										// get the edges
+
 				if (osm_data.HasMember("edges")) {
+					vector<OSMEdge> edges;
 					Value& links = osm_data["edges"];
 
 					for (SizeType i = 0; i < links.Size(); i++) {
@@ -537,18 +540,24 @@ namespace bridges {
 
 						edges.push_back(OSMEdge(vert_map[id1], vert_map[id2], dist));
 					}
+					osm->setEdges(edges);
 				}
-			}
 										// add edges to object
-			osm->setEdges(edges);
-
-			if (osm_data.HasMember("meta") {
+	
+				if (osm_data.HasMember("meta")) {
 										// get lat long range
-				Value& meta = osm_data["meta"];
-				osm.setLatLongRange(meta["lat_min".getDouble(), meta["lat_max".getDouble(), 
-							meta["long_min".getDouble(), meta["long_max".getDouble()); 
+					Value& meta = osm_data["meta"];
+					double lat_min = meta["lat_min"].GetDouble();
+					double lat_max = meta["lat_max"].GetDouble();
+					double longit_min = meta["lon_min"].GetDouble();
+					double longit_max = meta["lon_max"].GetDouble();
+					cout << lat_min << "," << lat_max << "," << longit_min << "," << longit_max << endl;
+					osm->setLatLongRange(lat_min, lat_max, longit_min, longit_max);
 										// get dataset name
-				osm.setName(meta["name"];
+					osm->setName(meta["name"].GetString());
+					cout << osm->getName() << endl;
+				}
+				return osm;
 			}
 
 //			GraphAdjList  getOSMDataAsGraph (string location, double latitudeMin, 

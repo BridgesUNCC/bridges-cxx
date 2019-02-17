@@ -21,19 +21,31 @@ namespace bridges {
 	class OSMVertex {
 
 		private:
-			double latitude;		// latitude 
-			double longitude;		// longitude
+			double latitude = 0.0;		// latitude 
+			double longitude = 0.0;		// longitude
 
-			double degreeToRadians(double deg) {
-				return deg*M_PI/180.;
+			double cartesian_coords[2] = {0.0, 0.0};
+			/** 
+			 * 	convert lat/long coords to Cartesian
+			 *
+			 */
+			void toCartesianCoords() {
+				const double R = 6378.; // Radius of the earth in km
+				double lat_rad  = latitude * M_PI/180.;
+				double longit_rad  = longitude * M_PI/180.;
+				cartesian_coords[0] = R * cos(lat_rad) * cos (longit_rad);
+				cartesian_coords[1] = R * cos(lat_rad) * sin (longit_rad);
 			}
+
 		public:
 
-			OSMVertex() : latitude(0.0), longitude(0.0) {
+			OSMVertex() {
 			}
 
 			OSMVertex (double latit, double longit) 
 				: latitude(latit), longitude(longit) {
+
+				toCartesianCoords ();
 			}
 
 			OSMVertex(const OSMVertex *vert)
@@ -57,6 +69,7 @@ namespace bridges {
 			 */
 			void setLatitude(double latit) {
 				latitude = latit;
+				toCartesianCoords();
 			}
 			/**
 			 *	get longitude of quake location
@@ -75,17 +88,17 @@ namespace bridges {
 			 */
 			void setLongitude(double longit) {
 				this->longitude = longit;
+				toCartesianCoords();
 			}
+
 			/** 
-			 * 	convert lat/long coords to Cartesian
+			 * 	get Cartesian coords of lat/long
 			 *
+			 *	@return coords  (double *)
 			 */
-			void getCartesianCoords(double *cartesian_coords) {
-				double R = 6378.; // Radius of the earth in km
-				double lat_rad  = degreeToRadians(latitude);
-				double longit_rad  = degreeToRadians(longitude);
-				cartesian_coords[0] = R * cos(lat_rad) * cos (longit_rad);
-				cartesian_coords[1] = R * cos(lat_rad) * sin (longit_rad);
+			void getCartesianCoords(double *coords) {
+				coords[0] = cartesian_coords[0];
+				coords[1] = cartesian_coords[1];
 			}
 	};
 
