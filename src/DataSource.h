@@ -48,7 +48,7 @@ namespace bridges {
 				: bridges_inst(br) {}
 
 			DataSource(bridges::Bridges& br )
-				: bridges_inst(&br) {}
+			  : DataSource(&br) {}
 
 			
 			/**
