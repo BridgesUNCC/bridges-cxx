@@ -4,6 +4,7 @@
 #include <stdexcept> //out of range
 #include <sstream> //stringstream
 #include <unordered_map>
+#include <JSONutil.h>
 
 using namespace std;
 
@@ -37,6 +38,26 @@ namespace bridges {
 			// adjacency lists
 			unordered_map<K, SLelement<Edge<K, E2> >*> adj_list;
 
+									// large graph thresholds
+			const int LargeGraphVertSize = 1000;
+			const int LargeGraphEdges  = 10000;
+
+			const string getCSSRepresentation(const Color& col) const {
+				using bridges::JSONUtil::JSONencode;
+				if (col.isTransparent()) {
+						//leaves off other channels if transparent
+					return "[0, 0, 0, 0.0f]";
+				}
+				const string strCSS =
+					JSONencode(col.getRed()) + "," +
+					JSONencode(col.getGreen()) + "," +
+					JSONencode(col.getBlue()) + "," +
+					JSONencode( ((float) (col.getAlpha()) / 255.0f));
+
+					return OPEN_BOX + strCSS + CLOSE_BOX;
+			}
+
+
 		public:
 			virtual ~GraphAdjList() override {
 				//			for(auto& p : adj_list) {  //frees edges
@@ -47,6 +68,7 @@ namespace bridges {
 			 *	@return The string representation of this data structure type
 			 */
 			virtual const string getDStype() const override {
+//				return (vertices.size() < LargeGraphVertSize) ? "LargeGraph": "Graph_AdjacencyList";
 				return "GraphAdjacencyList";
 			}
 
@@ -354,6 +376,9 @@ namespace bridges {
 				// then get the JSON string for nodes placeholder
 				// nullptr prevents insertion of other nullptrs
 
+				if (vertices.size() > LargeGraphVertSize) 
+					return getDataStructureRepresentationLargeGraph();
+
 				unordered_map<K, int> node_map;
 				int i = 0;
 				string nodes_JSON = "", links_JSON = "";
@@ -401,6 +426,70 @@ namespace bridges {
 
 
 				return graph_alist_json;
+			}
+			/**
+			 *
+			 *   For large graphs, we will use a very lean representation, just the nodes and links and
+			 *   only the color property; currently this is for OSM data only. Contain only location and
+			 *	 color attributes
+			 *
+			 */
+			string getDataStructureRepresentationLargeGraph () const {
+										
+				using bridges::JSONUtil::JSONencode;
+				string nodes_JSON = ""; 
+				for (const auto& v : vertices) {
+					const ElementVisualizer *elvis = getVertex(v.first)->getVisualizer();
+									// only location and color attributes for each element
+					string loc_str = "";
+					if ( (elvis->getLocationX() != INFINITY) &&
+									(elvis->getLocationY() != INFINITY) ) {
+						loc_str =  QUOTE + "location" + QUOTE + COLON +
+                        			OPEN_BOX +
+										JSONencode(elvis->getLocationX())  + COMMA +
+										JSONencode(elvis->getLocationY()) +
+									CLOSE_BOX + COMMA; 
+					}
+					
+					nodes_JSON +=  OPEN_CURLY + loc_str +
+								QUOTE + "color" + QUOTE + COLON + getCSSRepresentation(elvis->getColor()) +
+							CLOSE_CURLY + COMMA;
+                }
+				if (nodes_JSON.size()) 
+						nodes_JSON = nodes_JSON.erase(nodes_JSON.size() - 1);
+										// next link information
+				string links_JSON =  "";
+				for (const auto& v : vertices) {
+										// get adj. list
+					Element<E1>* src_vert = vertices.at(v.first);
+										// iterate through list and form links
+					for (SLelement<Edge<K, E2>>* it = adj_list.at(v.first); it != nullptr;
+																it = it->getNext()) {
+						Element<E1>* dest_vert = vertices.at(it->getValue().getVertex() );
+						LinkVisualizer *lv = src_vert->getLinkVisualizer(dest_vert);
+						string src = JSONencode(v.first);
+						string dest = JSONencode(it->getValue().getVertex());
+						links_JSON +=  OPEN_CURLY +
+								QUOTE + "source"    + QUOTE + COLON + JSONencode(src)  + COMMA +
+								QUOTE + "target"    + QUOTE + COLON + JSONencode(dest) + COMMA +
+								QUOTE + "color"     + QUOTE + COLON + getCSSRepresentation(lv->getColor()) +
+								CLOSE_CURLY + COMMA;
+					}
+				}
+										//Remove trailing comma
+				if (links_JSON.size()) 
+					links_JSON = links_JSON.erase(links_JSON.size() - 1);
+
+				string graph_alist_json = 
+					QUOTE + "nodes"  + QUOTE + COLON +
+							OPEN_BOX + nodes_JSON + CLOSE_BOX + COMMA +
+					QUOTE + "links" + QUOTE + COLON + 
+							OPEN_BOX + links_JSON + CLOSE_BOX +
+							CLOSE_CURLY;
+
+				cout << graph_alist_json; 
+				return graph_alist_json;
+
 			}
 	}; //end of GraphAdjList class
 

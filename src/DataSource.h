@@ -488,12 +488,10 @@ namespace bridges {
 				std::transform(location.begin(), location.end(), location.begin(), 
 													::tolower);
 				string url = string("http://osm-api.herokuapp.com/name/") + location;
-				cout << "url(before):" << url << endl;
 
 								// get the OSM data json
 				string osm_json = ServerComm::makeRequest(url, {"Accept: application/json"});
 
-				cout << osm_json <<endl;
 								// parse the json
 //				if (osm_data.Parse(osm_json.c_str()).HasParseError()) {
 //					cout << "\nError(offset " <<  (unsigned)osm_data.GetErrorOffset() << 
@@ -523,7 +521,6 @@ namespace bridges {
 						vertex_ids.push_back(id);
 						double lat = node[1].GetDouble(), longit = node[2].GetDouble();
 						vertices.push_back(OSMVertex(lat, longit));
-						cout<< i << ":" << id << "," << lat  << "," << longit << endl;
 					}
 					osm->setVertices(vertices);
 				}
@@ -540,8 +537,6 @@ namespace bridges {
 						long id2 = link[1].GetInt64();
 						double dist = link[2].GetDouble();
 
-						cout<< i << ":" << vert_map[id1] << "," << vert_map[id2]  << "," << dist<< endl;
-
 						edges.push_back(OSMEdge(vert_map[id1], vert_map[id2], dist));
 					}
 					osm->setEdges(edges);
@@ -555,11 +550,9 @@ namespace bridges {
 					double lat_max = meta["lat_max"].GetDouble();
 					double longit_min = meta["lon_min"].GetDouble();
 					double longit_max = meta["lon_max"].GetDouble();
-					cout << lat_min << "," << lat_max << "," << longit_min << "," << longit_max << endl;
 					osm->setLatLongRange(lat_min, lat_max, longit_min, longit_max);
 										// get dataset name
 					osm->setName(meta["name"].GetString());
-					cout << osm->getName() << endl;
 				}
 				return osm;
 			}
