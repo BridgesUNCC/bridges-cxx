@@ -21,6 +21,8 @@ namespace bridges {
 										// data range
 			double latitude_range[2] = {0.0, 0.0}, 
 					longitude_range[2] = {0.0, 0.0};
+			double cartesian_range_x[2] = {0.0, 0.0},
+					cartesian_range_y[2] = {0.0, 0.0};
 										// vertices 
 			vector<OSMVertex> vertices;
 										// edges
@@ -55,7 +57,7 @@ namespace bridges {
 			}
 
 			/**
-			 *   get the range of the dataset 
+			 *   get the Latitude and Longitude range of the dataset 
 			 *
 			 *   @param  lat_range 
 			 *   @param  longit_range 
@@ -68,7 +70,7 @@ namespace bridges {
 				longit_range[1] = longitude_range[1];
 			}
 			/**
-			 *   set the range of the dataset 
+			 *   set the latitude and longitude range of the dataset 
 			 *
 			 *   @param  lat_range 
 			 *   @param  longit_range 
@@ -91,11 +93,39 @@ namespace bridges {
 			 *	 @return none
 			 *
 			 */
-			void setLatLongRange (double lat_min, double lat_max, double long_min, double long_max) {
+			void setLatLongRange (double lat_min, double lat_max, 
+							double long_min, double long_max) {
 				latitude_range[0] = lat_min;
 				latitude_range[1] = lat_max;
 				longitude_range[0] = long_min;
 				longitude_range[1] = long_max;
+			}
+			/**
+			 *   get the range of dataset in Cartesian coords
+			 *
+			 *   @param  xrange[2] 
+			 *   @param  yrange[2] 
+			 *	 @return none
+			 */
+			void getCartesianCoordsRange (double *xrange, double *yrange) {
+				xrange[0] = cartesian_range_x[0];
+				xrange[1] = cartesian_range_x[1];
+				yrange[0] = cartesian_range_y[0];
+				yrange[1] = cartesian_range_y[1];
+			}
+			/**
+			 *   set the range of dataset in Cartesian coords
+			 *
+			 *   @param  xrange[2]
+			 *   @param  yrange[2] 
+			 *	 @return none
+			 *
+			 */
+			void setCartesianCoordsRange (double *xrange, double *yrange) {
+				cartesian_range_x[0] = xrange[0];
+				cartesian_range_x[1] = xrange[1];
+				cartesian_range_y[0] = yrange[0];
+				cartesian_range_y[1] = yrange[1];
 			}
 			/**
 			 *   get vertices
@@ -114,6 +144,27 @@ namespace bridges {
 			 */
 			void setVertices (vector<OSMVertex> verts) {
 				vertices = verts;
+							// update the ranges for lat/long and cartesian equivalent
+				latitude_range[0] = 1000000.; latitude_range[1] = -1000000.;
+				longitude_range[0] = 1000000.; longitude_range[1] = -1000000.;
+				cartesian_range_x[0] = 1000000.; cartesian_range_x[1] = -1000000.;
+				cartesian_range_y[0] = 1000000.; cartesian_range_y[1] = -1000000.;
+
+				double lat, longit, cart_coords[2];
+				for (auto& v : vertices) {
+					lat = v.getLatitude();		
+					longit = v.getLongitude();		
+					v.getCartesianCoords(cart_coords);
+					latitude_range[0] = std::min(latitude_range[0], lat);
+					latitude_range[1] = std::max(latitude_range[0], lat);
+					longitude_range[0] = std::min(longitude_range[1], longit);
+					longitude_range[1] = std::max(longitude_range[1], longit);
+					
+					cartesian_range_x[0] = std::min(cartesian_range_x[0], cart_coords[0]);
+					cartesian_range_x[1] = std::max(cartesian_range_x[1], cart_coords[0]);
+					cartesian_range_y[0] = std::min(cartesian_range_y[0], cart_coords[1]);
+					cartesian_range_y[1] = std::max(cartesian_range_y[1], cart_coords[1]);
+				}
 			}
 			/**
 			 *   get edges

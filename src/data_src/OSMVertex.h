@@ -72,7 +72,7 @@ namespace bridges {
 				toCartesianCoords();
 			}
 			/**
-			 *	get longitude of quake location
+			 *	get longitude of vertex
 			 *
 			 *	@return longitude of node
 			 *
@@ -81,7 +81,7 @@ namespace bridges {
 				return longitude;
 			}
 			/**
-			 *	set longitude of quake location
+			 *	set longitude of  vertex
 			 *
 			 *	@param (double)
 			 *
