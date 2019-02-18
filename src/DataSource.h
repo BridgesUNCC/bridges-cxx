@@ -24,8 +24,100 @@ using namespace std;
 #include "rapidjson/document.h"
 #include "assert.h"
 #include "rapidjson/error/en.h"
+#include <fstream>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <unistd.h>
+
+
+
 
 namespace bridges {
+
+  class CacheException : std::exception {
+  };
+  
+  class Cache{
+  private:
+    std::string cacheDir="cache";
+
+    std::string getFilename(const std::string & docName) {
+      return cacheDir+"/"+docName; //TODO: bad things can happen if docName contains / or .. or stuff like that
+      
+    }
+
+    //return whether s is a directory (true) or does not exist (false). all other cases are exception
+    bool directoryExist(const std::string &s)
+    {
+      struct stat buffer;
+      int ret = stat (s.c_str(), &buffer);
+
+      if (ret == 0) { //file exist
+	if (S_ISDIR(buffer.st_mode)) {
+	  return true;
+	} else {
+	  throw CacheException(); //s exist but is not a directory
+	}
+      }
+      
+      return false;
+    }
+
+    //make a directory called s or throw an exception
+    void makeDirectory (const std::string &s) {
+      int ret = mkdir(s.c_str(), 0700);
+      if (ret != 0)
+	throw CacheException();
+    }
+    
+  public:
+    Cache(){
+      //probably should check directory existence here, but exception in constructors are weird.
+    }
+
+    //is docName in the cache
+    bool inCache(const std::string & docName) noexcept(false){
+      std::string filename = getFilename(docName);
+
+      std::ifstream in(filename);
+      
+      return in.is_open();
+    }
+
+    //return the content of docName which is in the cache
+    std::string getDoc (const std::string & docName) noexcept(false){
+      std::string filename = getFilename(docName);
+
+      std::ifstream in(filename);
+
+      if (!in.good() || !(in.is_open()))
+	throw CacheException();
+      
+      std::string str((std::istreambuf_iterator<char>(in)),
+		      std::istreambuf_iterator<char>());
+      
+      return str;
+    }
+
+    //store content under docname
+    void putDoc (const std::string & docName,
+		 const std::string & content) noexcept(false){
+      if (!directoryExist(cacheDir))
+	makeDirectory(cacheDir);
+      
+      std::string filename = getFilename(docName);
+
+      std::ofstream out(filename);
+      if (!out.good() || !(out.is_open()))
+	throw CacheException();
+      
+      out<<content.c_str();
+      if (!out.good() || !(out.is_open()))
+	throw CacheException();
+	  
+    }
+  };
+  
 	/**
 	 * @brief This provides an API to various data sources used in BRIDGES.
 	 *
@@ -487,10 +579,32 @@ namespace bridges {
 				Document osm_data;
 				std::transform(location.begin(), location.end(), location.begin(), 
 													::tolower);
+				Cache ca;
+				std::string osm_json;
+				bool from_cache=false;
+				try {
+				  if (ca.inCache(location)) {
+				    osm_json = ca.getDoc(location);
+				    from_cache = true;
+				  }
+				}catch (CacheException& ce) {
+				  //something went bad trying to access the cache
+				  std::cout<<"Exception while reading from cache. Ignoring cache and continue."<<std::endl;
+				}
+				
 				string url = string("http://osm-api.herokuapp.com/name/") + location;
 
+				if (!from_cache) {
 								// get the OSM data json
-				string osm_json = ServerComm::makeRequest(url, {"Accept: application/json"});
+				  osm_json = ServerComm::makeRequest(url, {"Accept: application/json"});
+				  
+				  try {
+				    ca.putDoc(location, osm_json);
+				  }catch(CacheException& ce) {
+				    //something went bad trying to access the cache
+				    std::cerr<<"Exception while storing in cache. Weird but not critical."<<std::endl;
+				  }
+				}
 
 								// parse the json
 //				if (osm_data.Parse(osm_json.c_str()).HasParseError()) {
@@ -498,7 +612,8 @@ namespace bridges {
 //       				GetParseError_En(osm_data.GetParseError());
 //					cout << "Aha! Parse error!" << endl;
 //				}
-				osm_data.Parse<ParseFlag::kParseStopWhenDoneFlag>(osm_json.c_str());
+//				osm_data.Parse<ParseFlag::kParseStopWhenDoneFlag>(osm_json.c_str());
+				osm_data.Parse(osm_json.c_str());
 
 				
 
