@@ -176,13 +176,25 @@ namespace bridges {
 			 *
 			 *  set handle to data structure
 			 *
-			 *  @param ds_ptr pointer to user's data Structure
+			 *  @param ds pointer to user's data Structure
 			 *
 			 */
 			void setDataStructure(DataStructure *ds) {
 				ds_handle = ds;
 			}
 
+			/**
+			 *
+			 *  set handle to data structure
+			 *
+			 *  @param ds reference to user's data Structure
+			 *
+			 */
+			void setDataStructure(DataStructure &ds) {
+			  setDataStructure(&ds);
+			}
+
+			
 			/**
 			 *
 			 *  @return member holding the data structure handle

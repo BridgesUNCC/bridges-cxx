@@ -68,8 +68,8 @@ namespace bridges {
 			 *	@return The string representation of this data structure type
 			 */
 			virtual const string getDStype() const override {
-//				return (vertices.size() < LargeGraphVertSize) ? "LargeGraph": "Graph_AdjacencyList";
-				return "GraphAdjacencyList";
+				return (vertices.size() > LargeGraphVertSize) ? "largegraph": "Graph_AdjacencyList";
+//				return "GraphAdjacencyList";
 			}
 
 			/**
@@ -487,7 +487,6 @@ namespace bridges {
 							OPEN_BOX + links_JSON + CLOSE_BOX +
 							CLOSE_CURLY;
 
-				cout << graph_alist_json; 
 				return graph_alist_json;
 
 			}
