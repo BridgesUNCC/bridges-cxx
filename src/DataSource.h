@@ -93,10 +93,17 @@ namespace bridges {
       if (!in.good() || !(in.is_open()))
 	throw CacheException();
       
-      std::string str((std::istreambuf_iterator<char>(in)),
-		      std::istreambuf_iterator<char>());
+
+      std::string contents;
+      in.seekg(0, std::ios::end);
+      contents.resize(in.tellg());
+      in.seekg(0, std::ios::beg);
+      in.read(&contents[0], contents.size());
+      if (! (in.good()))
+	throw CacheException();
+      in.close();
+      return(contents);
       
-      return str;
     }
 
     //store content under docname
@@ -111,7 +118,7 @@ namespace bridges {
       if (!out.good() || !(out.is_open()))
 	throw CacheException();
       
-      out<<content.c_str();
+      out<<content.c_str(); //this assumes string isn't binary
       if (!out.good() || !(out.is_open()))
 	throw CacheException();
 	  
