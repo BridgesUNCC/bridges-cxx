@@ -55,7 +55,7 @@ namespace bridges {
 			 *   @return  name (string)
 			 *
 			 */
-			string getName() const {
+			const string& getName() const {
 				return name;
 			}
 			/**
@@ -64,7 +64,7 @@ namespace bridges {
 			 *   @param  name (string)
 			 *
 			 */
-			void setName(string n) {
+			void setName(const string& n) {
 				name = n;
 			}
 
@@ -145,7 +145,7 @@ namespace bridges {
 			 *   @return  vertices (std::vector) 
 			 *
 			 */
-			vector<OSMVertex> getVertices () const {
+			const vector<OSMVertex>& getVertices () const {
 				return vertices;
 			}
 			/**
@@ -154,7 +154,7 @@ namespace bridges {
 			 *   @param  vertices (std::vector) 
 			 *
 			 */
-			void setVertices (vector<OSMVertex> verts) {
+			void setVertices (const vector<OSMVertex>& verts) {
 				vertices = verts;
 							// update the ranges for lat/long and cartesian equivalent
 				latitude_range[0] = 1000000.; latitude_range[1] = -1000000.;
@@ -185,7 +185,7 @@ namespace bridges {
 			 *   @return  edges (std::vector) 
 			 *
 			 */
-			vector<OSMEdge> getEdges () const {
+			const vector<OSMEdge>& getEdges () const {
 				return edges;
 			}
 			/**
@@ -194,7 +194,7 @@ namespace bridges {
 			 *   @param  edges (std::vector) 
 			 *
 			 */
-			void setEdges (vector<OSMEdge> e) {
+			void setEdges (const vector<OSMEdge>& e) {
 				edges = e;
 			}
 			/** 
