@@ -2,6 +2,18 @@
 
 #define OSM_DATA
 
+#include <math.h>
+#include <cmath>
+
+
+#include <algorithm>
+
+//should be defined in math.h but VS2017 has a weird behavior here.
+#ifndef M_PI
+#define M_PI 3.1415926535897
+#endif
+
+
 #include "OSMVertex.h"
 #include "OSMEdge.h"
 
@@ -155,15 +167,16 @@ namespace bridges {
 					lat = v.getLatitude();		
 					longit = v.getLongitude();		
 					v.getCartesianCoords(cart_coords);
-					latitude_range[0] = std::min(latitude_range[0], lat);
-					latitude_range[1] = std::max(latitude_range[0], lat);
-					longitude_range[0] = std::min(longitude_range[1], longit);
-					longitude_range[1] = std::max(longitude_range[1], longit);
+					latitude_range[0] = (std::min)(latitude_range[0], lat); //The parenthesis around std::min are needed to workaround a VS2017 bug
+
+					latitude_range[1] = (std::max)(latitude_range[0], lat);
+					longitude_range[0] = (std::min)(longitude_range[1], longit);
+					longitude_range[1] = (std::max)(longitude_range[1], longit);
 					
-					cartesian_range_x[0] = std::min(cartesian_range_x[0], cart_coords[0]);
-					cartesian_range_x[1] = std::max(cartesian_range_x[1], cart_coords[0]);
-					cartesian_range_y[0] = std::min(cartesian_range_y[0], cart_coords[1]);
-					cartesian_range_y[1] = std::max(cartesian_range_y[1], cart_coords[1]);
+					cartesian_range_x[0] = (std::min)(cartesian_range_x[0], cart_coords[0]);
+					cartesian_range_x[1] = (std::max)(cartesian_range_x[1], cart_coords[0]);
+					cartesian_range_y[0] = (std::min)(cartesian_range_y[0], cart_coords[1]);
+					cartesian_range_y[1] = (std::max)(cartesian_range_y[1], cart_coords[1]);
 				}
 			}
 			/**

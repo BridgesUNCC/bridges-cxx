@@ -27,8 +27,14 @@ using namespace std;
 #include <fstream>
 #include <sys/types.h>
 #include <sys/stat.h>
-#include <unistd.h>
 
+
+#ifndef _WIN32
+#include <unistd.h>
+#endif
+#ifdef _WIN32
+#include <direct.h>
+#endif
 
 
 
@@ -53,7 +59,7 @@ namespace bridges {
       int ret = stat (s.c_str(), &buffer);
 
       if (ret == 0) { //file exist
-	if (S_ISDIR(buffer.st_mode)) {
+if ((buffer.st_mode & S_IFMT) == S_IFDIR) { //Not using S_ISDIR because VS2017 does not support it.
 	  return true;
 	} else {
 	  throw CacheException(); //s exist but is not a directory
@@ -65,7 +71,14 @@ namespace bridges {
 
     //make a directory called s or throw an exception
     void makeDirectory (const std::string &s) {
-      int ret = mkdir(s.c_str(), 0700);
+#ifndef _WIN32
+        int ret = mkdir(s.c_str(), 0700);
+#endif
+#ifdef _WIN32
+              int ret = _mkdir(s.c_str());
+#endif
+
+      
       if (ret != 0)
 	throw CacheException();
     }

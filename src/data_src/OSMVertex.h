@@ -4,6 +4,13 @@
 
 #include <string>
 #include <cmath>
+#include <math.h>
+
+//workaround a VS2017 idiosyncracies
+#ifndef M_PI
+#define M_PI 3.1415926535897
+#endif
+
 
 using namespace std;
 
