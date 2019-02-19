@@ -277,7 +277,11 @@ namespace bridges {
 			unordered_map<K, Element<E1>*>* getVertices() {
 				return &vertices;
 			}
-			/**
+
+			const unordered_map<K, Element<E1>*>* getVertices() const {
+				return &vertices;
+			}
+		/**
 			 *	@return the requested vertex of this graph
 			 */
 			const Element<E1>* getVertex(const K& key) const {
@@ -322,6 +326,18 @@ namespace bridges {
 				}
 			}
 
+			const SLelement<Edge<K, E2> >* getAdjacencyList(const K& k) const {
+				try {
+					return adj_list.at(k);
+				}
+				catch (const out_of_range& ) {
+					cerr <<  "Cannot getAdjacencyList() of a non-existent vertex!"
+						<< endl;
+					throw;
+				}
+			}
+
+		
 			/**
 			 *  Returns the  visualizer corresponding to  a graph vertex;
 			 *	convenient method to set attributes of the graph vertex
