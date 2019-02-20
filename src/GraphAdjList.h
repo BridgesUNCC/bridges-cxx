@@ -39,8 +39,8 @@ namespace bridges {
 			unordered_map<K, SLelement<Edge<K, E2> >*> adj_list;
 
 									// large graph thresholds
-			const int LargeGraphVertSize = 35000;
-			const int LargeGraphEdges  = 10000;
+			const int LargeGraphVertSize = 2;
+			const int LargeGraphEdges  = 5000;
 
 			const string getCSSRepresentation(const Color& col) const {
 				using bridges::JSONUtil::JSONencode;
@@ -68,8 +68,8 @@ namespace bridges {
 			 *	@return The string representation of this data structure type
 			 */
 			virtual const string getDStype() const override {
-				return (vertices.size() > LargeGraphVertSize) ? "largegraph": "Graph_AdjacencyList";
-//				return "GraphAdjacencyList";
+//				return (vertices.size() > LargeGraphVertSize) ? "largegraph": "Graph_AdjacencyList";
+				return "largegraph";
 			}
 
 			/**
@@ -454,8 +454,10 @@ namespace bridges {
 										
 				using bridges::JSONUtil::JSONencode;
 				string nodes_JSON = ""; 
-				for (const auto& v : vertices) {
-					const ElementVisualizer *elvis = getVertex(v.first)->getVisualizer();
+//				for (const auto& v : vertices) {
+				for (int k = 0; k < vertices.size(); k++) {
+//					const ElementVisualizer *elvis = getVertex(v.first)->getVisualizer();
+					const ElementVisualizer *elvis = vertices.at(k)->getVisualizer();
 									// only location and color attributes for each element
 					string loc_str = "";
 					if ( (elvis->getLocationX() != INFINITY) &&
