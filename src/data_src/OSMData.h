@@ -14,6 +14,8 @@
 #endif
 
 
+#include <GraphAdjList.h>
+
 #include "OSMVertex.h"
 #include "OSMEdge.h"
 
@@ -29,6 +31,9 @@ namespace bridges {
 
 	class OSMData {
 		private:
+
+	   bool debug() const {return false;}
+	  
 			string name = "";
 										// data range
 			double latitude_range[2] = {0.0, 0.0}, 
@@ -46,6 +51,70 @@ namespace bridges {
 
 		public:
 
+			
+			/**
+			 * Construct a graph out of the vertex an edge
+			 * data of the OSM object.  The graph will
+			 * associate the length of the edge to the
+			 * graph edge. No data is bound to the
+			 * vertices.
+			 *
+			 * The vertices of the graph will be located at
+			 * the location where given in the data set 
+			 * converted to cartesian coordinate.
+			 **/
+			void getGraph (GraphAdjList<int, double, double>* gr) const {
+  //	vector<OSMVertex> vertices = osm_data->getVertices();
+  //	vector<OSMEdge> edges = osm_data->getEdges();
+
+	int k = 0;
+	double coords[2];
+
+	double xrange[2], yrange[2];
+	this->getCartesianCoordsRange(xrange, yrange);
+	if (debug()) {
+	  cout << "Range(Cartesian):" << xrange[0] << "," << xrange[1] <<
+	    yrange[0] << "," << yrange[1] << endl;
+	}
+
+
+	double ll[2], ur[2];
+					// translation
+	double tx  = xrange[0];
+    double ty  = yrange[0];
+
+					// scale factor -- assume  a display of 1000 pixels wide
+	double sx = 1000./(xrange[1] - xrange[0]);
+	double sy = 1000./(yrange[1] - yrange[0]);
+
+	if (debug()) {
+	  cout << "Translate:" << tx << "," << ty << endl;
+	  cout << "Scale:" << sx << "," << sy << endl;
+	}
+	
+	k = 0;
+	for (int k = 0; k < vertices.size(); k++) {
+		gr->addVertex(k);
+		vertices[k].getCartesianCoords(coords);
+		coords[1] = yrange[1] - (coords[1] - yrange[0]);
+		double x = (coords[0]-tx)*sx, y = (coords[1]-ty)*sy;
+		gr->getVertex(k)->getVisualizer()->setLocation( x, y);
+		gr->getVertex(k)->getVisualizer()->setColor(Color("green"));
+	}
+	for (int k = 0; k < edges.size(); k++) {
+	  //	  std::cout<<edges[k].getEdgeLength()<<std::endl;
+	  
+	  gr->addEdge(edges[k].getSourceVertex(), edges[k].getDestinationVertex(), edges[k].getEdgeLength(),
+				 edges[k].getEdgeLength() );
+	}
+
+	if (debug()) {
+	  cout << "Num vertices, Edges: " << vertices.size() << "," << edges.size() << endl;
+	}
+
+}
+
+			
 			OSMData() {
 			}
 
@@ -55,7 +124,7 @@ namespace bridges {
 			 *   @return  name (string)
 			 *
 			 */
-			string getName() const {
+			const string& getName() const {
 				return name;
 			}
 			/**
@@ -64,7 +133,7 @@ namespace bridges {
 			 *   @param  name (string)
 			 *
 			 */
-			void setName(string n) {
+			void setName(const string& n) {
 				name = n;
 			}
 
@@ -119,7 +188,7 @@ namespace bridges {
 			 *   @param  yrange[2] 
 			 *	 @return none
 			 */
-			void getCartesianCoordsRange (double *xrange, double *yrange) {
+			void getCartesianCoordsRange (double *xrange, double *yrange) const {
 				xrange[0] = cartesian_range_x[0];
 				xrange[1] = cartesian_range_x[1];
 				yrange[0] = cartesian_range_y[0];
@@ -145,7 +214,7 @@ namespace bridges {
 			 *   @return  vertices (std::vector) 
 			 *
 			 */
-			vector<OSMVertex> getVertices () const {
+			const vector<OSMVertex>& getVertices () const {
 				return vertices;
 			}
 			/**
@@ -154,7 +223,7 @@ namespace bridges {
 			 *   @param  vertices (std::vector) 
 			 *
 			 */
-			void setVertices (vector<OSMVertex> verts) {
+			void setVertices (const vector<OSMVertex>& verts) {
 				vertices = verts;
 							// update the ranges for lat/long and cartesian equivalent
 				latitude_range[0] = 1000000.; latitude_range[1] = -1000000.;
@@ -185,7 +254,7 @@ namespace bridges {
 			 *   @return  edges (std::vector) 
 			 *
 			 */
-			vector<OSMEdge> getEdges () const {
+			const vector<OSMEdge>& getEdges () const {
 				return edges;
 			}
 			/**
@@ -194,7 +263,7 @@ namespace bridges {
 			 *   @param  edges (std::vector) 
 			 *
 			 */
-			void setEdges (vector<OSMEdge> e) {
+			void setEdges (const vector<OSMEdge>& e) {
 				edges = e;
 			}
 			/** 
