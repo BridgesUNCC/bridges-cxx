@@ -21,14 +21,12 @@ namespace bridges {
 
 		private:
 							// edge vertices
-			int src_vertex,	dest_vertex;	
+	  int src_vertex=0;
+	  int dest_vertex=0;	
 							// edge length
-			double length;
+			double length=0.0;
 
 		public:
-
-			OSMEdge() : src_vertex(0), dest_vertex(0), length(0.0) {
-			}
 
 			OSMEdge(int src, int dest, double dist) : 
 				src_vertex(src), dest_vertex(dest), length(dist) {
@@ -89,7 +87,7 @@ namespace bridges {
 			 *	@param double
 			 *
 			 */
-			void setDestinationVertex(double l) {
+			void setEdgeLength(double l) {
 				this->length = l;
 			}
 	};

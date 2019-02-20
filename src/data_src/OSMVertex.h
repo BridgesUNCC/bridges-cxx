@@ -103,7 +103,7 @@ namespace bridges {
 			 *
 			 *	@return coords  (double *)
 			 */
-			void getCartesianCoords(double *coords) {
+			void getCartesianCoords(double *coords) const{
 				coords[0] = cartesian_coords[0];
 				coords[1] = cartesian_coords[1];
 			}
