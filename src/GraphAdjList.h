@@ -39,7 +39,7 @@ namespace bridges {
 			unordered_map<K, SLelement<Edge<K, E2> >*> adj_list;
 
 									// large graph thresholds
-			const int LargeGraphVertSize = 2;
+			const int LargeGraphVertSize = 1000;
 			const int LargeGraphEdges  = 5000;
 
 			const string getCSSRepresentation(const Color& col) const {
@@ -70,8 +70,7 @@ namespace bridges {
 			 *	@return The string representation of this data structure type
 			 */
 			virtual const string getDStype() const override {
-//				return (vertices.size() > LargeGraphVertSize) ? "largegraph": "Graph_AdjacencyList";
-				return "largegraph";
+				return (vertices.size() > LargeGraphVertSize) ? "largegraph": "Graph_AdjacencyList";
 			}
 
 			/**
@@ -452,31 +451,44 @@ namespace bridges {
 			 *	 color attributes
 			 *
 			 */
+
 			string getDataStructureRepresentationLargeGraph () const {
 										
 				using bridges::JSONUtil::JSONencode;
-				string nodes_JSON = ""; 
-//				for (const auto& v : vertices) {
-				for (int k = 0; k < vertices.size(); k++) {
-//					const ElementVisualizer *elvis = getVertex(v.first)->getVisualizer();
-					const ElementVisualizer *elvis = vertices.at(k)->getVisualizer();
-									// only location and color attributes for each element
-					string loc_str = "";
-					if ( (elvis->getLocationX() != INFINITY) &&
-									(elvis->getLocationY() != INFINITY) ) {
-						loc_str =  QUOTE + "location" + QUOTE + COLON +
-                        			OPEN_BOX +
-										JSONencode(elvis->getLocationX())  + COMMA +
-										JSONencode(elvis->getLocationY()) +
-									CLOSE_BOX + COMMA; 
+				// map the nodes to a sequence of ids, 0...N-1
+				// then get the JSON string for nodes placeholder
+				// nullptr prevents insertion of other nullptrs
+
+				unordered_map<K, int> node_map;
+				int i = 0;
+				string nodes_JSON = "";
+
+				for (const auto& v : vertices) {
+					if (node_map.emplace(v.first, i).second) {
+						i++;
+						const ElementVisualizer *elvis = 
+								vertices.at(v.first)->getVisualizer();
+						string loc_str = "";
+						if ( (elvis->getLocationX() != INFINITY) &&
+										(elvis->getLocationY() != INFINITY) ) {
+							loc_str =  QUOTE + "location" + QUOTE + COLON +
+										OPEN_BOX +
+											JSONencode(elvis->getLocationX())  + COMMA +
+											JSONencode(elvis->getLocationY()) +
+										CLOSE_BOX + COMMA; 
+						}
+						nodes_JSON +=  OPEN_CURLY + loc_str + QUOTE + "color" + QUOTE + 
+								COLON + getCSSRepresentation(elvis->getColor()) +
+								CLOSE_CURLY + COMMA;
 					}
-					
-					nodes_JSON +=  OPEN_CURLY + loc_str +
-								QUOTE + "color" + QUOTE + COLON + getCSSRepresentation(elvis->getColor()) +
-							CLOSE_CURLY + COMMA;
-                }
-				if (nodes_JSON.size()) 
-						nodes_JSON = nodes_JSON.erase(nodes_JSON.size() - 1);
+				}
+
+				//Remove trailing comma and nullptr entry
+
+				if (nodes_JSON.size()) {
+					nodes_JSON = nodes_JSON.erase(nodes_JSON.size() - 1);
+				}
+
 										// next link information
 				string links_JSON =  "";
 				for (const auto& v : vertices) {
@@ -484,11 +496,11 @@ namespace bridges {
 					Element<E1>* src_vert = vertices.at(v.first);
 										// iterate through list and form links
 					for (SLelement<Edge<K, E2>>* it = adj_list.at(v.first); it != nullptr;
-																it = it->getNext()) {
+															it = it->getNext()) {
 						Element<E1>* dest_vert = vertices.at(it->getValue().getVertex() );
 						LinkVisualizer *lv = src_vert->getLinkVisualizer(dest_vert);
-						string src = JSONencode(v.first);
-						string dest = JSONencode(it->getValue().getVertex());
+						string src = JSONencode(node_map.at(v.first));
+						string dest = JSONencode(node_map.at(it->getValue().getVertex()));
 						links_JSON +=  OPEN_CURLY +
 								QUOTE + "source"    + QUOTE + COLON + JSONencode(src)  + COMMA +
 								QUOTE + "target"    + QUOTE + COLON + JSONencode(dest) + COMMA +
@@ -510,7 +522,9 @@ namespace bridges {
 				return graph_alist_json;
 
 			}
-	}; //end of GraphAdjList class
+	}; 
+
+	//end of GraphAdjList class
 
 }//end of bridges namespace
 #endif
