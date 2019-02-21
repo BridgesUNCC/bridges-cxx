@@ -489,11 +489,18 @@ namespace bridges {
 						LinkVisualizer *lv = src_vert->getLinkVisualizer(dest_vert);
 						string src = JSONencode(v.first);
 						string dest = JSONencode(it->getValue().getVertex());
-						links_JSON +=  OPEN_CURLY +
-								QUOTE + "source"    + QUOTE + COLON + JSONencode(src)  + COMMA +
-								QUOTE + "target"    + QUOTE + COLON + JSONencode(dest) + COMMA +
-								QUOTE + "color"     + QUOTE + COLON + getCSSRepresentation(lv->getColor()) +
+						/* links_JSON +=  OPEN_CURLY + */
+						/* 		QUOTE + "source"    + QUOTE + COLON + JSONencode(src)  + COMMA + */
+						/* 		QUOTE + "target"    + QUOTE + COLON + JSONencode(dest) + COMMA + */
+						/* 		QUOTE + "color"     + QUOTE + COLON + getCSSRepresentation(lv->getColor()) + */
+						/* 		CLOSE_CURLY + COMMA; */
+
+						links_JSON +=  OPEN_CURLY 
+								 + JSONencode(src)  + COMMA 
+								 + JSONencode(dest) + COMMA 
+								 + getCSSRepresentation(lv->getColor()) +
 								CLOSE_CURLY + COMMA;
+
 					}
 				}
 										//Remove trailing comma
