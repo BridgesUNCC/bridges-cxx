@@ -471,15 +471,15 @@ namespace bridges {
 						string loc_str = "";
 						if ( (elvis->getLocationX() != INFINITY) &&
 										(elvis->getLocationY() != INFINITY) ) {
-							loc_str =  QUOTE + "location" + QUOTE + COLON +
+							loc_str =  
 										OPEN_BOX +
 											JSONencode(elvis->getLocationX())  + COMMA +
 											JSONencode(elvis->getLocationY()) +
 										CLOSE_BOX + COMMA; 
 						}
-						nodes_JSON +=  OPEN_CURLY + loc_str + QUOTE + "color" + QUOTE + 
-								COLON + getCSSRepresentation(elvis->getColor()) +
-								CLOSE_CURLY + COMMA;
+						nodes_JSON +=  OPEN_BOX + loc_str +
+						  getCSSRepresentation(elvis->getColor()) +
+								CLOSE_BOX + COMMA;
 					}
 				}
 
