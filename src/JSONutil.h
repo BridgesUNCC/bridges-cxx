@@ -33,7 +33,7 @@ namespace bridges {
 		///This also works for std::string and char*: that is to say, for a string, it is escaped properly and surrounded by quotes
 
 		template <typename T>
-		inline string JSONencode(const T& d) {
+		  inline string JSONencode(const T& d) {
 			rapidjson::Value s;
 			s.Set(d);
 
@@ -47,6 +47,7 @@ namespace bridges {
 			return ss;
 		}
 
+		
 		template <>
 		inline string JSONencode<std::string> (const std::string& str) {
 
@@ -80,6 +81,44 @@ namespace bridges {
 		}
 
 
+		//precision=-1 means to use max precision.
+		//otherwise number of digits to use
+		  inline string JSONencode(const double& d, int precision=-1) {
+			rapidjson::Value s;
+			s.Set(d);
+
+			rapidjson::StringBuffer buffer;
+			rapidjson::Writer<rapidjson::StringBuffer> writer(buffer);
+			if (precision> 0 )
+			  writer.SetMaxDecimalPlaces(precision);
+			s.Accept(writer);
+
+			const char* output = buffer.GetString();
+
+			string ss = output;
+			return ss;
+		}
+
+		  //precision=-1 means to use max precision.
+		  //otherwise number of digits to use
+		  inline string JSONencode(const float& d, int precision=-1) {
+			rapidjson::Value s;
+			s.Set(d);
+
+			rapidjson::StringBuffer buffer;
+			rapidjson::Writer<rapidjson::StringBuffer> writer(buffer);
+			if (precision> 0 )
+			  writer.SetMaxDecimalPlaces(precision);
+			s.Accept(writer);
+
+			const char* output = buffer.GetString();
+
+			string ss = output;
+			return ss;
+		}
+
+
+		
 	}
 }
 

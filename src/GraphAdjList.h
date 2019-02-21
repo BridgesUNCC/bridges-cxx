@@ -48,11 +48,13 @@ namespace bridges {
 						//leaves off other channels if transparent
 					return "[0, 0, 0, 0.0f]";
 				}
+				
 				const string strCSS =
 					JSONencode(col.getRed()) + "," +
 					JSONencode(col.getGreen()) + "," +
 					JSONencode(col.getBlue()) + "," +
-					JSONencode( ((float) (col.getAlpha()) / 255.0f));
+				  JSONencode(col.getAlpha() / 255.0 ,3);
+					  //				JSONencode( ((float) (col.getAlpha()) / 255.0f));
 
 					return OPEN_BOX + strCSS + CLOSE_BOX;
 			}
