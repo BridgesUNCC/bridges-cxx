@@ -97,7 +97,9 @@ namespace bridges {
 	  gr->addVertex(k, vertices[k]);
 		vertices[k].getCartesianCoords(coords);
 		//coords[1] = yrange[1] - (coords[1] - yrange[0]);
-		double x = (coords[0]-tx)*sx, y = (coords[1]-ty)*sy;
+		//double x = (coords[0]-tx)*sx, y = (coords[1]-ty)*sy;
+		double x=coords[0];
+		double y=coords[1];
 		gr->getVertex(k)->getVisualizer()->setLocation( x, y);
 		gr->getVertex(k)->getVisualizer()->setColor(Color("green"));
 	}
