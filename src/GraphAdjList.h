@@ -46,7 +46,7 @@ namespace bridges {
 				using bridges::JSONUtil::JSONencode;
 				if (col.isTransparent()) {
 						//leaves off other channels if transparent
-					return "[0, 0, 0, 0.0f]";
+					return "[0, 0, 0, 0.0]";
 				}
 				
 				const string strCSS =
