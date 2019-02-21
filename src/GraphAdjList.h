@@ -137,7 +137,7 @@ namespace bridges {
 			 *
 			 * @return E1  vertex specific data
 			 */
-			E1  getVertexData (const K& src) {
+			const E1&  getVertexData (const K& src)& {
 				try {
 					Element<E1> *el = vertices.at(src);
 					return  (vertices.at(src))->getValue();

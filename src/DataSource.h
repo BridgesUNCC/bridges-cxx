@@ -593,7 +593,7 @@ if ((buffer.st_mode & S_IFMT) == S_IFDIR) { //Not using S_ISDIR because VS2017 d
 				}
 				return wrapper;
 			}
-			OSMData *getOSMData (string location) {
+			OSMData getOSMData (string location) {
 				using namespace rapidjson;
 
 				Document osm_data;
@@ -638,7 +638,7 @@ if ((buffer.st_mode & S_IFMT) == S_IFDIR) { //Not using S_ISDIR because VS2017 d
 				
 
 								// create an osm data object
-				OSMData *osm = new OSMData;
+				OSMData osm;
 
 				unordered_map<long, int> vert_map; // to remap the vertex ids
 
@@ -657,7 +657,7 @@ if ((buffer.st_mode & S_IFMT) == S_IFDIR) { //Not using S_ISDIR because VS2017 d
 						double lat = node[1].GetDouble(), longit = node[2].GetDouble();
 						vertices.push_back(OSMVertex(lat, longit));
 					}
-					osm->setVertices(vertices);
+					osm.setVertices(vertices);
 				}
 										// add vertices to object
 										// get the edges
@@ -674,7 +674,7 @@ if ((buffer.st_mode & S_IFMT) == S_IFDIR) { //Not using S_ISDIR because VS2017 d
 
 						edges.push_back(OSMEdge(vert_map[id1], vert_map[id2], dist));
 					}
-					osm->setEdges(edges);
+					osm.setEdges(edges);
 				}
 										// add edges to object
 	
@@ -685,9 +685,9 @@ if ((buffer.st_mode & S_IFMT) == S_IFDIR) { //Not using S_ISDIR because VS2017 d
 					double lat_max = meta["lat_max"].GetDouble();
 					double longit_min = meta["lon_min"].GetDouble();
 					double longit_max = meta["lon_max"].GetDouble();
-					osm->setLatLongRange(lat_min, lat_max, longit_min, longit_max);
+					osm.setLatLongRange(lat_min, lat_max, longit_min, longit_max);
 										// get dataset name
-					osm->setName(meta["name"].GetString());
+					osm.setName(meta["name"].GetString());
 				}
 				return osm;
 			}

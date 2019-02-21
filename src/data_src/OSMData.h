@@ -63,7 +63,7 @@ namespace bridges {
 			 * the location where given in the data set 
 			 * converted to cartesian coordinate.
 			 **/
-			void getGraph (GraphAdjList<int, double, double>* gr) const {
+			void getGraph (GraphAdjList<int, OSMVertex, double>* gr) const {
   //	vector<OSMVertex> vertices = osm_data->getVertices();
   //	vector<OSMEdge> edges = osm_data->getEdges();
 
@@ -94,9 +94,9 @@ namespace bridges {
 	
 	k = 0;
 	for (int k = 0; k < vertices.size(); k++) {
-		gr->addVertex(k);
+	  gr->addVertex(k, vertices[k]);
 		vertices[k].getCartesianCoords(coords);
-		coords[1] = yrange[1] - (coords[1] - yrange[0]);
+		//coords[1] = yrange[1] - (coords[1] - yrange[0]);
 		double x = (coords[0]-tx)*sx, y = (coords[1]-ty)*sy;
 		gr->getVertex(k)->getVisualizer()->setLocation( x, y);
 		gr->getVertex(k)->getVisualizer()->setColor(Color("green"));
@@ -144,7 +144,7 @@ namespace bridges {
 			 *   @param  longit_range 
 			 *	 @return none
 			 */
-			void getLatLongRange (double *lat_range, double *longit_range) {
+			void getLatLongRange (double *lat_range, double *longit_range) const {
 				lat_range[0] = latitude_range[0];
 				lat_range[1] = latitude_range[1];
 				longit_range[0] = longitude_range[0];
