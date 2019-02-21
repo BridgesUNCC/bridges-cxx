@@ -47,6 +47,7 @@ namespace bridges {
 			template <typename K> friend class Array;
 
 		private:
+			bool debug() const {return false;}
 			static const unordered_map<const Shape, const string, hash<int>>& ShapeNames() {
 
 				static std::unordered_map<const Shape, const string, hash<int>> sn = {
@@ -129,8 +130,9 @@ namespace bridges {
 				if (links.find(const_cast<Element*>(el)) != links.end()) {
 					return &(links.at(const_cast<Element*>(el)));
 				}
-				cerr << "Element " << label << " not linked to Element "
-					<< el->getLabel() << ", returning NULL" << endl;
+				if (debug())
+				  cerr << "Element " << label << " not linked to Element "
+				       << el->getLabel() << ", returning NULL" << endl;
 				return nullptr;
 			}
 
