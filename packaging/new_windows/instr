@@ -1,0 +1,3 @@
+CC=x86_64-w64-mingw32-gcc ./configure --with-winssl --host=x86_64-w64-mingw32 --disable-pthreads --disable-libgcc --prefix=/tmp/build/curl-7.64.1/buildoutput/ --disable-dict --disable-gopher --disable-imap --disable-ldap --disable-ldaps --disable-pop3 --disable-rtsp --disable--smtp --disable-telnet --disable-tftp --disable-smtp
+make -j 8
+make install
