@@ -149,7 +149,7 @@ namespace bridges {
 			/**
 			 *	@return The label of the element
 			 */
-			string getLabel() const {
+			string const & getLabel() const {
 				return label;
 			}
 
@@ -165,7 +165,11 @@ namespace bridges {
 			/**
 			 *	@return The value of the element
 			 */
-			E getValue() const {
+			E const & getValue() const {
+				return value;
+			}
+
+			E & getValue() {
 				return value;
 			}
 
