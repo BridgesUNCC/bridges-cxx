@@ -258,16 +258,93 @@ namespace bridges {
 				return OPEN_BOX + strCSS + CLOSE_BOX;
 			}
 		public:
-			void printLinks() {
-				cout << "[printLinks]Source vert: " << label << ", " << this << endl;
-
-				for (auto& it : links) {
-					cout << "\t Dest Elements : " << (it.first)->getLabel() << ","
-						<< it.first << endl;
-				}
+			/**
+			 * Sets size to "sz"
+			 * Valid Range:[1,50]
+			 *
+			 * @param size The size in pixel weight of the element
+			 * @throw string If size is invalid
+			 */
+			void setSize(const double& sz) {
+				elvis->setSize(sz);
 			}
 
-			// temp
+			/** 
+			 *  Get element size
+			 *	@return the size (in pixels) of the element
+			 *
+			 */
+			double getSize() const {
+				return elvis->getSize();
+			}
+			/**
+			 *  Set the color to "col"
+			 *  @param color The color of the element
+			 */
+			void setColor(const Color& col) {
+				elvis->setColor(col);
+			}
+			/**
+			 *	@return The color of the element
+			 */
+			Color getColor() const {
+				return elvis->getColor();
+			}
+
+			/**
+			 *	set opacity of element - use the 4th color component
+			 *
+			 *  @param opacity
+			 */
+			void setOpacity(double opacity) {
+				elvis->setOpacity(opacity);
+			}
+
+			/**
+			 *	get opacity of element
+			 *
+			 *	@return opacity
+			 */
+			double getOpacity() {
+				return elvis->getOpacity();
+			}
+			/**
+			 * Set the shape  of the element
+			 *
+			 * @param Shape is one of CIRCLE,SQUARE,DIAMOND,CROSS,TRI_DOWN,TRI_UP
+			 */
+			void setShape(const Shape& shp) {
+				elvis->setShape(shp);
+			}
+			/**
+			 *	@return The shape of the element(one of CIRCLE,SQUARE,
+			 *		DIAMOND,CROSS,TRI_DOWN,TRI_UP
+			 */
+			Shape getShape() const {
+				return elvis->getShape();
+			}
+			/**
+			 * 	Set the location attributes of an element. 
+			 *
+			 * 	@param locX X coordinate of the element location
+			 * 	@param locY Y coordinate of the element location
+			 */
+			void setLocation(const double& locX, const double& locY) {
+				elvis->setLocation(locX, locY);
+			}
+
+			/**
+			 *	@return the X coordinate of the  element's location attribute
+			 */
+			double getLocationX() const {
+				return elvis->getLocationX();
+			}
+			/**
+			 *	@return the Y coordinate of the  element's location attribute
+			 */
+			double getLocationY() const {
+				return elvis->getLocationY();
+			}
 	};	//end of Element class
 
 

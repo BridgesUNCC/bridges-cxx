@@ -39,7 +39,7 @@ namespace bridges {
 			unordered_map<K, SLelement<Edge<K, E2> >*> adj_list;
 
 									// large graph thresholds
-			const int LargeGraphVertSize = 1000;
+			const int LargeGraphVertSize = 3000;
 			const int LargeGraphEdges  = 5000;
 
 			const string getCSSRepresentation(const Color& col) const {
