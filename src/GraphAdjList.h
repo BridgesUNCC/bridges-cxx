@@ -593,6 +593,10 @@ namespace bridges {
 		KeySet_helper keySet() const {
 		  return KeySet_helper(this->vertices);
 		}
+
+		typename SLelement<Edge<K,E2>>::SLelement_listhelper outgoingEdgeSetOf(K const & k) {
+		  return typename SLelement<Edge<K,E2>>::SLelement_listhelper(getAdjacencyList(k));
+		}
 	}; 
 
 	//end of GraphAdjList class
