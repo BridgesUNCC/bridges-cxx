@@ -576,6 +576,7 @@ namespace bridges {
 		    
 		    const_iterator& operator++() {
 		      it ++;
+				return *this;
 		    }
 		  };  
 		  
@@ -629,6 +630,7 @@ namespace bridges {
 		    
 		    iterator& operator++() {
 		      it ++;
+			return *this;
 		    }
 		  };
 		  
@@ -649,6 +651,7 @@ namespace bridges {
 		    
 		    const_iterator& operator++() {
 		      it ++;
+return *this;
 		    }
 		  };
 
@@ -703,6 +706,7 @@ namespace bridges {
 		    
 		    const_iterator& operator++() {
 		      it ++;
+			return *this;
 		    }
 		  };
 

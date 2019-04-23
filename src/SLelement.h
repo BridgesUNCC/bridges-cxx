@@ -226,6 +226,7 @@ namespace bridges {
 			    
 			    iterator& operator++() {
 			      current=current->getNext();
+				return *this;
 			    }
 			  };
 			  
@@ -266,6 +267,7 @@ namespace bridges {
 			    
 			    iterator& operator++() {
 			      current=current->getNext();
+					return *this;
 			    }
 			  };
 			  
