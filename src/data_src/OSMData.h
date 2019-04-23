@@ -106,7 +106,7 @@ namespace bridges {
 	for (int k = 0; k < edges.size(); k++) {
 	  //	  std::cout<<edges[k].getEdgeLength()<<std::endl;
 	  
-	  gr->addEdge(edges[k].getSourceVertex(), edges[k].getDestinationVertex(), edges[k].getEdgeLength(),
+	  gr->addEdge(edges[k].getSourceVertex(), edges[k].getDestinationVertex(), 
 				 edges[k].getEdgeLength() );
 	}
 

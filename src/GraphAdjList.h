@@ -106,21 +106,21 @@ namespace bridges {
 			 *	this graph
 			 * @throw bad_alloc If allocation of a graph adjacency list item failed
 			 */
-			void addEdge(const K& src, const K& dest, const unsigned int& wt,
+			void addEdge(const K& src, const K& dest,
 				const E2& data = E2()) {
 				try {
 					vertices.at(src);
 					vertices.at(dest);
 					// links structure is redundant and needs
 					// to be removed in future implementations!
-					vertices[src]->links[vertices.at(dest)];
+					vertices[src]->links[vertices.at(dest)]; //In C++ this creates the linkvisualizer
 
 					stringstream conv;
 					conv << dest;
 					// add the edge
 					adj_list.at(src) =
 						new SLelement<Edge<K, E2> > (adj_list.at(src),
-						Edge<K, E2> (dest, wt, data), conv.str());
+									     Edge<K, E2> (src, dest, &(vertices[src]->links[vertices.at(dest)]), data), conv.str());
 
 				}
 				catch ( const out_of_range& ) {
@@ -447,11 +447,11 @@ namespace bridges {
 					// iterate through list and form links
 					for (SLelement<Edge<K, E2>>* it = adj_list.at(v.first); it != nullptr;
 						it = it->getNext()) {
-						Element<E1>* dest_vert = vertices.at(it->getValue().getVertex() );
+						Element<E1>* dest_vert = vertices.at(it->getValue().to() );
 						links_JSON +=  src_vert->getLinkRepresentation(
 								*(src_vert->getLinkVisualizer(dest_vert)),
 								JSONencode(node_map.at(v.first)),
-								JSONencode(node_map.at(it->getValue().getVertex())) ) + COMMA;
+								JSONencode(node_map.at(it->getValue().to())) ) + COMMA;
 					}
 				}
 
@@ -523,10 +523,10 @@ namespace bridges {
 										// iterate through list and form links
 					for (SLelement<Edge<K, E2>>* it = adj_list.at(v.first); it != nullptr;
 															it = it->getNext()) {
-						Element<E1>* dest_vert = vertices.at(it->getValue().getVertex() );
+						Element<E1>* dest_vert = vertices.at(it->getValue().to() );
 						LinkVisualizer *lv = src_vert->getLinkVisualizer(dest_vert);
 						string src = JSONencode(node_map.at(v.first));
-						string dest = JSONencode(node_map.at(it->getValue().getVertex()));
+						string dest = JSONencode(node_map.at(it->getValue().to()));
 						links_JSON +=  OPEN_BOX +
 						  src  + COMMA +
 						  dest + COMMA +
@@ -661,7 +661,7 @@ return *this;
 		  }
 		  
 		  iterator end() {
-		    return iterator(underlying_map.begin());
+		    return iterator(underlying_map.end());
 		  }
 
 		  const_iterator begin() const{
@@ -669,7 +669,7 @@ return *this;
 		  }
 		  
 		  const_iterator end() const {
-		    return const_iterator(underlying_map.begin());
+		    return const_iterator(underlying_map.end());
 		  }
 
 		};

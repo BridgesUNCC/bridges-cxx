@@ -836,7 +836,7 @@ if ((buffer.st_mode & S_IFMT) == S_IFDIR) { //Not using S_ISDIR because VS2017 d
 
 
 						//adding edge.
-						gr.addEdge(src, dest, wgt, name);
+						gr.addEdge(src, dest, name);
 					}
 				}
 

@@ -2,6 +2,8 @@
 #include <string>
 using namespace std;
 
+#include "LinkVisualizer.h"
+
 #ifndef EDGE_H
 
 #define EDGE_H
@@ -32,10 +34,18 @@ namespace bridges {
 		private:
 			// The weight of this edge
 			unsigned int weight = 1;
+
+			// The source vertex of this edge */
+			K fromv = K();
+
 			// The destination vertex of this edge */
-			K vertex = K();
+			K tov = K();
+
 			// The application specific data of this edge */
 			E2 edge_data = E2();
+
+			// The link visualizer for this edge
+		LinkVisualizer  *lvis;
 
 		public:
 
@@ -44,44 +54,32 @@ namespace bridges {
 			 *	and edge data.
 			 * If an argument is not given its default is used. Default Weight: 1
 			 *
-			 * @param wt The edge weight
-			 * @param v The terminating vertex
-			 * @param data The edge data
+			 * @param wt edge weight
+			 * @param from source  vertex
+			 * @param to destination  vertex
+			 * @param data edge data
 			 */
-			Edge(const K& v, const int& wt = 1, const E2& data = E2()) :
-				weight(wt), vertex(v), edge_data(data) {
+	Edge(const K& v1, const K& v2, LinkVisualizer* lv, const E2& data = E2()) :
+				fromv(v1), tov (v2), edge_data(data),lvis(lv) {
+
+			}
+			~Edge(){
+				//lvis lifetime is managed by the graph itself
 			}
 
 			/**
-			 * 	Set edge weight to "wt"
-			 *
-			 *	@param wt The edge weight
+			 *	@return The source vertex
 			 */
-			void setWeight(const unsigned int& wt) {
-				weight = wt;
+			const K& from() const {
+				return fromv;
 			}
 
-			/**
-			 * @return The edge weight
-			 */
-			int getWeight() const {
-				return weight;
-			}
-
-			/**
-			 *	Sets terminating vetex to "dest"
-			 *
-			 *	@param dest The terminating vertex
-			 */
-			void setVertex(const K& dest) {
-				vertex = dest;
-			}
 
 			/**
 			 *	@return The terminating vertex
 			 */
-			K getVertex() const {
-				return vertex;
+			const K& to() const {
+				return tov;
 			}
 
 			/**
@@ -103,6 +101,71 @@ namespace bridges {
 			 */
 			E2& getEdgeData() {
 				return edge_data;
+			}
+			/**
+			 *  @return The label of the element
+			 */
+			string getLabel() const {
+				return lvis->getLabel();
+			}
+
+			/**
+			 * Sets label to "lab"
+			 *
+			 * @param lab The label of the element
+			 */
+			void setLabel(const string& lab) {
+				lvis->setLabel(lab);
+			}
+
+			/**
+			 * Set the thickness to "thick"
+			 * Valid Range:[1,10] Default: 1
+			 *
+			 * @param thick The size in pixels of the link's line weight
+			 * @throw string If invalid thickness
+			 */
+			void setThickness(const double& th) {
+				lvis->setThickness(th);
+			}
+			/**
+			 *	@return Size in pixels of the link's line thickness
+			 */
+			double getThickness() const {
+				return lvis->getThickness();
+			}
+
+			/**
+			 * Set the link weight to "wt"
+			 * Valid Range: determined by application, can be negative
+			 *
+			 * @param wt The size in pixels of the link's line weight
+			 * @throw string If invalid thickness
+			 */
+			void setWeight(const double& wt) {
+				lvis->setWeight(wt);
+			}
+
+			/**
+			 *	@return link weight
+			 */
+			double getWeight() const {
+				return lvis->getWeight(weight);
+			}
+
+			/**
+			 * Set the color to "col", default black
+			 *
+			 * @param color The color of the element
+			 */
+			void setColor(const Color& col) {
+				lvis->setColor(col);
+			}
+			/**
+			 *	@return The color of the link
+			 */
+			Color getColor() const {
+				return lvis->getColor();
 			}
 	}; //end of Edge class
 
