@@ -32,9 +32,6 @@ namespace bridges {
 	template <typename K, typename E2 = K>
 	class Edge {
 		private:
-			// The weight of this edge
-			unsigned int weight = 1;
-
 			// The source vertex of this edge */
 			K fromv = K();
 
@@ -50,17 +47,17 @@ namespace bridges {
 		public:
 
 			/**
-			 * Constructs an edge with the given destination vertex, weight,
+			 * Constructs an edge with the given destination vertex, 
 			 *	and edge data.
-			 * If an argument is not given its default is used. Default Weight: 1
+			 * This constructor is not meant to be used by the Bridges user
+			 * If an argument is not given its default is used. 
 			 *
-			 * @param wt edge weight
 			 * @param from source  vertex
 			 * @param to destination  vertex
 			 * @param data edge data
 			 */
 	Edge(const K& v1, const K& v2, LinkVisualizer* lv, const E2& data = E2()) :
-				fromv(v1), tov (v2), edge_data(data),lvis(lv) {
+				fromv(v1), tov (v2), edge_data(data), lvis(lv) {
 
 			}
 			~Edge(){
