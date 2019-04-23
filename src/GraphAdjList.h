@@ -549,6 +549,50 @@ namespace bridges {
 				return graph_alist_json;
 
 			}
+
+	public:
+		class KeySet_helper {
+		  std::unordered_map<K, Element<E1>* > const & underlying_map;
+		  
+		public:
+		  KeySet_helper (std::unordered_map<K, Element<E1>* > const  & um)
+		  :underlying_map(um)
+		  {}
+		  
+		  class const_iterator {
+		    typename std::unordered_map<K, Element<E1>* >::const_iterator it;
+		  public:
+		  const_iterator(typename std::unordered_map<K, Element<E1>* >::const_iterator i )
+		    :it(i)
+		    {}
+		    
+		    bool operator!=(const const_iterator& it) const {
+		      return this->it != it.it;
+		    }
+		    
+		    const K& operator*() const {
+		      return it->first;
+		    }
+		    
+		    const_iterator& operator++() {
+		      it ++;
+		    }
+		  };  
+		  
+		  const_iterator begin() const {
+		    return const_iterator(underlying_map.begin());
+		  }
+		  
+		  const_iterator end() const {
+		    return const_iterator(underlying_map.end());
+		  }
+		};
+
+		///returns a set of all keys (read only) that conforms to STL list interface.
+		///That means we can use range for
+		KeySet_helper keySet() const {
+		  return KeySet_helper(this->vertices);
+		}
 	}; 
 
 	//end of GraphAdjList class
