@@ -150,7 +150,7 @@ namespace bridges {
 			 *	@return link weight
 			 */
 			double getWeight() const {
-				return lvis->getWeight(weight);
+				return lvis->getWeight();
 			}
 
 			/**
