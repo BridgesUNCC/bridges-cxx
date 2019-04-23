@@ -62,12 +62,6 @@ namespace bridges {
 			// symbol location
 			float location[2] = {0.0f, 0.0f};
 
-			/**
-			 *
-			 *	these functions maintain default attributes for symbols
-			 *
-			 */
-
 		private:
 			int getNewIdentifier() {
 				static int ids = 0;
@@ -83,15 +77,20 @@ namespace bridges {
 				identifier = getNewIdentifier();
 			}
 
-			// method to get the JSON representation of the symbol
+			/** 
+			 * 	Method to get the JSON representation of the symbol
+			 */
 			virtual const string getSymbolRepresentation() const  = 0;
 
-			// method to get the bounding box (dimensions) of the shape
+			/** 
+			 *	method to get the bounding box (dimensions) of the shape
+			 */
 			virtual vector<float> getDimensions() = 0;
 
 			Symbol(string symb) {
 				identifier = getNewIdentifier();
 			}
+
 			/**
 			 * 	Maintains unique identifiers of symbols
 			 * 	and returns the Symbol's unique identifier
