@@ -39,7 +39,7 @@ namespace bridges {
 			unordered_map<K, SLelement<Edge<K, E2> >*> adj_list;
 
 									// large graph thresholds
-			const int LargeGraphVertSize = 3000;
+			const int LargeGraphVertSize = 300;
 			const int LargeGraphEdges  = 5000;
 
 			const string getCSSRepresentation(const Color& col) const {
@@ -596,6 +596,127 @@ namespace bridges {
 
 		typename SLelement<Edge<K,E2>>::SLelement_listhelper outgoingEdgeSetOf(K const & k) {
 		  return typename SLelement<Edge<K,E2>>::SLelement_listhelper(getAdjacencyList(k));
+		}
+
+		typename SLelement<Edge<K,E2>>::SLelement_constlisthelper outgoingEdgeSetOf(K const & k) const {
+		  return typename SLelement<Edge<K,E2>>::SLelement_constlisthelper(getAdjacencyList(k));
+		}
+
+
+		///This is a helper class to return sets of vertices ina  way that are iterable with range for loops
+		class VertexElementSet_listhelper {
+		  typename std::unordered_map<K, Element<E1>* > & underlying_map;
+		  
+		public:
+		  VertexElementSet_listhelper (std::unordered_map<K, Element<E1>* > & um)
+		  :underlying_map(um)
+		  {}
+		  
+		  class iterator {
+		    typename std::unordered_map<K, Element<E1>* >::iterator it;
+		  public:
+		  iterator(typename std::unordered_map<K, Element<E1>* >::iterator i )
+		    :it(i)
+		    {}
+
+		    bool operator!=(const iterator& it) const {
+		      return this->it != it.it;
+		    }
+		    
+		    Element<E1>*  operator*()  {
+		      return it->second;
+		    }
+		    
+		    iterator& operator++() {
+		      it ++;
+		    }
+		  };
+		  
+		  class const_iterator {
+		    typename std::unordered_map<K, Element<E1>* >::const_iterator it;
+		  public:
+		  const_iterator(typename std::unordered_map<K, Element<E1>* >::const_iterator i )
+		    :it(i)
+		    {}
+
+		    bool operator!=(const const_iterator& it) const {
+		      return this->it != it.it;
+		    }
+		    
+		    Element<E1> const*  operator*() const {
+		      return it->second;
+		    }
+		    
+		    const_iterator& operator++() {
+		      it ++;
+		    }
+		  };
+
+		  
+		  iterator begin() {
+		    return iterator(underlying_map.begin());
+		  }
+		  
+		  iterator end() {
+		    return iterator(underlying_map.begin());
+		  }
+
+		  const_iterator begin() const{
+		    return const_iterator(underlying_map.begin());
+		  }
+		  
+		  const_iterator end() const {
+		    return const_iterator(underlying_map.begin());
+		  }
+
+		};
+
+		///returns a set of vertices (Element<E>) that conforms to STL list interface. That means we can use range for
+		VertexElementSet_listhelper vertexSet () {
+		  return VertexElementSet_listhelper(vertices);
+		}
+
+
+		///This is a helper class to return sets of vertices ina  way that are iterable with range for loops
+		class constVertexElementSet_listhelper {
+		  typename std::unordered_map<K, Element<E1>* > const & underlying_map;
+		  
+		public:
+		  constVertexElementSet_listhelper (std::unordered_map<K, Element<E1>* > const& um)
+		  :underlying_map(um)
+		  {}
+		  		  
+		  class const_iterator {
+		    typename std::unordered_map<K, Element<E1>* >::const_iterator it;
+		  public:
+		  const_iterator(typename std::unordered_map<K, Element<E1>* >::const_iterator i )
+		    :it(i)
+		    {}
+
+		    bool operator!=(const const_iterator& it) const {
+		      return this->it != it.it;
+		    }
+		    
+		    Element<E1> const*  operator*() const {
+		      return it->second;
+		    }
+		    
+		    const_iterator& operator++() {
+		      it ++;
+		    }
+		  };
+
+		  const_iterator begin() const{
+		    return const_iterator(underlying_map.begin());
+		  }
+		  
+		  const_iterator end() const {
+		    return const_iterator(underlying_map.begin());
+		  }
+		};
+		///returns a set of vertices (Element<E>) that conforms to STL list interface. That means we can use range for
+		constVertexElementSet_listhelper vertexSet () const {
+		  return constVertexElementSet_listhelper(vertices);
 		}
 	}; 
 
