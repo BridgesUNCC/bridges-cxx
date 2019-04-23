@@ -202,6 +202,32 @@ namespace bridges {
 				// should never reach here
 				throw "getEdgeData(): Edge not found";
 			}
+			E2 const&  getEdgeData (const K& src, const K& dest) const {
+				try {
+					vertices.at(src);
+					vertices.at(dest);
+					SLelement<Edge<K, E2> > *sle = adj_list.at(src);
+					while (sle) {
+						Edge<K, E2> ed = sle->getValue();
+						if (ed.getVertex() == dest) { //edge exists
+							return ed.getEdgeData();
+						}
+						sle = sle->getNext();
+					}
+					throw "Edge not found!";
+				}
+				catch ( const out_of_range& ) {
+					cerr << "getEdgeData(): Edge not found" << endl;
+					throw;
+				}
+				catch (const char* msg) {
+					cerr << msg << endl;
+				}
+				// should never reach here
+				throw "getEdgeData(): Edge not found";
+				}
+
+		
 			/**
 			 * 	Loads edge specific information for the edge from "src" to
 			 *   "dest"
