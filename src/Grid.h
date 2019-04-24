@@ -47,6 +47,13 @@ namespace bridges {
 				grid = nullptr;
 			}
 
+			void checkRowCol(int row, int col) const {
+			  if (row < 0 || col < 0 || row >= gridSize[0] || col >= gridSize[1])
+			    throw "invalid location in Grid";
+				
+			}
+
+			
 		protected:
 			E  **grid = nullptr;
 
@@ -122,21 +129,62 @@ namespace bridges {
 				return gridSize;
 			}
 
+			
+			
 			// get the (row, col) element in the grid
-			E get(int row, int col) const {
-				if (row < 0 || col < 0 || row >= gridSize[0] || col >= gridSize[1])
-					throw "invalid location in Grid";
-
+			E const& get(int row, int col) const {
+			  checkRowCol(row,col);
+			  
 				return grid[row][col];
 			}
 			// set the (row, col) element in the grid
 			void set(int row, int col, E val) {
-				if (row < 0 || col < 0 || row >= gridSize[0] || col >= gridSize[1])
-					throw "invalid location in Grid";
+			  checkRowCol(row,col);
 
 				grid[row][col]  = val;
 			}
 
+			//This BracketHelperConst is a helper class to get the [] operators to work.
+			//It is not intended to be used by bridges users.
+			class BracketHelperConst {
+			  Grid<E> const & gr;
+			  int row;			  
+			public:
+			  BracketHelperConst(Grid<E> const & g, int r)
+			    :gr(g), row(r)
+			  {}
+
+			  E const & operator[] (int col) const {
+			    return gr.get(row,col);
+			  }
+			};
+
+			///provides the necessary abstraction to do something = grid[x][y];
+			BracketHelperConst operator[] (int row) const {
+			  return BracketHelperConst(*this, row);
+			}
+
+			//This BracketHelper is a helper class to get the [] operators to work.
+			//It is not intended to be used by bridges users.
+			class BracketHelper {
+			  Grid<E> & gr;
+			  int row;			  
+			public:
+			  BracketHelper(Grid<E>  & g, int r)
+			    :gr(g), row(r)
+			  {}
+
+			  E & operator[] (int col)  {
+			    gr.checkRowCol(row, col);
+			    return gr.grid[row][col];
+			  }
+			};
+
+			///provides the necessary abstraction to do grid[x][y] = something;
+			BracketHelper operator[] (int row)  {
+			  return BracketHelper(*this, row);
+			}
+			
 
 	}; // end class Grid
 
