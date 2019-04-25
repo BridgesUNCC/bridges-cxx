@@ -10,6 +10,7 @@ using namespace std;
 
 #include <JSONutil.h>
 #include <alltypes.h>
+#include <chrono>
 
 namespace bridges {
 	/**
@@ -21,7 +22,11 @@ namespace bridges {
 	 */
 	class Bridges {
 		private:
+	  static bool profile() {
+	    return false;
+	  }
 
+	  
 			static string getDefaultServerURL() {
 				return "http://bridges-cs.herokuapp.com";
 			}
@@ -306,7 +311,17 @@ namespace bridges {
 			 *
 			 */
 			void visualize() {
+			  std::chrono::time_point<std::chrono::system_clock> start; 
+			  std::chrono::time_point<std::chrono::system_clock> end;
+			  std::chrono::time_point<std::chrono::system_clock> jsonbuild_start; 
+			  std::chrono::time_point<std::chrono::system_clock> jsonbuild_end;
+			  std::chrono::time_point<std::chrono::system_clock> httprequest_start; 
+			  std::chrono::time_point<std::chrono::system_clock> httprequest_end;			  
 
+			  if (profile())
+			    start = std::chrono::system_clock::now();
+			  
+			  
 				if (assn_num != lastAssignNum) { 		// reset if a new assignment
 					lastAssignNum = assn_num;
 					subAssignNum = 0;
@@ -325,8 +340,12 @@ namespace bridges {
 				// get the JSON of the data structure
 				// each data structure is responsible for generating its JSON
 				//
-
+				if (profile())
+				  jsonbuild_start = std::chrono::system_clock::now();
+				
 				string ds_json = getJSONHeader() + ds_handle->getDataStructureRepresentation();
+				if (profile())
+				  jsonbuild_end = std::chrono::system_clock::now();
 
 				//
 				// print JSON if flag is on
@@ -334,6 +353,9 @@ namespace bridges {
 				if (getVisualizeJSONFlag()) {
 					cout << "JSON[" + ds_handle->getDStype() + "]:\t" << ds_json << endl;
 				}
+
+				if (profile())
+				  httprequest_start = std::chrono::system_clock::now();
 
 				try {						// send the JSON of assignment to the server
 					ServerComm::makeRequest(BASE_URL + to_string(assn_num) + "." +
@@ -352,6 +374,22 @@ namespace bridges {
 						"\t User Name: " << user_name << endl <<
 						"\t API Key: " << api_key << endl <<
 						"\t Assignment Number: " << assn_num << endl;
+				}
+				if (profile())
+				  httprequest_end = std::chrono::system_clock::now();
+
+
+				
+				if (profile()) {
+				  end = std::chrono::system_clock::now();
+
+				  std::chrono::duration<double> totaltime = end-start;
+				  std::chrono::duration<double> jsonbuildtime = jsonbuild_end-jsonbuild_start;
+				  std::chrono::duration<double> httptime = httprequest_end-httprequest_start;
+				  std::cerr<<"total visualize() time:"<<totaltime.count()<<" seconds"
+					   <<" (including JSON build time: "<<jsonbuildtime.count()<<" seconds"
+					   <<" and HTTP request time: "<<httptime.count()<<" seconds)."
+					   <<std::endl;
 				}
 			}
 
