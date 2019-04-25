@@ -36,7 +36,6 @@ namespace bridges {
 			Color color = DEFAULT_COLOR();
 			string label = "";
 			double thickness = DEFAULT_THICKNESS();
-			double weight = 1.0;
 
 		public:
 			/**
@@ -88,24 +87,6 @@ namespace bridges {
 			 */
 			double getThickness() const {
 				return thickness;
-			}
-
-			/**
-			 * Set the link weight to "wt"
-			 * Valid Range: determined by application, can be negative
-			 *
-			 * @param wt The size in pixels of the link's line weight
-			 * @throw string If invalid thickness
-			 */
-			void setWeight(const double& wt) {
-				weight = wt;
-			}
-
-			/**
-			 *	@return link weight
-			 */
-			double getWeight() const {
-				return weight;
 			}
 
 			/**

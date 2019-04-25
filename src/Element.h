@@ -235,8 +235,6 @@ namespace bridges {
 							JSONencode( lv.getLabel()) + COMMA) : "") +
 					QUOTE + "thickness" + QUOTE + COLON +
 					JSONencode(lv.getThickness()) + COMMA +
-					QUOTE + "weight"    + QUOTE + COLON +
-					JSONencode(lv.getWeight()) + COMMA +
 					QUOTE + "source"    + QUOTE + COLON + JSONencode(src)  + COMMA +
 					QUOTE + "target"    + QUOTE + COLON + JSONencode(dest) +
 					CLOSE_CURLY;

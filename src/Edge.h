@@ -133,24 +133,6 @@ namespace bridges {
 			}
 
 			/**
-			 * Set the link weight to "wt"
-			 * Valid Range: determined by application, can be negative
-			 *
-			 * @param wt The size in pixels of the link's line weight
-			 * @throw string If invalid thickness
-			 */
-			void setWeight(const double& wt) {
-				lvis->setWeight(wt);
-			}
-
-			/**
-			 *	@return link weight
-			 */
-			double getWeight() const {
-				return lvis->getWeight();
-			}
-
-			/**
 			 * Set the color to "col", default black
 			 *
 			 * @param color The color of the element
