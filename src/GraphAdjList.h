@@ -39,8 +39,8 @@ namespace bridges {
 			unordered_map<K, SLelement<Edge<K, E2> >*> adj_list;
 
 									// large graph thresholds
-			const int LargeGraphVertSize = 300;
-			const int LargeGraphEdges  = 5000;
+			const int LargeGraphVertSize = 5000;
+			const int LargeGraphEdges  = 10000;
 
 			const string getCSSRepresentation(const Color& col) const {
 				using bridges::JSONUtil::JSONencode;
@@ -308,11 +308,18 @@ namespace bridges {
 			const unordered_map<K, Element<E1>*>* getVertices() const {
 				return &vertices;
 			}
-		/**
+			/**
 			 *	@return the requested vertex of this graph
 			 */
 			const Element<E1>* getVertex(const K& key) const {
-				return vertices.at(key);
+				try {
+					return vertices.at(key);
+				}
+				catch (const std::out_of_range& oor) {
+    				std::cerr << "Out of Range error: " << oor.what() 
+							<< "returning null pointer\n";
+					return nullptr;
+  				}
 			}
 
 
@@ -322,7 +329,14 @@ namespace bridges {
 			 *  non-const version
 			 */
 			Element<E1>* getVertex(const K& key) {
-				return vertices.at(key);
+				try {
+					return vertices.at(key);
+				}
+				catch (const std::out_of_range& oor) {
+    				std::cerr << "Out of Range error: " << oor.what() 
+							<< "returning null pointer\n";
+					return nullptr;
+  				}
 			}
 
 
