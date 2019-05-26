@@ -105,6 +105,7 @@ namespace bridges {
 
 			virtual ~Element() {
 				delete elvis;
+				links.clear();
 			}
 
 			/**

@@ -92,7 +92,8 @@ namespace bridges {
 			 *		dynamicaly allocated(aka: using new)
 			 */
 			virtual void cleanup() {
-				delete this;
+				// does nothing; each data structure is responsible for
+				// freeing allocated memory
 			}
 
 		private:

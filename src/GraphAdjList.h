@@ -39,8 +39,8 @@ namespace bridges {
 			unordered_map<K, SLelement<Edge<K, E2> >*> adj_list;
 
 			// large graph thresholds
-			const int LargeGraphVertSize = 5000;
-			const int LargeGraphEdges  = 10000;
+			const int LargeGraphVertSize = 500;
+			const int LargeGraphEdges  = 1000;
 
 			const string getCSSRepresentation(const Color& col) const {
 				using bridges::JSONUtil::JSONencode;
@@ -62,9 +62,21 @@ namespace bridges {
 
 		public:
 			virtual ~GraphAdjList() override {
-				//			for(auto& p : adj_list) {  //frees edges
-				//				if (p.second){p.second->cleanup();}
-				//			}
+				for (auto& v : vertices) {	
+					if (adj_list[v.first]) { 
+								// discard the edges in the adj. list
+						SLelement<Edge<K, E2>> *tmp;
+						for (SLelement<Edge<K, E2>> *sle = 
+								adj_list.at(v.first); sle != nullptr; ) {
+							tmp = sle; sle = sle->getNext(); 
+							delete tmp;
+						}
+						delete vertices[v.first]; // free the element at v
+						adj_list[v.first] = nullptr;
+					}
+				}
+				vertices.clear();
+				adj_list.clear();
 			}
 			/**
 			 *	@return The string representation of this data structure type
