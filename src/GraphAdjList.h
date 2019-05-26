@@ -67,7 +67,7 @@ namespace bridges {
 								// discard the edges in the adj. list
 						SLelement<Edge<K, E2>> *tmp;
 						for (SLelement<Edge<K, E2>> *sle = 
-								adj_list.at(v.first); sle != nullptr; ) {
+								adj_list[v.first]; sle != nullptr; ) {
 							tmp = sle; sle = sle->getNext(); 
 							delete tmp;
 						}
