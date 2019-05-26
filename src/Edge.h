@@ -42,25 +42,25 @@ namespace bridges {
 			E2 edge_data = E2();
 
 			// The link visualizer for this edge
-		LinkVisualizer  *lvis;
+			LinkVisualizer  *lvis;
 
 		public:
 
 			/**
-			 * Constructs an edge with the given destination vertex, 
+			 * Constructs an edge with the given destination vertex,
 			 *	and edge data.
 			 * This constructor is not meant to be used by the Bridges user
-			 * If an argument is not given its default is used. 
+			 * If an argument is not given its default is used.
 			 *
 			 * @param from source  vertex
 			 * @param to destination  vertex
 			 * @param data edge data
 			 */
-	Edge(const K& v1, const K& v2, LinkVisualizer* lv, const E2& data = E2()) :
+			Edge(const K& v1, const K& v2, LinkVisualizer* lv, const E2& data = E2()) :
 				fromv(v1), tov (v2), edge_data(data), lvis(lv) {
 
 			}
-			~Edge(){
+			~Edge() {
 				//lvis lifetime is managed by the graph itself
 			}
 

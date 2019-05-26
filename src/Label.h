@@ -15,8 +15,8 @@ using namespace std;
 namespace bridges {
 
 	/**
- 	 * @brief This is a label object and used for defining text labels
- 	 *   as part of the symbol collection.
+	 * @brief This is a label object and used for defining text labels
+	 *   as part of the symbol collection.
 	 *
 	 * @author Kalpathi Subramanian
 	 * @date 12/23/18

@@ -40,104 +40,104 @@ using namespace std;
 
 namespace bridges {
 
-  class CacheException : std::exception {
-  };
-  
-  class Cache{
-  private:
-    std::string cacheDir="cache";
+	class CacheException : std::exception {
+	};
 
-    std::string getFilename(const std::string & docName) {
-      return cacheDir+"/"+docName; //TODO: bad things can happen if docName contains / or .. or stuff like that
-      
-    }
+	class Cache {
+		private:
+			std::string cacheDir = "cache";
 
-    //return whether s is a directory (true) or does not exist (false). all other cases are exception
-    bool directoryExist(const std::string &s)
-    {
-      struct stat buffer;
-      int ret = stat (s.c_str(), &buffer);
+			std::string getFilename(const std::string & docName) {
+				return cacheDir + "/" + docName; //TODO: bad things can happen if docName contains / or .. or stuff like that
 
-      if (ret == 0) { //file exist
-if ((buffer.st_mode & S_IFMT) == S_IFDIR) { //Not using S_ISDIR because VS2017 does not support it.
-	  return true;
-	} else {
-	  throw CacheException(); //s exist but is not a directory
-	}
-      }
-      
-      return false;
-    }
+			}
 
-    //make a directory called s or throw an exception
-    void makeDirectory (const std::string &s) {
+			//return whether s is a directory (true) or does not exist (false). all other cases are exception
+			bool directoryExist(const std::string &s) {
+				struct stat buffer;
+				int ret = stat (s.c_str(), &buffer);
+
+				if (ret == 0) { //file exist
+					if ((buffer.st_mode & S_IFMT) == S_IFDIR) { //Not using S_ISDIR because VS2017 does not support it.
+						return true;
+					}
+					else {
+						throw CacheException(); //s exist but is not a directory
+					}
+				}
+
+				return false;
+			}
+
+			//make a directory called s or throw an exception
+			void makeDirectory (const std::string &s) {
 #ifndef _WIN32
-        int ret = mkdir(s.c_str(), 0700);
+				int ret = mkdir(s.c_str(), 0700);
 #endif
 #ifdef _WIN32
-              int ret = _mkdir(s.c_str());
+				int ret = _mkdir(s.c_str());
 #endif
 
-      
-      if (ret != 0)
-	throw CacheException();
-    }
-    
-  public:
-    Cache(){
-      //probably should check directory existence here, but exception in constructors are weird.
-    }
 
-    //is docName in the cache
-    bool inCache(const std::string & docName) noexcept(false){
-      std::string filename = getFilename(docName);
+				if (ret != 0)
+					throw CacheException();
+			}
 
-      std::ifstream in(filename);
-      
-      return in.is_open();
-    }
+		public:
+			Cache() {
+				//probably should check directory existence here, but exception in constructors are weird.
+			}
 
-    //return the content of docName which is in the cache
-    std::string getDoc (const std::string & docName) noexcept(false){
-      std::string filename = getFilename(docName);
+			//is docName in the cache
+			bool inCache(const std::string & docName) noexcept(false) {
+				std::string filename = getFilename(docName);
 
-      std::ifstream in(filename);
+				std::ifstream in(filename);
 
-      if (!in.good() || !(in.is_open()))
-	throw CacheException();
-      
+				return in.is_open();
+			}
 
-      std::string contents;
-      in.seekg(0, std::ios::end);
-      contents.resize(in.tellg());
-      in.seekg(0, std::ios::beg);
-      in.read(&contents[0], contents.size());
-      if (! (in.good()))
-	throw CacheException();
-      in.close();
-      return(contents);
-      
-    }
+			//return the content of docName which is in the cache
+			std::string getDoc (const std::string & docName) noexcept(false) {
+				std::string filename = getFilename(docName);
 
-    //store content under docname
-    void putDoc (const std::string & docName,
-		 const std::string & content) noexcept(false){
-      if (!directoryExist(cacheDir))
-	makeDirectory(cacheDir);
-      
-      std::string filename = getFilename(docName);
+				std::ifstream in(filename);
 
-      std::ofstream out(filename);
-      if (!out.good() || !(out.is_open()))
-	throw CacheException();
-      
-      out<<content.c_str(); //this assumes string isn't binary
-      if (!out.good() || !(out.is_open()))
-	throw CacheException();
-	  
-    }
-  };
-  
+				if (!in.good() || !(in.is_open()))
+					throw CacheException();
+
+
+				std::string contents;
+				in.seekg(0, std::ios::end);
+				contents.resize(in.tellg());
+				in.seekg(0, std::ios::beg);
+				in.read(&contents[0], contents.size());
+				if (! (in.good()))
+					throw CacheException();
+				in.close();
+				return (contents);
+
+			}
+
+			//store content under docname
+			void putDoc (const std::string & docName,
+				const std::string & content) noexcept(false) {
+				if (!directoryExist(cacheDir))
+					makeDirectory(cacheDir);
+
+				std::string filename = getFilename(docName);
+
+				std::ofstream out(filename);
+				if (!out.good() || !(out.is_open()))
+					throw CacheException();
+
+				out << content.c_str(); //this assumes string isn't binary
+				if (!out.good() || !(out.is_open()))
+					throw CacheException();
+
+			}
+	};
+
 	/**
 	 * @brief This provides an API to various data sources used in BRIDGES.
 	 *
@@ -160,9 +160,9 @@ if ((buffer.st_mode & S_IFMT) == S_IFDIR) { //Not using S_ISDIR because VS2017 d
 				: bridges_inst(br) {}
 
 			DataSource(bridges::Bridges& br )
-			  : DataSource(&br) {}
+				: DataSource(&br) {}
 
-			
+
 			/**
 			 *
 			 *  Get meta data of the IGN games collection.
@@ -597,47 +597,49 @@ if ((buffer.st_mode & S_IFMT) == S_IFDIR) { //Not using S_ISDIR because VS2017 d
 				using namespace rapidjson;
 
 				Document osm_data;
-				std::transform(location.begin(), location.end(), location.begin(), 
-													::tolower);
+				std::transform(location.begin(), location.end(), location.begin(),
+					::tolower);
 				Cache ca;
 				std::string osm_json;
-				bool from_cache=false;
+				bool from_cache = false;
 				try {
-				  if (ca.inCache(location)) {
-				    osm_json = ca.getDoc(location);
-				    from_cache = true;
-				  }
-				}catch (CacheException& ce) {
-				  //something went bad trying to access the cache
-				  std::cout<<"Exception while reading from cache. Ignoring cache and continue."<<std::endl;
+					if (ca.inCache(location)) {
+						osm_json = ca.getDoc(location);
+						from_cache = true;
+					}
 				}
-				
+				catch (CacheException& ce) {
+					//something went bad trying to access the cache
+					std::cout << "Exception while reading from cache. Ignoring cache and continue." << std::endl;
+				}
+
 				string url = string("http://osm-api.herokuapp.com/name/") + location;
 
 				if (!from_cache) {
-								// get the OSM data json
-				  osm_json = ServerComm::makeRequest(url, {"Accept: application/json"});
-				  
-				  try {
-				    ca.putDoc(location, osm_json);
-				  }catch(CacheException& ce) {
-				    //something went bad trying to access the cache
-				    std::cerr<<"Exception while storing in cache. Weird but not critical."<<std::endl;
-				  }
+					// get the OSM data json
+					osm_json = ServerComm::makeRequest(url, {"Accept: application/json"});
+
+					try {
+						ca.putDoc(location, osm_json);
+					}
+					catch (CacheException& ce) {
+						//something went bad trying to access the cache
+						std::cerr << "Exception while storing in cache. Weird but not critical." << std::endl;
+					}
 				}
 
-								// parse the json
-//				if (osm_data.Parse(osm_json.c_str()).HasParseError()) {
-//					cout << "\nError(offset " <<  (unsigned)osm_data.GetErrorOffset() << 
-//       				GetParseError_En(osm_data.GetParseError());
-//					cout << "Aha! Parse error!" << endl;
-//				}
-//				osm_data.Parse<ParseFlag::kParseStopWhenDoneFlag>(osm_json.c_str());
+				// parse the json
+				//				if (osm_data.Parse(osm_json.c_str()).HasParseError()) {
+				//					cout << "\nError(offset " <<  (unsigned)osm_data.GetErrorOffset() <<
+				//       				GetParseError_En(osm_data.GetParseError());
+				//					cout << "Aha! Parse error!" << endl;
+				//				}
+				//				osm_data.Parse<ParseFlag::kParseStopWhenDoneFlag>(osm_json.c_str());
 				osm_data.Parse(osm_json.c_str());
 
-				
 
-								// create an osm data object
+
+				// create an osm data object
 				OSMData osm;
 
 				unordered_map<long, int> vert_map; // to remap the vertex ids
@@ -647,11 +649,11 @@ if ((buffer.st_mode & S_IFMT) == S_IFDIR) { //Not using S_ISDIR because VS2017 d
 					Value& nodes = osm_data["nodes"];
 
 					vector<long> vertex_ids;
-														// get the vertices
+					// get the vertices
 					for (SizeType i = 0; i < nodes.Size(); i++) {
 						const Value& node = nodes[i];
 						long id = node[0].GetInt64();
-										// map vertex ids to 0...maxVert range
+						// map vertex ids to 0...maxVert range
 						vert_map[id] = i;
 						vertex_ids.push_back(id);
 						double lat = node[1].GetDouble(), longit = node[2].GetDouble();
@@ -659,8 +661,8 @@ if ((buffer.st_mode & S_IFMT) == S_IFDIR) { //Not using S_ISDIR because VS2017 d
 					}
 					osm.setVertices(vertices);
 				}
-										// add vertices to object
-										// get the edges
+				// add vertices to object
+				// get the edges
 
 				if (osm_data.HasMember("edges")) {
 					vector<OSMEdge> edges;
@@ -676,40 +678,40 @@ if ((buffer.st_mode & S_IFMT) == S_IFDIR) { //Not using S_ISDIR because VS2017 d
 					}
 					osm.setEdges(edges);
 				}
-										// add edges to object
-	
+				// add edges to object
+
 				if (osm_data.HasMember("meta")) {
-										// get lat long range
+					// get lat long range
 					Value& meta = osm_data["meta"];
 					double lat_min = meta["lat_min"].GetDouble();
 					double lat_max = meta["lat_max"].GetDouble();
 					double longit_min = meta["lon_min"].GetDouble();
 					double longit_max = meta["lon_max"].GetDouble();
 					osm.setLatLongRange(lat_min, lat_max, longit_min, longit_max);
-										// get dataset name
+					// get dataset name
 					osm.setName(meta["name"].GetString());
 				}
 				return osm;
 			}
 
-/*
-			GraphAdjList<int, int> *getOSMDataAsGraph (string location, 
-										double *location_range) { 
+			/*
+						GraphAdjList<int, int> *getOSMDataAsGraph (string location,
+													double *location_range) {
 
-								// get the open street map data for this location
-				OSMData *osm_data = getOSMData (string location);
+											// get the open street map data for this location
+							OSMData *osm_data = getOSMData (string location);
 
-								// get the vertices and edges
-				vector<OSMVertex> vertices = osm_data->getVertices();
-				vector<OSMEdge> edges = osm_data->getEdges();
+											// get the vertices and edges
+							vector<OSMVertex> vertices = osm_data->getVertices();
+							vector<OSMEdge> edges = osm_data->getEdges();
 
-								// build a graph from this dataset
-				GraphAdjList<int, int> *graph = new GraphAdjList<int, int>
-				loc_range[0] = osm_data->getLatLongRange
-				
-			}
+											// build a graph from this dataset
+							GraphAdjList<int, int> *graph = new GraphAdjList<int, int>
+							loc_range[0] = osm_data->getLatLongRange
 
-*/
+						}
+
+			*/
 			/**Reconstruct a GraphAdjList from an existing GraphAdjList on the Bridges server
 			 *
 			 * The reconstructed assignment sees vertices identified as integers in the order they are stored in the server.

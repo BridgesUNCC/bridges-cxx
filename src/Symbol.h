@@ -77,12 +77,12 @@ namespace bridges {
 				identifier = getNewIdentifier();
 			}
 
-			/** 
+			/**
 			 * 	Method to get the JSON representation of the symbol
 			 */
 			virtual const string getSymbolRepresentation() const  = 0;
 
-			/** 
+			/**
 			 *	method to get the bounding box (dimensions) of the shape
 			 */
 			virtual vector<float> getDimensions() = 0;

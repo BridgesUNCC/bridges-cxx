@@ -18,8 +18,8 @@ namespace bridges {
 	 */
 	template <typename E>
 	class SLelement : public Element<E>, public DataStructure {
-	  
-	  
+
+
 		protected:
 			SLelement* next = nullptr;
 
@@ -192,95 +192,95 @@ namespace bridges {
 				}
 			}
 
-	public:
+		public:
 			///these are helper classes for SLelement for easy iteration in a range for loop.
 			///It is not meant to be created by the bridges user. But it may be returned by Bridges to provide an STL compliant list API.
 			class SLelement_listhelper {
-			  typename bridges::SLelement<E> * start;
-			  
-			public:
-			  SLelement_listhelper (typename bridges::SLelement< E > * s)
-			    :start(s)
-			  {}
-			  
-			  class iterator {
-			    
-			    typename bridges::SLelement< E >  * current;
-			  public:
-			  iterator(    typename bridges::SLelement< E >   * c )
-			    :current(c)
-			    {}
-			    
-			    bool operator!=(const iterator& it) const {
-			      return this->current != it.current;
-			    }
-			    
-			    E const &  operator*() const {
-			      return current->getValue();
-			    }
+					typename bridges::SLelement<E> * start;
 
-			    E &  operator*()  {
-			      return current->getValue();
-			    }
+				public:
+					SLelement_listhelper (typename bridges::SLelement< E > * s)
+						: start(s)
+					{}
 
-			    
-			    iterator& operator++() {
-			      current=current->getNext();
-				return *this;
-			    }
-			  };
-			  
-			  iterator begin() {
-			    return iterator(start);
-			  }
-			  
-			  iterator end() {
-			    return iterator(nullptr);
-			  }
+					class iterator {
+
+							typename bridges::SLelement< E >  * current;
+						public:
+							iterator(    typename bridges::SLelement< E >   * c )
+								: current(c)
+							{}
+
+							bool operator!=(const iterator& it) const {
+								return this->current != it.current;
+							}
+
+							E const &  operator*() const {
+								return current->getValue();
+							}
+
+							E &  operator*()  {
+								return current->getValue();
+							}
+
+
+							iterator& operator++() {
+								current = current->getNext();
+								return *this;
+							}
+					};
+
+					iterator begin() {
+						return iterator(start);
+					}
+
+					iterator end() {
+						return iterator(nullptr);
+					}
 			};
 
 			///these are helper classes for SLelement for easy iteration in a range for loop.
 			///It is not meant to be created by the bridges user. But it may be returned by Bridges to provide an STL compliant list API.
 			class SLelement_constlisthelper {
-			  typename bridges::SLelement<E> const * start;
-			  
-			public:
-			  SLelement_constlisthelper (typename bridges::SLelement< E > const * s)
-			    :start(s)
-			  {}
-			  
-			  class iterator {
-			    
-			    typename bridges::SLelement< E > const  * current;
-			  public:
-			  iterator(    typename bridges::SLelement< E > const   * c )
-			    :current(c)
-			    {}
-			    
-			    bool operator!=(const iterator& it) const {
-			      return this->current != it.current;
-			    }
-			    
-			    E const &  operator*() const {
-			      return current->getValue();
-			    }
-			    
-			    iterator& operator++() {
-			      current=current->getNext();
-					return *this;
-			    }
-			  };
-			  
-			  iterator begin() {
-			    return iterator(start);
-			  }
-			  
-			  iterator end() {
-			    return iterator(nullptr);
-			  }
+					typename bridges::SLelement<E> const * start;
+
+				public:
+					SLelement_constlisthelper (typename bridges::SLelement< E > const * s)
+						: start(s)
+					{}
+
+					class iterator {
+
+							typename bridges::SLelement< E > const  * current;
+						public:
+							iterator(    typename bridges::SLelement< E > const   * c )
+								: current(c)
+							{}
+
+							bool operator!=(const iterator& it) const {
+								return this->current != it.current;
+							}
+
+							E const &  operator*() const {
+								return current->getValue();
+							}
+
+							iterator& operator++() {
+								current = current->getNext();
+								return *this;
+							}
+					};
+
+					iterator begin() {
+						return iterator(start);
+					}
+
+					iterator end() {
+						return iterator(nullptr);
+					}
 			};
 
-			
+
 	}; //end of SLelement class
 
 }//end of bridges namespace

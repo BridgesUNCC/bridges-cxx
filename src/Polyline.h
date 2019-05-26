@@ -5,9 +5,9 @@
 using namespace std;
 
 
-#ifndef  POLYGON_H
+#ifndef  POLYLINE_H
 
-#define POLYGON_H
+#define POLYLINE_H
 
 namespace bridges {
 
@@ -19,9 +19,10 @@ namespace bridges {
 	 * @date 12/23/18
 	 *
 	 */
-	class Polygon : public Symbol {
+
+	class Polyline : public Symbol {
 		private:
-			string shape = "polygon";
+			string shape = "polyline";
 			// height, width of rectangle
 			vector<float> *points = nullptr;
 			int radius = 10;
@@ -29,17 +30,17 @@ namespace bridges {
 		public:
 
 			// constructors
-			Polygon () {
+			Polyline () {
 				points = new vector<float>(100);
 				points->resize(0);
 			}
 
-			Polygon (vector<float> *pts) {
+			Polyline (vector<float> *pts) {
 				points = pts;
 			}
 
 			string getDataStructType() {
-				return "polygon";
+				return "polyline";
 			}
 
 			/**
@@ -80,7 +81,7 @@ namespace bridges {
 				return points;
 			}
 
-			void setPolygon (vector<float> pts) {
+			void setPolyline (vector<float> pts) {
 				*points = pts;
 			}
 

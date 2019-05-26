@@ -22,11 +22,11 @@ namespace bridges {
 	 */
 	class Bridges {
 		private:
-	  static bool profile() {
-	    return false;
-	  }
+			static bool profile() {
+				return false;
+			}
 
-	  
+
 			static string getDefaultServerURL() {
 				return "http://bridges-cs.herokuapp.com";
 			}
@@ -196,10 +196,10 @@ namespace bridges {
 			 *
 			 */
 			void setDataStructure(DataStructure &ds) {
-			  setDataStructure(&ds);
+				setDataStructure(&ds);
 			}
 
-			
+
 			/**
 			 *
 			 *  @return member holding the data structure handle
@@ -254,14 +254,14 @@ namespace bridges {
 			 *  Sets the coordinate system type for location specific data; default is cartesian
 			 *
 			 *	@param coord    this is the desired coordinate space argument
-			 *		Options are: ['cartesian', 'albersusa', 'equirectangular', 'window']. 
-		     *		'cartesian' is the default
+			 *		Options are: ['cartesian', 'albersusa', 'equirectangular', 'window'].
+			 *		'cartesian' is the default
 			 *
 			 **/
 			void setCoordSystemType (string coord) {
 				std::transform(coord.begin(), coord.end(), coord.begin(), ::tolower);
 				if (coord == "cartesian" || coord == "albersusa" || coord == "equirectangular"
-						|| coord == "window")
+					|| coord == "window")
 					coord_system_type = coord;
 				else  {
 					cout << "Unrecognized coordinate system \'" + coord + "\', defaulting to "
@@ -311,17 +311,17 @@ namespace bridges {
 			 *
 			 */
 			void visualize() {
-			  std::chrono::time_point<std::chrono::system_clock> start; 
-			  std::chrono::time_point<std::chrono::system_clock> end;
-			  std::chrono::time_point<std::chrono::system_clock> jsonbuild_start; 
-			  std::chrono::time_point<std::chrono::system_clock> jsonbuild_end;
-			  std::chrono::time_point<std::chrono::system_clock> httprequest_start; 
-			  std::chrono::time_point<std::chrono::system_clock> httprequest_end;			  
+				std::chrono::time_point<std::chrono::system_clock> start;
+				std::chrono::time_point<std::chrono::system_clock> end;
+				std::chrono::time_point<std::chrono::system_clock> jsonbuild_start;
+				std::chrono::time_point<std::chrono::system_clock> jsonbuild_end;
+				std::chrono::time_point<std::chrono::system_clock> httprequest_start;
+				std::chrono::time_point<std::chrono::system_clock> httprequest_end;
 
-			  if (profile())
-			    start = std::chrono::system_clock::now();
-			  
-			  
+				if (profile())
+					start = std::chrono::system_clock::now();
+
+
 				if (assn_num != lastAssignNum) { 		// reset if a new assignment
 					lastAssignNum = assn_num;
 					subAssignNum = 0;
@@ -341,11 +341,11 @@ namespace bridges {
 				// each data structure is responsible for generating its JSON
 				//
 				if (profile())
-				  jsonbuild_start = std::chrono::system_clock::now();
-				
+					jsonbuild_start = std::chrono::system_clock::now();
+
 				string ds_json = getJSONHeader() + ds_handle->getDataStructureRepresentation();
 				if (profile())
-				  jsonbuild_end = std::chrono::system_clock::now();
+					jsonbuild_end = std::chrono::system_clock::now();
 
 				//
 				// print JSON if flag is on
@@ -355,7 +355,7 @@ namespace bridges {
 				}
 
 				if (profile())
-				  httprequest_start = std::chrono::system_clock::now();
+					httprequest_start = std::chrono::system_clock::now();
 
 				try {						// send the JSON of assignment to the server
 					ServerComm::makeRequest(BASE_URL + to_string(assn_num) + "." +
@@ -376,20 +376,20 @@ namespace bridges {
 						"\t Assignment Number: " << assn_num << endl;
 				}
 				if (profile())
-				  httprequest_end = std::chrono::system_clock::now();
+					httprequest_end = std::chrono::system_clock::now();
 
 
-				
+
 				if (profile()) {
-				  end = std::chrono::system_clock::now();
+					end = std::chrono::system_clock::now();
 
-				  std::chrono::duration<double> totaltime = end-start;
-				  std::chrono::duration<double> jsonbuildtime = jsonbuild_end-jsonbuild_start;
-				  std::chrono::duration<double> httptime = httprequest_end-httprequest_start;
-				  std::cerr<<"total visualize() time:"<<totaltime.count()<<" seconds"
-					   <<" (including JSON build time: "<<jsonbuildtime.count()<<" seconds"
-					   <<" and HTTP request time: "<<httptime.count()<<" seconds)."
-					   <<std::endl;
+					std::chrono::duration<double> totaltime = end - start;
+					std::chrono::duration<double> jsonbuildtime = jsonbuild_end - jsonbuild_start;
+					std::chrono::duration<double> httptime = httprequest_end - httprequest_start;
+					std::cerr << "total visualize() time:" << totaltime.count() << " seconds"
+						<< " (including JSON build time: " << jsonbuildtime.count() << " seconds"
+						<< " and HTTP request time: " << httptime.count() << " seconds)."
+						<< std::endl;
 				}
 			}
 
@@ -410,14 +410,14 @@ namespace bridges {
 					QUOTE + "coord_system_type" + QUOTE + COLON + JSONencode(getCoordSystemType()) +
 					COMMA;
 
-					if (wc_window.size() == 4) {		// world coord window has been specified
-						json_header += QUOTE + string("window") + QUOTE + COLON + OPEN_BOX;
-						json_header += std::to_string(wc_window[0]) + COMMA + 
-								std::to_string(wc_window[1]) + COMMA + 
-								std::to_string(wc_window[2]) + COMMA + std::to_string(wc_window[3]);
-						json_header += CLOSE_BOX + COMMA;
+				if (wc_window.size() == 4) {		// world coord window has been specified
+					json_header += QUOTE + string("window") + QUOTE + COLON + OPEN_BOX;
+					json_header += std::to_string(wc_window[0]) + COMMA +
+						std::to_string(wc_window[1]) + COMMA +
+						std::to_string(wc_window[2]) + COMMA + std::to_string(wc_window[3]);
+					json_header += CLOSE_BOX + COMMA;
 
-					}
+				}
 
 				return json_header;
 			}

@@ -9,7 +9,7 @@ using namespace std;
 #include "Symbol.h"
 
 /**
- * @brief the SymbolCollection object is a container object to hold a collection of symbols 
+ * @brief the SymbolCollection object is a container object to hold a collection of symbols
  *	(rectangles, polygons, circles, labels).
  *
  * @author David Burlinson, Kalpathi Subramanian

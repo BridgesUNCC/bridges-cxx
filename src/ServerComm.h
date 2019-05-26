@@ -32,7 +32,7 @@ namespace bridges {
 				size_t nmemb, void *results) {
 				size_t handled = size * nmemb;
 				if (results) {
-				  ((string*)results)->append((char*)contents, handled);
+					((string*)results)->append((char*)contents, handled);
 				}
 				return handled;
 			}

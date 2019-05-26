@@ -28,18 +28,18 @@ namespace bridges {
 	class OSMVertex {
 
 		private:
-			double latitude = 0.0;		// latitude 
+			double latitude = 0.0;		// latitude
 			double longitude = 0.0;		// longitude
 
 			double cartesian_coords[2] = {0.0, 0.0};
-			/** 
+			/**
 			 * 	convert lat/long coords to Cartesian
 			 *
 			 */
 			void toCartesianCoords() {
 				const double R = 6378.; // Radius of the earth in km
-				double lat_rad  = latitude * M_PI/180.;
-				double longit_rad  = longitude * M_PI/180.;
+				double lat_rad  = latitude * M_PI / 180.;
+				double longit_rad  = longitude * M_PI / 180.;
 				cartesian_coords[0] = R * cos(lat_rad) * cos (longit_rad);
 				cartesian_coords[1] = R * cos(lat_rad) * sin (longit_rad);
 			}
@@ -49,14 +49,14 @@ namespace bridges {
 			OSMVertex() {
 			}
 
-			OSMVertex (double latit, double longit) 
+			OSMVertex (double latit, double longit)
 				: latitude(latit), longitude(longit) {
 
 				toCartesianCoords ();
 			}
 
 			OSMVertex(const OSMVertex *vert)
-				: latitude(vert->latitude), longitude(vert->longitude){
+				: latitude(vert->latitude), longitude(vert->longitude) {
 			}
 
 			/**
@@ -98,12 +98,12 @@ namespace bridges {
 				toCartesianCoords();
 			}
 
-			/** 
+			/**
 			 * 	get Cartesian coords of lat/long
 			 *
 			 *	@return coords  (double *)
 			 */
-			void getCartesianCoords(double *coords) const{
+			void getCartesianCoords(double *coords) const {
 				coords[0] = cartesian_coords[0];
 				coords[1] = cartesian_coords[1];
 			}

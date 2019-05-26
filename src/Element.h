@@ -47,7 +47,9 @@ namespace bridges {
 			template <typename K> friend class Array;
 
 		private:
-			bool debug() const {return false;}
+			bool debug() const {
+				return false;
+			}
 			static const unordered_map<const Shape, const string, hash<int>>& ShapeNames() {
 
 				static std::unordered_map<const Shape, const string, hash<int>> sn = {
@@ -131,8 +133,8 @@ namespace bridges {
 					return &(links.at(const_cast<Element*>(el)));
 				}
 				if (debug())
-				  cerr << "Element " << label << " not linked to Element "
-				       << el->getLabel() << ", returning NULL" << endl;
+					cerr << "Element " << label << " not linked to Element "
+						<< el->getLabel() << ", returning NULL" << endl;
 				return nullptr;
 			}
 
@@ -271,7 +273,7 @@ namespace bridges {
 				elvis->setSize(sz);
 			}
 
-			/** 
+			/**
 			 *  Get element size
 			 *	@return the size (in pixels) of the element
 			 *
@@ -326,7 +328,7 @@ namespace bridges {
 				return elvis->getShape();
 			}
 			/**
-			 * 	Set the location attributes of an element. 
+			 * 	Set the location attributes of an element.
 			 *
 			 * 	@param locX X coordinate of the element location
 			 * 	@param locY Y coordinate of the element location

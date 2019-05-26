@@ -20,19 +20,19 @@ namespace bridges {
 	class OSMEdge {
 
 		private:
-							// edge vertices
-	  int src_vertex=0;
-	  int dest_vertex=0;	
-							// edge length
-			double length=0.0;
+			// edge vertices
+			int src_vertex = 0;
+			int dest_vertex = 0;
+			// edge length
+			double length = 0.0;
 
 		public:
 
-			OSMEdge(int src, int dest, double dist) : 
+			OSMEdge(int src, int dest, double dist) :
 				src_vertex(src), dest_vertex(dest), length(dist) {
 			}
 
-			OSMEdge(const OSMEdge *edge) : src_vertex(edge->src_vertex), 
+			OSMEdge(const OSMEdge *edge) : src_vertex(edge->src_vertex),
 				dest_vertex(edge->dest_vertex), length(edge->length) {
 			}
 

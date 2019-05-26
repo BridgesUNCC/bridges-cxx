@@ -38,25 +38,25 @@ namespace bridges {
 			// adjacency lists
 			unordered_map<K, SLelement<Edge<K, E2> >*> adj_list;
 
-									// large graph thresholds
+			// large graph thresholds
 			const int LargeGraphVertSize = 5000;
 			const int LargeGraphEdges  = 10000;
 
 			const string getCSSRepresentation(const Color& col) const {
 				using bridges::JSONUtil::JSONencode;
 				if (col.isTransparent()) {
-						//leaves off other channels if transparent
+					//leaves off other channels if transparent
 					return "[0, 0, 0, 0.0]";
 				}
-				
+
 				const string strCSS =
 					JSONencode(col.getRed()) + "," +
 					JSONencode(col.getGreen()) + "," +
 					JSONencode(col.getBlue()) + "," +
-				  JSONencode(col.getAlpha() / 255.0 ,3);
-					  //				JSONencode( ((float) (col.getAlpha()) / 255.0f));
+					JSONencode(col.getAlpha() / 255.0, 3);
+				//				JSONencode( ((float) (col.getAlpha()) / 255.0f));
 
-					return OPEN_BOX + strCSS + CLOSE_BOX;
+				return OPEN_BOX + strCSS + CLOSE_BOX;
 			}
 
 
@@ -70,7 +70,7 @@ namespace bridges {
 			 *	@return The string representation of this data structure type
 			 */
 			virtual const string getDStype() const override {
-				return (vertices.size() > LargeGraphVertSize) ? "largegraph": "Graph_AdjacencyList";
+				return (vertices.size() > LargeGraphVertSize) ? "largegraph" : "Graph_AdjacencyList";
 			}
 
 			/**
@@ -120,7 +120,7 @@ namespace bridges {
 					// add the edge
 					adj_list.at(src) =
 						new SLelement<Edge<K, E2> > (adj_list.at(src),
-									     Edge<K, E2> (src, dest, &(vertices[src]->links[vertices.at(dest)]), data), conv.str());
+						Edge<K, E2> (src, dest, &(vertices[src]->links[vertices.at(dest)]), data), conv.str());
 
 				}
 				catch ( const out_of_range& ) {
@@ -225,9 +225,9 @@ namespace bridges {
 				}
 				// should never reach here
 				throw "getEdgeData(): Edge not found";
-				}
+			}
 
-		
+
 			/**
 			 * 	Loads edge specific information for the edge from "src" to
 			 *   "dest"
@@ -316,10 +316,10 @@ namespace bridges {
 					return vertices.at(key);
 				}
 				catch (const std::out_of_range& oor) {
-    				std::cerr << "Out of Range error: " << oor.what() 
-							<< "returning null pointer\n";
+					std::cerr << "Out of Range error: " << oor.what()
+						<< "returning null pointer\n";
 					return nullptr;
-  				}
+				}
 			}
 
 
@@ -333,10 +333,10 @@ namespace bridges {
 					return vertices.at(key);
 				}
 				catch (const std::out_of_range& oor) {
-    				std::cerr << "Out of Range error: " << oor.what() 
-							<< "returning null pointer\n";
+					std::cerr << "Out of Range error: " << oor.what()
+						<< "returning null pointer\n";
 					return nullptr;
-  				}
+				}
 			}
 
 
@@ -378,7 +378,7 @@ namespace bridges {
 				}
 			}
 
-		
+
 			/**
 			 *  Returns the  visualizer corresponding to  a graph vertex;
 			 *	convenient method to set attributes of the graph vertex
@@ -433,7 +433,7 @@ namespace bridges {
 				// then get the JSON string for nodes placeholder
 				// nullptr prevents insertion of other nullptrs
 
-				if (vertices.size() > LargeGraphVertSize) 
+				if (vertices.size() > LargeGraphVertSize)
 					return getDataStructureRepresentationLargeGraph();
 
 				unordered_map<K, int> node_map;
@@ -493,7 +493,7 @@ namespace bridges {
 			 */
 
 			string getDataStructureRepresentationLargeGraph () const {
-										
+
 				using bridges::JSONUtil::JSONencode;
 				// map the nodes to a sequence of ids, 0...N-1
 				// then get the JSON string for nodes placeholder
@@ -506,20 +506,20 @@ namespace bridges {
 				for (const auto& v : vertices) {
 					if (node_map.emplace(v.first, i).second) {
 						i++;
-						const ElementVisualizer *elvis = 
-								vertices.at(v.first)->getVisualizer();
+						const ElementVisualizer *elvis =
+							vertices.at(v.first)->getVisualizer();
 						string loc_str = "";
 						if ( (elvis->getLocationX() != INFINITY) &&
-										(elvis->getLocationY() != INFINITY) ) {
-							loc_str =  
-										OPEN_BOX +
-											JSONencode(elvis->getLocationX())  + COMMA +
-											JSONencode(elvis->getLocationY()) +
-										CLOSE_BOX + COMMA; 
+							(elvis->getLocationY() != INFINITY) ) {
+							loc_str =
+								OPEN_BOX +
+								JSONencode(elvis->getLocationX())  + COMMA +
+								JSONencode(elvis->getLocationY()) +
+								CLOSE_BOX + COMMA;
 						}
 						nodes_JSON +=  OPEN_BOX + loc_str +
-						  getCSSRepresentation(elvis->getColor()) +
-								CLOSE_BOX + COMMA;
+							getCSSRepresentation(elvis->getColor()) +
+							CLOSE_BOX + COMMA;
 					}
 				}
 
@@ -529,214 +529,214 @@ namespace bridges {
 					nodes_JSON = nodes_JSON.erase(nodes_JSON.size() - 1);
 				}
 
-										// next link information
+				// next link information
 				string links_JSON =  "";
 				for (const auto& v : vertices) {
-										// get adj. list
+					// get adj. list
 					Element<E1>* src_vert = vertices.at(v.first);
-										// iterate through list and form links
+					// iterate through list and form links
 					for (SLelement<Edge<K, E2>>* it = adj_list.at(v.first); it != nullptr;
-															it = it->getNext()) {
+						it = it->getNext()) {
 						Element<E1>* dest_vert = vertices.at(it->getValue().to() );
 						LinkVisualizer *lv = src_vert->getLinkVisualizer(dest_vert);
 						string src = JSONencode(node_map.at(v.first));
 						string dest = JSONencode(node_map.at(it->getValue().to()));
 						links_JSON +=  OPEN_BOX +
-						  src  + COMMA +
-						  dest + COMMA +
-						  getCSSRepresentation(lv->getColor()) +
-						  CLOSE_BOX + COMMA;
+							src  + COMMA +
+							dest + COMMA +
+							getCSSRepresentation(lv->getColor()) +
+							CLOSE_BOX + COMMA;
 
 					}
 				}
-										//Remove trailing comma
-				if (links_JSON.size()) 
+				//Remove trailing comma
+				if (links_JSON.size())
 					links_JSON = links_JSON.erase(links_JSON.size() - 1);
 
-				string graph_alist_json = 
+				string graph_alist_json =
 					QUOTE + "nodes"  + QUOTE + COLON +
-							OPEN_BOX + nodes_JSON + CLOSE_BOX + COMMA +
-					QUOTE + "links" + QUOTE + COLON + 
-							OPEN_BOX + links_JSON + CLOSE_BOX +
-							CLOSE_CURLY;
+					OPEN_BOX + nodes_JSON + CLOSE_BOX + COMMA +
+					QUOTE + "links" + QUOTE + COLON +
+					OPEN_BOX + links_JSON + CLOSE_BOX +
+					CLOSE_CURLY;
 
 				return graph_alist_json;
 
 			}
 
-	public:
-		class KeySet_helper {
-		  std::unordered_map<K, Element<E1>* > const & underlying_map;
-		  
 		public:
-		  KeySet_helper (std::unordered_map<K, Element<E1>* > const  & um)
-		  :underlying_map(um)
-		  {}
-		  
-		  class const_iterator {
-		    typename std::unordered_map<K, Element<E1>* >::const_iterator it;
-		  public:
-		  const_iterator(typename std::unordered_map<K, Element<E1>* >::const_iterator i )
-		    :it(i)
-		    {}
-		    
-		    bool operator!=(const const_iterator& it) const {
-		      return this->it != it.it;
-		    }
-		    
-		    const K& operator*() const {
-		      return it->first;
-		    }
-		    
-		    const_iterator& operator++() {
-		      it ++;
-				return *this;
-		    }
-		  };  
-		  
-		  const_iterator begin() const {
-		    return const_iterator(underlying_map.begin());
-		  }
-		  
-		  const_iterator end() const {
-		    return const_iterator(underlying_map.end());
-		  }
-		};
+			class KeySet_helper {
+					std::unordered_map<K, Element<E1>* > const & underlying_map;
 
-		///returns a set of all keys (read only) that conforms to STL list interface.
-		///That means we can use range for
-		KeySet_helper keySet() const {
-		  return KeySet_helper(this->vertices);
-		}
+				public:
+					KeySet_helper (std::unordered_map<K, Element<E1>* > const  & um)
+						: underlying_map(um)
+					{}
 
-		typename SLelement<Edge<K,E2>>::SLelement_listhelper outgoingEdgeSetOf(K const & k) {
-		  return typename SLelement<Edge<K,E2>>::SLelement_listhelper(getAdjacencyList(k));
-		}
+					class const_iterator {
+							typename std::unordered_map<K, Element<E1>* >::const_iterator it;
+						public:
+							const_iterator(typename std::unordered_map<K, Element<E1>* >::const_iterator i )
+								: it(i)
+							{}
 
-		typename SLelement<Edge<K,E2>>::SLelement_constlisthelper outgoingEdgeSetOf(K const & k) const {
-		  return typename SLelement<Edge<K,E2>>::SLelement_constlisthelper(getAdjacencyList(k));
-		}
+							bool operator!=(const const_iterator& it) const {
+								return this->it != it.it;
+							}
 
+							const K& operator*() const {
+								return it->first;
+							}
 
-		///This is a helper class to return sets of vertices ina  way that are iterable with range for loops
-		class VertexElementSet_listhelper {
-		  typename std::unordered_map<K, Element<E1>* > & underlying_map;
-		  
-		public:
-		  VertexElementSet_listhelper (std::unordered_map<K, Element<E1>* > & um)
-		  :underlying_map(um)
-		  {}
-		  
-		  class iterator {
-		    typename std::unordered_map<K, Element<E1>* >::iterator it;
-		  public:
-		  iterator(typename std::unordered_map<K, Element<E1>* >::iterator i )
-		    :it(i)
-		    {}
+							const_iterator& operator++() {
+								it ++;
+								return *this;
+							}
+					};
 
-		    bool operator!=(const iterator& it) const {
-		      return this->it != it.it;
-		    }
-		    
-		    Element<E1>*  operator*()  {
-		      return it->second;
-		    }
-		    
-		    iterator& operator++() {
-		      it ++;
-			return *this;
-		    }
-		  };
-		  
-		  class const_iterator {
-		    typename std::unordered_map<K, Element<E1>* >::const_iterator it;
-		  public:
-		  const_iterator(typename std::unordered_map<K, Element<E1>* >::const_iterator i )
-		    :it(i)
-		    {}
+					const_iterator begin() const {
+						return const_iterator(underlying_map.begin());
+					}
 
-		    bool operator!=(const const_iterator& it) const {
-		      return this->it != it.it;
-		    }
-		    
-		    Element<E1> const*  operator*() const {
-		      return it->second;
-		    }
-		    
-		    const_iterator& operator++() {
-		      it ++;
-return *this;
-		    }
-		  };
+					const_iterator end() const {
+						return const_iterator(underlying_map.end());
+					}
+			};
 
-		  
-		  iterator begin() {
-		    return iterator(underlying_map.begin());
-		  }
-		  
-		  iterator end() {
-		    return iterator(underlying_map.end());
-		  }
+			///returns a set of all keys (read only) that conforms to STL list interface.
+			///That means we can use range for
+			KeySet_helper keySet() const {
+				return KeySet_helper(this->vertices);
+			}
 
-		  const_iterator begin() const{
-		    return const_iterator(underlying_map.begin());
-		  }
-		  
-		  const_iterator end() const {
-		    return const_iterator(underlying_map.end());
-		  }
+			typename SLelement<Edge<K, E2>>::SLelement_listhelper outgoingEdgeSetOf(K const & k) {
+				return typename SLelement<Edge<K, E2>>::SLelement_listhelper(getAdjacencyList(k));
+			}
 
-		};
-
-		///returns a set of vertices (Element<E>) that conforms to STL list interface. That means we can use range for
-		VertexElementSet_listhelper vertexSet () {
-		  return VertexElementSet_listhelper(vertices);
-		}
+			typename SLelement<Edge<K, E2>>::SLelement_constlisthelper outgoingEdgeSetOf(K const & k) const {
+				return typename SLelement<Edge<K, E2>>::SLelement_constlisthelper(getAdjacencyList(k));
+			}
 
 
-		///This is a helper class to return sets of vertices ina  way that are iterable with range for loops
-		class constVertexElementSet_listhelper {
-		  typename std::unordered_map<K, Element<E1>* > const & underlying_map;
-		  
-		public:
-		  constVertexElementSet_listhelper (std::unordered_map<K, Element<E1>* > const& um)
-		  :underlying_map(um)
-		  {}
-		  		  
-		  class const_iterator {
-		    typename std::unordered_map<K, Element<E1>* >::const_iterator it;
-		  public:
-		  const_iterator(typename std::unordered_map<K, Element<E1>* >::const_iterator i )
-		    :it(i)
-		    {}
+			///This is a helper class to return sets of vertices ina  way that are iterable with range for loops
+			class VertexElementSet_listhelper {
+					typename std::unordered_map<K, Element<E1>* > & underlying_map;
 
-		    bool operator!=(const const_iterator& it) const {
-		      return this->it != it.it;
-		    }
-		    
-		    Element<E1> const*  operator*() const {
-		      return it->second;
-		    }
-		    
-		    const_iterator& operator++() {
-		      it ++;
-			return *this;
-		    }
-		  };
+				public:
+					VertexElementSet_listhelper (std::unordered_map<K, Element<E1>* > & um)
+						: underlying_map(um)
+					{}
 
-		  const_iterator begin() const{
-		    return const_iterator(underlying_map.begin());
-		  }
-		  
-		  const_iterator end() const {
-		    return const_iterator(underlying_map.begin());
-		  }
-		};
-		///returns a set of vertices (Element<E>) that conforms to STL list interface. That means we can use range for
-		constVertexElementSet_listhelper vertexSet () const {
-		  return constVertexElementSet_listhelper(vertices);
-		}
-	}; 
+					class iterator {
+							typename std::unordered_map<K, Element<E1>* >::iterator it;
+						public:
+							iterator(typename std::unordered_map<K, Element<E1>* >::iterator i )
+								: it(i)
+							{}
+
+							bool operator!=(const iterator& it) const {
+								return this->it != it.it;
+							}
+
+							Element<E1>*  operator*()  {
+								return it->second;
+							}
+
+							iterator& operator++() {
+								it ++;
+								return *this;
+							}
+					};
+
+					class const_iterator {
+							typename std::unordered_map<K, Element<E1>* >::const_iterator it;
+						public:
+							const_iterator(typename std::unordered_map<K, Element<E1>* >::const_iterator i )
+								: it(i)
+							{}
+
+							bool operator!=(const const_iterator& it) const {
+								return this->it != it.it;
+							}
+
+							Element<E1> const*  operator*() const {
+								return it->second;
+							}
+
+							const_iterator& operator++() {
+								it ++;
+								return *this;
+							}
+					};
+
+
+					iterator begin() {
+						return iterator(underlying_map.begin());
+					}
+
+					iterator end() {
+						return iterator(underlying_map.end());
+					}
+
+					const_iterator begin() const {
+						return const_iterator(underlying_map.begin());
+					}
+
+					const_iterator end() const {
+						return const_iterator(underlying_map.end());
+					}
+
+			};
+
+			///returns a set of vertices (Element<E>) that conforms to STL list interface. That means we can use range for
+			VertexElementSet_listhelper vertexSet () {
+				return VertexElementSet_listhelper(vertices);
+			}
+
+
+			///This is a helper class to return sets of vertices ina  way that are iterable with range for loops
+			class constVertexElementSet_listhelper {
+					typename std::unordered_map<K, Element<E1>* > const & underlying_map;
+
+				public:
+					constVertexElementSet_listhelper (std::unordered_map<K, Element<E1>* > const& um)
+						: underlying_map(um)
+					{}
+
+					class const_iterator {
+							typename std::unordered_map<K, Element<E1>* >::const_iterator it;
+						public:
+							const_iterator(typename std::unordered_map<K, Element<E1>* >::const_iterator i )
+								: it(i)
+							{}
+
+							bool operator!=(const const_iterator& it) const {
+								return this->it != it.it;
+							}
+
+							Element<E1> const*  operator*() const {
+								return it->second;
+							}
+
+							const_iterator& operator++() {
+								it ++;
+								return *this;
+							}
+					};
+
+					const_iterator begin() const {
+						return const_iterator(underlying_map.begin());
+					}
+
+					const_iterator end() const {
+						return const_iterator(underlying_map.begin());
+					}
+			};
+			///returns a set of vertices (Element<E>) that conforms to STL list interface. That means we can use range for
+			constVertexElementSet_listhelper vertexSet () const {
+				return constVertexElementSet_listhelper(vertices);
+			}
+	};
 
 	//end of GraphAdjList class
 

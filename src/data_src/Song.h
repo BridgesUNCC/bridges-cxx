@@ -4,21 +4,21 @@
 
 
 namespace bridges {
-/**
- * @brief  A Song object, used along with the Songs data source.
- *
- * This is a convenience class provided for  users who wish to use this
- * data source as part of their application. It provides an API that makes
- * it easy to access the attributes of this data set.
- *
- * Refer to tutorial examples to using this data source in data structure
- * assignments.
- *
- *
- * @author David Burlinson, C++ port: Kalpathi Subramanian
- * @date   5/24/18
- *
- */
+	/**
+	 * @brief  A Song object, used along with the Songs data source.
+	 *
+	 * This is a convenience class provided for  users who wish to use this
+	 * data source as part of their application. It provides an API that makes
+	 * it easy to access the attributes of this data set.
+	 *
+	 * Refer to tutorial examples to using this data source in data structure
+	 * assignments.
+	 *
+	 *
+	 * @author David Burlinson, C++ port: Kalpathi Subramanian
+	 * @date   5/24/18
+	 *
+	 */
 
 	class Song {
 		private:

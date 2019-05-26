@@ -12,13 +12,13 @@ using namespace std;
 namespace bridges {
 
 	/**
- 	 * @brief This class defines a circle and is part of the symbol collection.
- 	 *      A circle  has a radius
- 	 *
- 	 * @author Kalpathi Subramanian
- 	 * @date 12/24/18
- 	 *
- 	 */
+	 * @brief This class defines a circle and is part of the symbol collection.
+	 *      A circle  has a radius
+	 *
+	 * @author Kalpathi Subramanian
+	 * @date 12/24/18
+	 *
+	 */
 	class Circle : public Symbol {
 		private:
 
