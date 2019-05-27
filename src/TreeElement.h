@@ -179,9 +179,9 @@ namespace bridges {
 									QUOTE + "color" + QUOTE + COLON +
 									this->getCSSRepresentation(c) + COMMA +
 									QUOTE + "thickness" + QUOTE + COLON +
-									JSONencode(lv->getThickness()) + COMMA +
-									QUOTE + "weight" + QUOTE + COLON +
-									JSONencode(lv->getWeight()) +
+									JSONencode(lv->getThickness()) + 
+//									QUOTE + "weight" + QUOTE + COLON +
+//									JSONencode(lv->getWeight()) +
 									CLOSE_CURLY + COMMA;
 							}
 							else

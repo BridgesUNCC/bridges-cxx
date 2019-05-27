@@ -79,7 +79,7 @@ namespace bridges {
 			 *  This method examines whether the axes should be expanded
 			 *	to ensure all shapes are shown
 			 */
-			void updateAxisDomains(Symbol *s) {
+			void updateAxisDomains(Symbol* s) {
 				vector<float> dims = s->getDimensions();
 
 				// check x axis
