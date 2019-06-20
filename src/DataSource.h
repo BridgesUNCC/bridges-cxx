@@ -593,51 +593,13 @@ namespace bridges {
 				}
 				return wrapper;
 			}
-			OSMData getOSMData (string location) {
+
+			OSMData getOSMDataFromJSON (const string& osm_json) {
 				using namespace rapidjson;
 
 				Document osm_data;
-				std::transform(location.begin(), location.end(), location.begin(),
-					::tolower);
-				Cache ca;
-				std::string osm_json;
-				bool from_cache = false;
-				try {
-					if (ca.inCache(location)) {
-						osm_json = ca.getDoc(location);
-						from_cache = true;
-					}
-				}
-				catch (CacheException& ce) {
-					//something went bad trying to access the cache
-					std::cout << "Exception while reading from cache. Ignoring cache and continue." << std::endl;
-				}
 
-				string url = string("http://osm-api.herokuapp.com/name/") + location;
-
-				if (!from_cache) {
-					// get the OSM data json
-					osm_json = ServerComm::makeRequest(url, {"Accept: application/json"});
-
-					try {
-						ca.putDoc(location, osm_json);
-					}
-					catch (CacheException& ce) {
-						//something went bad trying to access the cache
-						std::cerr << "Exception while storing in cache. Weird but not critical." << std::endl;
-					}
-				}
-
-				// parse the json
-				//				if (osm_data.Parse(osm_json.c_str()).HasParseError()) {
-				//					cout << "\nError(offset " <<  (unsigned)osm_data.GetErrorOffset() <<
-				//       				GetParseError_En(osm_data.GetParseError());
-				//					cout << "Aha! Parse error!" << endl;
-				//				}
-				//				osm_data.Parse<ParseFlag::kParseStopWhenDoneFlag>(osm_json.c_str());
 				osm_data.Parse(osm_json.c_str());
-
-
 
 				// create an osm data object
 				OSMData osm;
@@ -692,6 +654,42 @@ namespace bridges {
 					osm.setName(meta["name"].GetString());
 				}
 				return osm;
+			}
+			
+			OSMData getOSMData (string location) {
+				std::transform(location.begin(), location.end(), location.begin(),
+					::tolower);
+				Cache ca;
+				std::string osm_json;
+				bool from_cache = false;
+				try {
+					if (ca.inCache(location)) {
+						osm_json = ca.getDoc(location);
+						from_cache = true;
+					}
+				}
+				catch (CacheException& ce) {
+					//something went bad trying to access the cache
+					std::cout << "Exception while reading from cache. Ignoring cache and continue." << std::endl;
+				}
+
+				string url = string("http://osm-api.herokuapp.com/name/") + location;
+
+				if (!from_cache) {
+					// get the OSM data json
+					osm_json = ServerComm::makeRequest(url, {"Accept: application/json"});
+
+					try {
+						ca.putDoc(location, osm_json);
+					}
+					catch (CacheException& ce) {
+						//something went bad trying to access the cache
+						std::cerr << "Exception while storing in cache. Weird but not critical." << std::endl;
+					}
+				}
+
+				return getOSMDataFromJSON(osm_json);
+
 			}
 
 			/*
