@@ -319,22 +319,22 @@ namespace bridges {
 				return &vertices;
 			}
 			/**
-			 *	@return the requested vertex of this graph
+			 *	@return the requested vertex of this graph or nullptr if not found
 			 */
 			const Element<E1>* getVertex(const K& key) const {
 				try {
 					return vertices.at(key);
 				}
 				catch (const std::out_of_range& oor) {
-					std::cerr << "Out of Range error: " << oor.what()
-						<< "returning null pointer\n";
+					/* std::cerr << "Out of Range error: " << oor.what() */
+					/* 	<< "returning null pointer\n"; */
 					return nullptr;
 				}
 			}
 
 
 			/**
-			 *	@return the requested vertex of this graph
+			 *	@return the requested vertex of this graph or nullptr if not found
 			 *
 			 *  non-const version
 			 */
@@ -343,8 +343,8 @@ namespace bridges {
 					return vertices.at(key);
 				}
 				catch (const std::out_of_range& oor) {
-					std::cerr << "Out of Range error: " << oor.what()
-						<< "returning null pointer\n";
+					/* std::cerr << "Out of Range error: " << oor.what() */
+					/* 	<< "returning null pointer\n"; */
 					return nullptr;
 				}
 			}
