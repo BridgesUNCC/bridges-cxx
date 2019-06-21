@@ -656,6 +656,41 @@ namespace bridges {
 				return osm;
 			}
 			
+
+			OSMData getOSMData (double lat_min, double lat_max,
+					    double long_min, double long_max) {
+
+			  bool from_cache = false;
+			  string url =
+			    "http://cci-bridges-osm-t.dyn.uncc.edu/coords?minLon="+std::to_string(long_min)+
+			    "&minLat="+std::to_string(lat_min)+
+			    "&maxLon="+std::to_string(long_max)+
+			    "&maxLat="+std::to_string(lat_max);
+
+			  std::cerr<<"url: "<<url<<"\n";
+			  
+			  std::string osm_json;
+
+			  
+			  if (!from_cache) {
+			    // get the OSM data json
+			    osm_json = ServerComm::makeRequest(url, {"Accept: application/json"});
+			    
+			    try {
+			      //ca.putDoc(location, osm_json);
+			    }
+			    catch (CacheException& ce) {
+			      //something went bad trying to access the cache
+			      std::cerr << "Exception while storing in cache. Weird but not critical." << std::endl;
+			    }
+			  }
+
+			  
+
+			  return getOSMDataFromJSON(osm_json);
+				
+			}
+
 			OSMData getOSMData (string location) {
 				std::transform(location.begin(), location.end(), location.begin(),
 					::tolower);
