@@ -17,7 +17,7 @@ using namespace std;
  **/
 namespace bridges {
 
-   enum class NamedColor {
+  enum class NamedColor : unsigned char {
   aliceblue,
   antiquewhite,
   aqua,
@@ -167,7 +167,7 @@ namespace bridges {
   yellowgreen
    };
 
-   enum class NamedSymbol {
+   enum class NamedSymbol : unsigned char {
      none,
      A,
      B,
@@ -361,7 +361,8 @@ namespace bridges {
   
 	class GameGrid : public Grid<GameCell> {
 		private:
-
+	  std::string encoding = "RAW";
+	  
 		public:
 
 
@@ -373,6 +374,18 @@ namespace bridges {
 	   */
 	  void setBGColor(int row, int col, NamedColor color) {
 	    (*this)[row][col].setBGColor(color);
+	  }
+
+	  NamedColor getBGColor(int row, int col) const {
+	    (*this)[row][col].getBGColor();
+	  }
+
+	  NamedColor getFGColor(int row, int col) const {
+	    (*this)[row][col].getFGColor();
+	  }
+
+	  NamedSymbol getSymbol(int row, int col) const {
+	    (*this)[row][col].getSymbol();
 	  }
 
 	  
@@ -406,7 +419,7 @@ namespace bridges {
 	  void drawObject(int row, int col,
 				 NamedSymbol symbol, NamedColor color) {
 	    setFGColor(row, col, color);
-
+	    setSymbol(row, col, symbol);
 	  }
 
 	  
@@ -426,14 +439,54 @@ namespace bridges {
 	private:
 	  
 	  //public:
+
+	  string getRAWRepresentation() const {
+	    using bridges::JSONUtil::JSONencode;
+
+	    std::vector<unsigned char> bgbuf;
+	    std::vector<unsigned char> fgbuf;
+	    std::vector<unsigned char> symbolbuf;
+
+	    for (int i = 0; i < gridSize[0]; i++) {
+	      for (int j = 0; j < gridSize[1]; j++) {
+		bgbuf.push_back(static_cast<unsigned char>(getBGColor(i,j)));
+		fgbuf.push_back(static_cast<unsigned char>(getFGColor(i,j)));
+		symbolbuf.push_back(static_cast<unsigned char>(getSymbol(i,j)));}
+	    }
+
+	    std::string bgstr = base64::encode (&(bgbuf[0]), bgbuf.size());
+	    std::string fgstr = base64::encode (&(fgbuf[0]), fgbuf.size());
+	    std::string symbolstr = base64::encode (&(symbolbuf[0]), symbolbuf.size());
+
+
+	    std::string ret;
+	    // Add the representation of the gamegrid
+	    ret += QUOTE + "bg" + QUOTE + COLON + QUOTE + bgstr + QUOTE + COMMA;
+	    ret += QUOTE + "fg" + QUOTE + COLON + QUOTE + fgstr + QUOTE + COMMA;
+	    ret += QUOTE + "symbols" + QUOTE + COLON + QUOTE + symbolstr + QUOTE;
+	    
+	    return ret;
+	  }
+	  
+	public:
 	  /**
 	   * get the JSON representation of the game grid
 	   *
 	   * @return the JSON representation of the game grid
 	   **/
 	  virtual const string getDataStructureRepresentation () const override {
+	    std::string json_str;
+	    // specify the encoding
+	    json_str = QUOTE + "encoding" + QUOTE + COLON + QUOTE + encoding + QUOTE + COMMA;
 	    
-	    return "";
+	    // specify the dimensions of the gamegrid
+	    json_str += QUOTE + "dimensions" + QUOTE + COLON +
+	      OPEN_BOX + std::to_string(gridSize[0]) + "," + std::to_string(gridSize[1]) + CLOSE_BOX + COMMA;
+
+
+	    json_str += getRAWRepresentation();
+	    
+	    return json_str + CLOSE_CURLY;
 	  }
 	  
 

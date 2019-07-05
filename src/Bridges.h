@@ -233,6 +233,8 @@ namespace bridges {
 					server_url = "http://bridges-cs.herokuapp.com";
 				else if (server_type == "clone")
 					server_url = "http://bridges-clone.herokuapp.com";
+				else if (server_type == "games")
+					server_url = "http://bridges-games.herokuapp.com";
 				else if (server_type == "local")
 					server_url = "http://127.0.0.1:3000";
 
