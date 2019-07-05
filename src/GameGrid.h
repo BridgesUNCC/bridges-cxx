@@ -364,7 +364,16 @@ namespace bridges {
 	class GameGrid : public Grid<GameCell> {
 		private:
 	  std::string encoding = "raw";
-	  
+
+	  void initializeGrid() {
+	    for (int i = 0; i < gridSize[0]; i++) {
+	      for (int j = 0; j < gridSize[1]; j++) {
+		setBGColor(i,j,NamedColor::black);
+		setFGColor(i,j,NamedColor::black);
+		setSymbol(i,j,NamedSymbol::none);
+	      }
+	    }
+	  }
 		public:
 
 
@@ -379,15 +388,15 @@ namespace bridges {
 	  }
 
 	  NamedColor getBGColor(int row, int col) const {
-	    (*this)[row][col].getBGColor();
+	    return (*this)[row][col].getBGColor();
 	  }
 
 	  NamedColor getFGColor(int row, int col) const {
-	    (*this)[row][col].getFGColor();
+	    return (*this)[row][col].getFGColor();
 	  }
 
 	  NamedSymbol getSymbol(int row, int col) const {
-	    (*this)[row][col].getSymbol();
+	    return (*this)[row][col].getSymbol();
 	  }
 
 	  
@@ -434,7 +443,7 @@ namespace bridges {
 	   *
 	   **/
 	  GameGrid () : Grid<GameCell> () {
-	    //initializeGrid(baseColor);
+	    initializeGrid();
 	  }
 	  
 	  
