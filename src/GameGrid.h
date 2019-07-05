@@ -358,10 +358,12 @@ namespace bridges {
 
    };
    
-  
+
+
+   //TODO: implement RLE encoding
 	class GameGrid : public Grid<GameCell> {
 		private:
-	  std::string encoding = "RAW";
+	  std::string encoding = "raw";
 	  
 		public:
 
