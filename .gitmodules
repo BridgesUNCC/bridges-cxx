@@ -1,0 +1,9 @@
+[submodule "packaging/dependencies/rapidjson"]
+	path = packaging/dependencies/rapidjson
+	url = git@github.com:Tencent/rapidjson.git
+[submodule "packaging/dependencies/socket.io-client-cpp"]
+	path = packaging/dependencies/socket.io-client-cpp
+	url = git@github.com:socketio/socket.io-client-cpp.git
+[submodule "packaging/dependencies/websocketpp"]
+	path = packaging/dependencies/websocketpp
+	url = git@github.com:zaphoyd/websocketpp.git
