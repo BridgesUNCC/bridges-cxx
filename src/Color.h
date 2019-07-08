@@ -32,13 +32,39 @@ namespace bridges {
 	 * If no alpha channel is provided, a default of 'ff'(opaque) will be used
 	 *
 	 * Supported named colors are:
-	 * "red", "yellow", "blue", "orange", "green", "purple", "brown", "black", "grey",
-	 * and "white"
+	 * 
+	 * <b>"red", "green",
+     * "blue",
+	 * "yellow",
+     * "cyan"
+     * "magenta"
+     * "white",
+     * "black",
+     * "orange",
+     * "green",
+     * "turquoise",
+     * "maroon",
+     * "aquamarine",
+     * "azure",
+     * "beige",
+     * "brown",
+     * "tan",
+     * "olive",
+     * "chartreuse",
+     * "khaki",
+     * "bisque",
+     * "coral",
+     * "pink",
+     * "lavender",
+     * "purple",
+     * "gold",
+     * "steelblue" </b>
+     *
 	 * All named colors have are fully opaque by default.
 	 *
 	 * Default Color is opaque white
 	 *
-	 * @date 12/5/15, Dakota Carmer
+	 * @date 7/8/19, Kalpathi Subramanian 
 	 */
 	class Color {
 		private:
