@@ -289,6 +289,13 @@ namespace bridges {
 				elvis->setColor(col);
 			}
 			/**
+			 *  Set the color to a named color "col"
+			 *  @param color The color name
+			 */
+			void setColor(const string col) {
+				elvis->setColor(col);
+			}
+			/**
 			 *	@return The color of the element
 			 */
 			Color getColor() const {
