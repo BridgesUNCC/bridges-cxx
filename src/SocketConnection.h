@@ -6,6 +6,13 @@
 #include <Bridges.h>
 #include <GameGrid.h>
 #include <list>
+#include <thread>
+#include <mutex>
+#include <condition_variable>
+#include <functional>
+
+#include <unistd.h>
+
 
 namespace bridges {
 
