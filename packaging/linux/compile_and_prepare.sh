@@ -62,3 +62,4 @@ cp -r build/socket.io-client-cpp/lib/Release/* ${LIBDIR}
 ##last reset all submodules to 
 git submodule deinit -f .
 git submodule update --init
+git submodule foreach 'git clean -ffdx'
