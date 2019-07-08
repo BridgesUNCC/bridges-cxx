@@ -1,5 +1,8 @@
 #!/bin/sh
 
+rm -rf build
+mkdir build
+
 ##first reset all submodules to 
 git submodule deinit -f .
 git submodule update --init
@@ -32,6 +35,28 @@ make install ;
   cp -r src/internal ../../linux/build/socket.io-client-cpp/include ;
 )
 
+
+TARGETDIR=distribute/
+rm -rf ${TARGETDIR}
+mkdir ${TARGETDIR}
+
+INCLUDEDIR=${TARGETDIR}/include
+LIBDIR=${TARGETDIR}/lib
+
+mkdir ${INCLUDEDIR}
+mkdir ${LIBDIR}
+
+#copy bridges headers
+cp ../../src/*.h ${INCLUDEDIR}
+cp -r ../../src/data_src/ ${INCLUDEDIR}
+
+#copy rapidjson
+cp -r build/rapidjson/include/rapidjson ${INCLUDEDIR}
+
+#copy socketio
+cp -r build/socket.io-client-cpp/include/* ${INCLUDEDIR}
+
+cp -r build/socket.io-client-cpp/lib/Release/* ${LIBDIR}
 
 ##last reset all submodules to 
 git submodule deinit -f .
