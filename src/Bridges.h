@@ -12,7 +12,10 @@ using namespace std;
 #include <alltypes.h>
 #include <chrono>
 
+
+
 namespace bridges {
+  class SocketConnection;
 	/**
 	 * @brief This class contains methods to connect and transmit a user's
 	 *  data structure representation to the Bridges server (up to 5000 elements)
@@ -425,6 +428,7 @@ namespace bridges {
 			}
 
 			friend DataSource;
+	  friend SocketConnection;
 	};	//end of class Bridges
 
 }	// end of bridges namespace
