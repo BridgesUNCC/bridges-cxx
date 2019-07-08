@@ -1,11 +1,12 @@
 #!/bin/sh
 
-rm -rf build
-mkdir build
+git clean -ffdx
 
 ##first reset all submodules to 
 git submodule deinit -f .
 git submodule update --init
+
+git submodule foreach 'git clean -ffdx'
 
 
 ## get rapidjson properly set up. Disabling docs, examples, and tests
