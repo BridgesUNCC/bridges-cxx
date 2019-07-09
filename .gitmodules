@@ -7,3 +7,6 @@
 [submodule "packaging/dependencies/websocketpp"]
 	path = packaging/dependencies/websocketpp
 	url = git@github.com:zaphoyd/websocketpp.git
+[submodule "packaging/dependencies/boost"]
+	path = packaging/dependencies/boost
+	url = https://github.com/boostorg/boost.git
