@@ -108,11 +108,11 @@ build_distribute() {
 }
 
 
-#reinit
-#reset_installation
-#install_boost
-#install_rapidjson
-#install_websocketpp
-#install_socketIO
+reinit
+reset_installation
+install_boost
+install_rapidjson
+install_websocketpp
+install_socketIO
 build_distribute
-#reset_installation
+reset_installation
