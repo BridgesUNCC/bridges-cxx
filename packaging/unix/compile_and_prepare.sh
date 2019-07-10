@@ -1,6 +1,8 @@
 #!/bin/sh
 
-git clean -ffdx ## This restore the directory to a clean build setting by removing all untracked files even if they are part of git ignore
+reinit() {
+    git clean -ffdx ## This restore the directory to a clean build setting by removing all untracked files even if they are part of git ignore
+}
 
 ##first reset all submodules to 
 reset_installation() {
@@ -17,6 +19,7 @@ install_boost() {
       git submodule update ;
       ./bootstrap.sh --with-libraries=system,date_time,random ; # only need a few libraries; #no need for prefix becasue we won't install in the end
       ./b2 headers ;
+      ./b2 ;
       #./b2 install ## ./b2 install is not necessary because socketio will copy what it needs
     )
 }
@@ -27,9 +30,9 @@ install_rapidjson() {
       cmake -D CMAKE_INSTALL_PREFIX=../../unix/build/rapidjson \
 	    -D RAPIDJSON_BUILD_TESTS=OFF \
 	    -D RAPIDJSON_BUILD_EXAMPLES=OFF \
-	    -D RAPIDJSON_BUILD_DOC=OFF
+	    -D RAPIDJSON_BUILD_DOC=OFF \
       . ;
-      make install ;
+      make -j 4 install ;
     )
 }
 
@@ -38,7 +41,7 @@ install_websocketpp() {
     (
 	cd ../dependencies/websocketpp;
 	cmake -D CMAKE_INSTALL_PREFIX=../../unix/build/websocketpp . ;
-	make install
+	make -j 4 install
     )
 }
 
@@ -57,7 +60,7 @@ install_socketIO() {
 	    -D BOOST_INCLUDEDIR=../boost/ -D BOOST_LIBRARYDIR=../boost/stage/lib -D BOOST_VER=1.64.0 \
 	    .
       make -j 8 ;
-      make install ;
+      make -j 4 install ;
       mv build ../../unix/build/socket.io-client-cpp;
       cp -r src/internal ../../unix/build/socket.io-client-cpp/include ;
     )
@@ -76,7 +79,7 @@ build_distribute() {
     
     #copy bridges headers
     cp ../../src/*.h ${INCLUDEDIR}
-    cp -r ../../src/data_src/ ${INCLUDEDIR}
+    cp -r ../../src/data_src ${INCLUDEDIR}  #no / after data_src to copy the directory and not its content
     
     #copy rapidjson
     cp -r build/rapidjson/include/rapidjson ${INCLUDEDIR}
@@ -105,11 +108,11 @@ build_distribute() {
 }
 
 
-
-reset_installation
-install_boost
-install_rapidjson
-install_websocketpp
-install_socketIO
+#reinit
+#reset_installation
+#install_boost
+#install_rapidjson
+#install_websocketpp
+#install_socketIO
 build_distribute
-reset_installation
+#reset_installation
