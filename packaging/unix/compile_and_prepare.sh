@@ -24,7 +24,7 @@ install_boost() {
 ## get rapidjson properly set up. Disabling docs, examples, and tests
 install_rapidjson() {
     ( cd ../dependencies/rapidjson;
-      cmake -D CMAKE_INSTALL_PREFIX=../../linux/build/rapidjson \
+      cmake -D CMAKE_INSTALL_PREFIX=../../unix/build/rapidjson \
 	    -D RAPIDJSON_BUILD_TESTS=OFF \
 	    -D RAPIDJSON_BUILD_EXAMPLES=OFF \
 	    -D RAPIDJSON_BUILD_DOC=OFF
@@ -33,38 +33,38 @@ install_rapidjson() {
     )
 }
 
-##get websocket properly set up in linux/build/
+##get websocket properly set up in unix/build/
 install_websocketpp() {
     (
 	cd ../dependencies/websocketpp;
-	cmake -D CMAKE_INSTALL_PREFIX=../../linux/build/websocketpp . ;
+	cmake -D CMAKE_INSTALL_PREFIX=../../unix/build/websocketpp . ;
 	make install
     )
 }
 
 
-##get SocketIO properly setup in linux/build
+##get SocketIO properly setup in unix/build
 install_socketIO() {
     #socket IO package does not seem to make install correctly, so coppying data manually
     #the cp of internal is due to bridges using a hack for the moment.
     ( cd ../dependencies/socket.io-client-cpp
       cmake -D CMAKE_BUILD_TYPE=Release \
 	    -D Boost_USE_STATIC_LIBS=ON \
-            -D CMAKE_INSTALL_PREFIX=../../linux/build/socket.io-client-cpp  \
-            -D CMAKE_CXX_FLAGS="-I ../../linux/build/websocketpp/include -I ../../linux/build/rapidjson/include" \
+            -D CMAKE_INSTALL_PREFIX=../../unix/build/socket.io-client-cpp  \
+            -D CMAKE_CXX_FLAGS="-I ../../unix/build/websocketpp/include -I ../../unix/build/rapidjson/include" \
 	    -D Boost_DEBUG=OFF -D CMAKE_VERBOSE_MAKEFILE=OFF \
 	    -D Boost_USE_DEBUG_LIBS=OFF \
 	    -D BOOST_INCLUDEDIR=../boost/ -D BOOST_LIBRARYDIR=../boost/stage/lib -D BOOST_VER=1.64.0 \
 	    .
       make -j 8 ;
       make install ;
-      mv build ../../linux/build/socket.io-client-cpp;
-      cp -r src/internal ../../linux/build/socket.io-client-cpp/include ;
+      mv build ../../unix/build/socket.io-client-cpp;
+      cp -r src/internal ../../unix/build/socket.io-client-cpp/include ;
     )
 }
 
 build_distribute() {
-    TARGETDIR=distribute/
+    TARGETDIR="bridges-cxx-$(git describe --tags)-$(gcc -dumpmachine)" #if gcc isn't there we have bigger problems
     rm -rf ${TARGETDIR}
     mkdir ${TARGETDIR}
     
@@ -85,6 +85,23 @@ build_distribute() {
     cp -r build/socket.io-client-cpp/include/* ${INCLUDEDIR}
     
     cp -r build/socket.io-client-cpp/lib/Release/* ${LIBDIR}
+
+
+    #
+    (
+	cd ${TARGETDIR}/lib ;
+	ar x libboost_system.a ;
+	ar x libsioclient.a ;
+	if [ "$(uname)" = "Linux" ] ; #on linux, need to include libstdc++. macos does not have that problem
+	then
+	   ar x $(gcc -print-file-name=libstdc++.a) ;
+	fi
+	rm *.a ;
+	ar qc libbridges.a *.o ;
+	rm *.o ;
+    )
+
+    tar zcvf ${TARGETDIR}.tgz ${TARGETDIR}
 }
 
 
