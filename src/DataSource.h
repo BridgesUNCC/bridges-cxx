@@ -27,7 +27,7 @@ using namespace std;
 #include <fstream>
 #include <sys/types.h>
 #include <sys/stat.h>
-
+#include <stdio.h>
 
 
 #ifndef _WIN32
@@ -127,6 +127,7 @@ namespace bridges {
 					makeDirectory(cacheDir);
 
 				std::string filename = getFilename(docName);
+
 
 				std::ofstream out(filename);
 				if (!out.good() || !(out.is_open()))
@@ -682,20 +683,20 @@ namespace bridges {
 
 				std::string osm_json;
 				Cache ca;
-				std::cerr<<"url: "<<url<<"\n";
+				//std::cerr<<"url: "<<url<<"\n";
 
-				/*std::vector<string> v = {};
+				//Imports LRU from cache file
+				std::vector<std::string> v;
 				if(ca.inCache("lru")){
 					string v1 = ca.getDoc("lru");
-					std::cout << v1 << std::endl;
-					std::istringstream ss(input);
+					//std::cout << v1 << std::endl;
+					std::istringstream ss(v1);
 					std::string token;
-
+					//Parses string and turns it into vector
 					while(std::getline(ss, token, ',')) {
 							v.push_back(token);
-							std::cout << token << '\n';
 					}
-				}*/
+				}
 
 
 
@@ -703,6 +704,34 @@ namespace bridges {
 					try {
 						if (ca.inCache(hashVal)) {
 							osm_json = ca.getDoc(hashVal);
+
+							//TODO: Insert LRU update here
+
+							//Checks for hash value in LRU vector
+							for (auto it = v.begin(); it != v.end(); ) {
+								if (*it == hashVal){
+									v.erase(it); //removes old hash vlaue location in vector
+									break;
+								} else {
+									++it;
+								}
+							}
+							v.insert(v.begin(), hashVal); //puts hash value in the front of the vector
+
+							//Stores the vector as a file in cache
+							string outv;
+							int x = 0;
+							for(auto s : v){
+								if (x == 0){ //prevents , from being first character
+									 outv = s;
+									 x++;
+								} else {
+									outv = outv + "," + s;
+								}
+							}
+							ca.putDoc("lru", outv);
+
+
 							return getOSMDataFromJSON(osm_json);
 						}
 					} catch (CacheException& ce) {
@@ -716,19 +745,48 @@ namespace bridges {
 					hashVal =  ServerComm::makeRequest(url2, {"Accept: application/json"});
 
 					if (hashVal.compare("false") == 0){
-						std::cerr << "Error while gathering has data for generated map..." << std::endl;
-						//std::cerr << osm_json << std::endl;
+						std::cerr << "Error while gathering hash data for generated map..." << std::endl;
+						std::cerr << osm_json << std::endl;
 						abort();
 					}
 
 					//Saves map to cache directory
 					try {
 			      ca.putDoc(hashVal, osm_json);
-						//string outv;
-						//for(auto s : v){
-						 //outv = outv + "," + s
-						//}
-						//ca.putDoc("lru", outv)
+
+						//checks the vector used for the LRU to see if the map gotten is already in its list
+						for (auto it = v.begin(); it != v.end(); ) {
+							if (*it == hashVal){
+								v.erase(it);
+								break;
+							} else {
+								++it;
+							}
+						}
+						v.insert(v.begin(), hashVal);
+
+						//TODO: add test to check storage size and pop off old maps and delete them
+						//This is a hacked method b/c c++ is aweful for getting file sizes
+						if (v.size() >= 31){ // keeps 30 local maps
+							string f = "cache/";
+							f.append(v[v.size()-1]);
+
+							if(std::remove(f.c_str()) == 0){
+								v.pop_back();
+							}
+						}
+
+						string outv;
+						int x = 0;
+						for(auto s : v){
+							if (x == 0){ //prevents , from being first character
+								 outv = s;
+								 x++;
+							} else {
+								outv = outv + "," + s;
+							}
+						}
+						ca.putDoc("lru", outv);
 			    } catch (CacheException& ce) {
 			      //something went bad trying to access the cache
 			      std::cerr << "Exception while storing in cache. Weird but not critical." << std::endl;
@@ -753,12 +811,49 @@ namespace bridges {
 
 				std::string osm_json;
 				Cache ca;
-				std::cerr<<"url: "<<url<<"\n";
+				//std::cerr<<"url: "<<url<<"\n";
+
+				//Imports LRU from cache file
+				std::vector<std::string> v;
+				if(ca.inCache("lru")){
+					string v1 = ca.getDoc("lru");
+					//std::cout << v1 << std::endl;
+					std::istringstream ss(v1);
+					std::string token;
+					//Parses string and turns it into vector
+					while(std::getline(ss, token, ',')) {
+							v.push_back(token);
+					}
+				}
 
 				if (ca.inCache(hashVal) == true){ //local map is up-to-date
 					try {
 						if (ca.inCache(hashVal)) {
-							osm_json = ca.getDoc(hashVal);
+							osm_json = ca.getDoc(hashVal);//TODO: Insert LRU update here
+
+							//Checks for hash value in LRU vector
+							for (auto it = v.begin(); it != v.end(); ) {
+								if (*it == hashVal){
+									v.erase(it); //removes old hash vlaue location in vector
+									break;
+								} else {
+									++it;
+								}
+							}
+							v.insert(v.begin(), hashVal); //puts hash value in the front of the vector
+
+							//Stores the vector as a file in cache
+							string outv;
+							int x = 0;
+							for(auto s : v){
+								if (x == 0){ //prevents , from being first character
+									 outv = s;
+									 x++;
+								} else {
+									outv = outv + "," + s;
+								}
+							}
+							ca.putDoc("lru", outv);
 							return getOSMDataFromJSON(osm_json);
 						}
 					} catch (CacheException& ce) {
@@ -772,14 +867,47 @@ namespace bridges {
 					hashVal =  ServerComm::makeRequest(url2, {"Accept: application/json"});
 
 					if (hashVal.compare("false") == 0){
-						std::cerr << "Error while gathering has data for generated map..." << std::endl;
+						std::cerr << "Error while gathering hash data for generated map..." << std::endl;
 						std::cerr << osm_json << std::endl;
 						abort();
 					}
-					
+
 					//Saves map to cache directory
 					try {
 			      ca.putDoc(hashVal, osm_json);
+
+						//checks the vector used for the LRU to see if the map gotten is already in its list
+						for (auto it = v.begin(); it != v.end(); ) {
+							if (*it == hashVal){
+								v.erase(it);
+								break;
+							} else {
+								++it;
+							}
+						}
+						v.insert(v.begin(), hashVal);
+
+						//TODO: add test to check storage size and pop off old maps and delete them
+						//This is a hacked method b/c c++ is aweful for getting file sizes
+						if (v.size() >= 31){ // keeps 30 local maps
+							string f = "cache/";
+							f.append(v[v.size()-1]);
+							if(std::remove(f.c_str()) == 0){
+								v.pop_back();
+							}
+						}
+
+						string outv;
+						int x = 0;
+						for(auto s : v){
+							if (x == 0){ //prevents , from being first character
+								 outv = s;
+								 x++;
+							} else {
+								outv = outv + "," + s;
+							}
+						}
+						ca.putDoc("lru", outv);
 			    } catch (CacheException& ce) {
 			      //something went bad trying to access the cache
 			      std::cerr << "Exception while storing in cache. Weird but not critical." << std::endl;
