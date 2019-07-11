@@ -31,7 +31,8 @@ namespace bridges {
 	 * channel pair is the same.
 	 * If no alpha channel is provided, a default of 'ff'(opaque) will be used
 	 *
-	 * Supported named colors are:
+	 * Supported named colors are as follows and illustrated at
+	 * Supported named colors are listed here: https://drafts.csswg.org/css-color-3/#svg-color
 	 * 
 
 	 * <b> aliceblue, antiquewhite, 
