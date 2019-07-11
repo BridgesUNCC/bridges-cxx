@@ -112,6 +112,10 @@ namespace bridges {
   };
 
   class NonBlockingGame : public GameBase {
+  private:
+    using GameBase::render;
+    using GameBase::registerKeyListener; 
+
     typedef std::chrono::steady_clock localclock;
 
     InputHelper ih;
@@ -119,23 +123,6 @@ namespace bridges {
     int fps = 30;
 
     localclock::time_point timeOfLastFrame;
-  
-  public:
-    NonBlockingGame(int assignmentID, std::string username, std::string apikey, int nbRow=10, int nbCol=10)
-      :GameBase(assignmentID, username, apikey, nbRow, nbCol) {
-      if(debug)
-	std::cerr<<"nbRow: "<<nbRow<<" nbCol: "<<nbCol<<std::endl;
-      
-      if (nbRow*nbCol > 32*32) {
-	throw "NonBlockingGame can not have a grid of more than 32x32 (or a combination(so 16x64 is ok; 16x128 is not)";
-      }
-
-      registerKeyListener(&ih);
-      
-    }
-
-    virtual void initialize () = 0;
-    virtual void GameLoop () = 0;
 
     void handleFrameRate() {
       using std::chrono::seconds;
@@ -155,6 +142,25 @@ namespace bridges {
 
       timeOfLastFrame = localclock::now();
     }
+
+    
+  public:
+    NonBlockingGame(int assignmentID, std::string username, std::string apikey, int nbRow=10, int nbCol=10)
+      :GameBase(assignmentID, username, apikey, nbRow, nbCol) {
+      if(debug)
+	std::cerr<<"nbRow: "<<nbRow<<" nbCol: "<<nbCol<<std::endl;
+      
+      if (nbRow*nbCol > 32*32) {
+	throw "NonBlockingGame can not have a grid of more than 32x32 (or a combination(so 16x64 is ok; 16x128 is not)";
+      }
+
+      registerKeyListener(&ih);
+      
+    }
+
+    virtual void initialize () = 0;
+    virtual void GameLoop () = 0;
+
   
   
     void start() {
@@ -168,6 +174,8 @@ namespace bridges {
       }
     }
 
+
+  protected:
     ///@return true if Left is currently pressed
     bool keyLeft() {
       return ih.keyLeft();
