@@ -288,7 +288,7 @@ namespace bridges {
 			}
 
 			/**
-			 *  sets the world coordinate window defining the space of the user
+			 *  @brief sets the world coordinate window defining the space of the user
 			 *	defined objects (or nodes)
 			 *
 			 *  @param xmin   minimum window x
@@ -296,13 +296,23 @@ namespace bridges {
 			 *  @param xmax   maximum window x
 			 *  @param ymax   maximum window y
 			 *
-			 *  @return none
 			 **/
 			void setWindow (int xmin, int ymin, int xmax, int ymax) {
 				setWindow(double(xmin), double(ymin), double(xmax), double(ymax));
 			}
 
+			/**
+			 *  @brief sets the world coordinate window defining the space of the user
+			 *	defined objects (or nodes)
+			 *
+			 *  @param xmin   minimum window x
+			 *  @param ymin   minimum window y
+			 *  @param xmax   maximum window x
+			 *  @param ymax   maximum window y
+			 *
+			 **/
 			void setWindow (double xmin, double ymin, double xmax, double ymax) {
+			  wc_window.clear();
 				wc_window.push_back(xmin);
 				wc_window.push_back(ymin);
 				wc_window.push_back(xmax);
