@@ -129,7 +129,8 @@ namespace bridges {
       if (nbRow*nbCol > 32*32) {
 	throw "NonBlockingGame can not have a grid of more than 32x32 (or a combination(so 16x64 is ok; 16x128 is not)";
       }
-      sockcon->registerKeyListener(&ih);
+
+      registerKeyListener(&ih);
       
     }
 

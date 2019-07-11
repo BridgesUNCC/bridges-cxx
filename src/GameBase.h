@@ -7,16 +7,19 @@
 
 namespace bridges {
   class GameBase {
+  private:
     Bridges bridges;
 
     GameGrid gg;
 
     bool firsttime = true;
 
+
+    std::unique_ptr<SocketConnection> sockcon;
+
   protected:
     bool debug = true;
     
-    std::unique_ptr<SocketConnection> sockcon;
   
     ///Having a protected constructor prevent the object from being
     ///directly created. Since GameBase is meant to be a purely internal
@@ -33,7 +36,9 @@ namespace bridges {
 
   
   protected:
-
+    void registerKeyListener(KeypressListener* p) {
+      sockcon->registerKeyListener(p);
+    }
 
     void render() {
       if (firsttime) {
