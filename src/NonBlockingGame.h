@@ -13,19 +13,15 @@ namespace bridges {
     bool down = false;
     bool right = false;
     bool left = false;
-  
-  protected:
-    virtual void keyup(std::string JSONmessage) override {
-      if (debug)
-	std::cerr<<"InputHelper::keyup(\""<<JSONmessage<<"\")\n";
-      handleKey(JSONmessage);
-    }
-    virtual void keydown(std::string JSONmessage) override {
-      if (debug)
-	std::cerr<<"InputHelper::keydown(\""<<JSONmessage<<"\")\n";
-      handleKey(JSONmessage);
-    }
+    bool w = false;
+    bool a = false;
+    bool s = false;
+    bool d = false;
+    bool q = false;
+    bool space = false;
 
+    
+  private:
     void handleKey(std::string JSONmessage) {
       using namespace rapidjson;
       // ...
@@ -47,7 +43,34 @@ namespace bridges {
 	left = setto;
       else if (key.compare("ArrowRight") == 0)
 	right = setto;
+      else if (key.compare("w") == 0)
+	w = setto;
+      else if (key.compare("a") == 0)
+	a = setto;
+      else if (key.compare("s") == 0)
+	s = setto;
+      else if (key.compare("d") == 0)
+	d = setto;
+      else if (key.compare("q") == 0)
+	q = setto;
+      else if (key.compare("Space") == 0)
+	space = setto;
     }
+
+    
+  protected:
+    virtual void keyup(std::string JSONmessage) override {
+      if (debug)
+	std::cerr<<"InputHelper::keyup(\""<<JSONmessage<<"\")\n";
+      handleKey(JSONmessage);
+    }
+
+    virtual void keydown(std::string JSONmessage) override {
+      if (debug)
+	std::cerr<<"InputHelper::keydown(\""<<JSONmessage<<"\")\n";
+      handleKey(JSONmessage);
+    }
+
   
   public:
 
@@ -66,6 +89,26 @@ namespace bridges {
     bool keyRight() const {
       return right;
     }
+
+    bool keyW() const {
+      return w;
+    }
+    bool keyA() const {
+      return a;
+    }
+    bool keyS() const {
+      return s;
+    }
+    bool keyD() const {
+      return d;
+    }
+    bool keyQ() const {
+      return q;
+    }
+    bool keySpace() const {
+      return space;
+    }
+    
   };
 
   class NonBlockingGame : public GameBase {
@@ -118,24 +161,55 @@ namespace bridges {
     }
 
     ///@return true if Left is currently pressed
-    bool KeyLeft() {
+    bool keyLeft() {
       return ih.keyLeft();
     }
 
     ///@return true if Right is currently pressed
-    bool KeyRight() {
+    bool keyRight() {
       return ih.keyRight();
     }
 
     ///@return true if Up is currently pressed
-    bool KeyUp() {
+    bool keyUp() {
       return ih.keyUp();
     }
 
     ///@return true if Down is currently pressed
-    bool KeyDown() {
+    bool keyDown() {
       return ih.keyDown();
     }
+
+    ///@return true if W is currently pressed
+    bool keyW() {
+      return ih.keyW();
+    }
+
+    ///@return true if A is currently pressed
+    bool keyA() {
+      return ih.keyA();
+    }
+
+    ///@return true if S is currently pressed
+    bool keyS() {
+      return ih.keyS();
+    }
+
+    ///@return true if D is currently pressed
+    bool keyD() {
+      return ih.keyD();
+    }
+
+    ///@return true if S is currently pressed
+    bool keyQ() {
+      return ih.keyQ();
+    }
+
+    ///@return true if Space is currently pressed
+    bool keySpace() {
+      return ih.keySpace();
+    }
+
   };
 }
 
