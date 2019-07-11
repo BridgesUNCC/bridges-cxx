@@ -34,7 +34,11 @@ namespace bridges {
 	std::cerr<<"nbRow: "<<nbRow<<" nbCol: "<<nbColumn<<std::endl;
     }
 
-  
+
+    virtual void initialize () = 0;
+    virtual void GameLoop () = 0;
+
+    
   protected:
     void registerKeyListener(KeypressListener* p) {
       sockcon->registerKeyListener(p);

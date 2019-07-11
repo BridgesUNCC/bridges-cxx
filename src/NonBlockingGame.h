@@ -158,8 +158,6 @@ namespace bridges {
       
     }
 
-    virtual void initialize () = 0;
-    virtual void GameLoop () = 0;
 
   
   
