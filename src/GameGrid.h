@@ -442,7 +442,7 @@ namespace bridges {
 	   * GameGrid constructors
 	   *
 	   **/
-	  GameGrid () : Grid<GameCell> () {
+	  GameGrid (int nbrow=10, int nbcol=10) : Grid<GameCell> (nbrow, nbcol) {
 	    initializeGrid();
 	  }
 	  

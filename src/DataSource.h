@@ -27,6 +27,7 @@ using namespace std;
 #include <fstream>
 #include <sys/types.h>
 #include <sys/stat.h>
+#include <stdio.h>
 
 
 #ifndef _WIN32
@@ -126,6 +127,7 @@ namespace bridges {
 					makeDirectory(cacheDir);
 
 				std::string filename = getFilename(docName);
+
 
 				std::ofstream out(filename);
 				if (!out.good() || !(out.is_open()))
@@ -655,75 +657,263 @@ namespace bridges {
 				}
 				return osm;
 			}
-			
+
 
 			OSMData getOSMData (double lat_min, double lat_max,
-					    double long_min, double long_max) {
+					    double long_min, double long_max, string level="default") {
 
-			  bool from_cache = false;
-			  string url =
+				//URL for hash request
+				string url2 = "http://cci-bridges-osm-t.dyn.uncc.edu/hash?minLon="+std::to_string(long_min)+
+				"&minLat="+std::to_string(lat_min)+
+				"&maxLon="+std::to_string(long_max)+
+				"&maxLat="+std::to_string(lat_max)+
+				"&level="+ level;
+
+				//URL to request map
+				string url =
 			    "http://cci-bridges-osm-t.dyn.uncc.edu/coords?minLon="+std::to_string(long_min)+
 			    "&minLat="+std::to_string(lat_min)+
 			    "&maxLon="+std::to_string(long_max)+
-			    "&maxLat="+std::to_string(lat_max);
+			    "&maxLat="+std::to_string(lat_max)+
+					"&level="+ level;
 
-			  std::cerr<<"url: "<<url<<"\n";
-			  
-			  std::string osm_json;
+				//trys to get hash value for bounding box map
+				string hashVal =  ServerComm::makeRequest(url2, {"Accept: application/json"});
 
-			  
-			  if (!from_cache) {
-			    // get the OSM data json
-			    osm_json = ServerComm::makeRequest(url, {"Accept: application/json"});
-			    
-			    try {
-			      //ca.putDoc(location, osm_json);
-			    }
-			    catch (CacheException& ce) {
+
+				std::string osm_json;
+				Cache ca;
+				//std::cerr<<"url: "<<url<<"\n";
+
+				//Imports LRU from cache file
+				std::vector<std::string> v;
+				if(ca.inCache("lru")){
+					string v1 = ca.getDoc("lru");
+					//std::cout << v1 << std::endl;
+					std::istringstream ss(v1);
+					std::string token;
+					//Parses string and turns it into vector
+					while(std::getline(ss, token, ',')) {
+							v.push_back(token);
+					}
+				}
+
+
+
+				if (ca.inCache(hashVal) == true){ //local map is up-to-date
+					try {
+						if (ca.inCache(hashVal)) {
+							osm_json = ca.getDoc(hashVal);
+
+							//TODO: Insert LRU update here
+
+							//Checks for hash value in LRU vector
+							for (auto it = v.begin(); it != v.end(); ) {
+								if (*it == hashVal){
+									v.erase(it); //removes old hash vlaue location in vector
+									break;
+								} else {
+									++it;
+								}
+							}
+							v.insert(v.begin(), hashVal); //puts hash value in the front of the vector
+
+							//Stores the vector as a file in cache
+							string outv;
+							int x = 0;
+							for(auto s : v){
+								if (x == 0){ //prevents , from being first character
+									 outv = s;
+									 x++;
+								} else {
+									outv = outv + "," + s;
+								}
+							}
+							ca.putDoc("lru", outv);
+
+
+							return getOSMDataFromJSON(osm_json);
+						}
+					} catch (CacheException& ce) {
+						//something went bad trying to access the cache
+						std::cout << "Exception while reading from cache. Ignoring cache and continue." << std::endl;
+					}
+
+				} else if(hashVal.compare("false") == 0 || ca.inCache(hashVal) == false){ //Server response is false or somehow map got saved as false
+					//Requests the map data then requests the maps hash
+					osm_json = ServerComm::makeRequest(url, {"Accept: application/json"});
+					hashVal =  ServerComm::makeRequest(url2, {"Accept: application/json"});
+
+					if (hashVal.compare("false") == 0){
+						std::cerr << "Error while gathering hash data for generated map..." << std::endl;
+						std::cerr << osm_json << std::endl;
+						abort();
+					}
+
+					//Saves map to cache directory
+					try {
+			      ca.putDoc(hashVal, osm_json);
+
+						//checks the vector used for the LRU to see if the map gotten is already in its list
+						for (auto it = v.begin(); it != v.end(); ) {
+							if (*it == hashVal){
+								v.erase(it);
+								break;
+							} else {
+								++it;
+							}
+						}
+						v.insert(v.begin(), hashVal);
+
+						//TODO: add test to check storage size and pop off old maps and delete them
+						//This is a hacked method b/c c++ is aweful for getting file sizes
+						if (v.size() >= 31){ // keeps 30 local maps
+							string f = "cache/";
+							f.append(v[v.size()-1]);
+
+							if(std::remove(f.c_str()) == 0){
+								v.pop_back();
+							}
+						}
+
+						string outv;
+						int x = 0;
+						for(auto s : v){
+							if (x == 0){ //prevents , from being first character
+								 outv = s;
+								 x++;
+							} else {
+								outv = outv + "," + s;
+							}
+						}
+						ca.putDoc("lru", outv);
+			    } catch (CacheException& ce) {
 			      //something went bad trying to access the cache
 			      std::cerr << "Exception while storing in cache. Weird but not critical." << std::endl;
 			    }
-			  }
-
-			  
-
-			  return getOSMDataFromJSON(osm_json);
-				
+					return getOSMDataFromJSON(osm_json);
+				}
 			}
 
-			OSMData getOSMData (string location) {
-				std::transform(location.begin(), location.end(), location.begin(),
-					::tolower);
-				Cache ca;
+			OSMData getOSMData (string location, string level="default") {
+				//URL for hash request
+				string url2 = "http://cci-bridges-osm-t.dyn.uncc.edu/hash?location="+location+
+				"&level="+ level;
+
+				//URL to request map
+				string url =
+			    "http://cci-bridges-osm-t.dyn.uncc.edu/loc?location="+location+
+					"&level="+ level;
+
+				//trys to get hash value for bounding box map
+				string hashVal =  ServerComm::makeRequest(url2, {"Accept: application/json"});
+
+
 				std::string osm_json;
-				bool from_cache = false;
-				try {
-					if (ca.inCache(location)) {
-						osm_json = ca.getDoc(location);
-						from_cache = true;
+				Cache ca;
+				//std::cerr<<"url: "<<url<<"\n";
+
+				//Imports LRU from cache file
+				std::vector<std::string> v;
+				if(ca.inCache("lru")){
+					string v1 = ca.getDoc("lru");
+					//std::cout << v1 << std::endl;
+					std::istringstream ss(v1);
+					std::string token;
+					//Parses string and turns it into vector
+					while(std::getline(ss, token, ',')) {
+							v.push_back(token);
 					}
 				}
-				catch (CacheException& ce) {
-					//something went bad trying to access the cache
-					std::cout << "Exception while reading from cache. Ignoring cache and continue." << std::endl;
-				}
 
-				string url = string("http://osm-api.herokuapp.com/name/") + location;
-
-				if (!from_cache) {
-					// get the OSM data json
-					osm_json = ServerComm::makeRequest(url, {"Accept: application/json"});
-
+				if (ca.inCache(hashVal) == true){ //local map is up-to-date
 					try {
-						ca.putDoc(location, osm_json);
-					}
-					catch (CacheException& ce) {
-						//something went bad trying to access the cache
-						std::cerr << "Exception while storing in cache. Weird but not critical." << std::endl;
-					}
-				}
+						if (ca.inCache(hashVal)) {
+							osm_json = ca.getDoc(hashVal);//TODO: Insert LRU update here
 
-				return getOSMDataFromJSON(osm_json);
+							//Checks for hash value in LRU vector
+							for (auto it = v.begin(); it != v.end(); ) {
+								if (*it == hashVal){
+									v.erase(it); //removes old hash vlaue location in vector
+									break;
+								} else {
+									++it;
+								}
+							}
+							v.insert(v.begin(), hashVal); //puts hash value in the front of the vector
+
+							//Stores the vector as a file in cache
+							string outv;
+							int x = 0;
+							for(auto s : v){
+								if (x == 0){ //prevents , from being first character
+									 outv = s;
+									 x++;
+								} else {
+									outv = outv + "," + s;
+								}
+							}
+							ca.putDoc("lru", outv);
+							return getOSMDataFromJSON(osm_json);
+						}
+					} catch (CacheException& ce) {
+						//something went bad trying to access the cache
+						std::cout << "Exception while reading from cache. Ignoring cache and continue." << std::endl;
+					}
+
+				} else if(hashVal.compare("false") == 0 || ca.inCache(hashVal) == false){ //Server response is false or somehow map got saved as false
+					//Requests the map data then requests the maps hash
+					osm_json = ServerComm::makeRequest(url, {"Accept: application/json"});
+					hashVal =  ServerComm::makeRequest(url2, {"Accept: application/json"});
+
+					if (hashVal.compare("false") == 0){
+						std::cerr << "Error while gathering hash data for generated map..." << std::endl;
+						std::cerr << osm_json << std::endl;
+						abort();
+					}
+
+					//Saves map to cache directory
+					try {
+			      ca.putDoc(hashVal, osm_json);
+
+						//checks the vector used for the LRU to see if the map gotten is already in its list
+						for (auto it = v.begin(); it != v.end(); ) {
+							if (*it == hashVal){
+								v.erase(it);
+								break;
+							} else {
+								++it;
+							}
+						}
+						v.insert(v.begin(), hashVal);
+
+						//TODO: add test to check storage size and pop off old maps and delete them
+						//This is a hacked method b/c c++ is aweful for getting file sizes
+						if (v.size() >= 31){ // keeps 30 local maps
+							string f = "cache/";
+							f.append(v[v.size()-1]);
+							if(std::remove(f.c_str()) == 0){
+								v.pop_back();
+							}
+						}
+
+						string outv;
+						int x = 0;
+						for(auto s : v){
+							if (x == 0){ //prevents , from being first character
+								 outv = s;
+								 x++;
+							} else {
+								outv = outv + "," + s;
+							}
+						}
+						ca.putDoc("lru", outv);
+			    } catch (CacheException& ce) {
+			      //something went bad trying to access the cache
+			      std::cerr << "Exception while storing in cache. Weird but not critical." << std::endl;
+			    }
+					return getOSMDataFromJSON(osm_json);
+				}
 
 			}
 
