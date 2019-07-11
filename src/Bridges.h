@@ -297,8 +297,8 @@ namespace bridges {
 			 *  @param ymax   maximum window y
 			 *
 			 **/
-			void setWindow (int xmin, int ymin, int xmax, int ymax) {
-				setWindow(double(xmin), double(ymin), double(xmax), double(ymax));
+			void setWindow (int xmin, int xmax, int ymin, int ymax) {
+				setWindow(double(xmin), double(xmax), double(ymin), double(ymax));
 			}
 
 			/**
@@ -311,11 +311,11 @@ namespace bridges {
 			 *  @param ymax   maximum window y
 			 *
 			 **/
-			void setWindow (double xmin, double ymin, double xmax, double ymax) {
+			void setWindow (double xmin, double xmax, double ymin, double ymax) {
 			  wc_window.clear();
 				wc_window.push_back(xmin);
-				wc_window.push_back(ymin);
 				wc_window.push_back(xmax);
+				wc_window.push_back(ymin);
 				wc_window.push_back(ymax);
 			}
 
