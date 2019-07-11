@@ -38,9 +38,11 @@ namespace bridges {
 			// adjacency lists
 			unordered_map<K, SLelement<Edge<K, E2> >*> adj_list;
 
-			// large graph thresholds
-			const int LargeGraphVertSize = 4000;
-			const int LargeGraphEdges  = 10000;
+			// large graph related 
+			const int LargeGraphVertSize = 2000;
+
+			bool forceLargeViz = false;
+			bool forceSmallViz = false;
 
 			const string getCSSRepresentation(const Color& col) const {
 				using bridges::JSONUtil::JSONencode;
@@ -80,7 +82,12 @@ namespace bridges {
 			 *	@return The string representation of this data structure type
 			 */
 			virtual const string getDStype() const override {
-				return (vertices.size() > LargeGraphVertSize) ? "largegraph" : "Graph_AdjacencyList";
+				if (forceLargeViz || (!forceSmallViz && 
+						vertices.size() > LargeGraphVertSize && 
+                    	areAllVerticesLocated())) {
+            		return "largegraph";
+        		}
+				return "GraphAdjacencyList";
 			}
 
 			/**
@@ -443,8 +450,13 @@ namespace bridges {
 				// then get the JSON string for nodes placeholder
 				// nullptr prevents insertion of other nullptrs
 
-				if (vertices.size() > LargeGraphVertSize)
+								// check for large graph 
+				if (forceLargeViz ||
+					(!forceSmallViz && 
+						vertices.size() > LargeGraphVertSize && 
+						areAllVerticesLocated())) {
 					return getDataStructureRepresentationLargeGraph();
+				}
 
 				unordered_map<K, int> node_map;
 				int i = 0;
@@ -496,9 +508,11 @@ namespace bridges {
 			}
 			/**
 			 *
-			 *   For large graphs, we will use a very lean representation, just the nodes and links and
-			 *   only the color property; currently this is for OSM data only. Contain only location and
-			 *	 color attributes
+			 *  For large graphs, we will use a very lean representation, 
+			 *	just the nodes and links and
+			 *  only the color property; currently this is for OSM data 
+			 *	only. Contain only location and
+			 *	color attributes
 			 *
 			 */
 
@@ -573,8 +587,42 @@ namespace bridges {
 				return graph_alist_json;
 
 			}
+			/**
+			 * @return true if all vertices have both an x and y location
+			 */
+			bool areAllVerticesLocated() const {
+				for (const auto& v : vertices) {
+					ElementVisualizer *elvis = v.second->getVisualizer();
+					if (elvis->getLocationX() == INFINITY
+							|| elvis->getLocationY() == INFINITY) 
+						return false;
+				}
+				return true;
+			}
+
 
 		public:
+
+			void forceLargeVisualization(bool f) {
+				if (f) {
+					forceLargeViz = true;
+					forceSmallViz = false;
+				}
+				else {
+					forceLargeViz = false;
+				}
+			}
+
+			void forceSmallVisualization(bool f) {
+				if (f) {
+					forceSmallViz = true;
+					forceLargeViz = false;
+				}
+				else {
+					forceSmallViz = false;
+				}
+			}
+
 			class KeySet_helper {
 					std::unordered_map<K, Element<E1>* > const & underlying_map;
 
