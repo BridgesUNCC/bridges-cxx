@@ -12,7 +12,10 @@ using namespace std;
 #include <alltypes.h>
 #include <chrono>
 
+
+
 namespace bridges {
+  class SocketConnection;
 	/**
 	 * @brief This class contains methods to connect and transmit a user's
 	 *  data structure representation to the Bridges server (up to 5000 elements)
@@ -233,6 +236,8 @@ namespace bridges {
 					server_url = "http://bridges-cs.herokuapp.com";
 				else if (server_type == "clone")
 					server_url = "http://bridges-clone.herokuapp.com";
+				else if (server_type == "games")
+					server_url = "http://bridges-games.herokuapp.com";
 				else if (server_type == "local")
 					server_url = "http://127.0.0.1:3000";
 
@@ -423,6 +428,7 @@ namespace bridges {
 			}
 
 			friend DataSource;
+	  friend SocketConnection;
 	};	//end of class Bridges
 
 }	// end of bridges namespace

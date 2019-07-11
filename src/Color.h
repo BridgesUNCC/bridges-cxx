@@ -32,36 +32,73 @@ namespace bridges {
 	 * If no alpha channel is provided, a default of 'ff'(opaque) will be used
 	 *
 	 * Supported named colors are:
-	 * "red", "yellow", "blue", "orange", "green", "purple", "brown", "black", "grey",
-	 * and "white"
+	 * 
+	 * <b>"red", "green",
+     * "blue",
+	 * "yellow",
+     * "cyan"
+     * "magenta"
+     * "white",
+     * "black",
+     * "orange",
+     * "green",
+     * "turquoise",
+     * "maroon",
+     * "aquamarine",
+     * "azure",
+     * "beige",
+     * "brown",
+     * "tan",
+     * "olive",
+     * "chartreuse",
+     * "khaki",
+     * "bisque",
+     * "coral",
+     * "pink",
+     * "lavender",
+     * "purple",
+     * "gold",
+     * "steelblue" </b>
+     *
 	 * All named colors have are fully opaque by default.
 	 *
 	 * Default Color is opaque white
 	 *
-	 * @date 12/5/15, Dakota Carmer
+	 * @date 7/8/19, Kalpathi Subramanian 
 	 */
 	class Color {
 		private:
 			// The named colors' rgba channel value mappings
 			static const unordered_map<string, const array<int, 4>> & ColorNames() {
-
 				static unordered_map<string, const array<int, 4>> cn {
-					{"red",     {{255,  0,  0, 255}}},  //Primary
-					{"yellow",  {{255, 255,  0, 255}}}, //subtractive Primary
-					{"blue",    {{  0,  0, 255, 255}}}, //Primary
-					{"cyan",    {{0, 255, 255, 255}}}, //subtractive primary
-					{"magenta", {{255, 0, 255, 255}}}, //subtractive primary
-					{"orange",  {{255, 165,  0, 255}}}, //Secondary
-					{"green",   {{  0, 255,  0, 255}}}, //Secondary(full 255 is considered lime by CSS)
-					{"purple",  {{128,  0, 128, 255}}}, //Secondary
-					{"brown",   {{165, 42, 42, 255}}},  //Neutral
-					{"black",   {{  0,  0,  0, 255}}},  //Monochrome
-					{"grey",    {{192, 192, 192, 255}}}, //Monochrome
-					{"white",   {{255, 255, 255, 255}}}, //Monochrome
+					{"red",   {{255, 0, 0, 255}}},
+					{"green",   {{0, 255, 0, 255}}},
+					{"blue",   {{0, 0, 255, 255}}},
+					{"yellow",   {{255, 255, 0,  255}}},
+					{"cyan",   {{0, 255, 255, 255}}},
+					{"magenta",   {{255, 0, 255, 255}}},
+					{"white",   {{255, 255, 255, 255}}},
+					{"black",   {{0, 0, 0, 255}}},
+					{"orange",   {{255, 155, 0, 255}}},
+					{"turquoise",   {{64, 224, 208, 255}}},
+					{"maroon",   {{176, 48, 96, 255}}},
+					{"aquamarine",   {{127, 255, 212, 255}}},
+					{"azure",   {{240, 255, 255, 255}}},
+					{"beige",   {{245, 245, 220, 255}}},
+					{"brown",   {{166, 42, 42,  255}}},
+					{"tan",   {{210, 180, 140, 255}}},
+					{"olive",   {{128, 128, 0, 255}}},
+					{"chartreuse",  {{127, 255, 0, 255}}},
+					{"khaki",   {{240, 230, 140, 255}}},
+					{"bisque",   {{255, 228, 196, 255}}},
+					{"coral",   {{255, 127, 80, 255}}},
+					{"pink",   {{255, 192, 203, 255}}},
+					{"lavender",   {{230, 230, 250, 255}}},
+					{"purple",   {{128, 0, 128, 255}}},
+					{"gold",   {{255, 215, 0, 255}}},
 					{"steelblue", {{70, 130, 180, 255}}}
 				};
 				return cn;
-
 			}
 
 			// The rgba channel values of this Color
@@ -258,5 +295,5 @@ namespace bridges {
 				: channels.at(channel) = value;
 			}
 	};//end of color class
-}//end of bridge namespace
+};//end of bridge namespace
 #endif

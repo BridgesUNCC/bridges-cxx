@@ -98,6 +98,14 @@ namespace bridges {
 				color = col;
 			}
 			/**
+             *  Set the color to a named color "col"
+             *  @param color The color name
+             */
+            void setColor(const string col) {
+                color = Color(col);
+            }
+
+			/**
 			 *	@return The color of the link
 			 */
 			Color getColor() const {
