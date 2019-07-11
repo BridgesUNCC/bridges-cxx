@@ -53,7 +53,7 @@ namespace bridges {
 	d = setto;
       else if (key.compare("q") == 0)
 	q = setto;
-      else if (key.compare("Space") == 0)
+      else if (key.compare(" ") == 0)
 	space = setto;
     }
 

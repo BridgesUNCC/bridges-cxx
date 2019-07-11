@@ -46,11 +46,11 @@ namespace bridges {
     }
 
   protected:
-    void SetBGColor(int row, int col, NamedColor nc) {
+    void setBGColor(int row, int col, NamedColor nc) {
       gg.setBGColor(row, col, nc);
     }
 
-    void DrawObject(int row, int col, NamedSymbol symb, NamedColor nc) {
+    void drawObject(int row, int col, NamedSymbol symb, NamedColor nc) {
       gg.drawObject(row, col, symb, nc);
     }
 
