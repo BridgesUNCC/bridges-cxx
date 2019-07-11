@@ -14,16 +14,21 @@ namespace bridges {
     bool firsttime = true;
 
   protected:
+    bool debug = true;
+    
     std::unique_ptr<SocketConnection> sockcon;
   
     ///Having a protected constructor prevent the object from being
     ///directly created. Since GameBase is meant to be a purely internal
     ///class, that seems appropriate.
-  GameBase(int assignmentID, std::string username, std::string apikey)
-    :bridges(assignmentID, username, apikey) {
+    GameBase(int assignmentID, std::string username, std::string apikey, int nbRow=10, int nbColumn=10)
+      :bridges(assignmentID, username, apikey), gg(nbRow, nbColumn) {
       bridges.setServer("games");
 
       sockcon = std::make_unique<SocketConnection>(bridges);
+
+      if (debug)
+	std::cerr<<"nbRow: "<<nbRow<<" nbCol: "<<nbColumn<<std::endl;
     }
 
   

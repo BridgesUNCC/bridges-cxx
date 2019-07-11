@@ -121,9 +121,16 @@ namespace bridges {
     localclock::time_point timeOfLastFrame;
   
   public:
-  NonBlockingGame(int assignmentID, std::string username, std::string apikey)
-    :GameBase(assignmentID, username, apikey) {
+    NonBlockingGame(int assignmentID, std::string username, std::string apikey, int nbRow=10, int nbCol=10)
+      :GameBase(assignmentID, username, apikey, nbRow, nbCol) {
+      if(debug)
+	std::cerr<<"nbRow: "<<nbRow<<" nbCol: "<<nbCol<<std::endl;
+      
+      if (nbRow*nbCol > 32*32) {
+	throw "NonBlockingGame can not have a grid of more than 32x32 (or a combination(so 16x64 is ok; 16x128 is not)";
+      }
       sockcon->registerKeyListener(&ih);
+      
     }
 
     virtual void initialize () = 0;
