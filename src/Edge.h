@@ -88,18 +88,21 @@ namespace bridges {
 			}
 
 			/**
+			 * Return the edge data
 			 *	@return The edge data
 			 */
 			const E2& getEdgeData() const {
 				return edge_data;
 			}
 			/**
+			 * Return the edge data
 			 *	@return The edge data
 			 */
 			E2& getEdgeData() {
 				return edge_data;
 			}
 			/**
+			 * Return the edge label
 			 *  @return The label of the element
 			 */
 			string getLabel() const {
@@ -107,7 +110,7 @@ namespace bridges {
 			}
 
 			/**
-			 * Sets label to "lab"
+			 * Sets edge label to "lab"
 			 *
 			 * @param lab The label of the element
 			 */
@@ -134,10 +137,20 @@ namespace bridges {
 
 			/**
 			 * Set the color to "col", default black
+			 * Check the Color class for a list of supported colors
 			 *
 			 * @param color The color of the element
 			 */
 			void setColor(const Color& col) {
+				lvis->setColor(col);
+			}
+			/**
+			 * Set the color to a named color,  default black
+			 * Check the Color class for a list of named colors
+			 *
+			 * @param color The name of the color
+			 */
+			void setColor(const string  col) {
 				lvis->setColor(col);
 			}
 			/**

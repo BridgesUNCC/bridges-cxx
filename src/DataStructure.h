@@ -91,9 +91,6 @@ namespace bridges {
 			 * @warning Only call if all these data structures were all
 			 *		dynamicaly allocated(aka: using new)
 			 */
-			virtual void cleanup() {
-				// does nothing; each data structure is responsible for
-				// freeing allocated memory
 			}
 
 		private:
