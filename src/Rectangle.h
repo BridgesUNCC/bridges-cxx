@@ -16,7 +16,7 @@ namespace bridges {
 	 *		A rectangle has height and width
 	 *
 	 * @author Kalpathi Subramanian
-	 * @date 12/23/18
+	 * @date 12/23/18, 7/12/19
 	 *
 	 */
 	class Rectangle : public Symbol {
@@ -65,7 +65,6 @@ namespace bridges {
 			 *
 			 *  @return name   data type name
 			 */
-			string getName()  const {
 			string getDataStructType() {
 				return "rect";
 			}

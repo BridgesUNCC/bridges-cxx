@@ -91,7 +91,6 @@ namespace bridges {
 			 * @warning Only call if all these data structures were all
 			 *		dynamicaly allocated(aka: using new)
 			 */
-			}
 
 		private:
 			/**

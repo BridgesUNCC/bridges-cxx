@@ -16,7 +16,7 @@ namespace bridges {
 	 *      A circle  has a radius
 	 *
 	 * @author Kalpathi Subramanian
-	 * @date 12/24/18
+	 * @date 12/24/18, 7/12/19
 	 *
 	 */
 	class Circle : public Symbol {
@@ -43,7 +43,7 @@ namespace bridges {
 				radius = r;
 			}
 
-			/** 
+			/**
 			 *	Create a circle with  both location and radius
 			 *  @param  locx, locy : center of circle
 			 *  @param  r : radius 
