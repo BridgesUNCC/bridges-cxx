@@ -24,7 +24,7 @@ namespace bridges {
 	 *	has a name, location (x, y) and appropriate geometric and non-geometric attributes
 	 *
 	 * @author David Burlinson, Kalpathi Subramanian
-	 * @date 12/24/18
+	 * @date 12/24/18, 7/12/19
 	 *
 	 */
 	class Symbol {

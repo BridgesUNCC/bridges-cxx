@@ -17,6 +17,7 @@ namespace bridges {
 	 * games, etc.
 	 *
 	 * @author David Burlinson, C++ port Kalpathi Subramanian
+	 * @date 7/12/19
 	 *
 	 * @param E
 	 **/
@@ -29,8 +30,6 @@ namespace bridges {
 			void allocateGrid() {
 				int rows = gridSize[0];
 				int cols = gridSize[1];
-				// to do: must check against maxSize!
-				// first allocate pointers for dimension 1
 				grid = new E*[rows];
 				for (int j = 0; j < rows; j++)  {
 					grid[j] = new E[cols];

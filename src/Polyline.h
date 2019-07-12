@@ -16,7 +16,7 @@ namespace bridges {
 	 *      A polygon has a set of vertices
 	 *
 	 * @author David Burlinson, Kalpathi Subramanian
-	 * @date 12/23/18
+	 * @date 12/23/18, 7/12/19
 	 *
 	 */
 
@@ -35,10 +35,18 @@ namespace bridges {
 				points->resize(0);
 			}
 
+			/**
+			 *  Construct a polyline from sequence of points
+		 	 *  @param  pts  point sequence
+			 */
 			Polyline (vector<float> *pts) {
 				points = pts;
 			}
 
+			/**
+			 * Get the name of the data type
+			 * @return name of symbol type
+			 */
 			string getDataStructType() {
 				return "polyline";
 			}
@@ -53,9 +61,9 @@ namespace bridges {
 			}
 
 			/**
-			 * This method adds a point to the polygon
+			 * This method adds a point to the polyline
 			 *
-			 * @param x, y  X, Y coordinates of the point
+			 * @param x, y : X, Y coordinates of the point
 			 */
 			void addPoint(int x, int y) {
 
@@ -73,7 +81,7 @@ namespace bridges {
 				}
 			}
 			/**
-			 * This method returns the point list of the polygon
+			 * This method returns the point list of the polyline
 			 *
 			 * @return points  point list of the polygon - sequence of x, y values
 			 */
@@ -89,7 +97,6 @@ namespace bridges {
 			 * This method returns the dimensions of the shape: min and max
 			 *	values in X and Y
 			 *
-			 * @param none
 			 * @return array of 4 values
 			 */
 			vector<float> getDimensions() {
