@@ -98,7 +98,19 @@ namespace bridges {
       gg.drawObject(row, col, symb, nc);
     }
 
-
+    /// @brief Set the title of the game
+    ///
+    /// @param title Title of the game
+    void setTitle(std::string title) {
+      bridges.setTitle(title);
+    }
+    
+    /// @brief Set a short description of the game
+    ///
+    /// @param desc Description of the game
+    void setDescription(std::string desc) {
+      bridges.setDescription(desc);
+    }
   };
 }
 
