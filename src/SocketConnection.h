@@ -149,11 +149,13 @@ namespace bridges {
 	std::cerr<<"Sending credentials\n";
     
       std::string user = bridges.getUserName();
+      std::string apikey = bridges.getApiKey();
     
       auto assID = bridges.getAssignment();
     
       current_socket->emit("credentials",
 			   "{\"user\":\"" + user
+			   + "\",\"apikey\":\"" + apikey 
 			   + "\",\"assignment\":\"" + std::to_string(assID)
 			   + "\"}");
       if (debug)
