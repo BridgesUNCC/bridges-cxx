@@ -21,7 +21,7 @@ namespace bridges {
 	 *  data structure representation to the Bridges server
 	 *
 	 * @author Kalpathi Subramanian, Dakota Carmer
-	 * @date  7/26/15, 6/5/17, 10/30/18
+	 * @date  7/26/15, 6/5/17, 10/30/18, 7/12/19
 	 */
 	class Bridges {
 		private:
