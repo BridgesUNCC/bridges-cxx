@@ -23,7 +23,6 @@ namespace bridges {
 		private:
 
 			string shape = "circle";
-			// height, width of rectangle
 			int radius = 10;
 
 		public:
@@ -35,14 +34,20 @@ namespace bridges {
 				radius = 10;
 			}
 
+			/**
+			 *  Create a circle of radius r
+			 *  @param  r : radius 
 			Circle (int r) {
 				if (r < 0)
 					throw "Illegal value for radius. Must be positive";
 				radius = r;
 			}
 
-			// provides both location and radius
-
+			/** 
+			 *	Create a circle with  both location and radius
+			 *  @param  locx, locy : center of circle
+			 *  @param  r : radius 
+			 */
 			Circle (int locx, int locy, int r) {
 				setLocation (locx, locy);
 				if (r < 0)
@@ -50,6 +55,10 @@ namespace bridges {
 				radius = r;
 			}
 
+			/**
+			 * Get name of the data type
+			 * @return  data type name
+			 */
 			string getDataStructType() {
 				return "circle";
 			}
@@ -93,7 +102,6 @@ namespace bridges {
 			 * This method returns the dimensions of the shape: min and max
 			 *	values in X and Y
 			 *
-			 * @param none
 			 * @return array of 4 values
 			 */
 			vector<float> getDimensions() {
