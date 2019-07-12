@@ -111,6 +111,31 @@ namespace bridges {
     void setDescription(std::string desc) {
       bridges.setDescription(desc);
     }
+
+    /// @brief What color is this cell?
+    ///
+    /// @param row row of the cell 
+    /// @param col column of the cell 
+    NamedColor getBGColor(int row, int col) {
+      return gg[row][col].getBGColor();
+    }
+
+    /// @brief What object is in this cell?
+    ///
+    /// @param x row of the cell 
+    /// @param y column of the cell 
+    NamedSymbol getSymbol(int row, int col) {
+      return gg[row][col].getSymbol();
+    }
+
+    /// @brief What color is object in this cell?
+    ///
+    /// @param row row of the cell 
+    /// @param col column of the cell 
+    NamedColor getSymbolColor(int row, int col) {
+        return gg[row][col].getFGColor();
+    }
+
   };
 }
 
