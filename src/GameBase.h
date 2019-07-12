@@ -17,6 +17,8 @@ namespace bridges {
 
     std::unique_ptr<SocketConnection> sockcon;
 
+    bool bquit = false;
+    
   protected:
     bool debug = true;
     
@@ -79,6 +81,19 @@ namespace bridges {
     }
 
   protected:
+
+    bool gameover() const {
+      return bquit;
+    }
+
+    ///@brief calling this function causes the game to end.
+    ///
+    ///That is to say, the current frame will be the last frame of the
+    ///game.
+    void quit() {
+      bquit = true;
+    }
+    
     /// @brief Change the background color of a cell
     ///
     /// @param x row of the cell to set
