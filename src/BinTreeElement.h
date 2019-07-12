@@ -13,7 +13,7 @@ namespace bridges {
 	 * Generic Parameters: E the application data type
 	 *
 	 * @author Kalpathi Subramanian
-	 * @date 6/12/15
+	 * @date 6/12/15, 7/12/19
 	 */
 
 	template <typename E>

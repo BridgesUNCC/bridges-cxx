@@ -6,7 +6,7 @@
 namespace bridges {
 	/**
 	 * @author Kalpathi Subramanian
-	 * @date  10/5/16
+	 * @date  10/5/16, 7/12/19
 	 *
 	 *  @brief This class can be used to instantiate Circular Doubly Linked
 	 *  List Elements.
@@ -88,7 +88,7 @@ namespace bridges {
 			}
 
 			/**
-			 * This method returns the pointer to the next DLelement
+			 * This method returns the pointer to the next DLelement - const version
 			 * @return the DLelement assigned to the next pointer
 			 */
 			const CircDLelement<E> *getNext() const override {

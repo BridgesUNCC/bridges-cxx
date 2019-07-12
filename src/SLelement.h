@@ -14,7 +14,7 @@ namespace bridges {
 	 * Generic Parameters: E the application data type
 	 *
 	 * @author Kalpathi Subramanian
-	 * @date 6/11/15
+	 * @date 6/11/15, 7/12/19
 	 */
 	template <typename E>
 	class SLelement : public Element<E>, public DataStructure {
@@ -31,11 +31,11 @@ namespace bridges {
 			 *
 			 * 	@param val The data to hold
 			 * 	@param lab The label to show
-			 * 	@param n The next SLelement
+			 * 	@param next The next SLelement
 			 */
-			SLelement(SLelement* n, const E& val = E(), const string& lab =
+			SLelement(SLelement* next, const E& val = E(), const string& lab =
 					string()) : Element<E>(val, lab) {
-				setNext(n);
+				setNext(next);
 			}
 			/**
 			 * 	Constructs an slelement with the provided value and label,
@@ -49,6 +49,8 @@ namespace bridges {
 				: SLelement(nullptr, val, lab) {
 			}
 			/**
+			 *  Returns the data structure name
+			 *
 			 *	@return The string representation of this data structure type
 			 */
 			virtual const string getDStype() const override {
@@ -56,6 +58,7 @@ namespace bridges {
 			}
 
 			/**
+			 *  Returns the next element in the list
 			 *	@return The next SLelement
 			 */
 			virtual SLelement* getNext() {
@@ -63,7 +66,9 @@ namespace bridges {
 			}
 
 			/**
+			 *  Returns the next element in the list -
 			 *	Constant version
+			 *	@return The next SLelement
 			 */
 			virtual const SLelement* getNext() const {
 				return next;
@@ -85,27 +90,12 @@ namespace bridges {
 					this->links[next];
 				}
 			}
-			/**
-			 * Calls delete on itself and each next linked SLelement*
-			 *
-			 * @warning Only call if these SLelements were all dynamicaly
-			 * allocated(aka: using new)
-			 * @warning If linked list contains redundant links, delete will be called
-			 * multiple times on it, leading to undefined behavior
-			 */
-			virtual void cleanup() override {
-				if (next) {
-					next->cleanup();
-				}
-				DataStructure::cleanup();
-			}
 
 		private:
 			/**
 			 * Gets the JSON representation of this slelement and its links
 			 *
-			 * @param arr_size The size of the array determined by this
-			 * @return A pair holding the nodes and links JSON strings respectively
+			 * @return JSON string of the singly linked list representation
 			 */
 			virtual const string getDataStructureRepresentation() const override {
 
@@ -134,8 +124,13 @@ namespace bridges {
 				return sl_list_json;
 			}
 		protected:
-			virtual const pair<string, string> generateJSON(vector<const SLelement<E>*> nodes)
-			const {
+			/**
+			 *	Generates  the JSON representation of the nodes and links 
+			 *	@return JSON string pair containing the nodes and links 
+			 */
+
+			virtual const pair<string, string> generateJSON(
+						vector<const SLelement<E>*> nodes) const {
 				// map the nodes to a sequence of ids, 0...N-1
 				// then get the JSON string for nodes placeholder
 				// nullptr prevents insertion of other nullptrs
@@ -193,8 +188,11 @@ namespace bridges {
 			}
 
 		public:
-			///these are helper classes for SLelement for easy iteration in a range for loop.
-			///It is not meant to be created by the bridges user. But it may be returned by Bridges to provide an STL compliant list API.
+
+	 		/// @brief these are helper classes for SLelement for easy iteration in a 
+			/// range for loop.  It is not meant to be created by the bridges user. 
+			/// But it may be returned by Bridges to provide an STL compliant list API.
+
 			class SLelement_listhelper {
 					typename bridges::SLelement<E> * start;
 
@@ -239,7 +237,7 @@ namespace bridges {
 					}
 			};
 
-			///these are helper classes for SLelement for easy iteration in a range for loop.
+			///@brief these are helper classes for SLelement for easy iteration in a range for loop.
 			///It is not meant to be created by the bridges user. But it may be returned by Bridges to provide an STL compliant list API.
 			class SLelement_constlisthelper {
 					typename bridges::SLelement<E> const * start;

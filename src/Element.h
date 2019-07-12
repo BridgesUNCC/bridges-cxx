@@ -23,8 +23,8 @@ namespace bridges {
 	 *	in BRIDGES.
 	 *
 	 *	This is the Superclass Element with SLelement, DLelement, MLElement,
-	 *	CircSlElement, CircDlElement, TreeElement, AVLTreeElement, BSTElement
-	 *	subclasses.
+	 *	CircSlElement, CircDlElement, TreeElement, BinTreeElement, BSTElement, 
+	 *	AVLTreeElement, KdTreeElement subclasses.
 	 *
 	 * 	Generic Parameters: E the application data type
 	 *
@@ -36,7 +36,7 @@ namespace bridges {
 	 *
 	 * 	@author Kalpathi Subramanian
 	 *
-	 * 	@date 6/11/15, 11/27/16
+	 * 	@date 6/11/15, 11/27/16, 7/12/19
 	 */
 
 
@@ -50,6 +50,10 @@ namespace bridges {
 			bool debug() const {
 				return false;
 			}
+			/**
+			 * List of shapes supported by BRIDGES : CIRCLE, SQUARE, DIAMOND,
+			 *	CROSS, TRIANGLE, WYE, STAR
+			 */
 			static const unordered_map<const Shape, const string, hash<int>>& ShapeNames() {
 
 				static std::unordered_map<const Shape, const string, hash<int>> sn = {
@@ -91,6 +95,12 @@ namespace bridges {
 				elvis = new ElementVisualizer;
 			}
 
+			/**
+			 *
+			 * Constructs an element with the provided element as input
+			 * @param e element 
+			 *
+			 */
 			Element(const Element& e)
 				: label(e.label), value(e.value), elvis(new ElementVisualizer(*(e.elvis))), links(e.links) {
 			}
@@ -103,18 +113,22 @@ namespace bridges {
 				return *this;
 			}
 
+			/** 
+			 * Element destructor
+			 */
 			virtual ~Element() {
-				delete elvis;
+				delete elvis; // removes the visualizer
 			}
 
 			/**
+			 *	Get the element visualizer object
 			 *	@return The ElementVisualizer of this element
 			 */
 			ElementVisualizer* getVisualizer() {
 				return elvis;
 			}
 			/**
-			 * Constant version
+			 *	Get the element visualizer object - constant version
 			 *
 			 * @return The ElementVisualizer of this element
 			 */
@@ -122,7 +136,7 @@ namespace bridges {
 				return elvis;
 			}
 			/**
-			 * Returns the LinkVisualizer to element "el" or NULL if no link exists
+			 * Returns the LinkVisualizer of element "el" or NULL if no link exists
 			 *
 			 * @param el The terminating element of the link
 			 *
@@ -139,7 +153,7 @@ namespace bridges {
 			}
 
 			/**
-			 * Constant version
+			 * Returns the LinkVisualizer of element "el" - Constant version
 			 *
 			 * @param el The terminating element of the link
 			 * @return The LinkVisualizer
@@ -149,6 +163,7 @@ namespace bridges {
 			}
 
 			/**
+			 *  Gets the label of this element 
 			 *	@return The label of the element
 			 */
 			string const & getLabel() const {
@@ -156,7 +171,7 @@ namespace bridges {
 			}
 
 			/**
-			 * Sets label to "lab"
+			 * Sets label  of this element
 			 *
 			 * @param lab The label of the element
 			 */
@@ -165,20 +180,25 @@ namespace bridges {
 			}
 
 			/**
+			 *  Gets the object (generic) held in the element  - const version
 			 *	@return The value of the element
 			 */
 			E const & getValue() const {
 				return value;
 			}
 
+			/**
+			 *  Gets the object (generic) held in the element
+			 *	@return The value of the element
+			 */
 			E & getValue() {
 				return value;
 			}
 
 			/**
-			 * Sets value to "val"
+			 * Sets generic object to "val"
 			 *
-			 * @param val The value of the element
+			 * @param val The value of the element to be set
 			 */
 			void setValue(const E& val) {
 				value = val;
@@ -186,6 +206,7 @@ namespace bridges {
 
 		protected:
 			/**
+			 *  Gets the JSON string of the element representation
 			 *	@return The JSON string of this element's properties
 			 */
 			virtual const string getElementRepresentation() const {
@@ -267,7 +288,6 @@ namespace bridges {
 			 * Valid Range:[1,50]
 			 *
 			 * @param size The size in pixel weight of the element
-			 * @throw string If size is invalid
 			 */
 			void setSize(const double& sz) {
 				elvis->setSize(sz);
@@ -290,12 +310,14 @@ namespace bridges {
 			}
 			/**
 			 *  Set the color to a named color "col"
+			 *  Refer to the Color class for supported colors
 			 *  @param color The color name
 			 */
 			void setColor(const string col) {
 				elvis->setColor(col);
 			}
 			/**
+			 *  Get the current color of the element
 			 *	@return The color of the element
 			 */
 			Color getColor() const {
@@ -322,20 +344,24 @@ namespace bridges {
 			/**
 			 * Set the shape  of the element
 			 *
-			 * @param Shape is one of CIRCLE,SQUARE,DIAMOND,CROSS,TRI_DOWN,TRI_UP
+			 * @param Shape is one of CIRCLE, SQUARE, DIAMOND,
+             *  		CROSS, TRIANGLE, WYE, STAR
+			 *
 			 */
 			void setShape(const Shape& shp) {
 				elvis->setShape(shp);
 			}
 			/**
-			 *	@return The shape of the element(one of CIRCLE,SQUARE,
-			 *		DIAMOND,CROSS,TRI_DOWN,TRI_UP
+			 *  Returns the shape of the element
+			 *
+			 *	@return The shape of the element(one of CIRCLE, SQUARE, DIAMOND,
+             *  		CROSS, TRIANGLE, WYE, STAR
 			 */
 			Shape getShape() const {
 				return elvis->getShape();
 			}
 			/**
-			 * 	Set the location attributes of an element.
+			 * 	Sets the location attributes of an element.
 			 *
 			 * 	@param locX X coordinate of the element location
 			 * 	@param locY Y coordinate of the element location
@@ -345,12 +371,14 @@ namespace bridges {
 			}
 
 			/**
+			 *  Gets the X coordinate of the location
 			 *	@return the X coordinate of the  element's location attribute
 			 */
 			double getLocationX() const {
 				return elvis->getLocationX();
 			}
 			/**
+			 *  Gets the Y coordinate of the location
 			 *	@return the Y coordinate of the  element's location attribute
 			 */
 			double getLocationY() const {

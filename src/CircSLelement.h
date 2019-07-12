@@ -21,11 +21,10 @@ namespace bridges {
 	 *	shape, opacity, size), necessary for displaying them in a web browser
 	 *
 	 *	@author Kalpathi Subramanian
-	 *	@date 10/5/2016
+	 *	@date 10/5/2016, 7/12/19
 	 *
 	 *	@param <E>
 	 */
-
 
 	template <typename E>
 	class CircSLelement : public SLelement<E> {
@@ -45,7 +44,7 @@ namespace bridges {
 			 *
 			 * 	@param label the label of CircSLelement that shows up on
 			 *		the Bridges visualization
-			 * 	@param e the generic object that this CircSLelement will hold
+			 * 	@param val the generic object that this CircSLelement will hold
 			 */
 			CircSLelement (E val = E(), string label = string())
 				: SLelement<E> (this, val, label) {
@@ -75,7 +74,7 @@ namespace bridges {
 			/**
 			 *	This method gets the data structure type
 			 *
-			 *	@return  The date structure type as a string
+			 *	@return  The date structure name
 			 */
 			virtual const string getDStype() const override {
 				return "CircularSinglyLinkedList";
@@ -83,7 +82,7 @@ namespace bridges {
 
 			/**
 			 * Retrieves the next CircSLelement
-			 * @return CircSLelement<E> assigned to next
+			 * @return the next element in the list
 			 */
 			virtual CircSLelement<E> *getNext() override {
 				return static_cast<CircSLelement*> (SLelement<E>::getNext());

@@ -12,7 +12,7 @@
  * @param <E>
 
  * @author  Kalpathi Subramanian
- * @date    10/8/16
+ * @date    10/8/16, 7/12/19
  *
  */
 
@@ -30,7 +30,7 @@ namespace bridges {
 	 * Generic Parameters: E the application data type
 	 *
 	 * @author Kalpathi Subramanian
-	 * @date 1/14/17
+	 * @date 1/14/17, 7/12/19
 	 */
 
 
@@ -54,12 +54,14 @@ namespace bridges {
 					delete [] array_data;
 			}
 
+			/// builds an array given the dimensions
+			///@param num_dims number of dimension
+			///@param dims size of each dimension
+
 			Array(int num_dims, int *dims)
 				: array_data(nullptr) {
 				setNumDimensions(num_dims);
 				setDimensions(dims);
-				// for json
-				//				Bridges::setDimensions(dims);
 			}
 
 			///builds a 1D array.
@@ -78,7 +80,6 @@ namespace bridges {
 				dims[2] = 1;
 				setNumDimensions(2);
 				setDimensions(dims);
-				//				Bridges::setDimensions(dims);
 			}
 
 			///builds a 3D array.
@@ -95,6 +96,9 @@ namespace bridges {
 				//				Bridges::setDimensions(dims);
 			}
 
+			/// Sets the number of dimension of the array
+			/// @param the number of dimensions (int)
+			/// @return none
 			void setNumDimensions(int nd) {
 				if (nd > 3) {
 					cout << "Only 1D, 2D and 3D arrays supported." << endl;
@@ -102,6 +106,9 @@ namespace bridges {
 				}
 				num_dims = nd;
 			}
+
+			/// Returns the number of dimension of the array
+			/// @return the number of dimensions (int)
 
 			int getNumDimensions() const {
 				return num_dims;
@@ -134,8 +141,10 @@ namespace bridges {
 				//				Bridges::setDimensions(dims);
 			}
 
-			///returns the size of the dimensions
-			///@param dim will contain the size of the dimension. dim should be of size at least getNumDimensions() or undefined behavior could happen.
+			///@return 	the size of the dimensions
+			///@param 	dim will contain the size of the dimension. 
+			///       	dim should be of size at least getNumDimensions() or undefined 
+			///			behavior could happen.
 			void  getDimensions(int *d) {
 				for (int k = 0; k < num_dims; k++)
 					d[k] = dims[k];
@@ -143,31 +152,31 @@ namespace bridges {
 
 			/**
 			 *
-			 *  Get the object at index ind  - 1D array
+			 *  Get the object at index index  - 1D array
 			 *
-			 *  @param ind - index into the array
+			 *  @param index - index into the array
 			 *
-			 *  @return Element<E>  object at 'ind'
+			 *  @return Element<E>  at 'index'
 			 */
-			Element<E>& getElement(int ind) {
-				return array_data[ind];
+			Element<E>& getElement(int index) {
+				return array_data[index];
 			}
 
 			/**
 			 *
-			 *  Get the object at x, y -- for 2D arrays
+			 *  Get the object at (x, y) for 2D arrays
 			 *
 			 *  @param x  - column index
 			 *  @param y  - row index
 			 *
-			 *  @return Element<E>  object at x, y
+			 *  @return Element<E>  at x, y
 			 */
 			Element<E>& getElement(int x, int y) {
 				return array_data[y * dims[0] + x];
 			}
 			/**
 			 *
-			 *  Get the object at x, y, z -- for 3D arrays
+			 *  Get the object at (x, y, z) for 3D arrays
 			 *
 			 *  @param x  - column index
 			 *  @param y  - row index
@@ -221,6 +230,11 @@ namespace bridges {
 				array_data[x_indx + y_indx * dims[0] + z_indx * dims[0]*dims[1]] = el;
 			}
 
+			/**
+			 *	Get the data structure type 
+			 *	@return data structure name
+			 *
+			 */
 			virtual const string getDStype() const override {
 				return "Array";
 			}
