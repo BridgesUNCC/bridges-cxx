@@ -141,11 +141,11 @@ namespace bridges {
 	};
 
 	/**
-	 * @brief This provides an API to various data sources used in BRIDGES.
+	 * @brief This class provides an API to various data sources used in BRIDGES.
 	 *
 	 * BRIDGES currently supports a few external datasets for use with BRIDGES
 	 * assignments: USGIS Earthquake Tweeet streaming data feed, IMDB (file),
-	 * Book metadata collection, IGN Game Data, Shakespear book/poem meta data.
+	 * Book metadata collection, IGN Game Data, Shakespear book/poem meta data, etc.
 
 	 * Functions are provided that access a user specified number of data
 	 * records; objects of the appropriate type are returned as a list.
@@ -546,7 +546,7 @@ namespace bridges {
 				}
 				return wrapper;
 			}
-			/*
+			/**
 			 * Retrieves the CDC dataset into a vector of records
 			 * See CancerIncidence class for more information
 			 *
@@ -595,7 +595,13 @@ namespace bridges {
 				}
 				return wrapper;
 			}
-
+			/**
+			 *
+			 * Retrieves the Open Street Map data from a prebuilt JSON of OSM 
+			 * dataset.
+			 *
+			 * @param osm_json JSON string
+			 */
 			OSMData getOSMDataFromJSON (const string& osm_json) {
 				using namespace rapidjson;
 
@@ -659,6 +665,16 @@ namespace bridges {
 			}
 
 
+			/**
+			 *
+			 *  Get OpenStreetMap data given a bounding rectangle of lat/long 
+			 *	values.  
+			 *
+			 *  @throws Exception if the request fails
+			 *
+			 *  @return an OSMData object 
+			 *
+			 */
 			OSMData getOSMData (double lat_min, double lat_max,
 					    double long_min, double long_max, string level="default") {
 
@@ -795,6 +811,15 @@ namespace bridges {
 				}
 			}
 
+			/**
+			 *
+			 *  Get OpenStreetMap data given a city name and resolution level
+			 *
+			 *  @throws Exception if the request fails
+			 *
+			 *  @return an OSMData object 
+			 *
+			 */
 			OSMData getOSMData (string location, string level="default") {
 				//URL for hash request
 				string url2 = "http://cci-bridges-osm-t.dyn.uncc.edu/hash?location="+location+
@@ -917,24 +942,6 @@ namespace bridges {
 
 			}
 
-			/*
-						GraphAdjList<int, int> *getOSMDataAsGraph (string location,
-													double *location_range) {
-
-											// get the open street map data for this location
-							OSMData *osm_data = getOSMData (string location);
-
-											// get the vertices and edges
-							vector<OSMVertex> vertices = osm_data->getVertices();
-							vector<OSMEdge> edges = osm_data->getEdges();
-
-											// build a graph from this dataset
-							GraphAdjList<int, int> *graph = new GraphAdjList<int, int>
-							loc_range[0] = osm_data->getLatLongRange
-
-						}
-
-			*/
 			/**Reconstruct a GraphAdjList from an existing GraphAdjList on the Bridges server
 			 *
 			 * The reconstructed assignment sees vertices identified as integers in the order they are stored in the server.
