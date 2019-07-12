@@ -78,6 +78,8 @@ namespace bridges {
 			/*
 			 *  This method examines whether the axes should be expanded
 			 *	to ensure all shapes are shown
+			 *
+			 *  @param s  Symbol
 			 */
 			void updateAxisDomains(Symbol* s) {
 				vector<float> dims = s->getDimensions();
@@ -101,6 +103,7 @@ namespace bridges {
 
 			/*
 			 *	Get the JSON representation of the the data structure
+			 *  @return JSON string of the symbol representation
 			 */
 			virtual const string getDataStructureRepresentation() const {
 				string symbol_json = string();

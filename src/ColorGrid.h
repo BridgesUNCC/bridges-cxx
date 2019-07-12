@@ -94,7 +94,7 @@ namespace bridges {
 		private:
 
 			/**
-			 * returns a vector of BYTEs that is a RAW encoding of the ColorGrid
+			 * Returns a vector of BYTEs that is a RAW encoding of the ColorGrid
 			 */
 			std::vector<BYTE> getRAWencoding() const {
 				std::vector<BYTE> byte_buf(4 * gridSize[0] * gridSize[1]);
@@ -113,7 +113,7 @@ namespace bridges {
 			}
 
 			/**
-			 * returns a vector of BYTEs that is an RLE encoding of the ColorGrid
+			 * Returns a vector of BYTEs that is an RLE encoding of the ColorGrid
 			 */
 			std::vector<BYTE> getRLEencoding() const {
 				std::vector<BYTE> vec;

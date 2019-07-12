@@ -78,7 +78,7 @@ namespace bridges {
 			}
 
 			/**
-			 * 	Method to get the JSON representation of the symbol
+			 * 	virtual Method to get the JSON representation of the symbol
 			 */
 			virtual const string getSymbolRepresentation() const  = 0;
 
@@ -87,6 +87,9 @@ namespace bridges {
 			 */
 			virtual vector<float> getDimensions() = 0;
 
+			/**
+			 *	create a symbole of type "symb"
+			 */
 			Symbol(string symb) {
 				identifier = getNewIdentifier();
 			}
@@ -110,25 +113,55 @@ namespace bridges {
 				label = lbl;
 			}
 
+			/**
+			 * Get the symbol label
+			 *
+			 * @return  the label 
+			 */
 			string getLabel() const {
 				return label;
 			}
 
+			/**
+			 * This method sets the symbol fill color
+			 *
+			 * @param c the color to set
+			 */
 			void setFillColor(Color c) {
 				fillColor = c;
 			}
+			/**
+			 * This method gets fill color
+			 *
+			 * @return  fill color
+			 */
 			Color getFillColor() {
 				return fillColor;
 			}
 
+			/**
+			 * This method sets the symbol stroke color
+			 *
+			 * @param c the color to set
+			 */
 			void setStrokeColor(Color c) {
 				strokeColor = c;
 			}
 
+			/**
+			 * This method gets stroke color
+			 *
+			 * @return  stroke color
+			 */
 			Color getStrokeColor() {
 				return strokeColor;
 			}
 
+			/**
+			 * This method sets the symbol stroke width
+			 *
+			 * @param strk_width the stroke width to set
+			 */
 			void setStrokeWidth(float strk_width) {
 				if (strokeWidth <= 0.0f || strokeWidth > 10.0f)
 					throw "Stroke width must be between 0 and 10";
@@ -136,10 +169,20 @@ namespace bridges {
 					strokeWidth = strk_width;
 			}
 
+			/**
+			 * This method gets stroke width
+			 *
+			 * @return  stroke width
+			 */
 			float getStrokeWidth() {
 				return strokeWidth;
 			}
 
+			/**
+			 * This method sets the symbol opacity
+			 *
+			 * @param op the opacity to set
+			 */
 			void setOpacity(float op) {
 				if (op <= 0.0f || op > 1.0f)
 					throw "Opacity must be between 0 and 1";
@@ -147,10 +190,20 @@ namespace bridges {
 					opacity = op;
 			}
 
+			/**
+			 * This method gets symbol opacity
+			 *
+			 * @return  symbol opacity
+			 */
 			float getOpacity() {
 				return opacity;
 			}
 
+			/**
+			 * This method sets the stroke dash level
+			 *
+			 * @param dash dash level 
+			 */
 			void setStrokeDash(int dash) {
 				if (dash < 0 || dash > 10)
 					throw "Dash must be between 0 and 10 (inclusive)";
@@ -158,14 +211,31 @@ namespace bridges {
 					strokeDash = dash;
 			}
 
+			/**
+			 * This method gets stroke dash level
+			 *
+			 * @return  stroke dash level 
+			 */
 			int getStrokeDash() {
 				return strokeDash;
 			}
 
+			/**
+			 * This method sets the symbol location
+			 *
+			 * @param x  x coordinate
+			 * @param y  y coordinate
+			 */
 			void setLocation(int x, int y) {
 				setLocation(float(x), float(y));
 			}
 
+			/**
+			 * This method sets the ssymbol location
+			 *
+			 * @param x  x coordinate
+			 * @param y  y coordinate
+			 */
 			void setLocation(float x, float y) {
 				if ((x > -INFINITY && x < INFINITY) &&
 					(y > -INFINITY && y < INFINITY)) {
@@ -175,6 +245,11 @@ namespace bridges {
 				else
 					throw "Coordinates must be real numbers";
 			}
+			/**
+			 * This method gets the symbol location
+			 *
+			 * @return location (x, y) of the symbol
+			 */
 			float *getLocation() {
 				return location;
 			}
@@ -190,6 +265,12 @@ namespace bridges {
 
 		protected:
 
+			/**
+			 *	This method gets the JSON representation of all of the 
+			 *  symbol attributes
+			 *
+			 *  @return JSON string of symbol attributes
+			 */
 			const string getSymbolAttributeRepresentation() const {
 
 				// first get all the non-geometric attributes
