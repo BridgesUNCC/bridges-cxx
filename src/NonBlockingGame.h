@@ -157,15 +157,13 @@ namespace bridges {
       registerKeyListener(&ih);
       
     }
-
-
   
-  
+    /// @brief Call this function from main to start the game.
     void start() {
       timeOfLastFrame = localclock::now();
       initialize();
     
-      while(true) {
+      while(!gameover()) {
 	GameLoop();
 	render();
 	handleFrameRate();
@@ -174,51 +172,71 @@ namespace bridges {
 
 
   protected:
+    ///@brief Is Left currently pressed?
+    ///
     ///@return true if Left is currently pressed
     bool keyLeft() {
       return ih.keyLeft();
     }
 
+    ///@brief Is Right currently pressed?
+    ///
     ///@return true if Right is currently pressed
     bool keyRight() {
       return ih.keyRight();
     }
 
+    ///@brief Is Up currently pressed?
+    ///
     ///@return true if Up is currently pressed
     bool keyUp() {
       return ih.keyUp();
     }
 
+    ///@brief Is Down currently pressed?
+    ///
     ///@return true if Down is currently pressed
     bool keyDown() {
       return ih.keyDown();
     }
 
+    ///@brief Is W currently pressed?
+    ///
     ///@return true if W is currently pressed
     bool keyW() {
       return ih.keyW();
     }
 
+    ///@brief Is A currently pressed?
+    ///
     ///@return true if A is currently pressed
     bool keyA() {
       return ih.keyA();
     }
 
+    ///@brief Is S currently pressed?
+    ///
     ///@return true if S is currently pressed
     bool keyS() {
       return ih.keyS();
     }
 
+    ///@brief Is D currently pressed?
+    ///
     ///@return true if D is currently pressed
     bool keyD() {
       return ih.keyD();
     }
 
+    ///@brief Is Q currently pressed?
+    ///
     ///@return true if S is currently pressed
     bool keyQ() {
       return ih.keyQ();
     }
 
+    ///@brief Is Space currently pressed?
+    ///
     ///@return true if Space is currently pressed
     bool keySpace() {
       return ih.keySpace();
