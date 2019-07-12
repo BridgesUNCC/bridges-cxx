@@ -247,24 +247,39 @@ namespace bridges {
 			bool isOpaque()  const {
 				return getAlpha() == 255;
 			}
-			/** @return True if fully transparent, false if not */
+			/** 
+			 *  Checks for transparency
+			 *	@return True if fully transparent, false if not 
+			 */
 			bool isTransparent() const {
 				return getAlpha() == 0;
 			}
 
-			/** @return rgba value of the red channel [0,255] */
+			/** 
+		 	 * Get red component
+			 * @return rgba value of the red channel [0,255] 
+			 */
 			int getRed() const {
 				return channels.at(0);
 			}
-			/** @return rgba value of the green channel [0,255] */
+			/** 
+		 	 *  Get green component
+			 *	@return rgba value of the green channel [0,255] 
+			 */
 			int getGreen() const {
 				return channels.at(1);
 			}
-			/** @return rgba value of the blue channel [0,255] */
+			/** 
+		 	 *  Get blue component
+			 *	@return rgba value of the blue channel [0,255] 
+			 */
 			int getBlue()  const {
 				return channels.at(2);
 			}
-			/** @return rgba value of the alpha channel [0,255] */
+			/** 
+		 	 *  Get alpha component
+			 * @return rgba value of the alpha channel [0,255] 
+			 */
 			int getAlpha() const {
 				return channels.at(3);
 			}
@@ -280,26 +295,30 @@ namespace bridges {
 
 				return ss.str();
 			}
-			/** Sets red channel to "r"
-			 *	@param a rgba value to set red channel to
+			/** 
+			 *	Sets red channel to "r"
+			 *	@param r rgba value to set red channel 
 			 */
 			void setRed(int r) {
 				setChannel(r, 0);
 			}
-			/** Sets green channel to "g"
-			 * 	@param a rgba value to set green channel to
+			/** 
+			 *	Sets green channel to "g"
+			 * 	@param g rgba value to set green channel
 			 */
 			void setGreen(int g) {
 				setChannel(g, 1);
 			}
-			/** Sets blue channel to "b"
-			 *	@param a rgba value to set blue channel to
+			/** 
+			 *	Sets blue channel to "b"
+			 *	@param b rgba value to set blue channel 
 			 */
 			void setBlue(int b) {
 				setChannel(b, 2);
 			}
-			/** Sets alpha channel to "a"
-			 *	@param a rgba value to set alpha channel to
+			/** 
+			 *	Sets alpha channel to "a"
+			 *	@param a rgba value to set alpha channel
 			 */
 			void setAlpha(int a) {
 				setChannel(a, 3);
@@ -309,10 +328,10 @@ namespace bridges {
 			 * Sets this color's value to the specified rgba color channel values [0,255].
 			 * If no alpha channel is provided, the default of 255(opaque) is used.
 			 *
-			 * @param r rgba value to set the red channel to
-			 * @param g rgba value to set the green channel to
-			 * @param b rgba value to set the blue channel to
-			 * @param a rgba value to set the alpha channel to
+			 * @param r rgba value to set the red channel 
+			 * @param g rgba value to set the green channel 
+			 * @param b rgba value to set the blue channel 
+			 * @param a rgba value to set the alpha channel 
 			 */
 			void setValue(int r, int g, int b, int a = 255) {
 				setRed(r);

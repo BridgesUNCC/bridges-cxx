@@ -21,7 +21,7 @@ namespace bridges {
 	 * Objects of this class are stored as properties of all Element subclasses.
 	 *
 	 * @author Kalpathi Subramanian
-	 * @date 6/11/15
+	 * @date 6/11/15, 7/12/19
 	 */
 	class ElementVisualizer {
 		public:
