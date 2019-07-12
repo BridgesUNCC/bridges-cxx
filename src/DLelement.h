@@ -13,7 +13,7 @@ namespace bridges {
 	 * Generic Parameters: E the application data type
 	 *
 	 * @author Kalpathi Subramanian
-	 * @date 6/11/15
+	 * @date 6/11/15, 7/12/19
 	 */
 	template<typename E>
 	class DLelement: public SLelement<E> {
@@ -24,13 +24,13 @@ namespace bridges {
 		public:
 			/**
 			 *  Constructs a dlelement with the provided value, label, next and
-			 *  previous dlelements.
+			 *  previous elements.
 			 *  The defaults will be used if not provided.
 			 *
-			 * @param val The data to hold
-			 * @param lab The label to show
 			 * @param n The next DLelement
 			 * @param p The previous DLelement
+			 * @param val The data to hold
+			 * @param lab The label to show
 			 */
 			DLelement(DLelement* n, DLelement* p = nullptr, const E& val = E(),
 				const string& lab = string()) : SLelement<E>(n, val, lab) {
@@ -52,7 +52,7 @@ namespace bridges {
 			/**
 			 *  Return the data structure type
 			 *
-			 * @return The string representation of this data structure type
+			 * @return The name of this data structure type
 			 *
 			 */
 			virtual const string getDStype() const override {
@@ -76,7 +76,7 @@ namespace bridges {
 				return static_cast<const DLelement*>(SLelement<E>::getNext());
 			}
 			/**
-			 * Sets next to "n"
+			 * Sets next element to "n"
 			 *
 			 * @param n The next DLelement
 			 *
@@ -90,12 +90,15 @@ namespace bridges {
 					this->links[this->next];
 				}
 			}
-			/** @return The previous DLelement */
+			/** 
+			 * Returns the previous element in the list
+			 * @return The previous DLelement 
+			 */
 			DLelement* getPrev() {
 				return prev;
 			}
 			/**
-			 * Constant version
+			 * Returns the previous element - Constant version
 			 *
 			 * @return The previous DLelement
 			 */
@@ -103,9 +106,9 @@ namespace bridges {
 				return prev;
 			}
 			/**
-			 * Sets prev to "p"
+			 * Sets prev element to "p"
 			 *
-			 * @param p The previous DLelement
+			 * @param p The previous element
 			 */
 			void setPrev(DLelement* p) {
 				if (prev != p && this->next != prev) {
