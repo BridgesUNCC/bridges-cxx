@@ -140,6 +140,57 @@ namespace bridges {
 			}
 	};
 
+
+class LRU{
+	public:
+		std::vector<std::string> loadLRU(Cache ca){ //returns LRU vector from cache file
+
+			std::vector<std::string> v; // Vector for LRU
+			if(ca.inCache("lru")){
+				string vector_string = ca.getDoc("lru"); //Imported LRU
+				std::istringstream ss(vector_string);
+				std::string token;
+				//Parses string and turns it into vector
+				while(std::getline(ss, token, ',')) {
+						v.push_back(token);
+				}
+			}
+			return v;
+		}
+
+		 void saveLRU(std::vector<std::string> v, Cache ca){ //saves LRU vector to cache
+			 string out_vector;
+			 int x = 0;
+			 for(auto s : v){
+				 if (x == 0){ //prevents , from being first character
+						out_vector = s;
+						x++;
+				 } else {
+					 out_vector = out_vector + "," + s;
+				 }
+			 }
+			 ca.putDoc("lru", out_vector);
+
+			 return;
+		 }
+
+
+		 std::vector<std::string> putLRU(std::vector<std::string> v, std::string hash_value){ //puts hash value at front of LRU vector
+			 for (auto it = v.begin(); it != v.end(); ) {
+				 if (*it == hash_value){
+					 v.erase(it); //removes old hash vlaue location in vector
+					 break;
+				 } else {
+					 ++it;
+				 }
+			 }
+			 v.insert(v.begin(), hash_value); //puts hash value in the front of the vector
+			 return v;
+		 }
+};
+
+
+
 	/**
 	 * @brief This class provides an API to various data sources used in BRIDGES.
 	 *
@@ -597,7 +648,7 @@ namespace bridges {
 			}
 			/**
 			 *
-			 * Retrieves the Open Street Map data from a prebuilt JSON of OSM 
+			 * Retrieves the Open Street Map data from a prebuilt JSON of OSM
 			 * dataset.
 			 *
 			 * @param osm_json JSON string
@@ -665,23 +716,18 @@ namespace bridges {
 			}
 
 
-<<<<<<< HEAD
-			OSMData getOSMData (double lat_min, double long_min,
-					    double lat_max, double long_max, string level="default") {
-=======
 			/**
 			 *
-			 *  Get OpenStreetMap data given a bounding rectangle of lat/long 
-			 *	values.  
+			 *  Get OpenStreetMap data given a bounding rectangle of lat/long
+			 *	values.
 			 *
 			 *  @throws Exception if the request fails
 			 *
-			 *  @return an OSMData object 
+			 *  @return an OSMData object
 			 *
 			 */
 			OSMData getOSMData (double lat_min, double lat_max,
 					    double long_min, double long_max, string level="default") {
->>>>>>> fa965ebd9dd0ce96d5964deb02cbb444de6899d1
 
 				//URL for hash request
 				string hash_url = "http://cci-bridges-osm-t.dyn.uncc.edu/hash?minLon="+std::to_string(long_min)+
@@ -704,50 +750,19 @@ namespace bridges {
 
 				std::string osm_json;
 				Cache ca;
+				LRU lru;
 				std::cerr<<"url: "<<url<<"\n";
 
-				//Imports LRU from cache file
-				std::vector<std::string> v; // Vector for LRU
-				if(ca.inCache("lru")){
-					string vector_string = ca.getDoc("lru"); //Imported LRU
-					std::istringstream ss(vector_string);
-					std::string token;
-					//Parses string and turns it into vector
-					while(std::getline(ss, token, ',')) {
-							v.push_back(token);
-					}
-				}
-
+				std::vector<std::string> v = lru.loadLRU(ca); //Imports LRU from cache file
 
 				//Checks to see if map requested is stored in local cache
 				if (ca.inCache(hash_value) == true){ //local map is up-to-date
 					try {
 						if (ca.inCache(hash_value)) {
 							osm_json = ca.getDoc(hash_value);
-							//Checks for hash value in LRU vector
-							for (auto it = v.begin(); it != v.end(); ) {
-								if (*it == hash_value){
-									v.erase(it); //removes old hash vlaue location in vector
-									break;
-								} else {
-									++it;
-								}
-							}
-							v.insert(v.begin(), hash_value); //puts hash value in the front of the vector
 
-							//Stores the vector as a file in cache
-							string out_vector;
-							int x = 0;
-							for(auto s : v){
-								if (x == 0){ //prevents , from being first character
-									 out_vector = s;
-									 x++;
-								} else {
-									out_vector = out_vector + "," + s;
-								}
-							}
-							ca.putDoc("lru", out_vector);
-
+							v = lru.putLRU(v, hash_value); //Checks for hash value in LRU vector
+							lru.saveLRU(v, ca); //Stores the vector as a file in cache
 
 							return getOSMDataFromJSON(osm_json);
 						}
@@ -771,16 +786,7 @@ namespace bridges {
 					try {
 			      ca.putDoc(hash_value, osm_json);
 
-						//checks the vector used for the LRU to see if the map gotten is already in its list
-						for (auto it = v.begin(); it != v.end(); ) {
-							if (*it == hash_value){
-								v.erase(it);
-								break;
-							} else {
-								++it;
-							}
-						}
-						v.insert(v.begin(), hash_value);
+						v = lru.putLRU(v, hash_value); //Checks for hash value in LRU vector
 
 						//TODO: add test to check storage size and pop off old maps and delete them
 						//This is a hacked method b/c c++ is aweful for getting file sizes
@@ -793,18 +799,8 @@ namespace bridges {
 							}
 						}
 
-						//Stores LRU vector in cache
-						string out_vector;
-						int x = 0;
-						for(auto s : v){
-							if (x == 0){ //prevents , from being first character
-								 out_vector = s;
-								 x++;
-							} else {
-								out_vector = out_vector + "," + s;
-							}
-						}
-						ca.putDoc("lru", out_vector);
+						lru.saveLRU(v, ca); //Stores the vector as a file in cache
+
 			    } catch (CacheException& ce) {
 			      //something went bad trying to access the cache
 			      std::cerr << "Exception while storing in cache. Weird but not critical." << std::endl;
@@ -819,17 +815,17 @@ namespace bridges {
 			 *
 			 *  @throws Exception if the request fails
 			 *
-			 *  @return an OSMData object 
+			 *  @return an OSMData object
 			 *
 			 */
 			OSMData getOSMData (string location, string level="default") {
 				//URL for hash request
-				string hash_url = "http://cci-bridges-osm-t.dyn.uncc.edu/hash?location="+location+
+				string hash_url = "http://127.0.0.1:5000/hash?location="+location+
 				"&level="+ level;
 
 				//URL to request map
 				string url =
-			    "http://cci-bridges-osm-t.dyn.uncc.edu/loc?location="+location+
+			    "http://127.0.0.1:5000/loc?location="+location+
 					"&level="+ level;
 
 				//trys to get hash value for bounding box map
@@ -838,48 +834,20 @@ namespace bridges {
 
 				std::string osm_json;
 				Cache ca;
+				LRU lru;
 				std::cerr<<"url: "<<url<<"\n";
 
-				//Imports LRU from cache file
-				std::vector<std::string> v;
-				if(ca.inCache("lru")){
-					string v1 = ca.getDoc("lru");
-					std::istringstream ss(v1);
-					std::string token;
-					//Parses string and turns it into vector
-					while(std::getline(ss, token, ',')) {
-							v.push_back(token);
-					}
-				}
+				std::vector<std::string> v = lru.loadLRU(ca);
+
 
 				if (ca.inCache(hash_value) == true){ //local map is up-to-date
 					try {
 						if (ca.inCache(hash_value)) {
 							osm_json = ca.getDoc(hash_value);//TODO: Insert LRU update here
 
-							//Checks for hash value in LRU vector
-							for (auto it = v.begin(); it != v.end(); ) {
-								if (*it == hash_value){
-									v.erase(it); //removes old hash vlaue location in vector
-									break;
-								} else {
-									++it;
-								}
-							}
-							v.insert(v.begin(), hash_value); //puts hash value in the front of the vector
+							v = lru.putLRU(v, hash_value); //Checks for hash value in LRU vector
+							lru.saveLRU(v, ca); //Stores LRU vector in cache
 
-							//Stores LRU vector in cache
-							string out_vector;
-							int x = 0;
-							for(auto s : v){
-								if (x == 0){ //prevents , from being first character
-									 out_vector = s;
-									 x++;
-								} else {
-									out_vector = out_vector + "," + s;
-								}
-							}
-							ca.putDoc("lru", out_vector);
 							return getOSMDataFromJSON(osm_json);
 						}
 					} catch (CacheException& ce) {
@@ -901,17 +869,8 @@ namespace bridges {
 					//Saves map to cache directory
 					try {
 			      ca.putDoc(hash_value, osm_json);
+						v = lru.putLRU(v, hash_value); //checks the vector used for the LRU to see if the map gotten is already in its list
 
-						//checks the vector used for the LRU to see if the map gotten is already in its list
-						for (auto it = v.begin(); it != v.end(); ) {
-							if (*it == hash_value){
-								v.erase(it);
-								break;
-							} else {
-								++it;
-							}
-						}
-						v.insert(v.begin(), hash_value);
 
 						//TODO: add test to check storage size and pop off old maps and delete them
 						//This is a hacked method b/c c++ is aweful for getting file sizes
@@ -924,17 +883,8 @@ namespace bridges {
 						}
 
 						//Stores LRU vector in cache
-						string out_vector;
-						int x = 0;
-						for(auto s : v){
-							if (x == 0){ //prevents , from being first character
-								 out_vector = s;
-								 x++;
-							} else {
-								out_vector = out_vector + "," + s;
-							}
-						}
-						ca.putDoc("lru", out_vector);
+						lru.saveLRU(v, ca);
+
 			    } catch (CacheException& ce) {
 			      //something went bad trying to access the cache
 			      std::cerr << "Exception while storing in cache. Weird but not critical." << std::endl;
@@ -951,7 +901,7 @@ namespace bridges {
 	   * This is hitting a simpler API that has only a few map in
 	   * 	 there: "uncc_campus", "charlotte", "washington_dc",
 	   * 	 "saint_paul", "new_york", "los_angeles",
-	   * 	 "san_francisco", "miami", "minneapolis", "dallas" 
+	   * 	 "san_francisco", "miami", "minneapolis", "dallas"
 	   *
 	   * @param location which location to get the map from
 	   **/
@@ -991,7 +941,7 @@ namespace bridges {
 
 			}
 
-	  
+
 			/**Reconstruct a GraphAdjList from an existing GraphAdjList on the Bridges server
 			 *
 			 * The reconstructed assignment sees vertices identified as integers in the order they are stored in the server.
