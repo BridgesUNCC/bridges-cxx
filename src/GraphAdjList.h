@@ -608,7 +608,8 @@ namespace bridges {
 					forceSmallViz = false;
 				}
 			}
-
+	  
+			///@brief This is a helper class to return sets of vertices ina  way that are iterable with range for loops. Students should not have to use this directly.
 			class KeySet_helper {
 					std::unordered_map<K, Element<E1>* > const & underlying_map;
 
@@ -662,7 +663,7 @@ namespace bridges {
 			}
 
 
-			///This is a helper class to return sets of vertices ina  way that are iterable with range for loops
+			///@brief This is a helper class to return sets of vertices in a way that are iterable with range for loops. Students should have to use this directly.
 			class VertexElementSet_listhelper {
 					typename std::unordered_map<K, Element<E1>* > & underlying_map;
 
@@ -671,6 +672,7 @@ namespace bridges {
 						: underlying_map(um)
 					{}
 
+			  ///@brief This is a helper class to return sets of vertices in a way that are iterable with range for loops. Students should have to use this directly.
 					class iterator {
 							typename std::unordered_map<K, Element<E1>* >::iterator it;
 						public:
@@ -692,6 +694,7 @@ namespace bridges {
 							}
 					};
 
+			  			  ///@brief This is a helper class to return sets of vertices in a way that are iterable with range for loops. Students should have to use this directly.
 					class const_iterator {
 							typename std::unordered_map<K, Element<E1>* >::const_iterator it;
 						public:
@@ -738,7 +741,7 @@ namespace bridges {
 			}
 
 
-			///This is a helper class to return sets of vertices ina  way that are iterable with range for loops
+			///@brief This is a helper class to return sets of vertices ina  way that are iterable with range for loops. Students should not have to use this directly.
 			class constVertexElementSet_listhelper {
 					typename std::unordered_map<K, Element<E1>* > const & underlying_map;
 
@@ -747,6 +750,7 @@ namespace bridges {
 						: underlying_map(um)
 					{}
 
+			  			///@brief This is a helper class to return sets of vertices ina  way that are iterable with range for loops. Students should not have to use this directly.
 					class const_iterator {
 							typename std::unordered_map<K, Element<E1>* >::const_iterator it;
 						public:
