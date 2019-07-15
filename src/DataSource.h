@@ -942,6 +942,54 @@ namespace bridges {
 
 			}
 
+
+	  /**
+	   * @brief old interface for the OSM data set.
+	   *
+	   * This is hitting a simpler API that has only a few map in
+	   * 	 there: "uncc_campus", "charlotte", "washington_dc",
+	   * 	 "saint_paul", "new_york", "los_angeles",
+	   * 	 "san_francisco", "miami", "minneapolis", "dallas" 
+	   *
+	   * @param location which location to get the map from
+	   **/
+			OSMData getOSMDataOld (string location) {
+				std::transform(location.begin(), location.end(), location.begin(),
+					::tolower);
+				Cache ca;
+				std::string osm_json;
+				bool from_cache = false;
+				try {
+					if (ca.inCache(location)) {
+						osm_json = ca.getDoc(location);
+						from_cache = true;
+					}
+				}
+				catch (CacheException& ce) {
+					//something went bad trying to access the cache
+					std::cout << "Exception while reading from cache. Ignoring cache and continue." << std::endl;
+				}
+
+				string url = string("http://osm-api.herokuapp.com/name/") + location;
+
+				if (!from_cache) {
+					// get the OSM data json
+					osm_json = ServerComm::makeRequest(url, {"Accept: application/json"});
+
+					try {
+						ca.putDoc(location, osm_json);
+					}
+					catch (CacheException& ce) {
+						//something went bad trying to access the cache
+						std::cerr << "Exception while storing in cache. Weird but not critical." << std::endl;
+					}
+				}
+
+				return getOSMDataFromJSON(osm_json);
+
+			}
+
+	  
 			/**Reconstruct a GraphAdjList from an existing GraphAdjList on the Bridges server
 			 *
 			 * The reconstructed assignment sees vertices identified as integers in the order they are stored in the server.
