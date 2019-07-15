@@ -13,7 +13,9 @@ namespace bridges {
 
 	/**
 	 * @brief This class defines a polygon and is part of the symbol collection.
-	 *      A polygon has a set of vertices
+	 *      A polygon has a set of vertices, with vertices connected by line
+	 *		segments. It differs from the polyline in the sense that the last
+	 *		and first vertex are connect to close the shape.
 	 *
 	 * @author David Burlinson, Kalpathi Subramanian
 	 * @date 12/23/18, 7/12/19
