@@ -10,6 +10,7 @@ using namespace std;
 
 namespace bridges {
 
+    namespace datastructure {
 	/**
 	 * @brief This helper class is used by the graph
 	 *  classes - GraphAdjList , GraphAdjMatrix -  to keep track of edge
@@ -160,6 +161,6 @@ namespace bridges {
 				return lvis->getColor();
 			}
 	}; //end of Edge class
-
+    }
 } // end of bridges namespace
 #endif

@@ -15,6 +15,8 @@ using namespace std;
 
 
 namespace bridges {
+  using namespace bridges::datastructure;
+  
   class SocketConnection;
 	/**
 	 * @brief This class contains methods to connect and transmit a user's

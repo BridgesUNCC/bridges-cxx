@@ -4,6 +4,7 @@
 #include "DLelement.h"
 
 namespace bridges {
+    namespace datastructure {
 	/**
 	 * @author Kalpathi Subramanian
 	 * @date  10/5/16, 7/12/19
@@ -130,6 +131,6 @@ namespace bridges {
 				DLelement<E>::setPrev(prev);
 			}
 	};
-
+    }
 } //namespace bridges
 #endif

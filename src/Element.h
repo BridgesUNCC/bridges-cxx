@@ -14,6 +14,7 @@ using namespace std;
 #include <JSONutil.h>
 
 namespace bridges {
+    namespace datastructure {
 	// forward Declarations
 	template <typename K, typename E1, typename E2> class GraphAdjList;
 	template <typename K, typename E1, typename E2> class GraphAdjMatrix;
@@ -386,7 +387,7 @@ namespace bridges {
 			}
 	};	//end of Element class
 
-
+    }
 }//end of bridges namespace
 
 #endif

@@ -12,6 +12,7 @@ using namespace std;
 #include "Edge.h"
 
 namespace bridges {
+    namespace datastructure {
 	/** @brief This class provides methods to represent adjacency list
 	 *	based graphs. 
 	 *
@@ -787,6 +788,6 @@ namespace bridges {
 	};
 
 	//end of GraphAdjList class
-
+    }
 }//end of bridges namespace
 #endif

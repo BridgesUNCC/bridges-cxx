@@ -41,7 +41,8 @@
 using namespace std;
 
 namespace bridges {
-
+  class Bridges; //forward declaration
+  
 	// 	string constants  for use in constructing JSON
 	//	representation of the data structure
 	const string
@@ -54,7 +55,8 @@ namespace bridges {
 	CLOSE_BOX = "]",
 	OPEN_PARENS = "(",
 	CLOSE_PARENS = ")";
-
+  namespace datastructure {
+  
 	// Maximum number of elements that can be visualized
 	constexpr int MAX_ELEMENTS_ALLOWED = 5000;
 
@@ -70,7 +72,7 @@ namespace bridges {
 	 */
 	class DataStructure {
 			// Used for access to getDataStructureRepresentation()
-			friend class Bridges;
+	  friend class bridges::Bridges;
 			//			friend void Bridges::visualize();
 
 		public:
@@ -102,6 +104,6 @@ namespace bridges {
 			virtual const string getDataStructureRepresentation() const = 0;
 
 	};  //end of DataStructure class
-
+  }
 }   //end of bridges namespace
 #endif

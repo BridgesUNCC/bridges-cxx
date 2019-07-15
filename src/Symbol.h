@@ -13,6 +13,7 @@ using namespace std;
 
 
 namespace bridges {
+  namespace datastructure {
 
 	/**
 	 * @brief This is an abstract class for deriving a
@@ -318,7 +319,7 @@ namespace bridges {
 				return symbol_attr_json;
 			}
 	};
-
+  }
 } // namespace bridges
 
 #endif

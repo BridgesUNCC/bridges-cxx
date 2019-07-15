@@ -8,6 +8,7 @@
 #include <JSONutil.h>
 
 namespace bridges {
+    namespace datastructure {
 	/**
 	 * @brief This class can be used to create K-d Tree  elements, derived
 	 *  from BSTElement. K-D trees can be thought of as the spatial equivalent
@@ -150,6 +151,6 @@ namespace bridges {
 					);
 			}
 	}; //end of KdtreeElement class
-
+    }
 }//end of bridges namespace
 #endif

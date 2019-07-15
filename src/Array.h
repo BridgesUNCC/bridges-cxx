@@ -22,6 +22,7 @@
 #include "Bridges.h"
 
 namespace bridges {
+    namespace datastructure {
 	/**
 	 * @brief A BRIDGES array type
 	 *
@@ -301,7 +302,7 @@ namespace bridges {
 
 
 	}; // Array
-
+    }
 }// end namespace bridges
 
 #endif

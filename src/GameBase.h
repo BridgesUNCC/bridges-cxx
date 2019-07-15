@@ -6,6 +6,7 @@
 
 
 namespace bridges {
+  namespace game {
   class GameBase {
   private:
     Bridges bridges;
@@ -152,6 +153,7 @@ namespace bridges {
     }
 
   };
+  }
 }
 
 #endif

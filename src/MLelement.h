@@ -5,7 +5,7 @@
 #include "SLelement.h"
 
 namespace bridges {
-
+  namespace datastructure {
 	/**
 	 * 	@brief This class can be used to instantiate Multi-list Elements.
 
@@ -268,7 +268,7 @@ namespace bridges {
 				}
 			}
 	};
-
+  }
 } // end namespace bridges
 
 #endif

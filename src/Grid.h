@@ -9,7 +9,7 @@
 using namespace std;
 
 namespace bridges {
-
+  namespace datastructure {
 	/**
 	 * @brief This is a class in BRIDGES for representing an (n x n) grid.
 	 *
@@ -186,7 +186,7 @@ namespace bridges {
 
 
 	}; // end class Grid
-
+  }
 } // end - namespace bridges
 
 #endif

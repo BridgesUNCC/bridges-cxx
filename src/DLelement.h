@@ -4,6 +4,7 @@
 #include "SLelement.h" //string, using std
 
 namespace bridges {
+    namespace datastructure {
 	/**
 	 * @brief The doubly linked list element, derived from SLelement
 	 *
@@ -213,6 +214,6 @@ namespace bridges {
 
 	}; //end of DLelement class
 
-
+    }
 }//end of bridges namespace
 #endif

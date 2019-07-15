@@ -10,7 +10,7 @@ using namespace std;
 #define CIRCLE_H
 
 namespace bridges {
-
+  namespace datastructure {
 	/**
 	 * @brief This class defines a circle and is part of the symbol collection.
 	 *      A circle  has a radius
@@ -138,7 +138,7 @@ namespace bridges {
 
 			}
 	};
-
+  }
 } // namespace bridges
 
 #endif

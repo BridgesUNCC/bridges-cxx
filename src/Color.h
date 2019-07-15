@@ -13,6 +13,7 @@
 #include "DataStructure.h" //string, using std
 
 namespace bridges {
+    namespace datastructure {
 	/**
 	 * @brief This class represents Color, and supports rgba, hexadecimal and named
 	 *color values
@@ -407,5 +408,6 @@ namespace bridges {
 				: channels.at(channel) = value;
 			}
 	};//end of color class
+    }
 };//end of bridge namespace
 #endif

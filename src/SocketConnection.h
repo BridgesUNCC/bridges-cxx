@@ -15,7 +15,8 @@
 
 
 namespace bridges {
-
+  namespace game {
+  
   class KeypressListener {
   public:
     virtual void keyup(std::string JSONmessage) = 0;
@@ -207,7 +208,7 @@ namespace bridges {
       current_socket->emit("gamegrid:recv", gridjson);
     }
   };
-
+  }
 }
 
 #endif

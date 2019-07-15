@@ -5,6 +5,7 @@
 #include "Element.h" //string, using std
 
 namespace bridges {
+    namespace datastructure {
 	/**
 	 * @brief The singly linked list element, derived from Element
 	 *
@@ -194,18 +195,18 @@ namespace bridges {
 			/// But it may be returned by Bridges to provide an STL compliant list API.
 
 			class SLelement_listhelper {
-					typename bridges::SLelement<E> * start;
+			  typename bridges::datastructure::SLelement<E> * start;
 
 				public:
-					SLelement_listhelper (typename bridges::SLelement< E > * s)
+					SLelement_listhelper (typename bridges::datastructure::SLelement< E > * s)
 						: start(s)
 					{}
 
 					class iterator {
 
-							typename bridges::SLelement< E >  * current;
+							typename bridges::datastructure::SLelement< E >  * current;
 						public:
-							iterator(    typename bridges::SLelement< E >   * c )
+							iterator(    typename bridges::datastructure::SLelement< E >   * c )
 								: current(c)
 							{}
 
@@ -240,18 +241,18 @@ namespace bridges {
 			///@brief these are helper classes for SLelement for easy iteration in a range for loop.
 			///It is not meant to be created by the bridges user. But it may be returned by Bridges to provide an STL compliant list API.
 			class SLelement_constlisthelper {
-					typename bridges::SLelement<E> const * start;
+					typename bridges::datastructure::SLelement<E> const * start;
 
 				public:
-					SLelement_constlisthelper (typename bridges::SLelement< E > const * s)
+					SLelement_constlisthelper (typename bridges::datastructure::SLelement< E > const * s)
 						: start(s)
 					{}
 
 					class iterator {
 
-							typename bridges::SLelement< E > const  * current;
+							typename bridges::datastructure::SLelement< E > const  * current;
 						public:
-							iterator(    typename bridges::SLelement< E > const   * c )
+							iterator(    typename bridges::datastructure::SLelement< E > const   * c )
 								: current(c)
 							{}
 
@@ -280,6 +281,6 @@ namespace bridges {
 
 
 	}; //end of SLelement class
-
+    }
 }//end of bridges namespace
 #endif

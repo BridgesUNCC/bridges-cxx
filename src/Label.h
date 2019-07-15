@@ -13,7 +13,7 @@ using namespace std;
 
 
 namespace bridges {
-
+  namespace datastructure {
 	/**
 	 * @brief This is a label object and used for defining text labels
 	 *   as part of the symbol collection.
@@ -165,7 +165,7 @@ namespace bridges {
 
 			}
 	};
-
+  }
 } // namespace bridges
 
 #endif
