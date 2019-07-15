@@ -7,6 +7,7 @@
 using namespace std;
 
 namespace bridges {
+  namespace dataset {
 	/**
 	 * @brief  Class that hold Open Street Map edges
 	 *
@@ -91,7 +92,7 @@ namespace bridges {
 				this->length = l;
 			}
 	};
-
+  }
 } // namespace bridges
 
 #endif

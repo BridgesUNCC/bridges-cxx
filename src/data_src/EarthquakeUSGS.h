@@ -7,6 +7,7 @@
 using namespace std;
 
 namespace bridges {
+  namespace dataset {
 	/**
 	 * @brief  Class that hold earthquake data, for use with USGIS retrieved quake data.
 	 *
@@ -350,7 +351,7 @@ namespace bridges {
 				this->magnitude = magnitude;
 			}
 	};
-
+  }
 } // namespace bridges
 
 #endif

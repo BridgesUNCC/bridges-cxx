@@ -6,7 +6,7 @@
 using namespace std;
 
 namespace bridges {
-
+  namespace dataset {
 	/**
 	 *  @brief A class representing the attributes for cancer incidence.
 	 *
@@ -329,7 +329,7 @@ namespace bridges {
 				loc[1] = locY;
 			}
 	};
-
+  }
 }	// namespace bridges
 
 #endif

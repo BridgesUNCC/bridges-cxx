@@ -5,6 +5,7 @@
 using namespace std;
 
 namespace bridges {
+  namespace dataset {
 	/**
 	 * @brief  A Gutenberg Book object metadata only, used along with the
 	 * 	books data source.
@@ -141,7 +142,7 @@ namespace bridges {
 			}
 	};
 
-
+  }
 }// namespace bridges
 
 #endif

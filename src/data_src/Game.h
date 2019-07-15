@@ -7,6 +7,7 @@
 using namespace std;
 
 namespace bridges {
+  namespace dataset {
 	/**
 	 * @brief  A Game object, used along with the Games data source.
 	 *
@@ -65,7 +66,7 @@ namespace bridges {
 				this->genre = genre;
 			}
 	};
-
+  }
 } // namespace bridges
 
 #endif

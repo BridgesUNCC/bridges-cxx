@@ -15,6 +15,7 @@
 using namespace std;
 
 namespace bridges {
+  namespace dataset {
 	/**
 	 * @brief  Class that hold Open Street Map vertices
 	 *
@@ -108,7 +109,7 @@ namespace bridges {
 				coords[1] = cartesian_coords[1];
 			}
 	};
-
+  }
 } // namespace bridges
 
 #endif

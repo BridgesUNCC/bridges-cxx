@@ -40,7 +40,8 @@ using namespace std;
 
 
 namespace bridges {
-
+  using namespace bridges::dataset;
+  
 	class CacheException : std::exception {
 	};
 
