@@ -726,8 +726,8 @@ class LRU{
 			 *  @return an OSMData object
 			 *
 			 */
-			OSMData getOSMData (double lat_min, double lat_max,
-					    double long_min, double long_max, string level="default") {
+			OSMData getOSMData (double lat_min, double long_min,
+					     double lat_max, double long_max, string level="default") {
 
 				//URL for hash request
 				string hash_url = "http://cci-bridges-osm-t.dyn.uncc.edu/hash?minLon="+std::to_string(long_min)+
@@ -820,12 +820,12 @@ class LRU{
 			 */
 			OSMData getOSMData (string location, string level="default") {
 				//URL for hash request
-				string hash_url = "http://127.0.0.1:5000/hash?location="+location+
+				string hash_url = "http://cci-bridges-osm-t.dyn.uncc.edu/hash?location="+location+
 				"&level="+ level;
 
 				//URL to request map
 				string url =
-			    "http://127.0.0.1:5000/loc?location="+location+
+			    "http://cci-bridges-osm-t.dyn.uncc.edu/loc?location="+location+
 					"&level="+ level;
 
 				//trys to get hash value for bounding box map
