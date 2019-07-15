@@ -14,7 +14,7 @@ namespace bridges {
 	 * Generic Parameters: E the application data type
 	 *
 	 * @author Kalpathi Subramanian, Dakota Carmer
-	 * @date 6/12/15
+	 * @date 6/12/15, 7/12/19
 	 */
 	template <typename E>
 	class TreeElement : public Element<E>, public DataStructure {
@@ -26,23 +26,30 @@ namespace bridges {
 			 * setting the left and right TreeElements to NULL.
 			 * The defaults will be used if not provided.
 			 *
-			 * @param val The data to hold
+			 * @param e The data to hold
 			 * @param lab The label to show
 			 */
 			TreeElement(const E& e = E(), const string& lab = string())
 				: Element<E>(e, lab) {
 			}
-			/** @return The string representation of this data structure type */
+			/** 
+			 *  Get the data structure name
+			 *	@return The name of  this data structure
+			 */
 			virtual const string getDStype() const override {
 				return "Tree";
 			}
-			/** @return The children TreeElements */
+			/** 
+		 	 *  Get the children of this node
+		 	 *	@return The children TreeElements 
+			 */
 			vector<TreeElement*>& getChildren() {
 				return children;
 			}
 			/**
 			 * Constant version
 			 *
+		 	 *  Get the children of this node
 			 * @return The children TreeElements
 			 */
 			const vector<TreeElement*>& getChildren() const {
@@ -71,8 +78,7 @@ namespace bridges {
 			/**
 			 * Adds a child to children
 			 *
-			 * @param kid The child TreeElement
-			 * @return index of child
+			 * @param child The child TreeElement
 			 */
 			void addChild(TreeElement* child) {
 				children.push_back(child);
@@ -101,29 +107,11 @@ namespace bridges {
 					this->links[kid];			// initialize this element in the map
 				}
 			}
-			/**
-			 * Calls delete on itself and each next linked TreeElement*
-			 *
-			 * @warning Only call if these TreeElements were all dynamicaly allocated(
-			 *  aka: using new)
-			 * @warning If tree contains redundant links, delete will be called multiple
-			 *  times on it, leading to undefined behavior
-			 */
-			virtual void cleanup() override {
-				TreeElement* child = nullptr;
-				for (size_t i = children.size(); i-- > 0;) {
-					child = children.at(i);
-					if (child) {
-						child->cleanup();
-					}
-				}
-				DataStructure::cleanup();
-			}
 		private:
 			/**
 			 * Gets the JSON representation of this TreeElement and its links
 			 *
-			 * @return A pair holding  a hierarchical JSON representation of the
+			 * @return A string holding a hierarchical JSON representation of the
 			 *		tree
 			 *
 			 * The JSON creation for a tree structure is different from other
@@ -138,7 +126,6 @@ namespace bridges {
 				string tree_json =
 					QUOTE + "nodes"  + QUOTE + COLON +
 					(OPEN_CURLY +
-						//						this->preOrder((TreeElement<E>*)Bridges::getDataStructure())
 						this->preOrder((TreeElement<E>*)this)
 						+ CLOSE_CURLY + CLOSE_CURLY);
 

@@ -25,7 +25,7 @@ namespace bridges {
 	 * 	@brief the ShapeCollection represents a collection of symbols (shapes,
 	 *		polygons, and text) to visualize in Bridges
 	 * 	@author Kalpathi Subramanian
-	 *	@date 10/9/18
+	 *	@date 10/9/18, 7/12/19
 	 *
 	 */
 	class SymbolCollection : public  DataStructure {
@@ -78,6 +78,8 @@ namespace bridges {
 			/*
 			 *  This method examines whether the axes should be expanded
 			 *	to ensure all shapes are shown
+			 *
+			 *  @param s  Symbol
 			 */
 			void updateAxisDomains(Symbol* s) {
 				vector<float> dims = s->getDimensions();
@@ -101,6 +103,7 @@ namespace bridges {
 
 			/*
 			 *	Get the JSON representation of the the data structure
+			 *  @return JSON string of the symbol representation
 			 */
 			virtual const string getDataStructureRepresentation() const {
 				string symbol_json = string();

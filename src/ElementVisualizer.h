@@ -21,7 +21,7 @@ namespace bridges {
 	 * Objects of this class are stored as properties of all Element subclasses.
 	 *
 	 * @author Kalpathi Subramanian
-	 * @date 6/11/15
+	 * @date 6/11/15, 7/12/19
 	 */
 	class ElementVisualizer {
 		public:
@@ -56,14 +56,14 @@ namespace bridges {
 			 * Sets size to "sz"
 			 * Valid Range:[1,50]
 			 *
-			 * @param size The size in pixel weight of the element
+			 * @param sz The size in pixel weight of the element
 			 * @throw string If size is invalid
 			 */
 			void setSize(const double& sz) {
 				(sz < 1 || 50 < sz)
-				? throw "Invalid Size Value.. " + to_string(sz) +
-				" Must be in the [1.0,50.0] range"
-				: size = sz;
+					? throw "Invalid Size Value.. " + to_string(sz) +
+						" Must be in the [1.0,50.0] range"
+					: size = sz;
 			}
 			/** @return The size in pixel weight of the element*/
 			double getSize() const {
@@ -85,6 +85,7 @@ namespace bridges {
             }
 
 			/**
+			 *  Return the element color
 			 *	@return The color of the element
 			 */
 			Color getColor() const {
@@ -92,7 +93,7 @@ namespace bridges {
 			}
 
 			/**
-			 *	set opacity of element - use the 4th color component
+			 *	Set opacity of element - use the 4th color component
 			 *
 			 *  @param opacity
 			 */
@@ -102,7 +103,7 @@ namespace bridges {
 			}
 
 			/**
-			 *	get opacity of element
+			 *	Get opacity of element
 			 *
 			 *	@return opacity
 			 */
@@ -118,6 +119,7 @@ namespace bridges {
 				shape = shp;
 			}
 			/**
+			 *  Return the shape of the element
 			 *	@return The shape of the element(one of CIRCLE,SQUARE,
 			 *		DIAMOND,CROSS,TRI_DOWN,TRI_UP
 			 */
@@ -125,7 +127,8 @@ namespace bridges {
 				return shape;
 			}
 			/**
-			 * Set the location attributes of an element. Set location to INFINITY for bridges to chose the location.
+			 * Set the location attributes of an element. Set location to INFINITY for 
+			 *	bridges to chose the location.
 			 *
 			 * @param locX X coordinate of the element location
 			 * @param locY Y coordinate of the element location
@@ -142,7 +145,7 @@ namespace bridges {
 				return locationX;
 			}
 			/**
-			 *	@return the X coordinate of the  element's location attribute
+			 *	@return the Y coordinate of the  element's location attribute
 			 */
 			double getLocationY() const {
 				return locationY;

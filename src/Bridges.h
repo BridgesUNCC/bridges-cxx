@@ -18,10 +18,10 @@ namespace bridges {
   class SocketConnection;
 	/**
 	 * @brief This class contains methods to connect and transmit a user's
-	 *  data structure representation to the Bridges server (up to 5000 elements)
+	 *  data structure representation to the Bridges server
 	 *
 	 * @author Kalpathi Subramanian, Dakota Carmer
-	 * @date  7/26/15, 6/5/17, 10/30/18
+	 * @date  7/26/15, 6/5/17, 10/30/18, 7/12/19
 	 */
 	class Bridges {
 		private:
@@ -96,6 +96,7 @@ namespace bridges {
 
 			/**
 			 *
+			 *  Get user name
 			 *	@return reference to member holding the BRIDGES username credential
 			 *			for the server
 			 *
@@ -104,7 +105,7 @@ namespace bridges {
 				return user_name;
 			}
 			/**
-			 *
+			 *  Set user name
 			 *	@param  user_name   BRIDGES user id to set
 			 *
 			 */
@@ -112,7 +113,7 @@ namespace bridges {
 				user_name = name;
 			}
 			/**
-			 *
+			 *  Get API key credentials
 			 *	@return BRIDGES api key credential for the server
 			 *
 			 */
@@ -120,12 +121,14 @@ namespace bridges {
 				return api_key;
 			}
 			/**
+			 *  Set API key credentials
 			 *	@param key API key to set for user
 			 */
 			void setApiKey(const string& key) {
 				api_key = key;
 			}
 			/**
+			 *  Return assignmet id
 			 *
 			 *	@return assignment number for holding the visualization on the server
 			 *
@@ -134,6 +137,7 @@ namespace bridges {
 				return assn_num;
 			}
 			/**
+			 *  Set the assignment number
 			 *
 			 *	@param assn sets the assignment number
 			 *
@@ -147,6 +151,7 @@ namespace bridges {
 				}
 			}
 			/**
+			 *  Get the visualization title
 			 *
 			 *	@return title of visualization
 			 *
@@ -167,6 +172,7 @@ namespace bridges {
 				title = t;
 			}
 			/**
+			 *  Get visualization description
 			 *	@return description of visualization
 			 */
 
@@ -174,6 +180,7 @@ namespace bridges {
 				return description;
 			}
 			/**
+			 *  Set visualization description
 			 *	@return descr description of visualization
 			 */
 			void setDescription(const string& descr) {
@@ -226,9 +233,11 @@ namespace bridges {
 				api_key = key;
 			}
 			/**
+			 *  Set server type
 			 *
 			 *  @param  server server to which to connect.
-			 *      Options are: ['live', 'local', 'clone'], and 'live' is the default;
+			 *      Options are: ['live', 'local', 'clone'], and 'live' 
+			 *		is the default;
 			 *
 			 */
 			void setServer(const string& server_type) {
@@ -245,18 +254,19 @@ namespace bridges {
 			}
 
 			/**
-			 *	Turns on map overlay for subsequent visualizations - used with location specific
-			 *	datasets
+			 *	Turns on map overlay for subsequent visualizations - used with 
+			 *	location specific datasets
 			 *
 			 *  @param flag   this is the boolean flag for displaying a map overlay
 			 *
-			 **/
+			 */
 			void setMapOverlay (bool overlay_flag) {
 				map_overlay = overlay_flag;
 			}
 
 			/**
-			 *  Sets the coordinate system type for location specific data; default is cartesian
+			 *  Sets the coordinate system type for location specific data; 
+			 *	default is cartesian
 			 *
 			 *	@param coord    this is the desired coordinate space argument
 			 *		Options are: ['cartesian', 'albersusa', 'equirectangular', 'window'].
@@ -288,7 +298,7 @@ namespace bridges {
 			}
 
 			/**
-			 *  sets the world coordinate window defining the space of the user
+			 *  Sets the world coordinate window defining the space of the user
 			 *	defined objects (or nodes)
 			 *
 			 *  @param xmin   minimum window x
@@ -296,16 +306,26 @@ namespace bridges {
 			 *  @param xmax   maximum window x
 			 *  @param ymax   maximum window y
 			 *
-			 *  @return none
 			 **/
-			void setWindow (int xmin, int ymin, int xmax, int ymax) {
-				setWindow(double(xmin), double(ymin), double(xmax), double(ymax));
+			void setWindow (int xmin, int xmax, int ymin, int ymax) {
+				setWindow(double(xmin), double(xmax), double(ymin), double(ymax));
 			}
 
-			void setWindow (double xmin, double ymin, double xmax, double ymax) {
+			/**
+			 *  @brief sets the world coordinate window defining the space of the user
+			 *	defined objects (or nodes)
+			 *
+			 *  @param xmin   minimum window x
+			 *  @param ymin   minimum window y
+			 *  @param xmax   maximum window x
+			 *  @param ymax   maximum window y
+			 *
+			 **/
+			void setWindow (double xmin, double xmax, double ymin, double ymax) {
+			  wc_window.clear();
 				wc_window.push_back(xmin);
-				wc_window.push_back(ymin);
 				wc_window.push_back(xmax);
+				wc_window.push_back(ymin);
 				wc_window.push_back(ymax);
 			}
 

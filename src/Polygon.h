@@ -16,7 +16,7 @@ namespace bridges {
 	 *      A polygon has a set of vertices
 	 *
 	 * @author David Burlinson, Kalpathi Subramanian
-	 * @date 12/23/18
+	 * @date 12/23/18, 7/12/19
 	 *
 	 */
 	class Polygon : public Symbol {
@@ -38,6 +38,11 @@ namespace bridges {
 				points = pts;
 			}
 
+			/**
+			 *	This method gets the name of the data type
+			 *
+			 *  @return name   data type
+			 */
 			string getDataStructType() {
 				return "polygon";
 			}
@@ -54,7 +59,7 @@ namespace bridges {
 			/**
 			 * This method adds a point to the polygon
 			 *
-			 * @param x, y  X, Y coordinates of the point
+			 * @param x, y:  X, Y coordinates of the point
 			 */
 			void addPoint(int x, int y) {
 
@@ -80,6 +85,11 @@ namespace bridges {
 				return points;
 			}
 
+			/**
+			 * This method sets the points for the polygon
+			 *
+			 * @param pts  point list of the polygon - sequence of x, y values
+			 */
 			void setPolygon (vector<float> pts) {
 				*points = pts;
 			}

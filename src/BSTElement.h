@@ -12,7 +12,7 @@ namespace bridges {
 	 * @brief This class can be used to create binary search tree elements, derived
 	 *  from BinTreeElement
 	 *
-	 * This class extends the BinTreeElement class by adding a key property
+	 * This class extends the BinTreeElement class by adding a "key" property
 	 * to allow for use in a binary search tree implementation.
 	 *
 	 * Generic Parameters:
@@ -20,7 +20,8 @@ namespace bridges {
 	 *      E the application data type
 	 *
 	 * @author Kalpathi Subramanian
-	 * @date 6/18/15, 7/17/16
+	 * @date 6/18/15, 7/17/16, 7/12/19
+	 *
 	 */
 	template <typename K, typename E>
 	class BSTElement : public BinTreeElement<E> {
@@ -33,10 +34,10 @@ namespace bridges {
 			 * not provided.
 			 *
 			 * @param k The key for ordering
-			 * @param val The data to hold
-			 * @param lab The label to show
 			 * @param l The left BSTElement
 			 * @param r The right BSTElement
+			 * @param val The data to hold
+			 * @param lab The label to show
 			 */
 			BSTElement(const K& k, BSTElement* l, BSTElement* r, const E& val = E(),
 				const string& lab = string())
@@ -47,18 +48,24 @@ namespace bridges {
 			 * setting the left and right BSTElements to NULL.
 			 * The defaults will be used if not provided.
 			 *
+			 * @param k The key for ordering
 			 * @param val The data to hold
 			 * @param lab The label to show
-			 * @param k The key for ordering
 			 */
 			BSTElement(const K& k, const E& val = E(), const string& lab = string())
 				: BSTElement(k, nullptr, nullptr, val, lab) {
 			}
-			/** @return the data structure type */
+			/** 
+			 *  Returns the data structure name
+			 *	@return the data structure name 
+			 */
 			virtual const string getDStype() const override {
 				return "BinarySearchTree";
 			}
-			/** @return The key of this BSTElement */
+			/** 
+			 *  Returns the key value
+			 *	@return The key of this BSTElement 
+			 */
 			K getKey() const {
 				return key;
 			}
@@ -70,12 +77,15 @@ namespace bridges {
 			void setKey(const K& k) {
 				key = k;
 			}
-			/** @return The left child */
+			/** 
+			 *  Return the left child
+			 * 	@return The left child 
+			 */
 			virtual BSTElement* getLeft() override {
 				return static_cast<BSTElement*>(BinTreeElement<E>::getLeft());
 			}
 			/**
-			 * Constant version
+			 *  Return the left child - Constant version
 			 *
 			 * @return The left child
 			 */
@@ -90,20 +100,23 @@ namespace bridges {
 			void setLeft(BSTElement* l) {
 				BinTreeElement<E>::setLeft(l);
 			}
-			/** @return The right child */
+			/** 
+			 *  Return the right child 
+			 *	@return The right child 
+			 */
 			virtual BSTElement* getRight() override {
 				return static_cast<BSTElement*>(BinTreeElement<E>::getRight());
 			}
 			/**
-			 * Constant version
 			 *
-			 * @return The right child
+			 *  Return the right child - Constant version
+			 *	@return The right child
 			 */
 			virtual const BSTElement* getRight() const override {
 				return static_cast<const BSTElement*>(BinTreeElement<E>::getRight());
 			}
 			/**
-			 * Sets right to "r"
+			 * Sets right child to "r"
 			 *
 			 * @param r The right BSTElement
 			 */
@@ -111,6 +124,9 @@ namespace bridges {
 				BinTreeElement<E>::setRight(r);
 			}
 		protected:
+			/** 
+			 *	Gets the JSON representation of this element
+			 */
 			virtual const string getElementRepresentation() const override {
 				using bridges::JSONUtil::JSONencode;
 

@@ -16,18 +16,16 @@ namespace bridges {
 	 *		A rectangle has height and width
 	 *
 	 * @author Kalpathi Subramanian
-	 * @date 12/23/18
+	 * @date 12/23/18, 7/12/19
 	 *
 	 */
 	class Rectangle : public Symbol {
 		private:
 			string shape = "rect";
-			// height, width of rectangle
-			int width = 10,
-				height = 10;
+					// height, width of rectangle
+			int width = 10, height = 10;
 
 		public:
-
 			/**
 			 *  constructors
 			 */
@@ -35,6 +33,11 @@ namespace bridges {
 				width = height = 10;
 			}
 
+			/**
+			 * create rectangle with width w and height h
+			 * @param w  width
+			 * @param h  height
+			 */
 			Rectangle (int w, int h) {
 				if (w < 0 || h < 0)
 					throw "Illegal height or width! Height and Width values need to be positive";
@@ -42,6 +45,13 @@ namespace bridges {
 				height = h;
 			}
 
+			/**
+			 * create rectangle with width w and height h
+			 * @param locx  rect center - x coord
+			 * @param locy  rect center - y coord
+			 * @param w  width
+			 * @param h  height
+			 */
 			Rectangle (int locx, int locy, int w, int h) {
 				setLocation (float(locx), float(locy));
 				if (w < 0 || h < 0)
@@ -50,6 +60,11 @@ namespace bridges {
 				height = h;
 			}
 
+			/**
+			 *	This method gets the data type name
+			 *
+			 *  @return name   data type name
+			 */
 			string getDataStructType() {
 				return "rect";
 			}

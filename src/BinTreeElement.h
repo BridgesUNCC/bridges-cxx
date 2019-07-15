@@ -13,7 +13,7 @@ namespace bridges {
 	 * Generic Parameters: E the application data type
 	 *
 	 * @author Kalpathi Subramanian
-	 * @date 6/12/15
+	 * @date 6/12/15, 7/12/19
 	 */
 
 	template <typename E>
@@ -26,7 +26,7 @@ namespace bridges {
 			 * and right BinTreeElements.
 			 * The defaults will be used if not provided.
 			 *
-			 * @param val The data to hold
+			 * @param e The data to hold
 			 * @param lab The label to show
 			 * @param l The left TreeElement
 			 * @param r The right TreeElement
@@ -42,7 +42,7 @@ namespace bridges {
 			 *  setting the left and right BinTreeElement to NULL.
 			 * The defaults will be used if not provided.
 			 *
-			 * @param val The data to hold
+			 * @param e The data to hold
 			 * @param lab The label to show
 			 */
 			BinTreeElement(const E& e = E(), const string& lab = string())
@@ -57,6 +57,7 @@ namespace bridges {
 			}
 
 			/**
+			 *  Returns the left child
 			 *	@return The left BinTreeElement
 			 */
 			virtual BinTreeElement* getLeft() {
@@ -64,14 +65,15 @@ namespace bridges {
 			}
 
 			/**
-			 *	Constant version
+			 *  Returns the left child - Constant version
+			 *	@return The left BinTreeElement
 			 */
 			virtual const BinTreeElement* getLeft() const {
 				return static_cast<const BinTreeElement*>(this->getChild(leftPos));
 			}
 
 			/**
-			 *	Sets left to "l" @param l The left BinTreeElement
+			 *	Sets left child to "l" 
 			 *
 			 *	@param l  left child pointer
 			 */
@@ -80,6 +82,7 @@ namespace bridges {
 			}
 
 			/**
+			 *  Returns the right child
 			 *	@return The right BinTreeElement
 			 */
 			virtual BinTreeElement* getRight() {
@@ -87,14 +90,15 @@ namespace bridges {
 			}
 
 			/**
-			 *	Constant version
+			 *  Returns the right child - Constant version
+			 *	@return The right BinTreeElement
 			 */
 			virtual const BinTreeElement* getRight() const {
 				return static_cast<const BinTreeElement*>(this->getChild(rightPos));
 			}
 
 			/**
-			 *	Sets right to "r" @param r The right BinTreeElement
+			 *	Sets right to "r" 
 			 *
 			 *	@param r  right child pointer
 			 */

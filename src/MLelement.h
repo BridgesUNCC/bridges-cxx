@@ -28,7 +28,7 @@ namespace bridges {
 	 *
 	 * @author , Kalpathi Subramanian
 	 *
-	 * @date 5/24/17
+	 * @date 5/24/17, 7/12/19
 	 *
 	 * @param <E> The generic parameter object that is part of this element, representing
 	 *			either application specific data, or a pointer to a sublist.
@@ -50,6 +50,9 @@ namespace bridges {
 			 *
 			 * This constructor creates an MLelement object
 			 * and sets the next pointer to null
+			 *
+			 * @param val generic object 
+			 * @param lab label
 			 *
 			 */
 
@@ -118,16 +121,6 @@ namespace bridges {
 			}
 
 			/**
-			 *	This method gets the data structure type
-			 *
-			 *	@return  The date structure type as a string
-			 *
-			 */
-			string getDataStructType() {
-				return "MultiList";
-			}
-
-			/**
 			 * Retrieves the element following this element
 			 *
 			 * @return MLelement<E> assigned to next
@@ -192,7 +185,7 @@ namespace bridges {
 			/**
 			 * Gets the JSON representation of this multilist and its links
 			 *
-			 * @return A pair holding the nodes and links JSON strings respectively
+			 * @return JSON string of the data structure representation
 			 */
 			virtual const string getDataStructureRepresentation() const override final {
 				vector<const MLelement<E>*> nodes;

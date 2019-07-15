@@ -55,14 +55,14 @@ namespace bridges {
 
 
 			/**
-			 * Construct a graph out of the vertex an edge
+			 * Construct a graph out of the vertex and edge
 			 * data of the OSM object.  The graph will
 			 * associate the length of the edge to the
 			 * graph edge. No data is bound to the
 			 * vertices.
 			 *
 			 * The vertices of the graph will be located at
-			 * the location where given in the data set
+			 * the location given in the data set
 			 * converted to cartesian coordinate.
 			 **/
 			void getGraph (GraphAdjList<int, OSMVertex, double>* gr) const {

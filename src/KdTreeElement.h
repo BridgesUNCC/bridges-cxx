@@ -74,25 +74,29 @@ namespace bridges {
 				return "KdTree";
 			}
 			/**
+			 *  Get Dimension of the partition
 			 *	@return return the partitioning of this node
 			 */
 			int getDimension() const {
 				return dimension;
 			}
 			/**
-			 * Set dimension to "dim"
+			 * Set partitioning dimension to "dim"
 			 *
 			 * @param dim The partitioning dimension of this Kd tree element
 			 */
 			void setDimension(const int& dim) {
 				dimension = dim;
 			}
-			/** @return The left child */
+			/** 
+			 *	Get left child
+			 * 	@return The left child 
+			 */
 			virtual KdTreeElement* getLeft() override {
 				return static_cast<KdTreeElement*>(BSTElement<K, E>::getLeft());
 			}
 			/**
-			 * Constant version
+			 *	Get left child - constant version
 			 *
 			 * @return The left child
 			 */
@@ -100,14 +104,17 @@ namespace bridges {
 				return static_cast<const KdTreeElement*>(BSTElement<K, E>::getLeft());
 			}
 			/**
-			 * Sets left to "l"
+			 * Sets left child to "l"
 			 *
 			 * @param l The left child
 			 */
 			void setLeft(KdTreeElement* l) {
 				BSTElement<K, E>::setLeft(l);
 			}
-			/** @return The right child */
+			/** 
+			 *	Get right child
+			 *	@return The right child 
+			 */
 			virtual KdTreeElement* getRight() override {
 				return static_cast<KdTreeElement*>(BSTElement<K, E>::getRight());
 			}

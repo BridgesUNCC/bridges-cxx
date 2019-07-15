@@ -40,10 +40,19 @@ namespace bridges {
 				textHeight = 50;
 			}
 
+			/**
+			 * Create a label object with label l
+			 *
+			 * @param l  label
+			 */
 			Label (string l) {
 				setLabel(l);
 			}
 
+			/* 
+			 * Get Data Structure name
+			 * @return name of data type
+			 */
 
 			string getDataStructType() {
 				return "label";
@@ -61,11 +70,11 @@ namespace bridges {
 			/**
 			 * This method sets the font size
 			 *
-			 * @param f  font size
+			 * @param sz  font size
 			 *
 			 */
-			void setFontSize(int font) {
-				fontSize = font;
+			void setFontSize(int sz) {
+				fontSize = sz;
 			}
 
 			/**

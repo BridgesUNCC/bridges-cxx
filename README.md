@@ -5,6 +5,10 @@ Authors: Kalpathi Subramanian, June 2015, Feb. 2017
 
 Revisions:
 
+July, 2019: Doxygen docs revamped.
+
+April, 2019: Iterators implemented for Graph, SLelement classes
+
 Nov 16, 2015: Kalpathi Subramanian
 	Issues brought up by Dakota Carmer
 	A number of fixes/bugs/inconsistencies.

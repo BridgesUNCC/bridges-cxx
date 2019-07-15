@@ -15,8 +15,9 @@ using namespace std;
 
 namespace bridges {
 	/**
-	 *	@brief This is a detail class for the Bridges namespace and
-	 *			is not intended for external use
+	 *	@brief This is a class for handling calls to the BRIDGES server to transmit
+	 *		JSON to the server and subsequent visualization. It is not 
+	 *		intended for external use
 	 */
 	class ServerComm {
 			//Used to access to this class private functions

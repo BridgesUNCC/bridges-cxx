@@ -141,11 +141,11 @@ namespace bridges {
 	};
 
 	/**
-	 * @brief This provides an API to various data sources used in BRIDGES.
+	 * @brief This class provides an API to various data sources used in BRIDGES.
 	 *
 	 * BRIDGES currently supports a few external datasets for use with BRIDGES
 	 * assignments: USGIS Earthquake Tweeet streaming data feed, IMDB (file),
-	 * Book metadata collection, IGN Game Data, Shakespear book/poem meta data.
+	 * Book metadata collection, IGN Game Data, Shakespear book/poem meta data, etc.
 
 	 * Functions are provided that access a user specified number of data
 	 * records; objects of the appropriate type are returned as a list.
@@ -546,7 +546,7 @@ namespace bridges {
 				}
 				return wrapper;
 			}
-			/*
+			/**
 			 * Retrieves the CDC dataset into a vector of records
 			 * See CancerIncidence class for more information
 			 *
@@ -595,7 +595,13 @@ namespace bridges {
 				}
 				return wrapper;
 			}
-
+			/**
+			 *
+			 * Retrieves the Open Street Map data from a prebuilt JSON of OSM 
+			 * dataset.
+			 *
+			 * @param osm_json JSON string
+			 */
 			OSMData getOSMDataFromJSON (const string& osm_json) {
 				using namespace rapidjson;
 
@@ -659,8 +665,23 @@ namespace bridges {
 			}
 
 
+<<<<<<< HEAD
 			OSMData getOSMData (double lat_min, double long_min,
 					    double lat_max, double long_max, string level="default") {
+=======
+			/**
+			 *
+			 *  Get OpenStreetMap data given a bounding rectangle of lat/long 
+			 *	values.  
+			 *
+			 *  @throws Exception if the request fails
+			 *
+			 *  @return an OSMData object 
+			 *
+			 */
+			OSMData getOSMData (double lat_min, double lat_max,
+					    double long_min, double long_max, string level="default") {
+>>>>>>> fa965ebd9dd0ce96d5964deb02cbb444de6899d1
 
 				//URL for hash request
 				string hash_url = "http://cci-bridges-osm-t.dyn.uncc.edu/hash?minLon="+std::to_string(long_min)+
@@ -792,6 +813,15 @@ namespace bridges {
 				}
 			}
 
+			/**
+			 *
+			 *  Get OpenStreetMap data given a city name and resolution level
+			 *
+			 *  @throws Exception if the request fails
+			 *
+			 *  @return an OSMData object 
+			 *
+			 */
 			OSMData getOSMData (string location, string level="default") {
 				//URL for hash request
 				string hash_url = "http://cci-bridges-osm-t.dyn.uncc.edu/hash?location="+location+
@@ -914,24 +944,54 @@ namespace bridges {
 
 			}
 
-			/*
-						GraphAdjList<int, int> *getOSMDataAsGraph (string location,
-													double *location_range) {
 
-											// get the open street map data for this location
-							OSMData *osm_data = getOSMData (string location);
+	  /**
+	   * @brief old interface for the OSM data set.
+	   *
+	   * This is hitting a simpler API that has only a few map in
+	   * 	 there: "uncc_campus", "charlotte", "washington_dc",
+	   * 	 "saint_paul", "new_york", "los_angeles",
+	   * 	 "san_francisco", "miami", "minneapolis", "dallas" 
+	   *
+	   * @param location which location to get the map from
+	   **/
+			OSMData getOSMDataOld (string location) {
+				std::transform(location.begin(), location.end(), location.begin(),
+					::tolower);
+				Cache ca;
+				std::string osm_json;
+				bool from_cache = false;
+				try {
+					if (ca.inCache(location)) {
+						osm_json = ca.getDoc(location);
+						from_cache = true;
+					}
+				}
+				catch (CacheException& ce) {
+					//something went bad trying to access the cache
+					std::cout << "Exception while reading from cache. Ignoring cache and continue." << std::endl;
+				}
 
-											// get the vertices and edges
-							vector<OSMVertex> vertices = osm_data->getVertices();
-							vector<OSMEdge> edges = osm_data->getEdges();
+				string url = string("http://osm-api.herokuapp.com/name/") + location;
 
-											// build a graph from this dataset
-							GraphAdjList<int, int> *graph = new GraphAdjList<int, int>
-							loc_range[0] = osm_data->getLatLongRange
+				if (!from_cache) {
+					// get the OSM data json
+					osm_json = ServerComm::makeRequest(url, {"Accept: application/json"});
 
-						}
+					try {
+						ca.putDoc(location, osm_json);
+					}
+					catch (CacheException& ce) {
+						//something went bad trying to access the cache
+						std::cerr << "Exception while storing in cache. Weird but not critical." << std::endl;
+					}
+				}
 
-			*/
+				return getOSMDataFromJSON(osm_json);
+
+			}
+
+	  
 			/**Reconstruct a GraphAdjList from an existing GraphAdjList on the Bridges server
 			 *
 			 * The reconstructed assignment sees vertices identified as integers in the order they are stored in the server.

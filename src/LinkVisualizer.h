@@ -19,7 +19,7 @@ namespace bridges {
 	 * Thickness values must range from [1.0,10.0]. Default: 1.0
 	 *
 	 * @author Kalpathi Subramanian, Dakota Carmer
-	 * @date 6/29/15, 6/10/16
+	 * @date 6/29/15, 6/10/16, 7/12/19
 	 */
 	class LinkVisualizer {
 		public:
@@ -53,6 +53,7 @@ namespace bridges {
 			}
 
 			/**
+			 *  Return the element label
 			 *  @return The label of the element
 			 */
 			string getLabel() const {
@@ -69,7 +70,7 @@ namespace bridges {
 			}
 
 			/**
-			 * Set the thickness to "thick"
+			 * Set the link thickness
 			 * Valid Range:[1,10] Default: 1
 			 *
 			 * @param thick The size in pixels of the link's line weight
@@ -83,6 +84,7 @@ namespace bridges {
 					thickness = th;
 			}
 			/**
+			 *  Get the link thickness
 			 *	@return Size in pixels of the link's line thickness
 			 */
 			double getThickness() const {
@@ -90,7 +92,7 @@ namespace bridges {
 			}
 
 			/**
-			 * Set the color to "col", default black
+			 * Set the link color to "col", default black
 			 *
 			 * @param color The color of the element
 			 */
@@ -99,6 +101,7 @@ namespace bridges {
 			}
 			/**
              *  Set the color to a named color "col"
+			 *  Check the Color class for supported color names
              *  @param color The color name
              */
             void setColor(const string col) {
@@ -106,6 +109,7 @@ namespace bridges {
             }
 
 			/**
+			 *  Return the link color
 			 *	@return The color of the link
 			 */
 			Color getColor() const {

@@ -9,7 +9,7 @@
 namespace bridges {
 	/**
 	 *	@brief This class provides methods to represent adjacency matrix based
-	 *	graphs
+	 *	graphs.
 	 *
 	 *	The class is simply a wrapper around the C++ STL unordered_map class
 	 *	and thus derives all its operations from it.  Given the use of operator
@@ -50,7 +50,7 @@ namespace bridges {
 			 * Sets all of its edges to be of weight 0.
 			 *
 			 * @param k Vertex key
-			 * @param E1 Vertex data
+			 * @param e Vertex data
 			*/
 			void addVertex(const K& k, const E1& e = E1()) {
 				stringstream conv;
@@ -84,6 +84,7 @@ namespace bridges {
 				}
 			}
 			/**
+			 *  Return the adjacency matrix
 			 *	@return The matrix of this graphs edges
 			 */
 			const unordered_map<K, unordered_map<K, int>>& getMatrix() const {
@@ -92,6 +93,7 @@ namespace bridges {
 
 			/**
 			 *
+			 *  Return the adjacency matrix row at Key key
 			 *  @param key The input key value that identifies the row being
 			 *				retrieved
 			 *
@@ -103,12 +105,14 @@ namespace bridges {
 			}
 
 			/**
+			 *  Return the graph vertices
 			 *	@return The graph verticies
 			 */
 			unordered_map<K, Element<E1> *>* getVertices() {
 				return &vertices;
 			}
 			/**
+			 *  Return the vertex correspondingto key "key" - const version
 			 *  @return the requested vertex of this graph
 			 */
 			const Element<E1>* getVertex(const K& key) const {
@@ -116,15 +120,15 @@ namespace bridges {
 			}
 
 			/**
+			 *  Return the vertex correspondingto key "key"
 			 *  @return the requested vertex of this graph
 			 *
-			 *  non-const version
 			 */
 			Element<E1>* getVertex(const K& key) {
 				return vertices.at(key);
 			}
 			/**
-			 * 	Gets vertex data for a graph vertex
+			 * Gets vertex data for a graph vertex
 			 *
 			 * @param src The key of the source vertex
 			 *
@@ -168,7 +172,7 @@ namespace bridges {
 			 * @param src The key of the source Vertex
 			 * @param dest The key of the destination Vertex
 			 *
-			 * @return E2  edge specific data
+			 * @return  edge specific data
 			 */
 			E2&	getEdgeData (const K& src, const K& dest) {
 				try {
