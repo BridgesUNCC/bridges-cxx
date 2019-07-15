@@ -141,8 +141,12 @@ namespace bridges {
 	};
 
 
-class LRU{
+class lruCache{
+
+
 	public:
+		int maxCache;
+
 		std::vector<std::string> loadLRU(Cache ca){ //returns LRU vector from cache file
 
 			std::vector<std::string> v; // Vector for LRU
@@ -185,6 +189,18 @@ class LRU{
 				 }
 			 }
 			 v.insert(v.begin(), hash_value); //puts hash value in the front of the vector
+			 return v;
+		 }
+
+		 std::vector<std::string> sizeCheck(std::vector<std::string> v){
+			 if (v.size() >= maxCache + 1){ // keeps maxCache local maps
+				 string f = "cache/";
+				 f.append(v[v.size()-1]);
+
+				 if(std::remove(f.c_str()) == 0){
+					 v.pop_back();
+				 }
+			 }
 			 return v;
 		 }
 };
@@ -750,7 +766,8 @@ class LRU{
 
 				std::string osm_json;
 				Cache ca;
-				LRU lru;
+				lruCache lru;
+				lru.maxCache = 30;
 				std::cerr<<"url: "<<url<<"\n";
 
 				std::vector<std::string> v = lru.loadLRU(ca); //Imports LRU from cache file
@@ -772,8 +789,7 @@ class LRU{
 					}
 
 				} else if(hash_value.compare("false") == 0 || ca.inCache(hash_value) == false){ //Server response is false or somehow map got saved as false
-					//Requests the map data then requests the maps hash
-					osm_json = ServerComm::makeRequest(url, {"Accept: application/json"});
+					osm_json = ServerComm::makeRequest(url, {"Accept: application/json"}); //Requests the map data then requests the maps hash
 					hash_value =  ServerComm::makeRequest(hash_url, {"Accept: application/json"});
 
 					if (hash_value.compare("false") == 0){
@@ -785,20 +801,8 @@ class LRU{
 					//Saves map to cache directory
 					try {
 			      ca.putDoc(hash_value, osm_json);
-
 						v = lru.putLRU(v, hash_value); //Checks for hash value in LRU vector
-
-						//TODO: add test to check storage size and pop off old maps and delete them
-						//This is a hacked method b/c c++ is aweful for getting file sizes
-						if (v.size() >= 31){ // keeps 30 local maps
-							string f = "cache/";
-							f.append(v[v.size()-1]);
-
-							if(std::remove(f.c_str()) == 0){
-								v.pop_back();
-							}
-						}
-
+						lru.sizeCheck(v);
 						lru.saveLRU(v, ca); //Stores the vector as a file in cache
 
 			    } catch (CacheException& ce) {
@@ -834,7 +838,8 @@ class LRU{
 
 				std::string osm_json;
 				Cache ca;
-				LRU lru;
+				lruCache lru;
+				lru.maxCache = 30;
 				std::cerr<<"url: "<<url<<"\n";
 
 				std::vector<std::string> v = lru.loadLRU(ca);
@@ -844,22 +849,17 @@ class LRU{
 					try {
 						if (ca.inCache(hash_value)) {
 							osm_json = ca.getDoc(hash_value);//TODO: Insert LRU update here
-
 							v = lru.putLRU(v, hash_value); //Checks for hash value in LRU vector
 							lru.saveLRU(v, ca); //Stores LRU vector in cache
-
 							return getOSMDataFromJSON(osm_json);
 						}
-					} catch (CacheException& ce) {
-						//something went bad trying to access the cache
+					} catch (CacheException& ce) { //something went bad trying to access the cache
 						std::cout << "Exception while reading from cache. Ignoring cache and continue." << std::endl;
 					}
 
 				} else if(hash_value.compare("false") == 0 || ca.inCache(hash_value) == false){ //Server response is false or somehow map got saved as false
-					//Requests the map data then requests the maps hash
-					osm_json = ServerComm::makeRequest(url, {"Accept: application/json"});
+					osm_json = ServerComm::makeRequest(url, {"Accept: application/json"}); //Requests the map data then requests the maps hash
 					hash_value =  ServerComm::makeRequest(hash_url, {"Accept: application/json"});
-
 					if (hash_value.compare("false") == 0){
 						std::cerr << "Error while gathering hash data for generated map..." << std::endl;
 						std::cerr << osm_json << std::endl;
@@ -870,21 +870,8 @@ class LRU{
 					try {
 			      ca.putDoc(hash_value, osm_json);
 						v = lru.putLRU(v, hash_value); //checks the vector used for the LRU to see if the map gotten is already in its list
-
-
-						//TODO: add test to check storage size and pop off old maps and delete them
-						//This is a hacked method b/c c++ is aweful for getting file sizes
-						if (v.size() >= 31){ // keeps 30 local maps
-							string f = "cache/";
-							f.append(v[v.size()-1]);
-							if(std::remove(f.c_str()) == 0){
-								v.pop_back();
-							}
-						}
-
-						//Stores LRU vector in cache
-						lru.saveLRU(v, ca);
-
+						lru.sizeCheck(v);
+						lru.saveLRU(v, ca); //Stores LRU vector in cache
 			    } catch (CacheException& ce) {
 			      //something went bad trying to access the cache
 			      std::cerr << "Exception while storing in cache. Weird but not critical." << std::endl;
