@@ -4,6 +4,7 @@
 #include "SLelement.h"
 
 namespace bridges {
+  namespace datastructure {
 	/**
 	 *  @brief This class can be used to instantiate Singly Linked
 	 *  Circular List Elements.
@@ -97,6 +98,6 @@ namespace bridges {
 				SLelement<E>::setNext(next);
 			}
 	};
-
+  }
 } // namespace bridges
 #endif
