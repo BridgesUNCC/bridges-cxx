@@ -124,6 +124,23 @@ namespace bridges {
 				curl_global_cleanup();
 				return results;
 			}
+
+	  static std::string encodeURLPart (const std::string& s) {
+	    std::string returnstr;
+
+	     curl_global_init(CURL_GLOBAL_ALL);
+	     CURL* curl = curl_easy_init(); // get a curl handle
+
+	     char* encodedstr = curl_easy_escape (curl, s.c_str(), 0);
+	     returnstr = encodedstr;
+
+	     curl_free(encodedstr);
+	     
+	     curl_easy_cleanup(curl);
+	     curl_global_cleanup();
+		    
+	    return returnstr;
+	  }
 	}; //server comm
 
 
