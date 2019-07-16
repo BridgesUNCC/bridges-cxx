@@ -132,6 +132,14 @@ namespace bridges {
 				fillColor = c;
 			}
 			/**
+			 * This method sets the symbol fill color
+			 *
+			 * @param c the named color to set
+			 */
+			void setFillColor(string c) {
+				fillColor = Color(c);
+			}
+			/**
 			 * This method gets fill color
 			 *
 			 * @return  fill color
@@ -147,6 +155,15 @@ namespace bridges {
 			 */
 			void setStrokeColor(Color c) {
 				strokeColor = c;
+			}
+
+			/**
+			 * This method sets the symbol stroke color
+			 *
+			 * @param c the named color to set
+			 */
+			void setStrokeColor(string c) {
+				strokeColor = Color(c);
 			}
 
 			/**
