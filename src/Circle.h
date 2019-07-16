@@ -37,6 +37,7 @@ namespace bridges {
 			/**
 			 *  Create a circle of radius r
 			 *  @param  r : radius 
+			 */
 			Circle (int r) {
 				if (r < 0)
 					throw "Illegal value for radius. Must be positive";
