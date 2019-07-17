@@ -1,22 +1,6 @@
 #ifndef ARRAY_H
 #define ARRAY_H
 
-/**
- *
- *
- * @brief This class is a superclass for arrays. Arrays contain an element (Element<E>) 
- *  E is a generic type that relates to  application specific data.
- *  Arrays are internally represented as 1D arrays; currently 1D, 2D  and
- *  3D arrays are supported.
- *
- * @param <E>
-
- * @author  Kalpathi Subramanian
- * @date    10/8/16, 7/12/19
- *
- */
-
-
 #include "Element.h"
 
 #include "Bridges.h"
@@ -24,7 +8,7 @@
 namespace bridges {
     namespace datastructure {
 	/**
-	 * @brief A BRIDGES array type
+	 * @brief The foundation of  BRIDGES array types. It is not meant to be used directly by students.
 	 *
 	 * This class can be used to create 1D, 2D, and 3D arrays of any type.
 	 *
@@ -33,8 +17,6 @@ namespace bridges {
 	 * @author Kalpathi Subramanian
 	 * @date 1/14/17, 7/12/19
 	 */
-
-
 	template <typename E>
 	class Array : public DataStructure {
 
@@ -45,12 +27,12 @@ namespace bridges {
 			int dims[3];
 			int size;
 
-		public:
+		protected:
 			Array()
 				: array_data(nullptr), num_dims(0), dims{0, 0, 0}, size(0) {
 			}
 
-			~Array() {
+			virtual ~Array() {
 				if (array_data != nullptr)
 					delete [] array_data;
 			}
@@ -99,6 +81,8 @@ namespace bridges {
 						break;
 				}
 			}
+
+	  int const * getDimensions() const{return dims;}
 			/**
 			 *
 			 *  Get the object at index index  - 1D array
@@ -113,6 +97,18 @@ namespace bridges {
 
 			/**
 			 *
+			 *  Get the object at index index  - 1D array
+			 *
+			 *  @param index - index into the array
+			 *
+			 *  @return Element<E>  at 'index'
+			 */
+			Element<E> const & getElement(int index) const {
+				return array_data[index];
+			}
+	  
+			/**
+			 *
 			 *  Set the object at index ind  - 1D array
 			 *
 			 *  @param ind - index into the array
@@ -123,6 +119,7 @@ namespace bridges {
 			void setElement(int ind, Element<E> el) {
 				array_data[ind] = el;
 			}
+	public:
 			/**
 			 *	Get the data structure type 
 			 *	@return data structure name
