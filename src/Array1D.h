@@ -11,7 +11,6 @@ namespace bridges {
 		 *
 		 * This class can be used to create 1D arrays of any type.
 		 *
-		 * Generic Parameters: E the application data type
 		 *
 		 * The class stores an array of E where each entry can
 		 * be styled.
@@ -44,6 +43,7 @@ namespace bridges {
 		 * }
 		 * \endcode
 		 *
+		 * @param E the application data type
 		 * @author Kalpathi Subramanian, Erik Saule
 		 * @date 7/16/19
 		 */
