@@ -1,6 +1,7 @@
 
 
-#include unordered_map>
+#ifndef LINE_CHART_H
+
 /**
  * @brief Show series of data or functions using a line chart.
  *
@@ -32,7 +33,11 @@
  *
  *
  **/
-namespace bridges
+#include <unordered_map>
+#include <vector>
+#include <string>
+
+namespace bridges {
 	namespace datastructure{
 		class LineChart : public DataStructure {
 
@@ -46,8 +51,8 @@ namespace bridges
 				bool logarithmicx;
 				bool logarithmicy;
 
-				private unordered_map<string, array<double> yaxisData;
-				private unordered_map<string, array<double> xaxisData;
+				unordered_map<string, vector<double>> yaxisData;
+				unordered_map<string, vector<double>> xaxisData;
 
 			public:
 				LineChart() {
@@ -112,7 +117,7 @@ namespace bridges
 				 * @param val Should the Y-axis use a logarithmic scale?
 				 **/
 				void toggleLogarithmicY(bool val) {
-					this.logarithmicy = val;
+					logarithmicy = val;
 				}
 
 				/**
@@ -209,7 +214,7 @@ namespace bridges
 				 * @param xdata the X data in the series
 				 **/
 				void setXData(string series, vector<double> xdata) {
-					xaxisData[series] =  xdata);
+					xaxisData[series] =  xdata;
 				}
 
 				/**
@@ -254,6 +259,7 @@ namespace bridges
 				 *
 				 * @return whether it is in a valid state
 				 */
+/*
 					bool check() {
 						bool correct = true;
 						for (EntryString, double[]> entry : xaxisData.entrySet()) {
@@ -295,10 +301,12 @@ namespace bridges
 						}
 						return correct;
 					}
+*/
 
 				public:
 					string getDataStructureRepresentation() {
-						check();
+						using bridges::JSONUtil::JSONencode;
+//						check();
 						string xaxis_json = "";
 						for (auto& entry: xaxisData) {
 							string key = entry.first;
@@ -322,7 +330,7 @@ namespace bridges
 							yaxis_json += OPEN_CURLY + JSONencode("Plot_Name") 
 									+ COLON + JSONencode( key) + COMMA +
 								JSONencode("yaxis_data") + COLON + OPEN_BOX;
-							for ( int i = 0; i  value.length ; i++) {
+							for ( int i = 0; i <  value.size() ; i++) {
 								yaxis_json +=  JSONencode(value[i])  + COMMA;
 							}
 							yaxis_json = yaxis_json.erase(yaxis_json.length() - 1);
@@ -331,21 +339,21 @@ namespace bridges
 						yaxis_json = yaxis_json.erase(yaxis_json.length() - 1);
 
 
-						string json_str = JSONencode("plot_title") + COLON +  JSONencode(this.getTitle()) + COMMA +
-							JSONencode("subtitle") + COLON + JSONencode(this.getSubTitle())  + COMMA +
-							JSONencode("xLabel") + COLON + JSONencode(this.getXLabel()) +  COMMA +
-							JSONencode("yLabel") + COLON + JSONencode(this.getYLabel()) + COMMA +
-							JSONencode("xaxisType") + COLON + this.logarithmicx + COMMA +
-							JSONencode("yaxisType") + COLON + this.logarithmicy + COMMA +
+						string json_str = JSONencode("plot_title") + COLON +  JSONencode(getTitle()) + COMMA +
+							JSONencode("subtitle") + COLON + JSONencode(getSubTitle())  + COMMA +
+							JSONencode("xLabel") + COLON + JSONencode(getXLabel()) +  COMMA +
+							JSONencode("yLabel") + COLON + JSONencode(getYLabel()) + COMMA +
+							JSONencode("xaxisType") + COLON + JSONencode(logarithmicx) + COMMA +
+							JSONencode("yaxisType") + COLON + JSONencode(logarithmicy) + COMMA +
 							JSONencode("options") + COLON + OPEN_CURLY + JSONencode("mouseTracking") + COLON +
-							this.mouseTrack + COMMA + JSONencode("dataLabels") + COLON + this.dataLabel + CLOSE_CURLY + COMMA +
+							JSONencode(mouseTrack) + COMMA + JSONencode("dataLabels") + COLON + JSONencode(dataLabel) + CLOSE_CURLY + COMMA +
 							JSONencode("xaxis_data") + COLON + OPEN_BOX + xaxis_json + CLOSE_BOX + COMMA +
 							JSONencode("yaxis_data") + COLON + OPEN_BOX + yaxis_json + CLOSE_BOX +
 							CLOSE_CURLY;
 						return json_str;
+					}
 
-			}
 		}
 	}
 }
-
+#endif
