@@ -4,8 +4,8 @@
 /**
  *
  *
- * @brief This class can be used to create arrays of type Element<E> where E
- *  is a generic type representation application specific data.
+ * @brief This class is a superclass for arrays. Arrays contain an element (Element<E>) 
+ *  E is a generic type that relates to  application specific data.
  *  Arrays are internally represented as 1D arrays; currently 1D, 2D  and
  *  3D arrays are supported.
  *
@@ -47,10 +47,10 @@ namespace bridges {
 
 		public:
 			Array()
-				: array_data(nullptr), num_dims(1), dims{0, 0, 0}, size(0) {
+				: array_data(nullptr), num_dims(0), dims{0, 0, 0}, size(0) {
 			}
 
-			virtual ~Array() {
+			~Array() {
 				if (array_data != nullptr)
 					delete [] array_data;
 			}
@@ -59,98 +59,46 @@ namespace bridges {
 			///@param num_dims number of dimension
 			///@param dims size of each dimension
 
-			Array(int num_dims, int *dims)
+			Array(int nd, int *dim)
 				: array_data(nullptr) {
-				setNumDimensions(num_dims);
-				setDimensions(dims);
+				setSize(nd, dim);
 			}
 
-			///builds a 1D array.
-			///@param num_element size of the array's only dimension
-			Array(int num_element)
-				: Array(1, &num_element) {
-			}
-
-			///builds a 2D array.
-			///@param xsize size of the array's first dimension
-			///@param ysize size of the array's second dimension
-			Array(int xsize, int ysize)
-				: Array() {
-				dims[0] = xsize;
-				dims[1] = ysize;
-				dims[2] = 1;
-				setNumDimensions(2);
-				setDimensions(dims);
-			}
-
-			///builds a 3D array.
-			///@param xsize size of the array's first dimension
-			///@param ysize size of the array's second dimension
-			///@param zsize size of the array's third dimension
-			Array(int xsize, int ysize, int zsize)
-				: Array() {
-				dims[0] = xsize;
-				dims[1] = ysize;
-				dims[2] = zsize;
-				setNumDimensions(3);
-				setDimensions(dims);
-				//				Bridges::setDimensions(dims);
-			}
-
-			/// Sets the number of dimension of the array
-			/// @param the number of dimensions (int)
-			/// @return none
-			void setNumDimensions(int nd) {
-				if (nd > 3) {
-					cout << "Only 1D, 2D and 3D arrays supported." << endl;
-					exit(-1);
+			/** 
+			 *	Set the size of the array 
+			 *  @param dim the size of the dimensions
+			 */
+			void setSize(int nd, int *dim) {
+				if (dim[0] <= 0 || dim[1] <= 0 || dim[2] <= 0) {
+					cout << "Dimensions of array must be positive!" << endl
+							<< "\tProvided dimensions: " << dim[0] 
+							<< "," << dim[1] << "," << dim[2] << endl;
+					throw;
 				}
+				dims[0] = dim[0]; dims[1] = dim[1]; dims[2] = dim[2];
 				num_dims = nd;
-			}
+				size = dim[0]*dim[1]*dim[2];
 
-			/// Returns the number of dimension of the array
-			/// @return the number of dimensions (int)
-
-			int getNumDimensions() const {
-				return num_dims;
-			}
-
-			///change the size of the array dimensions
-			///@param dim give the size of the dimension. dim should be of size at least getNumDimensions() or undefined behavior could happen.
-			void setDimensions(int *dim) {
-				int sz = 1;
-				for (int k = 0; k < num_dims; k++) {
-					if (dim[k] <= 0) {
-						cout << "Dimensions of array must be positive!" << endl
-							<< "\tProvided dimension: " << dim[k] << endl;
-					}
-					dims[k] = dim[k];
-					sz *= dim[k];
-				}
-				// first check the dimensions are all positive
-				if (sz <= 0) {
-					cout << "Negative size in dimension encountered" << endl;
-					exit(-1);
-				}
-				size = sz;
 				// allocate space for the array
 				if (array_data != nullptr)
 					delete[] array_data;
 				array_data = new Element<E>[size];
-
-				// for json
-				//				Bridges::setDimensions(dims);
 			}
-
-			///@return 	the size of the dimensions
-			///@param 	dim will contain the size of the dimension. 
-			///       	dim should be of size at least getNumDimensions() or undefined 
-			///			behavior could happen.
-			void  getDimensions(int *d) {
-				for (int k = 0; k < num_dims; k++)
-					d[k] = dims[k];
+			/**
+			 * Get the dimensions of the array
+			 * 
+			 * @param dims  an array to return the dimensions
+			 */
+			void getDimensions(int *dim) {
+				switch (num_dims) {
+					case 1: dim[0] = dims[0]; 
+						break;
+					case 2: dim[0] = dims[0]; dim[1] = dims[1]; 
+						break;
+					case 3: dim[0] = dims[0]; dim[1] = dims[1]; dim[2] = dims[2]; 
+						break;
+				}
 			}
-
 			/**
 			 *
 			 *  Get the object at index index  - 1D array
@@ -165,32 +113,6 @@ namespace bridges {
 
 			/**
 			 *
-			 *  Get the object at (x, y) for 2D arrays
-			 *
-			 *  @param x  - column index
-			 *  @param y  - row index
-			 *
-			 *  @return Element<E>  at x, y
-			 */
-			Element<E>& getElement(int x, int y) {
-				return array_data[y * dims[0] + x];
-			}
-			/**
-			 *
-			 *  Get the object at (x, y, z) for 3D arrays
-			 *
-			 *  @param x  - column index
-			 *  @param y  - row index
-			 *  @param z  - slice index
-			 *
-			 *  @return Element<E>  object at x, y, z
-			 */
-			Element<E>& getElement(int x, int y, int z) {
-				return array_data[z * dims[0] * dims[1] + y * dims[0] + x];
-			}
-
-			/**
-			 *
 			 *  Set the object at index ind  - 1D array
 			 *
 			 *  @param ind - index into the array
@@ -201,36 +123,6 @@ namespace bridges {
 			void setElement(int ind, Element<E> el) {
 				array_data[ind] = el;
 			}
-
-			/**
-			 *
-			 *  Set the object at index x, y  - 2D array
-			 *
-			 *  @param x - col index into the array
-			 *  @param y - row index into the array
-			 *  @param el - Element object
-			 *
-			 *  @return none
-			 */
-			void setElement(int x_indx, int y_indx, Element<E> el) {
-				array_data[x_indx + y_indx * dims[0]] = el;
-			}
-			/**
-			 *
-			 *  Set the object at index x, y, z  - 3D array
-			 *
-			 *  @param x - col index into the array
-			 *  @param y - row index into the array
-			 *  @param z - slice index into the array
-			 *  @param el - Element object
-			 *
-			 *  @return none
-			 */
-
-			void setElement(int x_indx, int y_indx, int z_indx, Element<E> el) {
-				array_data[x_indx + y_indx * dims[0] + z_indx * dims[0]*dims[1]] = el;
-			}
-
 			/**
 			 *	Get the data structure type 
 			 *	@return data structure name
