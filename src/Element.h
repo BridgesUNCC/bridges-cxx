@@ -94,7 +94,7 @@ namespace bridges {
 			 * @param val The data to hold
 			 * @param lab The label to show
 			 */
-			Element(const E& val = E(), const string& lab = string()) :
+			explicit Element(const E& val = E(), const string& lab = string()) :
 				label(lab), value(val) {
 				elvis = new ElementVisualizer;
 			}
@@ -116,6 +116,11 @@ namespace bridges {
 				this->links = e.links;
 				return *this;
 			}
+
+	  E& operator= (E const& e) {
+	    this->value = e;
+	    return this->value;
+	  }
 
 			/** 
 			 * Element destructor

@@ -1,19 +1,6 @@
 #ifndef ARRAY_2D_H
 #define ARRAY_2D_H
 
-/**
- *
- *
- * @brief This class can be used to create 2 dimensional arrays of type Element<E> where E
- *  is a generic type representation that is application specific.
- *
- * @param <E>
-
- * @author  Kalpathi Subramanian
- * @date    7/16/19
- *
- */
-
 
 #include "Element.h"
 #include "Array.h"
@@ -30,8 +17,6 @@ namespace bridges {
 		 * @author Kalpathi Subramanian
 		 * @date 7/16/19
 		 */
-
-
 		template <typename E>
 		class Array2D : public Array<E> {
 
