@@ -46,6 +46,9 @@ namespace bridges {
 			template <typename K, typename E1, typename E2> friend class GraphAdjList;
 			template <typename K, typename E1, typename E2> friend class GraphAdjMatrix;
 			template <typename K> friend class Array;
+			template <typename K> friend class Array1D;
+			template <typename K> friend class Array2D;
+			template <typename K> friend class Array3D;
 
 		private:
 			bool debug() const {
