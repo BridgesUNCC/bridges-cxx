@@ -1,5 +1,5 @@
-#ifndef ARRAY_H
-#define ARRAY_H
+#ifndef ARRAY_1D_H
+#define ARRAY_1D_H
 
 /**
  *
@@ -169,7 +169,7 @@ namespace bridges {
 			};
 
 
-	}; // Array
+	}; // Array1D
     }
 }// end namespace bridges
 

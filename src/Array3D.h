@@ -1,5 +1,5 @@
-#ifndef ARRAY_H
-#define ARRAY_H
+#ifndef ARRAY_3D_H
+#define ARRAY_3D_H
 
 /**
  *
@@ -181,7 +181,7 @@ cout << "Array size:" << size << endl;
 			};
 
 
-	}; // Array
+	}; // Array3D
     }
 }// end namespace bridges
 

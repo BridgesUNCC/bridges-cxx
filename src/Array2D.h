@@ -1,5 +1,5 @@
-#ifndef ARRAY_H
-#define ARRAY_H
+#ifndef ARRAY_2D_H
+#define ARRAY_2D_H
 
 /**
  *
@@ -191,7 +191,7 @@ namespace bridges {
 			};
 
 
-	}; // Array
+	}; // Array2D
     }
 }// end namespace bridges
 
