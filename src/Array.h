@@ -113,6 +113,18 @@ namespace bridges {
 
 			/**
 			 *
+			 *  Get the object at index index  - 1D array
+			 *
+			 *  @param index - index into the array
+			 *
+			 *  @return Element<E>  at 'index'
+			 */
+			Element<E> const & getElement(int index) const {
+				return array_data[index];
+			}
+	  
+			/**
+			 *
 			 *  Set the object at index ind  - 1D array
 			 *
 			 *  @param ind - index into the array

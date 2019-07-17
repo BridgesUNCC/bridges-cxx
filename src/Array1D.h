@@ -56,6 +56,10 @@ namespace bridges {
 				Element<E>& operator[](int indx) {
 					return  Array<E>::getElement(indx);
 				}
+		  Element<E> const & operator[](int indx) const {
+		    return  Array<E>::getElement(indx);
+		  }
+
 		}; // Array1D
 	}
 }// end namespace bridges
