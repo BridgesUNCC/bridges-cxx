@@ -79,8 +79,8 @@ namespace bridges {
 			 *  @param cols number of columns
 	 		 *	@param rows number of rows
 			 */
-			void setSize(rows, cols) {
-				if (rows < 0 || cols < 0) {
+			void setSize(int rows, int cols) {
+				if ((rows < 0) || (cols < 0)) {
 					cout << "Dimensions of array must be positive!" << endl
 						<< "\tProvided dimensions: " << rows << "," << cols << endl;
 					throw;
