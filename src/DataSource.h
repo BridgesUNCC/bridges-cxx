@@ -1237,6 +1237,14 @@ class lruCache{
 				return s;
 			}
 
+
+	  void removeFirstOccurence (std::string & str, const std::string & toRemove)
+	  {
+	    if (size_t pos = str.find(toRemove) != std::string::npos)
+	      {
+		str.erase(pos, toRemove.length());
+	      }
+	  }
 	public:
 	  std::vector<MovieActorWikidata> getWikidataActorMovie (int yearbegin, int yearend) {
 	    std::string codename = "wikidata-actormovie-"+std::to_string(yearbegin)+"-"+std::to_string(yearend);
@@ -1311,8 +1319,18 @@ class lruCache{
 				    
 				    for (auto& mak_json : resultsArray) {
 				      MovieActorWikidata mak;
-				      mak.setActorURI(mak_json["actor"]["value"].GetString());
-				      mak.setMovieURI(mak_json["movie"]["value"].GetString());
+
+				      // all wikidata uri start with "http://www.wikidata.org/entity/"
+				      // so strip it out because it does not help discriminate and
+				      // consume memory and runtime to compare string
+				      std::string actoruri = mak_json["actor"]["value"].GetString();
+				      std::string movieuri = mak_json["movie"]["value"].GetString();
+				      removeFirstOccurence (actoruri, "http://www.wikidata.org/entity/");
+				      removeFirstOccurence (movieuri, "http://www.wikidata.org/entity/");
+
+				      
+				      mak.setActorURI(actoruri);
+				      mak.setMovieURI(movieuri);
 				      mak.setActorName(mak_json["actorLabel"]["value"].GetString());
 				      mak.setMovieName(mak_json["movieLabel"]["value"].GetString());
 				      v.push_back(mak);
@@ -1325,6 +1343,16 @@ class lruCache{
 				}
 				return v;
 			}
+	  std::vector<MovieActorWikidata> getWikidataActorMovieRecompose (int yearbegin, int yearend) {
+	    std::vector<MovieActorWikidata> ret;
+	    for (int y = yearbegin; y<=yearend; ++y) {
+	      std::vector<MovieActorWikidata> partial =  getWikidataActorMovie (y, y);
+	      std::copy(partial.begin(), partial.end(),
+			std::back_inserter(ret));
+	    }
+	    return ret;
+	  }
+
 	}; // namespace DataSource
 
 } // namespace bridges
