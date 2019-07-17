@@ -12,9 +12,30 @@ namespace bridges {
 		 *
 		 * This class can be used to create 2D arrays of any type.
 		 *
+		 *
+		 * The access to the values stored are done
+		 * directly using bracket operators such as
+		 *
+		 * \code{.cpp}
+		 * Array2D<std::string> arr(19, 30);
+		 * arr [12][25] = "hello!";
+		 * \endcode
+		 *
+		 * Entries in the array can be styled by showing a
+		 * label and changing the color of an entry. This is
+		 * achieved by styling the underlying element to a
+		 * particular entry of the array such as:
+		 *
+		 * \code{.cpp}
+		 * Array2D<std::string> arr(19, 30);
+		 * arr.getElement(12, 25).setColor("yellow");
+		 * arr.getElement(12, 25).setLabel("Hi there");
+		 * \endcode
+		 *
+		 *
 		 * @param E the application data type
 		 *
-		 * @author Kalpathi Subramanian
+		 * @author Kalpathi Subramanian, Erik Saule
 		 * @date 7/16/19
 		 */
 		template <typename E>
@@ -32,7 +53,8 @@ namespace bridges {
 				virtual ~Array2D() {
 				}
 
-				/// builds an array given the dimensions
+				/// @brief builds an array of given dimensions
+		  ///
 				/// @param rows number of rows
 				/// @param cols number of cols
 
@@ -59,7 +81,7 @@ namespace bridges {
 
 				/**
 				 *
-				 *  Get the object at (x, y) 
+				 *  Get the object at (row, col) 
 				 *
 				 *  @param row - row index
 				 *  @param col - column index
@@ -72,18 +94,17 @@ namespace bridges {
 
 				/**
 				 *
-				 *  Set the object at index x, y  - 2D array
+				 *  Set the object at index row, col  - 2D array
 				 *
 				 *  @param row - row index into the array
 				 *  @param col - column index into the array
 				 *  @param el - Element object
-				 *
-				 *  @return none
 				 */
 				void setElement(int row, int col, Element<E> el) {
 					setElement(row*num_cols + col, el);
 				}
 
+		  /// @brief helper class to make [][] operators work on array 2d. You should never use it directly
 		  struct Bracket_helper {
 		    Array2D<E>& arr;
 		    int row;
@@ -94,10 +115,12 @@ namespace bridges {
 		    }
 		  };
 
+		  ///@brief enables using the bracket [] operator
 		  Bracket_helper operator[] (int index) {
 		    return Bracket_helper(*this, index);
 		  }
-
+		  
+		  /// @brief helper class to make [][] operators work on array 2d. You should never use it directly
 		  struct Bracket_helper_const {
 		    Array2D<E> const& arr;
 		    int row;
@@ -108,6 +131,7 @@ namespace bridges {
 		    }
 		  };
 
+		  ///@brief enables using the bracket [] operator
 		  Bracket_helper_const operator[] (int index) const {
 		    return Bracket_helper_const(*this, index);
 		  }		  
