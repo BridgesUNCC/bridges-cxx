@@ -21,6 +21,7 @@
 
 namespace bridges {
   namespace dataset {
+    using namespace bridges::datastructure;
 	/**
 	 * @brief  Class that hold Open Street Map vertices
 	 *

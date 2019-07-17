@@ -18,9 +18,12 @@ using namespace std;
 #include "./data_src/OSMData.h"
 #include "./data_src/OSMVertex.h"
 #include "./data_src/OSMEdge.h"
+#include "./data_src/MovieActorWikidata.h"
 #include "ColorGrid.h"
 #include "base64.h"
 #include <GraphAdjList.h>
+#include <ServerComm.h>
+#include <Bridges.h>
 #include "rapidjson/document.h"
 #include "assert.h"
 #include "rapidjson/error/en.h"
@@ -41,6 +44,7 @@ using namespace std;
 
 namespace bridges {
   using namespace bridges::dataset;
+  using namespace bridges::datastructure;
   
 	class CacheException : std::exception {
 	};
@@ -1232,6 +1236,123 @@ class lruCache{
 
 				return s;
 			}
+
+
+	  void removeFirstOccurence (std::string & str, const std::string & toRemove)
+	  {
+	    if (size_t pos = str.find(toRemove) != std::string::npos)
+	      {
+		str.erase(pos, toRemove.length());
+	      }
+	  }
+	public:
+	  std::vector<MovieActorWikidata> getWikidataActorMovie (int yearbegin, int yearend) {
+	    std::string codename = "wikidata-actormovie-"+std::to_string(yearbegin)+"-"+std::to_string(yearend);
+				Cache ca;
+				std::string json;
+				bool from_cache = false;
+				try {
+					if (ca.inCache(codename)) {
+						json = ca.getDoc(codename);
+						from_cache = true;
+					}
+				}
+				catch (CacheException& ce) {
+					//something went bad trying to access the cache
+					std::cout << "Exception while reading from cache. Ignoring cache and continue." << std::endl;
+				}
+
+
+				if (!from_cache) {
+				  std::vector<std::string> http_headers;
+				  http_headers.push_back("User-Agent: bridges-cxx"); //wikidata kicks you out if you don't have a useragent
+				  http_headers.push_back("Accept: application/json"); //tell wikidata we are OK with JSON
+				  
+				  string url = "https://query.wikidata.org/sparql?";
+
+				  //Q1860 is "English"
+				  //P364 is "original language of film or TV show"
+				  //P161 is "cast member"
+				  //P577 is "publication date"
+				  //A11424 is "film"
+				  //P31 is "instance of"
+				  // "instance of film" is necessary to filter out tv shows
+				  std::string sparqlquery="SELECT ?movie ?movieLabel ?actor ?actorLabel WHERE \
+{\
+  ?movie wdt:P31 wd:Q11424.\
+  ?movie wdt:P161 ?actor.\
+  ?movie wdt:P364 wd:Q1860.\
+  ?movie wdt:P577 ?date.\
+  FILTER(YEAR(?date) >= "+std::to_string(yearbegin)+" && YEAR(?date) <= "+std::to_string(yearend)+").\
+    SERVICE wikibase:label { bd:serviceParam wikibase:language \"en\". } \
+}";
+				  url += "query="+ServerComm::encodeURLPart(sparqlquery);
+				  url += "&";
+				  url += "format=json";
+
+					// get the OSM data json
+					json = ServerComm::makeRequest(url, http_headers);
+
+					try {
+						ca.putDoc(codename, json);
+					}
+					catch (CacheException& ce) {
+						//something went bad trying to access the cache
+						std::cerr << "Exception while storing in cache. Weird but not critical." << std::endl;
+					}
+				}
+
+
+				//std::cerr<<codename<<"json:\n"<<json<<"\n";
+				//return getOSMDataFromJSON(osm_json);
+				std::vector<MovieActorWikidata> v;
+				{
+				  using namespace rapidjson;
+				  rapidjson::Document doc;
+				  doc.Parse(json.c_str());
+				  if (doc.HasParseError())
+				    throw "Malformed JSON";
+				  
+				  try {
+				    const auto& resultsArray = doc["results"]["bindings"].GetArray();
+				    v.reserve(resultsArray.Size());
+				    
+				    for (auto& mak_json : resultsArray) {
+				      MovieActorWikidata mak;
+
+				      // all wikidata uri start with "http://www.wikidata.org/entity/"
+				      // so strip it out because it does not help discriminate and
+				      // consume memory and runtime to compare string
+				      std::string actoruri = mak_json["actor"]["value"].GetString();
+				      std::string movieuri = mak_json["movie"]["value"].GetString();
+				      removeFirstOccurence (actoruri, "http://www.wikidata.org/entity/");
+				      removeFirstOccurence (movieuri, "http://www.wikidata.org/entity/");
+
+				      
+				      mak.setActorURI(actoruri);
+				      mak.setMovieURI(movieuri);
+				      mak.setActorName(mak_json["actorLabel"]["value"].GetString());
+				      mak.setMovieName(mak_json["movieLabel"]["value"].GetString());
+				      v.push_back(mak);
+				    }
+				  
+				  }
+				  catch (rapidjson_exception re) {
+				    throw "Malformed JSON: Not from wikidata?";
+				  }
+				}
+				return v;
+			}
+	  std::vector<MovieActorWikidata> getWikidataActorMovieRecompose (int yearbegin, int yearend) {
+	    std::vector<MovieActorWikidata> ret;
+	    for (int y = yearbegin; y<=yearend; ++y) {
+	      std::vector<MovieActorWikidata> partial =  getWikidataActorMovie (y, y);
+	      std::copy(partial.begin(), partial.end(),
+			std::back_inserter(ret));
+	    }
+	    return ret;
+	  }
+
 	}; // namespace DataSource
 
 } // namespace bridges
