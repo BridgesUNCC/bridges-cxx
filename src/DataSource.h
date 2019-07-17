@@ -1251,8 +1251,10 @@ class lruCache{
 	  ///
 	  /// Internally this function gets directly the range data
 	  /// from wikidata. This can cause wikidata to kick the user
-	  /// out or return invalid JSON if the range is too wide.	  
-	  std::vector<MovieActorWikidata> getWikidataActorMovieDirect (int yearbegin, int yearend) {
+	  /// out or return invalid JSON if the range is too wide.
+	  ///
+	  /// @param vout vector where the pairs will be aded to
+	  void  getWikidataActorMovieDirect (int yearbegin, int yearend, std::vector<MovieActorWikidata>& vout) {
 	    std::string codename = "wikidata-actormovie-"+std::to_string(yearbegin)+"-"+std::to_string(yearend);
 				Cache ca;
 				std::string json;
@@ -1308,10 +1310,6 @@ class lruCache{
 					}
 				}
 
-
-				//std::cerr<<codename<<"json:\n"<<json<<"\n";
-				//return getOSMDataFromJSON(osm_json);
-				std::vector<MovieActorWikidata> v;
 				{
 				  using namespace rapidjson;
 				  rapidjson::Document doc;
@@ -1321,7 +1319,6 @@ class lruCache{
 				  
 				  try {
 				    const auto& resultsArray = doc["results"]["bindings"].GetArray();
-				    v.reserve(resultsArray.Size());
 				    
 				    for (auto& mak_json : resultsArray) {
 				      MovieActorWikidata mak;
@@ -1339,7 +1336,7 @@ class lruCache{
 				      mak.setMovieURI(movieuri);
 				      mak.setActorName(mak_json["actorLabel"]["value"].GetString());
 				      mak.setMovieName(mak_json["movieLabel"]["value"].GetString());
-				      v.push_back(mak);
+				      vout.push_back(mak);
 				    }
 				  
 				  }
@@ -1347,8 +1344,7 @@ class lruCache{
 				    throw "Malformed JSON: Not from wikidata?";
 				  }
 				}
-				return v;
-			}
+	  }
 	public:
 
 	  ///@brief This function returns the Movie and Actors playing
@@ -1371,9 +1367,7 @@ class lruCache{
 	    
 	    std::vector<MovieActorWikidata> ret;
 	    for (int y = yearbegin; y<=yearend; ++y) {
-	      std::vector<MovieActorWikidata> partial =  getWikidataActorMovie (y, y);
-	      std::copy(partial.begin(), partial.end(),
-			std::back_inserter(ret));
+	      getWikidataActorMovieDirect (y, y, ret);
 	    }
 	    return ret;
 	  }
