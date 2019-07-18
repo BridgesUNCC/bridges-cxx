@@ -44,15 +44,15 @@ namespace bridges {
 			private:
 				string plotTitle;
 				string plotSubtitle;
-				string yLabel;
 				string xLabel;
+				string yLabel;
 				bool mouseTrack;
 				bool dataLabel;
 				bool logarithmicx;
 				bool logarithmicy;
 
-				unordered_map<string, vector<double>> yaxisData;
 				unordered_map<string, vector<double>> xaxisData;
+				unordered_map<string, vector<double>> yaxisData;
 
 			public:
 				LineChart() {
@@ -70,7 +70,7 @@ namespace bridges {
 				 * @brief Get the data type
 				 * @return name of the data type (used internally)
 				 */
-				string getDataStructType() {
+				virtual const string getDStype() const override{
 					return "LineChart";
 				}
 
@@ -134,7 +134,7 @@ namespace bridges {
 				 *
 				 * @return the title to be shown
 				 **/
-				string getTitle() {
+				string getTitle() const {
 					return plotTitle;
 				}
 
@@ -152,7 +152,7 @@ namespace bridges {
 				 *
 				 * @return the subtitle to be shown
 				 **/
-				string getSubTitle() {
+				string getSubTitle() const {
 					return plotSubtitle;
 				}
 
@@ -171,7 +171,7 @@ namespace bridges {
 				 *
 				 * @param label shown for the Y-axis
 				 **/
-				string getYLabel() {
+				string getYLabel() const {
 					return yLabel;
 				}
 
@@ -189,7 +189,7 @@ namespace bridges {
 				 *
 				 * @param label shown for the Y-axis
 				 **/
-				string getXLabel() {
+				string getXLabel() const {
 					return xLabel;
 				}
 
@@ -259,54 +259,56 @@ namespace bridges {
 				 *
 				 * @return whether it is in a valid state
 				 */
-/*
-					bool check() {
-						bool correct = true;
-						for (EntryString, double[]> entry : xaxisData.entrySet()) {
-							string series = entry.getKey();
-							double[] xdata = entry.getValue();
-							double[] ydata = yaxisData.get(series);
-							if (ydata == null) {
-								System.out.println("Series \"" + series + "\" has xdata but no ydata");
-								correct = false;
-							}
-							if (xdata.length != ydata.length) {
-								System.out.println("Series \"" + series + "\" has xdata and ydata of different sizes");
-								correct = false;
-							}
-							if (logarithmicx) {
-								for (int i = 0; i  xdata.length; ++i) {
-									if (xdata[i] = 0) {
-										System.out.println("Xaxis scale is logarithmic but series \"" + series + "\" has xdata[" + i + "] = " + xdata[i] + " (should be stricly positive)");
-									}
-								}
-							}
-							if (logarithmicy) {
-								for (int i = 0; i  ydata.length; ++i) {
-									if (ydata[i] = 0) {
-										System.out.println("Yaxis scale is logarithmic but series \"" + series + "\" has ydata[" + i + "] = " + ydata[i] + " (should be stricly positive)");
-									}
+				bool check() const {
+					bool correct = true;
+					for (auto& entry : xaxisData) {
+						string series = entry.first;
+						vector<double> xdata = entry.second;
+						vector<double> ydata = yaxisData.at(series);
+						if (!ydata.size()) {
+							cout << "Series \"" + series + "\" has xdata but no ydata";
+							correct = false;
+						}
+						if (xdata.size() != ydata.size()) {
+							cout << "Series \"" + series + "\" has xdata and ydata of different sizes";
+							correct = false;
+						}
+						if (logarithmicx) {
+							for (int i = 0; i < xdata.size(); ++i) {
+								if (xdata[i] == 0) {
+									cout << "Xaxis scale is logarithmic but series \"" + series 
+										+ "\" has xdata[" << i << "] = " <<  xdata[i]  << 
+										" (should be stricly positive)";
 								}
 							}
 						}
-						for (EntryString, double[]> entry : yaxisData.entrySet()) {
-							string series = entry.getKey();
-							double[] ydata = entry.getValue();
-							double[] xdata = xaxisData.get(series);
-							if (xdata == null) {
-								System.out.println("Series: " + series + " has ydata but no xdata");
+						if (logarithmicy) {
+							for (int i = 0; i <  ydata.size(); ++i) {
+								if (ydata[i] == 0) {
+									cout << "Yaxis scale is logarithmic but series \"" + 
+									series + "\" has ydata[" <<  i <<  "] = "  <<  ydata[i] << 
+									" (should be stricly positive)";
+								}
+							}
+						}
+						}
+						for (auto& entry : yaxisData) {
+							string series = entry.first;
+							vector<double> ydata = entry.second;
+							vector<double> xdata = xaxisData.at(series);
+							if (!xdata.size()) {
+								cout << "Series: " + series + " has ydata but no xdata";
 								correct = false;
 							}
 							//Everything else already checked.
 						}
 						return correct;
 					}
-*/
 
 				public:
-					string getDataStructureRepresentation() {
+					virtual const string getDataStructureRepresentation() const override{
 						using bridges::JSONUtil::JSONencode;
-//						check();
+						check();
 						string xaxis_json = "";
 						for (auto& entry: xaxisData) {
 							string key = entry.first;
@@ -350,10 +352,11 @@ namespace bridges {
 							JSONencode("xaxis_data") + COLON + OPEN_BOX + xaxis_json + CLOSE_BOX + COMMA +
 							JSONencode("yaxis_data") + COLON + OPEN_BOX + yaxis_json + CLOSE_BOX +
 							CLOSE_CURLY;
+
 						return json_str;
 					}
 
-		}
+		};
 	}
 }
 #endif
