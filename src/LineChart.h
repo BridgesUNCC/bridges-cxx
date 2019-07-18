@@ -1,7 +1,12 @@
-
-
 #ifndef LINE_CHART_H
+#define LINE_CHART_H
 
+#include <unordered_map>
+#include <vector>
+#include <string>
+
+namespace bridges {
+	namespace datastructure{
 /**
  * @brief Show series of data or functions using a line chart.
  *
@@ -33,12 +38,6 @@
  *
  *
  **/
-#include <unordered_map>
-#include <vector>
-#include <string>
-
-namespace bridges {
-	namespace datastructure{
 		class LineChart : public DataStructure {
 
 			private:
