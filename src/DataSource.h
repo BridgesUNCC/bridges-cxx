@@ -142,14 +142,11 @@ namespace bridges {
 
 
 class lruCache{
-
-
 	public:
 		int maxCache;
+		std::vector<std::string> v;
 
-		std::vector<std::string> loadLRU(Cache ca){ //returns LRU vector from cache file
-
-			std::vector<std::string> v; // Vector for LRU
+		void get(Cache ca){ //returns LRU vector from cache file
 			if(ca.inCache("lru")){
 				string vector_string = ca.getDoc("lru"); //Imported LRU
 				std::istringstream ss(vector_string);
@@ -159,10 +156,43 @@ class lruCache{
 						v.push_back(token);
 				}
 			}
+			return;
+		}
+
+		std::vector<std::string> get(){
 			return v;
 		}
 
-		 void saveLRU(std::vector<std::string> v, Cache ca){ //saves LRU vector to cache
+		bool inCache(std::string hash_value){
+			for (auto it = v.begin(); it != v.end(); ) {
+				if (*it == hash_value){
+					return true;
+				}
+			}
+			return false;
+		}
+
+		void put(std::string hash_value, Cache ca){ //puts hash value at front of LRU vector
+			 for (auto it = v.begin(); it != v.end(); ) {
+				 if (*it == hash_value){
+					 v.erase(it); //removes old hash vlaue location in vector
+					 break;
+				 } else {
+					 ++it;
+				 }
+			 }
+			 v.insert(v.begin(), hash_value); //puts hash value in the front of the vector
+
+			 //checks size of vector and pops lru off
+			 if (v.size() >= maxCache + 1){ // keeps maxCache local maps
+				 string f = "cache/";
+				 f.append(v[v.size()-1]);
+
+				 if(std::remove(f.c_str()) == 0){
+					 v.pop_back();
+				 }
+			 }
+			 //Saves the vector to file
 			 string out_vector;
 			 int x = 0;
 			 for(auto s : v){
@@ -174,34 +204,7 @@ class lruCache{
 				 }
 			 }
 			 ca.putDoc("lru", out_vector);
-
 			 return;
-		 }
-
-
-		 std::vector<std::string> putLRU(std::vector<std::string> v, std::string hash_value){ //puts hash value at front of LRU vector
-			 for (auto it = v.begin(); it != v.end(); ) {
-				 if (*it == hash_value){
-					 v.erase(it); //removes old hash vlaue location in vector
-					 break;
-				 } else {
-					 ++it;
-				 }
-			 }
-			 v.insert(v.begin(), hash_value); //puts hash value in the front of the vector
-			 return v;
-		 }
-
-		 std::vector<std::string> sizeCheck(std::vector<std::string> v){
-			 if (v.size() >= maxCache + 1){ // keeps maxCache local maps
-				 string f = "cache/";
-				 f.append(v[v.size()-1]);
-
-				 if(std::remove(f.c_str()) == 0){
-					 v.pop_back();
-				 }
-			 }
-			 return v;
 		 }
 };
 
@@ -746,7 +749,7 @@ class lruCache{
 					     double lat_max, double long_max, string level="default") {
 
 				//URL for hash request
-				string hash_url = "http://cci-bridges-osm-t.dyn.uncc.edu/hash?minLon="+std::to_string(long_min)+
+				string hash_url = "http://127.0.0.1:5000/hash?minLon="+std::to_string(long_min)+
 				"&minLat="+std::to_string(lat_min)+
 				"&maxLon="+std::to_string(long_max)+
 				"&maxLat="+std::to_string(lat_max)+
@@ -754,7 +757,7 @@ class lruCache{
 
 				//URL to request map
 				string url =
-			    "http://cci-bridges-osm-t.dyn.uncc.edu/coords?minLon="+std::to_string(long_min)+
+			    "http://127.0.0.1:5000/coords?minLon="+std::to_string(long_min)+
 			    "&minLat="+std::to_string(lat_min)+
 			    "&maxLon="+std::to_string(long_max)+
 			    "&maxLat="+std::to_string(lat_max)+
@@ -770,16 +773,14 @@ class lruCache{
 				lru.maxCache = 30;
 				std::cerr<<"url: "<<url<<"\n";
 
-				std::vector<std::string> v = lru.loadLRU(ca); //Imports LRU from cache file
+				lru.get(ca); //Imports LRU from cache file
 
 				//Checks to see if map requested is stored in local cache
 				if (ca.inCache(hash_value) == true){ //local map is up-to-date
 					try {
 						if (ca.inCache(hash_value)) {
 							osm_json = ca.getDoc(hash_value);
-
-							v = lru.putLRU(v, hash_value); //Checks for hash value in LRU vector
-							lru.saveLRU(v, ca); //Stores the vector as a file in cache
+							lru.put(hash_value, ca); //Checks for hash value in LRU vector
 
 							return getOSMDataFromJSON(osm_json);
 						}
@@ -801,9 +802,7 @@ class lruCache{
 					//Saves map to cache directory
 					try {
 			      ca.putDoc(hash_value, osm_json);
-						v = lru.putLRU(v, hash_value); //Checks for hash value in LRU vector
-						lru.sizeCheck(v);
-						lru.saveLRU(v, ca); //Stores the vector as a file in cache
+						lru.put(hash_value, ca); //Checks for hash value in LRU vector
 
 			    } catch (CacheException& ce) {
 			      //something went bad trying to access the cache
@@ -824,12 +823,12 @@ class lruCache{
 			 */
 			OSMData getOSMData (string location, string level="default") {
 				//URL for hash request
-				string hash_url = "http://cci-bridges-osm-t.dyn.uncc.edu/hash?location="+location+
+				string hash_url = "http://127.0.0.1:5000/hash?location="+location+
 				"&level="+ level;
 
 				//URL to request map
 				string url =
-			    "http://cci-bridges-osm-t.dyn.uncc.edu/loc?location="+location+
+			    "http://127.0.0.1:5000/loc?location="+location+
 					"&level="+ level;
 
 				//trys to get hash value for bounding box map
@@ -842,15 +841,14 @@ class lruCache{
 				lru.maxCache = 30;
 				std::cerr<<"url: "<<url<<"\n";
 
-				std::vector<std::string> v = lru.loadLRU(ca);
+				lru.get(ca);
 
 
 				if (ca.inCache(hash_value) == true){ //local map is up-to-date
 					try {
 						if (ca.inCache(hash_value)) {
 							osm_json = ca.getDoc(hash_value);//TODO: Insert LRU update here
-							v = lru.putLRU(v, hash_value); //Checks for hash value in LRU vector
-							lru.saveLRU(v, ca); //Stores LRU vector in cache
+							lru.put(hash_value, ca); //Stores LRU vector in cache
 							return getOSMDataFromJSON(osm_json);
 						}
 					} catch (CacheException& ce) { //something went bad trying to access the cache
@@ -869,9 +867,7 @@ class lruCache{
 					//Saves map to cache directory
 					try {
 			      ca.putDoc(hash_value, osm_json);
-						v = lru.putLRU(v, hash_value); //checks the vector used for the LRU to see if the map gotten is already in its list
-						lru.sizeCheck(v);
-						lru.saveLRU(v, ca); //Stores LRU vector in cache
+						lru.put(hash_value, ca); //checks the vector used for the LRU to see if the map gotten is already in its list
 			    } catch (CacheException& ce) {
 			      //something went bad trying to access the cache
 			      std::cerr << "Exception while storing in cache. Weird but not critical." << std::endl;
