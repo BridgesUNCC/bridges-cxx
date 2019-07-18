@@ -4,6 +4,8 @@
 #include <unordered_map>
 #include <vector>
 #include <string>
+#include <DataStructure.h>
+#include <JSONutil.h>
 
 namespace bridges {
 	namespace datastructure{
