@@ -4,6 +4,7 @@
 #include "TreeElement.h" //string, using std
 
 namespace bridges {
+    namespace datastructure {
 	/**
 	 * @brief This class can be used to create binary tree elements, derived from TreeElement
 	 *
@@ -83,6 +84,6 @@ namespace bridges {
 				this->setChild(rightPos, r);
 			}
 	}; //end of BTElement class
-
+    }
 }//end of bridges namespace
 #endif

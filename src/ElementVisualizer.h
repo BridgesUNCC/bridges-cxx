@@ -5,6 +5,7 @@
 #include <cmath>
 
 namespace bridges {
+  namespace datastructure {  
 	/** Enumeration of valid shapes for visualization */
 	enum Shape {CIRCLE, SQUARE, DIAMOND, CROSS, TRIANGLE, STAR, WYE};
 	/**
@@ -151,6 +152,6 @@ namespace bridges {
 				return locationY;
 			}
 	};//end of ElementVisualizer class
-
+  }
 }//end of bridges namespace
 #endif

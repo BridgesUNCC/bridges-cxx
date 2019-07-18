@@ -16,7 +16,8 @@ using namespace std;
  * @param
  **/
 namespace bridges {
-
+  namespace game {
+  
   enum class NamedColor : unsigned char {
   aliceblue,
   antiquewhite,
@@ -502,6 +503,7 @@ namespace bridges {
 	  
 
 	};
+  }
 } // end namespace bridges
 
 #endif

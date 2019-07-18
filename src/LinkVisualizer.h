@@ -4,6 +4,7 @@
 #include "Color.h" //string, using std
 
 namespace bridges {
+  namespace datastructure {
 	/**
 	 * @brief This class maintains the visual properties of links within data structures.
 	 *
@@ -116,6 +117,6 @@ namespace bridges {
 				return color;
 			}
 	}; //end of LinkVisualizer class
-
+  }
 }//end of bridges namespace
 #endif

@@ -10,7 +10,7 @@ using namespace std;
 #define POLYGON_H
 
 namespace bridges {
-
+  namespace datastructure {
 	/**
 	 * @brief This class defines a polygon and is part of the symbol collection.
 	 *      A polygon has a set of vertices, with vertices connected by line
@@ -153,7 +153,7 @@ namespace bridges {
 				return shape_json;
 			}
 	};
-
+  }
 } // namespace bridges
 
 #endif

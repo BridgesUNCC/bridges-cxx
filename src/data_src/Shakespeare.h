@@ -7,6 +7,7 @@
 using namespace std;
 
 namespace bridges {
+  namespace dataset {
 	/**
 	 * @brief  A Shakespeare book object, used along with the Shakespeare
 	 * books  data source.
@@ -56,7 +57,7 @@ namespace bridges {
 				this->text = text;
 			}
 	};
-
+  }
 } //namespace bridges
 
 #endif

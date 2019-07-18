@@ -4,6 +4,7 @@
 #include "BSTElement.h" //string, sstream, using std
 
 namespace bridges {
+    namespace datastructure {
 	/**
 	 * @brief This class can be used to create avl tree elements, derived from
 	 *	BSTElement
@@ -138,6 +139,6 @@ namespace bridges {
 			}
 	}; //end of BSTElement class
 
-
+    }
 }//end of bridges namespace
 #endif

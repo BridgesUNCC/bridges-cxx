@@ -7,6 +7,7 @@
 #include "Element.h"    //DataStructure, unordered_map, string, cerr, using std
 
 namespace bridges {
+    namespace datastructure {
 	/**
 	 *	@brief This class provides methods to represent adjacency matrix based
 	 *	graphs.
@@ -319,6 +320,6 @@ namespace bridges {
 				return graph_amatrix_json;
 			}
 	}; //end of GraphAdjList class
-
+    }
 }//end of bridges namespace
 #endif

@@ -6,6 +6,7 @@
 #include "Element.h" //string, using std
 
 namespace bridges {
+  namespace datastructure {
 	/**
 	 * @brief This class can be used to create tree elements, derived from Element
 	 *
@@ -189,6 +190,6 @@ namespace bridges {
 			}
 	}; //end of TreeElement class
 
-
+  }
 }//end of bridges namespace
 #endif

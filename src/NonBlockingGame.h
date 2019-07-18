@@ -4,7 +4,8 @@
 #include <GameBase.h>
 
 namespace bridges {
-
+  namespace game {
+  
   ///this is meant to be an internal class, not something that the library user will use
   class InputHelper: public KeypressListener {
     bool debug = false;
@@ -243,6 +244,7 @@ namespace bridges {
     }
 
   };
+  }
 }
 
 #endif

@@ -20,6 +20,8 @@
 #include "OSMEdge.h"
 
 namespace bridges {
+  namespace dataset {
+    using namespace bridges::datastructure;
 	/**
 	 * @brief  Class that hold Open Street Map vertices
 	 *
@@ -286,7 +288,7 @@ namespace bridges {
 				coords[1] = R * cos(lat_rad) * sin (longit_rad);
 			}
 	};
-
+  }
 } // end namespace bridges
 
 #endif

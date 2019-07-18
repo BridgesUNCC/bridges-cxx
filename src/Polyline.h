@@ -10,7 +10,7 @@ using namespace std;
 #define POLYLINE_H
 
 namespace bridges {
-
+  namespace datastructure {
 	/**
 	 * @brief This class defines a polyline and is part of the symbol collection.
 	 *      A polyline has a set of vertices with the vertices connect by line
@@ -150,7 +150,7 @@ namespace bridges {
 				return shape_json;
 			}
 	};
-
+  }
 } // namespace bridges
 
 #endif

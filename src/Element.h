@@ -14,6 +14,7 @@ using namespace std;
 #include <JSONutil.h>
 
 namespace bridges {
+    namespace datastructure {
 	// forward Declarations
 	template <typename K, typename E1, typename E2> class GraphAdjList;
 	template <typename K, typename E1, typename E2> class GraphAdjMatrix;
@@ -45,6 +46,9 @@ namespace bridges {
 			template <typename K, typename E1, typename E2> friend class GraphAdjList;
 			template <typename K, typename E1, typename E2> friend class GraphAdjMatrix;
 			template <typename K> friend class Array;
+			template <typename K> friend class Array1D;
+			template <typename K> friend class Array2D;
+			template <typename K> friend class Array3D;
 
 		private:
 			bool debug() const {
@@ -90,7 +94,7 @@ namespace bridges {
 			 * @param val The data to hold
 			 * @param lab The label to show
 			 */
-			Element(const E& val = E(), const string& lab = string()) :
+			explicit Element(const E& val = E(), const string& lab = string()) :
 				label(lab), value(val) {
 				elvis = new ElementVisualizer;
 			}
@@ -112,6 +116,11 @@ namespace bridges {
 				this->links = e.links;
 				return *this;
 			}
+
+	  E& operator= (E const& e) {
+	    this->value = e;
+	    return this->value;
+	  }
 
 			/** 
 			 * Element destructor
@@ -386,7 +395,7 @@ namespace bridges {
 			}
 	};	//end of Element class
 
-
+    }
 }//end of bridges namespace
 
 #endif

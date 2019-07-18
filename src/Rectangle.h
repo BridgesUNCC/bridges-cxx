@@ -10,7 +10,7 @@ using namespace std;
 #define RECTANGLE_H
 
 namespace bridges {
-
+  namespace datastructure {
 	/**
 	 * @brief This class defines a rectangle and is part of the symbol collection.
 	 *		A rectangle has height and width
@@ -166,7 +166,7 @@ namespace bridges {
 
 			}
 	};
-
+  }
 } // namespace bridges
 
 #endif

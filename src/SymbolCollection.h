@@ -20,7 +20,7 @@ using namespace std;
 #define SYMBOL_COLLECTION_H
 
 namespace bridges {
-
+  namespace datastructure {
 	/**
 	 * 	@brief the ShapeCollection represents a collection of symbols (shapes,
 	 *		polygons, and text) to visualize in Bridges
@@ -129,7 +129,7 @@ namespace bridges {
 				return symbol_json;
 			}
 	};
-
+  }
 } // namespace bridges
 
 #endif

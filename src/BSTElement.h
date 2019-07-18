@@ -8,6 +8,7 @@
 
 
 namespace bridges {
+    namespace datastructure {
 	/**
 	 * @brief This class can be used to create binary search tree elements, derived
 	 *  from BinTreeElement
@@ -140,6 +141,6 @@ namespace bridges {
 			}
 	}; //end of BSTElement class
 
-
+    }
 }//end of bridges namespace
 #endif

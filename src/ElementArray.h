@@ -3,7 +3,7 @@
 
 #include "Element.h"
 namespace bridges {
-
+  namespace datastructure {
 	/**
 	 *  @brief  Currently unused class, ignore
 	 *
@@ -49,5 +49,6 @@ namespace bridges {
 				return Element<E>::generateJSON(nodes); // generate the JSON
 			}
 	};
+  }
 }
 #endif

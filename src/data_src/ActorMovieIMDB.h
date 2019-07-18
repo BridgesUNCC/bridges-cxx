@@ -7,7 +7,7 @@
 using namespace std;
 
 namespace bridges {
-
+  namespace dataset {
 	/**
 	 *	@brief A class to hold actor movie data -- using IMDB dataset
 	 *
@@ -145,7 +145,7 @@ namespace bridges {
 			}
 
 	};
-
+  }
 } // namespace bridges
 
 #endif

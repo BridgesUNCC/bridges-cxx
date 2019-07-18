@@ -4,6 +4,7 @@
 
 
 namespace bridges {
+  namespace dataset {
 	/**
 	 * @brief  A Song object, used along with the Songs data source.
 	 *
@@ -74,7 +75,7 @@ namespace bridges {
 				this->release_date = release_date;
 			}
 	};
-
+  }
 } // namespace bridges
 
 #endif

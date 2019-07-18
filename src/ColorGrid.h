@@ -16,7 +16,7 @@ using namespace std;
  * @param
  **/
 namespace bridges {
-
+  namespace datastructure {
 	class ColorGrid : public Grid<Color> {
 		private:
 			int debug() const {
@@ -240,6 +240,7 @@ namespace bridges {
 
 
 	};
+  }
 } // end namespace bridges
 
 #endif
