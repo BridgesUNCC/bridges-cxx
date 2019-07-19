@@ -1050,7 +1050,8 @@ namespace bridges {
 
 	  void removeFirstOccurence (std::string & str, const std::string & toRemove)
 	  {
-	    if (size_t pos = str.find(toRemove) != std::string::npos)
+	    size_t pos = str.find(toRemove);
+	    if (pos  != std::string::npos)
 	      {
 		str.erase(pos, toRemove.length());
 	      }
@@ -1138,6 +1139,7 @@ namespace bridges {
 				      std::string actoruri = mak_json["actor"]["value"].GetString();
 				      std::string movieuri = mak_json["movie"]["value"].GetString();
 				      removeFirstOccurence (actoruri, "http://www.wikidata.org/entity/");
+				      
 				      removeFirstOccurence (movieuri, "http://www.wikidata.org/entity/");
 
 
