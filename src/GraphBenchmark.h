@@ -9,6 +9,11 @@ namespace bridges {
     
     class GraphBenchmark {
     protected:
+      double time_cap;
+      GraphBenchmark()
+	:time_cap (std::numeric_limits<double>::max())
+	{}
+
       ///@returns a triplet: the graph, the number of vertices, and the number of edges
       std::tuple<long, long> generateWikidataMovieActor (int yearmin, int yearmax, GraphAdjList<std::string>& moviegraph) {
 	DataSource ds;
@@ -60,6 +65,25 @@ namespace bridges {
 	
 	return ret;
       }
+
+    public:
+      /**
+       * @brief sets an upper bound to the time of a run.
+       *
+       * The benchmark will end after a run if it takes more than the
+       * given amount of time. So it is possible a particular run takes
+       * more than the alloted time, but that will be the last run.
+       *
+       * @param cap_in_s time limit in seconds
+       **/
+      void setTimeCap(double cap_in_s) {
+	time_cap = cap_in_s;
+      }
+
+      double getTimeCap() const {
+	return time_cap;
+      }
+       
     };
   }
 }

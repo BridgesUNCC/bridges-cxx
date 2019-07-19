@@ -1,5 +1,5 @@
-#ifndef BFS_BENCHMARK_H
-#define BFS_BENCHMARK_H
+#ifndef PAGERANK_BENCHMARK_H
+#define PAGERANK_BENCHMARK_H
 
 #include <LineChart.h>
 #include <limits>
@@ -13,12 +13,12 @@ namespace bridges {
   namespace benchmark {
     using namespace bridges::datastructure;
     
-    class BFSBenchmark :public GraphBenchmark {
+    class PageRankBenchmark :public GraphBenchmark {
     private:
        LineChart& plot;
 
     public:
-       BFSBenchmark(LineChart& p)
+       PageRankBenchmark(LineChart& p)
 	 :plot (p) {
 	 p.setXLabel("Number of Edges");
 	 p.setYLabel("Runtime (in s)");
@@ -26,10 +26,8 @@ namespace bridges {
       }
       
        void run(std::string algoName,
-		void (*bfsalgo)(const GraphAdjList<std::string>& gr,
-				std::string root,
-				std::unordered_map<std::string, int>& level,
-				std::unordered_map<std::string, std::string>& parent)) {
+		void (*pralgo)(const GraphAdjList<std::string>& gr,
+				std::unordered_map<std::string, double>& out)) {
 	 std::vector<double> time;
 	 std::vector<double> vtxCounts;
 	 std::vector<double> edgeCounts;
@@ -42,14 +40,11 @@ namespace bridges {
 	  long edgeCount;
 	  std::tie(vertexCount, edgeCount)= generateWikidataMovieActor(year, 2019, graph);
 	  
-	  std::string root = highestDegreeVertex(graph);
-
-	  std::unordered_map<std::string, int> level;
-	  std::unordered_map<std::string, std::string> parent;
+	  std::unordered_map<std::string, double> pr;
 
 	  std::chrono::time_point<std::chrono::system_clock> start = std::chrono::system_clock::now();
 	  
-	  bfsalgo(graph, root, level, parent);
+	  pralgo(graph, pr);
 	  
 	  std::chrono::time_point<std::chrono::system_clock> end = std::chrono::system_clock::now();
 	  
