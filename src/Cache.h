@@ -15,6 +15,15 @@ namespace bridges {
   };
 
   class Cache {
+  public:
+    virtual bool inCache(const std::string & docName) noexcept(false) = 0;
+    virtual std::string getDoc (const std::string & docName) noexcept(false) = 0;
+    //store content under docname
+    virtual void putDoc (const std::string & docName,
+			 const std::string & content) noexcept(false) = 0;
+  };
+  
+  class SimpleCache : public Cache{
   private:
     std::string cacheDir = "cache";
 
@@ -55,12 +64,12 @@ namespace bridges {
     }
 
   public:
-    Cache() {
+    SimpleCache() {
       //probably should check directory existence here, but exception in constructors are weird.
     }
 
     //is docName in the cache
-    bool inCache(const std::string & docName) noexcept(false) {
+    virtual bool inCache(const std::string & docName) noexcept(false) override{
       std::string filename = getFilename(docName);
 
       std::ifstream in(filename);
@@ -69,7 +78,7 @@ namespace bridges {
     }
 
     //return the content of docName which is in the cache
-    std::string getDoc (const std::string & docName) noexcept(false) {
+    virtual std::string getDoc (const std::string & docName) noexcept(false) override {
       std::string filename = getFilename(docName);
 
       std::ifstream in(filename);
@@ -91,8 +100,8 @@ namespace bridges {
     }
 
     //store content under docname
-    void putDoc (const std::string & docName,
-		 const std::string & content) noexcept(false) {
+    virtual void putDoc (const std::string & docName,
+		 const std::string & content) noexcept(false) override {
       if (!directoryExist(cacheDir))
 	makeDirectory(cacheDir);
 
@@ -111,13 +120,17 @@ namespace bridges {
   };
 
 
-  class lruCache{
-  public:
+  class lruCache : public Cache{
+
     int maxCache;
     std::vector<std::string> v;
-    Cache ca;
-
-    std::string get(std::string hash_value){ //returns LRU vector from cache file
+    SimpleCache ca;
+  public:
+    lruCache(int maxFileNumber = 30)
+      :maxCache(maxFileNumber) {
+    }
+    
+    virtual std::string getDoc (const std::string& hash_value) override { //returns LRU vector from cache file
       string content;
       getLRU();
       content = ca.getDoc(hash_value);
@@ -126,14 +139,14 @@ namespace bridges {
       return content;
     }
 
-    bool inCache(std::string hash_value){
+    virtual bool inCache(const std::string& hash_value) override {
       if (ca.inCache(hash_value)){
 	return true;
       }
       return false;
     }
 
-    void put(std::string hash_value, std::string content){ //puts hash value at front of LRU vector
+    virtual void putDoc(const std::string& hash_value, const std::string& content) override { //puts hash value at front of LRU vector
       getLRU();
       ca.putDoc(hash_value, content);
       updateLRU(hash_value);

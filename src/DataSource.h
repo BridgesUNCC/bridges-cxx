@@ -60,12 +60,13 @@ namespace bridges {
 				return 0;
 			}
 			bridges::Bridges* bridges_inst;
-		public:
+	  bridges::lruCache my_cache;
+	public:
 			DataSource(bridges::Bridges* br = nullptr)
-				: bridges_inst(br) {}
+			  : bridges_inst(br), my_cache(120) {}
 
 			DataSource(bridges::Bridges& br )
-				: DataSource(&br) {}
+			  : DataSource(&br), my_cache(120) {}
 
 
 			/**
@@ -601,17 +602,13 @@ namespace bridges {
 
 
 				std::string osm_json;
-				lruCache lru;
-				lru.maxCache = 30;
 				std::cerr<<"url: "<<url<<"\n";
 
-				//Imports LRU from cache file
-
 				//Checks to see if map requested is stored in local cache
-				if (lru.inCache(hash_value) == true){ //local map is up-to-date
+				if (my_cache.inCache(hash_value) == true){ //local map is up-to-date
 					try {
-						if (lru.inCache(hash_value)) {
-							osm_json = lru.get(hash_value);
+						if (my_cache.inCache(hash_value)) {
+							osm_json = my_cache.getDoc(hash_value);
 
 							return getOSMDataFromJSON(osm_json);
 						}
@@ -620,7 +617,7 @@ namespace bridges {
 						std::cout << "Exception while reading from cache. Ignoring cache and continue." << std::endl;
 					}
 
-				} else if(hash_value.compare("false") == 0 || lru.inCache(hash_value) == false){ //Server response is false or somehow map got saved as false
+				} else if(hash_value.compare("false") == 0 || my_cache.inCache(hash_value) == false){ //Server response is false or somehow map got saved as false
 					osm_json = ServerComm::makeRequest(url, {"Accept: application/json"}); //Requests the map data then requests the maps hash
 					hash_value =  ServerComm::makeRequest(hash_url, {"Accept: application/json"});
 
@@ -632,7 +629,7 @@ namespace bridges {
 
 					//Saves map to cache directory
 					try {
-			      lru.put(hash_value, osm_json);
+			      my_cache.putDoc(hash_value, osm_json);
 
 			    } catch (CacheException& ce) {
 			      //something went bad trying to access the cache
@@ -666,24 +663,23 @@ namespace bridges {
 
 
 				std::string osm_json;
-				lruCache lru;
-				lru.maxCache = 30;
+
 				std::cerr<<"url: "<<url<<"\n";
 
 
 
 
-				if (lru.inCache(hash_value) == true){ //local map is up-to-date
+				if (my_cache.inCache(hash_value) == true){ //local map is up-to-date
 					try {
-						if (lru.inCache(hash_value)) {
-							osm_json = lru.get(hash_value);//TODO: Insert LRU update here
+						if (my_cache.inCache(hash_value)) {
+							osm_json = my_cache.getDoc(hash_value);
 							return getOSMDataFromJSON(osm_json);
 						}
 					} catch (CacheException& ce) { //something went bad trying to access the cache
 						std::cout << "Exception while reading from cache. Ignoring cache and continue." << std::endl;
 					}
 
-				} else if(hash_value.compare("false") == 0 || lru.inCache(hash_value) == false){ //Server response is false or somehow map got saved as false
+				} else if(hash_value.compare("false") == 0 || my_cache.inCache(hash_value) == false){ //Server response is false or somehow map got saved as false
 					osm_json = ServerComm::makeRequest(url, {"Accept: application/json"}); //Requests the map data then requests the maps hash
 					hash_value =  ServerComm::makeRequest(hash_url, {"Accept: application/json"});
 					if (hash_value.compare("false") == 0){
@@ -694,7 +690,7 @@ namespace bridges {
 
 					//Saves map to cache directory
 					try {
-			      lru.put(hash_value, osm_json);
+			      my_cache.putDoc(hash_value, osm_json);
 			    } catch (CacheException& ce) {
 			      //something went bad trying to access the cache
 			      std::cerr << "Exception while storing in cache. Weird but not critical." << std::endl;
@@ -718,12 +714,11 @@ namespace bridges {
 			OSMData getOSMDataOld (string location) {
 				std::transform(location.begin(), location.end(), location.begin(),
 					::tolower);
-				Cache ca;
 				std::string osm_json;
 				bool from_cache = false;
 				try {
-					if (ca.inCache(location)) {
-						osm_json = ca.getDoc(location);
+					if (my_cache.inCache(location)) {
+						osm_json = my_cache.getDoc(location);
 						from_cache = true;
 					}
 				}
@@ -739,7 +734,7 @@ namespace bridges {
 					osm_json = ServerComm::makeRequest(url, {"Accept: application/json"});
 
 					try {
-						ca.putDoc(location, osm_json);
+						my_cache.putDoc(location, osm_json);
 					}
 					catch (CacheException& ce) {
 						//something went bad trying to access the cache
@@ -1074,12 +1069,11 @@ namespace bridges {
 	  /// @param vout vector where the pairs will be aded to
 	  void  getWikidataActorMovieDirect (int yearbegin, int yearend, std::vector<MovieActorWikidata>& vout) {
 	    std::string codename = "wikidata-actormovie-"+std::to_string(yearbegin)+"-"+std::to_string(yearend);
-				Cache ca;
 				std::string json;
 				bool from_cache = false;
 				try {
-					if (ca.inCache(codename)) {
-						json = ca.getDoc(codename);
+					if (my_cache.inCache(codename)) {
+						json = my_cache.getDoc(codename);
 						from_cache = true;
 					}
 				}
@@ -1120,7 +1114,7 @@ namespace bridges {
 					json = ServerComm::makeRequest(url, http_headers);
 
 					try {
-						ca.putDoc(codename, json);
+						my_cache.putDoc(codename, json);
 					}
 					catch (CacheException& ce) {
 						//something went bad trying to access the cache
