@@ -36,7 +36,7 @@ namespace bridges {
 			unordered_map<K, SLelement<Edge<K, E2> >*> adj_list;
 
 			// large graph related 
-			const int LargeGraphVertSize = 2000;
+			static const int LargeGraphVertSize = 2000;
 
 			bool forceLargeViz = false;
 			bool forceSmallViz = false;
@@ -58,8 +58,13 @@ namespace bridges {
 				return OPEN_BOX + strCSS + CLOSE_BOX;
 			}
 
-
+	  GraphAdjList(const GraphAdjList& gr) = delete; //would not be correct
+	  const GraphAdjList& operator= (const GraphAdjList& gr) = delete; //would not be correct
 		public:
+
+	  GraphAdjList() = default;
+	  GraphAdjList(GraphAdjList&& gr) = default;
+	  
 			virtual ~GraphAdjList() override {
 				for (auto& v : vertices) {	
 					if (adj_list[v.first]) { 
