@@ -68,10 +68,10 @@ namespace bridges {
       char * home = getenv("HOME"); // a reasonable location on unixes
       if (home == nullptr)
 	home = getenv("LOCALAPPDATA"); // a reasonnable location on windowses
-      }
-      if (home != nullptr) {
+
+      if (home != nullptr) 
 	cacheDir += std::string(home)+"/";
-      }
+      
       cacheDir += "cache/";
       //probably should check directory existence here, but exception in constructors are weird.
     }
