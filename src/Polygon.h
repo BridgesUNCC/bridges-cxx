@@ -24,19 +24,18 @@ namespace bridges {
 	class Polygon : public Symbol {
 		private:
 			string shape = "polygon";
-			// height, width of rectangle
-			vector<float> *points = nullptr;
-			int radius = 10;
+
+			// points of the polygon
+			vector<float> points;
 
 		public:
 
 			// constructors
 			Polygon () {
-				points = new vector<float>(100);
-				points->resize(0);
+				points.clear();
 			}
 
-			Polygon (vector<float> *pts) {
+			Polygon (vector<float> pts) {
 				points = pts;
 			}
 
@@ -71,8 +70,8 @@ namespace bridges {
 				if 	((fx > -INFINITY) && (fx < INFINITY) &&
 					(fy > -INFINITY) && (fy < INFINITY)) {
 
-					points->push_back(fx);
-					points->push_back(fy);
+					points.push_back(fx);
+					points.push_back(fy);
 				}
 				else {
 					throw "points are valid only for polygons!";
@@ -83,7 +82,7 @@ namespace bridges {
 			 *
 			 * @return points  point list of the polygon - sequence of x, y values
 			 */
-			vector<float> *getPoints() {
+			vector<float> getPoints() {
 				return points;
 			}
 
@@ -93,7 +92,82 @@ namespace bridges {
 			 * @param pts  point list of the polygon - sequence of x, y values
 			 */
 			void setPolygon (vector<float> pts) {
-				*points = pts;
+				points = pts;
+			}
+
+			/** 
+			 *	Translate the polyline
+			 *
+			 *	@param translation factor (tx, ty)
+			 */
+		 	void translate(float *transl) {
+				// translate the points
+				for (int k = 0; k < points.size(); k += 2) {
+					points[k]   += transl[0];
+					points[k+1] += transl[1];
+				}
+			}
+
+			/** 
+			 *	rotate the polyline about its center
+			 *
+			 *	@param rotation angle 
+			 */
+		 	void rotate(float angle) {
+				// get center of polyline
+				float center[2];
+				getCenter(center);
+				// translate the center to the origin
+				float transl[] = {-center[0], -center[1]};
+				translate (transl);
+				// rotate the points
+				for (int k = 0; k < points.size(); k += 2) {
+					float tmp[] = { points[k], points[k+1] };
+					rotatePoint (tmp,  angle);
+					points[k] = tmp[0]; points[k+1] = tmp[1];
+				}
+				// translate back
+				transl[0] = center[0]; transl[1] = center[1];
+				translate(transl);
+			}
+
+			/** 
+			 *	Scale the polyline about its center
+			 *
+			 *	@param scale factor (sx, sy)
+			 */
+		 	void scale(float *scale) {
+				// get center of polyline
+				float center[2];
+				getCenter(center);
+				// translate the center to the origin
+				float transl[] = {-center[0], -center[1]};
+				translate (transl);
+				// scale the points
+				for (int k = 0; k < points.size(); k += 2) {
+					points[k]   *= scale[0];
+					points[k+1] *= scale[1];
+				}
+				// translate back
+				transl[0] = center[0]; transl[1] = center[1];
+				translate(transl);
+			}
+
+			/** 
+			 *	Get center of polyline - use its bounding box
+			 */
+			void getCenter(float *center) {
+				float bbox[4];
+				bbox[0] = bbox[1] = INFINITY;
+				bbox[2] = bbox[3] = -INFINITY;
+				for (int k = 0; k < points.size(); k += 2) {
+					if (points[k] < bbox[0]) bbox[0] = points[k];
+					if (points[k] > bbox[2]) bbox[2] = points[k];
+					if (points[k+1] < bbox[1]) bbox[1] = points[k+1];
+					if (points[k+1] > bbox[3]) bbox[3] = points[k+1];
+				}
+				center[0] = bbox[0] + (bbox[2]-bbox[0])/2.;	
+				center[1] = bbox[1] + (bbox[3]-bbox[1])/2.;	
 			}
 
 			/**
@@ -109,10 +183,10 @@ namespace bridges {
 				dims[0] = dims[1] = INFINITY;
 				dims[2] = dims[3] = -INFINITY;
 				float x, y;
-				for (std::size_t i = 0, size = points->size();
+				for (std::size_t i = 0, size = points.size();
 					i < size; i += 2) {
-					x = points->at(i);
-					y = points->at(i + 1);
+					x = points.at(i);
+					y = points.at(i + 1);
 					if (x < dims[0])
 						dims[0] = x;
 					if (x > dims[2])
@@ -141,12 +215,12 @@ namespace bridges {
 				// add point list to polygons
 				shape_json += QUOTE + "points" + QUOTE + COLON + OPEN_BOX;
 				vector<float>::iterator it;
-				for (it = points->begin(); it != points->end(); it++) {
-					shape_json += to_string(*it) + COMMA;
+				for (int k = 0; k < points.size(); k++) {
+					shape_json += to_string(points[k]) + COMMA;
 				}
 
 				// remove last comma
-				if (points->size())
+				if (points.size())
 					shape_json.erase(shape_json.size() - 1);
 				shape_json += CLOSE_BOX + CLOSE_CURLY;
 

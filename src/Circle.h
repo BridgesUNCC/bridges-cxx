@@ -50,7 +50,7 @@ namespace bridges {
 			 *  @param  r : radius 
 			 */
 			Circle (int locx, int locy, int r) {
-				setLocation (locx, locy);
+				setLocation ((float)locx, (float)locy);
 				if (r < 0)
 					throw "Illegal value for radius. Must be positive";
 				radius = r;
@@ -99,6 +99,27 @@ namespace bridges {
 				radius = r;
 			}
 
+			/** 
+			 *	Translate the circle
+			 *
+			 *	@param translation factor (tx, ty)
+			 */
+		 	void translate(float *transl) {
+				float *center = getLocation();
+				translatePoint (center, transl);
+				setLocation(center[0], center[1]);
+			}
+			/** 
+			 *	Scale the circle
+			 *  Only the radius needs to be scaled, using a single scale value
+			 *
+			 *	@param scale factor s
+			 */
+		 	void scale(float scale) {
+				// scale only the radius, 
+				// center stays the same
+				radius  *= scale;
+			}
 			/**
 			 * This method returns the dimensions of the shape: min and max
 			 *	values in X and Y

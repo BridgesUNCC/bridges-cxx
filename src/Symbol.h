@@ -1,6 +1,7 @@
 
 #include <string>
 #include <vector>
+#include <cmath>
 
 using namespace std;
 
@@ -249,6 +250,16 @@ namespace bridges {
 			}
 
 			/**
+			 * This method sets the symbol location
+			 *
+			 * @param x  x coordinate
+			 * @param y  y coordinate
+			 */
+			void setCenter(float x, float y) {
+				setLocation(x, y);
+			}
+
+			/**
 			 * This method sets the ssymbol location
 			 *
 			 * @param x  x coordinate
@@ -282,6 +293,42 @@ namespace bridges {
 			}
 
 		protected:
+			/**
+			 *  Translate a 2D point 
+			 *	@param pt  2D point (x, y)
+			 *  @translation  translation factors (tx, ty)
+			 */
+			void translatePoint (float *pt, float *translation) {
+				pt[0] += translation[0];
+				pt[1] += translation[1];
+			}
+
+			/**
+			 *  Scale a 2D point 
+			 *	@param pt  2D point (x, y)
+			 *  @scale factor  scale factors (sx, sy)
+			 */
+			void scalePoint (float *pt, float *scale) {
+				pt[0] *= scale[0];
+				pt[1] *= scale[1];
+			}
+
+			/**
+			 *  Rotate a 2D point (about Z)
+			 *	@param pt  2D point (x, y)
+			 *  @rotation angle theta (positive is counter clockwise, negative is clockwise) 
+			 */
+			void rotatePoint (float *pt, float angle) {
+				// compute sin, cos
+				float angle_r = angle*M_PI/180.;
+				float c = cos(angle_r); float s = sin(angle_r);
+
+				// rotate the point
+				float tmp[] = { pt[0]*c - pt[1]*s, tmp[1] = pt[0]*s + pt[1]*c};
+
+				// assign to point
+				pt[0] = tmp[0]; pt[1] = tmp[1];
+			}
 
 			/**
 			 *	This method gets the JSON representation of all of the 

@@ -53,7 +53,7 @@ namespace bridges {
 			 * @param h  height
 			 */
 			Rectangle (int locx, int locy, int w, int h) {
-				setLocation (float(locx), float(locy));
+				setCenter (float(locx), float(locy));
 				if (w < 0 || h < 0)
 					throw "Illegal height or width! Height and Width values need to be positive";
 				width = w;
@@ -102,6 +102,28 @@ namespace bridges {
 				height = h;
 			}
 
+			/** 
+			 *	Translate the rectangle
+			 *
+			 *	@param translation factor (tx, ty)
+			 */
+		 	void translate(float *transl) {
+				float *center = getLocation();
+				translatePoint (center, transl);
+				setLocation(center[0], center[1]);
+			}
+			/** 
+			 *	Scale the rectangle about its center
+			 *
+			 *	@param scale factor (sx, sy)
+			 */
+		 	void scale(float *scale) {
+				// scale the height, width
+				// center remains the same
+				float pt[2] = {(float) width, (float) height};
+				scalePoint (pt, scale);
+				width = pt[0]; height = pt[1];
+			}
 
 			/**
 			 * This method returns the dimensions of the shape: min and max
