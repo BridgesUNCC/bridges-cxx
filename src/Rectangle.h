@@ -107,9 +107,9 @@ namespace bridges {
 			 *
 			 *	@param translation factor (tx, ty)
 			 */
-		 	void translate(float *transl) {
+		 	void translate(float tx, float ty) {
 				float *center = getLocation();
-				translatePoint (center, transl);
+				translatePoint (center, tx, ty);
 				setLocation(center[0], center[1]);
 			}
 			/** 
@@ -117,11 +117,11 @@ namespace bridges {
 			 *
 			 *	@param scale factor (sx, sy)
 			 */
-		 	void scale(float *scale) {
+		 	void scale(float sx, float sy) {
 				// scale the height, width
 				// center remains the same
 				float pt[2] = {(float) width, (float) height};
-				scalePoint (pt, scale);
+				scalePoint (pt, sx, sy);
 				width = pt[0]; height = pt[1];
 			}
 

@@ -98,11 +98,11 @@ namespace bridges {
 			 *
 			 *	@param translation factor (tx, ty)
 			 */
-		 	void translate(float *transl) {
+		 	void translate(float tx, float ty) {
 				// translate the points
 				for (int k = 0; k < points.size(); k += 2) {
-					points[k]   += transl[0];
-					points[k+1] += transl[1];
+					points[k]   += tx;
+					points[k+1] += ty;
 				}
 			}
 
@@ -117,7 +117,7 @@ namespace bridges {
 				getCenter(center);
 				// translate the center to the origin
 				float transl[] = {-center[0], -center[1]};
-				translate (transl);
+				translate (transl[0], transl[1]);
 				// rotate the points
 				for (int k = 0; k < points.size(); k += 2) {
 					float tmp[] = { points[k], points[k+1] };
@@ -126,7 +126,7 @@ namespace bridges {
 				}
 				// translate back
 				transl[0] = center[0]; transl[1] = center[1];
-				translate(transl);
+				translate (transl[0], transl[1]);
 			}
 
 			/** 
@@ -134,21 +134,21 @@ namespace bridges {
 			 *
 			 *	@param scale factor (sx, sy)
 			 */
-		 	void scale(float *scale) {
+		 	void scale(float sx, float sy) {
 				// get center of polyline
 				float center[2];
 				getCenter(center);
 				// translate the center to the origin
 				float transl[] = {-center[0], -center[1]};
-				translate (transl);
+				translate (transl[0], transl[1]);
 				// scale the points
 				for (int k = 0; k < points.size(); k += 2) {
-					points[k]   *= scale[0];
-					points[k+1] *= scale[1];
+					points[k]   *= sx;
+					points[k+1] *= sy;
 				}
 				// translate back
 				transl[0] = center[0]; transl[1] = center[1];
-				translate(transl);
+				translate(transl[0], transl[1]);
 			}
 
 			/** 

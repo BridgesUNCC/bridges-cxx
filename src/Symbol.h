@@ -298,9 +298,9 @@ namespace bridges {
 			 *	@param pt  2D point (x, y)
 			 *  @translation  translation factors (tx, ty)
 			 */
-			void translatePoint (float *pt, float *translation) {
-				pt[0] += translation[0];
-				pt[1] += translation[1];
+			void translatePoint (float *pt, float tx, float ty) {
+				pt[0] += tx;
+				pt[1] += ty;
 			}
 
 			/**
@@ -308,9 +308,9 @@ namespace bridges {
 			 *	@param pt  2D point (x, y)
 			 *  @scale factor  scale factors (sx, sy)
 			 */
-			void scalePoint (float *pt, float *scale) {
-				pt[0] *= scale[0];
-				pt[1] *= scale[1];
+			void scalePoint (float *pt, float sx, float sy) {
+				pt[0] *= sx;
+				pt[1] *= sy;
 			}
 
 			/**

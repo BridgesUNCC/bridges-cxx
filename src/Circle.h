@@ -104,9 +104,9 @@ namespace bridges {
 			 *
 			 *	@param translation factor (tx, ty)
 			 */
-		 	void translate(float *transl) {
+		 	void translate(float tx, float ty) {
 				float *center = getLocation();
-				translatePoint (center, transl);
+				translatePoint (center, tx, ty);
 				setLocation(center[0], center[1]);
 			}
 			/** 
