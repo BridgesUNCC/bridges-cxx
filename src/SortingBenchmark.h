@@ -29,6 +29,16 @@ namespace bridges {
 	  arr[i] = ((double)rand())/RAND_MAX * (2 * n);
 	}
       }
+
+      bool check (int* arr, int n) {
+	bool ok = true;
+	for (int i=1; i< n; ++i) {
+	  if (arr[i] < arr[i-1]) {
+	    ok = false;
+	  }
+	}
+	return ok;
+      }
       
     public:
        SortingBenchmark(LineChart& p)
@@ -136,7 +146,10 @@ namespace bridges {
 	  std::chrono::time_point<std::chrono::system_clock> end = std::chrono::system_clock::now();
 	  
 	  std::chrono::duration<double> elapsed_seconds = end-start;
-	  
+
+	  if (! check(&arr[0], n)) {
+	    std::cerr<<"Sorting algorithm "<<algoName<<" is incorrect\n";
+	  }
 	  
 	  time.push_back ((double)elapsed_seconds.count() );
 	  xData.push_back ( (double)n );
