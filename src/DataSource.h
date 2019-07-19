@@ -66,7 +66,7 @@ namespace bridges {
 			  : bridges_inst(br), my_cache(120) {}
 
 			DataSource(bridges::Bridges& br )
-			  : DataSource(&br), my_cache(120) {}
+			  : DataSource(&br) {}
 
 
 			/**
@@ -579,65 +579,66 @@ namespace bridges {
 			 *  @return an OSMData object
 			 *
 			 */
-			OSMData getOSMData (double lat_min, double long_min,
-					     double lat_max, double long_max, string level="default") {
+	  OSMData getOSMData (double lat_min, double long_min,
+			      double lat_max, double long_max, string level="default") {
 
-				//URL for hash request
-				string hash_url = "http://cci-bridges-osm-t.uncc.edu/hash?minLon="+std::to_string(long_min)+
-				"&minLat="+std::to_string(lat_min)+
-				"&maxLon="+std::to_string(long_max)+
-				"&maxLat="+std::to_string(lat_max)+
-				"&level="+ level;
+	    //URL for hash request
+	    string hash_url = "http://cci-bridges-osm-t.uncc.edu/hash?minLon="+std::to_string(long_min)+
+	      "&minLat="+std::to_string(lat_min)+
+	      "&maxLon="+std::to_string(long_max)+
+	      "&maxLat="+std::to_string(lat_max)+
+	      "&level="+ level;
 
-				//URL to request map
-				string url =
-			    "http://cci-bridges-osm-t.uncc.edu/coords?minLon="+std::to_string(long_min)+
-			    "&minLat="+std::to_string(lat_min)+
-			    "&maxLon="+std::to_string(long_max)+
-			    "&maxLat="+std::to_string(lat_max)+
-					"&level="+ level;
+	    //URL to request map
+	    string url =
+	      "http://cci-bridges-osm-t.uncc.edu/coords?minLon="+std::to_string(long_min)+
+	      "&minLat="+std::to_string(lat_min)+
+	      "&maxLon="+std::to_string(long_max)+
+	      "&maxLat="+std::to_string(lat_max)+
+	      "&level="+ level;
 
-				//trys to get hash value for bounding box map
-				string hash_value =  ServerComm::makeRequest(hash_url, {"Accept: application/json"});
+	    //trys to get hash value for bounding box map
+	    string hash_value =  ServerComm::makeRequest(hash_url, {"Accept: application/json"});
 
 
-				std::string osm_json;
-				std::cerr<<"url: "<<url<<"\n";
+	    std::string osm_json;
+	    std::cerr<<"url: "<<url<<"\n";
 
-				//Checks to see if map requested is stored in local cache
-				if (my_cache.inCache(hash_value) == true){ //local map is up-to-date
-					try {
-						if (my_cache.inCache(hash_value)) {
-							osm_json = my_cache.getDoc(hash_value);
+	    //Checks to see if map requested is stored in local cache
+	    if (my_cache.inCache(hash_value) == true){ //local map is up-to-date
+	      try {
+		if (my_cache.inCache(hash_value)) {
+		  osm_json = my_cache.getDoc(hash_value);
+		}
+	      } catch (CacheException& ce) {
+		//something went bad trying to access the cache
+		std::cout << "Exception while reading from cache. Ignoring cache and continue." << std::endl;
+	      }
 
-							return getOSMDataFromJSON(osm_json);
-						}
-					} catch (CacheException& ce) {
-						//something went bad trying to access the cache
-						std::cout << "Exception while reading from cache. Ignoring cache and continue." << std::endl;
-					}
+	    } else if(hash_value.compare("false") == 0 || my_cache.inCache(hash_value) == false){
+	      //Server response is false or somehow map got saved as false
 
-				} else if(hash_value.compare("false") == 0 || my_cache.inCache(hash_value) == false){ //Server response is false or somehow map got saved as false
-					osm_json = ServerComm::makeRequest(url, {"Accept: application/json"}); //Requests the map data then requests the maps hash
-					hash_value =  ServerComm::makeRequest(hash_url, {"Accept: application/json"});
+	      osm_json = ServerComm::makeRequest(url, {"Accept: application/json"}); //Requests the map data then requests the maps hash
+	      hash_value =  ServerComm::makeRequest(hash_url, {"Accept: application/json"});
 
-					if (hash_value.compare("false") == 0){
-						std::cerr << "Error while gathering hash data for generated map..." << std::endl;
-						std::cerr << osm_json << std::endl;
-						abort();
-					}
+	      if (hash_value.compare("false") == 0){
+		std::cerr << "Error while gathering hash data for generated map..." << std::endl;
+		std::cerr << osm_json << std::endl;
+		abort();
+	      }
 
-					//Saves map to cache directory
-					try {
-			      my_cache.putDoc(hash_value, osm_json);
+	      //Saves map to cache directory
+	      try {
+		my_cache.putDoc(hash_value, osm_json);
 
-			    } catch (CacheException& ce) {
-			      //something went bad trying to access the cache
-			      std::cerr << "Exception while storing in cache. Weird but not critical." << std::endl;
-			    }
-					return getOSMDataFromJSON(osm_json);
-				}
-			}
+	      } catch (CacheException& ce) {
+		//something went bad trying to access the cache
+		std::cerr << "Exception while storing in cache. Weird but not critical." << std::endl;
+	      }
+	     
+	    }
+	    return getOSMDataFromJSON(osm_json);
+	  }
 
 			/**
 			 *
@@ -648,57 +649,53 @@ namespace bridges {
 			 *  @return an OSMData object
 			 *
 			 */
-			OSMData getOSMData (string location, string level="default") {
-				//URL for hash request
-				string hash_url = "http://cci-bridges-osm-t.uncc.edu/hash?location="+location+
-				"&level="+ level;
+	  OSMData getOSMData (string location, string level="default") {
+	    //URL for hash request
+	    string hash_url = "http://cci-bridges-osm-t.uncc.edu/hash?location="+location+
+	      "&level="+ level;
 
-				//URL to request map
-				string url =
-			    "http://cci-bridges-osm-t.uncc.edu/loc?location="+location+
-					"&level="+ level;
+	    //URL to request map
+	    string url =
+	      "http://cci-bridges-osm-t.uncc.edu/loc?location="+location+
+	      "&level="+ level;
 
-				//trys to get hash value for bounding box map
-				string hash_value =  ServerComm::makeRequest(hash_url, {"Accept: application/json"});
-
-
-				std::string osm_json;
-
-				std::cerr<<"url: "<<url<<"\n";
+	    //trys to get hash value for bounding box map
+	    string hash_value =  ServerComm::makeRequest(hash_url, {"Accept: application/json"});
 
 
+	    std::string osm_json;
 
+	    std::cerr<<"url: "<<url<<"\n";
 
-				if (my_cache.inCache(hash_value) == true){ //local map is up-to-date
-					try {
-						if (my_cache.inCache(hash_value)) {
-							osm_json = my_cache.getDoc(hash_value);
-							return getOSMDataFromJSON(osm_json);
-						}
-					} catch (CacheException& ce) { //something went bad trying to access the cache
-						std::cout << "Exception while reading from cache. Ignoring cache and continue." << std::endl;
-					}
+	    if (my_cache.inCache(hash_value) == true){ //local map is up-to-date
+	      try {
+		if (my_cache.inCache(hash_value)) {
+		  osm_json = my_cache.getDoc(hash_value);
+		}
+	      } catch (CacheException& ce) { //something went bad trying to access the cache
+		std::cout << "Exception while reading from cache. Ignoring cache and continue." << std::endl;
+	      }
 
-				} else if(hash_value.compare("false") == 0 || my_cache.inCache(hash_value) == false){ //Server response is false or somehow map got saved as false
-					osm_json = ServerComm::makeRequest(url, {"Accept: application/json"}); //Requests the map data then requests the maps hash
-					hash_value =  ServerComm::makeRequest(hash_url, {"Accept: application/json"});
-					if (hash_value.compare("false") == 0){
-						std::cerr << "Error while gathering hash data for generated map..." << std::endl;
-						std::cerr << osm_json << std::endl;
-						abort();
-					}
+	    } else if(hash_value.compare("false") == 0 || my_cache.inCache(hash_value) == false){ //Server response is false or somehow map got saved as false
+	      osm_json = ServerComm::makeRequest(url, {"Accept: application/json"}); //Requests the map data then requests the maps hash
+	      hash_value =  ServerComm::makeRequest(hash_url, {"Accept: application/json"});
+	      if (hash_value.compare("false") == 0){
+		std::cerr << "Error while gathering hash data for generated map..." << std::endl;
+		std::cerr << osm_json << std::endl;
+		abort();
+	      }
 
-					//Saves map to cache directory
-					try {
-			      my_cache.putDoc(hash_value, osm_json);
-			    } catch (CacheException& ce) {
-			      //something went bad trying to access the cache
-			      std::cerr << "Exception while storing in cache. Weird but not critical." << std::endl;
-			    }
-					return getOSMDataFromJSON(osm_json);
-				}
-
-			}
+	      //Saves map to cache directory
+	      try {
+		my_cache.putDoc(hash_value, osm_json);
+	      } catch (CacheException& ce) {
+		//something went bad trying to access the cache
+		std::cerr << "Exception while storing in cache. Weird but not critical." << std::endl;
+	      }
+				
+	    }
+	    return getOSMDataFromJSON(osm_json);
+	  }
 
 
 	  /**
