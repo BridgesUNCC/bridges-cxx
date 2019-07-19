@@ -23,7 +23,7 @@ namespace bridges {
 		private:
 
 			string shape = "circle";
-			int radius = 10;
+			int radius = 1.;
 
 		public:
 
@@ -31,7 +31,7 @@ namespace bridges {
 			 *  constructors
 			 */
 			Circle () {
-				radius = 10;
+				setCircle(0., 0., 1.);
 			}
 
 			/**
@@ -39,9 +39,7 @@ namespace bridges {
 			 *  @param  r : radius 
 			 */
 			Circle (int r) {
-				if (r < 0)
-					throw "Illegal value for radius. Must be positive";
-				radius = r;
+				setCircle (0., 0., r);
 			}
 
 			/**

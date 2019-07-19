@@ -62,16 +62,11 @@ namespace bridges {
 			 *
 			 * @param x, y:  X, Y coordinates of the point
 			 */
-			void addPoint(int x, int y) {
-
-				float fx = float(x);
-				float fy = float(y);
-
-				if 	((fx > -INFINITY) && (fx < INFINITY) &&
-					(fy > -INFINITY) && (fy < INFINITY)) {
-
-					points.push_back(fx);
-					points.push_back(fy);
+			void addPoint(float x, float y) {
+				if 	((x > -INFINITY) && (x < INFINITY) &&
+						(y > -INFINITY) && (y < INFINITY)) {
+					points.push_back(x);
+					points.push_back(y);
 				}
 				else {
 					throw "points are valid only for polygons!";
