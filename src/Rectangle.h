@@ -23,14 +23,14 @@ namespace bridges {
 		private:
 			string shape = "rect";
 					// height, width of rectangle
-			int width = 10, height = 10;
+			float width = 1.0, height = 1.0;
 
 		public:
 			/**
 			 *  constructors
 			 */
 			Rectangle() {
-				width = height = 10;
+				setRectangle(0., 0., 1., 1.);
 			}
 
 			/**
@@ -39,10 +39,7 @@ namespace bridges {
 			 * @param h  height
 			 */
 			Rectangle (int w, int h) {
-				if (w < 0 || h < 0)
-					throw "Illegal height or width! Height and Width values need to be positive";
-				width = w;
-				height = h;
+				setRectangle (0., 0., w, h);
 			}
 
 			/**
@@ -52,12 +49,8 @@ namespace bridges {
 			 * @param w  width
 			 * @param h  height
 			 */
-			Rectangle (int locx, int locy, int w, int h) {
-				setCenter (float(locx), float(locy));
-				if (w < 0 || h < 0)
-					throw "Illegal height or width! Height and Width values need to be positive";
-				width = w;
-				height = h;
+			Rectangle (float locx, float locy, float w, float h) {
+				setRectangle (locx, locy, w, h);
 			}
 
 			/**
@@ -83,8 +76,8 @@ namespace bridges {
 			 *
 			 * @param w  width
 			 */
-			void setWidth(int w) {
-				if (w <= 0 || w > 300) {
+			void setWidth(float w) {
+				if (w <= 0. || w > 300.) {
 					throw "Illegal Size Value! Please enter a value in the range(0-300)";
 				}
 				width = w;
@@ -95,8 +88,8 @@ namespace bridges {
 			 *
 			 * @param h  height
 			 */
-			void setHeight(int h) {
-				if (h <= 0 || h > 300) {
+			void setHeight(float h) {
+				if (h <= 0. || h > 300.) {
 					throw "Illegal Size Value! Please enter a value in the range(0-300)";
 				}
 				height = h;
@@ -137,10 +130,10 @@ namespace bridges {
 				vector<float> dims(4);
 				float *location = getLocation();
 
-				dims[0] = location[0] - width / 2;
-				dims[1] = location[0] + width / 2,
-					dims[2] = location[1] - height / 2;
-				dims[3] = location[1] + height / 2;
+				dims[0] = location[0] - width / 2.;
+				dims[1] = location[0] + width / 2.,
+					dims[2] = location[1] - height / 2.;
+				dims[3] = location[1] + height / 2.;
 
 				return dims;
 			}
@@ -155,8 +148,7 @@ namespace bridges {
 			 *
 			 * @return none
 			 */
-			void setRectangle(int locx, int locy, int w, int h) 	{
-
+			void setRectangle(float locx, float locy, float w, float h) 	{
 				setLocation (float(locx), float(locy));
 				if (w <= 0 || w > 300 || h <= 0 ||  w > 300) {
 					throw "Illegal Size Value! Please enter values in the range 0-300";
