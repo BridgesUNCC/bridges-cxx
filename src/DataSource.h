@@ -45,7 +45,7 @@ using namespace std;
 namespace bridges {
   using namespace bridges::dataset;
   using namespace bridges::datastructure;
-  
+
 	class CacheException : std::exception {
 	};
 
@@ -150,43 +150,28 @@ class lruCache{
 	public:
 		int maxCache;
 		std::vector<std::string> v;
+		Cache ca;
 
-		void get(Cache ca){ //returns LRU vector from cache file
-			if(ca.inCache("lru")){
-				string vector_string = ca.getDoc("lru"); //Imported LRU
-				std::istringstream ss(vector_string);
-				std::string token;
-				//Parses string and turns it into vector
-				while(std::getline(ss, token, ',')) {
-						v.push_back(token);
-				}
-			}
-			return;
-		}
-
-		std::vector<std::string> get(){
-			return v;
+		std::string get(std::string hash_value){ //returns LRU vector from cache file
+			string content;
+			getLRU();
+			content = ca.getDoc(hash_value);
+			updateLRU(hash_value);
+			saveLRU();
+			return content;
 		}
 
 		bool inCache(std::string hash_value){
-			for (auto it = v.begin(); it != v.end(); ) {
-				if (*it == hash_value){
-					return true;
-				}
+			if (ca.inCache(hash_value)){
+				return true;
 			}
 			return false;
 		}
 
-		void put(std::string hash_value, Cache ca){ //puts hash value at front of LRU vector
-			 for (auto it = v.begin(); it != v.end(); ) {
-				 if (*it == hash_value){
-					 v.erase(it); //removes old hash vlaue location in vector
-					 break;
-				 } else {
-					 ++it;
-				 }
-			 }
-			 v.insert(v.begin(), hash_value); //puts hash value in the front of the vector
+		void put(std::string hash_value, std::string content){ //puts hash value at front of LRU vector
+			getLRU();
+			ca.putDoc(hash_value, content);
+			updateLRU(hash_value);
 
 			 //checks size of vector and pops lru off
 			 if (v.size() >= maxCache + 1){ // keeps maxCache local maps
@@ -197,6 +182,40 @@ class lruCache{
 					 v.pop_back();
 				 }
 			 }
+			 saveLRU();
+			 return;
+		 }
+
+
+
+	private:
+		void updateLRU(std::string hash_value){
+			 for (auto it = v.begin(); it != v.end(); ) {
+				 if (*it == hash_value){
+					 v.erase(it); //removes old hash vlaue location in vector
+					 break;
+				 } else {
+					 ++it;
+				 }
+			 }
+			 v.insert(v.begin(), hash_value); //puts hash value in the front of the vector
+			 return;
+		 }
+		 void getLRU(){
+			 v.clear();
+			 if(ca.inCache("lru")){
+ 				string vector_string = ca.getDoc("lru"); //Imported LRU
+ 				std::istringstream ss(vector_string);
+ 				std::string token;
+ 				//Parses string and turns it into vector
+ 				while(std::getline(ss, token, ',')) {
+ 						v.push_back(token);
+ 				}
+ 			}
+			return;
+		 }
+
+		 void saveLRU(){
 			 //Saves the vector to file
 			 string out_vector;
 			 int x = 0;
@@ -209,7 +228,6 @@ class lruCache{
 				 }
 			 }
 			 ca.putDoc("lru", out_vector);
-			 return;
 		 }
 };
 
@@ -754,7 +772,7 @@ class lruCache{
 					     double lat_max, double long_max, string level="default") {
 
 				//URL for hash request
-				string hash_url = "http://127.0.0.1:5000/hash?minLon="+std::to_string(long_min)+
+				string hash_url = "http://cci-bridges-osm-t.uncc.edu/hash?minLon="+std::to_string(long_min)+
 				"&minLat="+std::to_string(lat_min)+
 				"&maxLon="+std::to_string(long_max)+
 				"&maxLat="+std::to_string(lat_max)+
@@ -762,7 +780,7 @@ class lruCache{
 
 				//URL to request map
 				string url =
-			    "http://127.0.0.1:5000/coords?minLon="+std::to_string(long_min)+
+			    "http://cci-bridges-osm-t.uncc.edu/coords?minLon="+std::to_string(long_min)+
 			    "&minLat="+std::to_string(lat_min)+
 			    "&maxLon="+std::to_string(long_max)+
 			    "&maxLat="+std::to_string(lat_max)+
@@ -773,19 +791,17 @@ class lruCache{
 
 
 				std::string osm_json;
-				Cache ca;
 				lruCache lru;
 				lru.maxCache = 30;
 				std::cerr<<"url: "<<url<<"\n";
 
-				lru.get(ca); //Imports LRU from cache file
+				//Imports LRU from cache file
 
 				//Checks to see if map requested is stored in local cache
-				if (ca.inCache(hash_value) == true){ //local map is up-to-date
+				if (lru.inCache(hash_value) == true){ //local map is up-to-date
 					try {
-						if (ca.inCache(hash_value)) {
-							osm_json = ca.getDoc(hash_value);
-							lru.put(hash_value, ca); //Checks for hash value in LRU vector
+						if (lru.inCache(hash_value)) {
+							osm_json = lru.get(hash_value);
 
 							return getOSMDataFromJSON(osm_json);
 						}
@@ -794,7 +810,7 @@ class lruCache{
 						std::cout << "Exception while reading from cache. Ignoring cache and continue." << std::endl;
 					}
 
-				} else if(hash_value.compare("false") == 0 || ca.inCache(hash_value) == false){ //Server response is false or somehow map got saved as false
+				} else if(hash_value.compare("false") == 0 || lru.inCache(hash_value) == false){ //Server response is false or somehow map got saved as false
 					osm_json = ServerComm::makeRequest(url, {"Accept: application/json"}); //Requests the map data then requests the maps hash
 					hash_value =  ServerComm::makeRequest(hash_url, {"Accept: application/json"});
 
@@ -806,8 +822,7 @@ class lruCache{
 
 					//Saves map to cache directory
 					try {
-			      ca.putDoc(hash_value, osm_json);
-						lru.put(hash_value, ca); //Checks for hash value in LRU vector
+			      lru.put(hash_value, osm_json);
 
 			    } catch (CacheException& ce) {
 			      //something went bad trying to access the cache
@@ -828,12 +843,12 @@ class lruCache{
 			 */
 			OSMData getOSMData (string location, string level="default") {
 				//URL for hash request
-				string hash_url = "http://127.0.0.1:5000/hash?location="+location+
+				string hash_url = "http://cci-bridges-osm-t.uncc.edu/hash?location="+location+
 				"&level="+ level;
 
 				//URL to request map
 				string url =
-			    "http://127.0.0.1:5000/loc?location="+location+
+			    "http://cci-bridges-osm-t.uncc.edu/loc?location="+location+
 					"&level="+ level;
 
 				//trys to get hash value for bounding box map
@@ -841,26 +856,24 @@ class lruCache{
 
 
 				std::string osm_json;
-				Cache ca;
 				lruCache lru;
 				lru.maxCache = 30;
 				std::cerr<<"url: "<<url<<"\n";
 
-				lru.get(ca);
 
 
-				if (ca.inCache(hash_value) == true){ //local map is up-to-date
+
+				if (lru.inCache(hash_value) == true){ //local map is up-to-date
 					try {
-						if (ca.inCache(hash_value)) {
-							osm_json = ca.getDoc(hash_value);//TODO: Insert LRU update here
-							lru.put(hash_value, ca); //Stores LRU vector in cache
+						if (lru.inCache(hash_value)) {
+							osm_json = lru.get(hash_value);//TODO: Insert LRU update here
 							return getOSMDataFromJSON(osm_json);
 						}
 					} catch (CacheException& ce) { //something went bad trying to access the cache
 						std::cout << "Exception while reading from cache. Ignoring cache and continue." << std::endl;
 					}
 
-				} else if(hash_value.compare("false") == 0 || ca.inCache(hash_value) == false){ //Server response is false or somehow map got saved as false
+				} else if(hash_value.compare("false") == 0 || lru.inCache(hash_value) == false){ //Server response is false or somehow map got saved as false
 					osm_json = ServerComm::makeRequest(url, {"Accept: application/json"}); //Requests the map data then requests the maps hash
 					hash_value =  ServerComm::makeRequest(hash_url, {"Accept: application/json"});
 					if (hash_value.compare("false") == 0){
@@ -871,8 +884,7 @@ class lruCache{
 
 					//Saves map to cache directory
 					try {
-			      ca.putDoc(hash_value, osm_json);
-						lru.put(hash_value, ca); //checks the vector used for the LRU to see if the map gotten is already in its list
+			      lru.put(hash_value, osm_json);
 			    } catch (CacheException& ce) {
 			      //something went bad trying to access the cache
 			      std::cerr << "Exception while storing in cache. Weird but not critical." << std::endl;
@@ -1271,7 +1283,7 @@ class lruCache{
 				  std::vector<std::string> http_headers;
 				  http_headers.push_back("User-Agent: bridges-cxx"); //wikidata kicks you out if you don't have a useragent
 				  http_headers.push_back("Accept: application/json"); //tell wikidata we are OK with JSON
-				  
+
 				  string url = "https://query.wikidata.org/sparql?";
 
 				  //Q1860 is "English"
@@ -1312,10 +1324,10 @@ class lruCache{
 				  doc.Parse(json.c_str());
 				  if (doc.HasParseError())
 				    throw "Malformed JSON";
-				  
+
 				  try {
 				    const auto& resultsArray = doc["results"]["bindings"].GetArray();
-				    
+
 				    for (auto& mak_json : resultsArray) {
 				      MovieActorWikidata mak;
 
@@ -1327,14 +1339,14 @@ class lruCache{
 				      removeFirstOccurence (actoruri, "http://www.wikidata.org/entity/");
 				      removeFirstOccurence (movieuri, "http://www.wikidata.org/entity/");
 
-				      
+
 				      mak.setActorURI(actoruri);
 				      mak.setMovieURI(movieuri);
 				      mak.setActorName(mak_json["actorLabel"]["value"].GetString());
 				      mak.setMovieName(mak_json["movieLabel"]["value"].GetString());
 				      vout.push_back(mak);
 				    }
-				  
+
 				  }
 				  catch (rapidjson_exception re) {
 				    throw "Malformed JSON: Not from wikidata?";
@@ -1359,8 +1371,8 @@ class lruCache{
 	    //redundancy.  Though I (Erik) am not completely sure that a
 	    //movie can be appear in different years, for instance it
 	    //can be released in the US in 2005 but in canada in
-	    //2006...	   
-	    
+	    //2006...
+
 	    std::vector<MovieActorWikidata> ret;
 	    for (int y = yearbegin; y<=yearend; ++y) {
 	      getWikidataActorMovieDirect (y, y, ret);
