@@ -25,7 +25,7 @@ namespace bridges {
   
   class SimpleCache : public Cache{
   private:
-    std::string cacheDir = "cache";
+    std::string cacheDir;
 
     std::string getFilename(const std::string & docName) {
       return cacheDir + "/" + docName; //TODO: bad things can happen if docName contains / or .. or stuff like that
@@ -65,6 +65,10 @@ namespace bridges {
 
   public:
     SimpleCache() {
+      char * home = getenv("HOME");
+      if (home != nullptr)
+	cacheDir += std::string(home)+"/";
+      cacheDir += "cache/";
       //probably should check directory existence here, but exception in constructors are weird.
     }
 
@@ -117,6 +121,17 @@ namespace bridges {
 	throw CacheException();
 
     }
+
+    /// @brief evicts a document from the cache
+    ///
+    /// @param docName document to evict
+    /// @return true on success
+    bool evict(const std::string& docName) {
+      string f = cacheDir;
+      f.append(docName);
+      
+      return std::remove(f.c_str()) == 0;
+    }
   };
 
 
@@ -153,12 +168,8 @@ namespace bridges {
 
       //checks size of vector and pops lru off
       if (v.size() >= maxCache + 1){ // keeps maxCache local maps
-	string f = "cache/";
-	f.append(v[v.size()-1]);
-
-	if(std::remove(f.c_str()) == 0){
+	if (ca.evict(v[v.size()-1]))
 	  v.pop_back();
-	}
       }
       saveLRU();
       return;
