@@ -27,6 +27,9 @@ namespace bridges {
 	 *  Elements contain a visualizer object for setting visual attributes (color,
 	 *  shape, opacity, size), necessary for displaying them in a web browser
 	 *
+	 *
+	 * There is a tutorial about Circular Doubly Linked Lists :
+	 * http://bridgesuncc.github.io/tutorials/CDLL.html
 	 */
 	template <typename E>
 	class CircDLelement : public  DLelement<E> {

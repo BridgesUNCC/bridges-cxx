@@ -25,6 +25,10 @@ namespace bridges {
 	 *
 	 * @author Kalpathi Subramanian
 	 * @date Last modified 4/22/18, 7/12/19
+	 *
+	 * There is a tutorial about Graph Adjacency List  :
+	 * http://bridgesuncc.github.io/tutorials/Graph_AL.html
+	 *
 	 */
 	template<typename K, typename E1 = K, typename E2 = E1>
 	class GraphAdjList : public DataStructure {

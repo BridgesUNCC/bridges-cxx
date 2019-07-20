@@ -15,6 +15,9 @@ namespace bridges {
 	 *
 	 * @author Kalpathi Subramanian
 	 * @date 6/12/15, 7/12/19
+	 *
+	 * There is a tutorial about Binary Trees :
+	 * http://bridgesuncc.github.io/tutorials/BinTree.html
 	 */
 
 	template <typename E>

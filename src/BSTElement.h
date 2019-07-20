@@ -23,7 +23,9 @@ namespace bridges {
 	 * @author Kalpathi Subramanian
 	 * @date 6/18/15, 7/17/16, 7/12/19
 	 *
-	 */
+	 * There is a tutorial about Binary Search Trees :
+	 * http://bridgesuncc.github.io/tutorials/BSTree.html
+	 **/
 	template <typename K, typename E>
 	class BSTElement : public BinTreeElement<E> {
 		protected:

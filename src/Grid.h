@@ -20,6 +20,10 @@ namespace bridges {
 	 * @date 7/12/19
 	 *
 	 * @param E
+	 *
+	 * There is a tutorial about Grid :
+	 * http://bridgesuncc.github.io/tutorials/Grid.html
+	 *
 	 **/
 
 

@@ -13,6 +13,10 @@ using namespace std;
  *	(rectangles, polygons, circles, labels).
  *
  * @author David Burlinson, Kalpathi Subramanian
+ *
+ * There is a tutorial about Symbol Collections :
+ * http://bridgesuncc.github.io/tutorials/Symbol_Collection.html
+ *
  */
 
 #ifndef SYMBOL_COLLECTION_H

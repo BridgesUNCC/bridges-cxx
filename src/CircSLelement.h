@@ -25,6 +25,9 @@ namespace bridges {
 	 *	@date 10/5/2016, 7/12/19
 	 *
 	 *	@param <E>
+	 *
+	 * There is a tutorial about Circular Singly Linked Lists :
+	 * http://bridgesuncc.github.io/tutorials/CSLL.html
 	 */
 
 	template <typename E>

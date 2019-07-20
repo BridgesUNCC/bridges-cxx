@@ -16,7 +16,10 @@ namespace bridges {
 	 *
 	 * @author Kalpathi Subramanian, Dakota Carmer
 	 * @date 6/12/15, 7/12/19
-	 */
+	 *
+	 * There is a tutorial about Trees :
+	 * http://bridgesuncc.github.io/tutorials/Tree.html
+	 **/
 	template <typename E>
 	class TreeElement : public Element<E>, public DataStructure {
 		private:

@@ -9,14 +9,16 @@ using namespace std;
 #include "Color.h"
 #include "base64.h"
 
-/**
- * @brief This is a class in BRIDGES for representing an (n x n) grid.
- *
- * @author David Burlinson, C++ port: Kalpathi Subramanian
- * @param
- **/
 namespace bridges {
   namespace datastructure {
+/**
+ * @brief This is a class in BRIDGES for representing an image.
+ *
+ * @author David Burlinson, Kalpathi Subramanian
+ *
+ * There is a tutorial about ColorGrid :
+ * http://bridgesuncc.github.io/tutorials/Grid.html
+ **/
 	class ColorGrid : public Grid<Color> {
 		private:
 			int debug() const {

@@ -33,7 +33,8 @@ namespace bridges {
 	 * @param <E> The generic parameter object that is part of this element, representing
 	 *			either application specific data, or a pointer to a sublist.
 	 *
-	 *	\sa Example Tutorial at <br> ??
+	 * There is a tutorial about Multi Lists :
+	 * http://bridgesuncc.github.io/tutorials/ML.html
 	 */
 
 

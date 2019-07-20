@@ -16,6 +16,10 @@ namespace bridges {
 	 *
 	 * @author Kalpathi Subramanian
 	 * @date 6/11/15, 7/12/19
+	 *
+	 * There is a tutorial about Singly Linked Lists :
+	 * http://bridgesuncc.github.io/tutorials/SLL.html
+	 *
 	 */
 	template <typename E>
 	class SLelement : public Element<E>, public DataStructure {
