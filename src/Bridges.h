@@ -15,9 +15,9 @@ using namespace std;
 
 
 namespace bridges {
-  using namespace bridges::datastructure;
-  
-  class SocketConnection;
+	using namespace bridges::datastructure;
+
+	class SocketConnection;
 	/**
 	 * @brief This class contains methods to connect and transmit a user's
 	 *  data structure representation to the Bridges server
@@ -238,7 +238,7 @@ namespace bridges {
 			 *  Set server type
 			 *
 			 *  @param  server server to which to connect.
-			 *      Options are: ['live', 'local', 'clone'], and 'live' 
+			 *      Options are: ['live', 'local', 'clone'], and 'live'
 			 *		is the default;
 			 *
 			 */
@@ -256,7 +256,7 @@ namespace bridges {
 			}
 
 			/**
-			 *	Turns on map overlay for subsequent visualizations - used with 
+			 *	Turns on map overlay for subsequent visualizations - used with
 			 *	location specific datasets
 			 *
 			 *  @param flag   this is the boolean flag for displaying a map overlay
@@ -267,7 +267,7 @@ namespace bridges {
 			}
 
 			/**
-			 *  Sets the coordinate system type for location specific data; 
+			 *  Sets the coordinate system type for location specific data;
 			 *	default is cartesian
 			 *
 			 *	@param coord    this is the desired coordinate space argument
@@ -324,7 +324,7 @@ namespace bridges {
 			 *
 			 **/
 			void setWindow (double xmin, double xmax, double ymin, double ymax) {
-			  wc_window.clear();
+				wc_window.clear();
 				wc_window.push_back(xmin);
 				wc_window.push_back(xmax);
 				wc_window.push_back(ymin);
@@ -450,7 +450,7 @@ namespace bridges {
 			}
 
 			friend DataSource;
-	  friend SocketConnection;
+			friend SocketConnection;
 	};	//end of class Bridges
 
 }	// end of bridges namespace

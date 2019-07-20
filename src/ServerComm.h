@@ -16,7 +16,7 @@ using namespace std;
 namespace bridges {
 	/**
 	 *	@brief This is a class for handling calls to the BRIDGES server to transmit
-	 *		JSON to the server and subsequent visualization. It is not 
+	 *		JSON to the server and subsequent visualization. It is not
 	 *		intended for external use
 	 */
 	class ServerComm {
@@ -125,22 +125,22 @@ namespace bridges {
 				return results;
 			}
 
-	  static std::string encodeURLPart (const std::string& s) {
-	    std::string returnstr;
+			static std::string encodeURLPart (const std::string& s) {
+				std::string returnstr;
 
-	     curl_global_init(CURL_GLOBAL_ALL);
-	     CURL* curl = curl_easy_init(); // get a curl handle
+				curl_global_init(CURL_GLOBAL_ALL);
+				CURL* curl = curl_easy_init(); // get a curl handle
 
-	     char* encodedstr = curl_easy_escape (curl, s.c_str(), 0);
-	     returnstr = encodedstr;
+				char* encodedstr = curl_easy_escape (curl, s.c_str(), 0);
+				returnstr = encodedstr;
 
-	     curl_free(encodedstr);
-	     
-	     curl_easy_cleanup(curl);
-	     curl_global_cleanup();
-		    
-	    return returnstr;
-	  }
+				curl_free(encodedstr);
+
+				curl_easy_cleanup(curl);
+				curl_global_cleanup();
+
+				return returnstr;
+			}
 	}; //server comm
 
 

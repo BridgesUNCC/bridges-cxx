@@ -41,8 +41,8 @@
 using namespace std;
 
 namespace bridges {
-  class Bridges; //forward declaration
-  
+	class Bridges; //forward declaration
+
 	// 	string constants  for use in constructing JSON
 	//	representation of the data structure
 	const string
@@ -55,55 +55,55 @@ namespace bridges {
 	CLOSE_BOX = "]",
 	OPEN_PARENS = "(",
 	CLOSE_PARENS = ")";
-  namespace datastructure {
-  
-	// Maximum number of elements that can be visualized
-	constexpr int MAX_ELEMENTS_ALLOWED = 5000;
+	namespace datastructure {
 
-	/**
-	 * @brief This is the superclass of all data structure types in BRIDGES
-	 *
-	 * This is the superclass of all data structure types in BRIDGES.
+		// Maximum number of elements that can be visualized
+		constexpr int MAX_ELEMENTS_ALLOWED = 5000;
 
-	 * All types of BRIDGES Elements, Array and Graphs inherit from this class.
-	 *
-	 * @date 6/11/15 7/10/16
-	 * @author Dakota Carmer, Kalpathi Subramanian
-	 */
-	class DataStructure {
-			// Used for access to getDataStructureRepresentation()
-	  friend class bridges::Bridges;
-			//			friend void Bridges::visualize();
+		/**
+		 * @brief This is the superclass of all data structure types in BRIDGES
+		 *
+		 * This is the superclass of all data structure types in BRIDGES.
 
-		public:
-			/**
-			 *	Virtual Destructor
-			 */
-			virtual ~DataStructure() = default;
+		 * All types of BRIDGES Elements, Array and Graphs inherit from this class.
+		 *
+		 * @date 6/11/15 7/10/16
+		 * @author Dakota Carmer, Kalpathi Subramanian
+		 */
+		class DataStructure {
+				// Used for access to getDataStructureRepresentation()
+				friend class bridges::Bridges;
+				//			friend void Bridges::visualize();
 
-			/**
-			 *	@return The string representation of this data structure type
-			 */
-			virtual const string getDStype() const = 0;
+			public:
+				/**
+				 *	Virtual Destructor
+				 */
+				virtual ~DataStructure() = default;
 
-			/**
-			 * Ease of use function for the deletion of an entire datastructure.
-			 * Overrides should call delete on itself and each linked data structure
-			 *
-			 * @warning Only call if all these data structures were all
-			 *		dynamicaly allocated(aka: using new)
-			 */
+				/**
+				 *	@return The string representation of this data structure type
+				 */
+				virtual const string getDStype() const = 0;
 
-		private:
-			/**
-			 * Gets the JSON representation of this DataStructure's nodes and links
-			 *
-			 * @param arr_size The size of the array determined by this
-			 * @return A pair holding the nodes and links JSON strings respectively
-			 */
-			virtual const string getDataStructureRepresentation() const = 0;
+				/**
+				 * Ease of use function for the deletion of an entire datastructure.
+				 * Overrides should call delete on itself and each linked data structure
+				 *
+				 * @warning Only call if all these data structures were all
+				 *		dynamicaly allocated(aka: using new)
+				 */
 
-	};  //end of DataStructure class
-  }
+			private:
+				/**
+				 * Gets the JSON representation of this DataStructure's nodes and links
+				 *
+				 * @param arr_size The size of the array determined by this
+				 * @return A pair holding the nodes and links JSON strings respectively
+				 */
+				virtual const string getDataStructureRepresentation() const = 0;
+
+		};  //end of DataStructure class
+	}
 }   //end of bridges namespace
 #endif

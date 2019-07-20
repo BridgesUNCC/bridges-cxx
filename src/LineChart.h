@@ -8,38 +8,38 @@
 #include <JSONutil.h>
 
 namespace bridges {
-	namespace datastructure{
-/**
- * @brief Show series of data or functions using a line chart.
- *
- * Line charts (https://en.wikipedia.org/wiki/Line_chart) are used to
- * represent graphically functions such as f(x) = 3*x+1, or data such
- * as temperature of a liquid on a stove as time passes. A individual
- * function or a set of data is called "series".
- *
- * A series is represented by two arrays xdata and ydata such that
- * there is a point at (xdata[0], ydata[0]), an other at (xdata[1],
- * ydata[1]), ... One can add a series by passing the two arrays using
- * setDataSeries() or add the arrays individually using setXData() and
- * setYData().
- *
- * The different series have a label associated with them by default
- * which can be disabled (see toggleSeriesLabel()).
- *
- * The data is typically shown with axes that use a linear
- * scale. However, the scale can be changed to logarithmic for each
- * axis individually (see toggleLogarithmicX() and
- * toggleLogarithmic()).
- *
- * The LineChart can have a title (see getTitle() and setTitle()) and
- * a subtitle (see setSubTitle() and getSubTitle()).
- *
- * @author Erik Saule, Kalpathi Subramanian
- *
- * @date 7/16/19
- *
- *
- **/
+	namespace datastructure {
+		/**
+		 * @brief Show series of data or functions using a line chart.
+		 *
+		 * Line charts (https://en.wikipedia.org/wiki/Line_chart) are used to
+		 * represent graphically functions such as f(x) = 3*x+1, or data such
+		 * as temperature of a liquid on a stove as time passes. A individual
+		 * function or a set of data is called "series".
+		 *
+		 * A series is represented by two arrays xdata and ydata such that
+		 * there is a point at (xdata[0], ydata[0]), an other at (xdata[1],
+		 * ydata[1]), ... One can add a series by passing the two arrays using
+		 * setDataSeries() or add the arrays individually using setXData() and
+		 * setYData().
+		 *
+		 * The different series have a label associated with them by default
+		 * which can be disabled (see toggleSeriesLabel()).
+		 *
+		 * The data is typically shown with axes that use a linear
+		 * scale. However, the scale can be changed to logarithmic for each
+		 * axis individually (see toggleLogarithmicX() and
+		 * toggleLogarithmic()).
+		 *
+		 * The LineChart can have a title (see getTitle() and setTitle()) and
+		 * a subtitle (see setSubTitle() and getSubTitle()).
+		 *
+		 * @author Erik Saule, Kalpathi Subramanian
+		 *
+		 * @date 7/16/19
+		 *
+		 *
+		 **/
 		class LineChart : public DataStructure {
 
 			private:
@@ -71,7 +71,7 @@ namespace bridges {
 				 * @brief Get the data type
 				 * @return name of the data type (used internally)
 				 */
-				virtual const string getDStype() const override{
+				virtual const string getDStype() const override {
 					return "LineChart";
 				}
 
@@ -277,8 +277,8 @@ namespace bridges {
 						if (logarithmicx) {
 							for (int i = 0; i < xdata.size(); ++i) {
 								if (xdata[i] == 0) {
-									cout << "Xaxis scale is logarithmic but series \"" + series 
-										+ "\" has xdata[" << i << "] = " <<  xdata[i]  << 
+									cout << "Xaxis scale is logarithmic but series \"" + series
+										+ "\" has xdata[" << i << "] = " <<  xdata[i]  <<
 										" (should be stricly positive)";
 								}
 							}
@@ -286,76 +286,76 @@ namespace bridges {
 						if (logarithmicy) {
 							for (int i = 0; i <  ydata.size(); ++i) {
 								if (ydata[i] == 0) {
-									cout << "Yaxis scale is logarithmic but series \"" + 
-									series + "\" has ydata[" <<  i <<  "] = "  <<  ydata[i] << 
-									" (should be stricly positive)";
+									cout << "Yaxis scale is logarithmic but series \"" +
+										series + "\" has ydata[" <<  i <<  "] = "  <<  ydata[i] <<
+										" (should be stricly positive)";
 								}
 							}
 						}
-						}
-						for (auto& entry : yaxisData) {
-							string series = entry.first;
-							vector<double> ydata = entry.second;
-							vector<double> xdata = xaxisData.at(series);
-							if (!xdata.size()) {
-								cout << "Series: " + series + " has ydata but no xdata";
-								correct = false;
-							}
-							//Everything else already checked.
-						}
-						return correct;
 					}
-
-				public:
-					virtual const string getDataStructureRepresentation() const override{
-						using bridges::JSONUtil::JSONencode;
-						check();
-						string xaxis_json = "";
-						for (auto& entry: xaxisData) {
-							string key = entry.first;
-							vector<double> value = entry.second;
-
-							xaxis_json += OPEN_CURLY + JSONencode("Plot_Name") 
-									+ COLON + JSONencode( key ) + COMMA +
-								JSONencode("xaxis_data") + COLON + OPEN_BOX;
-							for ( int i = 0; i < value.size() ; i++) {
-								xaxis_json += JSONencode(value[i]) + COMMA;
-							}
-							xaxis_json = xaxis_json.erase(xaxis_json.size() - 1);
-							xaxis_json += CLOSE_BOX + CLOSE_CURLY + COMMA;
+					for (auto& entry : yaxisData) {
+						string series = entry.first;
+						vector<double> ydata = entry.second;
+						vector<double> xdata = xaxisData.at(series);
+						if (!xdata.size()) {
+							cout << "Series: " + series + " has ydata but no xdata";
+							correct = false;
 						}
-						xaxis_json = xaxis_json.erase(xaxis_json.length() - 1);
+						//Everything else already checked.
+					}
+					return correct;
+				}
 
-						string yaxis_json = "";
-						for (auto& entry : yaxisData) {
-							string key = entry.first;
-							vector<double> value = entry.second;
-							yaxis_json += OPEN_CURLY + JSONencode("Plot_Name") 
-									+ COLON + JSONencode( key) + COMMA +
-								JSONencode("yaxis_data") + COLON + OPEN_BOX;
-							for ( int i = 0; i <  value.size() ; i++) {
-								yaxis_json +=  JSONencode(value[i])  + COMMA;
-							}
-							yaxis_json = yaxis_json.erase(yaxis_json.length() - 1);
-							yaxis_json += CLOSE_BOX + CLOSE_CURLY + COMMA;
+			public:
+				virtual const string getDataStructureRepresentation() const override {
+					using bridges::JSONUtil::JSONencode;
+					check();
+					string xaxis_json = "";
+					for (auto& entry : xaxisData) {
+						string key = entry.first;
+						vector<double> value = entry.second;
+
+						xaxis_json += OPEN_CURLY + JSONencode("Plot_Name")
+							+ COLON + JSONencode( key ) + COMMA +
+							JSONencode("xaxis_data") + COLON + OPEN_BOX;
+						for ( int i = 0; i < value.size() ; i++) {
+							xaxis_json += JSONencode(value[i]) + COMMA;
+						}
+						xaxis_json = xaxis_json.erase(xaxis_json.size() - 1);
+						xaxis_json += CLOSE_BOX + CLOSE_CURLY + COMMA;
+					}
+					xaxis_json = xaxis_json.erase(xaxis_json.length() - 1);
+
+					string yaxis_json = "";
+					for (auto& entry : yaxisData) {
+						string key = entry.first;
+						vector<double> value = entry.second;
+						yaxis_json += OPEN_CURLY + JSONencode("Plot_Name")
+							+ COLON + JSONencode( key) + COMMA +
+							JSONencode("yaxis_data") + COLON + OPEN_BOX;
+						for ( int i = 0; i <  value.size() ; i++) {
+							yaxis_json +=  JSONencode(value[i])  + COMMA;
 						}
 						yaxis_json = yaxis_json.erase(yaxis_json.length() - 1);
-
-
-						string json_str = JSONencode("plot_title") + COLON +  JSONencode(getTitle()) + COMMA +
-							JSONencode("subtitle") + COLON + JSONencode(getSubTitle())  + COMMA +
-							JSONencode("xLabel") + COLON + JSONencode(getXLabel()) +  COMMA +
-							JSONencode("yLabel") + COLON + JSONencode(getYLabel()) + COMMA +
-							JSONencode("xaxisType") + COLON + JSONencode(logarithmicx) + COMMA +
-							JSONencode("yaxisType") + COLON + JSONencode(logarithmicy) + COMMA +
-							JSONencode("options") + COLON + OPEN_CURLY + JSONencode("mouseTracking") + COLON +
-							JSONencode(mouseTrack) + COMMA + JSONencode("dataLabels") + COLON + JSONencode(dataLabel) + CLOSE_CURLY + COMMA +
-							JSONencode("xaxis_data") + COLON + OPEN_BOX + xaxis_json + CLOSE_BOX + COMMA +
-							JSONencode("yaxis_data") + COLON + OPEN_BOX + yaxis_json + CLOSE_BOX +
-							CLOSE_CURLY;
-
-						return json_str;
+						yaxis_json += CLOSE_BOX + CLOSE_CURLY + COMMA;
 					}
+					yaxis_json = yaxis_json.erase(yaxis_json.length() - 1);
+
+
+					string json_str = JSONencode("plot_title") + COLON +  JSONencode(getTitle()) + COMMA +
+						JSONencode("subtitle") + COLON + JSONencode(getSubTitle())  + COMMA +
+						JSONencode("xLabel") + COLON + JSONencode(getXLabel()) +  COMMA +
+						JSONencode("yLabel") + COLON + JSONencode(getYLabel()) + COMMA +
+						JSONencode("xaxisType") + COLON + JSONencode(logarithmicx) + COMMA +
+						JSONencode("yaxisType") + COLON + JSONencode(logarithmicy) + COMMA +
+						JSONencode("options") + COLON + OPEN_CURLY + JSONencode("mouseTracking") + COLON +
+						JSONencode(mouseTrack) + COMMA + JSONencode("dataLabels") + COLON + JSONencode(dataLabel) + CLOSE_CURLY + COMMA +
+						JSONencode("xaxis_data") + COLON + OPEN_BOX + xaxis_json + CLOSE_BOX + COMMA +
+						JSONencode("yaxis_data") + COLON + OPEN_BOX + yaxis_json + CLOSE_BOX +
+						CLOSE_CURLY;
+
+					return json_str;
+				}
 
 		};
 	}

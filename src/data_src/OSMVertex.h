@@ -15,101 +15,101 @@
 using namespace std;
 
 namespace bridges {
-  namespace dataset {
-	/**
-	 * @brief  Class that hold Open Street Map vertices
-	 *
-	 * Class that holds Open Street Map vertices from https://openstreetmap.org
-	 *
-	 * Kalpathi Subramanian, 2/14/19
-	 *
-	 */
+	namespace dataset {
+		/**
+		 * @brief  Class that hold Open Street Map vertices
+		 *
+		 * Class that holds Open Street Map vertices from https://openstreetmap.org
+		 *
+		 * Kalpathi Subramanian, 2/14/19
+		 *
+		 */
 
 
-	class OSMVertex {
+		class OSMVertex {
 
-		private:
-			double latitude = 0.0;		// latitude
-			double longitude = 0.0;		// longitude
+			private:
+				double latitude = 0.0;		// latitude
+				double longitude = 0.0;		// longitude
 
-			double cartesian_coords[2] = {0.0, 0.0};
-			/**
-			 * 	convert lat/long coords to Cartesian
-			 *
-			 */
-			void toCartesianCoords() {
-				const double R = 6378.; // Radius of the earth in km
-				double lat_rad  = latitude * M_PI / 180.;
-				double longit_rad  = longitude * M_PI / 180.;
-				cartesian_coords[0] = R * cos(lat_rad) * cos (longit_rad);
-				cartesian_coords[1] = R * cos(lat_rad) * sin (longit_rad);
-			}
+				double cartesian_coords[2] = {0.0, 0.0};
+				/**
+				 * 	convert lat/long coords to Cartesian
+				 *
+				 */
+				void toCartesianCoords() {
+					const double R = 6378.; // Radius of the earth in km
+					double lat_rad  = latitude * M_PI / 180.;
+					double longit_rad  = longitude * M_PI / 180.;
+					cartesian_coords[0] = R * cos(lat_rad) * cos (longit_rad);
+					cartesian_coords[1] = R * cos(lat_rad) * sin (longit_rad);
+				}
 
-		public:
+			public:
 
-			OSMVertex() {
-			}
+				OSMVertex() {
+				}
 
-			OSMVertex (double latit, double longit)
-				: latitude(latit), longitude(longit) {
+				OSMVertex (double latit, double longit)
+					: latitude(latit), longitude(longit) {
 
-				toCartesianCoords ();
-			}
+					toCartesianCoords ();
+				}
 
-			OSMVertex(const OSMVertex *vert)
-				: latitude(vert->latitude), longitude(vert->longitude) {
-			}
+				OSMVertex(const OSMVertex *vert)
+					: latitude(vert->latitude), longitude(vert->longitude) {
+				}
 
-			/**
-			 *	get latitude  of node
-			 *
-			 *	@return double
-			 *
-			 */
-			double getLatitude() const {
-				return latitude;
-			}
-			/**
-			 *	set latitude of quake location
-			 *
-			 *	@param latit latitude of node
-			 *
-			 */
-			void setLatitude(double latit) {
-				latitude = latit;
-				toCartesianCoords();
-			}
-			/**
-			 *	get longitude of vertex
-			 *
-			 *	@return longitude of node
-			 *
-			 */
-			double getLongitude() const {
-				return longitude;
-			}
-			/**
-			 *	set longitude of  vertex
-			 *
-			 *	@param (double)
-			 *
-			 */
-			void setLongitude(double longit) {
-				this->longitude = longit;
-				toCartesianCoords();
-			}
+				/**
+				 *	get latitude  of node
+				 *
+				 *	@return double
+				 *
+				 */
+				double getLatitude() const {
+					return latitude;
+				}
+				/**
+				 *	set latitude of quake location
+				 *
+				 *	@param latit latitude of node
+				 *
+				 */
+				void setLatitude(double latit) {
+					latitude = latit;
+					toCartesianCoords();
+				}
+				/**
+				 *	get longitude of vertex
+				 *
+				 *	@return longitude of node
+				 *
+				 */
+				double getLongitude() const {
+					return longitude;
+				}
+				/**
+				 *	set longitude of  vertex
+				 *
+				 *	@param (double)
+				 *
+				 */
+				void setLongitude(double longit) {
+					this->longitude = longit;
+					toCartesianCoords();
+				}
 
-			/**
-			 * 	get Cartesian coords of lat/long
-			 *
-			 *	@return coords  (double *)
-			 */
-			void getCartesianCoords(double *coords) const {
-				coords[0] = cartesian_coords[0];
-				coords[1] = cartesian_coords[1];
-			}
-	};
-  }
+				/**
+				 * 	get Cartesian coords of lat/long
+				 *
+				 *	@return coords  (double *)
+				 */
+				void getCartesianCoords(double *coords) const {
+					coords[0] = cartesian_coords[0];
+					coords[1] = cartesian_coords[1];
+				}
+		};
+	}
 } // namespace bridges
 
 #endif

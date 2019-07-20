@@ -37,8 +37,8 @@ using namespace std;
 
 
 namespace bridges {
-  using namespace bridges::dataset;
-  using namespace bridges::datastructure;
+	using namespace bridges::dataset;
+	using namespace bridges::datastructure;
 
 
 
@@ -60,13 +60,13 @@ namespace bridges {
 				return 0;
 			}
 			bridges::Bridges* bridges_inst;
-	  bridges::lruCache my_cache;
-	public:
+			bridges::lruCache my_cache;
+		public:
 			DataSource(bridges::Bridges* br = nullptr)
-			  : bridges_inst(br), my_cache(120) {}
+				: bridges_inst(br), my_cache(120) {}
 
 			DataSource(bridges::Bridges& br )
-			  : DataSource(&br) {}
+				: DataSource(&br) {}
 
 
 			/**
@@ -579,66 +579,69 @@ namespace bridges {
 			 *  @return an OSMData object
 			 *
 			 */
-	  OSMData getOSMData (double lat_min, double long_min,
-			      double lat_max, double long_max, string level="default") {
+			OSMData getOSMData (double lat_min, double long_min,
+				double lat_max, double long_max, string level = "default") {
 
-	    //URL for hash request
-	    string hash_url = "http://cci-bridges-osm-t.uncc.edu/hash?minLon="+std::to_string(long_min)+
-	      "&minLat="+std::to_string(lat_min)+
-	      "&maxLon="+std::to_string(long_max)+
-	      "&maxLat="+std::to_string(lat_max)+
-	      "&level="+ level;
+				//URL for hash request
+				string hash_url = "http://cci-bridges-osm-t.uncc.edu/hash?minLon=" + std::to_string(long_min) +
+					"&minLat=" + std::to_string(lat_min) +
+					"&maxLon=" + std::to_string(long_max) +
+					"&maxLat=" + std::to_string(lat_max) +
+					"&level=" + level;
 
-	    //URL to request map
-	    string url =
-	      "http://cci-bridges-osm-t.uncc.edu/coords?minLon="+std::to_string(long_min)+
-	      "&minLat="+std::to_string(lat_min)+
-	      "&maxLon="+std::to_string(long_max)+
-	      "&maxLat="+std::to_string(lat_max)+
-	      "&level="+ level;
+				//URL to request map
+				string url =
+					"http://cci-bridges-osm-t.uncc.edu/coords?minLon=" + std::to_string(long_min) +
+					"&minLat=" + std::to_string(lat_min) +
+					"&maxLon=" + std::to_string(long_max) +
+					"&maxLat=" + std::to_string(lat_max) +
+					"&level=" + level;
 
-	    //trys to get hash value for bounding box map
-	    string hash_value =  ServerComm::makeRequest(hash_url, {"Accept: application/json"});
+				//trys to get hash value for bounding box map
+				string hash_value =  ServerComm::makeRequest(hash_url, {"Accept: application/json"});
 
 
-	    std::string osm_json;
-	    //std::cerr<<"url: "<<url<<"\n";
+				std::string osm_json;
+				//std::cerr<<"url: "<<url<<"\n";
 
-	    //Checks to see if map requested is stored in local cache
-	    if (my_cache.inCache(hash_value) == true){ //local map is up-to-date
-	      try {
-		if (my_cache.inCache(hash_value)) {
-		  osm_json = my_cache.getDoc(hash_value);
-		}
-	      } catch (CacheException& ce) {
-		//something went bad trying to access the cache
-		std::cout << "Exception while reading from cache. Ignoring cache and continue." << std::endl;
-	      }
+				//Checks to see if map requested is stored in local cache
+				if (my_cache.inCache(hash_value) == true) { //local map is up-to-date
+					try {
+						if (my_cache.inCache(hash_value)) {
+							osm_json = my_cache.getDoc(hash_value);
+						}
+					}
+					catch (CacheException& ce) {
+						//something went bad trying to access the cache
+						std::cout << "Exception while reading from cache. Ignoring cache and continue." << std::endl;
+					}
 
-	    } else if(hash_value.compare("false") == 0 || my_cache.inCache(hash_value) == false){
-	      //Server response is false or somehow map got saved as false
+				}
+				else if (hash_value.compare("false") == 0 || my_cache.inCache(hash_value) == false) {
+					//Server response is false or somehow map got saved as false
 
-	      osm_json = ServerComm::makeRequest(url, {"Accept: application/json"}); //Requests the map data then requests the maps hash
-	      hash_value =  ServerComm::makeRequest(hash_url, {"Accept: application/json"});
+					osm_json = ServerComm::makeRequest(url, {"Accept: application/json"}); //Requests the map data then requests the maps hash
+					hash_value =  ServerComm::makeRequest(hash_url, {"Accept: application/json"});
 
-	      if (hash_value.compare("false") == 0){
-		std::cerr << "Error while gathering hash data for generated map..." << std::endl;
-		std::cerr << osm_json << std::endl;
-		abort();
-	      }
+					if (hash_value.compare("false") == 0) {
+						std::cerr << "Error while gathering hash data for generated map..." << std::endl;
+						std::cerr << osm_json << std::endl;
+						abort();
+					}
 
-	      //Saves map to cache directory
-	      try {
-		my_cache.putDoc(hash_value, osm_json);
+					//Saves map to cache directory
+					try {
+						my_cache.putDoc(hash_value, osm_json);
 
-	      } catch (CacheException& ce) {
-		//something went bad trying to access the cache
-		std::cerr << "Exception while storing in cache. Weird but not critical." << std::endl;
-	      }
-	     
-	    }
-	    return getOSMDataFromJSON(osm_json);
-	  }
+					}
+					catch (CacheException& ce) {
+						//something went bad trying to access the cache
+						std::cerr << "Exception while storing in cache. Weird but not critical." << std::endl;
+					}
+
+				}
+				return getOSMDataFromJSON(osm_json);
+			}
 
 			/**
 			 *
@@ -649,65 +652,68 @@ namespace bridges {
 			 *  @return an OSMData object
 			 *
 			 */
-	  OSMData getOSMData (string location, string level="default") {
-	    //URL for hash request
-	    string hash_url = "http://cci-bridges-osm-t.uncc.edu/hash?location="+location+
-	      "&level="+ level;
+			OSMData getOSMData (string location, string level = "default") {
+				//URL for hash request
+				string hash_url = "http://cci-bridges-osm-t.uncc.edu/hash?location=" + location +
+					"&level=" + level;
 
-	    //URL to request map
-	    string url =
-	      "http://cci-bridges-osm-t.uncc.edu/loc?location="+location+
-	      "&level="+ level;
+				//URL to request map
+				string url =
+					"http://cci-bridges-osm-t.uncc.edu/loc?location=" + location +
+					"&level=" + level;
 
-	    //trys to get hash value for bounding box map
-	    string hash_value =  ServerComm::makeRequest(hash_url, {"Accept: application/json"});
-
-
-	    std::string osm_json;
-
-	    std::cerr<<"url: "<<url<<"\n";
-
-	    if (my_cache.inCache(hash_value) == true){ //local map is up-to-date
-	      try {
-		if (my_cache.inCache(hash_value)) {
-		  osm_json = my_cache.getDoc(hash_value);
-		}
-	      } catch (CacheException& ce) { //something went bad trying to access the cache
-		std::cout << "Exception while reading from cache. Ignoring cache and continue." << std::endl;
-	      }
-
-	    } else if(hash_value.compare("false") == 0 || my_cache.inCache(hash_value) == false){ //Server response is false or somehow map got saved as false
-	      osm_json = ServerComm::makeRequest(url, {"Accept: application/json"}); //Requests the map data then requests the maps hash
-	      hash_value =  ServerComm::makeRequest(hash_url, {"Accept: application/json"});
-	      if (hash_value.compare("false") == 0){
-		std::cerr << "Error while gathering hash data for generated map..." << std::endl;
-		std::cerr << osm_json << std::endl;
-		abort();
-	      }
-
-	      //Saves map to cache directory
-	      try {
-		my_cache.putDoc(hash_value, osm_json);
-	      } catch (CacheException& ce) {
-		//something went bad trying to access the cache
-		std::cerr << "Exception while storing in cache. Weird but not critical." << std::endl;
-	      }
-				
-	    }
-	    return getOSMDataFromJSON(osm_json);
-	  }
+				//trys to get hash value for bounding box map
+				string hash_value =  ServerComm::makeRequest(hash_url, {"Accept: application/json"});
 
 
-	  /**
-	   * @brief old interface for the OSM data set.
-	   *
-	   * This is hitting a simpler API that has only a few map in
-	   * 	 there: "uncc_campus", "charlotte", "washington_dc",
-	   * 	 "saint_paul", "new_york", "los_angeles",
-	   * 	 "san_francisco", "miami", "minneapolis", "dallas"
-	   *
-	   * @param location which location to get the map from
-	   **/
+				std::string osm_json;
+
+				std::cerr << "url: " << url << "\n";
+
+				if (my_cache.inCache(hash_value) == true) { //local map is up-to-date
+					try {
+						if (my_cache.inCache(hash_value)) {
+							osm_json = my_cache.getDoc(hash_value);
+						}
+					}
+					catch (CacheException& ce) {   //something went bad trying to access the cache
+						std::cout << "Exception while reading from cache. Ignoring cache and continue." << std::endl;
+					}
+
+				}
+				else if (hash_value.compare("false") == 0 || my_cache.inCache(hash_value) == false) { //Server response is false or somehow map got saved as false
+					osm_json = ServerComm::makeRequest(url, {"Accept: application/json"}); //Requests the map data then requests the maps hash
+					hash_value =  ServerComm::makeRequest(hash_url, {"Accept: application/json"});
+					if (hash_value.compare("false") == 0) {
+						std::cerr << "Error while gathering hash data for generated map..." << std::endl;
+						std::cerr << osm_json << std::endl;
+						abort();
+					}
+
+					//Saves map to cache directory
+					try {
+						my_cache.putDoc(hash_value, osm_json);
+					}
+					catch (CacheException& ce) {
+						//something went bad trying to access the cache
+						std::cerr << "Exception while storing in cache. Weird but not critical." << std::endl;
+					}
+
+				}
+				return getOSMDataFromJSON(osm_json);
+			}
+
+
+			/**
+			 * @brief old interface for the OSM data set.
+			 *
+			 * This is hitting a simpler API that has only a few map in
+			 * 	 there: "uncc_campus", "charlotte", "washington_dc",
+			 * 	 "saint_paul", "new_york", "los_angeles",
+			 * 	 "san_francisco", "miami", "minneapolis", "dallas"
+			 *
+			 * @param location which location to get the map from
+			 **/
 			OSMData getOSMDataOld (string location) {
 				std::transform(location.begin(), location.end(), location.begin(),
 					::tolower);
@@ -1048,25 +1054,23 @@ namespace bridges {
 			}
 
 
-	  void removeFirstOccurence (std::string & str, const std::string & toRemove)
-	  {
-	    size_t pos = str.find(toRemove);
-	    if (pos  != std::string::npos)
-	      {
-		str.erase(pos, toRemove.length());
-	      }
-	  }
+			void removeFirstOccurence (std::string & str, const std::string & toRemove) {
+				size_t pos = str.find(toRemove);
+				if (pos  != std::string::npos) {
+					str.erase(pos, toRemove.length());
+				}
+			}
 
-	  ///@brief This function returns the Movie and Actors playing
-	  ///in them between two years
-	  ///
-	  /// Internally this function gets directly the range data
-	  /// from wikidata. This can cause wikidata to kick the user
-	  /// out or return invalid JSON if the range is too wide.
-	  ///
-	  /// @param vout vector where the pairs will be aded to
-	  void  getWikidataActorMovieDirect (int yearbegin, int yearend, std::vector<MovieActorWikidata>& vout) {
-	    std::string codename = "wikidata-actormovie-"+std::to_string(yearbegin)+"-"+std::to_string(yearend);
+			///@brief This function returns the Movie and Actors playing
+			///in them between two years
+			///
+			/// Internally this function gets directly the range data
+			/// from wikidata. This can cause wikidata to kick the user
+			/// out or return invalid JSON if the range is too wide.
+			///
+			/// @param vout vector where the pairs will be aded to
+			void  getWikidataActorMovieDirect (int yearbegin, int yearend, std::vector<MovieActorWikidata>& vout) {
+				std::string codename = "wikidata-actormovie-" + std::to_string(yearbegin) + "-" + std::to_string(yearend);
 				std::string json;
 				bool from_cache = false;
 				try {
@@ -1082,31 +1086,31 @@ namespace bridges {
 
 
 				if (!from_cache) {
-				  std::vector<std::string> http_headers;
-				  http_headers.push_back("User-Agent: bridges-cxx"); //wikidata kicks you out if you don't have a useragent
-				  http_headers.push_back("Accept: application/json"); //tell wikidata we are OK with JSON
+					std::vector<std::string> http_headers;
+					http_headers.push_back("User-Agent: bridges-cxx"); //wikidata kicks you out if you don't have a useragent
+					http_headers.push_back("Accept: application/json"); //tell wikidata we are OK with JSON
 
-				  string url = "https://query.wikidata.org/sparql?";
+					string url = "https://query.wikidata.org/sparql?";
 
-				  //Q1860 is "English"
-				  //P364 is "original language of film or TV show"
-				  //P161 is "cast member"
-				  //P577 is "publication date"
-				  //A11424 is "film"
-				  //P31 is "instance of"
-				  // "instance of film" is necessary to filter out tv shows
-				  std::string sparqlquery="SELECT ?movie ?movieLabel ?actor ?actorLabel WHERE \
+					//Q1860 is "English"
+					//P364 is "original language of film or TV show"
+					//P161 is "cast member"
+					//P577 is "publication date"
+					//A11424 is "film"
+					//P31 is "instance of"
+					// "instance of film" is necessary to filter out tv shows
+					std::string sparqlquery = "SELECT ?movie ?movieLabel ?actor ?actorLabel WHERE \
 {\
   ?movie wdt:P31 wd:Q11424.\
   ?movie wdt:P161 ?actor.\
   ?movie wdt:P364 wd:Q1860.\
   ?movie wdt:P577 ?date.\
-  FILTER(YEAR(?date) >= "+std::to_string(yearbegin)+" && YEAR(?date) <= "+std::to_string(yearend)+").\
+  FILTER(YEAR(?date) >= " + std::to_string(yearbegin) + " && YEAR(?date) <= " + std::to_string(yearend) + ").\
     SERVICE wikibase:label { bd:serviceParam wikibase:language \"en\". } \
 }";
-				  url += "query="+ServerComm::encodeURLPart(sparqlquery);
-				  url += "&";
-				  url += "format=json";
+					url += "query=" + ServerComm::encodeURLPart(sparqlquery);
+					url += "&";
+					url += "format=json";
 
 					// get the OSM data json
 					json = ServerComm::makeRequest(url, http_headers);
@@ -1121,67 +1125,67 @@ namespace bridges {
 				}
 
 				{
-				  using namespace rapidjson;
-				  rapidjson::Document doc;
-				  doc.Parse(json.c_str());
-				  if (doc.HasParseError())
-				    throw "Malformed JSON";
+					using namespace rapidjson;
+					rapidjson::Document doc;
+					doc.Parse(json.c_str());
+					if (doc.HasParseError())
+						throw "Malformed JSON";
 
-				  try {
-				    const auto& resultsArray = doc["results"]["bindings"].GetArray();
+					try {
+						const auto& resultsArray = doc["results"]["bindings"].GetArray();
 
-				    for (auto& mak_json : resultsArray) {
-				      MovieActorWikidata mak;
+						for (auto& mak_json : resultsArray) {
+							MovieActorWikidata mak;
 
-				      // all wikidata uri start with "http://www.wikidata.org/entity/"
-				      // so strip it out because it does not help discriminate and
-				      // consume memory and runtime to compare string
-				      std::string actoruri = mak_json["actor"]["value"].GetString();
-				      std::string movieuri = mak_json["movie"]["value"].GetString();
-				      removeFirstOccurence (actoruri, "http://www.wikidata.org/entity/");
-				      
-				      removeFirstOccurence (movieuri, "http://www.wikidata.org/entity/");
+							// all wikidata uri start with "http://www.wikidata.org/entity/"
+							// so strip it out because it does not help discriminate and
+							// consume memory and runtime to compare string
+							std::string actoruri = mak_json["actor"]["value"].GetString();
+							std::string movieuri = mak_json["movie"]["value"].GetString();
+							removeFirstOccurence (actoruri, "http://www.wikidata.org/entity/");
+
+							removeFirstOccurence (movieuri, "http://www.wikidata.org/entity/");
 
 
-				      mak.setActorURI(actoruri);
-				      mak.setMovieURI(movieuri);
-				      mak.setActorName(mak_json["actorLabel"]["value"].GetString());
-				      mak.setMovieName(mak_json["movieLabel"]["value"].GetString());
-				      vout.push_back(mak);
-				    }
+							mak.setActorURI(actoruri);
+							mak.setMovieURI(movieuri);
+							mak.setActorName(mak_json["actorLabel"]["value"].GetString());
+							mak.setMovieName(mak_json["movieLabel"]["value"].GetString());
+							vout.push_back(mak);
+						}
 
-				  }
-				  catch (rapidjson_exception re) {
-				    throw "Malformed JSON: Not from wikidata?";
-				  }
+					}
+					catch (rapidjson_exception re) {
+						throw "Malformed JSON: Not from wikidata?";
+					}
 				}
-	  }
-	public:
+			}
+		public:
 
-	  ///@brief This function returns the Movie and Actors playing
-	  ///in them between two years.
-	  ///
-	  /// Return movie pair in the [yearbegin; yearend] interval.
-	  ///
-	  /// @param yearbegin first year to include
-	  /// @param yearend last year to include
-	  std::vector<MovieActorWikidata> getWikidataActorMovie (int yearbegin, int yearend) {
-	    //Internally this function get the data year by year. This
-	    //is pretty bad because it hits wikidata the first time
-	    //for multiple years. But it enables to work around
-	    //wikidata's time limit.  This also works well because the
-	    //Cache will store each year independently and so without
-	    //redundancy.  Though I (Erik) am not completely sure that a
-	    //movie can be appear in different years, for instance it
-	    //can be released in the US in 2005 but in canada in
-	    //2006...
+			///@brief This function returns the Movie and Actors playing
+			///in them between two years.
+			///
+			/// Return movie pair in the [yearbegin; yearend] interval.
+			///
+			/// @param yearbegin first year to include
+			/// @param yearend last year to include
+			std::vector<MovieActorWikidata> getWikidataActorMovie (int yearbegin, int yearend) {
+				//Internally this function get the data year by year. This
+				//is pretty bad because it hits wikidata the first time
+				//for multiple years. But it enables to work around
+				//wikidata's time limit.  This also works well because the
+				//Cache will store each year independently and so without
+				//redundancy.  Though I (Erik) am not completely sure that a
+				//movie can be appear in different years, for instance it
+				//can be released in the US in 2005 but in canada in
+				//2006...
 
-	    std::vector<MovieActorWikidata> ret;
-	    for (int y = yearbegin; y<=yearend; ++y) {
-	      getWikidataActorMovieDirect (y, y, ret);
-	    }
-	    return ret;
-	  }
+				std::vector<MovieActorWikidata> ret;
+				for (int y = yearbegin; y <= yearend; ++y) {
+					getWikidataActorMovieDirect (y, y, ret);
+				}
+				return ret;
+			}
 
 	}; // namespace DataSource
 
