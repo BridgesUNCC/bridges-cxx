@@ -602,7 +602,7 @@ namespace bridges {
 
 
 	    std::string osm_json;
-	    std::cerr<<"url: "<<url<<"\n";
+	    //std::cerr<<"url: "<<url<<"\n";
 
 	    //Checks to see if map requested is stored in local cache
 	    if (my_cache.inCache(hash_value) == true){ //local map is up-to-date

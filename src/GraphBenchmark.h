@@ -66,6 +66,22 @@ namespace bridges {
 	return ret;
       }
 
+      template<typename GraphType>
+      long countVertices (const GraphType& gr) {
+	return gr.getVertices()->size();
+      }
+
+      template<typename GraphType>
+      long countEdges(const GraphType& gr) {
+	long edges = 0;
+	for (auto k : gr.keySet())
+	  for (auto e : gr.outgoingEdgeSetOf(k))
+	    edges++;
+	  
+	return edges;
+      }
+
+      
     public:
       /**
        * @brief sets an upper bound to the time of a run.
