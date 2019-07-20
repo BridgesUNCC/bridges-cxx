@@ -10,21 +10,51 @@
 namespace bridges {
   namespace benchmark {
     using namespace bridges::datastructure;
-    
+
+    /**
+     * @brief Benchmarks sorting algorithm
+     *
+     * Benchmarks sorting algorithms and add time series to a LineChart.
+     *
+     * The benchmark goes from an initial size controlled by
+     * setBaseSize() to a largest size controlled by setMaxSize(). One
+     * can also set a maximum time spent on a particular run using
+     * setTimeCap().
+     *
+     * The benchmark goes from a array size of n to the next one of
+     * geoBase * n + increment, where the base is controlled by
+     * setGeometric() and increment is controlled by
+     * setIncrement(). For simpler use one can set a purley linear
+     * sampling with linearRange() or a purely geometric one with
+     * geometricRange().
+     *
+     * The sorting algorithms must have for prototype:
+     *  void (*sort)(int* array, int arraysize);
+     * and can be passed to the run function for being benchmarked. A typical use would look something like
+     *
+     * \code{c++}
+     * void mysort(int* array, int arraysize);
+     * LineChart lc;
+     * SortingBenchmark sb (lc);
+     * sb.linearRange (100, 1000, 5);
+     * sb.run("mysortingalgorithm", mysort);
+     * \endgroup
+     *
+     * @author Erik Saule
+     * @date 07/20/2019
+     *
+     **/
     class SortingBenchmark {
     private:
-       LineChart& plot;
+      LineChart& plot;
 
-       //       Random r;
+      int maxSize;
+      int baseSize;
+      int increment;
+      double geoBase;
+      double time_cap;
 
-       int maxSize;
-       int baseSize;
-       int increment;
-       double geoBase;
-       double time_cap;
-
-
-       void generate(int* arr, int n) {
+      void generate(int* arr, int n) {
 	for (int i = 0; i < n; i++) {
 	  arr[i] = ((double)rand())/RAND_MAX * (2 * n);
 	}
@@ -41,8 +71,8 @@ namespace bridges {
       }
       
     public:
-       SortingBenchmark(LineChart& p)
-	 :plot (p) {
+      SortingBenchmark(LineChart& p)
+	:plot (p) {
 	p.setXLabel("Size of Array");
 	p.setYLabel("Runtime (in s)");
 
@@ -55,19 +85,40 @@ namespace bridges {
 	time_cap = std::numeric_limits<double>::max();
       }
 
+      /** 
+       * @brief Puts a cap on the largest array to be used
+       *
+       * @param size Maximum size considered
+       **/
       void setMaxSize(int size) {
 	maxSize = size;
       }
 
-       void setBaseSize(int size) {
+      /**
+       * @brief Smallest array to be used
+       *
+       * @param size of the smallest array to use/
+       **/
+      void setBaseSize(int size) {
 	baseSize = size;
       }
 
-       void setIncrement(int inc) {
+      
+      /**
+       * @brief Sets the increment for the benchmark size
+       *
+       * @param inc new value of the increment
+       **/
+      void setIncrement(int inc) {
 	increment = inc;
       }
 
-       void setGeometric(double base) {
+      /**
+       * @brief Sets a geometric progression for the benchmark size
+       *
+       * @param base new base of the geometric progression
+       **/
+      void setGeometric(double base) {
 	geoBase = base;
       }
        
@@ -82,7 +133,7 @@ namespace bridges {
        * @param maxSize upper bound of the range sampled
        * @param nbPoint number of sample
        */
-       void linearRange(int baseSize, int maxSize, int nbPoint) {
+      void linearRange(int baseSize, int maxSize, int nbPoint) {
 	setBaseSize (baseSize);
 	setMaxSize (maxSize);
 	setIncrement ((maxSize - baseSize) / nbPoint);
@@ -101,7 +152,7 @@ namespace bridges {
        * @param maxSize upper bound of the range sampled
        * @param base base of the geometric increase
        */
-       void geometricRange(int baseSize, int maxSize, double base) {
+      void geometricRange(int baseSize, int maxSize, double base) {
 	setBaseSize (baseSize);
 	setMaxSize (maxSize);
 	setIncrement (0);
@@ -116,20 +167,20 @@ namespace bridges {
        *
        * The benchmark will end after a run if it takes more than the
        * given amount of time. So it is possible a particular run takes
-       * more than the alloted time, but that will be the last run.x
+       * more than the alloted time, but that will be the last run.
        *
        * @param cap_in_s time limit in seconds
        **/
-       void setTimeCap(double cap_in_s) {
+      void setTimeCap(double cap_in_s) {
 	time_cap = cap_in_s;
       }
 
-       void run(std::string algoName, void (*runnable)(int*, int)) {
-	 std::vector<double> time;
-	 std::vector<double> xData;
+      void run(std::string algoName, void (*runnable)(int*, int)) {
+	std::vector<double> time;
+	std::vector<double> xData;
 
-	 //	System.out.println(geoBase);
-	 //	System.out.println(increment);
+	//	System.out.println(geoBase);
+	//	System.out.println(increment);
 
 	for (int n = baseSize; n <= maxSize;
 	     n = std::max((int)(geoBase * n) + increment, n + 1)) {
