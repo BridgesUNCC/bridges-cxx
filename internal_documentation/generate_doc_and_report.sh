@@ -1,6 +1,6 @@
 #!/bin/sh
 
-#doxygen bridges_doxygen_cxx.cfg 2>&1 | tee log
+doxygen bridges_doxygen_cxx.cfg 2>&1 | tee log
 
 rm report*
 
