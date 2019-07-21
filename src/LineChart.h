@@ -170,7 +170,7 @@ namespace bridges {
 				/**
 				 * @brief Returns the label for the Y-axis
 				 *
-				 * @param label shown for the Y-axis
+				 * @return label shown for the Y-axis
 				 **/
 				string getYLabel() const {
 					return yLabel;
@@ -188,7 +188,7 @@ namespace bridges {
 				/**
 				 * @brief Returns the label for the Y-axis
 				 *
-				 * @param label shown for the Y-axis
+				 * @return label shown for the Y-axis
 				 **/
 				string getXLabel() const {
 					return xLabel;
@@ -198,7 +198,7 @@ namespace bridges {
 				/**
 				 * @brief Add a series (or update it)
 				 *
-				 * @param series indicates the series to add (or change)
+				 * @param seriesName indicates the series to add (or change)
 				 * @param xdata the X data in the series
 				 * @param ydata the Y data in the series
 				 **/

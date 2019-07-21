@@ -49,6 +49,12 @@ namespace bridges {
 
 				}
 
+				/**
+				 * @brief benchmark one implementation
+				 *
+				 * @param algoName screen name of the algorithm to be used in the visualization
+				 * @param pralgo pointer to the sorting function to benchmark
+				 **/
 				void run(std::string algoName,
 					void (*pralgo)(const GraphAdjList<std::string>& gr,
 						std::unordered_map<std::string, double>& out)) {

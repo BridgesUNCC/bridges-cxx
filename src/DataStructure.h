@@ -98,8 +98,7 @@ namespace bridges {
 				/**
 				 * Gets the JSON representation of this DataStructure's nodes and links
 				 *
-				 * @param arr_size The size of the array determined by this
-				 * @return A pair holding the nodes and links JSON strings respectively
+				 * @return The JSON representation of the data structure: A pair holding the nodes and links JSON strings respectively
 				 */
 				virtual const string getDataStructureRepresentation() const = 0;
 

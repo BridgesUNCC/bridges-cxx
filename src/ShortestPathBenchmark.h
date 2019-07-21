@@ -73,7 +73,12 @@ namespace bridges {
 
 				}
 
-
+				/**
+				 * @brief benchmark one implementation
+				 *
+				 * @param algoName screen name of the algorithm to be used in the visualization
+				 * @param spalgo pointer to the sorting function to benchmark
+				 **/
 				void run(std::string algoName,
 					void (*spalgo)(const GraphAdjList<int, OSMVertex, double>& gr,
 						int source,

@@ -175,6 +175,12 @@ namespace bridges {
 					time_cap = cap_in_s;
 				}
 
+				/**
+				 * @brief benchmark one implementation
+				 *
+				 * @param algoName screen name of the algorithm to be used in the visualization
+				 * @param runnable pointer to the sorting function to benchmark
+				 **/
 				void run(std::string algoName, void (*runnable)(int*, int)) {
 					std::vector<double> time;
 					std::vector<double> xData;

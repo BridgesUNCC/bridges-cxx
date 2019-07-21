@@ -52,6 +52,12 @@ namespace bridges {
 
 				}
 
+				/**
+				 * @brief benchmark one implementation
+				 *
+				 * @param algoName screen name of the algorithm to be used in the visualization
+				 * @param bfsalgo pointer to the sorting function to benchmark
+				 **/
 				void run(std::string algoName,
 					void (*bfsalgo)(const GraphAdjList<std::string>& gr,
 						std::string root,
