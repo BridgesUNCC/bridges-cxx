@@ -68,7 +68,7 @@ namespace bridges {
 				/**
 				 * @brief Set actor name
 				 *
-				 * @param a actor name 
+				 * @param a actor name
 				 *
 				 */
 				void setActor (const string& a) {
@@ -83,7 +83,7 @@ namespace bridges {
 				string getMovie() const {
 					return movie;
 				}
-		  
+
 				/**
 				 * @brief xSet movie name
 				 *

@@ -312,7 +312,7 @@ namespace bridges {
 				string getUrl() const {
 					return url;
 				}
-		  
+
 				/**
 				 *	@brief set quake url
 				 *

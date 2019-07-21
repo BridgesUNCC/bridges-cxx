@@ -17,7 +17,9 @@ using namespace std;
 namespace bridges {
 	using namespace bridges::datastructure;
 
-	class SocketConnection;
+	namespace game {
+		class SocketConnection;
+	}
 	/**
 	 * @brief This class contains methods to connect and transmit a user's
 	 *  data structure representation to the Bridges server
@@ -450,7 +452,7 @@ namespace bridges {
 			}
 
 			friend DataSource;
-			friend SocketConnection;
+			friend bridges::game::SocketConnection;
 	};	//end of class Bridges
 
 }	// end of bridges namespace

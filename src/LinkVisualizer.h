@@ -63,7 +63,7 @@ namespace bridges {
 				}
 
 				/**
-				 * @brief Sets label of the link 
+				 * @brief Sets label of the link
 				 *
 				 * @param lab The label of the link
 				 */
