@@ -15,8 +15,9 @@ namespace bridges {
 		 * Objects of this class are stored as properties of Elements.
 		 * A user may manipulate the LinkVisualizer returned from the Element's getLinkVisualizer() method.
 		 *
-		 * BRIDGES supports color of any legal named CSS or #hexadecimal value. Default:
-		 *  opaque black
+		 * BRIDGES supports color of any legal named CSS or "#hexadecimal" value. Check Color for details. Default:
+		 *  opaque black.
+		 *
 		 * Thickness values must range from [1.0,10.0]. Default: 1.0
 		 *
 		 * @author Kalpathi Subramanian, Dakota Carmer
@@ -40,11 +41,11 @@ namespace bridges {
 
 			public:
 				/**
-				 * Constructs a LinkVisualizer with the specified color and thickness.
+				 * @brief Constructs a LinkVisualizer with the specified color and thickness.
 				 * The defaults will be used if not provided (black,1)
 				 *
 				 * @param col Link color
-				 * @param thick Link thickness
+				 * @param th Link thickness
 				 *
 				 */
 				LinkVisualizer(Color col = DEFAULT_COLOR(),
@@ -54,17 +55,17 @@ namespace bridges {
 				}
 
 				/**
-				 *  Return the element label
-				 *  @return The label of the element
+				 *  @brief Return the link label
+				 *  @return The label of the link
 				 */
 				string getLabel() const {
 					return label;
 				}
 
 				/**
-				 * Sets label to "lab"
+				 * @brief Sets label of the link 
 				 *
-				 * @param lab The label of the element
+				 * @param lab The label of the link
 				 */
 				void setLabel(const string& lab) {
 					label = lab;
@@ -74,7 +75,7 @@ namespace bridges {
 				 * Set the link thickness
 				 * Valid Range:[1,10] Default: 1
 				 *
-				 * @param thick The size in pixels of the link's line weight
+				 * @param th The size in pixels of the link's line weight
 				 * @throw string If invalid thickness
 				 */
 				void setThickness(const double& th) {
@@ -85,7 +86,7 @@ namespace bridges {
 						thickness = th;
 				}
 				/**
-				 *  Get the link thickness
+				 *  @brief Get the link thickness
 				 *	@return Size in pixels of the link's line thickness
 				 */
 				double getThickness() const {
@@ -93,7 +94,7 @@ namespace bridges {
 				}
 
 				/**
-				 * Set the link color to "col", default black
+				 * @brief Set the link color.
 				 *
 				 * @param color The color of the element
 				 */
@@ -101,16 +102,15 @@ namespace bridges {
 					color = col;
 				}
 				/**
-				 *  Set the color to a named color "col"
-				 *  Check the Color class for supported color names
-				 *  @param color The color name
+				 *  @brief Set the color by name.
+				 *  @param color The color name. See Color for supported names.
 				 */
 				void setColor(const string col) {
 					color = Color(col);
 				}
 
 				/**
-				 *  Return the link color
+				 *  @brief Return the link color
 				 *	@return The color of the link
 				 */
 				Color getColor() const {
