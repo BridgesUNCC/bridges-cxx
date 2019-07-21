@@ -21,11 +21,10 @@ namespace bridges {
 		 *
 		 * Class that holds Open Street Map vertices from https://openstreetmap.org
 		 *
-		 * Kalpathi Subramanian, 2/14/19
+		 * @author Kalpathi Subramanian
+		 * @date 2/14/19
 		 *
 		 */
-
-
 		class OSMVertex {
 
 			private:
@@ -63,8 +62,7 @@ namespace bridges {
 				/**
 				 *	get latitude  of node
 				 *
-				 *	@return double
-				 *
+				 *	@return latitude of the vertex
 				 */
 				double getLatitude() const {
 					return latitude;
@@ -73,7 +71,6 @@ namespace bridges {
 				 *	set latitude of quake location
 				 *
 				 *	@param latit latitude of node
-				 *
 				 */
 				void setLatitude(double latit) {
 					latitude = latit;
@@ -83,7 +80,6 @@ namespace bridges {
 				 *	get longitude of vertex
 				 *
 				 *	@return longitude of node
-				 *
 				 */
 				double getLongitude() const {
 					return longitude;
@@ -91,8 +87,7 @@ namespace bridges {
 				/**
 				 *	set longitude of  vertex
 				 *
-				 *	@param (double)
-				 *
+				 *	@param longit longitude
 				 */
 				void setLongitude(double longit) {
 					this->longitude = longit;
@@ -102,7 +97,7 @@ namespace bridges {
 				/**
 				 * 	get Cartesian coords of lat/long
 				 *
-				 *	@return coords  (double *)
+				 *	@param[out] coords cartesian coordinate coords[0] is x, coords[1] is y
 				 */
 				void getCartesianCoords(double *coords) const {
 					coords[0] = cartesian_coords[0];

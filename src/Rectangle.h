@@ -97,7 +97,8 @@ namespace bridges {
 				/**
 				 *	Translate the rectangle
 				 *
-				 *	@param translation factor (tx, ty)
+				 *	@param tx translation factor along x axis
+				 *	@param ty translation factor along y axis
 				 */
 				void translate(float tx, float ty) {
 					float *center = getLocation();
@@ -107,7 +108,8 @@ namespace bridges {
 				/**
 				 *	Scale the rectangle about its center
 				 *
-				 *	@param scale factor (sx, sy)
+				 *	@param sx scale factor along x axis
+				 *	@param sy scale factor along y axis
 				 */
 				void scale(float sx, float sy) {
 					// scale the height, width
@@ -122,7 +124,6 @@ namespace bridges {
 				 * This method returns the dimensions of the shape: min and max
 				 *	values in X and Y
 				 *
-				 * @param none
 				 * @return array of 4 values
 				 */
 				vector<float> getDimensions() {

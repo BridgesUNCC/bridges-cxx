@@ -97,19 +97,19 @@ namespace bridges {
 
 				/// @brief Change the background color of a cell
 				///
-				/// @param x row of the cell to set
-				/// @param y column of the cell to set
-				/// @param c NamedColor to set
+				/// @param row row of the cell to set
+				/// @param col column of the cell to set
+				/// @param nc NamedColor to set
 				void setBGColor(int row, int col, NamedColor nc) {
 					gg.setBGColor(row, col, nc);
 				}
 
 				/// @brief Draw an object on the game
 				///
-				/// @param x row of the cell to draw the object on
-				/// @param y column of the cell to draw the object on
-				/// @param s symbol representing the object
-				/// @param c color of the object
+				/// @param row row of the cell to draw the object on
+				/// @param col column of the cell to draw the object on
+				/// @param symb symbol representing the object
+				/// @param nc color of the object
 				void drawObject(int row, int col, NamedSymbol symb, NamedColor nc) {
 					gg.drawObject(row, col, symb, nc);
 				}
@@ -138,8 +138,8 @@ namespace bridges {
 
 				/// @brief What object is in this cell?
 				///
-				/// @param x row of the cell
-				/// @param y column of the cell
+				/// @param row row of the cell
+				/// @param col column of the cell
 				NamedSymbol getSymbol(int row, int col) {
 					return gg[row][col].getSymbol();
 				}

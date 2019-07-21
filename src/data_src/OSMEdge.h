@@ -13,11 +13,9 @@ namespace bridges {
 		 *
 		 * Class that holds Open Street Map edges from https://openstreetmap.org
 		 *
-		 * Kalpathi Subramanian, 2/14/19
-		 *
+		 * @author Kalpathi Subramanian
+		 * @date 2/14/19
 		 */
-
-
 		class OSMEdge {
 
 			private:
@@ -40,8 +38,7 @@ namespace bridges {
 				/**
 				 *	get source vertex  of edge
 				 *
-				 *	@return int
-				 *
+				 *	@return source vertexID
 				 */
 				int getSourceVertex() const {
 					return src_vertex;
@@ -49,8 +46,7 @@ namespace bridges {
 				/**
 				 *	set source vertex  of edge
 				 *
-				 *	@param int
-				 *
+				 *	@param src source vertexID
 				 */
 				void setSourceVertex(int src) {
 					src_vertex = src;
@@ -58,8 +54,7 @@ namespace bridges {
 				/**
 				 *	get destination vertex of edge
 				 *
-				 *	@return int
-				 *
+				 *	@return destination vertexID
 				 */
 				int getDestinationVertex() const {
 					return dest_vertex;
@@ -67,8 +62,7 @@ namespace bridges {
 				/**
 				 *	set destination vertex of edge
 				 *
-				 *	@param int
-				 *
+				 *	@param dest destination vertexID
 				 */
 				void setDestinationVertex(int dest) {
 					this->dest_vertex = dest;
@@ -76,8 +70,7 @@ namespace bridges {
 				/**
 				 *	get edge length of edge
 				 *
-				 *	@return double
-				 *
+				 *	@return edge length
 				 */
 				double getEdgeLength() const {
 					return length;
@@ -85,8 +78,7 @@ namespace bridges {
 				/**
 				 *	set edge length
 				 *
-				 *	@param double
-				 *
+				 *	@param l edge length
 				 */
 				void setEdgeLength(double l) {
 					this->length = l;

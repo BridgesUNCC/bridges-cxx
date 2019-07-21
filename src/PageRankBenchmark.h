@@ -21,7 +21,7 @@ namespace bridges {
 		 * using setTimeCap().
 		 *
 		 * The PageRank algorithms must have for prototype:
-		 * 
+		 *
 		 * void (*pralgo)(const GraphAdjList<std::string>& gr,
 		 *                std::unordered_map<std::string, double>& pagerank);
 		 *

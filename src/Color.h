@@ -22,13 +22,13 @@ namespace bridges {
 		 *
 		 * Supported rgba colors are integer representations of each color channel,
 		 * in the range of [0,255].
-		 * rgb input is also supported, and given a default alpha value of 255(opaque)
+		 * rgb input is also supported, and given a default alpha value of 255 (opaque)
 		 *
-		 * Supported Hexadecimal colors are in the form #RRGGBBAA, #RRGGBB, #RGBA, or #RGB.
+		 * Supported Hexadecimal colors are in the form "#RRGGBBAA", "#RRGGBB", "#RGBA", or "#RGB".
 		 * With R,G,B and A, representing the Red, Green, Blue, and Alpha color channels
 		 * respectivly,
 		 * in hexadecimal digits(0-9a-f, base 16) prefixed by '#'.
-		 * #RGBA and #RGB are shorthand versions of #RRGGBBAA and #RRGGBB, where each
+		 * "#RGBA" and "#RGB" are shorthand versions of "#RRGGBBAA" and "#RRGGBB", where each
 		 * channel pair is the same.
 		 * If no alpha channel is provided, a default of 'ff'(opaque) will be used
 		 *
@@ -223,8 +223,8 @@ namespace bridges {
 				}
 				/**
 				 * Constructs a color from a named color or a #hexadecimal [0-F](base 16)
-				 * of the form #RRGGBBAA, #RRGGBBAA, #RGBA, or #RGB.
-				 * Named colors and #hexadecimals missing an alpha channel are made opaque.
+				 * of the form "#RRGGBBAA", "#RRGGBBAA", "#RGBA", or "#RGB".
+				 * Named colors and "#hexadecimals" missing an alpha channel are made opaque.
 				 *
 				 * @param name The named color or #hexadecimal value
 				 */
@@ -286,7 +286,7 @@ namespace bridges {
 					return channels.at(3);
 				}
 
-				/** @return The #hexadecimal representation (#RRGGBBAA) of this color */
+				/** @return The #hexadecimal representation ("#RRGGBBAA") of this color */
 				string getHexValue() const {
 					std::stringstream ss;
 					ss << "#";
@@ -342,9 +342,9 @@ namespace bridges {
 					setAlpha(a);
 				}
 				/**
-				 * Sets this color's value to the value of a named color or a #hexadecimal
-				 *  [0-F](base 16) of the form #RRGGBBAA, #RRGGBBAA, #RGBA, or #RGB.
-				 * Named colors and #hexadecimals missing an alpha channel are made opaque.
+				 * Sets this color's value to the value of a named color or a "#hexadecimal"
+				 *  [0-F](base 16) of the form "#RRGGBBAA", "#RRGGBBAA", "#RGBA", or "#RGB".
+				 * Named colors and "#hexadecimals" missing an alpha channel are made opaque.
 				 *
 				 * @param name The named color or #hexadecimal value
 				 * @throw string If name is an invalid color
