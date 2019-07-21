@@ -26,37 +26,32 @@ namespace bridges {
 		class CancerIncidence {
 
 			private:
-				double
-				age_adjusted_rate,		// expected cancer rate, adjusted for age
-				age_adjusted_rate_ci[2],	// confidence interval-lower,upper
-				crude_rate,				// cancer rate adjusted by population
-				crude_rate_ci[2];		// confidence interval
 
-				int
-				count,					// incidence count
-				year,					// reporting year
-				population;				// population of this area
+				double age_adjusted_rate;		// expected cancer rate, adjusted for age
+				double age_adjusted_rate_ci[2];	// confidence interval-lower,upper
+				double crude_rate;				// cancer rate adjusted by population
+				double crude_rate_ci[2];		// confidence interval
 
-				string
-				gender, 				 // gender (male, female, male and female
-				race,
-				event_type,				 // incidence, mortality
-				affected_area;			 // location, typically, state
+				int count;					// incidence count
+				int year;					// reporting year
+				int population;				// population of this area
+
+				string gender; 				 // gender (male, female, male and female
+				string race;
+				string event_type;				 // incidence, mortality
+				string affected_area;			 // location, typically, state
 
 				double loc[2];		 	// location (cartesian coords
 
 
 			public:
-				/**
-				 * The constructor
-				 */
 				CancerIncidence () {
 					loc[0] = loc[1]  = 0.0;
 					age_adjusted_rate_ci[0] = age_adjusted_rate_ci[1] = 0.0;
 					crude_rate_ci[0] = crude_rate_ci[1] = 0.0;
 				}
 
-				/*
+				/**
 				 * Get the expected cancer rate, adjusted for age of participants.
 				 *
 				 * @return cancer rate
@@ -69,18 +64,17 @@ namespace bridges {
 				/**
 				 * Set age adjusted cancer rate
 				 *
-				 * @param double aar
-				 *
+				 * @param[in] aar age adjusted rate
 				 */
 				void setAgeAdjustedRate(double aar) {
 					age_adjusted_rate = aar;
 				}
 
-				/*
+				/**
 				 * Get the expected cancer rate confidence interval(lower),
 				 *	adjusted for age of participants.
 				 *
-				 * @return cancer conf interval (lower) rate
+				 * @return cancer confidence interval (lower) rate
 				 *
 				 */
 				double getAgeAdjustedCI_Lower() const {
@@ -90,18 +84,18 @@ namespace bridges {
 				/**
 				 * Set age adjusted cancer conf interval (lower)
 				 *
-				 * @param double ci_l
+				 * @param[in] ci_l age adjusted cancer conf interval (lower)
 				 *
 				 */
 				void setAgeAdjustedCI_Lower(double ci_l) {
 					age_adjusted_rate_ci[0] = ci_l;
 				}
-				/*
+
+				/**
 				 * Get the expected cancer rate confidence interval(upper),
 				 *	adjusted for age of participants.
 				 *
 				 * @return cancer conf interval (lower) rate
-				 *
 				 */
 				double getAgeAdjustedCI_Upper() const {
 					return age_adjusted_rate_ci[1];
@@ -110,14 +104,13 @@ namespace bridges {
 				/**
 				 * Set age adjusted cancer conf interval (upper)
 				 *
-				 * @param double ci_u
-				 *
+				 * @param[in] ci_u age adjusted cancer conf interval (upper)
 				 */
 				void setAgeAdjustedCI_Upper(double ci_u) {
 					age_adjusted_rate_ci[1] = ci_u;
 				}
 
-				/*
+				/**
 				 * Get the cancer rate, adjusted for population
 				 *
 				 * @return crude cancer rate
@@ -128,17 +121,17 @@ namespace bridges {
 				/**
 				 * Set cancer rate, adjusted for population
 				 *
-				 * @param double cr
+				 * @param[in] cr cancer rate
 				 */
 				void setCrudeRate(double cr) {
 					crude_rate = cr;
 				}
-				/*
+
+				/**
 				 * Get the expected cancer crude rate confidence interval(lower),
 				 * adjusted for age of participants.
 				 *
 				 * @return cancer conf interval (lower) rate
-				 *
 				 */
 				double getCrudeRate_CI_Lower() const {
 					return crude_rate_ci[0];
@@ -147,13 +140,12 @@ namespace bridges {
 				/**
 				 * Set age adjusted cancer crude conf interval (lower)
 				 *
-				 * @param double cr_l
-				 *
+				 * @param[in] cr_l age adjusted cancer crude conf interval (lower)
 				 */
 				void setCrudeRate_CI_Lower(double cr_l) {
 					crude_rate_ci[0] = cr_l;
 				}
-				/*
+				/**
 				 * Get the expected cancer crude rate confidence interval(upper),
 				 * adjusted for age of participants.
 				 *
@@ -165,51 +157,51 @@ namespace bridges {
 				}
 
 				/**
-				 * Set crude rate CI (upper)
+				 * @brief Set crude rate CI (upper)
 				 *
-				 * @param double cr_u
+				 * @param[in] cr_u upper bound for crude rate confidence interval
 				 *
 				 */
 				void setCrudeRate_CI_Upper(double cr_u) {
 					crude_rate_ci[1] = cr_u;
 				}
 
-				/*
-				 * Get the year of this cancer record
+				/**
+				 * @brief Get the year of this cancer record
 				 *
-				 * @return year
+				 * @return year of the record
 				 */
 				int getYear() const {
 					return year;
 				}
 
 				/*
-				 * Set the year of this cancer record
+				 * @brief Set the year of this cancer record
 				 *
-				 * @param y  year
+				 * @param[in] y  year
 				 */
 				void setYear(int y) {
 					year = y;
 				}
-				/*
-				 * Get the gender of the group
+				/**
+				 * @brief Get the gender of the group
 				 *
-				 * @return gender (male, female, male and female)
+				 * @return gender, can be "male", "female", "male and female"
 				 */
 				string getGender() const {
 					return gender;
 				}
 				/**
-				 * Set gender
+				 * @brief Set gender of the record
 				 *
-				 * @param g
+				 * @param[in] g gender to set
 				 */
 				void setGender(const string& g) {
 					gender = g;
 				}
 
-				/*
-				 * Get the race of the group
+				/**
+				 * @brief Get the race of the group
 				 *
 				 * @return race (All Races, etc)
 				 */
@@ -217,83 +209,85 @@ namespace bridges {
 					return race;
 				}
 				/**
-				 * Set race
+				 * @brief Set race
 				 *
-				 * @param string r
+				 * @param[in] r
 				 */
 				void setRace(const string& r) {
 					race = r;
 				}
 
-				/*
-				 * Get the event type (incidence, mortality, etc)
+				/**
+				 * @brief Get the event type (incidence, mortality, etc)
 				 *
-				 * @return event (string)
+				 * @return event type
 				 */
 				string getEventType() const {
 					return event_type;
 				}
 				/**
-				 * Set event type
+				 * @brief Set event type
 				 *
-				 * @param event (string)
+				 * @param et event type
 				 */
 				void setEventType(const string& et) {
 					event_type = et;
 				}
 
-				/*
-				 * Get the population size
+				/**
+				 * @brief Get the population size
 				 *
-				 * @return population (int)
+				 * @return population
 				 */
 				int getPopulation() const {
 					return population;
 				}
+
 				/**
-				 * Set population size
+				 * @brief Set population size
 				 *
-				 * @param pop (int)
+				 * @param pop population
 				 */
 				void setPopulation(int pop) {
 					population = pop;
 				}
 
-				/*
-				 * Get the cancer incidence area (state, region, etc)
+				/**
+				 * @brief Get the cancer incidence area (state, region, etc)
 				 *
-				 * @return area (string)
+				 * @return area
 				 */
 				string getAffectedArea() const {
 					return affected_area;
 				}
+
 				/**
-				 * Set cancer incidenc area
+				 * @brief Set cancer incidenc area
 				 *
-				 * @param area (string)
+				 * @param[in] area
 				 */
 				void setAffectedArea(const string& area) {
 					affected_area = area;
 				}
 
-				/*
-				 * Get the number of people affected in this group
+				/**
+				 * @brief Get the number of people affected in this group
 				 *
-				 * @return incidence count (int)
+				 * @return incidence count
 				 */
 				int getCount() const {
 					return count;
 				}
 				/**
-				 * Set cancer incidence count
+				 * @brief Set cancer incidence count
 				 *
-				 * @param c (int)
+				 * @param c cancer incidence count
 				 */
 				void setCount(int c) {
 					count = c;
 				}
 
-				/*
+				/**
 				 * Get the X coordinate of location
 				 *
 				 * @return x coordinate
@@ -302,7 +296,7 @@ namespace bridges {
 					return loc[0];
 				}
 				/**
-				 *	Set location (X coord)
+				 *	@brief Set location (X coord)
 				 *
 				 *	@param locX  X coordinate of location
 				 *
@@ -311,14 +305,15 @@ namespace bridges {
 					loc[0] = locX;
 				}
 
-				/*
-				 * Get the Y coordinate of location
+				/**
+				 * @brief Get the Y coordinate of location
 				 *
 				 * @return y coordinate
 				 */
 				double getLocationY() const {
 					return loc[1];
 				}
+
 				/**
 				 *	Set location (Y coord)
 				 *

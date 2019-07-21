@@ -41,7 +41,7 @@ namespace bridges {
 #endif
 
 				/**
-				 *  Gets the epoch time of the quake - used internally to get
+				 *  Construct the epoch time of the quake - used internally to get
 				 *	actual date - year, month, day, etc
 				 *
 				 */
@@ -95,9 +95,9 @@ namespace bridges {
 				}
 
 				/**
-				 *  return the epoch time of the quake
+				 *  @brief return the epoch time of the quake
 				 *
-				 *  @return string
+				 *  @return time
 				 */
 
 				string getTime() const {
@@ -106,9 +106,9 @@ namespace bridges {
 
 
 				/**
-				 *	returns the real date in a string format
+				 * @brief returns the real date in a string format
 				 *
-				 *  @return  string
+				 *  @return the real date in format "Month Day Year Hour:Minute:Seconds"
 				 */
 				string getDateStr() const {
 					getDate();
@@ -164,9 +164,9 @@ namespace bridges {
 				}
 
 				/**
-				 *	set epoch time
+				 *	@brief set epoch time
 				 *
-				 *	@param tm (string)
+				 *	@param tm time as epoch
 				 *
 				 */
 				void setTime (const string& tm) {
@@ -176,10 +176,9 @@ namespace bridges {
 				}
 
 				/**
-				 *	get year of quake
+				 *	@brief get year of quake
 				 *
-				 *	@return (int)
-				 *
+				 *	@return year of the quake
 				 */
 				int getYear() const {
 					getDate();
@@ -187,10 +186,9 @@ namespace bridges {
 					return year;
 				}
 				/**
-				 *	get month of quake
+				 *	@brief get month of quake
 				 *
-				 *	@return (int)
-				 *
+				 *	@return month of the quake
 				 */
 				int getMonth() const {
 					getDate();
@@ -198,10 +196,9 @@ namespace bridges {
 					return month;
 				}
 				/**
-				 *	get day of quake
+				 *	@brief get day of quake
 				 *
-				 *	@return (int)
-				 *
+				 *	@return day of the quake
 				 */
 				int getDay() const {
 					getDate();
@@ -209,10 +206,9 @@ namespace bridges {
 					return day;
 				}
 				/**
-				 *	get hour of quake
+				 *	@brief get hour of quake
 				 *
-				 *	@return (int)
-				 *
+				 *	@return hour of the quake
 				 */
 				int getHour() const {
 					getDate();
@@ -220,10 +216,9 @@ namespace bridges {
 					return hour;
 				}
 				/**
-				 *	get minutes of quake
+				 *	@brief get minutes of quake
 				 *
-				 *	@return (int)
-				 *
+				 *	@return minutes of the quake
 				 */
 				int getMinutes() const {
 					getDate();
@@ -231,10 +226,9 @@ namespace bridges {
 					return minu;
 				}
 				/**
-				 *	get seconds of quake
+				 *	@brief get seconds of quake
 				 *
-				 *	@return (int)
-				 *
+				 *	@return get seconds of the quake
 				 */
 				int getSeconds() const {
 					getDate();
@@ -243,109 +237,103 @@ namespace bridges {
 				}
 
 				/**
-				 *	get latitude of quake
+				 *	@brief get latitude of quake
 				 *
-				 *	@return (float)
-				 *
+				 *	@return latitude of the quake
 				 */
 				float getLatit() const {
 					return (float) this->latit;
 				}
 				/**
-				 *	set latitude
+				 *	@brief set latitude
 				 *
-				 *	@param (float)
-				 *
+				 *	@param[in] latit latitude
 				 */
 				void setLatit(float latit) {
 					this->latit = latit;
 				}
 				/**
-				 *	get longitude of quake location
+				 *	@brief get longitude of quake location
 				 *
-				 *	@return (float)
-				 *
+				 *	@return longitude of the quake
 				 */
 				float getLongit() const {
 					return (float) longit;
 				}
 				/**
-				 *	set longitude of quake location
+				 *	@brief set longitude of quake location
 				 *
-				 *	@param (float)
-				 *
+				 *	@param[in] longit longitude of the quake
 				 */
 				void setLongit(float longit) {
 					this->longit = longit;
 				}
 				/**
-				 *	get quake location
+				 *	@brief get quake location.
 				 *
-				 *	@return (string)
+				 * This is astring describing location (typically a city or something of the sort)
 				 *
+				 *	@return location as a string
 				 */
 				string getLocation() const {
 					return location;
 				}
 				/**
-				 *	set quake location (string)
+				 *	@brief set quake location (string)
 				 *
-				 *	@param (string)
-				 *
+				 *	@param[in] location location
 				 */
 				void setLocation(string location) {
 					this->location = location;
 				}
 				/**
-				 *	get quake title
+				 *	@brief get quake title
 				 *
-				 *	@return (string)
+				 * Typically a one line description of the quake
 				 *
+				 *	@return title
 				 */
 				string getTitle() const {
 					return this->title;
 				}
 				/**
-				 *	set quake title (string)
+				 *	@brief set quake title
 				 *
-				 *	@param (string)
-				 *
+				 *	@param[in] title quake title
 				 */
 				void setTitle(const string& title) {
 					this->title = title;
 				}
 				/**
-				 *	get quake url
+				 *	@brief get quake url
 				 *
-				 *	@return (string)
-				 *
+				 *	@return USGIS url about the quake
 				 */
 				string getUrl() const {
 					return url;
 				}
+		  
 				/**
-				 *	set quake url (string)
+				 *	@brief set quake url
 				 *
-				 *	@param (string)
+				 *	@param[in] url USGIS url of the quake
 				 *
 				 */
 				void setUrl(const string& url) {
 					this->url = url;
 				}
 				/**
-				 *	get quake magnitude
+				 *	@brief get quake magnitude
 				 *
-				 *	@return (double)
-				 *
+				 *	@return magnitude of the scale on Richter scale
 				 */
 				double getMagnitude() const {
 					return this->magnitude;
 				}
 				/**
-				 *	set quake magnitude (double)
+				 *	@brief set quake magnitude
 				 *
-				 *	@param (string)
-				 *
+				 *	@param[in] magnitude magnitude of the quake on Richter scale
 				 */
 				void setMagnitude(double magnitude) {
 					this->magnitude = magnitude;

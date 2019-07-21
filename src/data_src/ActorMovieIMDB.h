@@ -16,7 +16,6 @@ namespace bridges {
 		 *	@date 2/18/18
 		 *
 		 */
-
 		class ActorMovieIMDB {
 
 			private:
@@ -33,8 +32,8 @@ namespace bridges {
 				/**
 				 * This method initializes an actor movie object with an actor/movie pair.
 				 *
-				 *	@param actor  (string)
-				 *	@param movie  (string)
+				 *	@param[in] a actor
+				 *	@param[in] m movie
 				 */
 				ActorMovieIMDB(const string& a, const string& m) {
 					actor = a;
@@ -46,10 +45,10 @@ namespace bridges {
 				/**
 				 * This method initializes an actor movie object with an actor/movie pair.
 				 *
-				 *	@param actor  (string)
-				 *	@param movie  (string)
-				 *	@param rating  (float)
-				 *	@param genres  (vector)
+				 *	@param[in] a actor
+				 *	@param[in] m movie
+				 *	@param[in] r rating
+				 *	@param[in] genr genres
 				 */
 				ActorMovieIMDB(const string& a, const string& m, float r, const vector<string>& genr) {
 					actor = a;
@@ -59,20 +58,17 @@ namespace bridges {
 				}
 
 				/**
+				 * @brief Get actor name
 				 *
-				 * Get actor name
-				 *
-				 * @return actor name (string)
-				 *
+				 * @return actor name
 				 */
 				string getActor() const {
 					return actor;
 				}
 				/**
+				 * @brief Set actor name
 				 *
-				 * Set actor name
-				 *
-				 * @param actor name (string)
+				 * @param a actor name 
 				 *
 				 */
 				void setActor (const string& a) {
@@ -80,65 +76,54 @@ namespace bridges {
 				}
 
 				/**
+				 * @brief Get movie name
 				 *
-				 * Get movie name
-				 *
-				 * @return movie name (string)
-				 *
+				 * @return movie name
 				 */
 				string getMovie() const {
 					return movie;
 				}
+		  
 				/**
+				 * @brief xSet movie name
 				 *
-				 * Set movie name
-				 *
-				 * @param movie name (string)
-				 *
+				 * @param[in] m movie name
 				 */
 				void setMovie (const string& m) {
 					movie = m;
 				}
 
 				/**
+				 * @brief Get movie rating
 				 *
-				 * Get movie rating
-				 *
-				 * @return movie rating  (double)
-				 *
+				 * @return movie rating
 				 */
 				double getMovieRating() const {
 					return rating;
 				}
 
 				/**
+				 * @brief Set movie rating
 				 *
-				 * Set movie rating
-				 *
-				 * @param movie rating (double)
-				 *
+				 * @param[in] r movie rating
 				 */
 				void setMovieRating(double r) {
 					rating = r;
 				}
 
 				/**
+				 * @brief Get movie genres
 				 *
-				 * Get movie genres
-				 *
-				 * @return movie genres  (vector)
-				 *
+				 * @return movie genres
 				 */
 				vector<string> getGenres() const {
 					return genres;
 				}
 
 				/**
+				 * @brief Set movie genres
 				 *
-				 * Set movie genres
-				 *
-				 * @param movie genres (vector)
-				 *
+				 * @param[in] g movie genres
 				 */
 				void setGenres(const vector<string>& g) {
 					genres = g;
