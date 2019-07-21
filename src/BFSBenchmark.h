@@ -13,6 +13,33 @@ namespace bridges {
 	namespace benchmark {
 		using namespace bridges::datastructure;
 
+		/**
+		 * @brief Benchmarks Breadth First Search algorithms.
+		 *
+		 * Benchmarks BFS algorithms and add time series to a LineChart.
+		 *
+		 * One can also set a maximum time spent on a particular run
+		 * using setTimeCap().
+		 *
+		 * The BFS algorithms must have for prototype:
+		 *
+		 * void (*bfsalgo)(const GraphAdjList<std::string>& gr,
+		 *                 std::string root,
+		 *                 std::unordered_map<std::string, int>& level,
+		 *                 std::unordered_map<std::string, std::string>& parent);
+		 *
+		 * and can be passed to the run function for being
+		 * benchmarked. A typical use would look something like
+		 *
+		 * \code{c++}
+		 * LineChart lc;
+		 * BFSBenchmark sb (lc);
+		 * sb.run("mybfsalgorithm", bfsalgo);
+		 * \endgroup
+		 *
+		 * @author Erik Saule
+		 * @date 07/21/2019
+		 **/
 		class BFSBenchmark : public GraphBenchmark {
 			private:
 				LineChart& plot;

@@ -7,6 +7,11 @@ namespace bridges {
 	namespace benchmark {
 		using namespace bridges::datastructure;
 
+		/**
+		 * @brief Base class for a variety of graph based benchmark.
+		 *
+		 * This class is not meant to be used directly by students.
+		 **/
 		class GraphBenchmark {
 			protected:
 				double time_cap;

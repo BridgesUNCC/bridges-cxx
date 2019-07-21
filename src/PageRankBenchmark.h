@@ -12,7 +12,31 @@
 namespace bridges {
 	namespace benchmark {
 		using namespace bridges::datastructure;
-
+		/**
+		 * @brief Benchmarks Page Rank algorithms.
+		 *
+		 * Benchmarks PageRank algorithms and add time series to a LineChart.
+		 *
+		 * One can also set a maximum time spent on a particular run
+		 * using setTimeCap().
+		 *
+		 * The PageRank algorithms must have for prototype:
+		 * 
+		 * void (*pralgo)(const GraphAdjList<std::string>& gr,
+		 *                std::unordered_map<std::string, double>& pagerank);
+		 *
+		 * and can be passed to the run function for being
+		 * benchmarked. A typical use would look something like
+		 *
+		 * \code{c++}
+		 * LineChart lc;
+		 * PageRankBenchmark sb (lc);
+		 * sb.run("mybfsalgorithm", pralgo);
+		 * \endgroup
+		 *
+		 * @author Erik Saule
+		 * @date 07/21/2019
+		 **/
 		class PageRankBenchmark : public GraphBenchmark {
 			private:
 				LineChart& plot;

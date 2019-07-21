@@ -12,19 +12,37 @@
 namespace bridges {
 	namespace benchmark {
 		using namespace bridges::datastructure;
-
+		/**
+		 * @brief Benchmarks Shortest Path algorithms.
+		 *
+		 * Benchmarks Shortest Path algorithms and add time series to a LineChart.
+		 *
+		 * One can also set a maximum time spent on a particular run
+		 * using setTimeCap().
+		 *
+		 * The Shortest Path algorithms must have for prototype:
+		 *
+		 * void (*spalgo)(const GraphAdjList<int, OSMVertex, double>& gr,
+		 *	          int source,
+		 *                std::unordered_map<int, double>& distance,
+		 *                std::unordered_map<int, int>& parent);
+		 *
+		 * and can be passed to the run function for being
+		 * benchmarked. A typical use would look something like
+		 *
+		 * \code{c++}
+		 * LineChart lc;
+		 * ShortestPathBenchmark sb (lc);
+		 * sb.run("mybfsalgorithm", spalgo);
+		 * \endgroup
+		 *
+		 * @author Erik Saule
+		 * @date 07/21/2019
+		 **/
 		class ShortestPathBenchmark : public GraphBenchmark {
 			private:
 				LineChart& plot;
 				DataSource ds;
-
-			public:
-				ShortestPathBenchmark(LineChart& p)
-					: plot (p) {
-					p.setXLabel("Number of Edges");
-					p.setYLabel("Runtime (in s)");
-
-				}
 
 				int getCenter(const OSMData& osm_data, const GraphAdjList<int, OSMVertex, double>& graph,
 					double latc, double lonc) {
@@ -46,6 +64,15 @@ namespace bridges {
 
 					return minindex;
 				}
+
+			public:
+				ShortestPathBenchmark(LineChart& p)
+					: plot (p) {
+					p.setXLabel("Number of Edges");
+					p.setYLabel("Runtime (in s)");
+
+				}
+
 
 				void run(std::string algoName,
 					void (*spalgo)(const GraphAdjList<int, OSMVertex, double>& gr,
