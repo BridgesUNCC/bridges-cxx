@@ -425,8 +425,8 @@ namespace bridges {
 				/**
 				 *  Draw a symbol at the specified location
 				 *  @param row, col - integer indices specifying the position to modify
-				 *  @param symbol - Integer symbol argument to set the symbol at the chosen position
-				 *  @param
+				 *  @param symbol  Symbol to draw
+				 *  @param color Color to draw the symbol in
 				 */
 				void drawObject(int row, int col,
 					NamedSymbol symbol, NamedColor color) {

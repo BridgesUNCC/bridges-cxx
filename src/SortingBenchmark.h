@@ -32,13 +32,13 @@ namespace bridges {
 		 *  void (*sort)(int* array, int arraysize);
 		 * and can be passed to the run function for being benchmarked. A typical use would look something like
 		 *
-		 * \code{c++}
+		 * \code{.cpp}
 		 * void mysort(int* array, int arraysize);
 		 * LineChart lc;
 		 * SortingBenchmark sb (lc);
 		 * sb.linearRange (100, 1000, 5);
 		 * sb.run("mysortingalgorithm", mysort);
-		 * \endgroup
+		 * \endcode
 		 *
 		 * @author Erik Saule
 		 * @date 07/20/2019

@@ -28,11 +28,11 @@ namespace bridges {
 		 * and can be passed to the run function for being
 		 * benchmarked. A typical use would look something like
 		 *
-		 * \code{c++}
+		 * \code{.cpp}
 		 * LineChart lc;
 		 * PageRankBenchmark sb (lc);
 		 * sb.run("mybfsalgorithm", pralgo);
-		 * \endgroup
+		 * \endcode
 		 *
 		 * @author Erik Saule
 		 * @date 07/21/2019
