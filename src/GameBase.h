@@ -57,7 +57,7 @@ namespace bridges {
 				/// KeypressListener listener will get notified of all keypresses
 				/// (up and down) that happens in the game.
 				///
-				/// @param kl a KeypressListener to register
+				/// @param p a KeypressListener to register
 				void registerKeyListener(KeypressListener* p) {
 					sockcon->registerKeyListener(p);
 				}
