@@ -113,7 +113,7 @@ namespace bridges {
 		};
 
 		/**
-		 * @brief provide the features necessary to implement  simple non blocking games.
+		 * @brief This class provides the features necessary to implement  simple non blocking games.
 		 *
 		 * The games that can be created out of NonBlockingGame are
 		 * based on a simple board grid of at most 1024 cells (e.g.,
