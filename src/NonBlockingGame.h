@@ -112,6 +112,120 @@ namespace bridges {
 
 		};
 
+		/**
+		 * @brief provide the features necessary to implement  simple non blocking games.
+		 *
+		 * The games that can be created out of NonBlockingGame are
+		 * based on a simple board grid of at most 1024 cells (e.g.,
+		 * 32x32, or any combinations less than 1024 cells). Each
+		 * cell has a background color, and a colored symbol.
+		 *
+		 * This class is used by having an other class derive
+		 * from it and implement the two function initialize()
+		 * and GameLoop(). initialize() is called exactly
+		 * once, on the first frame of the game. It is used to
+		 * make first time initialization of the game state
+		 * (such as setting the board in its initial position,
+		 * for instance in chess). While GameLoop() is called
+		 * at every frame of the game. The game starts when
+		 * function start() is called on the object you
+		 * created.
+		 *
+		 * For this reason the simplest game that can run is created
+		 * by:
+		 *
+		 * \code{.cpp}
+		 * #include <NonBlockingGame.h>
+		 * using namespace bridges::game;
+		 * struct my_game : public NonBlockingGame {
+		 *   my_game() : NonBlockingGame (1, "myuserid",  "myapikey") {}
+		 *   virtual void initialize() override { }
+		 *   virtual void GameLoop() override { }
+		 * };
+		 *
+		 * int main () {
+		 *   my_game g;
+		 *   g.start();
+		 * }
+		 * \endcode
+		 *
+		 * This game does not do anything, but it is the
+		 * minimal code that will run a game. Note that the
+		 * constructor of my_game passes 3 parameters to the
+		 * constructor of NonBlockingGame(). These three
+		 * parameters are the classic parameters that the
+		 * constructor of bridges::Bridges takes (e.g.,
+		 * assignmentID, username, apikey).
+		 *
+		 * To change the board, two functions are
+		 * used. setBGColor() change the background color of a
+		 * particular cell. It takes three parameters, the
+		 * first two identify the cell of the board to change,
+		 * and the last one is a color from a color palette
+		 * provided by NamedColor. drawObject takes four
+		 * parameters, the first two identify the cell of the
+		 * board to change, the third is a symbol from a
+		 * symbol palette provided by NamedSymbol, the fourth
+		 * is the color that symbol shold be drawn in and
+		 * provided by NamedColor.
+		 *
+		 * For instance, a very simple initialize() could look like:
+		 * \code{.cpp}
+		 * virtual void initialize() override {
+		 *   setBGColor(0, 0, NamedColor.lightsalmon);
+		 *   drawObject(0, 0, NamedSymbol.sword, NamedColor.blue);
+		 * }
+		 * \endcode
+		 *
+		 * Note that the size of the board is set by default
+		 * at 10x10 and that drawing on a cell that does not
+		 * exist will lead to an error. One can specify a
+		 * gameboard of a different size by passing additional
+		 * parameters to the NonBlockingGame
+		 * constructor. However, the game can not be more than
+		 * 1024 cells in total, so a 15x15 board is possible,
+		 * a 32x32 board is the large square board possible,
+		 * and a rectangular 64x16 rectangular board is also
+		 * possible. But a 100x20 board would be 2000 cells
+		 * and is not possible. For instance a board of 16
+		 * rows and 64 columns can be created defining the
+		 * my_game constructor as:
+		 *
+		 * \code{.cpp}
+		 *   my_game() : NonBlockingGame (1, "myuserid",  "myapikey", 16, 64) {}
+		 * \endcode
+		 *
+		 * The bridges game engine will call the GameLoop()
+		 * function at each frame of the game. You can write
+		 * this function to modify the state of the game board
+		 * using setBGColor() and drawObject(). For instance,
+		 * the following GameLoop() will color the board
+		 * randomly one cell at a time.
+		 *
+		 * \code{.cpp}
+		 * virtual void GameLoop() override {
+		 *   setBGColor(rand()%10, rand()%10, NamedColor.lightsalmon);
+		 * }
+		 * \endcode
+		 *
+		 * The GameLoop can also probe the state of some keys
+		 * of the keyboard using functions keyUp(), keyLeft(),
+		 * keyDown(), keyRight(), keyW(), keyA(), keyS(),
+		 * keyD(), keySpace(), and keyQ(). These functions
+		 * return a boolean that indicate whether the key is
+		 * pressed at that frame or not. For instance, the
+		 * following code will only color the board randomly
+		 * when the up arrow is pressed.
+		 *
+		 * \code{.cpp}
+		 * virtual void GameLoop() override {
+		 *   if (keyUp())
+		 *     setBGColor(rand()%10, rand()%10, NamedColor.lightsalmon);
+		 * }
+		 * \endcode
+		 *
+		 * @author Erik Saule
+		 **/
 		class NonBlockingGame : public GameBase {
 			private:
 				using GameBase::render;

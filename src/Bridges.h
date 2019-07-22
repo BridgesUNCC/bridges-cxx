@@ -70,11 +70,23 @@ namespace bridges {
 			Bridges() {
 				Bridges (0, "", "");
 			}
+			/**
+			 * @brief constructor to bridges
+			 *
+			 * @param name Bridges username
+			 * @param key Bridges APIKey of the name account. (Note that it is not the password, but the API Key one can find in the user profile.)
+			 **/
 			Bridges (const string& name, const string& key) {
 				Bridges (0, name, key);
 			}
-
-			Bridges (const unsigned int& num, const string& name, const string& key) {
+			/**
+				   * @brief constructor to bridges
+				   *
+				   * @param num assignment ID
+				   * @param name Bridges username
+				   * @param key Bridges APIKey of the name account. (Note that it is not the password, but the API Key one can find in the user profile.)
+				   **/
+			Bridges (unsigned int num, const string& name, const string& key) {
 				assn_num = num;
 				user_name = name;
 				api_key = key;
