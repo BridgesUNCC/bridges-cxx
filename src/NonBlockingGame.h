@@ -120,14 +120,14 @@ namespace bridges {
 		 * 32x32, or any combinations less than 1024 cells). Each
 		 * cell has a background color, and a colored symbol.
 		 *
-		 * This class is used by having an other class derive
-		 * from it and implement the two function initialize()
+		 * This class is used by having another class derive
+		 * from it and implement the two functions: initialize()
 		 * and GameLoop(). initialize() is called exactly
 		 * once, on the first frame of the game. It is used to
-		 * make first time initialization of the game state
+		 * make first time initializations of the game state
 		 * (such as setting the board in its initial position,
-		 * for instance in chess). While GameLoop() is called
-		 * at every frame of the game. The game starts when
+		 * for instance in chess). However, GameLoop() is called
+		 * at every frame of the game. The game starts when the
 		 * function start() is called on the object you
 		 * created.
 		 *
@@ -162,7 +162,7 @@ namespace bridges {
 		 * particular cell. It takes three parameters, the
 		 * first two identify the cell of the board to change,
 		 * and the last one is a color from a color palette
-		 * provided by NamedColor. drawObject takes four
+		 * provided by NamedColor. drawObject() takes four
 		 * parameters, the first two identify the cell of the
 		 * board to change, the third is a symbol from a
 		 * symbol palette provided by NamedSymbol, the fourth
@@ -184,7 +184,7 @@ namespace bridges {
 		 * parameters to the NonBlockingGame
 		 * constructor. However, the game can not be more than
 		 * 1024 cells in total, so a 15x15 board is possible,
-		 * a 32x32 board is the large square board possible,
+		 * a 32x32 board is the largest square board possible,
 		 * and a rectangular 64x16 rectangular board is also
 		 * possible. But a 100x20 board would be 2000 cells
 		 * and is not possible. For instance a board of 16
@@ -225,6 +225,8 @@ namespace bridges {
 		 * \endcode
 		 *
 		 * @author Erik Saule
+		 * @date 7/21/19
+		 *
 		 **/
 		class NonBlockingGame : public GameBase {
 			private:
