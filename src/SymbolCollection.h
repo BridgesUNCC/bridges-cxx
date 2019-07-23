@@ -40,7 +40,7 @@ namespace bridges {
 				unordered_map<int, Symbol*> symbols;
 
 				// 	default domain (assuming square coordinate space)
-				// 	domian emanates in x and y directions, both positive and negative,
+				// 	domain emanates in x and y directions, both positive and negative,
 				//	from 0,0
 
 			protected:
@@ -48,24 +48,22 @@ namespace bridges {
 
 			public:
 				/**
-				 *
 				 *	Constructor
 				 */
 				SymbolCollection() {
 				}
 
 				/**
-				  *	This method gets the data structure type
+				  *	@brief This method gets the data structure type
 				  *
 				  *	@return  The date structure type as a string
-				  *
 				  */
 				virtual const string getDStype() const {
 					return "SymbolCollection";
 				}
 
 				/**
-				 *   This method adds a symbol to the collection
+				 *   @brief This method adds a symbol to the collection
 				 *
 				 *   @param s  symbol being added
 				 */

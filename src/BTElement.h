@@ -10,7 +10,7 @@ namespace bridges {
 		 *
 		 * This class can be used to create binary tree elements, with left and right subtrees
 		 *
-		 * Generic Parameters: E the application data type
+		 * @param E the application data type
 		 *
 		 * @author Kalpathi Subramanian
 		 * @date 6/12/15
@@ -21,14 +21,15 @@ namespace bridges {
 				int leftPos = 0, rightPos = 1;
 			public:
 				/**
-				 * Constructs a BTElement with the provided value, label, left
+				 * @brief Constructs a BTElement with the provided value, label, left
 				 * and right BTElements.
+				 *
 				 * The defaults will be used if not provided.
 				 *
-				 * @param val The data to hold
-				 * @param lab The label to show
 				 * @param l The left TreeElement
 				 * @param r The right TreeElement
+				 * @param e The data to hold
+				 * @param lab The label to show
 				 */
 				BTElement(BTElement* l, BTElement* r, const E& e = E(),
 					const string& lab = string()) :
@@ -37,11 +38,12 @@ namespace bridges {
 					this->addChild(r);
 				}
 				/**
-				 * Constructs a BTElement with the provided value and label,
-				 *	setting the left and right BTElement to NULL.
+				 * @brief Constructs a BTElement with the provided value and label,
+				 *	setting the left and right BTElement to nullptr.
+				 *
 				 * The defaults will be used if not provided.
 				 *
-				 * @param val The data to hold
+				 * @param e The data to hold
 				 * @param lab The label to show
 				 */
 				BTElement(const E& e = E(), const string& lab = string())
