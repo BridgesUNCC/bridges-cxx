@@ -299,7 +299,6 @@ namespace bridges {
 				 *	@brief Set location (X coord)
 				 *
 				 *	@param locX  X coordinate of location
-				 *
 				 */
 				void setLocationX (double locX) {
 					loc[0] = locX;
@@ -315,10 +314,9 @@ namespace bridges {
 				}
 
 				/**
-				 *	Set location (Y coord)
+				 *	@brief Set location (Y coord)
 				 *
-				 *	@param locX  Y coordinate of location
-				 *
+				 *	@param locY  Y coordinate of location
 				 */
 				void setLocationY (double locY) {
 					loc[1] = locY;

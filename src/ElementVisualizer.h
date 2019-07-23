@@ -16,8 +16,9 @@ namespace bridges {
 		 * Defaults of green, circle, and 10.0 respectively.
 		 *
 		 * Size values must range from [1.0,50.0].
-		 * BRIDGES supports the following shapes: "circle", "square", "diamond",
-		 *  "cross", "triangle-down", "triangle-up"
+		 *
+		 * BRIDGES supports the shapes listed in Shape ("circle", "square", "diamond",
+		 *  "cross", "wye", "triangle", "star").
 		 *
 		 * Objects of this class are stored as properties of all Element subclasses.
 		 *
@@ -71,17 +72,19 @@ namespace bridges {
 					return size;
 				}
 				/**
-				 *  Set the color to "col"
-				 *  @param color The color of the element
+				 *  @brief Set the color to "col"
+				 *
+				 *  @param col The color of the element
 				 */
 				void setColor(const Color& col) {
 					color = col;
 				}
 				/**
-				 *  Set the color to a named color "col"
-				 *  @param color The color name
+				 *  @brief Set the color to a named color
+				 *
+				 *  @param col The color name. Check the Color class for supported values.
 				 */
-				void setColor(const string col) {
+				void setColor(const string& col) {
 					color = Color(col);
 				}
 
@@ -104,7 +107,7 @@ namespace bridges {
 				}
 
 				/**
-				 *	Get opacity of element
+				 *	@brief Get opacity of element
 				 *
 				 *	@return opacity
 				 */
@@ -112,17 +115,16 @@ namespace bridges {
 					return color.getAlpha() / 255.;
 				}
 				/**
-				 * Set the shape  of the element
+				 * @brief Set the shape of the element
 				 *
-				 * @param Shape is one of CIRCLE,SQUARE,DIAMOND,CROSS,TRI_DOWN,TRI_UP
+				 * @param shp is one of Shape.CIRCLE, Shape.SQUARE, Shape.DIAMOND, Shape.CROSS, Shape.TRIANGLE, Shape.WYE, Shape.STAR.
 				 */
 				void setShape(const Shape& shp) {
 					shape = shp;
 				}
 				/**
-				 *  Return the shape of the element
-				 *	@return The shape of the element(one of CIRCLE,SQUARE,
-				 *		DIAMOND,CROSS,TRI_DOWN,TRI_UP
+				 *  @brief Return the shape of the element
+				 *	@return The shape of the element
 				 */
 				Shape getShape() const {
 					return shape;
