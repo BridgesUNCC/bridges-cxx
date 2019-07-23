@@ -27,12 +27,12 @@ namespace bridges {
 				Color baseColor = Color("black");
 
 				/**
-				 * initializes the grid with the passed color
+				 * @brief initializes the grid with the passed color
 				 *
-				 * @param color - Color object
+				 * @param col - Color object
 				 *
 				 **/
-				void initializeGrid (Color col) {
+				void initializeGrid (const Color& col) {
 					// fill elements with base color
 					for (int i = 0; i < gridSize[0]; i++)
 						for (int j = 0; j < gridSize[1]; j++)
@@ -55,9 +55,8 @@ namespace bridges {
 				/**
 				 * Grid constructor with size arguments
 				 *
-				 * @param rows - int representing the number of rows of the grid
-				 * @param cols - int representing the number of columns of the grid
-				 *
+				 * @param rows the number of rows of the grid
+				 * @param cols the number of columns of the grid
 				 **/
 				ColorGrid (int rows, int cols) : Grid<Color> (rows, cols) {
 					initializeGrid(baseColor);
