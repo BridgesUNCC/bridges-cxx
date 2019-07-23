@@ -92,6 +92,24 @@ namespace bridges {
 					return *this;
 				}
 
+				/**
+				 *	Get the height of the color grid
+				 *
+				 *	@return the height (number of rows) of the grid
+				 */
+				int getHeight() {
+					return gridSize[0];
+				}
+
+				/**
+				 *	Get the width of the color grid
+				 *
+				 *	@return the width (number of columns) of the grid
+				 */
+				int getWidth() {
+					return gridSize[1];
+				}
+
 			private:
 
 				/**
