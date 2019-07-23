@@ -12,7 +12,7 @@ namespace bridges {
 		 *
 		 * This class can be used to create 1D, 2D, and 3D arrays of any type.
 		 *
-		 * Generic Parameters: E the application data type
+		 * @param E the application data type
 		 *
 		 * @author Kalpathi Subramanian
 		 * @date 1/14/17, 7/12/19
@@ -37,18 +37,19 @@ namespace bridges {
 						delete [] array_data;
 				}
 
-				/// builds an array given the dimensions
-				///@param num_dims number of dimension
-				///@param dims size of each dimension
-
+				/// @brief builds an array given the dimensions
+				/// @param[in] nd number of dimension
+				/// @param[in] dim size of each dimension
 				Array(int nd, int *dim)
 					: array_data(nullptr) {
 					setSize(nd, dim);
 				}
 
 				/**
-				 *	Set the size of the array
-				 *  @param dim the size of the dimensions
+				 *  @brief Set the size of the array
+				 *
+				 *  @param[in] nd number of dimension
+				 *  @param[in] dim the size of the dimensions
 				 */
 				void setSize(int nd, int *dim) {
 					if (dim[0] <= 0 || dim[1] <= 0 || dim[2] <= 0) {
@@ -69,9 +70,9 @@ namespace bridges {
 					array_data = new Element<E>[size];
 				}
 				/**
-				 * Get the dimensions of the array
+				 * @brief Get the dimensions of the array
 				 *
-				 * @param dims  an array to return the dimensions
+				 * @param[out] dim  an array to return the dimensions
 				 */
 				void getDimensions(int *dim) {
 					switch (num_dims) {
@@ -97,34 +98,30 @@ namespace bridges {
 				 *
 				 *  Get the object at index index  - 1D array
 				 *
-				 *  @param index - index into the array
+				 *  @param index index into the array
 				 *
-				 *  @return Element<E>  at 'index'
+				 *  @return the Element at 'index'
 				 */
 				Element<E>& getElement(int index) {
 					return array_data[index];
 				}
 
 				/**
-				 *
-				 *  Get the object at index index  - 1D array
+				 *  @brief Get the object at index index  - 1D array
 				 *
 				 *  @param index - index into the array
 				 *
-				 *  @return Element<E>  at 'index'
+				 *  @return the Element at 'index'
 				 */
 				Element<E> const & getElement(int index) const {
 					return array_data[index];
 				}
 
 				/**
+				 *  @brief Set the Element at index ind  - 1D array
 				 *
-				 *  Set the object at index ind  - 1D array
-				 *
-				 *  @param ind - index into the array
-				 *  @param el - Element object
-				 *
-				 *  @return none
+				 *  @param ind index into the array
+				 *  @param el Element object
 				 */
 				void setElement(int ind, Element<E> el) {
 					array_data[ind] = el;
