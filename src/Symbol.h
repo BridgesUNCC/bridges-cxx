@@ -74,9 +74,9 @@ namespace bridges {
 
 			protected:
 				/**
-				 * Set the shape type
+				 * @brief Set the shape type
 				 *
-				 * @param shape type
+				 * @param s shape type to set
 				 */
 				void setShapeType (string s) {
 					shape_type = s;
@@ -312,9 +312,10 @@ namespace bridges {
 
 			protected:
 				/**
-				 *  Translate a 2D point
-				 *	@param pt  2D point (x, y)
-				 *  @translation  translation factors (tx, ty)
+				 *  @brief Translate a 2D point
+				 *
+				 *  @param pt  2D point (x, y)
+				 *  @param tx, ty translation vector
 				 */
 				void translatePoint (float *pt, float tx, float ty) {
 					pt[0] += tx;
@@ -322,9 +323,10 @@ namespace bridges {
 				}
 
 				/**
-				 *  Scale a 2D point
-				 *	@param pt  2D point (x, y)
-				 *  @scale factor  scale factors (sx, sy)
+				 *  @brief Scale a 2D point
+				 *
+				 *  @param pt  2D point (x, y)
+				 *  @param sx, sy scale factors along each axis
 				 */
 				void scalePoint (float *pt, float sx, float sy) {
 					pt[0] *= sx;
@@ -332,9 +334,10 @@ namespace bridges {
 				}
 
 				/**
-				 *  Rotate a 2D point (about Z)
+				 *  @brief Rotate a 2D point (about Z)
+				 *
 				 *	@param pt  2D point (x, y)
-				 *  @rotation angle theta (positive is counter clockwise, negative is clockwise)
+				 *  @param angle rotation angle in degrees (positive is counter clockwise, negative is clockwise)
 				 */
 				void rotatePoint (float *pt, float angle) {
 					// compute sin, cos

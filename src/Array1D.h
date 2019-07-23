@@ -59,10 +59,9 @@ namespace bridges {
 			public:
 				virtual ~Array1D() {}
 
-				/// builds an array given the dimensions
-				///@param num_dims number of dimension
-				///@param dims size of each dimension
-
+				/// @brief builds an array given size
+				///
+				///@param sz size of the array
 				Array1D(int sz) {
 					int dim[] = {sz, 1, 1};
 					this->setSize(1, dim);

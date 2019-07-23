@@ -235,25 +235,21 @@ namespace bridges {
 				return wrapper;
 			}
 			/**
-			 *
-			 *  Get data of Shakespeare works (plays, poems)
+			 *  @brief Get data of Shakespeare works (plays, poems)
 			 *
 			 *  This function retrieves  and formats the data into a
 			 *  a list of Shakespeare objects.
 			 *
-			 *	Valid endpoints: 'poems','plays', <title>
-			 *	Valid queryParams: format{simple}
-			 *
 			 *  @throws Exception if the request fails
 			 *
-			 *  @param endpoint  can be either "plays" or "poems". If this is
+			 *  @param type can be "plays", "poems", or "". If this is
 			 *		specified, then only these types of works are retrieved.
-			 *  @param textOnly  if this is set, then only the text is retrieved.
+			 *  @param textonly  if this is set, then only the text is retrieved. (that is to say punctuation is stripped out)
 			 *
 			 *  @return an array of Shakespeare objects
 			 *
 			 */
-			vector<Shakespeare> getShakespeareData(string endpoint = "",
+			vector<Shakespeare> getShakespeareData(string type = "",
 				bool textonly = false) {
 				using namespace rapidjson;
 				Document d;
@@ -261,8 +257,8 @@ namespace bridges {
 
 				string url = "http://bridgesdata.herokuapp.com/api/shakespeare/";
 
-				if (endpoint == "plays" || endpoint == "poems")
-					url += "/" + endpoint;
+				if (type == "plays" || type == "poems")
+					url += "/" + type;
 				if (textonly) {
 					url += "?format=simple";
 				}
@@ -1068,6 +1064,7 @@ namespace bridges {
 			/// from wikidata. This can cause wikidata to kick the user
 			/// out or return invalid JSON if the range is too wide.
 			///
+			/// @param yearbegin, yearend interval of years to obtain, yearbegin and yearend are included.
 			/// @param vout vector where the pairs will be aded to
 			void  getWikidataActorMovieDirect (int yearbegin, int yearend, std::vector<MovieActorWikidata>& vout) {
 				std::string codename = "wikidata-actormovie-" + std::to_string(yearbegin) + "-" + std::to_string(yearend);

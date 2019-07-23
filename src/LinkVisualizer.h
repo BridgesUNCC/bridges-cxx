@@ -96,16 +96,16 @@ namespace bridges {
 				/**
 				 * @brief Set the link color.
 				 *
-				 * @param color The color of the element
+				 * @param col The color of the element
 				 */
 				void setColor(const Color& col) {
 					color = col;
 				}
 				/**
 				 *  @brief Set the color by name.
-				 *  @param color The color name. See Color for supported names.
+				 *  @param col The color name. See Color for supported names.
 				 */
-				void setColor(const string col) {
+				void setColor(const string& col) {
 					color = Color(col);
 				}
 

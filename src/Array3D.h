@@ -102,11 +102,11 @@ namespace bridges {
 				 *
 				 *  Get the object at (x, y, z) for 3D arrays
 				 *
-				 *  @param x  - column index
-				 *  @param y  - row index
-				 *  @param z  - slice index
+				 *  @param x column index
+				 *  @param y row index
+				 *  @param z slice index
 				 *
-				 *  @return Element<E>  object at x, y, z
+				 *  @return the Element at x, y, z
 				 */
 				Element<E> const & getElement(int x, int y, int z) const {
 					return Array<E>::getElement(z * num_cols * num_rows + y * num_rows + x);
@@ -116,9 +116,9 @@ namespace bridges {
 				 *
 				 *  Set the object at index x, y, z  - 3D array
 				 *
-				 *  @param x - col index into the array
-				 *  @param y - row index into the array
-				 *  @param z - slice index into the array
+				 *  @param x_indx col index into the array
+				 *  @param y_indx row index into the array
+				 *  @param z_indx slice index into the array
 				 *  @param el - Element object
 				 */
 				void setElement(int x_indx, int y_indx, int z_indx, Element<E> el) {

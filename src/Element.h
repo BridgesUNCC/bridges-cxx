@@ -27,13 +27,13 @@ namespace bridges {
 		 *	CircSlElement, CircDlElement, TreeElement, BinTreeElement, BSTElement,
 		 *	AVLTreeElement, KdTreeElement subclasses.
 		 *
-		 * 	Generic Parameters: E the application data type
-		 *
 		 * 	The label field(string type) is used to label the visualization of the
 		 * 	element.
 		 *
 		 * 	Element holds a LinkVisualizer for each of its links and
 		 * 	an ElementVisualizer for itself
+		 *
+		 * 	@param E the application data type
 		 *
 		 * 	@author Kalpathi Subramanian
 		 *
@@ -293,10 +293,9 @@ namespace bridges {
 				}
 			public:
 				/**
-				 * Sets size to "sz"
-				 * Valid Range:[1,50]
+				 * @brief Sets size of the element.
 				 *
-				 * @param size The size in pixel weight of the element
+				 * @param sz The size in pixel weight of the element. Valid Range:[1;50]
 				 */
 				void setSize(const double& sz) {
 					elvis->setSize(sz);
@@ -311,23 +310,26 @@ namespace bridges {
 					return elvis->getSize();
 				}
 				/**
-				 *  Set the color to "col"
-				 *  @param color The color of the element
+				 * @brief Set the color of the Element.
+				 *
+				 *  @param col The color of the element
 				 */
 				void setColor(const Color& col) {
 					elvis->setColor(col);
 				}
 				/**
-				 *  Set the color to a named color "col"
-				 *  Refer to the Color class for supported colors
-				 *  @param color The color name
+				 *  @brief Set the color by name.
+				 *
+				 *  @param col The color name. Refer to the Color class for supported color names.
 				 */
 				void setColor(const string col) {
 					elvis->setColor(col);
 				}
+
 				/**
-				 *  Get the current color of the element
-				 *	@return The color of the element
+				 *  @brief Get the current color of the element
+				 *
+				 *  @return The color of the element
 				 */
 				Color getColor() const {
 					return elvis->getColor();
@@ -351,20 +353,20 @@ namespace bridges {
 					return elvis->getOpacity();
 				}
 				/**
-				 * Set the shape  of the element
+				 * @brief Set the shape  of the element
 				 *
-				 * @param Shape is one of CIRCLE, SQUARE, DIAMOND,
-				 *  		CROSS, TRIANGLE, WYE, STAR
+				 * @param shp is one of Shape.CIRCLE, Shape.SQUARE, Shape.DIAMOND,
+				 *  		Shape.CROSS, Shape.TRIANGLE, Shape.WYE, Shape.STAR
 				 *
 				 */
 				void setShape(const Shape& shp) {
 					elvis->setShape(shp);
 				}
 				/**
-				 *  Returns the shape of the element
+				 *  @brief Returns the shape of the element
 				 *
-				 *	@return The shape of the element(one of CIRCLE, SQUARE, DIAMOND,
-				 *  		CROSS, TRIANGLE, WYE, STAR
+				 *	@return The shape of the element(one of Shape.CIRCLE, Shape.SQUARE, Shape.DIAMOND,
+				 *  		Shape.CROSS, Shape.TRIANGLE, Shape.WYE, Shape.STAR)
 				 */
 				Shape getShape() const {
 					return elvis->getShape();

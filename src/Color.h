@@ -222,11 +222,11 @@ namespace bridges {
 					setValue(r, g, b, a);
 				}
 				/**
-				 * Constructs a color from a named color or a #hexadecimal [0-F](base 16)
+				 * Constructs a color from a named color or a "#hexadecimal" [0-F](base 16)
 				 * of the form "#RRGGBBAA", "#RRGGBBAA", "#RGBA", or "#RGB".
 				 * Named colors and "#hexadecimals" missing an alpha channel are made opaque.
 				 *
-				 * @param name The named color or #hexadecimal value
+				 * @param name The named color or "#hexadecimal" value
 				 */
 				Color(const string& name) {
 					setValue(name);
@@ -286,7 +286,7 @@ namespace bridges {
 					return channels.at(3);
 				}
 
-				/** @return The #hexadecimal representation ("#RRGGBBAA") of this color */
+				/** @return The "#hexadecimal" representation ("#RRGGBBAA") of this color */
 				string getHexValue() const {
 					std::stringstream ss;
 					ss << "#";
@@ -346,7 +346,7 @@ namespace bridges {
 				 *  [0-F](base 16) of the form "#RRGGBBAA", "#RRGGBBAA", "#RGBA", or "#RGB".
 				 * Named colors and "#hexadecimals" missing an alpha channel are made opaque.
 				 *
-				 * @param name The named color or #hexadecimal value
+				 * @param name The named color or "#hexadecimal" value
 				 * @throw string If name is an invalid color
 				 */
 				void setValue(string name) {

@@ -71,9 +71,9 @@ namespace bridges {
 				}
 
 				/**
-				 * This method sets the radius of the circle
+				 * @brief This method sets the radius of the circle
 				 *
-				 * @param r  radius
+				 * @param r radius
 				 */
 				void setRadius(int r) {
 					if (r < 0)
@@ -82,12 +82,11 @@ namespace bridges {
 				}
 
 				/**
-				 * This method sets the circle dimensions
+				 * @brief This method sets the circle dimensions
 				 *
 				 * @param locx  x coordinat of location
 				 * @param locy  y coordinat of location
 				 * @param r  radius
-				 * @return none
 				 */
 				void setCircle (int locx, int locy, int r) {
 					setLocation (locx, locy);
@@ -98,9 +97,9 @@ namespace bridges {
 				}
 
 				/**
-				 *	Translate the circle
+				 *	@brief Translate the circle
 				 *
-				 *	@param translation factor (tx, ty)
+				 *	@param tx, ty translation vector
 				 */
 				void translate(float tx, float ty) {
 					float *center = getLocation();

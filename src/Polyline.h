@@ -88,9 +88,9 @@ namespace bridges {
 				}
 
 				/**
-				 *	Translate the polyline
+				 *	@brief Translate the polyline
 				 *
-				 *	@param translation factor (tx, ty)
+				 *	@param tx, ty translation vector
 				 */
 				void translate(float tx, float ty) {
 					// translate the points
@@ -101,9 +101,9 @@ namespace bridges {
 				}
 
 				/**
-				 *	rotate the polyline about its center
-				 *
-				 *	@param scale factor (sx, sy)
+				 *	@brief rotate the polyline about its center
+				l			 *
+				 *	@param angle rotation angle in degrees (positive is counter-clock wise, negative is clockwise)
 				 */
 				void rotate(float angle) {
 					// get center of polyline
@@ -126,9 +126,9 @@ namespace bridges {
 				}
 
 				/**
-				 *	Scale the polyline about its center
+				 *	@brief Scale the polyline about its center
 				 *
-				 *	@param scale factor (sx, sy)
+				 *	@param sx, sy scale factor along each axis
 				 */
 				void scale(float sx, float sy) {
 					// get center of polyline

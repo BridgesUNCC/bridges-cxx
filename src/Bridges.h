@@ -121,9 +121,9 @@ namespace bridges {
 				return user_name;
 			}
 			/**
-			 *  Set user name
-			 *	@param  user_name   BRIDGES user id to set
+			 *  @brief Set user name.
 			 *
+			 *  @param  name   BRIDGES user id to set
 			 */
 			void setUserName(const string& name) {
 				user_name = name;
@@ -155,7 +155,7 @@ namespace bridges {
 			/**
 			 *  Set the assignment number
 			 *
-			 *	@param assn sets the assignment number
+			 *	@param num  assignment number to set
 			 *
 			 */
 			void setAssignment(unsigned int num) {
@@ -236,23 +236,22 @@ namespace bridges {
 			}
 
 			/**
-			 * Sets Bridges assignment to "num", api key to "api" and username
-			 *	to "name".
+			 * @brief Sets Bridges assignment and credential information.
 			 *
 			 * @param num  The assignment number
-			 * @param api The API key
-			 * @param user The username
+			 * @param apikey The API key on the BRIDGES server (this is not your password, find the API Key on the profile page)
+			 * @param username The username on the BRIDGES server
 			 */
-			void initialize(const unsigned int& num, const string& name, const string& key) {
+			void initialize(unsigned int num, const string& username, const string& apikey) {
 				assn_num = num;
-				user_name = name;
-				api_key = key;
+				user_name = username;
+				api_key = apikey;
 			}
 			/**
 			 *  Set server type
 			 *
-			 *  @param  server server to which to connect.
-			 *      Options are: ['live', 'local', 'clone'], and 'live'
+			 *  @param  server_type server to which to connect.
+			 *      Options are: ['live', 'local', 'games', 'clone'], and 'live'
 			 *		is the default;
 			 *
 			 */
@@ -270,10 +269,10 @@ namespace bridges {
 			}
 
 			/**
-			 *	Turns on map overlay for subsequent visualizations - used with
-			 *	location specific datasets
+			 *  @brief Turns on map overlay for subsequent visualizations - used with
+			 *	location specific datasets.
 			 *
-			 *  @param flag   this is the boolean flag for displaying a map overlay
+			 *  @param overlay_flag   true to display the map overlay
 			 *
 			 */
 			void setMapOverlay (bool overlay_flag) {
