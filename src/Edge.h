@@ -18,15 +18,15 @@ namespace bridges {
 		 *
 		 * This class is used to assign a visual connection between two Elements in the
 		 * Bridges Visualization.
-		 * <p>
+		 *
 		 * Bridges will represent these as arrows between two
 		 * Elements. The starting Element of the arrow will be referred to as the source
 		 * Element and the ending Element of the arrow will be referred to as the
 		 * terminating Element.
 		 *
-		 * @author krs
+		 * @author Kalpathi Subramanian
 		 *
-		 * @param <E>
+		 * @param E
 		 */
 
 
@@ -48,17 +48,19 @@ namespace bridges {
 			public:
 
 				/**
-				 * Constructs an edge with the given destination vertex,
+				 * @brief Constructs an edge with the given destination vertex,
 				 *	and edge data.
+				 *
 				 * This constructor is not meant to be used by the Bridges user
 				 * If an argument is not given its default is used.
 				 *
 				 * @param from source  vertex
 				 * @param to destination  vertex
+				 * @param lv LinkVisualizer storing the styling information for the edge
 				 * @param data edge data
 				 */
-				Edge(const K& v1, const K& v2, LinkVisualizer* lv, const E2& data = E2()) :
-					fromv(v1), tov (v2), edge_data(data), lvis(lv) {
+				Edge(const K& from, const K& to, LinkVisualizer* lv, const E2& data = E2()) :
+					fromv(from), tov (to), edge_data(data), lvis(lv) {
 
 				}
 				~Edge() {
@@ -120,10 +122,11 @@ namespace bridges {
 				}
 
 				/**
-				 * Set the thickness to "thick"
+				 * @brief Change the thickness of the edge when displayed.
+				 *
 				 * Valid Range:[1,10] Default: 1
 				 *
-				 * @param thick The size in pixels of the link's line weight
+				 * @param th The size in pixels of the link's line weight
 				 * @throw string If invalid thickness
 				 */
 				void setThickness(const double& th) {
@@ -137,19 +140,17 @@ namespace bridges {
 				}
 
 				/**
-				 * Set the color to "col", default black
-				 * Check the Color class for a list of supported colors
+				 * @brief Set the color of the edge when displayed.
 				 *
-				 * @param color The color of the element
+				 * @param col The color of the edge
 				 */
 				void setColor(const Color& col) {
 					lvis->setColor(col);
 				}
 				/**
-				 * Set the color to a named color,  default black
-				 * Check the Color class for a list of named colors
+				 * @brief Set the color to a named color.
 				 *
-				 * @param color The name of the color
+				 * @param col The name of the color. Check the Color class for a list of named colors.
 				 */
 				void setColor(const string  col) {
 					lvis->setColor(col);

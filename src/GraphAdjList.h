@@ -117,16 +117,16 @@ namespace bridges {
 					}
 				}
 				/**
-				 * 	Sets the edge from "src" to "dest", weight to "wt" and data
-				 *	to "data".  Note. This function adds the edge regardless of
+				 * 	@brief add an edge with data.
+				 *
+				 *      Note that this function adds the edge regardless of
 				 *	the contents of the adjacency list; its the user's responsibility
 				 *	to ensure there are no duplicates and ensure consistency.
 				 *
 				 * @param src The key of the source Vertex
 				 * @param dest The key of the destination Vertex
-				 * @param wt The weight of the edge
 				 * @param data The edge data
-				 * @throw out_of_range If "src" or "dest" is non-existenet within
+				 * @throw out_of_range If "src" or "dest" is non-existent within
 				 *	this graph
 				 * @throw bad_alloc If allocation of a graph adjacency list item failed
 				 */
@@ -176,17 +176,17 @@ namespace bridges {
 				/**
 				 * 	Loads vertex specific information for a graph vertex
 				 *
-				 * @param src The key of the source Vertex
+				 * @param vertID The key of Vertex
+				 * @param data data to set
 				 *
 				 */
-				void setVertexData (const K& src, E1& data) {
+				void setVertexData (const K& vertID, E1 const & data) {
 					try {
-						Element<E1> *el = vertices.at(src);
+						Element<E1> *el = vertices.at(vertID);
 						el->setValue (data);
 					}
 					catch ( const out_of_range& ) {
-						cerr << "setVertexData(): Nonexistent vertices or " <<
-							" edge not found" << endl;
+						cerr << "setVertexData(): Nonexistent vertex" << endl;
 						throw;
 					}
 					catch (const char* msg) {

@@ -144,7 +144,7 @@ namespace bridges {
 				/**
 				 * Sets the element to point to the next MLelement
 				 *
-				 * @param next MLelement<E> that should be assigned to the next pointer
+				 * @param n MLelement<E> that should be assigned to the next pointer
 				 */
 				void setNext(MLelement<E> *n) {
 					if (n) {
@@ -157,19 +157,16 @@ namespace bridges {
 				}
 
 				/**
+				 *	@brief Sets the tag of the element.
 				 *
-				 *	Sets the tag of the element.
-				 *
-				 *	@param boolean t
-				 *
+				 *	@param t tag to set
 				 */
 				void setTag(bool t) {
 					tag = t;
 				}
 
 				/**
-				 *
-				 *	Gets the tag of the element.
+				 *  @brief Gets the tag of the element.
 				 *
 				 *  @return tag of the element
 				 */

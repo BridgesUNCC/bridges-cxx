@@ -48,27 +48,31 @@ namespace bridges {
 				 * not provided.
 				 *
 				 * @param k The key for ordering
-				 * @param val The data to hold
-				 * @param lab The label to show
+				 * @param dim number of dimension to be partitioned
+				 * @param th thickness of the line showing the partition
 				 * @param l The left KdTree Element
 				 * @param r The right KdTree Element
+				 * @param val The data to hold
+				 * @param lab The label to show
 				 */
-				KdTreeElement(const K& k, const int& dim, const int& th,
-					const KdTreeElement* l, KdTreeElement* r,
+				KdTreeElement(const K& k, int dim, int th,
+					const KdTreeElement* l, const KdTreeElement* r,
 					const E& val = E(), const string& lab = string())
 					: BSTElement<K, E>(k, l, r, val, lab),
 					  thickness(th), dimension(dim) {
 				}
 				/**
-				 * Constructs a BSTElement with the provided value, label, key,
-				 * setting the left and right BSTElements to NULL.
+				 * Constructs a KdTreeElement with the provided value, label, key,
+				 * setting the left and right KdTreeElement to NULL.
 				 * The defaults will be used if not provided.
 				 *
+				 * @param k The key for ordering
+				 * @param dim number of dimensions being partitioned
+				 * @param th thickness of the line showing the partition
 				 * @param val The data to hold
 				 * @param lab The label to show
-				 * @param k The key for ordering
 				 */
-				KdTreeElement(const K& k, const int& dim, const int& th = 0,
+				KdTreeElement(const K& k, int dim, int th = 0,
 					const E& val = E(), const string& lab = string())
 					: BSTElement<K, E>(k, nullptr, nullptr, val, lab),
 					  dimension(dim), thickness(th) {

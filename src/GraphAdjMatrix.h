@@ -153,10 +153,10 @@ namespace bridges {
 				/**
 				 * 	Loads vertex specific information for a graph vertex
 				 *
-				 * @param src The key of the source Vertex
-				 *
+				 * @param vID vertex key
+				 * @param data data to associate with the vertex
 				 */
-				void setVertexData (const K& src, E1& data) {
+				void setVertexData (const K& vID, const E1& data) {
 					try {
 						Element<E1> *el = vertices.at(src);
 						el->setValue (data);
@@ -178,7 +178,7 @@ namespace bridges {
 				 *
 				 * @return  edge specific data
 				 */
-				E2&	getEdgeData (const K& src, const K& dest) {
+				E2 const & getEdgeData (const K& src, const K& dest) const {
 					try {
 						vertices.at(src);
 						vertices.at(dest);
@@ -197,14 +197,13 @@ namespace bridges {
 					throw "getEdgeData(): Edge not found";
 				}
 				/**
-				 * 	Loads edge specific information for the edge from "src" to
-				 *   "dest"
+				 * @brief Loads edge information
 				 *
 				 * @param src The key of the source Vertex
 				 * @param dest The key of the destination Vertex
-
+				 * @param data data to associate with the edge
 				 */
-				void setEdgeData (const K& src, const K& dest, E2& data) {
+				void setEdgeData (const K& src, const K& dest, const E2& data) {
 					try {
 						vertices.at(src);
 						vertices.at(dest);
