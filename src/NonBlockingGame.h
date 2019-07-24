@@ -57,7 +57,7 @@ namespace bridges {
 		 * particular cell. It takes three parameters, the
 		 * first two identify the cell of the board to change,
 		 * and the last one is a color from a color palette
-		 * provided by NamedColor. drawObject() takes four
+		 * provided by NamedColor. drawSymbol() takes four
 		 * parameters, the first two identify the cell of the
 		 * board to change, the third is a symbol from a
 		 * symbol palette provided by NamedSymbol, the fourth
@@ -68,7 +68,7 @@ namespace bridges {
 		 * \code{.cpp}
 		 * virtual void initialize() override {
 		 *   setBGColor(0, 0, NamedColor.lightsalmon);
-		 *   drawObject(0, 0, NamedSymbol.sword, NamedColor.blue);
+		 *   drawSymbol(0, 0, NamedSymbol.sword, NamedColor.blue);
 		 * }
 		 * \endcode
 		 *
@@ -93,17 +93,17 @@ namespace bridges {
 		 * The bridges game engine will call the GameLoop()
 		 * function at each frame of the game. You can write
 		 * this function to modify the state of the game board
-		 * using setBGColor() and drawObject(). For instance,
+		 * using setBGColor() and drawSymbol(). For instance,
 		 * the following GameLoop() will color the board
 		 * randomly one cell at a time.
 		 *
 		 * \code{.cpp}
-		 * virtual void GameLoop() override {
+		 * virtual void gameLoop() override {
 		 *   setBGColor(rand()%10, rand()%10, NamedColor.lightsalmon);
 		 * }
 		 * \endcode
 		 *
-		 * The GameLoop can also probe the state of some keys
+		 * The gameLoop can also probe the state of some keys
 		 * of the keyboard using functions keyUp(), keyLeft(),
 		 * keyDown(), keyRight(), keyW(), keyA(), keyS(),
 		 * keyD(), keySpace(), and keyQ(). These functions
@@ -113,7 +113,7 @@ namespace bridges {
 		 * when the up arrow is pressed.
 		 *
 		 * \code{.cpp}
-		 * virtual void GameLoop() override {
+		 * virtual void gameLoop() override {
 		 *   if (keyUp())
 		 *     setBGColor(rand()%10, rand()%10, NamedColor.lightsalmon);
 		 * }
@@ -132,7 +132,7 @@ namespace bridges {
 
 				InputHelper ih;
 
-				int fps = 30;
+				double fps = 30.;
 
 				localclock::time_point timeOfLastFrame;
 
@@ -184,6 +184,15 @@ namespace bridges {
 
 
 			protected:
+				/// @brief What frame rate is the game running at?
+				///
+				/// @return the target framerate. The game could be somewhat
+				/// slower depending on how computationally expensive the
+				/// gameloop is and on the speed of the network.
+				double getFrameRate() const {
+					return fps;
+				}
+
 				///@brief Is Left currently pressed?
 				///
 				///@return true if Left is currently pressed

@@ -47,7 +47,7 @@ namespace bridges {
 				///
 				/// Students write this function.
 				/// It will be called at each frame of the game.
-				virtual void GameLoop () = 0;
+				virtual void gameLoop () = 0;
 
 
 			protected:

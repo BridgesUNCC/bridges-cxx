@@ -428,7 +428,7 @@ namespace bridges {
 				 *  @param symbol  Symbol to draw
 				 *  @param color Color to draw the symbol in
 				 */
-				void drawObject(int row, int col,
+				void drawSymbol(int row, int col,
 					NamedSymbol symbol, NamedColor color) {
 					setFGColor(row, col, color);
 					setSymbol(row, col, symbol);
