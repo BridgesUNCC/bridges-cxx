@@ -128,7 +128,7 @@ namespace bridges {
 					allocateGrid ();
 				}
 
-				int* getDimensions() {
+				int const * getDimensions() {
 					return gridSize;
 				}
 
