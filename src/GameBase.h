@@ -152,6 +152,22 @@ namespace bridges {
 					return gg[row][col].getFGColor();
 				}
 
+				/// @brief How wide is the Game Board?
+				///
+				/// @return the number of columns of the board
+				int getBoardWidth() {
+					int const* size = grid.getDimensions();
+					return size[1];
+				}
+
+				/// @brief How tall is the Game Board?
+				///
+				/// @return the number of rows of the board
+				int getBoardHeight() {
+					int const* size = grid.getDimensions();
+					return size[0];
+				}
+
 		};
 	}
 }

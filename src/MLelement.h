@@ -10,12 +10,12 @@ namespace bridges {
 		 * 	@brief This class can be used to instantiate Multi-list Elements.
 
 		 * 	This class extends SLelement (singly linked list element) to build multi-lists;
-		 *	Multilist elements contain a tag (boolean) that indicates if the element 
+		 *	Multilist elements contain a tag (boolean) that indicates if the element
 		 *	contains a sublist or not; if the tag is true, then there is a sublist beginning
-		 *	at this node and the starting point is the `sublist' field in the element. 
-		 *	If the tag is false, then the list continues as a normal singly linked list. 
+		 *	at this node and the starting point is the `sublist' field in the element.
+		 *	If the tag is false, then the list continues as a normal singly linked list.
 		 *	The sublists are re recursive: any sublist can have its own sublists and so on.
-		 *	As in singly linked elements, the next pointer points to the following list element and 
+		 *	As in singly linked elements, the next pointer points to the following list element and
 		 *	each element contains a generic application specific object.
 		 *
 		 * 	Multi-list elements contain a visualizer (ElementVisualizer) object for setting
@@ -35,7 +35,7 @@ namespace bridges {
 		 * @param <E> The generic parameter object that is part of this element, representing
 		 *			either application specific data, or a pointer to a sublist.
 		 *
-		 * \sa There is a tutorial about Multi Lists : 
+		 * \sa There is a tutorial about Multi Lists :
 		 *	http://bridgesuncc.github.io/tutorials/ML.html
 		 */
 
