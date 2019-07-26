@@ -24,7 +24,16 @@ namespace bridges {
 	 * @brief This class contains methods to connect and transmit a user's
 	 *  data structure representation to the Bridges server
 	 *
-	 * @author Kalpathi Subramanian, Dakota Carmer
+	 * If the FORCE_BRIDGES_APIKEY environment variable is set,
+	 * use the environment variable as APIkey in all cases.
+	 *
+	 * If the FORCE_BRIDGES_USERNAME environment variable is set,
+	 * use the environment variable as username in all cases.
+	 *
+	 * If the FORCE_BRIDGES_ASSIGNMENT environment variable is set,
+	 * use the environment variable as assignment number in all cases.
+	 *
+	 * @author Kalpathi Subramanian, Dakota Carmer, Erik Saule
 	 * @date  7/26/15, 6/5/17, 10/30/18, 7/12/19
 	 */
 	class Bridges {
@@ -73,6 +82,12 @@ namespace bridges {
 			/**
 			 * @brief constructor to bridges
 			 *
+			 * If the FORCE_BRIDGES_APIKEY environment variable is set,
+			 * use the environment variable as APIkey in all cases.
+			 *
+			 * If the FORCE_BRIDGES_USERNAME environment variable is set,
+			 * use the environment variable as username in all cases.
+			 *
 			 * @param name Bridges username
 			 * @param key Bridges APIKey of the name account. (Note that it is not the password, but the API Key one can find in the user profile.)
 			 **/
@@ -80,16 +95,26 @@ namespace bridges {
 				Bridges (0, name, key);
 			}
 			/**
-				   * @brief constructor to bridges
-				   *
-				   * @param num assignment ID
-				   * @param name Bridges username
-				   * @param key Bridges APIKey of the name account. (Note that it is not the password, but the API Key one can find in the user profile.)
-				   **/
+			 * @brief constructor to bridges
+			 *
+			 *
+			 * If the FORCE_BRIDGES_APIKEY environment variable is set,
+			 * use the environment variable as APIkey in all cases.
+			 *
+			 * If the FORCE_BRIDGES_USERNAME environment variable is set,
+			 * use the environment variable as username in all cases.
+			 *
+			 * If the FORCE_BRIDGES_ASSIGNMENT environment variable is set,
+			 * use the environment variable as assignment number in all cases.
+			 *
+			 * @param num assignment ID
+			 * @param name Bridges username
+			 * @param key Bridges APIKey of the name account. (Note that it is not the password, but the API Key one can find in the user profile.)
+			 **/
 			Bridges (unsigned int num, const string& name, const string& key) {
-				assn_num = num;
-				user_name = name;
-				api_key = key;
+				setAssignment(num);
+				setUserName(name);
+				setApiKey(key);
 			}
 
 			/**
@@ -123,9 +148,18 @@ namespace bridges {
 			/**
 			 *  @brief Set user name.
 			 *
+			 *
+			 * If the FORCE_BRIDGES_USERNAME environment variable is set,
+			 * use the environment variable as username in all cases.
+			 *
 			 *  @param  name   BRIDGES user id to set
 			 */
-			void setUserName(const string& name) {
+			void setUserName(string name) {
+				char* force = getenv("FORCE_BRIDGES_USERNAME");
+				if (force != nullptr) {
+					name = force;
+				}
+
 				user_name = name;
 			}
 			/**
@@ -137,10 +171,20 @@ namespace bridges {
 				return api_key;
 			}
 			/**
-			 *  Set API key credentials
+			 * @brief Set API key credentials
+			 *
+			 * If the FORCE_BRIDGES_APIKEY environment
+			 * variable is set, use the environment
+			 * variable as key and disregard the
+			 * parameter.
+			 *
 			 *	@param key API key to set for user
 			 */
-			void setApiKey(const string& key) {
+			void setApiKey(string key) {
+				char* force = getenv("FORCE_BRIDGES_APIKEY");
+				if (force != nullptr) {
+					key = force;
+				}
 				api_key = key;
 			}
 			/**
@@ -155,10 +199,18 @@ namespace bridges {
 			/**
 			 *  Set the assignment number
 			 *
+			 * If the FORCE_BRIDGES_ASSIGNMENT environment variable is set,
+			 * use the environment variable as assignment number in all cases.
+			 *
 			 *	@param num  assignment number to set
 			 *
 			 */
 			void setAssignment(unsigned int num) {
+				char* force = getenv("FORCE_BRIDGES_ASSIGNMENT");
+				if (force != nullptr) {
+					num = std::atoi(force);
+				}
+
 				assn_num =  num;
 
 				if (assn_num != lastAssignNum) { 		// reset if a new assignment
@@ -238,14 +290,24 @@ namespace bridges {
 			/**
 			 * @brief Sets Bridges assignment and credential information.
 			 *
+			 *
+			 * If the FORCE_BRIDGES_APIKEY environment variable is set,
+			 * use the environment variable as APIkey in all cases.
+			 *
+			 * If the FORCE_BRIDGES_USERNAME environment variable is set,
+			 * use the environment variable as username in all cases.
+			 *
+			 * If the FORCE_BRIDGES_ASSIGNMENT environment variable is set,
+			 * use the environment variable as assignment number in all cases.
+			 *
 			 * @param num  The assignment number
 			 * @param apikey The API key on the BRIDGES server (this is not your password, find the API Key on the profile page)
 			 * @param username The username on the BRIDGES server
 			 */
 			void initialize(unsigned int num, const string& username, const string& apikey) {
-				assn_num = num;
-				user_name = username;
-				api_key = apikey;
+				setAssignment (num);
+				setUserName(username);
+				setApiKey(apikey);
 			}
 			/**
 			 *  Set server type
@@ -362,8 +424,8 @@ namespace bridges {
 					start = std::chrono::system_clock::now();
 
 
-				if (assn_num != lastAssignNum) { 		// reset if a new assignment
-					lastAssignNum = assn_num;
+				if (getAssignment() != lastAssignNum) { 		// reset if a new assignment
+					lastAssignNum = getAssignment();
 					subAssignNum = 0;
 				}
 				if (subAssignNum == 99) {
@@ -398,22 +460,22 @@ namespace bridges {
 					httprequest_start = std::chrono::system_clock::now();
 
 				try {						// send the JSON of assignment to the server
-					ServerComm::makeRequest(BASE_URL + to_string(assn_num) + "." +
-						(subAssignNum > 9 ? "" : "0") + to_string(subAssignNum) + "?apikey=" + api_key +
-						"&username=" + user_name, {"Content-Type: text/plain"}, ds_json);
+					ServerComm::makeRequest(BASE_URL + to_string(getAssignment()) + "." +
+						(subAssignNum > 9 ? "" : "0") + to_string(subAssignNum) + "?apikey=" + getApiKey() +
+						"&username=" + getUserName(), {"Content-Type: text/plain"}, ds_json);
 
 					cout << "Success: Assignment posted to the server. " << endl <<
 						"Check out your visualization at:" << endl << endl
-						<< BASE_URL + to_string(assn_num) + "/" + user_name << endl << endl;
+						<< BASE_URL + to_string(getAssignment()) + "/" + getUserName() << endl << endl;
 					subAssignNum++;
 				}
 				catch (const string& error_str) {
 					cerr << "\nPosting assignment to the server failed!" << endl
 						<< error_str << endl << endl;
 					cerr << "Provided Bridges Credentials:" << endl <<
-						"\t User Name: " << user_name << endl <<
-						"\t API Key: " << api_key << endl <<
-						"\t Assignment Number: " << assn_num << endl;
+						"\t User Name: " << getUserName() << endl <<
+						"\t API Key: " << getApiKey() << endl <<
+						"\t Assignment Number: " << getAssignment() << endl;
 				}
 				if (profile())
 					httprequest_end = std::chrono::system_clock::now();
