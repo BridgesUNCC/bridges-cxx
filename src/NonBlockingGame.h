@@ -176,7 +176,7 @@ namespace bridges {
 					initialize();
 
 					while (!gameover()) {
-						GameLoop();
+						gameLoop();
 						render();
 						handleFrameRate();
 					}
