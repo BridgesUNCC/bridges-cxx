@@ -157,7 +157,7 @@ namespace bridges {
 				using namespace rapidjson;
 				Document d;
 				vector<ActorMovieIMDB> wrapper;
-				string url = "https://bridgesdata.herokuapp.com/api/imdb2";
+				string url = "http://bridgesdata.herokuapp.com/api/imdb2";
 
 				// retrieve the data and parse
 				d.Parse(ServerComm::makeRequest( url, {"Accept: application/json"}).c_str());
@@ -456,7 +456,7 @@ namespace bridges {
 
 				Document d;
 				vector<CancerIncidence> wrapper;
-				string url = "https://bridgesdata.herokuapp.com/api/cancer/withlocations";
+				string url = "http://bridgesdata.herokuapp.com/api/cancer/withlocations";
 				if (num > 0) {
 					url += "?limit=" + to_string(num);
 				}
