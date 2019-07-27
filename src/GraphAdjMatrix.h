@@ -158,7 +158,7 @@ namespace bridges {
 				 */
 				void setVertexData (const K& vID, const E1& data) {
 					try {
-						Element<E1> *el = vertices.at(src);
+						Element<E1> *el = vertices.at(vID);
 						el->setValue (data);
 					}
 					catch ( const out_of_range& ) {
