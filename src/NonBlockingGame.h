@@ -141,7 +141,7 @@ namespace bridges {
 					using std::chrono::microseconds;
 					using std::chrono::duration_cast;
 
-					microseconds frametime = duration_cast<microseconds>(seconds(1l)) / fps;
+					microseconds frametime = duration_cast<microseconds>(seconds(1l)) / (int)fps;
 
 					localclock::time_point theoretical_next_frame = timeOfLastFrame + frametime;
 
