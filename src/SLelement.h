@@ -89,11 +89,9 @@ namespace bridges {
 					if (next != n) {
 						this->links.erase(next);
 					}
-					// set next to n and if not null, create default link data
-					// if none already present
-					if ((next = n)) {
-						this->links[next];
-					}
+
+					next = n;
+					this->links[next]; //this creates an entry in links if it does not exist
 				}
 
 			private:
