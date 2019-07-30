@@ -9,13 +9,16 @@ using namespace std;
 #include "Symbol.h"
 
 /**
- * @brief the SymbolCollection object is a container object to hold a collection of symbols
+ * @brief The SymbolCollection object is a container object to hold a collection of symbols
  *	(rectangles, polygons, circles, labels).
  *
+ * This enables make 2D vector graphics
+ *
+ * @sa There is a tutorial about Symbol Collections :
+ * http://bridgesuncc.github.io/tutorials/Symbol_Collection.html
+
  * @author David Burlinson, Kalpathi Subramanian
  *
- * There is a tutorial about Symbol Collections :
- * http://bridgesuncc.github.io/tutorials/Symbol_Collection.html
  *
  */
 

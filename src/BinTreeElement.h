@@ -11,13 +11,13 @@ namespace bridges {
 		 * This class can be used to create binary tree elements, with left and right
 		 *	 children.
 		 *
-		 * Generic Parameters: E the application data type
+		 * @sa There is a tutorial about Binary Trees :
+		 * http://bridgesuncc.github.io/tutorials/BinTree.html
+		 *
+		 * @param E the application data type
 		 *
 		 * @author Kalpathi Subramanian
 		 * @date 6/12/15, 7/12/19
-		 *
-		 * There is a tutorial about Binary Trees :
-		 * http://bridgesuncc.github.io/tutorials/BinTree.html
 		 */
 
 		template <typename E>

@@ -12,13 +12,13 @@ namespace bridges {
 		 * This class can be used to create singly linked elements, with a next
 		 *	SLelement pointer
 		 *
-		 * Generic Parameters: E the application data type
+		 * @sa There is a tutorial about Singly Linked Lists :
+		 * http://bridgesuncc.github.io/tutorials/SinglyLinkedList.html
+		 *
+		 * @param E the application data type
 		 *
 		 * @author Kalpathi Subramanian
 		 * @date 6/11/15, 7/12/19
-		 *
-		 * There is a tutorial about Singly Linked Lists :
-		 * http://bridgesuncc.github.io/tutorials/SLL.html
 		 *
 		 */
 		template <typename E>

@@ -119,6 +119,8 @@ namespace bridges {
 		 * }
 		 * \endcode
 		 *
+		 * @sa There is a tutorial at: http://bridgesuncc.github.io/tutorials/NonBlockingGame.html
+		 *
 		 * @author Erik Saule
 		 * @date 7/21/19
 		 *

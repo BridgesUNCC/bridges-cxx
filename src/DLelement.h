@@ -11,13 +11,14 @@ namespace bridges {
 		 * This class extends the SLelelement class by adding a previous DLelement
 		 * pointer
 		 *
-		 * Generic Parameters: E the application data type
+		 * There is a tutorial about Doubly Linked Lists :
+		 * http://bridgesuncc.github.io/tutorials/DoublyLinkedList.html
+		 *
+		 * @param E the application data type
 		 *
 		 * @author Kalpathi Subramanian
 		 * @date 6/11/15, 7/12/19
 		 *
-		 * There is a tutorial about Doubly Linked Lists :
-		 * http://bridgesuncc.github.io/tutorials/DLL.html
 		 */
 		template<typename E>
 		class DLelement: public SLelement<E> {

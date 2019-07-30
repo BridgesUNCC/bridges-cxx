@@ -21,13 +21,14 @@ namespace bridges {
 		 * 	Element contains a visualizer object for setting visual attributes (color,
 		 *	shape, opacity, size), necessary for displaying them in a web browser
 		 *
+		 * @sa There is a tutorial about Circular Singly Linked Lists :
+		 * http://bridgesuncc.github.io/tutorials/CircularSinglyLinkedList.html
+		 *
 		 *	@author Kalpathi Subramanian
 		 *	@date 10/5/2016, 7/12/19
 		 *
-		 *	@param <E>
+		 *	@param E User type stored in the list
 		 *
-		 * There is a tutorial about Circular Singly Linked Lists :
-		 * http://bridgesuncc.github.io/tutorials/CSLL.html
 		 */
 
 		template <typename E>

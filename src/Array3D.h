@@ -32,7 +32,8 @@ namespace bridges {
 		 * \endcode
 		 *
 		 *
-
+		 * @sa See tutorial at: http://bridgesuncc.github.io/tutorials/Array.html
+		 *
 		 * @param E the application data type
 		 *
 		 * @author Kalpathi Subramanian

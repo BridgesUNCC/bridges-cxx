@@ -20,11 +20,12 @@ namespace bridges {
 		 *      K that is the search key type,
 		 *      E the application data type
 		 *
+		 * @sa There is a tutorial about Binary Search Trees :
+		 * http://bridgesuncc.github.io/tutorials/BinarySearchTree.html
+		 *
 		 * @author Kalpathi Subramanian
 		 * @date 6/18/15, 7/17/16, 7/12/19
 		 *
-		 * There is a tutorial about Binary Search Trees :
-		 * http://bridgesuncc.github.io/tutorials/BSTree.html
 		 **/
 		template <typename K, typename E>
 		class BSTElement : public BinTreeElement<E> {

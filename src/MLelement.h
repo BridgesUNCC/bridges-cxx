@@ -28,15 +28,16 @@ namespace bridges {
 		 *  which connects the element to the following elements; a similar logic follows for
 		 *	sublists.
 		 *
+		 * @sa There is a tutorial about Multi Lists :
+		 *	http://bridgesuncc.github.io/tutorials/MultiList.html
+		 *
 		 * @author , Kalpathi Subramanian
 		 *
 		 * @date 5/24/17, 7/12/19
 		 *
-		 * @param <E> The generic parameter object that is part of this element, representing
+		 * @param E The generic parameter object that is part of this element, representing
 		 *			either application specific data, or a pointer to a sublist.
 		 *
-		 * \sa There is a tutorial about Multi Lists :
-		 *	http://bridgesuncc.github.io/tutorials/ML.html
 		 */
 
 

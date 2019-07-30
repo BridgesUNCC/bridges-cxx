@@ -25,16 +25,16 @@ namespace bridges {
 		 *	convenient to generate visual representation
 		 *	to allow for use in a binary search tree implementation.
 		 *
-		 * Generic Parameters:
-		 *      K that is the search key type - this is usually a number, integer
+		 * @sa There is a tutorial about K-d Trees  :
+		 * http://bridgesuncc.github.io/tutorials/KdTree.html
+		 *
+		 *      @param K that is the search key type - this is usually a number, integer
 		 *			or float
-		 *      E the application data type
+		 *      @param E the application data type
 		 *
 		 * @author Kalpathi Subramanian
 		 * @date 6/18/15, 7/17/16
 		 *
-		 * There is a tutorial about K-d Trees  :
-		 * http://bridgesuncc.github.io/tutorials/KdTree.html
 		 **/
 		template <typename K, typename E>
 		class KdTreeElement : public BSTElement<K, E> {

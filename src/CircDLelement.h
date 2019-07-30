@@ -6,8 +6,6 @@
 namespace bridges {
 	namespace datastructure {
 		/**
-		 * @author Kalpathi Subramanian
-		 * @date  10/5/16, 7/12/19
 		 *
 		 *  @brief This class can be used to instantiate Circular Doubly Linked
 		 *  List Elements.
@@ -28,8 +26,11 @@ namespace bridges {
 		 *  shape, opacity, size), necessary for displaying them in a web browser
 		 *
 		 *
-		 * There is a tutorial about Circular Doubly Linked Lists :
-		 * http://bridgesuncc.github.io/tutorials/CDLL.html
+		 * @sa There is a tutorial about Circular Doubly Linked Lists :
+		 * http://bridgesuncc.github.io/tutorials/CircularDoublyLinkedList.html
+		 *
+		 * @author Kalpathi Subramanian
+		 * @date  10/5/16, 7/12/19
 		 */
 		template <typename E>
 		class CircDLelement : public  DLelement<E> {
