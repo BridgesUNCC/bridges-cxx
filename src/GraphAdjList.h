@@ -19,9 +19,9 @@ namespace bridges {
 		 *  The class is simply a wrapper around the C++ STL unordered_map
 		 *	class and thus derives all its operations from it.
 		 *
-		 *  Generic Parameters: K: used as an index to retrieve vertices,
-		 *	E1: data type used to store vertex specific information,
-		 *	E2: data type used to store edge specific information
+		 *  @param K: used as an index to retrieve vertices,
+		 *  @param E1: data type used to store vertex specific information,
+		 *  @param E2: data type used to store edge specific information
 		 *
 		 * @author Kalpathi Subramanian
 		 * @date Last modified 4/22/18, 7/12/19
