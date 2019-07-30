@@ -110,8 +110,8 @@ namespace bridges {
 				/// @param col column of the cell to draw the object on
 				/// @param symb symbol representing the object
 				/// @param nc color of the object
-				void drawObject(int row, int col, NamedSymbol symb, NamedColor nc) {
-					gg.drawObject(row, col, symb, nc);
+				void drawSymbol(int row, int col, NamedSymbol symb, NamedColor nc) {
+					gg.drawSymbol(row, col, symb, nc);
 				}
 
 				/// @brief Set the title of the game
@@ -156,7 +156,7 @@ namespace bridges {
 				///
 				/// @return the number of columns of the board
 				int getBoardWidth() {
-					int const* size = grid.getDimensions();
+					int const* size = gg.getDimensions();
 					return size[1];
 				}
 
@@ -164,7 +164,7 @@ namespace bridges {
 				///
 				/// @return the number of rows of the board
 				int getBoardHeight() {
-					int const* size = grid.getDimensions();
+					int const* size = gg.getDimensions();
 					return size[0];
 				}
 
