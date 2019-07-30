@@ -177,10 +177,24 @@ namespace bridges {
 					timeOfLastFrame = localclock::now();
 					initialize();
 
+					long framelimit = -1; //negative means no limit
+					{
+					  char* str_limit = getenv("FORCE_BRIDGES_FRAMELIMIT");
+					  if (str_limit != nullptr) {
+					    std::stringstream ss;
+					    ss<<str_limit;
+					    ss>>framelimit;
+					    std::cerr<<"Setting framelimit to "<<framelimit<<std::endl;
+					  }
+					}
+					long frame = 0;
 					while (!gameover()) {
 						gameLoop();
 						render();
 						handleFrameRate();
+						frame++;
+						if (framelimit > 0 && frame > framelimit)
+						  quit();
 					}
 				}
 

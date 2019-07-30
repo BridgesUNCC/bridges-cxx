@@ -21,7 +21,7 @@ namespace bridges {
 				bool bquit = false;
 
 			protected:
-				bool debug = true;
+				bool debug = false;
 
 
 				///Having a protected constructor prevent the object from being
@@ -68,7 +68,7 @@ namespace bridges {
 				/// called automatically by Bridges.
 				void render() {
 					if (firsttime) {
-						bridges.setVisualizeJSONFlag(true);
+						bridges.setVisualizeJSONFlag(debug);
 
 						bridges.setDataStructure(&gg);
 

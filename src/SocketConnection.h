@@ -24,7 +24,7 @@ namespace bridges {
 		};
 
 		class SocketConnection {
-				bool debug = true;
+				bool debug = false;
 				sio::client client;
 				sio::socket::ptr current_socket;
 
