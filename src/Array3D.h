@@ -57,9 +57,9 @@ namespace bridges {
 				///@param cols number of columns
 				///@param rows number of rows
 				///@param slices number of slices
-				Array3D(int cols, int rows, int slices)
-					: num_slices(slices), num_rows(rows), num_cols(cols) {
-					int dim[] = {cols, rows, slices};
+				Array3D(int slices, int rows, int columns)
+					: num_slices(slices), num_rows(rows), num_cols(columns) {
+					int dim[] = {slices, rows, columns};
 					this->setSize(3, dim);
 				}
 				/**
@@ -86,43 +86,43 @@ namespace bridges {
 
 				/**
 				 *
-				 *  Get the object at (x, y, z) for 3D arrays
+				 *  Get the object at (slice, row, col) for 3D arrays
 				 *
-				 *  @param x  - column index
-				 *  @param y  - row index
-				 *  @param z  - slice index
+				 *  @param slice  - slice index
+				 *  @param row  - row index
+				 *  @param col  - column index
 				 *
-				 *  @return Element<E>  object at x, y, z
+				 *  @return Element<E>  object at slice, row, col
 				 */
-				Element<E>& getElement(int x, int y, int z) {
-					return Array<E>::getElement(z * num_cols * num_rows + y * num_rows + x);
+				Element<E>& getElement(int slice, int row, int col) {
+					return Array<E>::getElement(slice*num_cols*num_rows + row*num_cols + col);
 				}
 
 				/**
 				 *
-				 *  Get the object at (x, y, z) for 3D arrays
+				 *  Get the object at (slice, rows, col) for 3D arrays
 				 *
-				 *  @param x column index
-				 *  @param y row index
-				 *  @param z slice index
+				 *  @param col column index
+				 *  @param row row index
+				 *  @param slice slice index
 				 *
-				 *  @return the Element at x, y, z
+				 *  @return the Element at (slice, rows, col)
 				 */
-				Element<E> const & getElement(int x, int y, int z) const {
-					return Array<E>::getElement(z * num_cols * num_rows + y * num_rows + x);
+				Element<E> const & getElement(int slice, int row, int col) const {
+					return Array<E>::getElement(slice*num_cols*num_rows + row*num_rows + col);
 				}
 
 				/**
 				 *
-				 *  Set the object at index x, y, z  - 3D array
+				 *  Set the object at index slice, row, col  - 3D array
 				 *
-				 *  @param x_indx col index into the array
-				 *  @param y_indx row index into the array
-				 *  @param z_indx slice index into the array
+				 *  @param slice slice index into the array
+				 *  @param col column index into the array
+				 *  @param row row index into the array
 				 *  @param el - Element object
 				 */
-				void setElement(int x_indx, int y_indx, int z_indx, Element<E> el) {
-					setElement(x_indx + y_indx * num_rows + z_indx * num_rows * num_cols, el);
+				void setElement(int slice, int row, int col, Element<E> el) {
+					setElement(slice*num_rows*num_cols + row*num_cols + col, el);
 				}
 
 
