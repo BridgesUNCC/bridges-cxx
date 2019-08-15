@@ -57,7 +57,7 @@ namespace bridges {
 
 	class DataSource {
 			int debug() const {
-				return 0;
+			  return 1;
 			}
 			bridges::Bridges* bridges_inst;
 			bridges::lruCache my_cache;
@@ -594,8 +594,10 @@ namespace bridges {
 					"&level=" + level;
 
 				//trys to get hash value for bounding box map
+				if (debug())
+				  std::cerr<<"Hitting hash URL: "<<hash_url<<"\n";
 				string hash_value =  ServerComm::makeRequest(hash_url, {"Accept: application/json"});
-
+				
 
 				std::string osm_json;
 				//std::cerr<<"url: "<<url<<"\n";
@@ -616,7 +618,13 @@ namespace bridges {
 				else if (hash_value.compare("false") == 0 || my_cache.inCache(hash_value) == false) {
 					//Server response is false or somehow map got saved as false
 
+				  if (debug())
+				    std::cerr<<"Hitting json URL: "<<url<<"\n";
+								
 					osm_json = ServerComm::makeRequest(url, {"Accept: application/json"}); //Requests the map data then requests the maps hash
+					if (debug())
+					  std::cerr<<"Hitting hash URL: "<<hash_url<<"\n";
+					
 					hash_value =  ServerComm::makeRequest(hash_url, {"Accept: application/json"});
 
 					if (hash_value.compare("false") == 0) {
@@ -659,6 +667,8 @@ namespace bridges {
 					"&level=" + level;
 
 				//trys to get hash value for bounding box map
+				if (debug())
+				    std::cerr<<"Hitting hash URL: "<<hash_url<<"\n";
 				string hash_value =  ServerComm::makeRequest(hash_url, {"Accept: application/json"});
 
 
@@ -678,8 +688,12 @@ namespace bridges {
 
 				}
 				else if (hash_value.compare("false") == 0 || my_cache.inCache(hash_value) == false) { //Server response is false or somehow map got saved as false
-					osm_json = ServerComm::makeRequest(url, {"Accept: application/json"}); //Requests the map data then requests the maps hash
-					hash_value =  ServerComm::makeRequest(hash_url, {"Accept: application/json"});
+				if (debug())
+				    std::cerr<<"Hitting json URL: "<<url<<"\n";
+				  osm_json = ServerComm::makeRequest(url, {"Accept: application/json"}); //Requests the map data then requests the maps hash
+				if (debug())
+				    std::cerr<<"Hitting hash URL: "<<hash_url<<"\n";
+				hash_value =  ServerComm::makeRequest(hash_url, {"Accept: application/json"});
 					if (hash_value.compare("false") == 0) {
 						std::cerr << "Error while gathering hash data for generated map..." << std::endl;
 						std::cerr << osm_json << std::endl;
