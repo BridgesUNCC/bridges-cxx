@@ -61,6 +61,10 @@ namespace bridges {
 			}
 			bridges::Bridges* bridges_inst;
 			bridges::lruCache my_cache;
+	  string getOSMBaseURL() const {
+	    return "http://cci-bridges-osm-t.uncc.edu/";
+	  }
+	  
 		public:
 			DataSource(bridges::Bridges* br = nullptr)
 				: bridges_inst(br), my_cache(120) {}
@@ -579,7 +583,7 @@ namespace bridges {
 				double lat_max, double long_max, string level = "default") {
 
 				//URL for hash request
-				string hash_url = "http://cci-bridges-osm-t.uncc.edu/hash?minLon=" + std::to_string(long_min) +
+			  string hash_url = getOSMBaseURL() + "hash?minLon=" + std::to_string(long_min) +
 					"&minLat=" + std::to_string(lat_min) +
 					"&maxLon=" + std::to_string(long_max) +
 					"&maxLat=" + std::to_string(lat_max) +
@@ -587,7 +591,7 @@ namespace bridges {
 
 				//URL to request map
 				string url =
-					"http://cci-bridges-osm-t.uncc.edu/coords?minLon=" + std::to_string(long_min) +
+					getOSMBaseURL() + "coords?minLon=" + std::to_string(long_min) +
 					"&minLat=" + std::to_string(lat_min) +
 					"&maxLon=" + std::to_string(long_max) +
 					"&maxLat=" + std::to_string(lat_max) +
@@ -658,12 +662,12 @@ namespace bridges {
 			 */
 			OSMData getOSMData (string location, string level = "default") {
 				//URL for hash request
-				string hash_url = "http://cci-bridges-osm-t.uncc.edu/hash?location=" + location +
+				string hash_url = getOSMBaseURL()+"hash?location=" + location +
 					"&level=" + level;
 
 				//URL to request map
 				string url =
-					"http://cci-bridges-osm-t.uncc.edu/loc?location=" + location +
+				  getOSMBaseURL()+"loc?location=" + location +
 					"&level=" + level;
 
 				//trys to get hash value for bounding box map
