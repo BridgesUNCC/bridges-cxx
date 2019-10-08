@@ -62,7 +62,8 @@ namespace bridges {
 			bridges::Bridges* bridges_inst;
 			bridges::lruCache my_cache;
 	  string getOSMBaseURL() const {
-	    return "http://cci-bridges-osm-t.uncc.edu/";
+	    //return "http://cci-bridges-osm-t.uncc.edu/";
+	    return "http://cci-bridges-osm.uncc.edu/";
 	  }
 	  
 		public:
