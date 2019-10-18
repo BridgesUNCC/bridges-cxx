@@ -29,3 +29,24 @@ Notes:
 3. Uses C++11 features, so must use the right compiler flags to turn on C++11 features
 4. Uses libCurl to connect to the server 
 5. Uses rapidjson to parse JSON of external datasets
+
+
+## For BRIDGES developper
+
+### How to make a release ?
+
+First tag the commit that you want with the correct version number. Assuming you are on that commit:
+
+```$ git tag -a 3.0.1```
+
+Remeber that new tags dont get pushed automatically. So you need to push them manually:
+
+```$ git push master 3.0.1```
+
+Then you are ready to make the package.
+
+For the windows package go to ``packaging/windows`` and run ``make_package.sh``. You can run that from any OS that support standard bash commands.
+
+For a linux package go to ``packaging/unix`` and run ``compile_and_prepare.sh``. You need to be on a linux environment to do that.
+
+For a Mac package go to ``packaging/unix`` and run ``compile_and_prepare.sh``. You need to be on a mac environment to do that.
