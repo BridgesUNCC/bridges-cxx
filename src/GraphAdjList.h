@@ -80,9 +80,11 @@ namespace bridges {
 								sle = sle->getNext();
 								delete tmp;
 							}
-							delete vertices[v.first]; // free the element at v
 							adj_list[v.first] = nullptr;
 						}
+						delete vertices[v.first]; // free the element at v
+						vertices[v.first] = nullptr;
+
 					}
 				}
 				/**
