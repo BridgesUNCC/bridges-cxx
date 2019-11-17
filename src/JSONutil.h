@@ -34,7 +34,7 @@ namespace bridges {
 		///This also works for std::string and char*: that is to say, for a string, it is escaped properly and surrounded by quotes
 
 		template <typename T>
-		inline string JSONencode(const T& d) {
+		inline std::string JSONencode(const T& d) {
 			rapidjson::Value s;
 			s.Set(d);
 
@@ -44,13 +44,13 @@ namespace bridges {
 
 			const char* output = buffer.GetString();
 
-			string ss = output;
+			std::string ss = output;
 			return ss;
 		}
 
 
 		template <>
-		inline string JSONencode<std::string> (const std::string& str) {
+		inline std::string JSONencode<std::string> (const std::string& str) {
 
 			rapidjson::Value s;
 			s.SetString(rapidjson::StringRef(str.c_str()));
@@ -62,11 +62,11 @@ namespace bridges {
 
 			const char* output = buffer.GetString();
 
-			string ss = output;
+			std::string ss = output;
 			return ss;
 		}
 
-		inline string JSONencode (const char* str) {
+	  inline std::string JSONencode (const char* str) {
 			rapidjson::Value s;
 			s.SetString(rapidjson::StringRef(str));
 
@@ -77,14 +77,14 @@ namespace bridges {
 
 			const char* output = buffer.GetString();
 
-			string ss = output;
+			std::string ss = output;
 			return ss;
 		}
 
 
 		//precision=-1 means to use max precision.
 		//otherwise number of digits to use
-		inline string JSONencode(const double& d, int precision = -1) {
+	  inline std::string JSONencode(const double& d, int precision = -1) {
 			rapidjson::Value s;
 			s.Set(d);
 
@@ -96,13 +96,13 @@ namespace bridges {
 
 			const char* output = buffer.GetString();
 
-			string ss = output;
+			std::string ss = output;
 			return ss;
 		}
 
 		//precision=-1 means to use max precision.
 		//otherwise number of digits to use
-		inline string JSONencode(const float& d, int precision = -1) {
+	  inline std::string JSONencode(const float& d, int precision = -1) {
 			rapidjson::Value s;
 			s.Set(d);
 
@@ -114,7 +114,7 @@ namespace bridges {
 
 			const char* output = buffer.GetString();
 
-			string ss = output;
+			std::string ss = output;
 			return ss;
 		}
 
