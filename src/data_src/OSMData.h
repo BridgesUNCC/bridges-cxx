@@ -60,10 +60,10 @@ namespace bridges {
 					cartesian_range_y[0] = 1000000.;
 					cartesian_range_y[1] = -1000000.;
 
-					OSMVertex v1 (latitude_range[0], longitude_range[0]);
-					OSMVertex v2 (latitude_range[1], longitude_range[1]);
-					OSMVertex v3 (latitude_range[0], longitude_range[1]);
-					OSMVertex v4 (latitude_range[1], longitude_range[0]);
+					OSMVertex v1 (0, latitude_range[0], longitude_range[0]);
+					OSMVertex v2 (1, latitude_range[1], longitude_range[1]);
+					OSMVertex v3 (2, latitude_range[0], longitude_range[1]);
+					OSMVertex v4 (3, latitude_range[1], longitude_range[0]);
 
 					//the cartesian range will always come from one of the extremities
 					double coords[2];
@@ -167,9 +167,13 @@ namespace bridges {
 						cout << "Scale:" << sx << "," << sy << endl;
 					}
 
+					std::unordered_map<OSMVertex::OSMVertexID, int> vert_map;
+					
+					
 					k = 0;
 					for (int k = 0; k < vertices.size(); k++) {
 						gr->addVertex(k, vertices[k]);
+						vert_map[vertices[k].getVertexID()] = k;
 						vertices[k].getCartesianCoords(coords);
 						//coords[1] = yrange[1] - (coords[1] - yrange[0]);
 						//double x = (coords[0]-tx)*sx, y = (coords[1]-ty)*sy;
@@ -181,7 +185,7 @@ namespace bridges {
 					for (int k = 0; k < edges.size(); k++) {
 						//	  std::cout<<edges[k].getEdgeLength()<<std::endl;
 
-						gr->addEdge(edges[k].getSourceVertex(), edges[k].getDestinationVertex(),
+						gr->addEdge(vert_map[edges[k].getSourceVertex()], vert_map[edges[k].getDestinationVertex()],
 							edges[k].getEdgeLength() );
 					}
 

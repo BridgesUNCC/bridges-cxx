@@ -517,8 +517,6 @@ namespace bridges {
 				// create an osm data object
 				OSMData osm;
 
-				unordered_map<long, int> vert_map; // to remap the vertex ids
-
 				if (osm_data.HasMember("nodes")) {
 					vector<OSMVertex> vertices;
 					Value& nodes = osm_data["nodes"];
@@ -527,12 +525,11 @@ namespace bridges {
 					// get the vertices
 					for (SizeType i = 0; i < nodes.Size(); i++) {
 						const Value& node = nodes[i];
-						long id = node[0].GetInt64();
-						// map vertex ids to 0...maxVert range
-						vert_map[id] = i;
+						OSMVertex::OSMVertexID id = node[0].GetInt64();
+
 						vertex_ids.push_back(id);
 						double lat = node[1].GetDouble(), longit = node[2].GetDouble();
-						vertices.push_back(OSMVertex(lat, longit));
+						vertices.push_back(OSMVertex(id, lat, longit));
 					}
 					osm.setVertices(vertices);
 				}
@@ -545,11 +542,11 @@ namespace bridges {
 
 					for (SizeType i = 0; i < links.Size(); i++) {
 						const Value& link = links[i];
-						long id1 = link[0].GetInt64();
-						long id2 = link[1].GetInt64();
+						OSMVertex::OSMVertexID id1 = link[0].GetInt64();
+						OSMVertex::OSMVertexID id2 = link[1].GetInt64();
 						double dist = link[2].GetDouble();
 
-						edges.push_back(OSMEdge(vert_map[id1], vert_map[id2], dist));
+						edges.push_back(OSMEdge(id1, id2, dist));
 					}
 					osm.setEdges(edges);
 				}

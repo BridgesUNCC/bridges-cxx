@@ -3,6 +3,8 @@
 #define OSM_EDGE_H
 
 #include <string>
+#include "./data_src/OSMVertex.h"
+
 
 using namespace std;
 
@@ -20,14 +22,14 @@ namespace bridges {
 
 			private:
 				// edge vertices
-				int src_vertex = 0;
-				int dest_vertex = 0;
+				OSMVertex::OSMVertexID src_vertex = 0;
+				OSMVertex::OSMVertexID dest_vertex = 0;
 				// edge length
 				double length = 0.0;
 
 			public:
 
-				OSMEdge(int src, int dest, double dist) :
+		  OSMEdge(OSMVertex::OSMVertexID src, OSMVertex::OSMVertexID dest, double dist) :
 					src_vertex(src), dest_vertex(dest), length(dist) {
 				}
 
@@ -40,7 +42,7 @@ namespace bridges {
 				 *
 				 *	@return source vertexID
 				 */
-				int getSourceVertex() const {
+				 OSMVertex::OSMVertexID getSourceVertex() const {
 					return src_vertex;
 				}
 				/**
@@ -48,7 +50,7 @@ namespace bridges {
 				 *
 				 *	@param src source vertexID
 				 */
-				void setSourceVertex(int src) {
+				void setSourceVertex(OSMVertex::OSMVertexID src) {
 					src_vertex = src;
 				}
 				/**
@@ -56,7 +58,7 @@ namespace bridges {
 				 *
 				 *	@return destination vertexID
 				 */
-				int getDestinationVertex() const {
+				OSMVertex::OSMVertexID getDestinationVertex() const {
 					return dest_vertex;
 				}
 				/**
@@ -64,7 +66,7 @@ namespace bridges {
 				 *
 				 *	@param dest destination vertexID
 				 */
-				void setDestinationVertex(int dest) {
+				void setDestinationVertex(OSMVertex::OSMVertexID dest) {
 					this->dest_vertex = dest;
 				}
 				/**
