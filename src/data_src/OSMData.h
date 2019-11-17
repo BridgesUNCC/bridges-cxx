@@ -172,8 +172,13 @@ namespace bridges {
 					
 					k = 0;
 					for (int k = 0; k < vertices.size(); k++) {
-						gr->addVertex(k, vertices[k]);
+					  // Preventing multiple vertex inclusion.
+					  // Not sure why that would happen, but being safe.
+					  if (vert_map.find(vertices[k].getVertexID()) == vert_map.end()) {
+
 						vert_map[vertices[k].getVertexID()] = k;
+						gr->addVertex(k, vertices[k]);
+
 						vertices[k].getCartesianCoords(coords);
 						//coords[1] = yrange[1] - (coords[1] - yrange[0]);
 						//double x = (coords[0]-tx)*sx, y = (coords[1]-ty)*sy;
@@ -181,6 +186,7 @@ namespace bridges {
 						double y = coords[1];
 						gr->getVertex(k)->getVisualizer()->setLocation( x, y);
 						gr->getVertex(k)->getVisualizer()->setColor(Color("green"));
+					  }
 					}
 					for (int k = 0; k < edges.size(); k++) {
 						//	  std::cout<<edges[k].getEdgeLength()<<std::endl;

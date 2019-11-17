@@ -59,7 +59,7 @@ namespace bridges {
 				}
 
 				OSMVertex(const OSMVertex *vert)
-					: latitude(vert->latitude), longitude(vert->longitude) {
+				  : id(vert->id), latitude(vert->latitude), longitude(vert->longitude) {
 				}
 
 				/**
