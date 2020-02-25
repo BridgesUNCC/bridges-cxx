@@ -157,7 +157,8 @@ namespace bridges {
 
 					shape_json +=
 						QUOTE + "name" + QUOTE + COLON +  QUOTE + getLabel() + QUOTE + COMMA +
-						QUOTE + "shape" + QUOTE + COLON + QUOTE + "text" + QUOTE +
+						QUOTE + "shape" + QUOTE + COLON + QUOTE + "text" + QUOTE + COMMA +
+					  QUOTE + "font-size" + QUOTE + COLON +  to_string(fontSize)  +
 						CLOSE_CURLY;
 
 					return shape_json;
