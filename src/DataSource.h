@@ -56,15 +56,19 @@ namespace bridges {
 	 */
 
 	class DataSource {
+
+		private:
+
 			int debug() const {
-			  return 1;
+				return 1;
 			}
 			bridges::Bridges* bridges_inst;
 			bridges::lruCache my_cache;
-	  string getOSMBaseURL() const {
-	    //return "http://cci-bridges-osm-t.uncc.edu/";
-	    return "http://cci-bridges-osm.uncc.edu/";
-	  }
+
+			string getOSMBaseURL() const {
+				//return "http://cci-bridges-osm-t.uncc.edu/";
+				return "http://cci-bridges-osm.uncc.edu/";
+			}
 	  
 		public:
 			DataSource(bridges::Bridges* br = nullptr)
@@ -1200,7 +1204,87 @@ namespace bridges {
 				return ret;
 			}
 
-	}; // namespace DataSource
 
+			ElevationData *getElevationData(
+					double latitMin, double longitMin, 
+					double latMax, double longitMax, double res)  {
+
+				string server_str = 
+					"http://cci-bridges-elevation-t.dyn.uncc.edu/";
+
+				string elev_str = "elevation?";
+	
+				string bbox_str = 
+						"&minLon=" 	+ std::to_string(longitMin) + 
+						"&minLat=" 	+ std::to_string(latitMin) +
+						"&maxLon=" + std::to_string(longitMax) +
+						"&maxLat="+ std::to_string(latitMax); 
+
+				string resn_str = "&resX=" + res + "&resY=" + res; 
+
+				string data_url = server_str + elev_str + bbox_str + resn_str;
+
+				string hash_str = "hash?"
+				string hash_url = server_str + hash_str + bbox_str;
+
+
+				// try to get hash value for elevation data
+
+				if (debug())
+                  std::cerr<<"Hitting hash URL: "<<hash_url<<"\n";
+
+				string hash_value =  ServerComm::makeRequest(hash_url, 
+									{"Accept: application/json"});
+
+				string elev_json;
+
+				//Checks to see if map requested is stored in local cache
+				if (my_cache.inCache(hash_value)) { // already exists
+					try {
+						elev_json = my_cache.getDoc(hash_value);
+					}
+                    catch (CacheException& ce) {
+                        //something went bad trying to access the cache
+                        std::cout << "Exception while reading from cache. Ignoring cache and continue." << std::endl;
+                    }
+                }
+				else { //Server response is false or not cached
+
+					if (debug())
+						std::cerr<<"Hitting json URL: "<<url<<"\n";
+                                
+					// get the eleveation data 
+					elev_json = ServerComm::makeRequest(url, 
+								{"Accept: application/json"}); 
+					if (debug())
+						std::cerr<<"Hitting hash URL: "<< hash_url<<"\n";
+                    
+                    string hash_value =  ServerComm::makeRequest(hash_url, 
+							{"Accept: application/json"});
+
+                    if (hash_value.compare("false") == 0) {
+                        std::cerr << "Error while gathering hash data for generated map..." << std::endl;
+                        std::cerr << osm_json << std::endl;
+                        abort();
+                    }
+
+                    //Saves map to cache directory
+                    try {
+                        my_cache.putDoc(hash_value, osm_elev);
+
+                    }
+                    catch (CacheException& ce) {
+                        //something went bad trying to access the cache
+                        std::cerr << "Exception while storing in cache. Weird but not critical." << std::endl;
+                    }
+				}
+				return getElevationDataFromJSON(elev_json);
+			}
+
+			// get Elevation data from the JSON
+			ElevationData *getElevationDataFromJSON (string elev_json) {
+			}
+
+	}; // class DataSource
 } // namespace bridges
 #endif
