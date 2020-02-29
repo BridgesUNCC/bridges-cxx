@@ -48,10 +48,9 @@ namespace bridges {
 					delete [] data;
 				}
 
-				ElevationData(int c, int r) {
-					cols = c; rows = r;
+				ElevationData(int r, int c) {
+					rows = r; cols = c;
 					data = new int[cols*rows];	
-					cols = rows = 0;
 					xll = yll = 0.;
 					cellSize = 0;
 					maxVal = 0;
@@ -81,6 +80,10 @@ namespace bridges {
 					return cols;
 				}
 
+				void setCols(int c){
+					cols = c;
+				}
+
 				int getVal (int r, int c) {
 					return data[r*cols+c];
 				}
@@ -89,16 +92,13 @@ namespace bridges {
 					data[r*cols + c] = val;	
 				}
 
-				void setCols(int cols){
-					cols = cols;
-				}
 
 				int getRows(){
 					return rows;
 				}
 
-				void setRows(int rows){
-					rows = rows;
+				void setRows(int r){
+					rows = r;
 				}
 
 				int getxll(){
