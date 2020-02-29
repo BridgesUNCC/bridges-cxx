@@ -15,6 +15,7 @@ using namespace std;
 #include "./data_src/CancerIncidence.h"
 #include "./data_src/ActorMovieIMDB.h"
 #include "./data_src/Song.h"
+#include "./data_src/ElevationData.h"
 #include "./data_src/OSMData.h"
 #include "./data_src/OSMVertex.h"
 #include "./data_src/OSMEdge.h"
@@ -1207,7 +1208,7 @@ namespace bridges {
 
 			ElevationData *getElevationData(
 					double latitMin, double longitMin, 
-					double latMax, double longitMax, double res)  {
+					double latitMax, double longitMax, double res)  {
 
 				string server_str = 
 					"http://cci-bridges-elevation-t.dyn.uncc.edu/";
@@ -1220,11 +1221,13 @@ namespace bridges {
 						"&maxLon=" + std::to_string(longitMax) +
 						"&maxLat="+ std::to_string(latitMax); 
 
-				string resn_str = "&resX=" + res + "&resY=" + res; 
+				string resn_str = "&resX=" + std::to_string(res) 
+							+ "&resY=" + std::to_string(res); 
 
-				string data_url = server_str + elev_str + bbox_str + resn_str;
+				string elev_data_url = 
+						server_str + elev_str + bbox_str + resn_str;
 
-				string hash_str = "hash?"
+				string hash_str = "hash?";
 				string hash_url = server_str + hash_str + bbox_str;
 
 
@@ -1251,38 +1254,79 @@ namespace bridges {
 				else { //Server response is false or not cached
 
 					if (debug())
-						std::cerr<<"Hitting json URL: "<<url<<"\n";
+						std::cerr<<"Hitting json URL: "<< elev_data_url<<"\n";
                                 
 					// get the eleveation data 
-					elev_json = ServerComm::makeRequest(url, 
+					elev_json = ServerComm::makeRequest(elev_data_url, 
 								{"Accept: application/json"}); 
+
+			//		cout << elev_json << endl;
 					if (debug())
-						std::cerr<<"Hitting hash URL: "<< hash_url<<"\n";
-                    
+						std::cerr<<"Hitting elev data URL: "<< elev_data_url<<"\n";
                     string hash_value =  ServerComm::makeRequest(hash_url, 
 							{"Accept: application/json"});
 
+/*
                     if (hash_value.compare("false") == 0) {
                         std::cerr << "Error while gathering hash data for generated map..." << std::endl;
-                        std::cerr << osm_json << std::endl;
-                        abort();
-                    }
+						std::cerr << osm_json << std::endl;
+						abort();
+					}
 
                     //Saves map to cache directory
                     try {
-                        my_cache.putDoc(hash_value, osm_elev);
-
+						my_cache.putDoc(hash_value, osm_elev);
                     }
                     catch (CacheException& ce) {
                         //something went bad trying to access the cache
                         std::cerr << "Exception while storing in cache. Weird but not critical." << std::endl;
                     }
+*/
 				}
 				return getElevationDataFromJSON(elev_json);
 			}
 
 			// get Elevation data from the JSON
 			ElevationData *getElevationDataFromJSON (string elev_json) {
+
+				stringstream ss(elev_json);
+
+				int rows, cols, elev_val; 
+				double ll_x, ll_y, cell_size;
+				string tmp;
+
+				// get the dimensions, origin
+				ss >> tmp >> cols >> tmp >> rows >>
+					tmp >> ll_x >> tmp >> ll_y >> 
+					tmp >> cell_size;
+
+				
+				cout << "Rows:" << rows << endl; 
+				cout << "Cols:" << cols << endl;
+				cout << "ll_x" << ll_x << endl;
+				cout << "ll_y:" << ll_y << endl;
+				cout << "cellsize:" << cell_size << endl;
+
+
+				// create the elevation object
+				ElevationData *elev_data = new ElevationData(rows, cols);
+				elev_data->setCols(cols);
+				elev_data->setRows(rows);
+				elev_data->setxll(ll_x);
+				elev_data->setyll(ll_y);
+				elev_data->setCellSize(cell_size);
+
+				// load the elevation data
+				for (int i = 0; i < rows; i++) {
+					for (int j = 0; j < cols; j++) {
+						ss >> elev_val;
+						elev_data->setVal(i, j, elev_val);
+				//		cout << elev_data->getVal(i, j) << " ";
+						cout << elev_val << " ";
+					}
+					cout << endl;
+				}
+				return elev_data;
 			}
 
 	}; // class DataSource

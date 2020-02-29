@@ -30,7 +30,7 @@ namespace bridges {
 
 				// origin
 				int xll, yll;
-				int cellsize;
+				int cellSize;
 
 				// maximum value in the data set
 				int maxVal;
@@ -38,18 +38,28 @@ namespace bridges {
 			public:
 
 				ElevationData() {
-        			data = null;
+        			data = nullptr;
 					cols = rows = 0;
-					xll = yll = 0;
-					cellsize = 0;
+					xll = yll = 0.;
+					cellSize = 0;
 					maxVal = 0;
 				}
 				~ElevationData() {
 					delete [] data;
 				}
 
-				ElevationData (int *data, int cols, int rows, int xll, 
+				ElevationData(int c, int r) {
+					cols = c; rows = r;
+					data = new int[cols*rows];	
+					cols = rows = 0;
+					xll = yll = 0.;
+					cellSize = 0;
+					maxVal = 0;
+				}
+
+				ElevationData (int cols, int rows, int xll, 
 							int yll, int cellsize, int maxVal){
+					data = new int[cols*rows];
 					setData(data);
 					setCols(cols);
 					setRows(rows);
@@ -63,12 +73,20 @@ namespace bridges {
 					return data;
 				}
 
-				setData(int *data){
+				void setData(int *data){
 					data = data;
 				}
 
 				int getCols(){
 					return cols;
+				}
+
+				int getVal (int r, int c) {
+					return data[r*cols+c];
+				}
+
+				void setVal (int r, int c, int val) {
+					data[r*cols + c] = val;	
 				}
 
 				void setCols(int cols){
@@ -87,32 +105,32 @@ namespace bridges {
 					return xll;
 				}
 
-				int setxll(int xll){
-					xll = xll;
+				void setxll(int x_ll){
+					xll = x_ll;
 				}
 
 				int getyll(){
 					return yll;
 				}
     
-				void setyll(int yll){
-					yll = yll;
+				void setyll(int y_ll){
+					yll = y_ll;
 				}
 
 				int getCellSize(){
-					return cellsize;
+					return cellSize;
 				}
 
-				void setCellSize(int cellsize){
-					cellsize = cellsize;
+				void setCellSize(int cell_size){
+					cellSize = cell_size;
 				}
 
 				int getMaxVal(){
 					return maxVal;
 				}
 
-				void setMaxVal(int maxVal){
-					maxVal = maxVal;
+				void setMaxVal(int max_val){
+					maxVal = max_val;
 				}
 		};
 	}
