@@ -61,7 +61,7 @@ namespace bridges {
 		private:
 
 			int debug() const {
-				return 1;
+				return 0;
 			}
 			bridges::Bridges* bridges_inst;
 			bridges::lruCache my_cache;
