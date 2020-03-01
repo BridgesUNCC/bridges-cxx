@@ -37,15 +37,17 @@ namespace bridges {
 
 			public:
 
+				/**
+				 *
+				 * constructors
+				 *
+				 */
 				ElevationData() {
         			data = nullptr;
 					cols = rows = 0;
 					xll = yll = 0.;
 					cellSize = 0;
 					maxVal = 0;
-				}
-				~ElevationData() {
-					delete [] data;
 				}
 
 				ElevationData(int r, int c) {
@@ -56,10 +58,10 @@ namespace bridges {
 					maxVal = 0;
 				}
 
+
 				ElevationData (int cols, int rows, int xll, 
 							int yll, int cellsize, int maxVal){
 					data = new int[cols*rows];
-					setData(data);
 					setCols(cols);
 					setRows(rows);
 					setxll(xll);
@@ -68,13 +70,18 @@ namespace bridges {
 					setMaxVal(maxVal);
     			}
 
-				int *getData(){
-					return data;
+				/** 
+				 * destructor
+				 */
+				~ElevationData() {
+					delete [] data;
 				}
 
-				void setData(int *data){
-					data = data;
-				}
+				/** 
+				 *
+				 * setters, getters 
+				 *
+				 */
 
 				int getCols(){
 					return cols;
@@ -84,6 +91,11 @@ namespace bridges {
 					cols = c;
 				}
 
+				/** 
+				 *
+				 *	get, set elevation value 
+				 *
+				 */
 				int getVal (int r, int c) {
 					return data[r*cols+c];
 				}
@@ -93,6 +105,11 @@ namespace bridges {
 				}
 
 
+				/** 
+				 *
+				 *	get, set num rows, columns of data
+				 *
+				 */
 				int getRows(){
 					return rows;
 				}
@@ -101,6 +118,11 @@ namespace bridges {
 					rows = r;
 				}
 
+				/** 
+				 *
+				 *	get, set lower left corner of data
+				 *
+				 */
 				int getxll(){
 					return xll;
 				}
@@ -117,6 +139,11 @@ namespace bridges {
 					yll = y_ll;
 				}
 
+				/** 
+				 *
+				 *	get, set  data resolution
+				 *
+				 */
 				int getCellSize(){
 					return cellSize;
 				}
@@ -125,6 +152,11 @@ namespace bridges {
 					cellSize = cell_size;
 				}
 
+				/** 
+				 *
+				 *	get, set  max elevation of data
+				 *
+				 */
 				int getMaxVal(){
 					return maxVal;
 				}
