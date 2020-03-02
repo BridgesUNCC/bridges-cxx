@@ -590,7 +590,7 @@ namespace bridges {
 					"&minLat=" + std::to_string(lat_min) +
 					"&maxLon=" + std::to_string(long_max) +
 					"&maxLat=" + std::to_string(lat_max) +
-					"&level=" + level;
+			    "&level=" + ServerComm::encodeURLPart(level);
 
 				//URL to request map
 				string url =
@@ -598,7 +598,7 @@ namespace bridges {
 					"&minLat=" + std::to_string(lat_min) +
 					"&maxLon=" + std::to_string(long_max) +
 					"&maxLat=" + std::to_string(lat_max) +
-					"&level=" + level;
+				  "&level=" + ServerComm::encodeURLPart(level);
 
 				//trys to get hash value for bounding box map
 				if (debug())
@@ -646,8 +646,11 @@ namespace bridges {
 
 					}
 					catch (CacheException& ce) {
+					  
 						//something went bad trying to access the cache
 						std::cerr << "Exception while storing in cache. Weird but not critical." << std::endl;
+						if (debug())
+						  std::cerr<<"Tried to store hash="<<hash_value<<" key="<<osm_json<<std::endl;
 					}
 
 				}
@@ -665,13 +668,13 @@ namespace bridges {
 			 */
 			OSMData getOSMData (string location, string level = "default") {
 				//URL for hash request
-				string hash_url = getOSMBaseURL()+"hash?location=" + location +
-					"&level=" + level;
+			  string hash_url = getOSMBaseURL()+"hash?location=" + ServerComm::encodeURLPart(location) +
+			    "&level=" + ServerComm::encodeURLPart(level);
 
 				//URL to request map
 				string url =
-				  getOSMBaseURL()+"loc?location=" + location +
-					"&level=" + level;
+				  getOSMBaseURL()+"loc?location=" + ServerComm::encodeURLPart(location) +
+				  "&level=" + ServerComm::encodeURLPart(level);
 
 				//trys to get hash value for bounding box map
 				if (debug())
@@ -714,6 +717,8 @@ namespace bridges {
 					catch (CacheException& ce) {
 						//something went bad trying to access the cache
 						std::cerr << "Exception while storing in cache. Weird but not critical." << std::endl;
+						if (debug())
+						  std::cerr<<"Tried to store hash="<<hash_value<<" key="<<osm_json<<std::endl;
 					}
 
 				}
