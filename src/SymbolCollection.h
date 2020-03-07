@@ -47,9 +47,22 @@ namespace bridges {
 				//	from 0,0
 
 			protected:
-				float domain = 100.0f;
-
+				mutable float domainxmin = -100.0f;
+		  mutable float domainxmax = 100.0f;
+				mutable float domainymin = -100.0f;
+		  mutable float domainymax = 100.0f;
+		  bool autoscaledomain = true;
+		  
 			public:
+
+		  void setViewport(float xmin, float xmax, float ymin, float ymax) {
+		    autoscaledomain = false;
+		    domainxmin = xmin;
+		    domainxmax = xmax;
+		    domainymin = ymin;
+		    domainymax = ymax;
+		    
+		  }
 				/**
 				 *	Constructor
 				 */
@@ -75,8 +88,6 @@ namespace bridges {
 					//  duplicates where desired
 					symbols[s->getIdentifier()] = s;
 
-					// update the axes limits for the visualization
-					updateAxisDomains(s);
 				}
 
 			private:
@@ -86,23 +97,23 @@ namespace bridges {
 				 *
 				 *  @param s  Symbol
 				 */
-				void updateAxisDomains(Symbol* s) {
+				void updateAxisDomains(const Symbol* s) const {
 					vector<float> dims = s->getDimensions();
 
 					// check x axis
-					if (fabs(dims[0]) > domain) {
-						domain = fabs(dims[0]);
+					if (dims[0] < domainxmin) {
+						domainxmin = dims[0];
 					}
-					if (fabs(dims[1]) > domain) {
-						domain = fabs(dims[1]);
+					if (dims[1] > domainxmax) {
+						domainxmax = dims[1];
 					}
 
 					// check y axis
-					if (fabs(dims[2]) > domain) {
-						domain = fabs(dims[2]);
+					if (dims[2] < domainymin) {
+						domainymin = dims[2];
 					}
-					if (fabs(dims[3]) > domain) {
-						domain = fabs(dims[3]);
+					if (dims[3] > domainymax) {
+						domainymax = dims[3];
 					}
 				}
 
@@ -111,6 +122,12 @@ namespace bridges {
 				 *  @return JSON string of the symbol representation
 				 */
 				virtual const string getDataStructureRepresentation() const {
+
+				  if (autoscaledomain) 
+				    for (auto& entry : symbols) 
+					updateAxisDomains(entry.second);
+				
+
 					string symbol_json = string();
 					for (auto& entry : symbols) {
 						symbol_json +=
@@ -122,11 +139,11 @@ namespace bridges {
 
 						symbol_json = QUOTE + "domainX" + QUOTE + COLON +
 							OPEN_BOX +
-							to_string(-domain) + COMMA + to_string(domain) +
+							to_string(domainxmin) + COMMA + to_string(domainxmax) +
 							CLOSE_BOX + COMMA +
 							QUOTE + "domainY" + QUOTE + COLON +
 							OPEN_BOX +
-							to_string(-domain) + COMMA + to_string(domain) +
+							to_string(domainymin) + COMMA + to_string(domainymax) +
 							CLOSE_BOX + COMMA +
 							QUOTE + "symbols" + QUOTE + COLON +
 							OPEN_BOX + symbol_json + CLOSE_BOX + CLOSE_CURLY;
