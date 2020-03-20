@@ -70,10 +70,10 @@ namespace bridges {
 				 *
 				 *   @param s  symbol being added
 				 */
-				void addSymbol(Symbol *s) {
+				void addSymbol(Symbol& s) {
 					// note: it is the user's responsibility to handle
 					//  duplicates where desired
-					symbols[s->getIdentifier()] = s;
+					symbols[s.getIdentifier()] = &s;
 
 					// update the axes limits for the visualization
 					updateAxisDomains(s);
@@ -86,8 +86,8 @@ namespace bridges {
 				 *
 				 *  @param s  Symbol
 				 */
-				void updateAxisDomains(Symbol* s) {
-					vector<float> dims = s->getDimensions();
+				void updateAxisDomains(Symbol& s) {
+					vector<float> dims = s.getDimensions();
 
 					// check x axis
 					if (fabs(dims[0]) > domain) {
