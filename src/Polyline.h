@@ -175,7 +175,7 @@ namespace bridges {
 				 *
 				 * @return array of 4 values
 				 */
-				vector<float> getDimensions() {
+				vector<float> getDimensions() const {
 
 					vector<float> dims(4);
 					dims[0] = dims[1] = INFINITY;

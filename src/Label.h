@@ -133,12 +133,12 @@ namespace bridges {
 				 *
 				 * @return vector of floats
 				 */
-				vector<float> getDimensions() {
+				vector<float> getDimensions() const {
 					vector<float> dims(4);
 
 					float length = 0.09 * fontSize * getLabel().size();
 
-					float *location = getLocation();
+					const float *location = getLocation();
 					dims[0] = location[0] - length / 2.;
 					dims[1] = location[1] + length / 2.;
 					dims[2] = dims[3] = location[1];

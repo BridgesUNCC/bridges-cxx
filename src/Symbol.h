@@ -104,7 +104,7 @@ namespace bridges {
 				/**
 				 *	method to get the bounding box (dimensions) of the shape
 				 */
-				virtual vector<float> getDimensions() = 0;
+				virtual vector<float> getDimensions() const = 0;
 
 				/**
 				 *	create a symbole of type "symb"
@@ -297,7 +297,7 @@ namespace bridges {
 				 *
 				 * @return location (x, y) of the symbol
 				 */
-				float *getLocation() {
+				const float *getLocation() const{
 					return location;
 				}
 

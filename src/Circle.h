@@ -102,9 +102,12 @@ namespace bridges {
 				 *	@param tx, ty translation vector
 				 */
 				void translate(float tx, float ty) {
-					float *center = getLocation();
-					translatePoint (center, tx, ty);
-					setLocation(center[0], center[1]);
+					const float *center = getLocation();
+					float ncenter[2];
+					ncenter[0] = center[0];
+					ncenter[1] = center[1];
+					translatePoint (ncenter, tx, ty);
+					setLocation(ncenter[0], ncenter[1]);
 				}
 				/**
 				 *	Scale the circle
@@ -123,10 +126,10 @@ namespace bridges {
 				 *
 				 * @return array of 4 values
 				 */
-				vector<float> getDimensions() {
+				vector<float> getDimensions() const {
 
 					vector<float> dims(4);
-					float *location = getLocation();
+					const float *location = getLocation();
 
 					dims[0] = location[0] - radius;
 					dims[1] = location[0] + radius;

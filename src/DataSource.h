@@ -1211,8 +1211,19 @@ namespace bridges {
 			}
 
 
+	      /**
+     * Returns ElevationData for the provided coordinate box at the
+     * given resolution. Note that the ElevationData that is returned
+     * may have slightly different location and resolution.
+     *
+     * @param latitMin minimum latitude requested
+     * @param longitMin maximum latitude requested
+     * @param latitMax minimum longitude requested
+     * @param longitMax maximum longitude requested
+     * @param res spatial resolution, aka the distance between two samples (in degrees)
+     **/
 			ElevationData *getElevationData (
-					double latitMin, double longitMin, 
+					double latitMin, double longitMin,
 					double latitMax, double longitMax, double res = 0.0166)  {
 
 				// set up the elevation data url to get the data, given 
