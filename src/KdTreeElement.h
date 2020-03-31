@@ -97,6 +97,36 @@ namespace bridges {
 					dimension = dim;
 				}
 				/**
+				 *  Get thickness of the partition
+				 *	@return return the partitioner thickness
+				 */
+				float getThickness() const {
+					return thickness;
+				}
+				/**
+				 * Set partitioning dimension to "dim"
+				 *
+				 * @param dim The partitioning dimension of this Kd tree element
+				 */
+				void setThickness(const float& th) {
+					thickness = th;
+				}
+				/**
+				 *  Get partitioner value
+				 *	@return return the partitioner value
+				 */
+				K getPartitioner() const {
+					return this->getKey();
+				}
+				/**
+				 * Set partitioning dimension to "dim"
+				 *
+				 * @param dim The partitioning dimension of this Kd tree element
+				 */
+				void setPartitioner(const K& p) {
+					this->setKey();
+				}
+				/**
 				 *	Get left child
 				 * 	@return The left child
 				 */
