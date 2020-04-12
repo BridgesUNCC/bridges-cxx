@@ -99,7 +99,7 @@ namespace bridges {
                     count++;
                 }
 
-                string jsonString = OPEN_CURLY + QUOTE + "encoding" + QUOTE + COLON + QUOTE + "RAW" + QUOTE + COMMA + 
+                string jsonString = QUOTE + "encoding" + QUOTE + COLON + QUOTE + "RAW" + QUOTE + COMMA + 
                     QUOTE + "numChannels" + QUOTE + COLON + JSONencode(this->numChannels) + COMMA + 
                     QUOTE + "sampleRate" + QUOTE + COLON + JSONencode(this->sampleRate) + COMMA + 
                     QUOTE + "bitsPerSample" + QUOTE + COLON + JSONencode(checkSampleBits) + COMMA + 
