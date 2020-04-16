@@ -9,7 +9,7 @@ namespace bridges {
 
 		using namespace bridges::datastructure;
 		/**
-		 * @brief  Class that hold Open Street Map vertices
+		 * @brief  Class that hold elevation data
 		 *
 		 * Class that holds Elevation data, from  ??
 		 *
