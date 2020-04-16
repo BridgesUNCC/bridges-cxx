@@ -93,13 +93,18 @@ namespace bridges {
 
 				/** 
 				 *
-				 *	get, set elevation value 
+				 *	get elevation value 
 				 *
 				 */
 				int getVal (int r, int c) {
 					return data[r*cols+c];
 				}
 
+				/** 
+				 *
+				 *	set elevation value 
+				 *
+				 */
 				void setVal (int r, int c, int val) {
 					data[r*cols + c] = val;	
 				}
@@ -107,60 +112,90 @@ namespace bridges {
 
 				/** 
 				 *
-				 *	get, set num rows, columns of data
+				 *	get num rows of data
 				 *
 				 */
 				int getRows(){
 					return rows;
 				}
 
+				/** 
+				 *
+				 *	set num rows of data
+				 *
+				 */
 				void setRows(int r){
 					rows = r;
 				}
 
 				/** 
 				 *
-				 *	get, set lower left corner of data
+				 *	get lower left corner of data (X)
 				 *
 				 */
 				int getxll(){
 					return xll;
 				}
 
+				/** 
+				 *
+				 *	set lower left corner of data (X)
+				 *
+				 */
 				void setxll(int x_ll){
 					xll = x_ll;
 				}
 
+				/** 
+				 *
+				 *	get lower left corner of data (Y)
+				 *
+				 */
 				int getyll(){
 					return yll;
 				}
     
+				/** 
+				 *
+				 *	set lower left corner of data (Y)
+				 *
+				 */
 				void setyll(int y_ll){
 					yll = y_ll;
 				}
 
 				/** 
 				 *
-				 *	get, set  data resolution
+				 *	get  data resolution
 				 *
 				 */
 				int getCellSize(){
 					return cellSize;
 				}
 
+				/** 
+				 *
+				 *	set  data resolution
+				 *
+				 */
 				void setCellSize(int cell_size){
 					cellSize = cell_size;
 				}
 
 				/** 
 				 *
-				 *	get, set  max elevation of data
+				 *	get max elevation of data
 				 *
 				 */
 				int getMaxVal(){
 					return maxVal;
 				}
 
+				/** 
+				 *
+				 *	set max elevation of data
+				 *
+				 */
 				void setMaxVal(int max_val){
 					maxVal = max_val;
 				}
