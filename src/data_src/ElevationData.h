@@ -7,7 +7,6 @@ namespace bridges {
 
 	namespace dataset {
 
-		using namespace bridges::datastructure;
 		/**
 		 * @brief  Class that hold elevation data
 		 *
