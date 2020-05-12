@@ -52,16 +52,16 @@ namespace bridges {
 				mutable float domainymin = -100.0f;
 				mutable float domainymax = 100.0f;
 				bool autoscaledomain = true;
-		  
+
 			public:
 
 				void setViewport(float xmin, float xmax, float ymin, float ymax) {
-				autoscaledomain = false;
-				domainxmin = xmin;
-				domainxmax = xmax;
-				domainymin = ymin;
-				domainymax = ymax;
-			
+					autoscaledomain = false;
+					domainxmin = xmin;
+					domainxmax = xmax;
+					domainymin = ymin;
+					domainymax = ymax;
+
 				}
 				/**
 				 *	Constructor
@@ -83,10 +83,10 @@ namespace bridges {
 				 *
 				 *   @param s  symbol being added
 				 */
-				void addSymbol(Symbol& s) {
-						//  note: it is the user's responsibility to handle
-						//  duplicates where desired
-					symbols[s.getIdentifier()] = &s;
+				void addSymbol(Symbol *s) {
+					//  note: it is the user's responsibility to handle
+					//  duplicates where desired
+					symbols[s->getIdentifier()] = s;
 				}
 
 			private:
@@ -122,10 +122,10 @@ namespace bridges {
 				 */
 				virtual const string getDataStructureRepresentation() const {
 
-				  if (autoscaledomain) 
-					for (auto& entry : symbols) 
-					updateAxisDomains(entry.second);
-				
+					if (autoscaledomain)
+						for (auto& entry : symbols)
+							updateAxisDomains(entry.second);
+
 
 					string symbol_json = string();
 					for (auto& entry : symbols) {
