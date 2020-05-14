@@ -297,7 +297,7 @@ namespace bridges {
 				 *
 				 * @return location (x, y) of the symbol
 				 */
-				const float *getLocation() const{
+				const float *getLocation() const {
 					return location;
 				}
 

@@ -140,7 +140,7 @@ namespace bridges {
 					// scale the points
 					for (int k = 0; k < points.size(); k += 2) {
 						points[k]   *= sx;
-						points[k + 1] *= sy;
+						points[k+1] *= sy;
 					}
 					// translate back
 					transl[0] = center[0];
@@ -178,8 +178,8 @@ namespace bridges {
 				vector<float> getDimensions() const {
 
 					vector<float> dims(4);
-					dims[0] = dims[1] = INFINITY;
-					dims[2] = dims[3] = -INFINITY;
+					dims[0] = dims[2] = INFINITY;
+					dims[1] = dims[3] = -INFINITY;
 					float x, y;
 					for (std::size_t i = 0, size = points.size();
 						i < size; i += 2) {
@@ -187,10 +187,10 @@ namespace bridges {
 						y = points.at(i + 1);
 						if (x < dims[0])
 							dims[0] = x;
-						if (x > dims[2])
-							dims[2] = x;
-						if (y < dims[1])
-							dims[1] = y;
+						if (x > dims[1])
+							dims[1] = x;
+						if (y < dims[2])
+							dims[2] = y;
 						if (y > dims[3])
 							dims[3] = y;
 					}

@@ -96,7 +96,7 @@ namespace bridges {
 				 *  @return Element<E>  object at slice, row, col
 				 */
 				Element<E>& getElement(int slice, int row, int col) {
-					return Array<E>::getElement(slice*num_cols*num_rows + row*num_cols + col);
+					return Array<E>::getElement(slice * num_cols * num_rows + row * num_cols + col);
 				}
 
 				/**
@@ -110,7 +110,7 @@ namespace bridges {
 				 *  @return the Element at (slice, rows, col)
 				 */
 				Element<E> const & getElement(int slice, int row, int col) const {
-					return Array<E>::getElement(slice*num_cols*num_rows + row*num_rows + col);
+					return Array<E>::getElement(slice * num_cols * num_rows + row * num_rows + col);
 				}
 
 				/**
@@ -123,7 +123,7 @@ namespace bridges {
 				 *  @param el - Element object
 				 */
 				void setElement(int slice, int row, int col, Element<E> el) {
-					setElement(slice*num_rows*num_cols + row*num_cols + col, el);
+					setElement(slice * num_rows * num_cols + row * num_cols + col, el);
 				}
 
 

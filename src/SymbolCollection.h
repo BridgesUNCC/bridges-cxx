@@ -47,10 +47,10 @@ namespace bridges {
 				//	from 0,0
 
 			protected:
-				mutable float domainxmin = -100.0f;
-				mutable float domainxmax = 100.0f;
-				mutable float domainymin = -100.0f;
-				mutable float domainymax = 100.0f;
+				mutable float domainxmin = INFINITY;
+				mutable float domainxmax = -INFINITY;
+				mutable float domainymin = INFINITY;
+				mutable float domainymax = -INFINITY;
 				bool autoscaledomain = true;
 
 			public:

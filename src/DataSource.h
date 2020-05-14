@@ -70,7 +70,7 @@ namespace bridges {
 				//return "http://cci-bridges-osm-t.uncc.edu/";
 				return "http://cci-bridges-osm.uncc.edu/";
 			}
-	  
+
 		public:
 			DataSource(bridges::Bridges* br = nullptr)
 				: bridges_inst(br), my_cache(120) {}
@@ -586,11 +586,11 @@ namespace bridges {
 				double lat_max, double long_max, string level = "default") {
 
 				//URL for hash request
-			  string hash_url = getOSMBaseURL() + "hash?minLon=" + std::to_string(long_min) +
+				string hash_url = getOSMBaseURL() + "hash?minLon=" + std::to_string(long_min) +
 					"&minLat=" + std::to_string(lat_min) +
 					"&maxLon=" + std::to_string(long_max) +
 					"&maxLat=" + std::to_string(lat_max) +
-			    "&level=" + ServerComm::encodeURLPart(level);
+					"&level=" + ServerComm::encodeURLPart(level);
 
 				//URL to request map
 				string url =
@@ -598,13 +598,13 @@ namespace bridges {
 					"&minLat=" + std::to_string(lat_min) +
 					"&maxLon=" + std::to_string(long_max) +
 					"&maxLat=" + std::to_string(lat_max) +
-				  "&level=" + ServerComm::encodeURLPart(level);
+					"&level=" + ServerComm::encodeURLPart(level);
 
 				//trys to get hash value for bounding box map
 				if (debug())
-				  std::cerr<<"Hitting hash URL: "<<hash_url<<"\n";
+					std::cerr << "Hitting hash URL: " << hash_url << "\n";
 				string hash_value =  ServerComm::makeRequest(hash_url, {"Accept: application/json"});
-				
+
 
 				std::string osm_json;
 				//std::cerr<<"url: "<<url<<"\n";
@@ -625,13 +625,13 @@ namespace bridges {
 				else if (hash_value.compare("false") == 0 || my_cache.inCache(hash_value) == false) {
 					//Server response is false or somehow map got saved as false
 
-				  if (debug())
-				    std::cerr<<"Hitting json URL: "<<url<<"\n";
-								
+					if (debug())
+						std::cerr << "Hitting json URL: " << url << "\n";
+
 					osm_json = ServerComm::makeRequest(url, {"Accept: application/json"}); //Requests the map data then requests the maps hash
 					if (debug())
-					  std::cerr<<"Hitting hash URL: "<<hash_url<<"\n";
-					
+						std::cerr << "Hitting hash URL: " << hash_url << "\n";
+
 					hash_value =  ServerComm::makeRequest(hash_url, {"Accept: application/json"});
 
 					if (hash_value.compare("false") == 0) {
@@ -646,11 +646,11 @@ namespace bridges {
 
 					}
 					catch (CacheException& ce) {
-					  
+
 						//something went bad trying to access the cache
 						std::cerr << "Exception while storing in cache. Weird but not critical." << std::endl;
 						if (debug())
-						  std::cerr<<"Tried to store hash="<<hash_value<<" key="<<osm_json<<std::endl;
+							std::cerr << "Tried to store hash=" << hash_value << " key=" << osm_json << std::endl;
 					}
 
 				}
@@ -668,17 +668,17 @@ namespace bridges {
 			 */
 			OSMData getOSMData (string location, string level = "default") {
 				//URL for hash request
-			  string hash_url = getOSMBaseURL()+"hash?location=" + ServerComm::encodeURLPart(location) +
-			    "&level=" + ServerComm::encodeURLPart(level);
+				string hash_url = getOSMBaseURL() + "hash?location=" + ServerComm::encodeURLPart(location) +
+					"&level=" + ServerComm::encodeURLPart(level);
 
 				//URL to request map
 				string url =
-				  getOSMBaseURL()+"loc?location=" + ServerComm::encodeURLPart(location) +
-				  "&level=" + ServerComm::encodeURLPart(level);
+					getOSMBaseURL() + "loc?location=" + ServerComm::encodeURLPart(location) +
+					"&level=" + ServerComm::encodeURLPart(level);
 
 				//trys to get hash value for bounding box map
 				if (debug())
-				    std::cerr<<"Hitting hash URL: "<<hash_url<<"\n";
+					std::cerr << "Hitting hash URL: " << hash_url << "\n";
 				string hash_value =  ServerComm::makeRequest(hash_url, {"Accept: application/json"});
 
 
@@ -698,12 +698,12 @@ namespace bridges {
 
 				}
 				else if (hash_value.compare("false") == 0 || my_cache.inCache(hash_value) == false) { //Server response is false or somehow map got saved as false
-				if (debug())
-				    std::cerr<<"Hitting json URL: "<<url<<"\n";
-				  osm_json = ServerComm::makeRequest(url, {"Accept: application/json"}); //Requests the map data then requests the maps hash
-				if (debug())
-				    std::cerr<<"Hitting hash URL: "<<hash_url<<"\n";
-				hash_value =  ServerComm::makeRequest(hash_url, {"Accept: application/json"});
+					if (debug())
+						std::cerr << "Hitting json URL: " << url << "\n";
+					osm_json = ServerComm::makeRequest(url, {"Accept: application/json"}); //Requests the map data then requests the maps hash
+					if (debug())
+						std::cerr << "Hitting hash URL: " << hash_url << "\n";
+					hash_value =  ServerComm::makeRequest(hash_url, {"Accept: application/json"});
 					if (hash_value.compare("false") == 0) {
 						std::cerr << "Error while gathering hash data for generated map..." << std::endl;
 						std::cerr << osm_json << std::endl;
@@ -718,7 +718,7 @@ namespace bridges {
 						//something went bad trying to access the cache
 						std::cerr << "Exception while storing in cache. Weird but not critical." << std::endl;
 						if (debug())
-						  std::cerr<<"Tried to store hash="<<hash_value<<" key="<<osm_json<<std::endl;
+							std::cerr << "Tried to store hash=" << hash_value << " key=" << osm_json << std::endl;
 					}
 
 				}
@@ -1205,59 +1205,60 @@ namespace bridges {
 
 				std::vector<MovieActorWikidata> ret;
 				for (int y = yearbegin; y <= yearend; ++y) {
+					cout << "getting year " << y << endl;
 					getWikidataActorMovieDirect (y, y, ret);
 				}
 				return ret;
 			}
 
 
-	      /**
-     * Returns ElevationData for the provided coordinate box at the
-     * given resolution. Note that the ElevationData that is returned
-     * may have slightly different location and resolution.
-     *
-     * @param latitMin minimum latitude requested
-     * @param longitMin maximum latitude requested
-     * @param latitMax minimum longitude requested
-     * @param longitMax maximum longitude requested
-     * @param res spatial resolution, aka the distance between two samples (in degrees)
-     **/
+			/**
+			* Returns ElevationData for the provided coordinate box at the
+			* given resolution. Note that the ElevationData that is returned
+			* may have slightly different location and resolution.
+			*
+			* @param latitMin minimum latitude requested
+			* @param longitMin maximum latitude requested
+			* @param latitMax minimum longitude requested
+			* @param longitMax maximum longitude requested
+			* @param res spatial resolution, aka the distance between two samples (in degrees)
+			**/
 			ElevationData *getElevationData (
-					double latitMin, double longitMin,
-					double latitMax, double longitMax, double res = 0.0166)  {
+				double latitMin, double longitMin,
+				double latitMax, double longitMax, double res = 0.0166)  {
 
-				// set up the elevation data url to get the data, given 
+				// set up the elevation data url to get the data, given
 				// a lat/long bounding box
-				string server_str = 
+				string server_str =
 					"http://cci-bridges-elevation-t.dyn.uncc.edu/";
 
 				string elev_str = "elevation?";
-	
-				string bbox_str = 
-						"&minLon=" 	+ std::to_string(longitMin) + 
-						"&minLat=" 	+ std::to_string(latitMin) +
-						"&maxLon=" + std::to_string(longitMax) +
-						"&maxLat="+ std::to_string(latitMax); 
 
-				string resn_str = "&resX=" + std::to_string(res) 
-							+ "&resY=" + std::to_string(res); 
+				string bbox_str =
+					"&minLon=" 	+ std::to_string(longitMin) +
+					"&minLat=" 	+ std::to_string(latitMin) +
+					"&maxLon=" + std::to_string(longitMax) +
+					"&maxLat=" + std::to_string(latitMax);
 
-				string elev_data_url = 
-						server_str + elev_str + bbox_str + resn_str;
+				string resn_str = "&resX=" + std::to_string(res)
+					+ "&resY=" + std::to_string(res);
+
+				string elev_data_url =
+					server_str + elev_str + bbox_str + resn_str;
 
 				if (debug())
-                  cerr<<"Hitting data URL: "<<elev_data_url<<"\n";
+					cerr << "Hitting data URL: " << elev_data_url << "\n";
 				string hash_str = "hash?";
 				string hash_url = server_str + hash_str + bbox_str;
 
 
 
 				if (debug())
-                  cerr<<"Hitting hash URL: "<<hash_url<<"\n";
+					cerr << "Hitting hash URL: " << hash_url << "\n";
 
 				// get hash value for elevation data
-				string hash_value =  ServerComm::makeRequest(hash_url, 
-									{"Accept: application/json"});
+				string hash_value =  ServerComm::makeRequest(hash_url,
+				{"Accept: application/json"});
 
 				string elev_json;
 
@@ -1266,41 +1267,41 @@ namespace bridges {
 					try {
 						elev_json = my_cache.getDoc(hash_value);
 					}
-                    catch (CacheException& ce) {
-                        //something went bad trying to access the cache
-                        cout << "Exception while reading from cache. Ignoring cache." << std::endl;
-                    }
-                }
+					catch (CacheException& ce) {
+						//something went bad trying to access the cache
+						cout << "Exception while reading from cache. Ignoring cache." << std::endl;
+					}
+				}
 				else { //Server response is false or not cached
 
 					if (debug())
-						cerr<<"Hitting json URL: "<< elev_data_url<<"\n";
-                                
-					// get the eleveation data 
-					elev_json = ServerComm::makeRequest(elev_data_url, 
-								{"Accept: application/json"}); 
+						cerr << "Hitting json URL: " << elev_data_url << "\n";
+
+					// get the eleveation data
+					elev_json = ServerComm::makeRequest(elev_data_url,
+					{"Accept: application/json"});
 
 					if (debug())
-						cerr<<"Hitting elev data URL: "<< elev_data_url<<"\n";
+						cerr << "Hitting elev data URL: " << elev_data_url << "\n";
 
-                    string hash_value =  ServerComm::makeRequest(hash_url, 
-							{"Accept: application/json"});
+					string hash_value =  ServerComm::makeRequest(hash_url,
+					{"Accept: application/json"});
 
-                    if (hash_value == "false") {
+					if (hash_value == "false") {
 						cerr << "Error in getting hash value for generated map..." << endl;
 						cerr << elev_json << endl;
 						abort();
 					}
 
 					// store map in cache
-                    try {
+					try {
 						my_cache.putDoc(hash_value, elev_json);
-                    }
-                    catch (CacheException& ce) {
-                        //something went bad trying to access the cache
-						cerr << "Exception while storing in cache. Weird but not critical." 
-											<< endl;
-                    }
+					}
+					catch (CacheException& ce) {
+						//something went bad trying to access the cache
+						cerr << "Exception while storing in cache. Weird but not critical."
+							<< endl;
+					}
 				}
 				return getElevationDataFromJSON(elev_json);
 			}
@@ -1308,20 +1309,20 @@ namespace bridges {
 			// get Elevation data from the JSON
 			ElevationData *getElevationDataFromJSON (string elev_json) {
 
-				// use a string stream to parse the data, which is not really a JSON, 
+				// use a string stream to parse the data, which is not really a JSON,
 				// but raw text
 				stringstream ss(elev_json);
 
-				int rows, cols, elev_val; 
+				int rows, cols, elev_val;
 				double ll_x, ll_y, cell_size;
 				string tmp;
 
 				// get the dimensions, origin
 				ss >> tmp >> cols >> tmp >> rows >>
-					tmp >> ll_x >> tmp >> ll_y >> 
+					tmp >> ll_x >> tmp >> ll_y >>
 					tmp >> cell_size;
 
-				
+
 				// create the elevation object
 				ElevationData *elev_data = new ElevationData(rows, cols);
 				elev_data->setxll(ll_x);
@@ -1329,7 +1330,7 @@ namespace bridges {
 				elev_data->setCellSize(cell_size);
 
 				// tmp
-				int data[85*185];
+				int data[85 * 185];
 				int l = 0;
 				// load the elevation data
 				for (int i = 0; i < rows; i++) {

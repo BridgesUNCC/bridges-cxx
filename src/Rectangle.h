@@ -43,8 +43,8 @@ namespace bridges {
 
 				/**
 				 * create rectangle with width w and height h
-				 * @param locx  rect center - x coord
-				 * @param locy  rect center - y coord
+				 * @param locx  rect lower left - x coord
+				 * @param locy  rect lower left - y coord
 				 * @param w  width
 				 * @param h  height
 				 */
@@ -76,7 +76,7 @@ namespace bridges {
 				 * @param w  width
 				 */
 				void setWidth(float w) {
-					if (w <= 0. || w > 300.) {
+					if (w <= 0.) {
 						throw "Illegal Size Value! Please enter a value in the range(0-300)";
 					}
 					width = w;
@@ -88,7 +88,7 @@ namespace bridges {
 				 * @param h  height
 				 */
 				void setHeight(float h) {
-					if (h <= 0. || h > 300.) {
+					if (h <= 0.) {
 						throw "Illegal Size Value! Please enter a value in the range(0-300)";
 					}
 					height = h;
@@ -101,12 +101,10 @@ namespace bridges {
 				 *	@param ty translation factor along y axis
 				 */
 				void translate(float tx, float ty) {
-					const float *center = getLocation();
-					float ncenter[2];
-					ncenter[0]=center[0];
-					ncenter[1]=center[1];
-					translatePoint (ncenter, tx, ty);
-					setLocation(ncenter[0], ncenter[1]);
+					const float *loc = getLocation();
+					float myloc[] = {loc[0], loc[1]};
+					translatePoint (myloc, tx, ty);
+					setLocation(myloc[0], myloc[1]);
 				}
 				/**
 				 *	Scale the rectangle about its center
@@ -134,10 +132,10 @@ namespace bridges {
 					vector<float> dims(4);
 					const float *location = getLocation();
 
-					dims[0] = location[0] - width / 2.;
-					dims[1] = location[0] + width / 2.,
-						dims[2] = location[1] - height / 2.;
-					dims[3] = location[1] + height / 2.;
+					dims[0] = location[0];
+					dims[1] = location[0] + width;
+					dims[2] = location[1];
+					dims[3] = location[1] + height;
 
 					return dims;
 				}
@@ -152,11 +150,10 @@ namespace bridges {
 				 *
 				 * @return none
 				 */
-				void setRectangle(float locx, float locy, float w, float h) 	{
-					setLocation (float(locx), float(locy));
-					if (w <= 0 || w > 300 || h <= 0 ||  w > 300) {
+				void setRectangle(float locx, float locy, float w, float h) {
+					if (w <= 0 || h <= 0 || locx < 0 || locy < 0) 
 						throw "Illegal Size Value! Please enter values in the range 0-300";
-					}
+					setLocation (float(locx), float(locy));
 					width = w;
 					height = h;
 					setShapeType("rect");

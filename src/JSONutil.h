@@ -66,7 +66,7 @@ namespace bridges {
 			return ss;
 		}
 
-	  inline std::string JSONencode (const char* str) {
+		inline std::string JSONencode (const char* str) {
 			rapidjson::Value s;
 			s.SetString(rapidjson::StringRef(str));
 
@@ -84,7 +84,7 @@ namespace bridges {
 
 		//precision=-1 means to use max precision.
 		//otherwise number of digits to use
-	  inline std::string JSONencode(const double& d, int precision = -1) {
+		inline std::string JSONencode(const double& d, int precision = -1) {
 			rapidjson::Value s;
 			s.Set(d);
 
@@ -102,7 +102,7 @@ namespace bridges {
 
 		//precision=-1 means to use max precision.
 		//otherwise number of digits to use
-	  inline std::string JSONencode(const float& d, int precision = -1) {
+		inline std::string JSONencode(const float& d, int precision = -1) {
 			rapidjson::Value s;
 			s.Set(d);
 

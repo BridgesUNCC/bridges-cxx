@@ -40,9 +40,10 @@ namespace bridges {
 				/// @brief builds an array given the dimensions
 				/// @param[in] nd number of dimension
 				/// @param[in] dim size of each dimension
-				Array(int nd, int *dim)
+				Array(int sz)
 					: array_data(nullptr) {
-					setSize(nd, dim);
+					int dim[] = {1, 1, sz};
+					setSize(sz, dim);
 				}
 
 				/**

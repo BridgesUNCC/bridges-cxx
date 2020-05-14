@@ -29,7 +29,7 @@ namespace bridges {
 
 			public:
 
-		  OSMEdge(OSMVertex::OSMVertexID src, OSMVertex::OSMVertexID dest, double dist) :
+				OSMEdge(OSMVertex::OSMVertexID src, OSMVertex::OSMVertexID dest, double dist) :
 					src_vertex(src), dest_vertex(dest), length(dist) {
 				}
 
@@ -42,7 +42,7 @@ namespace bridges {
 				 *
 				 *	@return source vertexID
 				 */
-				 OSMVertex::OSMVertexID getSourceVertex() const {
+				OSMVertex::OSMVertexID getSourceVertex() const {
 					return src_vertex;
 				}
 				/**

@@ -42,7 +42,7 @@ namespace bridges {
 				 *
 				 */
 				ElevationData() {
-        			data = nullptr;
+					data = nullptr;
 					cols = rows = 0;
 					xll = yll = 0.;
 					cellSize = 0;
@@ -50,152 +50,153 @@ namespace bridges {
 				}
 
 				ElevationData(int r, int c) {
-					rows = r; cols = c;
-					data = new int[cols*rows];	
+					rows = r;
+					cols = c;
+					data = new int[cols * rows];
 					xll = yll = 0.;
 					cellSize = 0;
 					maxVal = 0;
 				}
 
 
-				ElevationData (int cols, int rows, int xll, 
-							int yll, int cellsize, int maxVal){
-					data = new int[cols*rows];
+				ElevationData (int cols, int rows, int xll,
+					int yll, int cellsize, int maxVal) {
+					data = new int[cols * rows];
 					setCols(cols);
 					setRows(rows);
 					setxll(xll);
 					setyll(yll);
 					setCellSize (cellsize);
 					setMaxVal(maxVal);
-    			}
+				}
 
-				/** 
+				/**
 				 * destructor
 				 */
 				~ElevationData() {
 					delete [] data;
 				}
 
-				/** 
+				/**
 				 *
-				 * setters, getters 
+				 * setters, getters
 				 *
 				 */
 
-				int getCols(){
+				int getCols() {
 					return cols;
 				}
 
-				void setCols(int c){
+				void setCols(int c) {
 					cols = c;
 				}
 
-				/** 
+				/**
 				 *
-				 *	get elevation value 
+				 *	get elevation value
 				 *
 				 */
 				int getVal (int r, int c) {
-					return data[r*cols+c];
+					return data[r * cols + c];
 				}
 
-				/** 
+				/**
 				 *
-				 *	set elevation value 
+				 *	set elevation value
 				 *
 				 */
 				void setVal (int r, int c, int val) {
-					data[r*cols + c] = val;	
+					data[r * cols + c] = val;
 				}
 
 
-				/** 
+				/**
 				 *
 				 *	get num rows of data
 				 *
 				 */
-				int getRows(){
+				int getRows() {
 					return rows;
 				}
 
-				/** 
+				/**
 				 *
 				 *	set num rows of data
 				 *
 				 */
-				void setRows(int r){
+				void setRows(int r) {
 					rows = r;
 				}
 
-				/** 
+				/**
 				 *
 				 *	get lower left corner of data (X)
 				 *
 				 */
-				int getxll(){
+				int getxll() {
 					return xll;
 				}
 
-				/** 
+				/**
 				 *
 				 *	set lower left corner of data (X)
 				 *
 				 */
-				void setxll(int x_ll){
+				void setxll(int x_ll) {
 					xll = x_ll;
 				}
 
-				/** 
+				/**
 				 *
 				 *	get lower left corner of data (Y)
 				 *
 				 */
-				int getyll(){
+				int getyll() {
 					return yll;
 				}
-    
-				/** 
+
+				/**
 				 *
 				 *	set lower left corner of data (Y)
 				 *
 				 */
-				void setyll(int y_ll){
+				void setyll(int y_ll) {
 					yll = y_ll;
 				}
 
-				/** 
+				/**
 				 *
 				 *	get  data resolution
 				 *
 				 */
-				int getCellSize(){
+				int getCellSize() {
 					return cellSize;
 				}
 
-				/** 
+				/**
 				 *
 				 *	set  data resolution
 				 *
 				 */
-				void setCellSize(int cell_size){
+				void setCellSize(int cell_size) {
 					cellSize = cell_size;
 				}
 
-				/** 
+				/**
 				 *
 				 *	get max elevation of data
 				 *
 				 */
-				int getMaxVal(){
+				int getMaxVal() {
 					return maxVal;
 				}
 
-				/** 
+				/**
 				 *
 				 *	set max elevation of data
 				 *
 				 */
-				void setMaxVal(int max_val){
+				void setMaxVal(int max_val) {
 					maxVal = max_val;
 				}
 		};

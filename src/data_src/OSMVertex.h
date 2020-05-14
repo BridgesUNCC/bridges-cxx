@@ -26,11 +26,11 @@ namespace bridges {
 		 *
 		 */
 		class OSMVertex {
-		public:
-		  typedef long OSMVertexID;
-		  
+			public:
+				typedef long OSMVertexID;
+
 			private:
-		  OSMVertexID id;
+				OSMVertexID id;
 				double latitude = 0.0;		// latitude
 				double longitude = 0.0;		// longitude
 
@@ -52,14 +52,14 @@ namespace bridges {
 				OSMVertex() {
 				}
 
-		  OSMVertex (OSMVertexID vid, double latit, double longit)
-		    : id(vid), latitude(latit), longitude(longit) {
+				OSMVertex (OSMVertexID vid, double latit, double longit)
+					: id(vid), latitude(latit), longitude(longit) {
 
 					toCartesianCoords ();
 				}
 
 				OSMVertex(const OSMVertex *vert)
-				  : id(vert->id), latitude(vert->latitude), longitude(vert->longitude) {
+					: id(vert->id), latitude(vert->latitude), longitude(vert->longitude) {
 				}
 
 				/**
@@ -106,12 +106,12 @@ namespace bridges {
 					coords[0] = cartesian_coords[0];
 					coords[1] = cartesian_coords[1];
 				}
-		  void setVertexID(OSMVertexID vid) {
-		    this->id = vid;
-		  }
-		  OSMVertexID getVertexID() const {
-		    return this->id;
-		  }
+				void setVertexID(OSMVertexID vid) {
+					this->id = vid;
+				}
+				OSMVertexID getVertexID() const {
+					return this->id;
+				}
 		};
 	}
 } // namespace bridges

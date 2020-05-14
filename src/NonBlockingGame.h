@@ -179,13 +179,13 @@ namespace bridges {
 
 					long framelimit = -1; //negative means no limit
 					{
-					  char* str_limit = getenv("FORCE_BRIDGES_FRAMELIMIT");
-					  if (str_limit != nullptr) {
-					    std::stringstream ss;
-					    ss<<str_limit;
-					    ss>>framelimit;
-					    std::cerr<<"Setting framelimit to "<<framelimit<<std::endl;
-					  }
+						char* str_limit = getenv("FORCE_BRIDGES_FRAMELIMIT");
+						if (str_limit != nullptr) {
+							std::stringstream ss;
+							ss << str_limit;
+							ss >> framelimit;
+							std::cerr << "Setting framelimit to " << framelimit << std::endl;
+						}
 					}
 					long frame = 0;
 					while (!gameover()) {
@@ -194,7 +194,7 @@ namespace bridges {
 						handleFrameRate();
 						frame++;
 						if (framelimit > 0 && frame > framelimit)
-						  quit();
+							quit();
 					}
 				}
 
