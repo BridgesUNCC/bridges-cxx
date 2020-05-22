@@ -211,22 +211,29 @@ namespace bridges {
 									: current(c)
 								{}
 
-								bool operator!=(const iterator& it) const {
+								iterator()
+								{}
+
+								bool operator!= (const iterator& it) const {
 									return this->current != it.current;
 								}
 
-								E const &  operator*() const {
+								E const &  operator* () const {
 									return current->getValue();
 								}
 
-								E &  operator*()  {
+								E &  operator* ()  {
 									return current->getValue();
 								}
 
-
-								iterator& operator++() {
+								iterator& operator++ () {
 									current = current->getNext();
 									return *this;
+								}
+								iterator operator++ (int) {
+									iterator clone(*this);
+									current = current->getNext();
+									return clone;
 								}
 						};
 
