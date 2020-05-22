@@ -4,6 +4,7 @@
 #include "DataStructure.h"
 #include "Element.h" //string, using std
 
+
 namespace bridges {
 	namespace datastructure {
 		/**
@@ -23,7 +24,6 @@ namespace bridges {
 		 */
 		template <typename E>
 		class SLelement : public Element<E>, public DataStructure {
-
 
 			protected:
 				SLelement* next = nullptr;
@@ -205,10 +205,9 @@ namespace bridges {
 						{}
 
 						class iterator {
-
-								typename bridges::datastructure::SLelement< E >  * current;
+								typename bridges::datastructure::SLelement<E> *current;
 							public:
-								iterator(    typename bridges::datastructure::SLelement< E >   * c )
+								iterator(typename bridges::datastructure::SLelement<E> * c )
 									: current(c)
 								{}
 
