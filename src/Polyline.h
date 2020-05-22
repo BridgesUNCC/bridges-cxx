@@ -70,7 +70,7 @@ namespace bridges {
 						points.push_back(y);
 					}
 					else {
-						throw "points are valid only for polygons!";
+						throw "Invalid points for polyline!";
 					}
 				}
 				/**

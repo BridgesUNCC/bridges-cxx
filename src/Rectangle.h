@@ -151,8 +151,8 @@ namespace bridges {
 				 * @return none
 				 */
 				void setRectangle(float locx, float locy, float w, float h) {
-					if (w <= 0 || h <= 0 || locx < 0 || locy < 0) 
-						throw "Illegal Size Value! Please enter values in the range 0-300";
+					if (w <= 0 || h <= 0)
+						throw  "Width, Height must be positive";
 					setLocation (float(locx), float(locy));
 					width = w;
 					height = h;
