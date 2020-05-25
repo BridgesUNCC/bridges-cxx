@@ -202,7 +202,8 @@ namespace bridges {
 				*
 				*  @param nodes The list of nodes
 				*/
-				virtual void getListElements(vector<const DLelement<E>*>& nodes) const  {
+				virtual void getListElements(vector<const DLelement<E>*>& 
+												nodes) const  {
 
 					//prevents potential infinite loop
 					unordered_set<const DLelement<E>*> visited;
@@ -215,7 +216,147 @@ namespace bridges {
 						it = it->getNext();
 					}
 				}
+			public:
 
+				/// @brief these are helper classes for DLelement for easy iteration in a
+				/// range for loop.  It is not meant to be created by the bridges user.
+				/// But it may be returned by Bridges to provide an STL compliant list API.
+				class DLelement_listhelper {
+						typename bridges::datastructure::DLelement<E> *start, *last;
+
+					public:
+						DLelement_listhelper (typename bridges::datastructure::DLelement< E > * s)
+							: start(s) {
+								
+							// determine the last element
+							auto el = s;
+							if (el) {
+								for (el = s; el->getNext() != nullptr; el = el->getNext());
+								last = el;
+							}
+						}
+
+						class iterator {
+
+								typename bridges::datastructure::DLelement<E> *current;
+
+							public:
+
+								iterator(typename bridges::datastructure::DLelement<E> * c )
+									: current(c)
+								{}
+
+								bool operator!= (const iterator& it) const {
+									return this->current != it.current;
+								}
+
+								E const &  operator* () const {
+									return current->getValue();
+								}
+
+								E &  operator* ()  {
+									return current->getValue();
+								}
+
+								iterator& operator++ () {
+									current = current->getNext();
+									return *this;
+								}
+								iterator operator++ (int) {
+									iterator clone(*this);
+									current = current->getNext();
+									return clone;
+								}
+								iterator& operator-- () {
+									current = current->getPrev();
+									return *this;
+								}
+								iterator operator-- (int) {
+									iterator clone(*this);
+									current = current->getPrev();
+									return clone;
+								}
+						};
+
+						// forward iteration
+						iterator begin() {
+							return iterator(start);
+						}
+
+						iterator end() {
+							return iterator(nullptr);
+						}
+
+						// reverse iteration
+						iterator rbegin() {
+							return iterator(last);
+						}
+						iterator rend() {
+							return iterator(nullptr);
+						}
+					
+				};
+
+				///@brief these are helper classes for DLelement for easy iteration in a range for loop.
+				///It is not meant to be created by the bridges user. But it may be returned by Bridges to provide an STL compliant list API.
+				class DLelement_constlisthelper {
+						typename bridges::datastructure::DLelement<E> const *start, *last;
+
+					public:
+						DLelement_constlisthelper (typename bridges::datastructure::DLelement< E > const * s) : start(s) {
+							// determine the last element
+							auto el = s;
+							if (el) {
+								for (el = s; el->getNext() != nullptr; el = el->getNext());
+								last = el;
+							}
+						}
+						class iterator {
+
+								typename bridges::datastructure::DLelement< E > const  * current;
+							public:
+								iterator(    typename bridges::datastructure::DLelement< E > const   * c )
+									: current(c)
+								{}
+
+								bool operator!=(const iterator& it) const {
+									return this->current != it.current;
+								}
+
+								E const &  operator*() const {
+									return current->getValue();
+								}
+
+								iterator& operator++() {
+									current = current->getNext();
+									return *this;
+								}
+								iterator& operator-- () {
+									current = current->getPrev();
+									return *this;
+								}
+								iterator operator-- (int) {
+									iterator clone(*this);
+									current = current->getPrev();
+									return clone;
+								}
+						};
+
+						// forward iteration
+						iterator begin() {
+							return iterator(start);
+						}
+						iterator end() {
+							return iterator(nullptr);
+						}
+						// reverse iteration
+						iterator rbegin() {
+							return iterator(last);
+						}
+						iterator rend() {
+							return iterator(nullptr);
+						}
+				};
 		}; //end of DLelement class
 
 	}

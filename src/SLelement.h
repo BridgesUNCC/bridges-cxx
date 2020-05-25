@@ -22,6 +22,7 @@ namespace bridges {
 		 * @date 6/11/15, 7/12/19
 		 *
 		 */
+
 		template <typename E>
 		class SLelement : public Element<E>, public DataStructure {
 
@@ -211,9 +212,6 @@ namespace bridges {
 									: current(c)
 								{}
 
-								iterator()
-								{}
-
 								bool operator!= (const iterator& it) const {
 									return this->current != it.current;
 								}
@@ -289,6 +287,7 @@ namespace bridges {
 
 
 		}; //end of SLelement class
+
 	}
 }//end of bridges namespace
 #endif
