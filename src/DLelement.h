@@ -99,7 +99,7 @@ namespace bridges {
 				 * Returns the previous element in the list
 				 * @return The previous DLelement
 				 */
-				DLelement* getPrev() {
+				virtual DLelement* getPrev() {
 					return prev;
 				}
 				/**
@@ -107,7 +107,7 @@ namespace bridges {
 				 *
 				 * @return The previous DLelement
 				 */
-				const DLelement* getPrev() const {
+				virtual const DLelement* getPrev() const {
 					return prev;
 				}
 				/**
@@ -115,7 +115,7 @@ namespace bridges {
 				 *
 				 * @param p The previous element
 				 */
-				void setPrev(DLelement* p) {
+				virtual void setPrev(DLelement* p) {
 					if (prev != p && this->next != prev) {
 						this->links.erase(prev);   //if different, remove old link data
 					}

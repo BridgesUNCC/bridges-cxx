@@ -101,6 +101,95 @@ namespace bridges {
 				void setNext(CircSLelement<E> *next) {
 					SLelement<E>::setNext(next);
 				}
+
+			public:
+				class CircSLelement_listhelper {
+						typename bridges::datastructure::CircSLelement<E> *start,
+												*last;
+
+					public:
+						CircSLelement_listhelper (typename bridges::datastructure::CircSLelement< E > * s) : start(s), last (s) {}
+
+						class iterator {
+								typename bridges::datastructure::CircSLelement<E> *current;
+							public:
+								iterator(typename bridges::datastructure::CircSLelement<E> * c )
+									: current(c)
+								{}
+
+								bool operator!= (const iterator& it) const {
+									return this->current != it.current;
+								}
+
+								E const &  operator* () const {
+									return current->getValue();
+								}
+
+								E &  operator* ()  {
+									return current->getValue();
+								}
+
+								iterator& operator++ () {
+									current = current->getNext();
+									return *this;
+								}
+								iterator operator++ (int) {
+									iterator clone(*this);
+									current = current->getNext();
+									return clone;
+								}
+						};
+
+						iterator begin() {
+							return iterator(start);
+						}
+
+						iterator end() {
+							return iterator(last);
+						}
+				};
+
+				///@brief these are helper classes for CircSLelement for easy iteration in a range for loop.
+				///It is not meant to be created by the bridges user. But it may be returned by Bridges to provide an STL compliant list API.
+				class CircSLelement_constlisthelper {
+						typename bridges::datastructure::CircSLelement<E> const * start, *last;
+
+					public:
+						CircSLelement_constlisthelper (typename bridges::datastructure::CircSLelement< E > const * s)
+							: start(s), last(s)
+						{}
+
+						class iterator {
+
+								typename bridges::datastructure::CircSLelement< E > const  * current;
+							public:
+								iterator(    typename bridges::datastructure::CircSLelement< E > const   * c )
+									: current(c)
+								{}
+
+								bool operator!=(const iterator& it) const {
+									return this->current != it.current;
+								}
+
+								E const &  operator*() const {
+									return current->getValue();
+								}
+
+								iterator& operator++() {
+									current = current->getNext();
+									return *this;
+								}
+						};
+
+						iterator begin() {
+							return iterator(start);
+						}
+
+						iterator end() {
+							return iterator(last);
+						}
+				};
+
 		};
 	}
 } // namespace bridges

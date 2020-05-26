@@ -118,12 +118,19 @@ namespace bridges {
 					DLelement<E>::setNext(next);
 				}
 
+				/**
+				 * This method returns the pointer to the previous DLelement
+				 * @return the DLelement assigned to the prev pointer
+				 */
+				CircDLelement<E> *getPrev() override {
+					return static_cast<CircDLelement*>(DLelement<E>::getPrev());
+				}
 
 				/**
 				 * This method returns the pointer to the previous DLelement
 				 * @return the DLelement assigned to the prev pointer
 				 */
-				const CircDLelement<E> *getPrev() const {
+				const CircDLelement<E> *getPrev() const override{
 					return static_cast<const CircDLelement*>(DLelement<E>::getPrev());
 				}
 
@@ -134,6 +141,134 @@ namespace bridges {
 				void setPrev(CircDLelement<E> *prev) {
 					DLelement<E>::setPrev(prev);
 				}
+			public:
+
+				/// @brief these are helper classes for CircDLelement for easy iteration in a
+				/// range for loop.  It is not meant to be created by the bridges user.
+				/// But it may be returned by Bridges to provide an STL compliant list API.
+				class CircDLelement_listhelper {
+						typename bridges::datastructure::CircDLelement<E> *start, *last;
+
+					public:
+						CircDLelement_listhelper (typename bridges::datastructure::CircDLelement< E > * s)
+							: start(s), last(s) {
+								
+						}
+
+						class iterator {
+
+								typename bridges::datastructure::CircDLelement<E> *current;
+
+							public:
+
+								iterator(typename bridges::datastructure::CircDLelement<E> * c )
+									: current(c)
+								{}
+
+								bool operator!= (const iterator& it) const {
+									return this->current != it.current;
+								}
+
+								E const &  operator* () const {
+									return current->getValue();
+								}
+
+								E &  operator* ()  {
+									return current->getValue();
+								}
+
+								iterator& operator++ () {
+									current = current->getNext();
+									return *this;
+								}
+								iterator operator++ (int) {
+									iterator clone(*this);
+									current = current->getNext();
+									return clone;
+								}
+								iterator& operator-- () {
+									current = current->getPrev();
+									return *this;
+								}
+								iterator operator-- (int) {
+									iterator clone(*this);
+									current = current->getPrev();
+									return clone;
+								}
+						};
+
+						// forward iteration
+						iterator begin() {
+							return iterator(start);
+						}
+
+						iterator end() {
+							return iterator(last);
+						}
+
+						// reverse iteration
+						iterator rbegin() {
+							return iterator(last);
+						}
+						iterator rend() {
+							return iterator(start);
+						}
+				};
+
+				///@brief these are helper classes for CircDLelement for easy iteration in a range for loop.
+				///It is not meant to be created by the bridges user. But it may be returned by Bridges to provide an STL compliant list API.
+				class CircDLelement_constlisthelper {
+						typename bridges::datastructure::CircDLelement<E> const *start;
+
+					public:
+						CircDLelement_constlisthelper (typename bridges::datastructure::CircDLelement< E > const * s) : start(s){
+						}
+						class iterator {
+
+								typename bridges::datastructure::CircDLelement< E > const  * current;
+							public:
+								iterator(    typename bridges::datastructure::CircDLelement< E > const   * c )
+									: current(c)
+								{}
+
+								bool operator!=(const iterator& it) const {
+									return this->current != it.current;
+								}
+
+								E const &  operator*() const {
+									return current->getValue();
+								}
+
+								iterator& operator++() {
+									current = current->getNext();
+									return *this;
+								}
+								iterator& operator-- () {
+									current = current->getPrev();
+									return *this;
+								}
+								iterator operator-- (int) {
+									iterator clone(*this);
+									current = current->getPrev();
+									return clone;
+								}
+						};
+
+						// forward iteration
+						iterator begin() {
+							return iterator(start);
+						}
+						iterator end() {
+							return iterator(start);
+						}
+						// reverse iteration
+						iterator rbegin() {
+							return iterator(start->getPrev());
+						}
+						iterator rend() {
+							return iterator(start->getPrev());
+						}
+				};
 		};
 	}
 } //namespace bridges
