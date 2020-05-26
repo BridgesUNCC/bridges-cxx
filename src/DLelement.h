@@ -358,6 +358,12 @@ namespace bridges {
 						}
 				};
 		}; //end of DLelement class
+		// use some aliases for accessing iterators
+        template <class E>
+        using DLelement_List = typename DLelement<E>::DLelement_listhelper;
+        template <class E>
+        using DLelement_ConstList = typename DLelement<E>::DLelement_constlisthelper;
+
 
 	}
 }//end of bridges namespace

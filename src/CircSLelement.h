@@ -190,7 +190,12 @@ namespace bridges {
 						}
 				};
 
-		};
+		}; // end CircSLelement
+		template <class E>
+		using CircSLelement_List = typename CircSLelement<E>::CircSLelement_listhelper;
+		template <class E>
+		using CircSLelement_ConstList = typename CircSLelement<E>::CircSLelement_constlisthelper;
+
 	}
 } // namespace bridges
 #endif

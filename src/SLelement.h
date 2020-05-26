@@ -287,7 +287,11 @@ namespace bridges {
 
 
 		}; //end of SLelement class
-
+		// use some aliases for accessing iterators
+		template <class E>
+		using SLelement_List = typename SLelement<E>::SLelement_listhelper;
+		template <class E>
+		using SLelement_ConstList = typename SLelement<E>::SLelement_constlisthelper;
 	}
 }//end of bridges namespace
 #endif

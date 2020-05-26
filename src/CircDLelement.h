@@ -269,7 +269,12 @@ namespace bridges {
 							return iterator(start->getPrev());
 						}
 				};
-		};
+		}; // end CircDLelement
+		template <class E>
+		using CircDLelement_List = typename CircDLelement<E>::CircDLelement_listhelper;
+		template <class E>
+		using CircDLelement_ConstList = typename CircDLelement<E>::CircDLelement_constlisthelper;
+
 	}
 } //namespace bridges
 #endif
