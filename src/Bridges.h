@@ -49,6 +49,8 @@ namespace bridges {
 
 			bool jsonFlag = false;   				// if JSON is to be printed
 
+			bool post_visualization_link = true;	// post flag of visualization url 
+
 			string user_name = string(),
 				   api_key = string(); 				// user credentials
 
@@ -124,6 +126,19 @@ namespace bridges {
 			 */
 			bool getVisualizeJSONFlag() const {
 				return jsonFlag;
+			}
+
+			/**
+			 *  This method is used to suppress the visualization link that is
+			 *  usually printed to the console
+			 *
+			 *  @param bool_link_url flag that controls if the link is printed 
+			 *				to console
+			 *	@return none
+			 *
+			 */
+			void  postVisualizationLink(bool link_url) {
+				post_visualization_link = link_url;
 			}
 
 			/**
@@ -464,9 +479,11 @@ namespace bridges {
 						(subAssignNum > 9 ? "" : "0") + to_string(subAssignNum) + "?apikey=" + getApiKey() +
 						"&username=" + getUserName(), {"Content-Type: text/plain"}, ds_json);
 
-					cout << "Success: Assignment posted to the server. " << endl <<
-						"Check out your visualization at:" << endl << endl
+					if (post_visualization_link) {
+						cout << "Success: Assignment posted to the server. " << endl 
+						<< "Check out your visualization at:" << endl << endl
 						<< BASE_URL + to_string(getAssignment()) + "/" + getUserName() << endl << endl;
+					}
 					subAssignNum++;
 				}
 				catch (const string& error_str) {
