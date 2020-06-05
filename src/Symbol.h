@@ -200,7 +200,7 @@ namespace bridges {
 				 * @param strk_width the stroke width to set
 				 */
 				void setStrokeWidth(float strk_width) {
-					if (strokeWidth <= 0.0f || strokeWidth > 10.0f)
+					if (strokeWidth < 0.0f || strokeWidth > 10.0f)
 						throw "Stroke width must be between 0 and 10";
 					else
 						strokeWidth = strk_width;
@@ -221,7 +221,7 @@ namespace bridges {
 				 * @param op the opacity to set
 				 */
 				void setOpacity(float op) {
-					if (op <= 0.0f || op > 1.0f)
+					if (op < 0.0f || op > 1.0f)
 						throw "Opacity must be between 0 and 1";
 					else
 						opacity = op;
@@ -372,7 +372,7 @@ namespace bridges {
 					}
 
 					if (opacity != default_opacity) {
-						symbol_attr_json + QUOTE + "opacity" + QUOTE + COLON +
+						symbol_attr_json += QUOTE + "opacity" + QUOTE + COLON +
 						to_string(opacity) + COMMA;
 					}
 
