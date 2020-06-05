@@ -168,7 +168,7 @@ namespace bridges {
 									Color c = lv->getColor();
 									json_str += QUOTE + "linkProperties" + QUOTE + COLON + OPEN_CURLY +
 										QUOTE + "color" + QUOTE + COLON +
-										this->getCSSRepresentation(c) + COMMA +
+										c.getJSONRepresentation() + COMMA +
 										QUOTE + "thickness" + QUOTE + COLON +
 										JSONencode(lv->getThickness()) +
 										//									QUOTE + "weight" + QUOTE + COLON +
