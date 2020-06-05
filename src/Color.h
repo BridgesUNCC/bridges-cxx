@@ -393,6 +393,25 @@ namespace bridges {
 							to_string(getAlpha()) +
 							"]");
 				}
+		  				/**
+				 * Gets the JSON representation of this color
+				 *
+				 */
+		  const string getJSONRepresentation() const {
+					using bridges::JSONUtil::JSONencode;
+					if (this->isTransparent()) {
+						//leaves off other channels if transparent
+						return "[0, 0, 0, 0.0]";
+					}
+					const string strCSS =
+						JSONencode(this->getRed()) + "," +
+						JSONencode(this->getGreen()) + "," +
+						JSONencode(this->getBlue()) + "," +
+						JSONencode( ((float) (this->getAlpha()) / 255.0f));
+					
+					return OPEN_BOX + strCSS + CLOSE_BOX;
+				}
+
 			private:
 
 				/**

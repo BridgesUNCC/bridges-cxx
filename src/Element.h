@@ -233,7 +233,7 @@ namespace bridges {
 							CLOSE_BOX + COMMA;
 					}
 					return  OPEN_CURLY +
-						QUOTE + "color" + QUOTE + COLON + getCSSRepresentation(elvis->getColor())
+						QUOTE + "color" + QUOTE + COLON + elvis->getColor().getJSONRepresentation()
 						+ COMMA +
 						loc_str +
 						QUOTE + "shape" + QUOTE + COLON + QUOTE +
@@ -260,7 +260,7 @@ namespace bridges {
 
 					//write out LinkVisualizer properties
 					return OPEN_CURLY +
-						QUOTE + "color"     + QUOTE + COLON + getCSSRepresentation(lv.getColor())
+						QUOTE + "color"     + QUOTE + COLON + lv.getColor().getJSONRepresentation()
 						+ COMMA +
 						(!lv.getLabel().empty() ?
 							(QUOTE + "label" + QUOTE + COLON +
@@ -270,26 +270,6 @@ namespace bridges {
 						QUOTE + "source"    + QUOTE + COLON + JSONencode(src)  + COMMA +
 						QUOTE + "target"    + QUOTE + COLON + JSONencode(dest) +
 						CLOSE_CURLY;
-				}
-				/**
-				 * Gets the JSON representation of this color
-				 *
-				 * @param col The Color
-				 * @return Equivilant Legal CSS color representation
-				 */
-				static const string getCSSRepresentation(const Color& col) {
-					using bridges::JSONUtil::JSONencode;
-					if (col.isTransparent()) {
-						//leaves off other channels if transparent
-						return "[0, 0, 0, 0.0f]";
-					}
-					const string strCSS =
-						JSONencode(col.getRed()) + "," +
-						JSONencode(col.getGreen()) + "," +
-						JSONencode(col.getBlue()) + "," +
-						JSONencode( ((float) (col.getAlpha()) / 255.0f));
-
-					return OPEN_BOX + strCSS + CLOSE_BOX;
 				}
 			public:
 				/**

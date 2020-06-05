@@ -45,22 +45,6 @@ namespace bridges {
 				bool forceLargeViz = false;
 				bool forceSmallViz = false;
 
-				const string getCSSRepresentation(const Color& col) const {
-					using bridges::JSONUtil::JSONencode;
-					if (col.isTransparent()) {
-						//leaves off other channels if transparent
-						return "[0, 0, 0, 0.0]";
-					}
-
-					const string strCSS =
-						JSONencode(col.getRed()) + "," +
-						JSONencode(col.getGreen()) + "," +
-						JSONencode(col.getBlue()) + "," +
-						JSONencode(col.getAlpha() / 255.0, 3);
-					//				JSONencode( ((float) (col.getAlpha()) / 255.0f));
-
-					return OPEN_BOX + strCSS + CLOSE_BOX;
-				}
 
 				GraphAdjList(const GraphAdjList& gr) = delete; //would not be correct
 				const GraphAdjList& operator= (const GraphAdjList& gr) = delete; //would not be correct
@@ -541,7 +525,7 @@ namespace bridges {
 									CLOSE_BOX + COMMA;
 							}
 							nodes_JSON +=  OPEN_BOX + loc_str +
-								getCSSRepresentation(elvis->getColor()) +
+								elvis->getColor().getJSONRepresentation() +
 								CLOSE_BOX + COMMA;
 						}
 					}
@@ -567,7 +551,7 @@ namespace bridges {
 							links_JSON +=  OPEN_BOX +
 								src  + COMMA +
 								dest + COMMA +
-								getCSSRepresentation(lv->getColor()) +
+								lv->getColor().getJSONRepresentation() +
 								CLOSE_BOX + COMMA;
 
 						}
