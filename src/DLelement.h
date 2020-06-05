@@ -202,8 +202,8 @@ namespace bridges {
 				*
 				*  @param nodes The list of nodes
 				*/
-				virtual void getListElements(vector<const DLelement<E>*>& 
-												nodes) const  {
+				virtual void getListElements(vector<const DLelement<E>*>&
+					nodes) const  {
 
 					//prevents potential infinite loop
 					unordered_set<const DLelement<E>*> visited;
@@ -227,7 +227,7 @@ namespace bridges {
 					public:
 						DLelement_listhelper (typename bridges::datastructure::DLelement< E > * s)
 							: start(s) {
-								
+
 							// determine the last element
 							auto el = s;
 							if (el) {
@@ -294,7 +294,7 @@ namespace bridges {
 						iterator rend() {
 							return iterator(nullptr);
 						}
-					
+
 				};
 
 				///@brief these are helper classes for DLelement for easy iteration in a range for loop.
@@ -359,10 +359,10 @@ namespace bridges {
 				};
 		}; //end of DLelement class
 		// use some aliases for accessing iterators
-        template <class E>
-        using DLelement_List = typename DLelement<E>::DLelement_listhelper;
-        template <class E>
-        using DLelement_ConstList = typename DLelement<E>::DLelement_constlisthelper;
+		template <class E>
+		using DLelement_List = typename DLelement<E>::DLelement_listhelper;
+		template <class E>
+		using DLelement_ConstList = typename DLelement<E>::DLelement_constlisthelper;
 
 
 	}
