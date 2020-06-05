@@ -140,7 +140,7 @@ namespace bridges {
 					// scale the points
 					for (int k = 0; k < points.size(); k += 2) {
 						points[k]   *= sx;
-						points[k+1] *= sy;
+						points[k + 1] *= sy;
 					}
 					// translate back
 					transl[0] = center[0];

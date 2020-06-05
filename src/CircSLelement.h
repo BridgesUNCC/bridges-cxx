@@ -105,7 +105,7 @@ namespace bridges {
 			public:
 				class CircSLelement_listhelper {
 						typename bridges::datastructure::CircSLelement<E> *start,
-												*last;
+								 *last;
 
 					public:
 						CircSLelement_listhelper (typename bridges::datastructure::CircSLelement< E > * s) : start(s), last (s) {}

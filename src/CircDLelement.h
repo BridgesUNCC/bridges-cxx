@@ -130,7 +130,7 @@ namespace bridges {
 				 * This method returns the pointer to the previous DLelement
 				 * @return the DLelement assigned to the prev pointer
 				 */
-				const CircDLelement<E> *getPrev() const override{
+				const CircDLelement<E> *getPrev() const override {
 					return static_cast<const CircDLelement*>(DLelement<E>::getPrev());
 				}
 
@@ -152,7 +152,7 @@ namespace bridges {
 					public:
 						CircDLelement_listhelper (typename bridges::datastructure::CircDLelement< E > * s)
 							: start(s), last(s) {
-								
+
 						}
 
 						class iterator {
@@ -221,7 +221,7 @@ namespace bridges {
 						typename bridges::datastructure::CircDLelement<E> const *start;
 
 					public:
-						CircDLelement_constlisthelper (typename bridges::datastructure::CircDLelement< E > const * s) : start(s){
+						CircDLelement_constlisthelper (typename bridges::datastructure::CircDLelement< E > const * s) : start(s) {
 						}
 						class iterator {
 
