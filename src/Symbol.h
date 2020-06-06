@@ -379,7 +379,7 @@ namespace bridges {
 					if (strokeColor.getRepresentation() !=
 						default_stroke_color.getRepresentation()) {
 						symbol_attr_json += QUOTE + "stroke" + QUOTE + COLON +
-							strokeColor.getRepresentation() + COMMA;
+							strokeColor.getCSSRepresentation() + COMMA;
 					}
 
 					if (strokeWidth != default_stroke_width) {
