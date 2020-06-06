@@ -233,7 +233,7 @@ namespace bridges {
 							CLOSE_BOX + COMMA;
 					}
 					return  OPEN_CURLY +
-						QUOTE + "color" + QUOTE + COLON + elvis->getColor().getJSONRepresentation()
+						QUOTE + "color" + QUOTE + COLON + elvis->getColor().getCSSRepresentation()
 						+ COMMA +
 						loc_str +
 						QUOTE + "shape" + QUOTE + COLON + QUOTE +
@@ -260,7 +260,7 @@ namespace bridges {
 
 					//write out LinkVisualizer properties
 					return OPEN_CURLY +
-						QUOTE + "color"     + QUOTE + COLON + lv.getColor().getJSONRepresentation()
+						QUOTE + "color"     + QUOTE + COLON + lv.getColor().getCSSRepresentation()
 						+ COMMA +
 						(!lv.getLabel().empty() ?
 							(QUOTE + "label" + QUOTE + COLON +

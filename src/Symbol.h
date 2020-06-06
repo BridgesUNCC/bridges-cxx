@@ -200,8 +200,8 @@ namespace bridges {
 				 * @param strk_width the stroke width to set
 				 */
 				void setStrokeWidth(float strk_width) {
-					if (strokeWidth < 0.0f || strokeWidth > 10.0f)
-						throw "Stroke width must be between 0 and 10";
+					if (strokeWidth < 0.0f)
+					  throw "Stroke width must be positive or null";
 					else
 						strokeWidth = strk_width;
 				}
@@ -368,7 +368,7 @@ namespace bridges {
 					if (fillColor.getRepresentation() !=
 						default_fill_color.getRepresentation()) {
 						symbol_attr_json += QUOTE + "fill" + QUOTE + COLON +
-							fillColor.getRepresentation() + COMMA;
+							fillColor.getCSSRepresentation() + COMMA;
 					}
 
 					if (opacity != default_opacity) {

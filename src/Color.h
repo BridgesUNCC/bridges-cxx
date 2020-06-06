@@ -396,10 +396,12 @@ namespace bridges {
 							"]");
 				}
 				/**
-				* Gets the JSON representation of this color
+				* Gets the CSS representation of this color
+				*
+				* @return a JSON vector of 4 dimensions that represents a CSS color in RGBA space, that is to say R, G, and B are between 0 and 255; and A is between 0 and 1
 				*
 				*/
-				const string getJSONRepresentation() const {
+				const string getCSSRepresentation() const {
 					using bridges::JSONUtil::JSONencode;
 					if (this->isTransparent()) {
 						//leaves off other channels if transparent

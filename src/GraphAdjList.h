@@ -525,7 +525,7 @@ namespace bridges {
 									CLOSE_BOX + COMMA;
 							}
 							nodes_JSON +=  OPEN_BOX + loc_str +
-								elvis->getColor().getJSONRepresentation() +
+								elvis->getColor().getCSSRepresentation() +
 								CLOSE_BOX + COMMA;
 						}
 					}
@@ -551,7 +551,7 @@ namespace bridges {
 							links_JSON +=  OPEN_BOX +
 								src  + COMMA +
 								dest + COMMA +
-								lv->getColor().getJSONRepresentation() +
+								lv->getColor().getCSSRepresentation() +
 								CLOSE_BOX + COMMA;
 
 						}
