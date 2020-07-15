@@ -107,7 +107,7 @@ namespace bridges {
 					int numBits = 3;
 					int count = 0;
 					for (int i = 0; i < byteBuff.size(); i += numBits) {
-						b64str += base64::encode(&(byteBuff[i]), 3);
+					  b64str += base64::encode(&(byteBuff[i]), std::min(3, (int)(byteBuff.size()-i)));
 						count++;
 					}
 
