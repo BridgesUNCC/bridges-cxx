@@ -215,17 +215,24 @@ namespace bridges {
 								for (int ch = 0; ch < wave_header.channels; 
 															ch++ ) {
 									// read signal amplitude
-									infile.read(data_buffer, 2);
+									infile.read(data_buffer, size_of_each_sample);
 									// convert data from big endian to little
 									// endian based on bytes in each channel sample
 									switch (bytes_in_each_channel) {
 										case 1:
 											amplitude = data_buffer[0];
+											amplitude -= 128; //in wave, 8-bit are unsigned, so shifting to signed
 											break;
 										case 2:
 											amplitude = 
 												(data_buffer[0] & 0x00ff)|
 												(data_buffer[1] << 8);
+											break;
+									case 3:
+											amplitude = 
+												(data_buffer[0] & 0x00ff)|
+											  ((data_buffer[1] & 0x00ff) << 8) |
+											  (data_buffer[2] << 16);
 											break;
 										case 4:
 											amplitude= 
