@@ -201,7 +201,7 @@ namespace bridges {
 				 */
 				void setStrokeWidth(float strk_width) {
 					if (strokeWidth < 0.0f)
-					  throw "Stroke width must be positive or null";
+						throw "Stroke width must be positive or null";
 					else
 						strokeWidth = strk_width;
 				}
@@ -373,7 +373,7 @@ namespace bridges {
 
 					if (opacity != default_opacity) {
 						symbol_attr_json += QUOTE + "opacity" + QUOTE + COLON +
-						to_string(opacity) + COMMA;
+							to_string(opacity) + COMMA;
 					}
 
 					if (strokeColor.getRepresentation() !=

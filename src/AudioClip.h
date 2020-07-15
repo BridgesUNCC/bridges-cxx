@@ -13,89 +13,89 @@ using namespace std;
 
 namespace bridges {
 
-// WAVE file header format
-struct WaveHeader {
-	unsigned char *riff;				// RIFF string
-	unsigned int overall_size	;		// overall size of file in bytes
-	unsigned char *wave;				// WAVE string
-	unsigned char *fmt_chunk_marker;	// fmt string with trailing null char
-	unsigned int length_of_fmt;			// length of the format data
-	unsigned int format_type;			// format type. 1-PCM, 3- IEEE float, 6 - 8bit A law, 7 - 8bit mu law
-	unsigned int channels;				// no.of channels
-	unsigned int sample_rate;			// sampling rate (blocks per second)
-	unsigned int byterate;				// SampleRate * NumChannels * BitsPerSample/8
-	unsigned int block_align;			// NumChannels * BitsPerSample/8
-	unsigned int bits_per_sample;		// bits per sample, 8- 8bits, 16- 16 bits etc
-	unsigned char *data_chunk_header;	// DATA string or FLLR string
-	unsigned int data_size;				// NumSamples * NumChannels * 
-										// BitsPerSample/8 - size of the 
-										// next chunk that will be read
+	// WAVE file header format
+	struct WaveHeader {
+		unsigned char *riff;				// RIFF string
+		unsigned int overall_size	;		// overall size of file in bytes
+		unsigned char *wave;				// WAVE string
+		unsigned char *fmt_chunk_marker;	// fmt string with trailing null char
+		unsigned int length_of_fmt;			// length of the format data
+		unsigned int format_type;			// format type. 1-PCM, 3- IEEE float, 6 - 8bit A law, 7 - 8bit mu law
+		unsigned int channels;				// no.of channels
+		unsigned int sample_rate;			// sampling rate (blocks per second)
+		unsigned int byterate;				// SampleRate * NumChannels * BitsPerSample/8
+		unsigned int block_align;			// NumChannels * BitsPerSample/8
+		unsigned int bits_per_sample;		// bits per sample, 8- 8bits, 16- 16 bits etc
+		unsigned char *data_chunk_header;	// DATA string or FLLR string
+		unsigned int data_size;				// NumSamples * NumChannels *
+		// BitsPerSample/8 - size of the
+		// next chunk that will be read
 
 
-	WaveHeader() {
-		riff = new unsigned char[4];
-		wave = new unsigned char[4];
-		fmt_chunk_marker = new unsigned char[4];
-		data_chunk_header = new unsigned char[4];
-	}
+		WaveHeader() {
+			riff = new unsigned char[4];
+			wave = new unsigned char[4];
+			fmt_chunk_marker = new unsigned char[4];
+			data_chunk_header = new unsigned char[4];
+		}
 
-	~WaveHeader() {
-		delete[] riff;
-		delete[] wave;
-		delete[] fmt_chunk_marker;
-		delete[] data_chunk_header;
-	}
-};
+		~WaveHeader() {
+			delete[] riff;
+			delete[] wave;
+			delete[] fmt_chunk_marker;
+			delete[] data_chunk_header;
+		}
+	};
 
-  namespace datastructure {
-    /**
- * @brief This class provides support for reading, modifying, and playing, audio waveform.
- *
- * This class provides a way to represent an AudioClip (think of a
- * .WAV file) in Bridges as waveforms.
- *
- * An AudioClip can be composed of multiple channels: a stereo sound
- * would be composed of 2 channels (Left and Right), a mono sound
- * would be composed of a single channel. A 5.1 sound would be
- * composed of 6 channels. When building an AudioClip from a file, the
- * number of channels is taken from the file; some constructors have a
- * numChannels that enables to pass the number of channels
- * explicitly. If unsure, one can know how many channels are in an
- * audio clip using getNumChannels().
- *
- * Each channel is essentially a 1D signal. That is to say, it is an
- * array of values that represent how far the membrane of a speaker
- * should be from its resting position. The quality of the sound is
- * controlled by two parameters: sampling rate and sampling depth.
- *
- * Sampling rate tells how many positions per second are encoded by
- * the AudioClip. It is expressed in Hertz. CD quality is 44100Hz;
- * while walkie-talkies use 8000Hz. It is set automatically if read
- * from a file; or it can be passed as the sampleRate parameter to
- * some of the constructors. The sampling rate can be obtained from an
- * AudioClip using getSampleRate().
- *
- * The length of an AudioClip is expressed in number of samples. So if
- * an AudioClip is composed of 16,000 samples with a sampling rate of
- * 8000Hz, the clip would be 2 seconds long. The number of samples
- * can obtained with getSampleCount(); it is set from a file or can be
- * passed as the sampleCount parameter of some of the constructor.
- * 
- * The sampling depth indicates how many different positions the
- * membrane can take. It is typically expressed in bits with supported
- * values being 8-bit, 16-bit, 24-bit, and 32-bit. If a clip is
- * encoded with a depth of 8 bits, the membrane can take 2^8 different
- * position ranging from -128 to +127, with 0 being the resting
- * position. The sampling depth is read from files or passed as the
- * sampleBits parameter of the constructor. The sampling depth of an
- * existing clip can be obtained with getSampleBits().
- *
- * The individual samples are accessed with the getSample() and
- * setSample() functions. The samples are integer values in the
- * [-2^(getSampleBits()-1) ; 2^(getSampleBits()-1)[ range. The
- * functions allow to specify for channel and sample index.
- *
- **/
+	namespace datastructure {
+		/**
+		* @brief This class provides support for reading, modifying, and playing, audio waveform.
+		*
+		* This class provides a way to represent an AudioClip (think of a
+		* .WAV file) in Bridges as waveforms.
+		*
+		* An AudioClip can be composed of multiple channels: a stereo sound
+		* would be composed of 2 channels (Left and Right), a mono sound
+		* would be composed of a single channel. A 5.1 sound would be
+		* composed of 6 channels. When building an AudioClip from a file, the
+		* number of channels is taken from the file; some constructors have a
+		* numChannels that enables to pass the number of channels
+		* explicitly. If unsure, one can know how many channels are in an
+		* audio clip using getNumChannels().
+		*
+		* Each channel is essentially a 1D signal. That is to say, it is an
+		* array of values that represent how far the membrane of a speaker
+		* should be from its resting position. The quality of the sound is
+		* controlled by two parameters: sampling rate and sampling depth.
+		*
+		* Sampling rate tells how many positions per second are encoded by
+		* the AudioClip. It is expressed in Hertz. CD quality is 44100Hz;
+		* while walkie-talkies use 8000Hz. It is set automatically if read
+		* from a file; or it can be passed as the sampleRate parameter to
+		* some of the constructors. The sampling rate can be obtained from an
+		* AudioClip using getSampleRate().
+		*
+		* The length of an AudioClip is expressed in number of samples. So if
+		* an AudioClip is composed of 16,000 samples with a sampling rate of
+		* 8000Hz, the clip would be 2 seconds long. The number of samples
+		* can obtained with getSampleCount(); it is set from a file or can be
+		* passed as the sampleCount parameter of some of the constructor.
+		*
+		* The sampling depth indicates how many different positions the
+		* membrane can take. It is typically expressed in bits with supported
+		* values being 8-bit, 16-bit, 24-bit, and 32-bit. If a clip is
+		* encoded with a depth of 8 bits, the membrane can take 2^8 different
+		* position ranging from -128 to +127, with 0 being the resting
+		* position. The sampling depth is read from files or passed as the
+		* sampleBits parameter of the constructor. The sampling depth of an
+		* existing clip can be obtained with getSampleBits().
+		*
+		* The individual samples are accessed with the getSample() and
+		* setSample() functions. The samples are integer values in the
+		* [-2^(getSampleBits()-1) ; 2^(getSampleBits()-1)[ range. The
+		* functions allow to specify for channel and sample index.
+		*
+		**/
 		class AudioClip : public DataStructure {
 			private:
 				int sampleCount;
@@ -110,12 +110,12 @@ struct WaveHeader {
 				};
 
 			public:
-		      /**
-     * @brief create an audio clip
-     *
-     * creates an AudioClip with numChannels channels, sampleCount samples at sampleRate Hz with a depth of sampleBits
-     *
-     **/
+				/**
+				* @brief create an audio clip
+				*
+				* creates an AudioClip with numChannels channels, sampleCount samples at sampleRate Hz with a depth of sampleBits
+				*
+				**/
 
 				AudioClip(int sampleCount, int numChannels, int sampleBits, int sampleRate) {
 					if (sampleCount > 1000000000) {
@@ -123,20 +123,20 @@ struct WaveHeader {
 					}
 
 
-		if (sampleBits != 8 && sampleBits != 16 && sampleBits != 24 && sampleBits != 32) {
-		    throw "sampleBits must be either 8, 16, 24, or 32";
-		}
+					if (sampleBits != 8 && sampleBits != 16 && sampleBits != 24 && sampleBits != 32) {
+						throw "sampleBits must be either 8, 16, 24, or 32";
+					}
 
-		if (numChannels <= 0) {
-		    throw "numChannels should be positive";
-		}
+					if (numChannels <= 0) {
+						throw "numChannels should be positive";
+					}
 
-		if (sampleRate <= 0) {
-		    throw "sampleRate should be positive";
-		}
-		
+					if (sampleRate <= 0) {
+						throw "sampleRate should be positive";
+					}
 
-					
+
+
 					this->sampleCount = sampleCount;
 					this->numChannels = numChannels;
 					this->channels = vector<AudioChannel *>(numChannels);
@@ -157,24 +157,24 @@ struct WaveHeader {
 					return "Audio";
 				}
 
-    /**
-	 * @brief create an audio clip from a File
-	 *
-	 * @param wave_file name of the file (should be a Wave file)
-	 *
-	 **/
+				/**
+				 * @brief create an audio clip from a File
+				 *
+				 * @param wave_file name of the file (should be a Wave file)
+				 *
+				 **/
 				AudioClip(string wave_file) {
 					parseWaveFile (wave_file);
 
 				}
 
-		  virtual ~AudioClip () {
-		    for (int i = 0; i < numChannels; i++) {
-		      delete channels[i];
-		      channels[i] = nullptr;
-		    }		    
-		  }
-		  
+				virtual ~AudioClip () {
+					for (int i = 0; i < numChannels; i++) {
+						delete channels[i];
+						channels[i] = nullptr;
+					}
+				}
+
 				virtual const string getDataStructureRepresentation() const override final {
 					using bridges::JSONUtil::JSONencode;
 
@@ -224,265 +224,271 @@ struct WaveHeader {
 					return jsonString;
 				}
 
-    /**
-     * @brief returns the number of channels of the clip 
-     * @return  the number of channels of the clip (1 for mono, 2 for stereo, ...)
-     **/
-		  int getNumChannels() const {
+				/**
+				 * @brief returns the number of channels of the clip
+				 * @return  the number of channels of the clip (1 for mono, 2 for stereo, ...)
+				 **/
+				int getNumChannels() const {
 					return this->numChannels;
 				}
-        /**
-	 * @brief returns the sampling rate of the clip
-	 * @return  the sampling rate of the clip in Hertz. (CD quality is 44100Hz for instance)
-	 **/
+				/**
+				* @brief returns the sampling rate of the clip
+				 * @return  the sampling rate of the clip in Hertz. (CD quality is 44100Hz for instance)
+				 **/
 
 				int getSampleRate() const {
 					return this->sampleRate;
 				}
 
-        /**
-	 * @brief returns the number of samples in the clip
-	 *
-	 * The length of the clip in second is getSampleCount()/((double) getSampleRate())
-	 *
-	 * @return  the number of samples in the clip
-	 **/    
+				/**
+				* @brief returns the number of samples in the clip
+				 *
+				 * The length of the clip in second is getSampleCount()/((double) getSampleRate())
+				 *
+				 * @return  the number of samples in the clip
+				 **/
 				int getSampleCount() const {
 					return this->sampleCount;
 				}
 
 
-		          /**
-	 * @brief returns the sampling depth.
-	 *
-	 * The sampling depth indicates how many bits are used to
-	 * encode each individual samples. The values supported are
-	 * only 8, 16, 24, and 32.
-	 *
-	 * All samples must be in the [-2^(getSampleBits()-1) ;
-	 * 2^(getSampleBits()-1)) range. that is to say, for 8-bit, in
-	 * the [-256;255] range.
-	 *
-	 * @return the sampling depth.
-	 **/    
-		  int getSampleBits() const {
+				/**
+				* @brief returns the sampling depth.
+				*
+				* The sampling depth indicates how many bits are used to
+				* encode each individual samples. The values supported are
+				* only 8, 16, 24, and 32.
+				*
+				* All samples must be in the [-2^(getSampleBits()-1) ;
+				* 2^(getSampleBits()-1)) range. that is to say, for 8-bit, in
+				* the [-256;255] range.
+				*
+				* @return the sampling depth.
+				**/
+				int getSampleBits() const {
 					return this->sampleBits;
 				}
 
-		    /**
-     * @brief access a particular sample
+				/**
+				* @brief access a particular sample
 
-     * @param channelIndex the index of the channel that will be accessed (in the [0;getNumChannels()-1] range).
-     * @param sampleIndex the index of the sample that will be accessed (in the [0;getSampleCount()-1] range).
-     * @return the sample value (in [-2^(getSampleBits()-1) ;  2^(getSampleBits()-1)) range).
-     *
-     **/
+				* @param channelIndex the index of the channel that will be accessed (in the [0;getNumChannels()-1] range).
+				* @param sampleIndex the index of the sample that will be accessed (in the [0;getSampleCount()-1] range).
+				* @return the sample value (in [-2^(getSampleBits()-1) ;  2^(getSampleBits()-1)) range).
+				*
+				**/
 
-		  int getSample(int channelIndex, int sampleIndex) const {
+				int getSample(int channelIndex, int sampleIndex) const {
 					return channels.at(channelIndex)->getSample(sampleIndex);
 				}
-        /**
-	 * @brief change a particular sample
-	 
-	 * @param channelIndex the index of the channel that will be accessed (in the [0;getNumChannels()-1] range).
-	 * @param sampleIndex the index of the sample that will be accessed (in the [0;getSampleCount()-1] range).
-	 * @param value the sample value (in [-2^(getSampleBits()-1) ;  2^(getSampleBits()-1)) range).
-	 *
-	 **/
+				/**
+				* @brief change a particular sample
+
+				 * @param channelIndex the index of the channel that will be accessed (in the [0;getNumChannels()-1] range).
+				 * @param sampleIndex the index of the sample that will be accessed (in the [0;getSampleCount()-1] range).
+				 * @param value the sample value (in [-2^(getSampleBits()-1) ;  2^(getSampleBits()-1)) range).
+				 *
+				 **/
 				void setSample(int channelIndex, int sampleIndex, int value) {
-				  if (value >= pow(2, getSampleBits()-1) ||
-				      value <  -pow(2, getSampleBits()-1))
-				      throw "Audio value Out of Bound";
-				      
-				  channels[channelIndex]->setSample(sampleIndex, value);
+					if (value >= pow(2, getSampleBits() - 1) ||
+						value <  -pow(2, getSampleBits() - 1))
+						throw "Audio value Out of Bound";
+
+					channels[channelIndex]->setSample(sampleIndex, value);
 				}
-		private:
-			void parseWaveFile (string wave_file) {
- 				// Read and parse an audio file in WAVE format
+			private:
+				void parseWaveFile (string wave_file) {
+					// Read and parse an audio file in WAVE format
 
-				// open file
-				ifstream infile;
-				infile.open (wave_file.c_str(), ios::binary|ios::in);
-				if (infile.fail()) {
-					cout << "Couldnt open " << wave_file << endl;
-					return;
-				}
-
-				// read the header data of the input WAVE file
-				WaveHeader wave_header = readWaveHeader(infile);
-
-				long size_of_each_sample = (wave_header.channels * 
-									wave_header.bits_per_sample)/8;
-
-				// read the audio data 
-				if (this->sampleCount > 1000000000) {
-					throw "sampleCount must be less than 1 million";
-				}
-
-				// create storage for the audio data
-				this->channels.resize(this->numChannels);
-				for (int i = 0; i < numChannels; i++) {
-					this->channels[i] = new AudioChannel(this->sampleCount);
-				}
-
-				// read sample data by chunks, if PCM
-				if (wave_header.format_type == 1) { // Only PCM handled
-					long i =0;
-					char data_buffer[size_of_each_sample];
-					int  size_is_correct = true;
-
-					// make sure that the bytes-per-sample is completely divisible 
-					// by num.of channels
-					long bytes_in_each_channel = (size_of_each_sample / wave_header.channels);
-					if ((bytes_in_each_channel*wave_header.channels) != size_of_each_sample) {
-						cout << "Error: Incorrect chunk size.. " <<  bytes_in_each_channel
-						<< ", " <<  wave_header.channels <<", " <<  size_of_each_sample << "\n";
-						size_is_correct = false;
+					// open file
+					ifstream infile;
+					infile.open (wave_file.c_str(), ios::binary | ios::in);
+					if (infile.fail()) {
+						cout << "Couldnt open " << wave_file << endl;
+						return;
 					}
-			 
-					if (size_is_correct) { 
-						// the valid amplitude range for values based on the bits per sample
-						long low_limit = 0l;
-						long high_limit = 0l;
 
-						switch (wave_header.bits_per_sample) {
-							case 8:
-								low_limit = -128;
-								high_limit = 127;
-								break;
-							case 16:
-								low_limit = -32768;
-								high_limit = 32767;
-								break;
-						case 24:
-								low_limit = -16777216;
-								high_limit = 16777215;
-								break;
-							case 32:
-								low_limit = -2147483648;
-								high_limit = 2147483647;
-								break;
+					// read the header data of the input WAVE file
+					WaveHeader wave_header = readWaveHeader(infile);
+
+					long size_of_each_sample = (wave_header.channels *
+							wave_header.bits_per_sample) / 8;
+
+					// read the audio data
+					if (this->sampleCount > 1000000000) {
+						throw "sampleCount must be less than 1 million";
+					}
+
+					// create storage for the audio data
+					this->channels.resize(this->numChannels);
+					for (int i = 0; i < numChannels; i++) {
+						this->channels[i] = new AudioChannel(this->sampleCount);
+					}
+
+					// read sample data by chunks, if PCM
+					if (wave_header.format_type == 1) { // Only PCM handled
+						long i = 0;
+						char data_buffer[size_of_each_sample];
+						int  size_is_correct = true;
+
+						// make sure that the bytes-per-sample is completely divisible
+						// by num.of channels
+						long bytes_in_each_channel = (size_of_each_sample / wave_header.channels);
+						if ((bytes_in_each_channel * wave_header.channels) != size_of_each_sample) {
+							cout << "Error: Incorrect chunk size.. " <<  bytes_in_each_channel
+								<< ", " <<  wave_header.channels << ", " <<  size_of_each_sample << "\n";
+							size_is_correct = false;
 						}
-						for (int sample = 0; sample < this->sampleCount; 
-														sample++) {
-							int amplitude;
-							if (!infile.fail()) {
-								for (int ch = 0; ch < wave_header.channels; 
-															ch++ ) {
-									// read signal amplitude
-									infile.read(data_buffer, bytes_in_each_channel);
-									// convert data from big endian to little
-									// endian based on bytes in each channel sample
-									switch (bytes_in_each_channel) {
-										case 1:
-											amplitude = data_buffer[0]&0x00ff;
-											amplitude -= 128; //in wave, 8-bit are unsigned, so shifting to signed
-											break;
-										case 2:
-											amplitude = 
-												(data_buffer[0] & 0x00ff)|
-												(data_buffer[1] << 8);
-											break;
-									case 3:
-											amplitude = 
-												(data_buffer[0] & 0x00ff)|
-											  ((data_buffer[1] & 0x00ff) << 8) |
-											  (data_buffer[2] << 16);
-											break;
-										case 4:
-											amplitude= 
-											  (data_buffer[0]& 0x00ff)|
-											  ((data_buffer[1]& 0x00ff)<<8) | 
-											  ((data_buffer[2]& 0x00ff)<<16) | 
-												(data_buffer[3]<<24);
-											break;
+
+						if (size_is_correct) {
+							// the valid amplitude range for values based on the bits per sample
+							long low_limit = 0l;
+							long high_limit = 0l;
+
+							switch (wave_header.bits_per_sample) {
+								case 8:
+									low_limit = -128;
+									high_limit = 127;
+									break;
+								case 16:
+									low_limit = -32768;
+									high_limit = 32767;
+									break;
+								case 24:
+									low_limit = -16777216;
+									high_limit = 16777215;
+									break;
+								case 32:
+									low_limit = -2147483648;
+									high_limit = 2147483647;
+									break;
+							}
+							for (int sample = 0; sample < this->sampleCount;
+								sample++) {
+								int amplitude;
+								if (!infile.fail()) {
+									for (int ch = 0; ch < wave_header.channels;
+										ch++ ) {
+										// read signal amplitude
+										infile.read(data_buffer, bytes_in_each_channel);
+										// convert data from big endian to little
+										// endian based on bytes in each channel sample
+										switch (bytes_in_each_channel) {
+											case 1:
+												amplitude = data_buffer[0] & 0x00ff;
+												amplitude -= 128; //in wave, 8-bit are unsigned, so shifting to signed
+												break;
+											case 2:
+												amplitude =
+													(data_buffer[0] & 0x00ff) |
+													(data_buffer[1] << 8);
+												break;
+											case 3:
+												amplitude =
+													(data_buffer[0] & 0x00ff) |
+													((data_buffer[1] & 0x00ff) << 8) |
+													(data_buffer[2] << 16);
+												break;
+											case 4:
+												amplitude =
+													(data_buffer[0] & 0x00ff) |
+													((data_buffer[1] & 0x00ff) << 8) |
+													((data_buffer[2] & 0x00ff) << 16) |
+													(data_buffer[3] << 24);
+												break;
+										}
+										this->setSample(ch, sample, amplitude);
 									}
-									this->setSample(ch, sample, amplitude);
+								}
+								else {
+									cout << "Error reading file\n.";
+									break;
 								}
 							}
-							else {
-								cout << "Error reading file\n.";
-								break;
-							}
-						} 
-					} 
-				} 
-				infile.close();
-			}
-			WaveHeader readWaveHeader(ifstream& infile) {
-
-				// read file header
-				WaveHeader  wave_header;
-			 
-				infile.read ((char *)wave_header.riff, 4);
-
-				unsigned char *buffer = new  unsigned char[4];
-				infile.read ((char*) buffer,  4);
-
-				// convert little endian to big endian 4 byte int
-				wave_header.overall_size  = buffer[0] | (buffer[1]<<8) | 
-									(buffer[2]<<16) | (buffer[3]<<24);
-
-				
-				infile.read ((char*) wave_header.wave,  4);
-
-				infile.read ((char*) wave_header.fmt_chunk_marker,  4);
-				infile.read ((char *) buffer, 4);
-				wave_header.length_of_fmt = buffer[0] | (buffer[1] << 8) |
-										(buffer[2] << 16) | (buffer[3] << 24);
-
-				char *buffer2 = new  char[2];
-				infile.read (buffer2, 2);
-				wave_header.format_type = buffer2[0] | (buffer2[1] << 8);
-
-				string format_name = "";
-				switch (wave_header.format_type) {
-					case 1 : format_name = "PCM"; break;
-					case 6 : format_name = "A-law"; break;
-					case 7 : format_name = "Mu-law"; break;
+						}
+					}
+					infile.close();
 				}
+				WaveHeader readWaveHeader(ifstream& infile) {
 
-				infile.read (buffer2, 2);
-				wave_header.channels = buffer2[0] | (buffer2[1] << 8);
-				this->numChannels = wave_header.channels;
+					// read file header
+					WaveHeader  wave_header;
 
-				infile.read ((char *) buffer, 4);
-				wave_header.sample_rate = buffer[0] | (buffer[1] << 8)|
-								(buffer[2] << 16) | (buffer[3] << 24);
-				this->sampleRate = wave_header.sample_rate;
+					infile.read ((char *)wave_header.riff, 4);
 
-				infile.read ((char *) buffer, 4);
-				wave_header.byterate = buffer[0] | (buffer[1] << 8)|
-								(buffer[2] << 16) | (buffer[3] << 24);
+					unsigned char *buffer = new  unsigned char[4];
+					infile.read ((char*) buffer,  4);
 
-				infile.read (buffer2, 2);
-				wave_header.block_align = buffer2[0] | (buffer2[1] << 8);
+					// convert little endian to big endian 4 byte int
+					wave_header.overall_size  = buffer[0] | (buffer[1] << 8) |
+						(buffer[2] << 16) | (buffer[3] << 24);
 
-				infile.read (buffer2, 2);
-				wave_header.bits_per_sample = buffer2[0] | (buffer2[1] << 8);
 
-				this->sampleBits = wave_header.bits_per_sample;
+					infile.read ((char*) wave_header.wave,  4);
 
-				infile.read ((char *)wave_header.data_chunk_header, 4);
+					infile.read ((char*) wave_header.fmt_chunk_marker,  4);
+					infile.read ((char *) buffer, 4);
+					wave_header.length_of_fmt = buffer[0] | (buffer[1] << 8) |
+						(buffer[2] << 16) | (buffer[3] << 24);
 
-				infile.read ((char *) buffer, 4);
-				wave_header.data_size = buffer[0] | (buffer[1] << 8)|
-								(buffer[2] << 16) | (buffer[3] << 24);
+					char *buffer2 = new  char[2];
+					infile.read (buffer2, 2);
+					wave_header.format_type = buffer2[0] | (buffer2[1] << 8);
 
-				// calculate no.of samples
-				long num_samples = (8*wave_header.data_size)/
-					(wave_header.channels*wave_header.bits_per_sample);
-				this->sampleCount = num_samples;
+					string format_name = "";
+					switch (wave_header.format_type) {
+						case 1 :
+							format_name = "PCM";
+							break;
+						case 6 :
+							format_name = "A-law";
+							break;
+						case 7 :
+							format_name = "Mu-law";
+							break;
+					}
 
-				long size_of_each_sample = (wave_header.channels * 
-								wave_header.bits_per_sample)/8;
+					infile.read (buffer2, 2);
+					wave_header.channels = buffer2[0] | (buffer2[1] << 8);
+					this->numChannels = wave_header.channels;
 
-				delete[] buffer;
-				delete[] buffer2;
-				
-				
-				return wave_header;
-			}
+					infile.read ((char *) buffer, 4);
+					wave_header.sample_rate = buffer[0] | (buffer[1] << 8) |
+						(buffer[2] << 16) | (buffer[3] << 24);
+					this->sampleRate = wave_header.sample_rate;
+
+					infile.read ((char *) buffer, 4);
+					wave_header.byterate = buffer[0] | (buffer[1] << 8) |
+						(buffer[2] << 16) | (buffer[3] << 24);
+
+					infile.read (buffer2, 2);
+					wave_header.block_align = buffer2[0] | (buffer2[1] << 8);
+
+					infile.read (buffer2, 2);
+					wave_header.bits_per_sample = buffer2[0] | (buffer2[1] << 8);
+
+					this->sampleBits = wave_header.bits_per_sample;
+
+					infile.read ((char *)wave_header.data_chunk_header, 4);
+
+					infile.read ((char *) buffer, 4);
+					wave_header.data_size = buffer[0] | (buffer[1] << 8) |
+						(buffer[2] << 16) | (buffer[3] << 24);
+
+					// calculate no.of samples
+					long num_samples = (8 * wave_header.data_size) /
+						(wave_header.channels * wave_header.bits_per_sample);
+					this->sampleCount = num_samples;
+
+					long size_of_each_sample = (wave_header.channels *
+							wave_header.bits_per_sample) / 8;
+
+					delete[] buffer;
+					delete[] buffer2;
+
+
+					return wave_header;
+				}
 		};
 	}
 }

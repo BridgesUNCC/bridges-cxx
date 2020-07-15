@@ -11,7 +11,7 @@ class AudioChannel {
 		}
 
 		int getChannelSize() const {
-		  return data.size();
+			return data.size();
 		}
 
 		int getSample(int index) const {

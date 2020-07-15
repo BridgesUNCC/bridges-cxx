@@ -43,7 +43,7 @@ namespace bridges {
 				unordered_map<int, Symbol*> symbols;
 
 				// 	default domain (assuming square coordinate space)
-				// 	domain emanates in x and y directions, both positive 
+				// 	domain emanates in x and y directions, both positive
 				//  and negative,
 				//	from 0,0
 
@@ -56,8 +56,8 @@ namespace bridges {
 
 			public:
 
-				void setViewport(float xmin, float xmax, float ymin, float 
-											ymax) {
+				void setViewport(float xmin, float xmax, float ymin, float
+					ymax) {
 					autoscaledomain = false;
 					domainxmin = xmin;
 					domainxmax = xmax;
@@ -97,7 +97,7 @@ namespace bridges {
 				 *
 				 *  @param s  Symbol
 				 */
-				
+
 				void updateAxisDomains(const Symbol* s) const {
 					vector<float> dims = s->getDimensions();
 
@@ -117,12 +117,12 @@ namespace bridges {
 						domainymax = dims[3];
 					}
 
-				// TEMP  (KRS)
-//					domainxmin = 0;
-//					domainxmax = 100;
-//					domainymin = 0;
-//					domainymax = 100;
-				// TEMP  (KRS)
+					// TEMP  (KRS)
+					//					domainxmin = 0;
+					//					domainxmax = 100;
+					//					domainymin = 0;
+					//					domainymax = 100;
+					// TEMP  (KRS)
 				}
 
 				/*
