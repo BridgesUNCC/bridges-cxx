@@ -236,9 +236,9 @@ namespace bridges {
 											break;
 										case 4:
 											amplitude= 
-												data_buffer[0]|
-												(data_buffer[1]<<8) | 
-												(data_buffer[2]<<16) | 
+											  (data_buffer[0]& 0x00ff)|
+											  ((data_buffer[1]& 0x00ff)<<8) | 
+											  ((data_buffer[2]& 0x00ff)<<16) | 
 												(data_buffer[3]<<24);
 											break;
 									}
