@@ -62,7 +62,7 @@ namespace bridges {
 							int num = getSample(c, i);
 							//uint32_t s = ((num>>24)&0xff) | ((num<<8)&0xff0000) | ((num>>8)&0xff00) | ((num<<24)&0xff000000);
 							if (this->sampleBits == 8) {
-								byteBuff.push_back(num & 0xFF);
+								byteBuff.push_back(num & 0x000000FF);
 							}
 							else if (this->sampleBits == 16) {
 								ShortByteUnion sbu;
@@ -105,19 +105,19 @@ namespace bridges {
 					return jsonString;
 				}
 
-				int getNumChannels() {
+				int getNumChannels() const {
 					return this->numChannels;
 				}
 
-				int getSampleRate() {
+				int getSampleRate() const {
 					return this->sampleRate;
 				}
 
-				int getSampleCount() {
+				int getSampleCount() const {
 					return this->sampleCount;
 				}
 
-				int getSampleBits() {
+				int getSampleBits() const {
 					return this->sampleBits;
 				}
 
@@ -126,7 +126,11 @@ namespace bridges {
 				}
 
 				void setSample(int channel, int index, int value) {
-					channels[channel]->setSample(index, value);
+				  if (value >= pow(2, getSampleBits()-1) ||
+				      value <  -pow(2, getSampleBits()-1))
+				      throw "Audio value Out of Bound";
+				      
+				  channels[channel]->setSample(index, value);
 				}
 		};
 	}
