@@ -242,12 +242,7 @@ namespace bridges {
 												(data_buffer[3]<<24);
 											break;
 									}
-									this->channels[ch]->setSample(sample, amplitude);
-									// check if value was in range
-									if (amplitude < low_limit || 
-											amplitude > high_limit)
-										cout << "**value out of range!" << "\n";
-
+									this->setSample(ch, sample, amplitude);
 								}
 							}
 							else {
