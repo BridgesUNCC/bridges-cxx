@@ -199,6 +199,10 @@ namespace bridges {
 								low_limit = -32768;
 								high_limit = 32767;
 								break;
+						case 24:
+								low_limit = -16777216;
+								high_limit = 16777215;
+								break;
 							case 32:
 								low_limit = -2147483648;
 								high_limit = 2147483647;
