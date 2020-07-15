@@ -25,9 +25,9 @@ struct WaveHeader {
 	}
 
 	~WaveHeader() {
-		delete riff;
-		delete wave;
-		delete fmt_chunk_marker;
-		delete data_chunk_header;
+		delete[] riff;
+		delete[] wave;
+		delete[] fmt_chunk_marker;
+		delete[] data_chunk_header;
 	}
 };

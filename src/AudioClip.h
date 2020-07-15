@@ -58,6 +58,13 @@ namespace bridges {
 
 				}
 
+		  virtual ~AudioClip () {
+		    for (int i = 0; i < numChannels; i++) {
+		      delete channels[i];
+		      channels[i] = nullptr;
+		    }		    
+		  }
+		  
 				virtual const string getDataStructureRepresentation() const override final {
 					using bridges::JSONUtil::JSONencode;
 
@@ -322,6 +329,10 @@ namespace bridges {
 				long size_of_each_sample = (wave_header.channels * 
 								wave_header.bits_per_sample)/8;
 
+				delete[] buffer;
+				delete[] buffer2;
+				
+				
 				return wave_header;
 			}
 	public:
