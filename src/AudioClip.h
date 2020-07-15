@@ -220,7 +220,7 @@ namespace bridges {
 									// endian based on bytes in each channel sample
 									switch (bytes_in_each_channel) {
 										case 1:
-											amplitude = data_buffer[0];
+											amplitude = data_buffer[0]&0x00ff;
 											amplitude -= 128; //in wave, 8-bit are unsigned, so shifting to signed
 											break;
 										case 2:
