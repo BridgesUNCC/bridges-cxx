@@ -20,7 +20,7 @@ class AudioChannel {
 			return data[index];
 		}
 
-		void setSample(int index, int sample) {
-			data[index] = sample;
+		void setSample(int index, int val) {
+			data[index] = val;
 		}
 };
