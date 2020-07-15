@@ -4,12 +4,10 @@
 class AudioChannel {
 	private:
 		std::vector<int> data;
-		int sampleCount;
 
 	public:
 		AudioChannel(int sampleCount) {
 			data = std::vector<int>(sampleCount);
-			this->sampleCount = sampleCount;
 		}
 
 		int getChannelSize() {
