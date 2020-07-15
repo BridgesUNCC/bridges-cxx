@@ -102,14 +102,7 @@ namespace bridges {
 						}
 					}
 
-					string b64str = "";
-
-					int numBits = 3;
-					int count = 0;
-					for (int i = 0; i < byteBuff.size(); i += numBits) {
-					  b64str += base64::encode(&(byteBuff[i]), std::min(3, (int)(byteBuff.size()-i)));
-						count++;
-					}
+					string b64str = base64::encode(&(byteBuff[0]), byteBuff.size());
 
 					string jsonString = QUOTE + "encoding" + QUOTE + COLON + QUOTE + "RAW" + QUOTE + COMMA +
 						QUOTE + "numChannels" + QUOTE + COLON + JSONencode(this->numChannels) + COMMA +
