@@ -56,8 +56,6 @@ namespace bridges {
 				AudioClip(string wave_file) {
 					parseWaveFile (wave_file);
 
-//					for (int k = 0; k < sampleCount; k++)
-//						cout << k <<":" << channels[1]->getSample(k) << endl;
 				}
 
 				virtual const string getDataStructureRepresentation() const override final {
@@ -285,7 +283,6 @@ namespace bridges {
 
 				infile.read (buffer2, 2);
 				wave_header.channels = buffer2[0] | (buffer2[1] << 8);
-				cout << "(23,24) Channels :" << wave_header.channels <<  "\n";
 				this->numChannels = wave_header.channels;
 
 				infile.read ((char *) buffer, 4);
