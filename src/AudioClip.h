@@ -207,7 +207,7 @@ namespace bridges {
 								low_limit = -2147483648;
 								high_limit = 2147483647;
 								break;
-						}					
+						}
 						for (int sample = 0; sample < this->sampleCount; 
 														sample++) {
 							int amplitude;
@@ -215,7 +215,7 @@ namespace bridges {
 								for (int ch = 0; ch < wave_header.channels; 
 															ch++ ) {
 									// read signal amplitude
-									infile.read(data_buffer, size_of_each_sample);
+									infile.read(data_buffer, bytes_in_each_channel);
 									// convert data from big endian to little
 									// endian based on bytes in each channel sample
 									switch (bytes_in_each_channel) {
