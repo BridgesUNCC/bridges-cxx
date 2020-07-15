@@ -10,11 +10,11 @@ class AudioChannel {
 			data = std::vector<int>(sampleCount);
 		}
 
-		int getChannelSize() {
-			return sampleCount;
+		int getChannelSize() const {
+		  return data.size();
 		}
 
-		int getSample(int index) {
+		int getSample(int index) const {
 			return data[index];
 		}
 

@@ -12,7 +12,90 @@
 using namespace std;
 
 namespace bridges {
-	namespace datastructure {
+
+// WAVE file header format
+struct WaveHeader {
+	unsigned char *riff;				// RIFF string
+	unsigned int overall_size	;		// overall size of file in bytes
+	unsigned char *wave;				// WAVE string
+	unsigned char *fmt_chunk_marker;	// fmt string with trailing null char
+	unsigned int length_of_fmt;			// length of the format data
+	unsigned int format_type;			// format type. 1-PCM, 3- IEEE float, 6 - 8bit A law, 7 - 8bit mu law
+	unsigned int channels;				// no.of channels
+	unsigned int sample_rate;			// sampling rate (blocks per second)
+	unsigned int byterate;				// SampleRate * NumChannels * BitsPerSample/8
+	unsigned int block_align;			// NumChannels * BitsPerSample/8
+	unsigned int bits_per_sample;		// bits per sample, 8- 8bits, 16- 16 bits etc
+	unsigned char *data_chunk_header;	// DATA string or FLLR string
+	unsigned int data_size;				// NumSamples * NumChannels * 
+										// BitsPerSample/8 - size of the 
+										// next chunk that will be read
+
+
+	WaveHeader() {
+		riff = new unsigned char[4];
+		wave = new unsigned char[4];
+		fmt_chunk_marker = new unsigned char[4];
+		data_chunk_header = new unsigned char[4];
+	}
+
+	~WaveHeader() {
+		delete[] riff;
+		delete[] wave;
+		delete[] fmt_chunk_marker;
+		delete[] data_chunk_header;
+	}
+};
+
+  namespace datastructure {
+    /**
+ * @brief This class provides support for reading, modifying, and playing, audio waveform.
+ *
+ * This class provides a way to represent an AudioClip (think of a
+ * .WAV file) in Bridges as waveforms.
+ *
+ * An AudioClip can be composed of multiple channels: a stereo sound
+ * would be composed of 2 channels (Left and Right), a mono sound
+ * would be composed of a single channel. A 5.1 sound would be
+ * composed of 6 channels. When building an AudioClip from a file, the
+ * number of channels is taken from the file; some constructors have a
+ * numChannels that enables to pass the number of channels
+ * explicitly. If unsure, one can know how many channels are in an
+ * audio clip using getNumChannels().
+ *
+ * Each channel is essentially a 1D signal. That is to say, it is an
+ * array of values that represent how far the membrane of a speaker
+ * should be from its resting position. The quality of the sound is
+ * controlled by two parameters: sampling rate and sampling depth.
+ *
+ * Sampling rate tells how many positions per second are encoded by
+ * the AudioClip. It is expressed in Hertz. CD quality is 44100Hz;
+ * while walkie-talkies use 8000Hz. It is set automatically if read
+ * from a file; or it can be passed as the sampleRate parameter to
+ * some of the constructors. The sampling rate can be obtained from an
+ * AudioClip using getSampleRate().
+ *
+ * The length of an AudioClip is expressed in number of samples. So if
+ * an AudioClip is composed of 16,000 samples with a sampling rate of
+ * 8000Hz, the clip would be 2 seconds long. The number of samples
+ * can obtained with getSampleCount(); it is set from a file or can be
+ * passed as the sampleCount parameter of some of the constructor.
+ * 
+ * The sampling depth indicates how many different positions the
+ * membrane can take. It is typically expressed in bits with supported
+ * values being 8-bit, 16-bit, 24-bit, and 32-bit. If a clip is
+ * encoded with a depth of 8 bits, the membrane can take 2^8 different
+ * position ranging from -128 to +127, with 0 being the resting
+ * position. The sampling depth is read from files or passed as the
+ * sampleBits parameter of the constructor. The sampling depth of an
+ * existing clip can be obtained with getSampleBits().
+ *
+ * The individual samples are accessed with the getSample() and
+ * setSample() functions. The samples are integer values in the
+ * [-2^(getSampleBits()-1) ; 2^(getSampleBits()-1)[ range. The
+ * functions allow to specify for channel and sample index.
+ *
+ **/
 		class AudioClip : public DataStructure {
 			private:
 				int sampleCount;
@@ -27,11 +110,33 @@ namespace bridges {
 				};
 
 			public:
+		      /**
+     * @brief create an audio clip
+     *
+     * creates an AudioClip with numChannels channels, sampleCount samples at sampleRate Hz with a depth of sampleBits
+     *
+     **/
+
 				AudioClip(int sampleCount, int numChannels, int sampleBits, int sampleRate) {
 					if (sampleCount > 1000000000) {
 						throw "sampleCount must be less than 1 million";
 					}
 
+
+		if (sampleBits != 8 && sampleBits != 16 && sampleBits != 24 && sampleBits != 32) {
+		    throw "sampleBits must be either 8, 16, 24, or 32";
+		}
+
+		if (numChannels <= 0) {
+		    throw "numChannels should be positive";
+		}
+
+		if (sampleRate <= 0) {
+		    throw "sampleRate should be positive";
+		}
+		
+
+					
 					this->sampleCount = sampleCount;
 					this->numChannels = numChannels;
 					this->channels = vector<AudioChannel *>(numChannels);
@@ -52,7 +157,12 @@ namespace bridges {
 					return "Audio";
 				}
 
-				// creates an audio clip from a file in WAVE format
+    /**
+	 * @brief create an audio clip from a File
+	 *
+	 * @param wave_file name of the file (should be a Wave file)
+	 *
+	 **/
 				AudioClip(string wave_file) {
 					parseWaveFile (wave_file);
 
@@ -114,32 +224,77 @@ namespace bridges {
 					return jsonString;
 				}
 
-				int getNumChannels() const {
+    /**
+     * @brief returns the number of channels of the clip 
+     * @return  the number of channels of the clip (1 for mono, 2 for stereo, ...)
+     **/
+		  int getNumChannels() const {
 					return this->numChannels;
 				}
+        /**
+	 * @brief returns the sampling rate of the clip
+	 * @return  the sampling rate of the clip in Hertz. (CD quality is 44100Hz for instance)
+	 **/
 
 				int getSampleRate() const {
 					return this->sampleRate;
 				}
 
+        /**
+	 * @brief returns the number of samples in the clip
+	 *
+	 * The length of the clip in second is getSampleCount()/((double) getSampleRate())
+	 *
+	 * @return  the number of samples in the clip
+	 **/    
 				int getSampleCount() const {
 					return this->sampleCount;
 				}
 
-				int getSampleBits() const {
+
+		          /**
+	 * @brief returns the sampling depth.
+	 *
+	 * The sampling depth indicates how many bits are used to
+	 * encode each individual samples. The values supported are
+	 * only 8, 16, 24, and 32.
+	 *
+	 * All samples must be in the [-2^(getSampleBits()-1) ;
+	 * 2^(getSampleBits()-1)) range. that is to say, for 8-bit, in
+	 * the [-256;255] range.
+	 *
+	 * @return the sampling depth.
+	 **/    
+		  int getSampleBits() const {
 					return this->sampleBits;
 				}
 
-				int getSample(int channel, int index) const {
-					return channels.at(channel)->getSample(index);
-				}
+		    /**
+     * @brief access a particular sample
 
-				void setSample(int channel, int index, int value) {
+     * @param channelIndex the index of the channel that will be accessed (in the [0;getNumChannels()-1] range).
+     * @param sampleIndex the index of the sample that will be accessed (in the [0;getSampleCount()-1] range).
+     * @return the sample value (in [-2^(getSampleBits()-1) ;  2^(getSampleBits()-1)) range).
+     *
+     **/
+
+		  int getSample(int channelIndex, int sampleIndex) const {
+					return channels.at(channelIndex)->getSample(sampleIndex);
+				}
+        /**
+	 * @brief change a particular sample
+	 
+	 * @param channelIndex the index of the channel that will be accessed (in the [0;getNumChannels()-1] range).
+	 * @param sampleIndex the index of the sample that will be accessed (in the [0;getSampleCount()-1] range).
+	 * @param value the sample value (in [-2^(getSampleBits()-1) ;  2^(getSampleBits()-1)) range).
+	 *
+	 **/
+				void setSample(int channelIndex, int sampleIndex, int value) {
 				  if (value >= pow(2, getSampleBits()-1) ||
 				      value <  -pow(2, getSampleBits()-1))
 				      throw "Audio value Out of Bound";
 				      
-				  channels[channel]->setSample(index, value);
+				  channels[channelIndex]->setSample(sampleIndex, value);
 				}
 		private:
 			void parseWaveFile (string wave_file) {
@@ -327,16 +482,6 @@ namespace bridges {
 				
 				
 				return wave_header;
-			}
-	public:
-			void getRange() {
-				int max = -32768, min = 32767;
-				for (int i = 0; i < this->sampleCount; i++)
-				for (int c = 0; c < this->numChannels; c++) {
-					int val = this->getSample(c, i);
-					if (val < min) min = val;
-					if (val > max) max = val;
-				}
 			}
 		};
 	}
