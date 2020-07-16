@@ -103,7 +103,7 @@ namespace bridges {
 		 * http://bridgesuncc.github.io/tutorials/??
 		 *
 		 *
-		 * @author Luke Sloop, Kalpathi Subramanian
+		 * @author Luke Sloop, Kalpathi Subramanian, Erik Saule
 		 * @date  2020
 		 *
 		 * Acknowledgements: The Wav file parser is adapted from Amit Sengupta's
