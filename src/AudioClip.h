@@ -1,7 +1,6 @@
 
 #include "Bridges.h"
 #include "AudioChannel.h"
-#include "wave.h"
 #include <math.h>
 #include "rapidjson/stringbuffer.h"
 #include "base64.h"
@@ -111,7 +110,7 @@ namespace bridges {
 		 *	http://truelogic.org/wordpress/2015/09/04/parsing-a-wav-file-in-c/
 		 * 
 		 *  It was converted into C++ in this implementation.
-		 */
+		 *
 		**/
 		class AudioClip : public DataStructure {
 			private:
