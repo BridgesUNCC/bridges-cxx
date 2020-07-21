@@ -313,6 +313,14 @@ namespace bridges {
 					channels[channelIndex]->setSample(sampleIndex, value);
 				}
 			private:
+		  /**
+		   *
+		   * Acknowledgements: This Wav file parser is adapted from Amit Sengupta's
+		   *  C version, posted at  TRUELOGIC BLOG, 
+		   *	http://truelogic.org/wordpress/2015/09/04/parsing-a-wav-file-in-c/
+		   * 
+		   *  It was converted into C++ in this implementation.
+		   **/
 				void parseWaveFile (string wave_file) {
 					// Read and parse an audio file in WAVE format
 
