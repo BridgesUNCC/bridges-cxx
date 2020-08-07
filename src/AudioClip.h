@@ -118,7 +118,7 @@ namespace bridges {
 				int numChannels;
 				int sampleRate;
 				int sampleBits;
-				vector<AudioChannel *> channels;
+				vector<AudioChannel> channels;
 
 				union ShortByteUnion {
 					signed short asShort;
@@ -155,13 +155,13 @@ namespace bridges {
 
 					this->sampleCount = sampleCount;
 					this->numChannels = numChannels;
-					this->channels = vector<AudioChannel *>(numChannels);
+					this->channels = vector<AudioChannel>();
 
 					for (int i = 0; i < numChannels; i++) {
-						this->channels[i] = new AudioChannel(sampleCount);
+					  this->channels.push_back( AudioChannel(sampleCount));
 
 						for (int j = 0; j < sampleCount; j++) {
-							this->channels[i]->setSample(j, 0);
+							this->channels[i].setSample(j, 0);
 						}
 					}
 
@@ -182,13 +182,6 @@ namespace bridges {
 				AudioClip(string wave_file) {
 					parseWaveFile (wave_file);
 
-				}
-
-				virtual ~AudioClip () {
-					for (int i = 0; i < numChannels; i++) {
-						delete channels[i];
-						channels[i] = nullptr;
-					}
 				}
 
 				virtual const string getDataStructureRepresentation() const override final {
@@ -295,7 +288,7 @@ namespace bridges {
 				**/
 
 				int getSample(int channelIndex, int sampleIndex) const {
-					return channels.at(channelIndex)->getSample(sampleIndex);
+				  return channels.at(channelIndex).getSample(sampleIndex);
 				}
 				/**
 				* @brief change a particular sample
@@ -310,7 +303,7 @@ namespace bridges {
 						value <  -pow(2, getSampleBits() - 1))
 						throw "Audio value Out of Bound";
 
-					channels[channelIndex]->setSample(sampleIndex, value);
+					channels[channelIndex].setSample(sampleIndex, value);
 				}
 			private:
 		  /**
@@ -344,9 +337,9 @@ namespace bridges {
 					}
 
 					// create storage for the audio data
-					this->channels.resize(this->numChannels);
+					//this->channels.resize(this->numChannels);
 					for (int i = 0; i < numChannels; i++) {
-						this->channels[i] = new AudioChannel(this->sampleCount);
+					  this->channels.push_back( AudioChannel(this->sampleCount));
 					}
 
 					// read sample data by chunks, if PCM
