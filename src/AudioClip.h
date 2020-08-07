@@ -179,7 +179,7 @@ namespace bridges {
 				 * @param wave_file name of the file (should be a Wave file)
 				 *
 				 **/
-				AudioClip(string wave_file) {
+				AudioClip(const string& wave_file) {
 					parseWaveFile (wave_file);
 
 				}
@@ -314,7 +314,7 @@ namespace bridges {
 		   * 
 		   *  It was converted into C++ in this implementation.
 		   **/
-				void parseWaveFile (string wave_file) {
+				void parseWaveFile (const string & wave_file) {
 					// Read and parse an audio file in WAVE format
 
 					// open file
