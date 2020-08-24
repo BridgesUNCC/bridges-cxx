@@ -99,6 +99,7 @@ namespace bridges {
 		 *
 		**/
 		class AudioClip : public DataStructure {
+		  const bool debug = true;
 			private:
 				int sampleCount;
 				int numChannels;
@@ -418,21 +419,47 @@ namespace bridges {
 
 					infile.read ((char *)wave_header.riff, 4);
 
-					unsigned char *buffer = new  unsigned char[4];
+					if (wave_header.riff[0] != 'R' ||
+					    wave_header.riff[1] != 'I' ||
+					    wave_header.riff[2] != 'F' ||
+					    wave_header.riff[3] != 'F')
+					  throw "malformed RIFF header";
+
+
+					  unsigned char *buffer = new  unsigned char[4];
 					infile.read ((char*) buffer,  4);
 
 					// convert little endian to big endian 4 byte int
 					wave_header.overall_size  = buffer[0] | (buffer[1] << 8) |
 						(buffer[2] << 16) | (buffer[3] << 24);
 
-
+					if (debug)
+					  std::cout<<"overall size: "<<wave_header.overall_size<<std::endl;
+					  
 					infile.read ((char*) wave_header.wave,  4);
 
+					if (wave_header.wave[0] != 'W' ||
+					    wave_header.wave[1] != 'A' ||
+					    wave_header.wave[2] != 'V' ||
+					    wave_header.wave[3] != 'E')
+					  throw "format is not WAVE";
+
+
 					infile.read ((char*) wave_header.fmt_chunk_marker,  4);
+					if (wave_header.fmt_chunk_marker[0] != 'f' ||
+					    wave_header.fmt_chunk_marker[1] != 'm' ||
+					    wave_header.fmt_chunk_marker[2] != 't' ||
+					    wave_header.fmt_chunk_marker[3] != ' ')
+					  throw "malformed wave file";
+
+					
 					infile.read ((char *) buffer, 4);
 					wave_header.length_of_fmt = buffer[0] | (buffer[1] << 8) |
 						(buffer[2] << 16) | (buffer[3] << 24);
 
+					if (debug)
+					  std::cout<<"length of format: "<<wave_header.length_of_fmt<<std::endl;
+					
 					char *buffer2 = new  char[2];
 					infile.read (buffer2, 2);
 					wave_header.format_type = buffer2[0] | (buffer2[1] << 8);
@@ -448,21 +475,34 @@ namespace bridges {
 						case 7 :
 							format_name = "Mu-law";
 							break;
+					default:
+					  throw "unsupported format";
+					  
 					}
 
 					infile.read (buffer2, 2);
 					wave_header.channels = buffer2[0] | (buffer2[1] << 8);
 					this->numChannels = wave_header.channels;
 
+					if (debug)
+					  std::cout << "numChannels: "<<numChannels<<std::endl;
+					  
+					
 					infile.read ((char *) buffer, 4);
 					wave_header.sample_rate = buffer[0] | (buffer[1] << 8) |
 						(buffer[2] << 16) | (buffer[3] << 24);
 					this->sampleRate = wave_header.sample_rate;
 
+					if (debug)
+					  std::cout << "sampleRate: "<<sampleRate<<std::endl;
+					
 					infile.read ((char *) buffer, 4);
 					wave_header.byterate = buffer[0] | (buffer[1] << 8) |
 						(buffer[2] << 16) | (buffer[3] << 24);
 
+					if (debug)
+					  std::cout << "byte rate: "<<wave_header.byterate<<std::endl;
+					
 					infile.read (buffer2, 2);
 					wave_header.block_align = buffer2[0] | (buffer2[1] << 8);
 
@@ -471,8 +511,24 @@ namespace bridges {
 
 					this->sampleBits = wave_header.bits_per_sample;
 
+					if (debug)
+					  std::cout<<"sample Bits: "<<sampleBits<<std::endl;
+
+					if (wave_header.byterate !=
+					    wave_header.sample_rate * wave_header.channels * wave_header.bits_per_sample / 8)
+					  throw "malformed wave file";
+					
 					infile.read ((char *)wave_header.data_chunk_header, 4);
 
+					if (wave_header.data_chunk_header[0] != 'd' ||
+					    wave_header.data_chunk_header[1] != 'a' ||
+					    wave_header.data_chunk_header[2] != 't' ||
+					    wave_header.data_chunk_header[3] != 'a')
+					  throw "malformed wave file";
+
+
+
+					
 					infile.read ((char *) buffer, 4);
 					wave_header.data_size = buffer[0] | (buffer[1] << 8) |
 						(buffer[2] << 16) | (buffer[3] << 24);
@@ -482,12 +538,21 @@ namespace bridges {
 						(wave_header.channels * wave_header.bits_per_sample);
 					this->sampleCount = num_samples;
 
+					if (debug) 
+					  std::cout<<"sample Count: "<<this->sampleCount<<std::endl;
+
+
+
 					long size_of_each_sample = (wave_header.channels *
 							wave_header.bits_per_sample) / 8;
 
+					
+					
 					delete[] buffer;
 					delete[] buffer2;
 
+					if (!infile)
+					  throw "malformed RIFF header";
 
 					return wave_header;
 				}
