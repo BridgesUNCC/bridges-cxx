@@ -307,8 +307,7 @@ namespace bridges {
 					ifstream infile;
 					infile.open (wave_file.c_str(), ios::binary | ios::in);
 					if (infile.fail()) {
-						cout << "Couldnt open " << wave_file << endl;
-						return;
+					  throw "Could not open " + wave_file;
 					}
 
 					// read the header data of the input WAVE file
