@@ -99,7 +99,7 @@ namespace bridges {
 		 *
 		**/
 		class AudioClip : public DataStructure {
-		  const bool debug = true;
+		  const bool debug = false;
 			private:
 				int sampleCount;
 				int numChannels;
@@ -414,7 +414,8 @@ namespace bridges {
 				}
 
 		  //For information on the wave header, see: http://soundfile.sapp.org/doc/WaveFormat/
-		  //But be careful that this URL ignores the possibility that other chunks may exist such as the fact, ce, playlist, and data list chunks. see https://en.wikipedia.org/wiki/WAV and https://en.wikipedia.org/wiki/Resource_Interchange_File_Format for details
+		  //But be careful that this URL ignores the possibility that other chunks may exist such as the fact, ce, playlist, and data list chunks. see https://en.wikipedia.org/wiki/WAV and https://en.wikipedia.org/wiki/Resource_Interchange_File_Format for details.
+		  //It appears this is a complete specification: http://www-mmsp.ece.mcgill.ca/Documents/AudioFormats/WAVE/Docs/riffmci.pdf
 		  // this function reads/parse the RIFF/WAVE formated file and stops reading at the beginning of the data chunk after reading its header
 				WaveHeader readWaveHeader(ifstream& infile) {
 
