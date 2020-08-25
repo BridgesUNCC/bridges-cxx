@@ -412,6 +412,10 @@ namespace bridges {
 					}
 					infile.close();
 				}
+
+		  //For information on the wave header, see: http://soundfile.sapp.org/doc/WaveFormat/
+		  //But be careful that this URL ignores the possibility that other chunks may exist such as the fact, ce, playlist, and data list chunks. see https://en.wikipedia.org/wiki/WAV and https://en.wikipedia.org/wiki/Resource_Interchange_File_Format for details
+		  // this function reads/parse the RIFF/WAVE formated file and stops reading at the beginning of the data chunk after reading its header
 				WaveHeader readWaveHeader(ifstream& infile) {
 
 					// read file header
@@ -517,22 +521,31 @@ namespace bridges {
 					if (wave_header.byterate !=
 					    wave_header.sample_rate * wave_header.channels * wave_header.bits_per_sample / 8)
 					  throw "malformed wave file";
+
+					//The next sub-chunk of the RIFF format should be the data subchunk.
+					//but in some case, there are meta data found first.
+					//skipping any sub-chunk that is not the data sub-chunk
+					bool data_chunk_found = false;
+					while (!data_chunk_found) {
+					  infile.read ((char *)wave_header.data_chunk_header, 4);
 					
-					infile.read ((char *)wave_header.data_chunk_header, 4);
-
-					if (wave_header.data_chunk_header[0] != 'd' ||
-					    wave_header.data_chunk_header[1] != 'a' ||
-					    wave_header.data_chunk_header[2] != 't' ||
-					    wave_header.data_chunk_header[3] != 'a')
-					  throw "malformed wave file";
-
-
+					  infile.read ((char *) buffer, 4);
+					  wave_header.data_size = buffer[0] | (buffer[1] << 8) |
+					    (buffer[2] << 16) | (buffer[3] << 24);
+					  
+					  if (wave_header.data_chunk_header[0] != 'd' ||
+					      wave_header.data_chunk_header[1] != 'a' ||
+					      wave_header.data_chunk_header[2] != 't' ||
+					      wave_header.data_chunk_header[3] != 'a') {
+					    //skip sub chunk
+					    infile.ignore(wave_header.data_size);
+					  }
+					  else
+					    data_chunk_found = true;
+					}
+					  
 
 					
-					infile.read ((char *) buffer, 4);
-					wave_header.data_size = buffer[0] | (buffer[1] << 8) |
-						(buffer[2] << 16) | (buffer[3] << 24);
-
 					// calculate no.of samples
 					long num_samples = (8 * wave_header.data_size) /
 						(wave_header.channels * wave_header.bits_per_sample);
