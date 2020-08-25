@@ -538,7 +538,8 @@ namespace bridges {
 					      wave_header.data_chunk_header[2] != 't' ||
 					      wave_header.data_chunk_header[3] != 'a') {
 					    //skip sub chunk
-					    infile.ignore(wave_header.data_size);
+					    int padding = (wave_header.data_size % 2? 0:1);
+					    infile.ignore(wave_header.data_size + padding);
 					  }
 					  else
 					    data_chunk_found = true;
