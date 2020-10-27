@@ -273,6 +273,17 @@ namespace bridges {
 				 * @param x  x coordinate
 				 * @param y  y coordinate
 				 */
+				void setLocation(double x, double y) {
+					setLocation(float(x), float(y));
+				}
+
+		  
+				/**
+				 * This method sets the symbol location
+				 *
+				 * @param x  x coordinate
+				 * @param y  y coordinate
+				 */
 				void setCenter(float x, float y) {
 					setLocation(x, y);
 				}
