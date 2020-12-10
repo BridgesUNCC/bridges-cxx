@@ -38,6 +38,11 @@ namespace bridges {
 		 * they are mandatory) and colors, all other
 		 * attributes are ignored.
 		 *
+		 * BRIDGES picks the rendering engine
+		 * automatically. But it can be forced to pick one
+		 * used forceLargeVizualization() and
+		 * forceSmallVizualization()
+		 *
 		 */
 		template<typename K, typename E1 = K, typename E2 = E1>
 		class GraphAdjList : public DataStructure {
@@ -599,6 +604,11 @@ namespace bridges {
 		   *
 		   * force the rendering engine to use large graph visualization
 		   *
+		   * This forces the rendering to a more bandwidth
+		   * efficient at the cost of having less features. The large
+		   * graph visualization only renders vertices that have
+		   * specified locations. The only usable attribute for vertices and edges are colors.
+		   *
 		   * @param f set to true to force the visualization engine to use large graphs visualization. Setting to false does not prevent large visualization to be used, just does not force it.
 		   *
 		   */
@@ -615,6 +625,11 @@ namespace bridges {
 		  /**
 		   *
 		   * force the rendering engine to use small graph visualization
+		   *
+		   *
+		   * The small visualization uses more bandwidth, have more
+		   * features, and support a force directed layout for vertices
+		   * which do not have a specified location.
 		   *
 		   * @param f set to true to force the visualization engine to use small graphs visualization. Setting to false does not prevent small visualization to be used, just does not force it.
 		   *
