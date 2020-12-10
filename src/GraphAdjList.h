@@ -29,6 +29,15 @@ namespace bridges {
 		 * There is a tutorial about Graph Adjacency List  :
 		 * http://bridgesuncc.github.io/tutorials/Graph_AL.html
 		 *
+		 *
+		 * There are two visualization engines available for
+		 * graph. The small graph visualization supports all
+		 * attributes of vertices and edges but is
+		 * prohibitively slow on large graphs. The large graph
+		 * visualization only supports locations (actually
+		 * they are mandatory) and colors, all other
+		 * attributes are ignored.
+		 *
 		 */
 		template<typename K, typename E1 = K, typename E2 = E1>
 		class GraphAdjList : public DataStructure {
@@ -586,6 +595,13 @@ namespace bridges {
 
 			public:
 
+		  /**
+		   *
+		   * force the rendering engine to use large graph visualization
+		   *
+		   * @param f set to true to force the visualization engine to use large graphs visualization. Setting to false does not prevent large visualization to be used, just does not force it.
+		   *
+		   */
 				void forceLargeVisualization(bool f) {
 					if (f) {
 						forceLargeViz = true;
@@ -596,7 +612,14 @@ namespace bridges {
 					}
 				}
 
-				void forceSmallVisualization(bool f) {
+		  /**
+		   *
+		   * force the rendering engine to use small graph visualization
+		   *
+		   * @param f set to true to force the visualization engine to use small graphs visualization. Setting to false does not prevent small visualization to be used, just does not force it.
+		   *
+		   */
+		  void forceSmallVisualization(bool f) {
 					if (f) {
 						forceSmallViz = true;
 						forceLargeViz = false;
