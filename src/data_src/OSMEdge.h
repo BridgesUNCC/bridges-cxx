@@ -15,8 +15,8 @@ namespace bridges {
 		 *
 		 * Class that holds Open Street Map edges from https://openstreetmap.org
 		 *
-		 * @author Kalpathi Subramanian
-		 * @date 2/14/19
+		 * @author Erik Saule, Kalpathi Subramanian
+		 * @date 2/14/19, 12/28/20
 		 */
 		class OSMEdge {
 
@@ -28,11 +28,21 @@ namespace bridges {
 				double length = 0.0;
 
 			public:
-
-				OSMEdge(OSMVertex::OSMVertexID src, OSMVertex::OSMVertexID dest, double dist) :
-					src_vertex(src), dest_vertex(dest), length(dist) {
+				/**
+				 * Constructor
+				 * @param src  source vertex of  edge
+				 * @param dest  destination vertex of  edge
+				 * @param dist length of edge
+				 */
+				OSMEdge(OSMVertex::OSMVertexID src, OSMVertex::OSMVertexID dest,
+					double dist) : src_vertex(src), dest_vertex(dest),
+					length(dist) {
 				}
 
+				/**
+				 * Constructor
+				 * @param edge  edge data to be used for this edge
+				 */
 				OSMEdge(const OSMEdge *edge) : src_vertex(edge->src_vertex),
 					dest_vertex(edge->dest_vertex), length(edge->length) {
 				}

@@ -3,14 +3,14 @@
 
 namespace bridges {
 	namespace dataset {
-	/**
-	 * @brief This is a helper class for accessing actor-movie data from Wikidata.
-	 *
-	 * @author Erik Saule, Kalpathi Subramanian (documentation)
-	 * @date  12/28/20
-	 */
-	 	// Since the data always comes from wikidata, we could strip the 
-	 	// prefix http://www.wikidata.org/entity/ from the entities to gain 
+		/**
+		 * @brief This is a helper class for accessing actor-movie data from Wikidata.
+		 *
+		 * @author Erik Saule, Kalpathi Subramanian (documentation)
+		 * @date  12/28/20
+		 */
+		// Since the data always comes from wikidata, we could strip the
+		// prefix http://www.wikidata.org/entity/ from the entities to gain
 		// memory. Should we?
 		class MovieActorWikidata {
 				std::string movieURI;
@@ -19,29 +19,29 @@ namespace bridges {
 				std::string actorName;
 
 			public:
-				/** 
+				/**
 				 * default constructor
 				 */
 				MovieActorWikidata() {
 				}
 
-				/** 
-				 * set the movie URI 
+				/**
+				 * set the movie URI
 				 * @param mu  movie uri to set
 				 */
 				void setMovieURI (std::string mu) {
 					movieURI = mu;
 				}
 
-				/** 
-				 * set the actor URI 
+				/**
+				 * set the actor URI
 				 * @param au  actor uri to set
 				 */
 				void setActorURI (std::string au) {
 					actorURI = au;
 				}
 
-				/** 
+				/**
 				 * set the movie name
 				 * @param mn  movie name to set
 				 */
@@ -49,7 +49,7 @@ namespace bridges {
 					movieName = mn;
 				}
 
-				/** 
+				/**
 				 * set the actor name
 				 * @param an  actor name to set
 				 */
@@ -57,7 +57,7 @@ namespace bridges {
 					actorName = an;
 				}
 
-				/** 
+				/**
 				 * get the movie URI
 				 * @return movie uri
 				 */
@@ -65,7 +65,7 @@ namespace bridges {
 					return movieURI;
 				}
 
-				/** 
+				/**
 				 * get the actor URI
 				 * @return actor uri
 				 */
@@ -73,7 +73,7 @@ namespace bridges {
 					return actorURI;
 				}
 
-				/** 
+				/**
 				 * get the movie name
 				 * @return movie  name
 				 */
@@ -81,7 +81,7 @@ namespace bridges {
 					return movieName;
 				}
 
-				/** 
+				/**
 				 * get the actor name
 				 * @return actor name
 				 */

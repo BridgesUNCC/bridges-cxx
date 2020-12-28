@@ -72,7 +72,7 @@ namespace bridges {
 
 			public:
 
-				/** 
+				/**
 				 * Default Constructor
 				 */
 				EarthquakeUSGS()
@@ -82,7 +82,7 @@ namespace bridges {
 					  date_correct(false) {
 				}
 
-				/** 
+				/**
 				 * Constructor
 				 *
 				 * @param magnitude quake magnitude

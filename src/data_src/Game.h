@@ -34,14 +34,14 @@ namespace bridges {
 				vector<string> genre;	// game type/category
 
 			public:
-				/** 
+				/**
 				 * Constructor
 				 */
 
 				Game()
 					: title(""), platform(""), rating(0), genre() {
 				}
-				/** 
+				/**
 				 * Constructor
 				 *
 				 * @param title title of game

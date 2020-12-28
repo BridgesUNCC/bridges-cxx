@@ -23,12 +23,12 @@ namespace bridges {
 	namespace dataset {
 		using namespace bridges::datastructure;
 		/**
-		 * @brief  Class that hold Open Street Map vertices
+		 * @brief  Class that hold Open Street Map Data
 		 *
 		 * Class that holds Open Street Map data, from https://openstreetmap.org
 		 *
-		 * @author Kalpathi Subramanian
-		 * @date 2/16/19
+		 * @author Erik Saule, Kalpathi Subramanian
+		 * @date 2/16/19, 12/28/20
 		 */
 
 		class OSMData {
@@ -137,6 +137,8 @@ namespace bridges {
 				 * The vertices of the graph will be located at
 				 * the location given in the data set
 				 * converted to cartesian coordinate.
+				 *
+				 * @param[out] gr  constructed graph from the OSM data
 				 **/
 				void getGraph (GraphAdjList<int, OSMVertex, double>* gr) const {
 					//	vector<OSMVertex> vertices = osm_data->getVertices();
@@ -226,8 +228,8 @@ namespace bridges {
 				/**
 				 *   get the Latitude and Longitude range of the dataset
 				 *
-				 *   @param[out]  lat_range
-				 *   @param[out]  longit_range
+				 *   @param[out]  lat_range latitude range
+				 *   @param[out]  longit_range longitude range
 				 */
 				void getLatLongRange (double *lat_range, double *longit_range) const {
 					lat_range[0] = latitude_range[0];
@@ -308,6 +310,9 @@ namespace bridges {
 				/**
 				 * 	convert lat/long coords to Cartesian
 				 *
+				 *	@param[in] lat latitude
+				 *	@param[in] longit longitude
+				 *	@param[out] coords computed cartesian coords
 				 */
 				static void toCartesianCoords(double lat, double longit, double *coords) {
 					const double R = 6378.; // Radius of the earth in km

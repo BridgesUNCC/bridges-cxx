@@ -21,8 +21,8 @@ namespace bridges {
 		 *
 		 * Class that holds Open Street Map vertices from https://openstreetmap.org
 		 *
-		 * @author Kalpathi Subramanian
-		 * @date 2/14/19
+		 * @author Erik Saule, Kalpathi Subramanian
+		 * @date 2/14/19, 12/28/20
 		 *
 		 */
 		class OSMVertex {
@@ -49,15 +49,29 @@ namespace bridges {
 
 			public:
 
+				/**
+				 * Default Constructor
+				 */
 				OSMVertex() {
 				}
 
+				/**
+				 * Constructor
+				 * @param vid  id of vertex
+				 * @param latit latitude position of vertex
+				 * @param longit longitude position of vertex
+				 */
 				OSMVertex (OSMVertexID vid, double latit, double longit)
 					: id(vid), latitude(latit), longitude(longit) {
 
 					toCartesianCoords ();
 				}
 
+
+				/**
+				 * Constructor
+				 * @param vert  vertex whose attributes copied into this object
+				 */
 				OSMVertex(const OSMVertex *vert)
 					: id(vert->id), latitude(vert->latitude), longitude(vert->longitude) {
 				}
@@ -73,7 +87,7 @@ namespace bridges {
 				/**
 				 *	set latitude of quake location
 				 *
-				 *	@param latit latitude of node
+				 *	@param latit latitude of node to set
 				 */
 				void setLatitude(double latit) {
 					latitude = latit;
@@ -90,7 +104,7 @@ namespace bridges {
 				/**
 				 *	set longitude of  vertex
 				 *
-				 *	@param longit longitude
+				 *	@param longit longitude to be set
 				 */
 				void setLongitude(double longit) {
 					this->longitude = longit;
@@ -98,7 +112,7 @@ namespace bridges {
 				}
 
 				/**
-				 * 	get Cartesian coords of lat/long
+				 * 	get Cartesian coords of provided lat/long position
 				 *
 				 *	@param[out] coords cartesian coordinate coords[0] is x, coords[1] is y
 				 */
@@ -106,9 +120,17 @@ namespace bridges {
 					coords[0] = cartesian_coords[0];
 					coords[1] = cartesian_coords[1];
 				}
+				/**
+				 * set id of this vertex
+				 * @param vid vertex id to be used for this vertex
+				 */
 				void setVertexID(OSMVertexID vid) {
 					this->id = vid;
 				}
+				/**
+				 * get id of this vertex
+				 * @return id  of this vertex
+				 */
 				OSMVertexID getVertexID() const {
 					return this->id;
 				}

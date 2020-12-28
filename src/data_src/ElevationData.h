@@ -92,8 +92,8 @@ namespace bridges {
 				}
 
 				/**
-				 * get width of elevation map 
-				 * @return width of map 
+				 * get width of elevation map
+				 * @return width of map
 				 */
 
 				int getCols() {
@@ -101,15 +101,15 @@ namespace bridges {
 				}
 
 				/**
-				 * set width of elevation map 
-				 * @param c  width of map 
+				 * set width of elevation map
+				 * @param c  width of map
 				 */
 				void setCols(int c) {
 					cols = c;
 				}
 
 				/**
-				 * get width of elevation map 
+				 * get width of elevation map
 				 *
 				 * @param r row index
 				 * @param c column index
