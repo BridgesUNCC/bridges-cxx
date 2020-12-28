@@ -38,7 +38,7 @@ namespace bridges {
 
 				/**
 				 *
-				 * constructors
+				 * default constructor
 				 *
 				 */
 				ElevationData() {
@@ -49,6 +49,12 @@ namespace bridges {
 					maxVal = 0;
 				}
 
+				/**
+				 *
+				 * constructor
+				 * @param r number of rows (height) of elevation map
+				 * @param c number of columns (width) of elevation map
+				 */
 				ElevationData(int r, int c) {
 					rows = r;
 					cols = c;
@@ -57,8 +63,16 @@ namespace bridges {
 					cellSize = 0;
 					maxVal = 0;
 				}
-
-
+				/**
+				 *
+				 * constructor
+				 * @param rows number of rows (height) of elevation map
+				 * @param cols number of columns (width) of elevation map
+				 * @param x11  lower left of map - x coordinate
+				 * @param y11  lower left of map - y coordinate
+				 * @param cellsize size of each cell
+				 * @param maxVal  max elevation value in map
+				 */
 				ElevationData (int cols, int rows, int xll,
 					int yll, int cellsize, int maxVal) {
 					data = new int[cols * rows];
@@ -78,60 +92,63 @@ namespace bridges {
 				}
 
 				/**
-				 *
-				 * setters, getters
-				 *
+				 * get width of elevation map 
+				 * @return width of map 
 				 */
 
 				int getCols() {
 					return cols;
 				}
 
+				/**
+				 * set width of elevation map 
+				 * @param c  width of map 
+				 */
 				void setCols(int c) {
 					cols = c;
 				}
 
 				/**
+				 * get width of elevation map 
 				 *
-				 *	get elevation value
-				 *
+				 * @param r row index
+				 * @param c column index
 				 */
 				int getVal (int r, int c) {
 					return data[r * cols + c];
 				}
 
 				/**
+				 *	set elevation value at row r and column c
 				 *
-				 *	set elevation value
-				 *
+				 * @param r row index
+				 * @param c column index
+				 * @param val  elevation value
 				 */
 				void setVal (int r, int c, int val) {
 					data[r * cols + c] = val;
 				}
-
-
 				/**
-				 *
 				 *	get num rows of data
 				 *
+				 *	@return width of elevation map
 				 */
 				int getRows() {
 					return rows;
 				}
 
 				/**
-				 *
 				 *	set num rows of data
 				 *
+				 *	@param r width of elevation map to set
 				 */
 				void setRows(int r) {
 					rows = r;
 				}
 
 				/**
-				 *
 				 *	get lower left corner of data (X)
-				 *
+				 *  @return x coord of lower left of map
 				 */
 				int getxll() {
 					return xll;
@@ -141,15 +158,15 @@ namespace bridges {
 				 *
 				 *	set lower left corner of data (X)
 				 *
+				 *	@param x_ll  lower left coord of X to set
 				 */
 				void setxll(int x_ll) {
 					xll = x_ll;
 				}
 
 				/**
-				 *
 				 *	get lower left corner of data (Y)
-				 *
+				 *  @return y coord of lower left of map
 				 */
 				int getyll() {
 					return yll;
@@ -158,7 +175,7 @@ namespace bridges {
 				/**
 				 *
 				 *	set lower left corner of data (Y)
-				 *
+				 *	@param y_ll  lower left coord of Y to set
 				 */
 				void setyll(int y_ll) {
 					yll = y_ll;
@@ -167,7 +184,7 @@ namespace bridges {
 				/**
 				 *
 				 *	get  data resolution
-				 *
+				 *  @return the cell size
 				 */
 				int getCellSize() {
 					return cellSize;
@@ -176,7 +193,7 @@ namespace bridges {
 				/**
 				 *
 				 *	set  data resolution
-				 *
+				 *  @param cell_size set the resolution of the map to cell_size
 				 */
 				void setCellSize(int cell_size) {
 					cellSize = cell_size;
@@ -185,7 +202,7 @@ namespace bridges {
 				/**
 				 *
 				 *	get max elevation of data
-				 *
+				 *	@return the max elevation value in the map
 				 */
 				int getMaxVal() {
 					return maxVal;
@@ -194,7 +211,7 @@ namespace bridges {
 				/**
 				 *
 				 *	set max elevation of data
-				 *
+				 *	@param max_val the max value of elevation to set
 				 */
 				void setMaxVal(int max_val) {
 					maxVal = max_val;
@@ -202,5 +219,4 @@ namespace bridges {
 		};
 	}
 }
-
 #endif
