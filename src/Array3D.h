@@ -128,7 +128,7 @@ namespace bridges {
 
 
 				/**
-				 *  @brief Bracker_helper class to make [][] operators work on 
+				 *  @brief Bracker_helper class to make [][] operators work on
 				 *	array 2d. You should never use it directly
 				 */
 				struct Bracket_helper2 {
@@ -144,7 +144,7 @@ namespace bridges {
 
 
 				/**
-				 *  @brief Bracker_helper class to make [] operators work on 
+				 *  @brief Bracker_helper class to make [] operators work on
 				 *	array 2d. You should never use it directly
 				 */
 				struct Bracket_helper {
@@ -163,7 +163,7 @@ namespace bridges {
 				}
 
 				/**
-				 *  @brief helper2 const class is to make [][] operators 
+				 *  @brief helper2 const class is to make [][] operators
 				 *	work on array 2d. You should never use it directly
 				 */
 				struct Bracket_helper2_const {
@@ -179,7 +179,7 @@ namespace bridges {
 
 
 				/**
-				 *  @brief helper const class is to make [][] operators 
+				 *  @brief helper const class is to make [][] operators
 				 *	work on array 2d. You should never use it directly
 				 */
 				/// @brief helper class to make [][] operators work on array 2d. You should never use it directly
@@ -194,7 +194,7 @@ namespace bridges {
 				};
 
 				/**
-				 *  @brief helper const class is to make [] operators 
+				 *  @brief helper const class is to make [] operators
 				 *	work on array 2d. You should never use it directly
 				 */
 				Bracket_helper_const operator[] (int index) const {

@@ -11,7 +11,7 @@ using namespace std;
 
 namespace bridges {
 	namespace game {
-	enum class NamedColor : unsigned char {
+		enum class NamedColor : unsigned char {
 			aliceblue,
 			antiquewhite,
 			aqua,
@@ -298,17 +298,17 @@ namespace bridges {
 		/**
 		 * @brief This class represents a single cell of the Game Grid.
 		 *
-	 	 * This class is part of the Bridges Game API
+		 * This class is part of the Bridges Game API
 		 * Each cell of the game grid contains background and foreground colors,
 		 * and a symbol. Refer to the  NamedColor and NamedSymbol definitions
 		 * for a list of colors and symbols that can be used.
-	 	 *
-	 	 * @sa See the detailed Bridges game tutorial for examples at
-	 	 * http://bridgesuncc.github.io/tutorials/NonBlockingGame.html
-	 	 *
-	 	 * @author Erik Saule, 
-	 	 * @date 2018, 2019, 12/28/20
-		 */	
+		 *
+		 * @sa See the detailed Bridges game tutorial for examples at
+		 * http://bridgesuncc.github.io/tutorials/NonBlockingGame.html
+		 *
+		 * @author Erik Saule,
+		 * @date 2018, 2019, 12/28/20
+		 */
 		class GameCell {
 				NamedColor bg;
 				NamedColor fg;
@@ -386,17 +386,17 @@ namespace bridges {
 
 		//TODO: implement RLE encoding
 		/**
- 	 	 * @brief This is a class in BRIDGES for representing an (n x n)game grid.
-	 	 *
-	 	 *	This class is part of the Bridges Game API
-	 	 *
-	 	 * @sa See the detailed Bridges game tutorial for examples at
-	 	 * http://bridgesuncc.github.io/tutorials/NonBlockingGame.html
-	 	 *
-	 	 * @author Erik Saule, 
-	 	 * @date 2018, 2019, 12/28/20
-	 	 *
-	 	 */
+		 * @brief This is a class in BRIDGES for representing an (n x n)game grid.
+		 *
+		 *	This class is part of the Bridges Game API
+		 *
+		 * @sa See the detailed Bridges game tutorial for examples at
+		 * http://bridgesuncc.github.io/tutorials/NonBlockingGame.html
+		 *
+		 * @author Erik Saule,
+		 * @date 2018, 2019, 12/28/20
+		 *
+		 */
 		class GameGrid : public Grid<GameCell> {
 			private:
 				std::string encoding = "raw";

@@ -291,7 +291,7 @@ namespace bridges {
 			}
 			/**
 			 *
-			 *  @brief Get data of a particular songs (including lyrics) using 
+			 *  @brief Get data of a particular songs (including lyrics) using
 			 *	 the Genius API
 			 *  (https://docs.genius.com/), given the song title and artist name.
 			 *	Valid endpoints:  http://bridgesdata.herokuapp.com/api/songs/find/
@@ -576,7 +576,7 @@ namespace bridges {
 
 			/**
 			 *
-			 *  @brief Get OpenStreetMap data given a bounding rectangle of 
+			 *  @brief Get OpenStreetMap data given a bounding rectangle of
 			 *	lat/long values.
 			 *
 			 *  @param lat_min  latitude minimum
@@ -747,42 +747,42 @@ namespace bridges {
 			 *
 			 * @param location which location to get the map from
 			 **/
-/*
-			OSMData getOSMDataOld (string location) {
-				std::transform(location.begin(), location.end(), location.begin(),
-					::tolower);
-				std::string osm_json;
-				bool from_cache = false;
-				try {
-					if (my_cache.inCache(location)) {
-						osm_json = my_cache.getDoc(location);
-						from_cache = true;
-					}
-				}
-				catch (CacheException& ce) {
-					//something went bad trying to access the cache
-					std::cout << "Exception while reading from cache. Ignoring cache and continue." << std::endl;
-				}
+			/*
+						OSMData getOSMDataOld (string location) {
+							std::transform(location.begin(), location.end(), location.begin(),
+								::tolower);
+							std::string osm_json;
+							bool from_cache = false;
+							try {
+								if (my_cache.inCache(location)) {
+									osm_json = my_cache.getDoc(location);
+									from_cache = true;
+								}
+							}
+							catch (CacheException& ce) {
+								//something went bad trying to access the cache
+								std::cout << "Exception while reading from cache. Ignoring cache and continue." << std::endl;
+							}
 
-				string url = string("http://osm-api.herokuapp.com/name/") + location;
+							string url = string("http://osm-api.herokuapp.com/name/") + location;
 
-				if (!from_cache) {
-					// get the OSM data json
-					osm_json = ServerComm::makeRequest(url, {"Accept: application/json"});
+							if (!from_cache) {
+								// get the OSM data json
+								osm_json = ServerComm::makeRequest(url, {"Accept: application/json"});
 
-					try {
-						my_cache.putDoc(location, osm_json);
-					}
-					catch (CacheException& ce) {
-						//something went bad trying to access the cache
-						std::cerr << "Exception while storing in cache. Weird but not critical." << std::endl;
-					}
-				}
+								try {
+									my_cache.putDoc(location, osm_json);
+								}
+								catch (CacheException& ce) {
+									//something went bad trying to access the cache
+									std::cerr << "Exception while storing in cache. Weird but not critical." << std::endl;
+								}
+							}
 
-				return getOSMDataFromJSON(osm_json);
+							return getOSMDataFromJSON(osm_json);
 
-			}
-*/
+						}
+			*/
 
 			/**Reconstruct a GraphAdjList from an existing GraphAdjList on the Bridges server
 			 *

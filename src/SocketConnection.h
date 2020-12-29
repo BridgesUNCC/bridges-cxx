@@ -18,7 +18,7 @@ namespace bridges {
 	namespace game {
 
 		///@brief This is meant to be an internal class, not something
-        /// that the library user will use. Provides support for input 
+		/// that the library user will use. Provides support for input
 		/// handling for the Game API
 		class KeypressListener {
 			public:
@@ -27,9 +27,9 @@ namespace bridges {
 		};
 
 		///@brief This is meant to be an internal class, not something
-        /// that the library user will use
-        ///
-        ///  This class provide  functionality for making socket connections
+		/// that the library user will use
+		///
+		///  This class provide  functionality for making socket connections
 		///	 to the Bridges Game server
 		///
 		/// @author Erik Saule, David Burlinson

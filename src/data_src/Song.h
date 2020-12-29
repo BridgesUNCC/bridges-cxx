@@ -34,8 +34,8 @@ namespace bridges {
 				 * Default constructor
 				 */
 				Song()
-					: artist(""), song(""), album(""), lyrics(""), 
-						release_date("") {
+					: artist(""), song(""), album(""), lyrics(""),
+					  release_date("") {
 				}
 
 				/**
@@ -47,11 +47,11 @@ namespace bridges {
 				     * @param lyrics  lyrics of song (string)
 				     * @param release date  date released
 				     */
-				Song(const string& artist, const string& song, const 
-							string& album, const string& lyrics,
-								const string& release_date)
+				Song(const string& artist, const string& song, const
+					string& album, const string& lyrics,
+					const string& release_date)
 					: artist(artist), song(song), album(album), lyrics(lyrics),
-								 release_date(release_date) {
+					  release_date(release_date) {
 				}
 				/**
 				  *   Get song artist

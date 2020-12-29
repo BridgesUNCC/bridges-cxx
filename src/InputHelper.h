@@ -6,13 +6,13 @@
 namespace bridges {
 	namespace game {
 
-		///@brief This is meant to be an internal class, not something 
+		///@brief This is meant to be an internal class, not something
 		/// that the library user will use
 		///
-		///  This class provide input device (mouse and keyboard)  
+		///  This class provide input device (mouse and keyboard)
 		///	 handling for Bridges games
 		///
-		///  @sa See the Games Tutorials at 
+		///  @sa See the Games Tutorials at
 		///		http://bridgesuncc.github.io/tutorials/NonBlockingGame.html
 		///		for more information on keys and mouse device usage.
 		///

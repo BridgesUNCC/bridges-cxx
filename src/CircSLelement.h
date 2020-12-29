@@ -154,10 +154,10 @@ namespace bridges {
 				};
 
 				/**
-				 * @brief these are helper classes for CircSLelement for 
+				 * @brief these are helper classes for CircSLelement for
 				 *	easy iteration in a range for loop.
-				 *	It is not meant to be created by the bridges user. But 
-				 *	it may be returned by Bridges to provide an STL 
+				 *	It is not meant to be created by the bridges user. But
+				 *	it may be returned by Bridges to provide an STL
 				 * 	compliant list API.
 				 */
 				class CircSLelement_constlisthelper {
