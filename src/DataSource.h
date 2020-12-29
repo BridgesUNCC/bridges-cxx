@@ -81,7 +81,7 @@ namespace bridges {
 
 			/**
 			 *
-			 *  Get meta data of the IGN games collection.
+			 *  @brief Get meta data of the IGN games collection.
 			 *
 			 *  This function retrieves  and formats the data into a list of
 			 *  Game objects
@@ -119,8 +119,8 @@ namespace bridges {
 				return wrapper;
 			}
 			/**
-			 *  Get ActorMovie IMDB Data
-			 *  retrieved, formatted into a list of ActorMovieIMDB objects
+			 *  @brief Get ActorMovie IMDB Data
+			 *  Data is retrieved, formatted into a list of ActorMovieIMDB objects
 			 *
 			 *  @param number the number of actor/movie pairs, but currently unused,
 			 *      returns all records.
@@ -154,8 +154,8 @@ namespace bridges {
 
 
 			/**
-			 *  Get ActorMovie IMDB Data
-			 *  retrieved, formatted into a list of ActorMovieIMDB objects
+			 *  @brief Get ActorMovie IMDB Data
+			 *  Data is retrieved, formatted into a list of ActorMovieIMDB objects
 			 *
 			 *  @throws Exception if the request fails
 			 *
@@ -189,7 +189,7 @@ namespace bridges {
 			}
 
 			/**
-			 *  Get USGS earthquake data
+			 *  @brief Get USGS earthquake data
 			 *  USGS Tweet data (https://earthquake.usgs.gov/earthquakes/map/)
 			 *  retrieved, formatted into a list of EarthquakeUSGS objects
 			 *
@@ -291,7 +291,8 @@ namespace bridges {
 			}
 			/**
 			 *
-			 *  Get data of a particular songs (including lyrics) using the Genius API
+			 *  @brief Get data of a particular songs (including lyrics) using 
+			 *	 the Genius API
 			 *  (https://docs.genius.com/), given the song title and artist name.
 			 *	Valid endpoints:  http://bridgesdata.herokuapp.com/api/songs/find/
 			 *	Valid queryParams: song title, artist name
@@ -347,7 +348,7 @@ namespace bridges {
 			}
 			/**
 			 *
-			 *  Get data of the songs (including lyrics) using the Genius API
+			 *  @brief Get data of the songs (including lyrics) using the Genius API
 			 *  https://docs.genius.com/
 			 *	Valid endpoints:  https://bridgesdata.herokuapp.com/api/songs/
 			 *
@@ -391,7 +392,7 @@ namespace bridges {
 			}
 			/**
 			 *
-			 *  Get meta data of the Gutenberg book collection (1000 books)
+			 *  @brief Get meta data of the Gutenberg book collection.
 			 *  This function retrieves,  and formats the data into a list of
 			 *  GutenbergBook objects
 			 *
@@ -457,7 +458,8 @@ namespace bridges {
 				return wrapper;
 			}
 			/**
-			 * Retrieves the CDC dataset into a vector of records
+			 * @brief Retrieves the CDC dataset of Cancer Incidence.
+			 *  Data is retrieved  into a vector of records
 			 * See CancerIncidence class for more information
 			 *
 			 */
@@ -507,7 +509,7 @@ namespace bridges {
 			}
 			/**
 			 *
-			 * Retrieves the Open Street Map data from a prebuilt JSON of OSM
+			 * @brief Retrieves the Open Street Map data from a prebuilt JSON of OSM
 			 * dataset.
 			 *
 			 * @param osm_json JSON string
@@ -574,9 +576,14 @@ namespace bridges {
 
 			/**
 			 *
-			 *  Get OpenStreetMap data given a bounding rectangle of lat/long
-			 *	values.
+			 *  @brief Get OpenStreetMap data given a bounding rectangle of 
+			 *	lat/long values.
 			 *
+			 *  @param lat_min  latitude minimum
+			 *  @param long_min  longitude minimum
+			 *  @param lat_max   latitude maximum
+			 *  @param long_max   longitude maximum
+			 *  @param level      data resolution
 			 *  @throws Exception if the request fails
 			 *
 			 *  @return an OSMData object
@@ -661,6 +668,9 @@ namespace bridges {
 			 *
 			 *  Get OpenStreetMap data given a city name and resolution level
 			 *
+			 *  @param location   location name (string)
+			 *  @param level      data resolution
+			 *
 			 *  @throws Exception if the request fails
 			 *
 			 *  @return an OSMData object
@@ -737,6 +747,7 @@ namespace bridges {
 			 *
 			 * @param location which location to get the map from
 			 **/
+/*
 			OSMData getOSMDataOld (string location) {
 				std::transform(location.begin(), location.end(), location.begin(),
 					::tolower);
@@ -771,7 +782,7 @@ namespace bridges {
 				return getOSMDataFromJSON(osm_json);
 
 			}
-
+*/
 
 			/**Reconstruct a GraphAdjList from an existing GraphAdjList on the Bridges server
 			 *
