@@ -7,6 +7,21 @@
 
 namespace bridges {
 	namespace game {
+		/**
+		 * @brief The base class building and using the BRIDGES based games.
+		 *
+		 *  This class  forms the infrastructure for the BRIDGES Game API and 
+		 *  contains methods for input listener and drawing functions (symbols,
+		 *	characters, visual attributes).
+		 *
+		 * @sa See the detailed Bridges game tutorial for examples at
+		 * http://bridgesuncc.github.io/tutorials/NonBlockingGame.html
+		 *
+		 * @author David Burlinson, Erik Saule, 
+		 * @date 2018, 2019, 12/28/20
+		 *
+		 */
+
 		class GameBase {
 			private:
 				Bridges bridges;
@@ -24,17 +39,24 @@ namespace bridges {
 				bool debug = false;
 
 
-				///Having a protected constructor prevent the object from being
-				///directly created. Since GameBase is meant to be a purely internal
-				///class, that seems appropriate.
-				GameBase(int assignmentID, std::string username, std::string apikey, int nbRow = 10, int nbColumn = 10)
-					: bridges(assignmentID, username, apikey), gg(nbRow, nbColumn) {
+				/**
+				 *  @brief Protected constructed prevens direct creation
+				 *
+				 * Having a protected constructor prevents the object from being
+				 * directly created. Since GameBase is meant to be a 
+				 * purely internal class, that seems appropriate.
+				 */
+				GameBase(int assignmentID, std::string username, 
+					std::string apikey, int nbRow = 10, int nbColumn = 10)
+					: bridges(assignmentID, username, apikey), gg(nbRow, 
+														nbColumn) {
 					bridges.setServer("games");
 
 					sockcon = std::make_unique<SocketConnection>(bridges);
 
 					if (debug)
-						std::cerr << "nbRow: " << nbRow << " nbCol: " << nbColumn << std::endl;
+						std::cerr << "nbRow: " << nbRow << " nbCol: " << 
+											nbColumn << std::endl;
 				}
 
 				/// @brief This function is called once when the game starts.
@@ -110,7 +132,8 @@ namespace bridges {
 				/// @param col column of the cell to draw the object on
 				/// @param symb symbol representing the object
 				/// @param nc color of the object
-				void drawSymbol(int row, int col, NamedSymbol symb, NamedColor nc) {
+				void drawSymbol(int row, int col, NamedSymbol symb, 
+											NamedColor nc) {
 					gg.drawSymbol(row, col, symb, nc);
 				}
 

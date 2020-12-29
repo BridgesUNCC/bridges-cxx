@@ -164,6 +164,7 @@ namespace bridges {
 				 * @brief Get dimenions of the grid
 				 *
 				 * @return the grid height and width
+				 */
 				int const * getDimensions() {
 					return gridSize;
 				}

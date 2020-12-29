@@ -6,7 +6,18 @@
 namespace bridges {
 	namespace game {
 
-		///this is meant to be an internal class, not something that the library user will use
+		///@brief This is meant to be an internal class, not something 
+		/// that the library user will use
+		///
+		///  This class provide input device (mouse and keyboard)  
+		///	 handling for Bridges games
+		///
+		///  @sa See the Games Tutorials at 
+		///		http://bridgesuncc.github.io/tutorials/NonBlockingGame.html
+		///		for more information on keys and mouse device usage.
+		///
+		/// @author Erik Saule, David Burlinson
+		/// @date 2018, 2019, 12/28/20
 		class InputHelper: public KeypressListener {
 				bool debug = false;
 

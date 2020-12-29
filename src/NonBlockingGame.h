@@ -122,7 +122,7 @@ namespace bridges {
 		 * @sa There is a tutorial at: http://bridgesuncc.github.io/tutorials/NonBlockingGame.html
 		 *
 		 * @author Erik Saule
-		 * @date 7/21/19
+		 * @date 7/21/19, 12/28/20
 		 *
 		 **/
 		class NonBlockingGame : public GameBase {
@@ -159,10 +159,18 @@ namespace bridges {
 
 
 			public:
-				NonBlockingGame(int assignmentID, std::string username, std::string apikey, int nbRow = 10, int nbCol = 10)
+				/// constructor
+				/// @param assignmentID  Bridges assignment id
+				/// @param username      Bridges user name
+				/// @param apikey        Bridges API authentication key
+				/// @param nbRow         GameGrid height
+				/// @param nbCol         GameGrid width
+				NonBlockingGame(int assignmentID, std::string username, 
+					std::string apikey, int nbRow = 10, int nbCol = 10)
 					: GameBase(assignmentID, username, apikey, nbRow, nbCol) {
 					if (debug)
-						std::cerr << "nbRow: " << nbRow << " nbCol: " << nbCol << std::endl;
+						std::cerr << "nbRow: " << nbRow << " nbCol: " << 
+											nbCol << std::endl;
 
 					if (nbRow * nbCol > 32 * 32) {
 						throw "NonBlockingGame can not have a grid of more than 32x32 (or a combination(so 16x64 is ok; 16x128 is not)";
@@ -172,7 +180,8 @@ namespace bridges {
 
 				}
 
-				/// @brief Call this function from main to start the game.
+				/// @brief Call this function from main to start the game. Runs
+				/// exactly once.
 				void start() {
 					timeOfLastFrame = localclock::now();
 					initialize();
