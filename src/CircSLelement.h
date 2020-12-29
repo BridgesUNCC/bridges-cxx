@@ -103,6 +103,10 @@ namespace bridges {
 				}
 
 			public:
+				/**
+				 * @brief This is a helper class to facilitate using iterators
+				 *  to traverse circular list
+				 */
 				class CircSLelement_listhelper {
 						typename bridges::datastructure::CircSLelement<E> *start,
 								 *last;
@@ -149,8 +153,13 @@ namespace bridges {
 						}
 				};
 
-				///@brief these are helper classes for CircSLelement for easy iteration in a range for loop.
-				///It is not meant to be created by the bridges user. But it may be returned by Bridges to provide an STL compliant list API.
+				/**
+				 * @brief these are helper classes for CircSLelement for 
+				 *	easy iteration in a range for loop.
+				 *	It is not meant to be created by the bridges user. But 
+				 *	it may be returned by Bridges to provide an STL 
+				 * 	compliant list API.
+				 */
 				class CircSLelement_constlisthelper {
 						typename bridges::datastructure::CircSLelement<E> const * start, *last;
 

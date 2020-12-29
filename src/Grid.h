@@ -195,8 +195,9 @@ namespace bridges {
 				}
 
 				/**
-				 * This BracketHelperConst is a helper class to get
+				 * @brief This BracketHelperConst is a helper class to get
 				 *	the [] operators to work.
+				 *
 				 *	It is not intended to be used by bridges users.
 				 */
 				class BracketHelperConst {
@@ -218,7 +219,7 @@ namespace bridges {
 				}
 
 				/**
-				 * This BracketHelperConst is a helper class to get
+				 * @brief This BracketHelper is a helper class to get
 				 *	the [] operators to work.
 				 *	It is not intended to be used by bridges users.
 				 */
