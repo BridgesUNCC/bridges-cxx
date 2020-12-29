@@ -685,7 +685,7 @@ namespace bridges {
 				std::string osm_json;
 
 				if (debug())
-				  std::cerr << "url: " << url << "\n";
+					std::cerr << "url: " << url << "\n";
 
 				if (my_cache.inCache(hash_value) == true) { //local map is up-to-date
 					try {

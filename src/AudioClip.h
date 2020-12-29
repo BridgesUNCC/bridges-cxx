@@ -34,7 +34,7 @@ namespace bridges {
 
 	namespace datastructure {
 		/**
-		 * @brief This class provides support for reading, modifying, 
+		 * @brief This class provides support for reading, modifying,
 		 *	and playing audio waveforms.
 		 *
 		 * This class provides a way to represent an AudioClip (think of a
@@ -81,10 +81,10 @@ namespace bridges {
 		 * [-2^(getSampleBits()-1) ; 2^(getSampleBits()-1)[ range. The
 		 * functions allow to specify for channel and sample index.
 		 *
-		 * 
 		 *
 		 *
-		 * @sa There is a tutorial for processing audio at 
+		 *
+		 * @sa There is a tutorial for processing audio at
 		 * http://bridgesuncc.github.io/tutorials/??
 		 *
 		 *
@@ -92,14 +92,14 @@ namespace bridges {
 		 * @date  2020
 		 *
 		 * Acknowledgements: The Wav file parser is adapted from Amit Sengupta's
-		 *  C version, posted at  TRUELOGIC BLOG, 
+		 *  C version, posted at  TRUELOGIC BLOG,
 		 *	http://truelogic.org/wordpress/2015/09/04/parsing-a-wav-file-in-c/
-		 * 
+		 *
 		 *  It was converted into C++ in this implementation.
 		 *
 		**/
 		class AudioClip : public DataStructure {
-		  const bool debug = false;
+				const bool debug = false;
 			private:
 				int sampleCount;
 				int numChannels;
@@ -145,7 +145,7 @@ namespace bridges {
 					this->channels = vector<AudioChannel>();
 
 					for (int i = 0; i < numChannels; i++) {
-					  this->channels.push_back( AudioChannel(sampleCount));
+						this->channels.push_back( AudioChannel(sampleCount));
 
 						for (int j = 0; j < sampleCount; j++) {
 							this->channels[i].setSample(j, 0);
@@ -275,7 +275,7 @@ namespace bridges {
 				**/
 
 				int getSample(int channelIndex, int sampleIndex) const {
-				  return channels.at(channelIndex).getSample(sampleIndex);
+					return channels.at(channelIndex).getSample(sampleIndex);
 				}
 				/**
 				* @brief change a particular sample
@@ -293,14 +293,14 @@ namespace bridges {
 					channels[channelIndex].setSample(sampleIndex, value);
 				}
 			private:
-		  /**
-		   *
-		   * Acknowledgements: This Wav file parser is adapted from Amit Sengupta's
-		   *  C version, posted at  TRUELOGIC BLOG, 
-		   *	http://truelogic.org/wordpress/2015/09/04/parsing-a-wav-file-in-c/
-		   * 
-		   *  It was converted into C++ in this implementation.
-		   **/
+				/**
+				 *
+				 * Acknowledgements: This Wav file parser is adapted from Amit Sengupta's
+				 *  C version, posted at  TRUELOGIC BLOG,
+				 *	http://truelogic.org/wordpress/2015/09/04/parsing-a-wav-file-in-c/
+				 *
+				 *  It was converted into C++ in this implementation.
+				 **/
 				void parseWaveFile (const string & wave_file) {
 					// Read and parse an audio file in WAVE format
 
@@ -308,7 +308,7 @@ namespace bridges {
 					ifstream infile;
 					infile.open (wave_file.c_str(), ios::binary | ios::in);
 					if (infile.fail()) {
-					  throw "Could not open " + wave_file;
+						throw "Could not open " + wave_file;
 					}
 
 					// read the header data of the input WAVE file
@@ -325,7 +325,7 @@ namespace bridges {
 					// create storage for the audio data
 					//this->channels.resize(this->numChannels);
 					for (int i = 0; i < numChannels; i++) {
-					  this->channels.push_back( AudioChannel(this->sampleCount));
+						this->channels.push_back( AudioChannel(this->sampleCount));
 					}
 
 					// read sample data by chunks, if PCM
@@ -413,10 +413,10 @@ namespace bridges {
 					infile.close();
 				}
 
-		  //For information on the wave header, see: http://soundfile.sapp.org/doc/WaveFormat/
-		  //But be careful that this URL ignores the possibility that other chunks may exist such as the fact, ce, playlist, and data list chunks. see https://en.wikipedia.org/wiki/WAV and https://en.wikipedia.org/wiki/Resource_Interchange_File_Format for details.
-		  //It appears this is a complete specification: http://www-mmsp.ece.mcgill.ca/Documents/AudioFormats/WAVE/Docs/riffmci.pdf
-		  // this function reads/parse the RIFF/WAVE formated file and stops reading at the beginning of the data chunk after reading its header
+				//For information on the wave header, see: http://soundfile.sapp.org/doc/WaveFormat/
+				//But be careful that this URL ignores the possibility that other chunks may exist such as the fact, ce, playlist, and data list chunks. see https://en.wikipedia.org/wiki/WAV and https://en.wikipedia.org/wiki/Resource_Interchange_File_Format for details.
+				//It appears this is a complete specification: http://www-mmsp.ece.mcgill.ca/Documents/AudioFormats/WAVE/Docs/riffmci.pdf
+				// this function reads/parse the RIFF/WAVE formated file and stops reading at the beginning of the data chunk after reading its header
 				WaveHeader readWaveHeader(ifstream& infile) {
 
 					// read file header
@@ -425,13 +425,13 @@ namespace bridges {
 					infile.read ((char *)wave_header.riff, 4);
 
 					if (wave_header.riff[0] != 'R' ||
-					    wave_header.riff[1] != 'I' ||
-					    wave_header.riff[2] != 'F' ||
-					    wave_header.riff[3] != 'F')
-					  throw "malformed RIFF header";
+						wave_header.riff[1] != 'I' ||
+						wave_header.riff[2] != 'F' ||
+						wave_header.riff[3] != 'F')
+						throw "malformed RIFF header";
 
 
-					  unsigned char *buffer = new  unsigned char[4];
+					unsigned char *buffer = new  unsigned char[4];
 					infile.read ((char*) buffer,  4);
 
 					// convert little endian to big endian 4 byte int
@@ -439,32 +439,32 @@ namespace bridges {
 						(buffer[2] << 16) | (buffer[3] << 24);
 
 					if (debug)
-					  std::cout<<"overall size: "<<wave_header.overall_size<<std::endl;
-					  
+						std::cout << "overall size: " << wave_header.overall_size << std::endl;
+
 					infile.read ((char*) wave_header.wave,  4);
 
 					if (wave_header.wave[0] != 'W' ||
-					    wave_header.wave[1] != 'A' ||
-					    wave_header.wave[2] != 'V' ||
-					    wave_header.wave[3] != 'E')
-					  throw "format is not WAVE";
+						wave_header.wave[1] != 'A' ||
+						wave_header.wave[2] != 'V' ||
+						wave_header.wave[3] != 'E')
+						throw "format is not WAVE";
 
 
 					infile.read ((char*) wave_header.fmt_chunk_marker,  4);
 					if (wave_header.fmt_chunk_marker[0] != 'f' ||
-					    wave_header.fmt_chunk_marker[1] != 'm' ||
-					    wave_header.fmt_chunk_marker[2] != 't' ||
-					    wave_header.fmt_chunk_marker[3] != ' ')
-					  throw "malformed wave file";
+						wave_header.fmt_chunk_marker[1] != 'm' ||
+						wave_header.fmt_chunk_marker[2] != 't' ||
+						wave_header.fmt_chunk_marker[3] != ' ')
+						throw "malformed wave file";
 
-					
+
 					infile.read ((char *) buffer, 4);
 					wave_header.length_of_fmt = buffer[0] | (buffer[1] << 8) |
 						(buffer[2] << 16) | (buffer[3] << 24);
 
 					if (debug)
-					  std::cout<<"length of format: "<<wave_header.length_of_fmt<<std::endl;
-					
+						std::cout << "length of format: " << wave_header.length_of_fmt << std::endl;
+
 					char *buffer2 = new  char[2];
 					infile.read (buffer2, 2);
 					wave_header.format_type = buffer2[0] | (buffer2[1] << 8);
@@ -480,9 +480,9 @@ namespace bridges {
 						case 7 :
 							format_name = "Mu-law";
 							break;
-					default:
-					  throw "unsupported format";
-					  
+						default:
+							throw "unsupported format";
+
 					}
 
 					infile.read (buffer2, 2);
@@ -490,24 +490,24 @@ namespace bridges {
 					this->numChannels = wave_header.channels;
 
 					if (debug)
-					  std::cout << "numChannels: "<<numChannels<<std::endl;
-					  
-					
+						std::cout << "numChannels: " << numChannels << std::endl;
+
+
 					infile.read ((char *) buffer, 4);
 					wave_header.sample_rate = buffer[0] | (buffer[1] << 8) |
 						(buffer[2] << 16) | (buffer[3] << 24);
 					this->sampleRate = wave_header.sample_rate;
 
 					if (debug)
-					  std::cout << "sampleRate: "<<sampleRate<<std::endl;
-					
+						std::cout << "sampleRate: " << sampleRate << std::endl;
+
 					infile.read ((char *) buffer, 4);
 					wave_header.byterate = buffer[0] | (buffer[1] << 8) |
 						(buffer[2] << 16) | (buffer[3] << 24);
 
 					if (debug)
-					  std::cout << "byte rate: "<<wave_header.byterate<<std::endl;
-					
+						std::cout << "byte rate: " << wave_header.byterate << std::endl;
+
 					infile.read (buffer2, 2);
 					wave_header.block_align = buffer2[0] | (buffer2[1] << 8);
 
@@ -517,57 +517,57 @@ namespace bridges {
 					this->sampleBits = wave_header.bits_per_sample;
 
 					if (debug)
-					  std::cout<<"sample Bits: "<<sampleBits<<std::endl;
+						std::cout << "sample Bits: " << sampleBits << std::endl;
 
 					if (wave_header.byterate !=
-					    wave_header.sample_rate * wave_header.channels * wave_header.bits_per_sample / 8)
-					  throw "malformed wave file";
+						wave_header.sample_rate * wave_header.channels * wave_header.bits_per_sample / 8)
+						throw "malformed wave file";
 
 					//The next sub-chunk of the RIFF format should be the data subchunk.
 					//but in some case, there are meta data found first.
 					//skipping any sub-chunk that is not the data sub-chunk
 					bool data_chunk_found = false;
 					while (!data_chunk_found) {
-					  infile.read ((char *)wave_header.data_chunk_header, 4);
-					
-					  infile.read ((char *) buffer, 4);
-					  wave_header.data_size = buffer[0] | (buffer[1] << 8) |
-					    (buffer[2] << 16) | (buffer[3] << 24);
-					  
-					  if (wave_header.data_chunk_header[0] != 'd' ||
-					      wave_header.data_chunk_header[1] != 'a' ||
-					      wave_header.data_chunk_header[2] != 't' ||
-					      wave_header.data_chunk_header[3] != 'a') {
-					    //skip sub chunk
-					    int padding = (wave_header.data_size % 2? 0:1);
-					    infile.ignore(wave_header.data_size + padding);
-					  }
-					  else
-					    data_chunk_found = true;
-					}
-					  
+						infile.read ((char *)wave_header.data_chunk_header, 4);
 
-					
+						infile.read ((char *) buffer, 4);
+						wave_header.data_size = buffer[0] | (buffer[1] << 8) |
+							(buffer[2] << 16) | (buffer[3] << 24);
+
+						if (wave_header.data_chunk_header[0] != 'd' ||
+							wave_header.data_chunk_header[1] != 'a' ||
+							wave_header.data_chunk_header[2] != 't' ||
+							wave_header.data_chunk_header[3] != 'a') {
+							//skip sub chunk
+							int padding = (wave_header.data_size % 2 ? 0 : 1);
+							infile.ignore(wave_header.data_size + padding);
+						}
+						else
+							data_chunk_found = true;
+					}
+
+
+
 					// calculate no.of samples
 					long num_samples = (8 * wave_header.data_size) /
 						(wave_header.channels * wave_header.bits_per_sample);
 					this->sampleCount = num_samples;
 
-					if (debug) 
-					  std::cout<<"sample Count: "<<this->sampleCount<<std::endl;
+					if (debug)
+						std::cout << "sample Count: " << this->sampleCount << std::endl;
 
 
 
 					long size_of_each_sample = (wave_header.channels *
 							wave_header.bits_per_sample) / 8;
 
-					
-					
+
+
 					delete[] buffer;
 					delete[] buffer2;
 
 					if (!infile)
-					  throw "malformed RIFF header";
+						throw "malformed RIFF header";
 
 					return wave_header;
 				}

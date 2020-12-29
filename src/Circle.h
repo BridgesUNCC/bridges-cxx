@@ -97,7 +97,7 @@ namespace bridges {
 				}
 
 				/**
-				 *	@brief Translate the circle
+				 *	@brief Translate the circle along X and Y dimensions
 				 *
 				 *	@param tx, ty translation vector
 				 */

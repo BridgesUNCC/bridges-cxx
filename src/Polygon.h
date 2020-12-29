@@ -18,23 +18,29 @@ namespace bridges {
 		 *		and first vertex are connect to close the shape.
 		 *
 		 * @author David Burlinson, Kalpathi Subramanian
-		 * @date 12/23/18, 7/12/19
+		 * @date 12/23/18, 7/12/19, 12/28/20
 		 *
 		 */
 		class Polygon : public Polyline {
 
 			public:
-				// constructors
+				/**
+				 * @brief default constructor
+				 */
 				Polygon () : Polyline() {
 					setShapeType("polygon");
 				}
 
+				/**
+				 * @brief constructor, given a set of points
+				 * @param pts to construct polygon
+				 */
 				Polygon (vector<float> pts) : Polyline (pts) {
 					setShapeType("polygon");
 				}
 
 				/**
-				 *	This method gets the name of the data type
+				 *	@brief This method gets the name of the data type
 				 *
 				 *  @return name   data type
 				 */
@@ -43,7 +49,7 @@ namespace bridges {
 				}
 
 				/**
-				 *	This method gets the name of the shape
+				 *	@brief This method gets the name of the shape
 				 *
 				 *  @return name   shape name
 				 */
@@ -51,6 +57,10 @@ namespace bridges {
 					return "polygon";
 				}
 
+				/**
+				 * @brief constructs a polygon, given a set of points
+				 * @param pts to construct polygon
+				 */
 				void setPolygon (vector<float> pts) {
 					this->setPolyline(pts);
 					setShapeType("polygon");

@@ -17,7 +17,7 @@ namespace bridges {
 		 * games, etc.
 		 *
 		 * @author David Burlinson, C++ port Kalpathi Subramanian
-		 * @date 7/12/19
+		 * @date 7/12/19, 12/28/20
 		 *
 		 * @param E
 		 *
@@ -64,29 +64,49 @@ namespace bridges {
 				int maxGridSize[2]  = {1080, 1920};
 
 			public:
+				/**
+				 * @brief Return the data structure type
+				 * @return grid type (string)
+				 */
 				virtual const string getDStype() const override {
 					return "Grid";
 				}
 
 				/**
 				 *
-				 * Grid constructors
+				 * @brief Grid constructor
 				 *
+				 * @param rows height of grid
+				 * @param cols width of grid
 				 */
 
 				Grid(int rows, int cols) {
 					setDimensions(rows, cols);
 				}
 
+				/**
+				 * default constructor
+				 */
 				Grid()
 					: Grid(10, 10) {
 				}
 
 
+				/**
+				 *
+				 * @brief Grid constructor given size
+				 * @param size size of grid
+				 */
 				explicit Grid(int *size)
 					: Grid(size[0], size[1]) {
 				}
 
+				/**
+				 * @briefGrid constructor given an input grid
+				 *
+				 * copy the provided grid as input
+				 * @param g input grid
+				 */
 				Grid(const Grid& g)
 					: Grid(g.gridSize[0], g.gridSize[1]) {
 					for (int i = 0; i < gridSize[0]; i++) {
@@ -96,10 +116,16 @@ namespace bridges {
 					}
 				}
 
+				/**
+				 * Destructor
+				 */
 				virtual ~Grid() {
 					deallocateGrid();
 				}
 
+				/**
+				 * copy constructor
+				 */
 				Grid& operator=(const Grid& g) {
 					if (this->gridSize[0] != g.gridSize[0] ||
 						this->gridSize[1] != g.gridSize[1] ) {
@@ -116,6 +142,12 @@ namespace bridges {
 				}
 
 
+				/**
+				 * @brief Construct the grid given the dimensions
+				 *
+				 * @param rows height of grid
+				 * @param cols width of grid
+				 */
 				void setDimensions(int rows, int cols) {
 					gridSize[0] = rows;
 					gridSize[1] = cols;
@@ -128,27 +160,45 @@ namespace bridges {
 					allocateGrid ();
 				}
 
+				/**
+				 * @brief Get dimenions of the grid
+				 *
+				 * @return the grid height and width
 				int const * getDimensions() {
 					return gridSize;
 				}
 
 
 
-				// get the (row, col) element in the grid
+				/**
+				 * @brief Get the (row, col) element in the grid
+				 * @param row height of grid
+				 * @param col width of grid
+				 * @return the element at row, col
+				 */
 				E const& get(int row, int col) const {
 					checkRowCol(row, col);
 
 					return grid[row][col];
 				}
 				// set the (row, col) element in the grid
+				/**
+				 * @brief Set the grid value for the (row, col) element
+				 * @param row height of grid
+				 * @param col width of grid
+				 * @param val value to be set
+				 */
 				void set(int row, int col, E val) {
 					checkRowCol(row, col);
 
 					grid[row][col]  = val;
 				}
 
-				//This BracketHelperConst is a helper class to get the [] operators to work.
-				//It is not intended to be used by bridges users.
+				/**
+				 * This BracketHelperConst is a helper class to get
+				 *	the [] operators to work.
+				 *	It is not intended to be used by bridges users.
+				 */
 				class BracketHelperConst {
 						Grid<E> const & gr;
 						int row;
@@ -167,8 +217,11 @@ namespace bridges {
 					return BracketHelperConst(*this, row);
 				}
 
-				//This BracketHelper is a helper class to get the [] operators to work.
-				//It is not intended to be used by bridges users.
+				/**
+				 * This BracketHelperConst is a helper class to get
+				 *	the [] operators to work.
+				 *	It is not intended to be used by bridges users.
+				 */
 				class BracketHelper {
 						Grid<E> & gr;
 						int row;

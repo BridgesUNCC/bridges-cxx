@@ -24,7 +24,9 @@ namespace bridges {
 		 * Element and the ending Element of the arrow will be referred to as the
 		 * terminating Element.
 		 *
-		 * @author Kalpathi Subramanian
+		 * @author Kalpathi Subramanian, Erik Saule
+		 *
+		 * @date 12/28/20
 		 *
 		 * @param E
 		 */
@@ -51,7 +53,7 @@ namespace bridges {
 				 * @brief Constructs an edge with the given destination vertex,
 				 *	and edge data.
 				 *
-				 * This constructor is not meant to be used by the Bridges user
+				 * This constructor is not meant to be used by the Bridges user.
 				 * If an argument is not given its default is used.
 				 *
 				 * @param from source  vertex
@@ -68,6 +70,8 @@ namespace bridges {
 				}
 
 				/**
+				 *  @brief Source vertex accessor
+				 *
 				 *	@return The source vertex
 				 */
 				const K& from() const {
@@ -76,6 +80,7 @@ namespace bridges {
 
 
 				/**
+				 *  @brief Destination vertex accessor
 				 *	@return The terminating vertex
 				 */
 				const K& to() const {
@@ -83,29 +88,29 @@ namespace bridges {
 				}
 
 				/**
-				 * 	Sets edge data to "data"
-				 *	@param data Application data
+				 * 	@brief Sets edge data to "data"
+				 *	@param data Application data to be set
 				 */
 				void setEdgeData(const E2& data) {
 					edge_data = data;
 				}
 
 				/**
-				 * Return the edge data
+				 *  Return the edge data
 				 *	@return The edge data
 				 */
 				const E2& getEdgeData() const {
 					return edge_data;
 				}
 				/**
-				 * Return the edge data
+				 *  @brief Return the edge data
 				 *	@return The edge data
 				 */
 				E2& getEdgeData() {
 					return edge_data;
 				}
 				/**
-				 * Return the edge label
+				 *  @brief Return the edge label
 				 *  @return The label of the element
 				 */
 				string getLabel() const {
@@ -113,7 +118,7 @@ namespace bridges {
 				}
 
 				/**
-				 * Sets edge label to "lab"
+				 *  @brief Sets edge label to "lab"
 				 *
 				 * @param lab The label of the element
 				 */
@@ -133,6 +138,7 @@ namespace bridges {
 					lvis->setThickness(th);
 				}
 				/**
+				 *  @brief Get the thickness of the edge
 				 *	@return Size in pixels of the link's line thickness
 				 */
 				double getThickness() const {
@@ -140,7 +146,7 @@ namespace bridges {
 				}
 
 				/**
-				 * @brief Set the color of the edge when displayed.
+				 * @brief Set the color of the edge
 				 *
 				 * @param col The color of the edge
 				 */
@@ -148,15 +154,17 @@ namespace bridges {
 					lvis->setColor(col);
 				}
 				/**
-				 * @brief Set the color to a named color.
+				 * @brief Set the color to a named color. Check the Color class
+				 *  for a list of named colors.
 				 *
-				 * @param col The name of the color. Check the Color class for a list of named colors.
+				 * @param col The name of the color.
 				 */
 				void setColor(const string  col) {
 					lvis->setColor(col);
 				}
 				/**
-				 *	@return The color of the link
+				 *  @brief return the current color of the edge
+				 *	@return The color of the edge
 				 */
 				Color getColor() const {
 					return lvis->getColor();

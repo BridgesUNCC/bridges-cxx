@@ -33,7 +33,7 @@ namespace bridges {
 		 *
 		 * @author , Kalpathi Subramanian
 		 *
-		 * @date 5/24/17, 7/12/19
+		 * @date 5/24/17, 7/12/19, 12/28/20
 		 *
 		 * @param E The generic parameter object that is part of this element, representing
 		 *			either application specific data, or a pointer to a sublist.
@@ -51,6 +51,7 @@ namespace bridges {
 			public:
 
 				/**
+				 * @brief constructor
 				 *
 				 * This constructor creates an MLelement object
 				 * and sets the next pointer to null
@@ -67,11 +68,14 @@ namespace bridges {
 				}
 
 				/**
+				 * @brief Creates an MLelement object
 				 *
-				 * This constructor creates an SLelement object of generic parameter object E,
+				 * This constructor creates an MLelement object of generic
+				 *	parameter object E,
 				 *	and label "label" and sets the next pointer to null
 				 *
-				 * @param label the label of MLelement that shows up on the Bridges visualization
+				 * @param label the label of MLelement that shows up on the
+				 *	Bridges visualization
 				 * @param e the generic object that this SLelement will hold
 				 *
 				 */
@@ -81,6 +85,7 @@ namespace bridges {
 				}
 
 				/**
+				 * @brief Creates an MLelement object
 				 *
 				 * Creates a new element with value "e" and sets the next pointer
 				 * to the MLelement referenced by the "next" argument
@@ -95,7 +100,7 @@ namespace bridges {
 				}
 
 				/**
-				 * Sets the start of a new sublist.
+				 * @brief Sets the start of a new sublist
 				 * to the MLelement "next"
 				 *
 				 * @param sl the MLelement that is the beginning of a sublist
@@ -116,7 +121,7 @@ namespace bridges {
 				}
 
 				/**
-				 * Gets the sublist at this node, if it exists
+				 * @brief Gets the sublist at this node, if it exists
 				 *
 				 * @return  the sublist head element, if it exists
 				 */
@@ -125,7 +130,7 @@ namespace bridges {
 				}
 
 				/**
-				 * Retrieves the element following this element
+				 * @brief Retrieves the element following this element
 				 *
 				 * @return MLelement<E> assigned to next
 				 *
@@ -135,7 +140,7 @@ namespace bridges {
 				}
 
 				/**
-				 * Retrieves the element following this element - const version
+				 * @brief Retrieves the element following this element - const version
 				 *
 				 * @return MLelement<E> assigned to next
 				 *
@@ -145,7 +150,7 @@ namespace bridges {
 				}
 
 				/**
-				 * Sets the element to point to the next MLelement
+				 * @brief Sets the element to point to the next MLelement
 				 *
 				 * @param n MLelement<E> that should be assigned to the next pointer
 				 */
@@ -177,6 +182,8 @@ namespace bridges {
 					return tag;
 				}
 				/**
+				 *  @brief Return the string representaion of element
+				 *
 				 *	@return The string representation of this data structure type
 				 */
 				virtual const string getDStype() const override {

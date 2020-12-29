@@ -23,8 +23,8 @@ namespace bridges {
 		 *  @param E1: data type used to store vertex specific information,
 		 *  @param E2: data type used to store edge specific information
 		 *
-		 * @author Kalpathi Subramanian
-		 * @date Last modified 4/22/18, 7/12/19
+		 * @author Kalpathi Subramanian, Erik Saule
+		 * @date Last modified 4/22/18, 7/12/19, 12/28/20
 		 *
 		 * There is a tutorial about Graph Adjacency List  :
 		 * http://bridgesuncc.github.io/tutorials/Graph_AL.html
@@ -600,18 +600,22 @@ namespace bridges {
 
 			public:
 
-		  /**
-		   *
-		   * force the rendering engine to use large graph visualization
-		   *
-		   * This forces the rendering to a more bandwidth
-		   * efficient at the cost of having less features. The large
-		   * graph visualization only renders vertices that have
-		   * specified locations. The only usable attribute for vertices and edges are colors.
-		   *
-		   * @param f set to true to force the visualization engine to use large graphs visualization. Setting to false does not prevent large visualization to be used, just does not force it.
-		   *
-		   */
+				/**
+				*
+				* @brief Force the rendering engine to use large graph
+				*	visualization
+				*
+				* This forces the rendering to a more bandwidth
+				* efficient at the cost of having less features. The large
+				* graph visualization only renders vertices that have
+				* specified locations. The only usable attribute for
+				* vertices and edges are colors.
+				*
+				* @param f set to true to force the visualization engine to
+				*  use large graphs visualization. Setting to false does not
+				*  prevent large visualization to be used, just does not force it.
+				*
+				*/
 				void forceLargeVisualization(bool f) {
 					if (f) {
 						forceLargeViz = true;
@@ -622,19 +626,23 @@ namespace bridges {
 					}
 				}
 
-		  /**
-		   *
-		   * force the rendering engine to use small graph visualization
-		   *
-		   *
-		   * The small visualization uses more bandwidth, have more
-		   * features, and support a force directed layout for vertices
-		   * which do not have a specified location.
-		   *
-		   * @param f set to true to force the visualization engine to use small graphs visualization. Setting to false does not prevent small visualization to be used, just does not force it.
-		   *
-		   */
-		  void forceSmallVisualization(bool f) {
+				/**
+				 *
+				 * @brief Force the rendering engine to use small graph
+				 * visualization
+				 *
+				 *
+				 * The small visualization uses more bandwidth, have more
+				 * features, and support a force directed layout for vertices
+				 * which do not have a specified location.
+				 *
+				 * @param f set to true to force the visualization engine to
+				 *	use small graphs visualization. Setting to false does not
+				 *	prevent small visualization to be used, just does not
+				 *	force it.
+				 *
+				 */
+				void forceSmallVisualization(bool f) {
 					if (f) {
 						forceSmallViz = true;
 						forceLargeViz = false;
@@ -644,7 +652,9 @@ namespace bridges {
 					}
 				}
 
-				///@brief This is a helper class to return sets of vertices ina  way that are iterable with range for loops. Students should not have to use this directly.
+				//	@brief This is a helper class to return sets of vertices
+				// 	in a  way that are iterable with range for loops.
+				//	Students should not have to use this directly.
 				class KeySet_helper {
 						std::unordered_map<K, Element<E1>* > const & underlying_map;
 
@@ -683,22 +693,41 @@ namespace bridges {
 						}
 				};
 
-				///returns a set of all keys (read only) that conforms to STL list interface.
-				///That means we can use range for
+				/**
+				 *	Returns a set of all keys (read only) that conforms to
+				 *	STL list interface.  That means we can use range for loops
+				 *	on graph vertices.
+				 *
+				 *  @return set all keys
+				 */
 				KeySet_helper keySet() const {
 					return KeySet_helper(this->vertices);
 				}
 
-				typename SLelement<Edge<K, E2>>::SLelement_listhelper outgoingEdgeSetOf(K const & k) {
+				/**
+				 *	This method is useful for iterating through a set of
+				 *  outgoing edges from a vertex
+				 */
+				typename SLelement<Edge<K, E2>>::SLelement_listhelper
+				outgoingEdgeSetOf(K const & k) {
 					return typename SLelement<Edge<K, E2>>::SLelement_listhelper(getAdjacencyList(k));
 				}
 
-				typename SLelement<Edge<K, E2>>::SLelement_constlisthelper outgoingEdgeSetOf(K const & k) const {
+				/**
+				 *	This method is useful for iterating through a set of
+				 *  outgoing edges from a vertex - const version
+				 */
+				typename SLelement<Edge<K, E2>>::SLelement_constlisthelper
+				outgoingEdgeSetOf(K const & k) const {
 					return typename SLelement<Edge<K, E2>>::SLelement_constlisthelper(getAdjacencyList(k));
 				}
 
 
-				///@brief This is a helper class to return sets of vertices in a way that are iterable with range for loops. Students should have to use this directly.
+				/**
+				 *	@brief This is a helper class to return sets of vertices
+				 *	in a way that are iterable with range for loops. Students
+				 *	should have to use this directly.
+				 */
 				class VertexElementSet_listhelper {
 						typename std::unordered_map<K, Element<E1>* > & underlying_map;
 
@@ -707,7 +736,11 @@ namespace bridges {
 							: underlying_map(um)
 						{}
 
-						///@brief This is a helper class to return sets of vertices in a way that are iterable with range for loops. Students should have to use this directly.
+						/**
+						 * 	@brief This is a helper class to return sets of
+						 *	vertices in a way that are iterable with range
+						 *	for loops. Students should have to use this directly.
+						 */
 						class iterator {
 								typename std::unordered_map<K, Element<E1>* >::iterator it;
 							public:
@@ -729,7 +762,11 @@ namespace bridges {
 								}
 						};
 
-						///@brief This is a helper class to return sets of vertices in a way that are iterable with range for loops. Students should have to use this directly.
+						/**
+						 * @brief This is a helper class to return sets of
+						 *	vertices in a way that are iterable with range for
+						 *  loops. Students should have to use this directly.
+						 */
 						class const_iterator {
 								typename std::unordered_map<K, Element<E1>* >::const_iterator it;
 							public:
@@ -770,13 +807,20 @@ namespace bridges {
 
 				};
 
-				///returns a set of vertices (Element<E>) that conforms to STL list interface. That means we can use range for
+				/**
+				 * Returns a set of vertices (Element<E>) that conforms to
+				 *	STL list interface. That means we can use range for
+				 */
 				VertexElementSet_listhelper vertexSet () {
 					return VertexElementSet_listhelper(vertices);
 				}
 
 
-				///@brief This is a helper class to return sets of vertices ina  way that are iterable with range for loops. Students should not have to use this directly.
+				/**
+				 * @brief This is a helper class to return sets of vertices
+				 *	in a  way that are iterable with range for loops.
+				 * 	Students should not have to use this directly.
+				 */
 				class constVertexElementSet_listhelper {
 						typename std::unordered_map<K, Element<E1>* > const & underlying_map;
 
@@ -815,7 +859,10 @@ namespace bridges {
 							return const_iterator(underlying_map.begin());
 						}
 				};
-				///returns a set of vertices (Element<E>) that conforms to STL list interface. That means we can use range for
+				/**
+				 * Returns a set of vertices (Element<E>) that conforms to STL
+				 * 	list interface. That means we can use range for
+				 */
 				constVertexElementSet_listhelper vertexSet () const {
 					return constVertexElementSet_listhelper(vertices);
 				}
