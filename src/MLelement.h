@@ -7,9 +7,11 @@
 namespace bridges {
 	namespace datastructure {
 		/**
-		 * 	@brief This class can be used to instantiate Multi-list Elements.
-
-		 * 	This class extends SLelement (singly linked list element) to build multi-lists;
+		 *
+		 *	@brief This class can be used to instantiate Multi-list Elements.
+		 *
+		 *
+		 *	This class extends SLelement (singly linked list element) to build multi-lists;
 		 *	Multilist elements contain a tag (boolean) that indicates if the element
 		 *	contains a sublist or not; if the tag is true, then there is a sublist beginning
 		 *	at this node and the starting point is the `sublist' field in the element.
