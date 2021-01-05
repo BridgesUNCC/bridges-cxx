@@ -88,7 +88,7 @@ namespace bridges {
 				}
 
 				/**
-				 * 	@brief Sets edge data to "data"
+				 * 	@brief Sets edge data to "data".
 				 *	@param data Application data to be set
 				 */
 				void setEdgeData(const E2& data) {
@@ -96,21 +96,21 @@ namespace bridges {
 				}
 
 				/**
-				 *  Return the edge data
+				 *  @brief Return the edge data.
 				 *	@return The edge data
 				 */
 				const E2& getEdgeData() const {
 					return edge_data;
 				}
 				/**
-				 *  @brief Return the edge data
+				 *  @brief Return the edge data.
 				 *	@return The edge data
 				 */
 				E2& getEdgeData() {
 					return edge_data;
 				}
 				/**
-				 *  @brief Return the edge label
+				 *  @brief Return the edge label.
 				 *  @return The label of the element
 				 */
 				string getLabel() const {
@@ -118,7 +118,7 @@ namespace bridges {
 				}
 
 				/**
-				 *  @brief Sets edge label to "lab"
+				 *  @brief Sets edge label to "lab".
 				 *
 				 * @param lab The label of the element
 				 */
@@ -138,7 +138,7 @@ namespace bridges {
 					lvis->setThickness(th);
 				}
 				/**
-				 *  @brief Get the thickness of the edge
+				 *  @brief Get the thickness of the edge.
 				 *	@return Size in pixels of the link's line thickness
 				 */
 				double getThickness() const {
@@ -146,7 +146,7 @@ namespace bridges {
 				}
 
 				/**
-				 * @brief Set the color of the edge
+				 * @brief Set the color of the edge.
 				 *
 				 * @param col The color of the edge
 				 */
@@ -168,6 +168,13 @@ namespace bridges {
 				 */
 				Color getColor() const {
 					return lvis->getColor();
+				}
+				/**
+				 * @brief Get the link visualizer of this edge
+				 * @return return the link visualizer of this edge
+				 */
+				LinkVisualizer *getLinkVisualizer() {
+					return lvis;
 				}
 		}; //end of Edge class
 	}

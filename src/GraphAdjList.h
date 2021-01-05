@@ -86,6 +86,8 @@ namespace bridges {
 					}
 				}
 				/**
+				 *	@brief Get the string representation of this data structure type.
+				 *
 				 *	@return The string representation of this data structure type
 				 */
 				virtual const string getDStype() const override {
@@ -98,6 +100,8 @@ namespace bridges {
 				}
 
 				/**
+				 *  @brief Adds a vertex to the graph.
+				 *
 				 * 	Adds a vertex of key "k" and value "e" to the graph,
 				 *	and initializes its adjacency list; If this key already
 				 *	exists  then this will not create a new vertex.
@@ -117,9 +121,9 @@ namespace bridges {
 					}
 				}
 				/**
-				 * 	@brief add an edge with data.
+				 * 	@brief Add an edge with data.
 				 *
-				 *      Note that this function adds the edge regardless of
+				 *  Note that this function adds the edge regardless of
 				 *	the contents of the adjacency list; its the user's responsibility
 				 *	to ensure there are no duplicates and ensure consistency.
 				 *
@@ -155,7 +159,7 @@ namespace bridges {
 					}
 				}
 				/**
-				 * 	Gets vertex data for a graph vertex
+				 * @brief Gets vertex data for a graph vertex.
 				 *
 				 * @param src The key of the source vertex
 				 *
@@ -174,7 +178,7 @@ namespace bridges {
 					throw "getVertexData(): vertex not found";
 				}
 				/**
-				 * 	Loads vertex specific information for a graph vertex
+				 * @brief Loads vertex specific information for a graph vertex.
 				 *
 				 * @param vertID The key of Vertex
 				 * @param data data to set
@@ -194,7 +198,7 @@ namespace bridges {
 					}
 				}
 				/**
-				 * 	Gets edge data for the edge from "src" to "dest"
+				 * @brief Gets edge data for the edge from "src" to "dest".
 				 *
 				 * @param src The key of the source Vertex
 				 * @param dest The key of the destination Vertex
@@ -226,7 +230,7 @@ namespace bridges {
 					throw "getEdgeData(): Edge not found";
 				}
 				/**
-				 * 	Gets edge data for the edge from "src" to "dest" - const version
+				 * @brief Gets edge data for the edge from "src" to "dest" - const version.
 				 *
 				 * @param src The key of the source Vertex
 				 * @param dest The key of the destination Vertex
@@ -260,8 +264,7 @@ namespace bridges {
 
 
 				/**
-				 * 	Loads edge specific information for the edge from "src" to
-				 *   "dest"
+				 * @brief Loads edge specific information for the edge from "src" to  "dest".
 				 *
 				 * @param src The key of the source Vertex
 				 * @param dest The key of the destination Vertex
@@ -296,16 +299,16 @@ namespace bridges {
 					throw "getEdgeData(): Edge not found";
 				}
 				/**
-				 *  Return the graph nodes
+				 * @brief Return the graph nodes.
 				 *
-				 *	@return The vertex list of this graph
+				 * @return The vertex list of this graph
 				 */
 				unordered_map<K, Element<E1>*>* getVertices() {
 					return &vertices;
 				}
 
 				/**
-				 *  Return the graph nodes - const version
+				 *  @brief Return the graph nodes - const version.
 				 *
 				 *	@return The vertex list of this graph
 				 */
@@ -313,7 +316,8 @@ namespace bridges {
 					return &vertices;
 				}
 				/**
-				 *  Return the vertex corresponding to a key
+				 *  @brief Return the vertex corresponding to a key.
+				 *
 				 *	@return the requested vertex of this graph or nullptr if not found
 				 */
 				const Element<E1>* getVertex(const K& key) const {
@@ -344,9 +348,35 @@ namespace bridges {
 					}
 				}
 
+				/**
+				 * @brief Get the edge between src and dest vertices.
+				 *
+				 * @param src  source vertex of edge
+				 * @param dest  destination vertex of edge
+				 * @return edge between the vertices
+				 */
+				Edge<K, E2> getEdge(const K& src, const K& dest) {
+					// check to see if the two vertices exist, else
+					// return null
+					try  {
+						// look for the edge
+						SLelement<Edge<K, E2>> *sle = adj_list[src];
+						while (sle != nullptr) {
+							K edge_dest = ((Edge<K, E2>) sle->getValue()).to();
+							if (edge_dest == dest)	// found
+								return sle->getValue();
+							sle = sle->getNext();
+						}
+					}
+					catch (const std::out_of_range& oor) { 
+						// one or both vertices doesnt exist
+						std::cout << "one or both vertices are likely missing from graph\n";
+						throw;
+					}
+				}
 
 				/**
-				 *  Return the adjacency list
+				 *  @brief Return the adjacency list.
 				 *	@return The adjacency list  of the graph
 				 */
 				const unordered_map<K, SLelement<Edge<K, E2> >*>&
@@ -355,7 +385,7 @@ namespace bridges {
 				}
 
 				/**
-				 * Returns adjacency list of a vertex with name k
+				 * @brief Returns adjacency list of a vertex with name k.
 				 *
 				 * @param k The key of the source vertex
 				 * @throw out_of_range If key is non-existent within this graph
@@ -394,7 +424,7 @@ namespace bridges {
 
 
 				/**
-				 *  Returns the  visualizer corresponding to  a graph vertex;
+				 *  @brief Returns the  visualizer corresponding to  a graph vertex.
 				 *	convenient method to set attributes of the graph vertex
 				 *
 				 *  @param k The key of the graph vertex
@@ -413,6 +443,7 @@ namespace bridges {
 					}
 				}
 				/**
+				 *  @brief Returns the link visualizer corresponding to an edge. 
 				 *  Returns the link visualizer corresponding to two graph
 				 *	nodes with an existing link; error returned if no link exists.
 				 *
@@ -423,14 +454,10 @@ namespace bridges {
 				 */
 				LinkVisualizer *getLinkVisualizer (const K& k1, const K& k2) {
 					try {
-						Element<E1> *el1 = vertices.at(k1);
-						Element<E1> *el2 = vertices.at(k2);
-
-						return el1->getLinkVisualizer(el2);
+						return getEdge(k1, k2).getLinkVisualizer();
 					}
 					catch (const out_of_range& ) {
-						cerr <<  "Either source or destination node not found in graph!"
-							<< endl;
+						cerr <<  "Either source or destination node not found in graph!\n";
 						throw;
 					}
 				}
@@ -603,7 +630,7 @@ namespace bridges {
 				/**
 				*
 				* @brief Force the rendering engine to use large graph
-				*	visualization
+				*	visualization.
 				*
 				* This forces the rendering to a more bandwidth
 				* efficient at the cost of having less features. The large
@@ -694,6 +721,8 @@ namespace bridges {
 				};
 
 				/**
+				 *  Returns a set of all keys  (helper function).
+				 * 
 				 *	Returns a set of all keys (read only) that conforms to
 				 *	STL list interface.  That means we can use range for loops
 				 *	on graph vertices.
@@ -705,8 +734,8 @@ namespace bridges {
 				}
 
 				/**
-				 *	This method is useful for iterating through a set of
-				 *  outgoing edges from a vertex
+				 *	@brief This method is useful for iterating through a set of
+				 *  outgoing edges from a vertex.
 				 */
 				typename SLelement<Edge<K, E2>>::SLelement_listhelper
 				outgoingEdgeSetOf(K const & k) {
@@ -714,8 +743,8 @@ namespace bridges {
 				}
 
 				/**
-				 *	This method is useful for iterating through a set of
-				 *  outgoing edges from a vertex - const version
+				 *	@brief This method is useful for iterating through a set of
+				 *  outgoing edges from a vertex - const version.
 				 */
 				typename SLelement<Edge<K, E2>>::SLelement_constlisthelper
 				outgoingEdgeSetOf(K const & k) const {
