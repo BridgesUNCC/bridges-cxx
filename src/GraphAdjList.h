@@ -16,15 +16,75 @@ namespace bridges {
 		/** @brief This class provides methods to represent adjacency list
 		 *	based graphs.
 		 *
-		 *  The class is simply a wrapper around the C++ STL unordered_map
-		 *	class and thus derives all its operations from it.
+		 *	The GraphAdjList class can be used to represent adjacency list
+		 *  based graphs in BRIDGES; it takes 3 generic parameters: (1) K,
+		 *  which is an orderable key value used in accessing vertices (in
+		 *  constant time) using an STL map. This permits data sets that
+		 *  need to be accessed by keys that are strings, (2) E1, for
+		 *  maintaining vertex specific data, and (3) E2, for maintaining
+		 *  edge specific data.  The class is a wrapper around the C++
+		 *  unordered map class and, thus, derives all its operations from it.
+		 *  BRIDGES provides methods to visualize the graph and its
+		 *  contents.
 		 *
-		 *  @param K: used as an index to retrieve vertices,
-		 *  @param E1: data type used to store vertex specific information,
-		 *  @param E2: data type used to store edge specific information
+		 *  The vertices of the graph are held in a C++ hashmap, for near
+		 *  constant time access; this enables us to use strings or integer ids
+		 *  for vertices. The adjacency lists are linked lists of SLelemnt type, 
+         *  The SLelement contains edge information (stored in its data as a 
+	     *	generic). Each edge, of type Edge, contains the source,
+		 *  destination vertices and link attributes (color, opacity, thickness)
+		 *
+		 *
+		 * Convenience method addVertex() is provided to add vertices to
+		 * the graph, and addEdge() is provided to add edges.  Edges are
+		 * retrieved by using the map and the adjcency list, given the vertex 
+		 * ids of the edge. Vertices can be styled directly from the vertex element
+		 * returned by getVertex(), and edges are styled from a LinkVisualizer
+		 * one can access through getLinkVisualizer(). Here is a simple example:
+		 *\code{c}
+		 * GraphAdjList<string, Integer, Double> graph = new GraphAdjList<string, int, double> ();
+		 *   graph.addVertex("a");
+		 *   graph.addVertex("b");
+		 *   graph.addEdge("a", "b");
+		 *   graph.getVertex("a").setShape("square");
+		 *   graph.getLinkVisualizer("a", "b").setColor("yellow");
+		 *\endcode
+		 *
+		 * Adjacency lists are singly linked lists using the BRIDGES
+		 * SLelement. Iterators are provided for easy traversal of the
+		 * adjacency lists. For instance,
+		 *
+		 *\code{c}
+		 * GraphAdjList<string, int, double> graph = something();
+		 * for (Edge<string, double> e : graph.outgoingEdgeSetOf("a"))
+		 *   System.out.println("a -> "+e.getTo());
+		 *\endcode
+		 *
+		 * Graphs can have their nodes and links affected by visual attributes. Nodes
+		 * can have color, size, opacity and shape and  detailed in the ElementVisualizer
+		 * class. Edges support attributes such as color, thickness and opacity and are
+		 * detailed in the LinkVisualizer class.  Element and link attributes are set
+		 * using the getVisualizer() and getLinkVisualizer() methods.  For instance,
+		 *
+		 *\code{c}
+		 * GraphAdjList<string, int, double> graph = something();
+		 *   graph.addVertex("baskin");
+		 *   graph.addVertex("robins");
+		 *   graph.addEdge("baskin","robins");
+		 *   graph.getVisualizer()->setColor("cyan");
+		 *   graph.getVisualizer()->setShape("square");
+		 *   graph.getLinkVisualizer("baskin", "robins")->setColor("green");
+		 *   graph.getLinkVisualizer("baskin", "robins")->setOpacity("0.5f");
+		 *\endcode
+
+		 *
+		 *
+		 * @param K: used as an index to retrieve vertices,
+		 * @param E1: data type used to store vertex specific information,
+		 * @param E2: data type used to store edge specific information
 		 *
 		 * @author Kalpathi Subramanian, Erik Saule
-		 * @date Last modified 4/22/18, 7/12/19, 12/28/20
+		 * @date Last modified 4/22/18, 7/12/19, 12/28/20, 1/5/21
 		 *
 		 * There is a tutorial about Graph Adjacency List  :
 		 * http://bridgesuncc.github.io/tutorials/Graph_AL.html
