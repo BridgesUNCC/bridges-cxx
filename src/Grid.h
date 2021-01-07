@@ -102,7 +102,7 @@ namespace bridges {
 				}
 
 				/**
-				 * @briefGrid constructor given an input grid
+				 * @brief Grid constructor given an input grid
 				 *
 				 * copy the provided grid as input
 				 * @param g input grid

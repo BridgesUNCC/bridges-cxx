@@ -106,7 +106,7 @@ namespace bridges {
 				/**
 				 * @brief Set partitioning dimension to "dim"
 				 *
-				 * @param dim The partitioning dimension of this Kd tree element
+				 * @param th The thickness of the partitioner to set 
 				 */
 				void setThickness(const float& th) {
 					thickness = th;
@@ -121,7 +121,7 @@ namespace bridges {
 				/**
 				 * @brief Set partitioning dimension to "dim"
 				 *
-				 * @param dim The partitioning dimension of this Kd tree element
+				 * @param p The partitioning dimension value of this Kd tree element
 				 */
 				void setPartitioner(const K& p) {
 					this->setKey();

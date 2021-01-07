@@ -746,8 +746,6 @@ namespace bridges {
 			 * 	 "san_francisco", "miami", "minneapolis", "dallas"
 			 *
 			 * @param location which location to get the map from
-			 **/
-			/*
 						OSMData getOSMDataOld (string location) {
 							std::transform(location.begin(), location.end(), location.begin(),
 								::tolower);
@@ -784,21 +782,26 @@ namespace bridges {
 						}
 			*/
 
-			/**Reconstruct a GraphAdjList from an existing GraphAdjList on the Bridges server
+			/**
+			 * Reconstruct a GraphAdjList from an existing GraphAdjList on the Bridges server
 			 *
 			 * The reconstructed assignment sees vertices identified as integers in the order they are stored in the server.
-			 * The data associated with a vertex is a string that come from the label of that vertices.
-			 * The data associated with an edge is the string that come from the label of that edge.
+			 * The data associated with a vertex is a string that comes from the label of that vertices.
+			 * The data associated with an edge is the string that comes from the label of that edge.
 			 * The edge weights are also reobtained from the bridges server.
 			 *
-			 * @return the ColorGrid stored in the bridges server
 			 * @param user the name of the user who uploaded the assignment
 			 * @param assignment the ID of the assignment to get
 			 * @param subassignment the ID of the subassignment to get
-			 **/
-			bridges::GraphAdjList<int, std::string> getGraphFromAssignment (const std::string& user,
+			 *
+			 * @return the ColorGrid stored in the bridges server
+			 *
+			 */
+			bridges::GraphAdjList<int, std::string> getGraphFromAssignment (
+				const std::string& user,
 				int assignment,
 				int subassignment = 0) {
+
 				bridges::GraphAdjList<int, std::string> gr;
 
 				std::string s = this->getAssignment(user, assignment, subassignment);

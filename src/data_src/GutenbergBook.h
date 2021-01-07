@@ -245,7 +245,7 @@ namespace bridges {
 				}
 				/**
 				 * set total number of difficult words  in book
-				 * @param numDiffiultWords   total difficult words to
+				 * @param numDifficultWords   total difficult words to
 				 *						be set for this book
 				 */
 				void setNumDifficultWords(int numDifficultWords) {

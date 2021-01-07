@@ -39,13 +39,13 @@ namespace bridges {
 				}
 
 				/**
-				     *   Song constructor
+				     * @brief Song constructor
 				     *
 				     * @param artist  artist of song
 				     * @param song    song title
 				     * @param album   album title
 				     * @param lyrics  lyrics of song (string)
-				     * @param release date  date released
+				     * @param release_date  date released
 				     */
 				Song(const string& artist, const string& song, const
 					string& album, const string& lyrics,
@@ -75,23 +75,22 @@ namespace bridges {
 				 *   Get song title
 				 *   @return title of song (string)
 				 */
-
 				string getSongTitle() const {
 					return song;
 				}
+
 				/**
 				 *   Set song title
-				 *   @param title song title  to set
+				 *   @param song song title  to set
 				 */
-
 				void setSongTitle(const string& song) {
 					this->song = song;
 				}
 
 				/**
-				  *   Get album title containing the song
-				  *   @return album title  (string)
-				  */
+				 *   Get album title containing the song
+				 *   @return album title  (string)
+				 */
 
 				string getAlbumTitle() const {
 					return album;
@@ -108,32 +107,30 @@ namespace bridges {
 				 *   Get lyrics of the song
 				 *   @return lyrics of  song (string)
 				 */
-
 				string getLyrics() const {
 					return lyrics;
 				}
-				/**
-				  *   Set song lyrics
-				  *   @param lyrics of song to set
-				  */
 
+				/**
+				 *   Set song lyrics
+				 *   @param lyrics of song to set
+				 */
 				void setLyrics(const string& lyrics) {
 					this->lyrics = lyrics;
 				}
 
 				/**
-				  *   Get release date  of the song
-				  *   @return release date of  song (string)
-				  */
-
+				 *   Get release date  of the song
+				 *   @return release date of  song (string)
+				 */
 				string getReleaseDate() const {
 					return release_date;
 				}
+
 				/**
 				 *   Set release date of song
 				 *   @param release_date date of release to set
 				 */
-
 				void setReleaseDate(const string& release_date) {
 					this->release_date = release_date;
 				}

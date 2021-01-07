@@ -68,8 +68,8 @@ namespace bridges {
 				 * constructor
 				 * @param rows number of rows (height) of elevation map
 				 * @param cols number of columns (width) of elevation map
-				 * @param x11  lower left of map - x coordinate
-				 * @param y11  lower left of map - y coordinate
+				 * @param xll  lower left of map - x coordinate
+				 * @param yll  lower left of map - y coordinate
 				 * @param cellsize size of each cell
 				 * @param maxVal  max elevation value in map
 				 */

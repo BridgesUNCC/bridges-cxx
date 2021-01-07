@@ -37,9 +37,11 @@ namespace bridges {
 						delete [] array_data;
 				}
 
-				/// @brief builds an array given the dimensions
-				/// @param[in] nd number of dimension
-				/// @param[in] dim size of each dimension
+				/**
+				 * @brief builds an array given the size
+				 *
+				 * @param sz  size of array
+				 */
 				Array(int sz)
 					: array_data(nullptr) {
 					int dim[] = {1, 1, sz};

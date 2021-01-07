@@ -132,7 +132,7 @@ namespace bridges {
 			 *  This method is used to suppress the visualization link that is
 			 *  usually printed to the console
 			 *
-			 *  @param bool_link_url flag that controls if the link is printed
+			 *  @param link_url flag that controls if the link is printed
 			 *				to console
 			 *	@return none
 			 *

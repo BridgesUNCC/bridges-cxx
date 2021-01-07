@@ -70,8 +70,7 @@ namespace bridges {
 					return balFactor;
 				}
 				/**
-				 * Set the balance factor to "bf" @param bf The balance factor of this
-				 * AVLTreeElement
+				 * Set the balance factor of this node
 				 *
 				 * @param bf  the balance factor to set at this node
 				 */

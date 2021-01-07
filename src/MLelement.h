@@ -78,7 +78,6 @@ namespace bridges {
 				 *
 				 * @param label the label of MLelement that shows up on the
 				 *	Bridges visualization
-				 * @param e the generic object that this SLelement will hold
 				 *
 				 */
 				MLelement (string label) : SLelement<E> (nullptr, E(), label) {
@@ -259,9 +258,10 @@ namespace bridges {
 					return ml_list_json;
 				}
 				/**
-				 *  Get the list of nodes
+				 *  Get the list of nodes into a vector
 				 *
-				 *  @param nodes The list of nodes
+				 *  @param list MLelement list 
+				 *  @param nodes [output] The list of nodes (in a vector)
 				 */
 				void getListElements(const MLelement<E> *list,
 					vector<const MLelement<E>*>& nodes) const {
