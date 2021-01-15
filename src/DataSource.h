@@ -664,6 +664,21 @@ namespace bridges {
 				return getOSMDataFromJSON(osm_json);
 			}
 
+	  void getAmenityData(double minLat, double minLon, double 
+			      maxLat, double maxLon, std::string amenity) {
+	  }
+
+	  void getAmenityData(const std::string& location, const std::string& amenity) {
+	    std::string url = getOSMBaseURL() + "amenity?location=" + location
+	      + "&amenity=" + amenity;
+
+	    std::string hash_url = getOSMBaseURL() + "hash?location=" + location
+	      + "&amenity=" + amenity;
+	    
+	    
+	  }
+
+	  
 			/**
 			 *
 			 *  Get OpenStreetMap data given a city name and resolution level
