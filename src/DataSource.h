@@ -1260,7 +1260,7 @@ namespace bridges {
 				// set up the elevation data url to get the data, given
 				// a lat/long bounding box
 				string server_str =
-					"http://cci-bridges-elevation-t.dyn.uncc.edu/";
+					"http://bridges-data-server-elevation.bridgesuncc.org/";
 
 				string elev_str = "elevation?";
 
@@ -1279,9 +1279,7 @@ namespace bridges {
 				if (debug())
 					cerr << "Hitting data URL: " << elev_data_url << "\n";
 				string hash_str = "hash?";
-				string hash_url = server_str + hash_str + bbox_str;
-
-
+				string hash_url = server_str + hash_str + bbox_str + resn_str;
 
 				if (debug())
 					cerr << "Hitting hash URL: " << hash_url << "\n";
@@ -1309,28 +1307,24 @@ namespace bridges {
 
 					// get the eleveation data
 					elev_json = ServerComm::makeRequest(elev_data_url,
-					{"Accept: application/json"});
+										{"Accept: application/json"});
 
 					if (debug())
 						cerr << "Hitting elev data URL: " << elev_data_url << "\n";
 
 					string hash_value =  ServerComm::makeRequest(hash_url,
-					{"Accept: application/json"});
+										{"Accept: application/json"});
 
-					if (hash_value == "false") {
-						cerr << "Error in getting hash value for generated map..." << endl;
-						cerr << elev_json << endl;
-						abort();
-					}
-
-					// store map in cache
-					try {
-						my_cache.putDoc(hash_value, elev_json);
-					}
-					catch (CacheException& ce) {
-						//something went bad trying to access the cache
-						cerr << "Exception while storing in cache. Weird but not critical."
-							<< endl;
+					if (hash_value != "false") {
+						// store map in cache
+						try {
+							my_cache.putDoc(hash_value, elev_json);
+						}
+						catch (CacheException& ce) {
+							//something went bad trying to access the cache
+							cerr << "Exception while storing in cache. Weird but not critical."
+								<< endl;
+						}
 					}
 				}
 				return getElevationDataFromJSON(elev_json);
@@ -1359,9 +1353,6 @@ namespace bridges {
 				elev_data->setyll(ll_y);
 				elev_data->setCellSize(cell_size);
 
-				// tmp
-				int data[85 * 185];
-				int l = 0;
 				// load the elevation data
 				for (int i = 0; i < rows; i++) {
 					for (int j = 0; j < cols; j++) {
