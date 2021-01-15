@@ -1245,7 +1245,7 @@ namespace bridges {
 				// set up the elevation data url to get the data, given
 				// a lat/long bounding box
 				string server_str =
-					"http://cci-bridges-elevation-t.dyn.uncc.edu/";
+					"http://bridges-data-server-elevation.bridgesuncc.org/";
 
 				string elev_str = "elevation?";
 
@@ -1264,9 +1264,7 @@ namespace bridges {
 				if (debug())
 					cerr << "Hitting data URL: " << elev_data_url << "\n";
 				string hash_str = "hash?";
-				string hash_url = server_str + hash_str + bbox_str;
-
-
+				string hash_url = server_str + hash_str + bbox_str + resn_str;
 
 				if (debug())
 					cerr << "Hitting hash URL: " << hash_url << "\n";
@@ -1344,9 +1342,6 @@ namespace bridges {
 				elev_data->setyll(ll_y);
 				elev_data->setCellSize(cell_size);
 
-				// tmp
-				int data[85 * 185];
-				int l = 0;
 				// load the elevation data
 				for (int i = 0; i < rows; i++) {
 					for (int j = 0; j < cols; j++) {
