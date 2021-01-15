@@ -1292,28 +1292,24 @@ namespace bridges {
 
 					// get the eleveation data
 					elev_json = ServerComm::makeRequest(elev_data_url,
-					{"Accept: application/json"});
+										{"Accept: application/json"});
 
 					if (debug())
 						cerr << "Hitting elev data URL: " << elev_data_url << "\n";
 
 					string hash_value =  ServerComm::makeRequest(hash_url,
-					{"Accept: application/json"});
+										{"Accept: application/json"});
 
-					if (hash_value == "false") {
-						cerr << "Error in getting hash value for generated map..." << endl;
-						cerr << elev_json << endl;
-						abort();
-					}
-
-					// store map in cache
-					try {
-						my_cache.putDoc(hash_value, elev_json);
-					}
-					catch (CacheException& ce) {
-						//something went bad trying to access the cache
-						cerr << "Exception while storing in cache. Weird but not critical."
-							<< endl;
+					if (hash_value != "false") {
+						// store map in cache
+						try {
+							my_cache.putDoc(hash_value, elev_json);
+						}
+						catch (CacheException& ce) {
+							//something went bad trying to access the cache
+							cerr << "Exception while storing in cache. Weird but not critical."
+								<< endl;
+						}
 					}
 				}
 				return getElevationDataFromJSON(elev_json);
