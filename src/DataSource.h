@@ -496,6 +496,7 @@ namespace bridges {
 					c.setRace(data["Race"].GetString());
 					c.setPopulation(data["Population"].GetInt());
 					c.setEventType(data["Event Type"].GetString());
+					c.setCount(data["Count"].GetInt());
 
 					c.setAffectedArea(v["Area"].GetString());
 
