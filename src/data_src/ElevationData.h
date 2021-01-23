@@ -3,6 +3,8 @@
 
 #define ELEVATION_DATA
 
+#include <vector>
+
 namespace bridges {
 
 	namespace dataset {
@@ -22,8 +24,8 @@ namespace bridges {
 			private:
 
 				// elevation data - sequence of integers
-				int *data;
-
+		  std::vector<int> data;
+		  
 				// data dimensions
 				int rows, cols;
 
@@ -42,7 +44,7 @@ namespace bridges {
 				 *
 				 */
 				ElevationData() {
-					data = nullptr;
+				
 					cols = rows = 0;
 					xll = yll = 0.;
 					cellSize = 0;
@@ -58,7 +60,7 @@ namespace bridges {
 				ElevationData(int r, int c) {
 					rows = r;
 					cols = c;
-					data = new int[cols * rows];
+					data.resize(cols * rows);
 					xll = yll = 0.;
 					cellSize = 0;
 					maxVal = 0;
@@ -75,7 +77,8 @@ namespace bridges {
 				 */
 				ElevationData (int cols, int rows, int xll,
 					int yll, int cellsize, int maxVal) {
-					data = new int[cols * rows];
+				  //data = new int[cols * rows];
+				  data.resize(cols*rows);
 					setCols(cols);
 					setRows(rows);
 					setxll(xll);
@@ -88,7 +91,7 @@ namespace bridges {
 				 * destructor
 				 */
 				~ElevationData() {
-					delete [] data;
+				  //delete [] data;
 				}
 
 				/**

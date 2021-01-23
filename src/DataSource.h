@@ -1254,7 +1254,7 @@ namespace bridges {
 			* @param longitMax maximum longitude requested
 			* @param res spatial resolution, aka the distance between two samples (in degrees)
 			**/
-			ElevationData *getElevationData (
+			ElevationData getElevationData (
 				double latitMin, double longitMin,
 				double latitMax, double longitMax, double res = 0.0166)  {
 
@@ -1332,7 +1332,7 @@ namespace bridges {
 			}
 
 			// get Elevation data from the JSON
-			ElevationData *getElevationDataFromJSON (string elev_json) {
+			ElevationData getElevationDataFromJSON (string elev_json) {
 
 				// use a string stream to parse the data, which is not really a JSON,
 				// but raw text
@@ -1349,16 +1349,16 @@ namespace bridges {
 
 
 				// create the elevation object
-				ElevationData *elev_data = new ElevationData(rows, cols);
-				elev_data->setxll(ll_x);
-				elev_data->setyll(ll_y);
-				elev_data->setCellSize(cell_size);
+				ElevationData elev_data (rows, cols);
+				elev_data.setxll(ll_x);
+				elev_data.setyll(ll_y);
+				elev_data.setCellSize(cell_size);
 
 				// load the elevation data
 				for (int i = 0; i < rows; i++) {
 					for (int j = 0; j < cols; j++) {
 						ss >> elev_val;
-						elev_data->setVal(i, j, elev_val);
+						elev_data.setVal(i, j, elev_val);
 					}
 				}
 				return elev_data;
