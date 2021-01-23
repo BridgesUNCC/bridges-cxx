@@ -76,6 +76,8 @@ namespace bridges {
 				//probably should check directory existence here, but exception in constructors are weird.
 			}
 
+	  virtual ~SimpleCache()=default;
+
 			//is docName in the cache
 			virtual bool inCache(const std::string & docName) noexcept(false) override {
 				std::string filename = getFilename(docName);
@@ -149,6 +151,8 @@ namespace bridges {
 				: maxCache(maxFileNumber) {
 			}
 
+	  virtual ~lruCache()=default;
+	  
 			virtual std::string getDoc (const std::string& hash_value) override { //returns LRU vector from cache file
 				string content;
 				getLRU();
