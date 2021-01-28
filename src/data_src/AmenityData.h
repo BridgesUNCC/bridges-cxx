@@ -3,6 +3,7 @@
 #define OSM_AMENITY_DATA
 
 
+#include "Amenities.h"
 #include <vector>
 
 /**
@@ -79,7 +80,7 @@ class AmenityData {
 		 * @param amenity amenity data to be added
 		 */
 		void addAmenities(Amenities amenity){
-			this.data.add(amenity);
+			data.push_back(amenity);
 		}
 
 		/**
@@ -111,8 +112,8 @@ class AmenityData {
 		 * set the minimum longitude  of this amenity data
 		 * @param minLon  longitude minimum to be set
 		 */
-		void setMinLon(double long){
-			minLon = long;
+		void setMinLon(double longitude){
+			minLon = longitude;
 		}
 		/**
 		 * get the maximum latitude  of this amenity data
@@ -143,8 +144,8 @@ class AmenityData {
 		 * set the maximum longitude  of this amenity data
 		 * @param maxLon  longitude maximum to be set
 		 */
-		void setMaxLon(double long){
-			maxLon = long;
+		void setMaxLon(double longitude){
+			maxLon = longitude;
 		}
 
 		/**

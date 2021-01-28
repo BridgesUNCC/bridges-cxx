@@ -20,6 +20,8 @@ using namespace std;
 #include "./data_src/OSMVertex.h"
 #include "./data_src/OSMEdge.h"
 #include "./data_src/MovieActorWikidata.h"
+#include "./data_src/AmenityData.h"
+#include "./data_src/Amenities.h"
 #include "ColorGrid.h"
 #include "base64.h"
 #include <GraphAdjList.h>
@@ -665,20 +667,31 @@ namespace bridges {
 				return getOSMDataFromJSON(osm_json);
 			}
 
+			/** 
+			 * This method retrieves the specified amenity related data given a 
+			 * bounding box of a region, from a Open Street map 
+			 *
+			 *  @param minLat  minimum latitude
+			 *  @param minLon  minimumm longitude
+			 *  @param maxLat  maximum latitude
+			 *  @param maxLon  maximum longitude
+			 *  @param amenity  amenity type
+			 *  @throws exception
+     		 */
 			AmenityData  getAmenityData(double minLat, double minLon, double 
 			      			maxLat, double maxLon, std::string amenity) {
 
-				std::string url = "http://cci-bridges-osm.uncc.edu/amenity?" + 
-					"minLon=" + std::to_string(minLon) + 
+				std::string url = "http://cci-bridges-osm.uncc.edu/amenity?minLon=" + 
+					std::to_string(minLon) + 
 					"&minLat=" + std::to_string(minLat) +
-					"&maxLon=" + std::to_string(maxLong) + 
+					"&maxLon=" + std::to_string(maxLon) + 
 					"&maxLat=" + std::to_string(maxLat) + 
 					"&amenity=" + amenity;
 					
-        		std::string hashUrl = "http://cci-bridges-osm.uncc.edu/hash?" + 
-					"minLon=" + std::to_string(minLon) + 
+        		std::string hashUrl = "http://cci-bridges-osm.uncc.edu/hash?minLon=" + 
+					std::to_string(minLon) + 
 					"&minLat=" + std::to_string(minLat) +
-					"&maxLon=" + std::to_string(maxLong) + 
+					"&maxLon=" + std::to_string(maxLon) + 
 					"&maxLat=" + std::to_string(maxLat) +  
 					"&amenity=" + amenity;
 
@@ -703,28 +716,8 @@ namespace bridges {
 						"hash?location=" + location +
 						"&amenity=" + amenity;
 
-				return parseAmenityData (url, hashUrl);
+				return parseAmenityData (url, hash_url);
 	  		}
-
-			/** 
-			 * This method retrieves the specified amenity related data given a 
-			 * bounding box of a region, from a Open Street map 
-			 *
-			 *  @param minLat  minimum latitude
-			 *  @param minLon  minimumm longitude
-			 *  @param maxLat  maximum latitude
-			 *  @param maxLon  maximum longitude
-			 *  @param amenity  amenity type
-			 *  @throws exception
-     		 */
-			AmenityData  getAmenityData(double minLat, double minLon, double 
-			      			maxLat, double maxLon, std::string amenity) {
-
-				std::string amenity_json = ServerComm::makeRequest(url, 
-								{"Accept: application/json"});
-
-				return parseAmenityData (url, hashUrl);
-			}
 
 			/**
 			 * @brief Downloads, parses  and caches requested amenities at this requested
@@ -739,6 +732,14 @@ namespace bridges {
 			 *      server or is an invalid location name
 			 */
 			AmenityData parseAmenityData(string url, string hashUrl) {
+
+				cout << "in parse amenity data..\n";
+
+				// make the query to the server to get a JSON of the amenities
+				string amenity_json = ServerComm::makeRequest(url, 
+								{"Accept: application/json"});
+				
+				cout << "after request.." + amenity_json + "\n";
 				// next parse the amenity data
 				using namespace rapidjson;
 
@@ -747,16 +748,16 @@ namespace bridges {
 
 				amenity_content.Parse(amenity_json.c_str());
 				if (amenity_content.HasMember("nodes")) {
-					const Value& nodes = amenity_content['nodes'];
-					if (amenity_content.HasMember("meta") {
+					const Value& nodes = amenity_content["nodes"];
+					if (amenity_content.HasMember("meta")) {
 						const Value& meta = amenity_content["meta"];
 
 						// first get the meta data
-						amenities.setCount(meta[0].GetInt64());
-						amenities.setMinLat(meta[1].GetDouble());
-						amenities.setMinLon(meta[2].GetDouble());
-						amenities.setMaxLat(meta[3].GetDouble());
-						amenities.setMaxLon(meta[4].GetDouble());
+						amenities.setCount(meta["count"].GetInt64());
+						amenities.setMinLat(meta["minlat"].GetDouble());
+						amenities.setMinLon(meta["minlon"].GetDouble());
+						amenities.setMaxLat(meta["maxlat"].GetDouble());
+						amenities.setMaxLon(meta["maxlon"].GetDouble());
 
 						Amenities amen;
 						for (SizeType i = 0;i < nodes.Size(); i++) {
@@ -764,8 +765,8 @@ namespace bridges {
 							amen.setId(node[0].GetInt64());
 							amen.setLat(node[1].GetDouble());
 							amen.setLon(node[2].GetDouble());
-							amen.setName(node[2].GetString());
-							amenities.addAmenties(amen);
+							amen.setName(node[3].GetString());
+							amenities.addAmenities(amen);
                     	}
 					}
 					else {
@@ -777,6 +778,7 @@ namespace bridges {
 					cout << "nodes data not found!\n";
 					throw;
 				}
+				return amenities;
 			}
 	
 			/**

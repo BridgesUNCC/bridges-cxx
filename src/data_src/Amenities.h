@@ -16,7 +16,7 @@
 class Amenities {
 
     private:
-		double id_val;
+		long id_val;
 		double lat;
 		double lon;
 		string name;
@@ -30,8 +30,8 @@ class Amenities {
         	id_val = 0;
         	lat = 0;
         	lon = 0;
-        	name = null;
-        	other = null;
+        	name = "";
+        	other.clear();
     	}
 
 		/**
@@ -56,7 +56,7 @@ class Amenities {
 		 * get the ID  of this amenity
 		 * @return ID value
 		 */
-		double getId() {
+		long getId() {
 			return id_val;
 		}
 
@@ -64,7 +64,7 @@ class Amenities {
 		 * set the ID value of this amenity 
 		 * @param id_val ID value to set
 		 */
-		setId(double id){
+		void setId(long id){
 			id_val = id;
 		}
 
