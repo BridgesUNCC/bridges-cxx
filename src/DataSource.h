@@ -665,21 +665,120 @@ namespace bridges {
 				return getOSMDataFromJSON(osm_json);
 			}
 
-	  void getAmenityData(double minLat, double minLon, double 
-			      maxLat, double maxLon, std::string amenity) {
-	  }
+			AmenityData  getAmenityData(double minLat, double minLon, double 
+			      			maxLat, double maxLon, std::string amenity) {
 
-	  void getAmenityData(const std::string& location, const std::string& amenity) {
-	    std::string url = getOSMBaseURL() + "amenity?location=" + location
-	      + "&amenity=" + amenity;
+				std::string url = "http://cci-bridges-osm.uncc.edu/amenity?" + 
+					"minLon=" + std::to_string(minLon) + 
+					"&minLat=" + std::to_string(minLat) +
+					"&maxLon=" + std::to_string(maxLong) + 
+					"&maxLat=" + std::to_string(maxLat) + 
+					"&amenity=" + amenity;
+					
+        		std::string hashUrl = "http://cci-bridges-osm.uncc.edu/hash?" + 
+					"minLon=" + std::to_string(minLon) + 
+					"&minLat=" + std::to_string(minLat) +
+					"&maxLon=" + std::to_string(maxLong) + 
+					"&maxLat=" + std::to_string(maxLat) +  
+					"&amenity=" + amenity;
 
-	    std::string hash_url = getOSMBaseURL() + "hash?location=" + location
-	      + "&amenity=" + amenity;
-	    
-	    
-	  }
+				return parseAmenityData (url, hashUrl);
+			}
 
-	  
+			/** 
+			 * This method retrieves the specified amenity related data given a location
+			 * from a specified openstreet mmap location
+			 *
+			 *  @param location city/town from where amenity data is sought
+			 *  @param amenity  amenity type
+			 *  @throws exception
+			 */
+			AmenityData  getAmenityData(const std::string& location, 
+									const std::string& amenity) {
+				std::string url = getOSMBaseURL() + 
+						"amenity?location=" + location +
+						"&amenity=" + amenity;
+
+				std::string hash_url = getOSMBaseURL() + 
+						"hash?location=" + location +
+						"&amenity=" + amenity;
+
+				return parseAmenityData (url, hashUrl);
+	  		}
+
+			/** 
+			 * This method retrieves the specified amenity related data given a 
+			 * bounding box of a region, from a Open Street map 
+			 *
+			 *  @param minLat  minimum latitude
+			 *  @param minLon  minimumm longitude
+			 *  @param maxLat  maximum latitude
+			 *  @param maxLon  maximum longitude
+			 *  @param amenity  amenity type
+			 *  @throws exception
+     		 */
+			AmenityData  getAmenityData(double minLat, double minLon, double 
+			      			maxLat, double maxLon, std::string amenity) {
+
+				std::string amenity_json = ServerComm::makeRequest(url, 
+								{"Accept: application/json"});
+
+				return parseAmenityData (url, hashUrl);
+			}
+
+			/**
+			 * @brief Downloads, parses  and caches requested amenities at this requested
+			 * 	 location
+			 *
+			 * @param url  string of the url that will be used when requesting 
+			 *      amenity data from server
+			 * @param hashUrl string of the url that will be used when requesting 
+			 *      hash data from server
+			 * @return AmenityData object containing coordinates and meta data
+			 * @throws If there is an error parsing response from 
+			 *      server or is an invalid location name
+			 */
+			AmenityData parseAmenityData(string url, string hashUrl) {
+				// next parse the amenity data
+				using namespace rapidjson;
+
+				AmenityData amenities;
+				Document amenity_content;
+
+				amenity_content.Parse(amenity_json.c_str());
+				if (amenity_content.HasMember("nodes")) {
+					const Value& nodes = amenity_content['nodes'];
+					if (amenity_content.HasMember("meta") {
+						const Value& meta = amenity_content["meta"];
+
+						// first get the meta data
+						amenities.setCount(meta[0].GetInt64());
+						amenities.setMinLat(meta[1].GetDouble());
+						amenities.setMinLon(meta[2].GetDouble());
+						amenities.setMaxLat(meta[3].GetDouble());
+						amenities.setMaxLon(meta[4].GetDouble());
+
+						Amenities amen;
+						for (SizeType i = 0;i < nodes.Size(); i++) {
+							const Value& node = nodes[i];
+							amen.setId(node[0].GetInt64());
+							amen.setLat(node[1].GetDouble());
+							amen.setLon(node[2].GetDouble());
+							amen.setName(node[2].GetString());
+							amenities.addAmenties(amen);
+                    	}
+					}
+					else {
+						cout << "meta data not found!\n";
+						throw;
+					}
+				}
+				else {
+					cout << "nodes data not found!\n";
+					throw;
+				}
+			}
+	
 			/**
 			 *
 			 *  Get OpenStreetMap data given a city name and resolution level
