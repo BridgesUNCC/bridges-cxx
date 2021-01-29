@@ -63,14 +63,16 @@ namespace bridges {
 		private:
 
 			int debug() const {
-				return 0;
+				return 1;
 			}
 			bridges::Bridges* bridges_inst;
 			bridges::lruCache my_cache;
 
 			string getOSMBaseURL() const {
-				//return "http://cci-bridges-osm-t.uncc.edu/";
-				return "http://cci-bridges-osm.uncc.edu/";
+				return "http://bridges-data-server-osm.bridgesuncc.org/";
+			}
+			string getElevationBaseURL() const {
+				return "http://bridges-data-server-elevation.bridgesuncc.org/";
 			}
 
 		public:
@@ -596,74 +598,27 @@ namespace bridges {
 				double lat_max, double long_max, string level = "default") {
 
 				//URL for hash request
-				string hash_url = getOSMBaseURL() + "hash?minLon=" + std::to_string(long_min) +
+				string hash_url = getOSMBaseURL() + 
+					"hash?minLon=" + std::to_string(long_min) +
 					"&minLat=" + std::to_string(lat_min) +
 					"&maxLon=" + std::to_string(long_max) +
 					"&maxLat=" + std::to_string(lat_max) +
-					"&level=" + ServerComm::encodeURLPart(level);
+					"&level="  + ServerComm::encodeURLPart(level);
 
 				//URL to request map
-				string url =
+				string osm_url =
 					getOSMBaseURL() + "coords?minLon=" + std::to_string(long_min) +
 					"&minLat=" + std::to_string(lat_min) +
 					"&maxLon=" + std::to_string(long_max) +
 					"&maxLat=" + std::to_string(lat_max) +
-					"&level=" + ServerComm::encodeURLPart(level);
-
-				//trys to get hash value for bounding box map
-				if (debug())
-					std::cerr << "Hitting hash URL: " << hash_url << "\n";
-				string hash_value =  ServerComm::makeRequest(hash_url, {"Accept: application/json"});
+					"&level="  + ServerComm::encodeURLPart(level);
 
 
-				std::string osm_json;
-				//std::cerr<<"url: "<<url<<"\n";
+				// get the data set from the server or, if available, from 
+				// a local cache
+				string osm_json = getDataSetJSON(osm_url, hash_url);
 
-				//Checks to see if map requested is stored in local cache
-				if (my_cache.inCache(hash_value) == true) { //local map is up-to-date
-					try {
-						if (my_cache.inCache(hash_value)) {
-							osm_json = my_cache.getDoc(hash_value);
-						}
-					}
-					catch (CacheException& ce) {
-						//something went bad trying to access the cache
-						std::cout << "Exception while reading from cache. Ignoring cache and continue." << std::endl;
-					}
-
-				}
-				else if (hash_value.compare("false") == 0 || my_cache.inCache(hash_value) == false) {
-					//Server response is false or somehow map got saved as false
-
-					if (debug())
-						std::cerr << "Hitting json URL: " << url << "\n";
-
-					osm_json = ServerComm::makeRequest(url, {"Accept: application/json"}); //Requests the map data then requests the maps hash
-					if (debug())
-						std::cerr << "Hitting hash URL: " << hash_url << "\n";
-
-					hash_value =  ServerComm::makeRequest(hash_url, {"Accept: application/json"});
-
-					if (hash_value.compare("false") == 0) {
-						std::cerr << "Error while gathering hash data for generated map..." << std::endl;
-						std::cerr << osm_json << std::endl;
-						abort();
-					}
-
-					//Saves map to cache directory
-					try {
-						my_cache.putDoc(hash_value, osm_json);
-
-					}
-					catch (CacheException& ce) {
-
-						//something went bad trying to access the cache
-						std::cerr << "Exception while storing in cache. Weird but not critical." << std::endl;
-						if (debug())
-							std::cerr << "Tried to store hash=" << hash_value << " key=" << osm_json << std::endl;
-					}
-
-				}
+				//tries to get hash value for bounding box map
 				return getOSMDataFromJSON(osm_json);
 			}
 
@@ -681,21 +636,26 @@ namespace bridges {
 			AmenityData  getAmenityData(double minLat, double minLon, double 
 			      			maxLat, double maxLon, std::string amenity) {
 
-				std::string url = "http://cci-bridges-osm.uncc.edu/amenity?minLon=" + 
-					std::to_string(minLon) + 
-					"&minLat=" + std::to_string(minLat) +
-					"&maxLon=" + std::to_string(maxLon) + 
-					"&maxLat=" + std::to_string(maxLat) + 
-					"&amenity=" + amenity;
+				std::string amenity_url = getOSMBaseURL() + "amenity?minLon=" + 
+					ServerComm::encodeURLPart(std::to_string(minLon)) + 
+					"&minLat=" + ServerComm::encodeURLPart(std::to_string(minLat)) +
+					"&maxLon=" + ServerComm::encodeURLPart(std::to_string(maxLon)) + 
+					"&maxLat=" + ServerComm::encodeURLPart(std::to_string(maxLat)) + 
+					"&amenity=" + ServerComm::encodeURLPart(amenity);
 					
-        		std::string hashUrl = "http://cci-bridges-osm.uncc.edu/hash?minLon=" + 
-					std::to_string(minLon) + 
-					"&minLat=" + std::to_string(minLat) +
-					"&maxLon=" + std::to_string(maxLon) + 
-					"&maxLat=" + std::to_string(maxLat) +  
-					"&amenity=" + amenity;
+        		std::string hash_url = getOSMBaseURL() + "hash?minLon=" + 
+					ServerComm::encodeURLPart(std::to_string(minLon)) + 
+					"&minLat=" + ServerComm::encodeURLPart(std::to_string(minLat)) +
+					"&maxLon=" + ServerComm::encodeURLPart(std::to_string(maxLon)) + 
+					"&maxLat=" + ServerComm::encodeURLPart(std::to_string(maxLat)) +  
+					"&amenity=" + ServerComm::encodeURLPart(amenity);
 
-				return parseAmenityData (url, hashUrl);
+				// make the query to the server to get a JSON of the amenities
+				// implements caching to keep local copies
+				string amenity_json = getDataSetJSON(amenity_url, hash_url);
+
+				// parse the data and return amenity objects
+				return parseAmenityData (amenity_json);
 			}
 
 			/** 
@@ -708,39 +668,35 @@ namespace bridges {
 			 */
 			AmenityData  getAmenityData(const std::string& location, 
 									const std::string& amenity) {
-				std::string url = getOSMBaseURL() + 
-						"amenity?location=" + location +
-						"&amenity=" + amenity;
+				std::string amenity_url = getOSMBaseURL() + "amenity?location=" + 
+						ServerComm::encodeURLPart(location) +
+						"&amenity=" + ServerComm::encodeURLPart(amenity);
 
-				std::string hash_url = getOSMBaseURL() + 
-						"hash?location=" + location +
-						"&amenity=" + amenity;
+				std::string hash_url = getOSMBaseURL() + "hash?location=" + 
+						ServerComm::encodeURLPart(location) +
+						"&amenity=" + ServerComm::encodeURLPart(amenity);
 
-				return parseAmenityData (url, hash_url);
+				// make the query to the server to get a JSON of the amenities
+				// implements caching to keep local copies
+				string amenity_json = getDataSetJSON(amenity_url, hash_url);
+
+				// parse the data and return amenity objects
+				return parseAmenityData (amenity_json);
 	  		}
 
 			/**
-			 * @brief Downloads, parses  and caches requested amenities at this requested
-			 * 	 location
+			 * @brief Parses  the amenity string and returns an AmenityData object
 			 *
-			 * @param url  string of the url that will be used when requesting 
+			 * @param amenity_json  string of the url that will be used when requesting 
 			 *      amenity data from server
-			 * @param hashUrl string of the url that will be used when requesting 
-			 *      hash data from server
-			 * @return AmenityData object containing coordinates and meta data
+			 *
+			 * @return AmenityData object containing meta data and a list of
+			 * 	 amenities with location, name and amenity classification 
+			 *
 			 * @throws If there is an error parsing response from 
 			 *      server or is an invalid location name
 			 */
-			AmenityData parseAmenityData(string url, string hashUrl) {
-
-				cout << "in parse amenity data..\n";
-
-				// make the query to the server to get a JSON of the amenities
-				string amenity_json = ServerComm::makeRequest(url, 
-								{"Accept: application/json"});
-				
-				cout << "after request.." + amenity_json + "\n";
-				// next parse the amenity data
+			AmenityData parseAmenityData(string amenity_json) {
 				using namespace rapidjson;
 
 				AmenityData amenities;
@@ -795,109 +751,21 @@ namespace bridges {
 			 */
 			OSMData getOSMData (string location, string level = "default") {
 				//URL for hash request
-				string hash_url = getOSMBaseURL() + "hash?location=" + ServerComm::encodeURLPart(location) +
-					"&level=" + ServerComm::encodeURLPart(level);
+				string hash_url = getOSMBaseURL() + " hash?location=" + 
+						ServerComm::encodeURLPart(location) +
+						"&level=" + ServerComm::encodeURLPart(level);
 
 				//URL to request map
-				string url =
-					getOSMBaseURL() + "loc?location=" + ServerComm::encodeURLPart(location) +
+				string osm_url = getOSMBaseURL() + 
+					"loc?location=" + ServerComm::encodeURLPart(location) +
 					"&level=" + ServerComm::encodeURLPart(level);
 
-				//trys to get hash value for bounding box map
-				if (debug())
-					std::cerr << "Hitting hash URL: " << hash_url << "\n";
-				string hash_value =  ServerComm::makeRequest(hash_url, {"Accept: application/json"});
+				// get the data set from the server or, if available, from 
+				// a local cache
+				string osm_json = getDataSetJSON(osm_url, hash_url);
 
-
-				std::string osm_json;
-
-				if (debug())
-					std::cerr << "url: " << url << "\n";
-
-				if (my_cache.inCache(hash_value) == true) { //local map is up-to-date
-					try {
-						if (my_cache.inCache(hash_value)) {
-							osm_json = my_cache.getDoc(hash_value);
-						}
-					}
-					catch (CacheException& ce) {   //something went bad trying to access the cache
-						std::cout << "Exception while reading from cache. Ignoring cache and continue." << std::endl;
-					}
-
-				}
-				else if (hash_value.compare("false") == 0 || my_cache.inCache(hash_value) == false) { //Server response is false or somehow map got saved as false
-					if (debug())
-						std::cerr << "Hitting json URL: " << url << "\n";
-					osm_json = ServerComm::makeRequest(url, {"Accept: application/json"}); //Requests the map data then requests the maps hash
-					if (debug())
-						std::cerr << "Hitting hash URL: " << hash_url << "\n";
-					hash_value =  ServerComm::makeRequest(hash_url, {"Accept: application/json"});
-					if (hash_value.compare("false") == 0) {
-						std::cerr << "Error while gathering hash data for generated map..." << std::endl;
-						std::cerr << osm_json << std::endl;
-						abort();
-					}
-
-					//Saves map to cache directory
-					try {
-						my_cache.putDoc(hash_value, osm_json);
-					}
-					catch (CacheException& ce) {
-						//something went bad trying to access the cache
-						std::cerr << "Exception while storing in cache. Weird but not critical." << std::endl;
-						if (debug())
-							std::cerr << "Tried to store hash=" << hash_value << " key=" << osm_json << std::endl;
-					}
-
-				}
 				return getOSMDataFromJSON(osm_json);
 			}
-
-
-			/**
-			 * @brief old interface for the OSM data set.
-			 *
-			 * This is hitting a simpler API that has only a few map in
-			 * 	 there: "uncc_campus", "charlotte", "washington_dc",
-			 * 	 "saint_paul", "new_york", "los_angeles",
-			 * 	 "san_francisco", "miami", "minneapolis", "dallas"
-			 *
-			 * @param location which location to get the map from
-						OSMData getOSMDataOld (string location) {
-							std::transform(location.begin(), location.end(), location.begin(),
-								::tolower);
-							std::string osm_json;
-							bool from_cache = false;
-							try {
-								if (my_cache.inCache(location)) {
-									osm_json = my_cache.getDoc(location);
-									from_cache = true;
-								}
-							}
-							catch (CacheException& ce) {
-								//something went bad trying to access the cache
-								std::cout << "Exception while reading from cache. Ignoring cache and continue." << std::endl;
-							}
-
-							string url = string("http://osm-api.herokuapp.com/name/") + location;
-
-							if (!from_cache) {
-								// get the OSM data json
-								osm_json = ServerComm::makeRequest(url, {"Accept: application/json"});
-
-								try {
-									my_cache.putDoc(location, osm_json);
-								}
-								catch (CacheException& ce) {
-									//something went bad trying to access the cache
-									std::cerr << "Exception while storing in cache. Weird but not critical." << std::endl;
-								}
-							}
-
-							return getOSMDataFromJSON(osm_json);
-
-						}
-			*/
 
 			/**
 			 * Reconstruct a GraphAdjList from an existing GraphAdjList on the Bridges server
@@ -1345,95 +1213,56 @@ namespace bridges {
 
 
 			/**
-			* Returns ElevationData for the provided coordinate box at the
-			* given resolution. Note that the ElevationData that is returned
-			* may have slightly different location and resolution.
-			*
-			* @param latitMin minimum latitude requested
-			* @param longitMin maximum latitude requested
-			* @param latitMax minimum longitude requested
-			* @param longitMax maximum longitude requested
-			* @param res spatial resolution, aka the distance between two samples (in degrees)
-			**/
+			 * Returns ElevationData for the provided coordinate box at the
+			 * given resolution. Note that the ElevationData that is returned
+			 * may have slightly different location and resolution.
+			 *
+			 * @param latitMin minimum latitude requested
+			 * @param longitMin maximum latitude requested
+			 * @param latitMax minimum longitude requested
+			 * @param longitMax maximum longitude requested
+			 * @param res spatial resolution, aka the distance between two samples 
+			 * 		(in degrees)
+			 **/
 			ElevationData getElevationData (
-				double latitMin, double longitMin,
-				double latitMax, double longitMax, double res = 0.0166)  {
+				double minLat, double minLon,
+				double maxLat, double maxLon, double res = 0.0166)  {
 
 				// set up the elevation data url to get the data, given
 				// a lat/long bounding box
-				string server_str =
-					"http://bridges-data-server-elevation.bridgesuncc.org/";
 
-				string elev_str = "elevation?";
+				std::string elev_url = getElevationBaseURL() + 
+					"elevation?minLon=" + ServerComm::encodeURLPart(std::to_string(minLon))+
+					"&minLat=" + ServerComm::encodeURLPart(std::to_string(minLat)) +
+					"&maxLon=" + ServerComm::encodeURLPart(std::to_string(maxLon)) + 
+					"&maxLat=" + ServerComm::encodeURLPart(std::to_string(maxLat)) + 
+					"&resX=" + ServerComm::encodeURLPart(std::to_string(res)) +
+					"&resY=" + ServerComm::encodeURLPart(std::to_string(res));
+					
+        		std::string hash_url = getElevationBaseURL() + 
+					"hash?minLon=" + ServerComm::encodeURLPart(std::to_string(minLon)) + 
+					"&minLat=" + ServerComm::encodeURLPart(std::to_string(minLat)) +
+					"&maxLon=" + ServerComm::encodeURLPart(std::to_string(maxLon)) + 
+					"&maxLat=" + ServerComm::encodeURLPart(std::to_string(maxLat)) +  
+					"&resX=" + ServerComm::encodeURLPart(std::to_string(res)) +
+					"&resY=" + ServerComm::encodeURLPart(std::to_string(res));
 
-				string bbox_str =
-					"&minLon=" 	+ std::to_string(longitMin) +
-					"&minLat=" 	+ std::to_string(latitMin) +
-					"&maxLon=" + std::to_string(longitMax) +
-					"&maxLat=" + std::to_string(latitMax);
+				// get the dataset's JSON from the local cache, if available,
+				// else from the server
 
-				string resn_str = "&resX=" + std::to_string(res)
-					+ "&resY=" + std::to_string(res);
+				string elev_json = getDataSetJSON(elev_url, hash_url);
 
-				string elev_data_url =
-					server_str + elev_str + bbox_str + resn_str;
-
-				if (debug())
-					cerr << "Hitting data URL: " << elev_data_url << "\n";
-				string hash_str = "hash?";
-				string hash_url = server_str + hash_str + bbox_str + resn_str;
-
-				if (debug())
-					cerr << "Hitting hash URL: " << hash_url << "\n";
-
-				// get hash value for elevation data
-				string hash_value =  ServerComm::makeRequest(hash_url,
-				{"Accept: application/json"});
-
-				string elev_json;
-
-				//Checks to see if elevation data is already in local cache
-				if (my_cache.inCache(hash_value)) { // already exists
-					try {
-						elev_json = my_cache.getDoc(hash_value);
-					}
-					catch (CacheException& ce) {
-						//something went bad trying to access the cache
-						cout << "Exception while reading from cache. Ignoring cache." << std::endl;
-					}
-				}
-				else { //Server response is false or not cached
-
-					if (debug())
-						cerr << "Hitting json URL: " << elev_data_url << "\n";
-
-					// get the eleveation data
-					elev_json = ServerComm::makeRequest(elev_data_url,
-										{"Accept: application/json"});
-
-					if (debug())
-						cerr << "Hitting elev data URL: " << elev_data_url << "\n";
-
-					string hash_value =  ServerComm::makeRequest(hash_url,
-										{"Accept: application/json"});
-
-					if (hash_value != "false") {
-						// store map in cache
-						try {
-							my_cache.putDoc(hash_value, elev_json);
-						}
-						catch (CacheException& ce) {
-							//something went bad trying to access the cache
-							cerr << "Exception while storing in cache. Weird but not critical."
-								<< endl;
-						}
-					}
-				}
-				return getElevationDataFromJSON(elev_json);
+				return parseElevationData(elev_json);
 			}
 
-			// get Elevation data from the JSON
-			ElevationData getElevationDataFromJSON (string elev_json) {
+			/**
+			 *	 @brief Parses the elevation data string and retuns
+			 * 	   an Elevation object
+			 *	@param elev_json  string containing the requested elevation data
+			 *
+			 *  @return Elevation data object
+			 */
+			ElevationData parseElevationData (string elev_json) {
 
 				// use a string stream to parse the data, which is not really a JSON,
 				// but raw text
@@ -1465,6 +1294,81 @@ namespace bridges {
 				return elev_data;
 			}
 
+		private:
+			/**
+			 *  This method is a utility function that supports retrieving 
+			 *  external dataset given a url to the dataset's server as well
+			 *	as a url to extract a hashcode for the dataset; the latter is
+			 *  is to suppor local caching. The dataset is only retrieved
+			 *  the server if a local copy is not available
+			 *
+			 *	Currently this function works with elevation, OpenStreet maps and 
+			 *  Amenity datasets
+			 *
+			 */
+			std::string getDataSetJSON(std::string data_url, std::string hash_url) {
+
+				std::string data_json = "";
+
+				// First check to see if the requested data is stored in local cache
+				// get hash value for elevation data
+				if (debug())
+					cerr << "Hitting hash URL: " << hash_url << "\n";
+
+				string hash_value =  ServerComm::makeRequest(hash_url,
+									{"Accept: application/json"});
+
+				if (my_cache.inCache(hash_value) == true) { //local map is up-to-date
+					try {
+						if (my_cache.inCache(hash_value)) {
+							data_json = my_cache.getDoc(hash_value);
+						}
+					}
+					catch (CacheException& ce) {
+						//something went bad trying to access the cache
+						std::cout << "Exception while reading from cache. " 
+								<< "Ignoring cache and continue\n.";
+					}
+				}
+				else if ((hash_value == "false") || !my_cache.inCache(hash_value)) {
+
+					//Server response is false or somehow map got saved as false
+					if (debug())
+						std::cerr << "Hitting data URL: " << data_url << "\n";
+
+					//Requests the map data then requests the map's hash code
+					data_json = ServerComm::makeRequest(data_url, 
+							{"Accept: application/json"}); 
+
+					// next get the has code for the data to keep a copy in local cache
+					if (debug())
+						std::cerr << "Hitting hash URL: " << hash_url << "\n";
+
+					hash_value = ServerComm::makeRequest(hash_url, 
+								{"Accept: application/json"});
+
+					if (hash_value == "false") {
+						std::cerr << "Error while gathering hash value for dataset..\n";
+						std::cerr << data_json << std::endl;
+						abort();
+					}
+
+					// Save map to cache directory
+					try {
+						my_cache.putDoc(hash_value, data_json);
+					}
+					catch (CacheException& ce) {
+						//something went bad trying to access the cache
+						std::cerr << "Exception while storing in cache. " <<
+									 "Weird but not critical.\n";
+						if (debug())
+							std::cerr << "Tried to store hash=" << hash_value << 
+									" key = " << data_json << std::endl;
+					}
+				}
+				return data_json;
+			}
+		
 	}; // class DataSource
 } // namespace bridges
 #endif
