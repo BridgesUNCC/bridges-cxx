@@ -220,7 +220,7 @@ namespace bridges {
 				 * @param b The blue channel
 				 * @param a The alpha channel(default 255)
 				 */
-				Color(const int& r, const int& g, const int& b, const int& a = 255) {
+				Color(const int r, const int g, const int b, const int a = 255) {
 					setValue(r, g, b, a);
 				}
 				/**

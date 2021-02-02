@@ -433,6 +433,7 @@ namespace bridges {
 						std::cout << "one or both vertices are likely missing from graph\n";
 						throw;
 					}
+					throw "Edge not found";
 				}
 
 				/**
