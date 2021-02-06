@@ -9,15 +9,8 @@ using namespace std;
 #include "Color.h"
 #include "base64.h"
 
-/**
- * @brief This is a class in BRIDGES for representing an (n x n) game grid.
- *
- * @author Erik Saule
- * @param
- **/
 namespace bridges {
 	namespace game {
-
 		enum class NamedColor : unsigned char {
 			aliceblue,
 			antiquewhite,
@@ -302,19 +295,37 @@ namespace bridges {
 			monitor
 		};
 
-
+		/**
+		 * @brief This class represents a single cell of the Game Grid.
+		 *
+		 * This class is part of the Bridges Game API
+		 * Each cell of the game grid contains background and foreground colors,
+		 * and a symbol. Refer to the  NamedColor and NamedSymbol definitions
+		 * for a list of colors and symbols that can be used.
+		 *
+		 * @sa See the detailed Bridges game tutorial for examples at
+		 * http://bridgesuncc.github.io/tutorials/NonBlockingGame.html
+		 *
+		 * @author Erik Saule,
+		 * @date 2018, 2019, 12/28/20
+		 */
 		class GameCell {
 				NamedColor bg;
 				NamedColor fg;
 				NamedSymbol symbol;
 
 			public:
+				/// constructor
 				GameCell() {
 					bg = NamedColor::black;
 					fg = NamedColor::white;
 					symbol = NamedSymbol::none;
 				}
 
+				/// constructor
+				/// @param bg background color
+				/// @param fg foreground color
+				/// @param symbol symbol a this cell
 				GameCell(NamedColor bg, NamedColor fg, NamedSymbol symbol) {
 					this->bg = bg;
 					this->fg = fg;
@@ -322,7 +333,7 @@ namespace bridges {
 				}
 
 				/**
-				 *  Set background color using NamedColor Enum argument
+				 *  @brief Set background color using NamedColor Enum argument
 				 *  @param bg - Named Color from the NamedColor enum
 				 */
 				void setBGColor(NamedColor bg) {
@@ -330,7 +341,7 @@ namespace bridges {
 				}
 
 				/**
-				 *  Set foreground color using NamedColor Enum argument
+				 *  @brief Set foreground color using NamedColor Enum argument
 				 *  @param fg - Named Color from the NamedColor enum
 				 */
 				void setFGColor(NamedColor fg) {
@@ -338,21 +349,33 @@ namespace bridges {
 				}
 
 				/**
-				 *  Set symbol using int argument
+				 *  @brief Set symbol using int argument
 				 *  @param s - Named symbol
 				 */
 				void setSymbol(NamedSymbol s) {
 					this->symbol = s;
 				}
 
+				/**
+				 *  @brief Get background color of cell
+				 *  @return background color of cell
+				 */
 				NamedColor getBGColor() const {
 					return bg;
 				}
 
+				/**
+				 *  @brief Get foreground color of cell
+				 *  @return foreground color of cell
+				 */
 				NamedColor getFGColor() const {
 					return fg;
 				}
 
+				/**
+				 *  @brief Get cell symbol
+				 *  @return symbol at this cell
+				 */
 				NamedSymbol getSymbol() const {
 					return symbol;
 				}
@@ -362,6 +385,18 @@ namespace bridges {
 
 
 		//TODO: implement RLE encoding
+		/**
+		 * @brief This is a class in BRIDGES for representing an (n x n)game grid.
+		 *
+		 *	This class is part of the Bridges Game API
+		 *
+		 * @sa See the detailed Bridges game tutorial for examples at
+		 * http://bridgesuncc.github.io/tutorials/NonBlockingGame.html
+		 *
+		 * @author Erik Saule,
+		 * @date 2018, 2019, 12/28/20
+		 *
+		 */
 		class GameGrid : public Grid<GameCell> {
 			private:
 				std::string encoding = "raw";

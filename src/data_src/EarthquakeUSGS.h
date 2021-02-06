@@ -72,6 +72,9 @@ namespace bridges {
 
 			public:
 
+				/**
+				 * Default Constructor
+				 */
 				EarthquakeUSGS()
 					: magnitude(0.0), latit(0.0), longit(0.0),
 					  location(""), title(""), url(""), time(""),
@@ -79,6 +82,17 @@ namespace bridges {
 					  date_correct(false) {
 				}
 
+				/**
+				 * Constructor
+				 *
+				 * @param magnitude quake magnitude
+				 * @param longit longitude of quake
+				 * @param latit latitude of quake
+				 * @param location location of quake
+				 * @param title title of quake (has some attributes of quake)
+				 * @param url url of quake
+				 * @param time occurrence time
+				 */
 				EarthquakeUSGS(double magnitude, double longit, double latit,
 					const string& location, const string& title, const string& url, const string& time)
 					: magnitude(magnitude), latit(latit), longit(longit),

@@ -1,5 +1,10 @@
 
 #include <vector>
+/**
+ * @brief class that represents an audio channel. 
+ *
+ *	Used along with the BRIDGESaudio API
+ */
 
 class AudioChannel {
 	private:

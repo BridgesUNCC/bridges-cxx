@@ -17,7 +17,7 @@ namespace bridges {
 		 *		segments.
 		 *
 		 * @author David Burlinson, Kalpathi Subramanian
-		 * @date 12/23/18, 7/12/19
+		 * @date 12/23/18, 7/12/19, 12/28/20
 		 *
 		 */
 
@@ -27,14 +27,16 @@ namespace bridges {
 				vector<float> points;
 
 			public:
-				// constructors
+				/**
+				 *	@brief default constructor
+				 */
 				Polyline () {
 					points.clear();
 					setShapeType("polyline");
 				}
 
 				/**
-				 *  Construct a polyline from sequence of points
+				 *  @brief Construct a polyline from sequence of points
 				 *  @param  pts  point sequence
 				 */
 				Polyline (vector<float> pts) {
@@ -42,7 +44,7 @@ namespace bridges {
 				}
 
 				/**
-				 * Get the name of the data type
+				 * @brief Get the name of the data type
 				 * @return name of symbol type
 				 */
 				string getDataStructType() {
@@ -50,7 +52,7 @@ namespace bridges {
 				}
 
 				/**
-				 *	This method gets the name of the shape
+				 *	@brief This method gets the name of the shape
 				 *
 				 *  @return name   shape name
 				 */
@@ -59,7 +61,7 @@ namespace bridges {
 				}
 
 				/**
-				 * This method adds a point to the polyline
+				 * @brief This method adds a point to the polyline
 				 *
 				 * @param x, y : X, Y coordinates of the point
 				 */
@@ -74,7 +76,7 @@ namespace bridges {
 					}
 				}
 				/**
-				 * This method returns the point list of the polyline
+				 * @brief This method returns the point list of the polyline
 				 *
 				 * @return points  point list of the polygon - sequence of x, y values
 				 */
@@ -82,6 +84,10 @@ namespace bridges {
 					return points;
 				}
 
+				/**
+				 *  @brief Construct a polyline from sequence of points
+				 *  @param  pts  point sequence
+				 */
 				void setPolyline (vector<float> pts) {
 					points = pts;
 					setShapeType("polyline");
@@ -102,8 +108,8 @@ namespace bridges {
 
 				/**
 				 *	@brief rotate the polyline about its center
-				l			 *
-				 *	@param angle rotation angle in degrees (positive is counter-clock wise, negative is clockwise)
+				 *	@param angle rotation angle in degrees (positive is
+				 * 		counter-clock wise, negative is clockwise)
 				 */
 				void rotate(float angle) {
 					// get center of polyline
@@ -149,7 +155,8 @@ namespace bridges {
 				}
 
 				/**
-				 *	Get center of polyline - use its bounding box
+				 *	@brief Get center of polyline - use its bounding box
+				 *	@param[out] center of the polyline to be returned
 				 */
 				void getCenter(float *center) {
 					float bbox[4];
@@ -170,8 +177,8 @@ namespace bridges {
 				}
 
 				/**
-				 * This method returns the dimensions of the shape: min and max
-				 *	values in X and Y
+				 * @brief This method returns the dimensions of the shape:
+				 *	min and max values in X and Y
 				 *
 				 * @return array of 4 values
 				 */
@@ -198,7 +205,7 @@ namespace bridges {
 				}
 
 				/**
-				 * This method returns the JSON representation of the shape
+				 * @brief This method returns the JSON representation of the shape
 				 *
 				 * @return string  JSON string
 				 */

@@ -33,7 +33,7 @@ namespace bridges {
 		 *      @param E the application data type
 		 *
 		 * @author Kalpathi Subramanian
-		 * @date 6/18/15, 7/17/16
+		 * @date 6/18/15, 7/17/16, 12/28/20
 		 *
 		 **/
 		template <typename K, typename E>
@@ -82,14 +82,14 @@ namespace bridges {
 					return "KdTree";
 				}
 				/**
-				 *  Get Dimension of the partition
+				 *  @brief Get Dimension of the partition
 				 *	@return return the partitioning of this node
 				 */
 				int getDimension() const {
 					return dimension;
 				}
 				/**
-				 * Set partitioning dimension to "dim"
+				 *@brief  Set partitioning dimension to "dim"
 				 *
 				 * @param dim The partitioning dimension of this Kd tree element
 				 */
@@ -97,44 +97,44 @@ namespace bridges {
 					dimension = dim;
 				}
 				/**
-				 *  Get thickness of the partition
+				 *  @brief Get thickness of the partition
 				 *	@return return the partitioner thickness
 				 */
 				float getThickness() const {
 					return thickness;
 				}
 				/**
-				 * Set partitioning dimension to "dim"
+				 * @brief Set partitioning dimension to "dim"
 				 *
-				 * @param dim The partitioning dimension of this Kd tree element
+				 * @param th The thickness of the partitioner to set 
 				 */
 				void setThickness(const float& th) {
 					thickness = th;
 				}
 				/**
-				 *  Get partitioner value
+				 *  @brief Get partitioner value
 				 *	@return return the partitioner value
 				 */
 				K getPartitioner() const {
 					return this->getKey();
 				}
 				/**
-				 * Set partitioning dimension to "dim"
+				 * @brief Set partitioning dimension to "dim"
 				 *
-				 * @param dim The partitioning dimension of this Kd tree element
+				 * @param p The partitioning dimension value of this Kd tree element
 				 */
 				void setPartitioner(const K& p) {
 					this->setKey();
 				}
 				/**
-				 *	Get left child
+				 *	@brief Get left child
 				 * 	@return The left child
 				 */
 				virtual KdTreeElement* getLeft() override {
 					return static_cast<KdTreeElement*>(BSTElement<K, E>::getLeft());
 				}
 				/**
-				 *	Get left child - constant version
+				 *	@brief Get left child - constant version
 				 *
 				 * @return The left child
 				 */
@@ -142,7 +142,7 @@ namespace bridges {
 					return static_cast<const KdTreeElement*>(BSTElement<K, E>::getLeft());
 				}
 				/**
-				 * Sets left child to "l"
+				 * @brief Sets left child to "l"
 				 *
 				 * @param l The left child
 				 */
@@ -150,14 +150,14 @@ namespace bridges {
 					BSTElement<K, E>::setLeft(l);
 				}
 				/**
-				 *	Get right child
+				 *	@brief Get right child
 				 *	@return The right child
 				 */
 				virtual KdTreeElement* getRight() override {
 					return static_cast<KdTreeElement*>(BSTElement<K, E>::getRight());
 				}
 				/**
-				 * Constant version
+				 * @brief Get right child - Constant version
 				 *
 				 * @return The right child
 				 */
@@ -165,7 +165,7 @@ namespace bridges {
 					return static_cast<const KdTreeElement*>(BSTElement<K, E>::getRight());
 				}
 				/**
-				 * Sets right to "r"
+				 * @brief Sets right child to "r"
 				 *
 				 * @param r The right BSTElement
 				 */
@@ -173,6 +173,9 @@ namespace bridges {
 					BSTElement<K, E>::setRight(r);
 				}
 			protected:
+				/**
+				 * @brief get kd tree element representation as JSON string
+				 */
 				virtual const string getElementRepresentation() const override {
 					using bridges::JSONUtil::JSONencode;
 					string json =  BSTElement<K, E>::getElementRepresentation();

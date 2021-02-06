@@ -32,7 +32,7 @@ namespace bridges {
 		 * 	@brief the ShapeCollection represents a collection of symbols (shapes,
 		 *		polygons, and text) to visualize in Bridges
 		 * 	@author Kalpathi Subramanian
-		 *	@date 10/9/18, 7/12/19
+		 *	@date 10/9/18, 7/12/19, 12/28/20
 		 *
 		 */
 		class SymbolCollection : public  DataStructure {
@@ -56,6 +56,16 @@ namespace bridges {
 
 			public:
 
+				/**
+				 * @brief set the dimensions of the view
+				 *
+				 * If this is not specified, then it will be computed
+				 * from the symbols in the domain
+				 @param  xmin  minimum X coord of view
+				 @param  xmax  maximum X coord of view
+				 @param  ymin  minimum Y coord of view
+				 @param  ymax  maximum Y coord of view
+				 */
 				void setViewport(float xmin, float xmax, float ymin, float
 					ymax) {
 					autoscaledomain = false;
@@ -126,7 +136,7 @@ namespace bridges {
 				}
 
 				/*
-				 *	Get the JSON representation of the the data structure
+				 *	@brief Get the JSON representation of the the data structure
 				 *  @return JSON string of the symbol representation
 				 */
 				virtual const string getDataStructureRepresentation() const {

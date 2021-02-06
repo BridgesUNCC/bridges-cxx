@@ -11,9 +11,13 @@ namespace bridges {
 		/**
 		 *	@brief A class to hold actor movie data -- using IMDB dataset
 		 *
+		 *  This dataset has a set of actor-movie pairs with movie rating and
+		 *   genres, possibly. There are two datasets, the first has 1813 actor
+		 *   movie pairs and no other attribute data. The second also has
+		 *	 movie ratings and genres.
 		 *
 		 *	@author Kalpathi Subramanian
-		 *	@date 2/18/18
+		 *	@date 2/18/18, 12/28/20
 		 *
 		 */
 		class ActorMovieIMDB {
@@ -114,7 +118,7 @@ namespace bridges {
 				/**
 				 * @brief Get movie genres
 				 *
-				 * @return movie genres
+				 * @return movie genres [vector of strings]
 				 */
 				vector<string> getGenres() const {
 					return genres;
@@ -123,7 +127,7 @@ namespace bridges {
 				/**
 				 * @brief Set movie genres
 				 *
-				 * @param[in] g movie genres
+				 * @param[in] g vector of movie genres
 				 */
 				void setGenres(const vector<string>& g) {
 					genres = g;

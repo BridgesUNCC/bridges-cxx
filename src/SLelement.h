@@ -31,8 +31,10 @@ namespace bridges {
 
 			public:
 				/**
-				 * 	Constructs an slelement with the provided value, label, and next
-				 * 	slelement.
+				 *	@brief Constructs an slelement with the provided value.
+				 *
+				 * 	Constructs an SLelement with the provided value,
+				 *	label, and next  SLelement.
 				 * 	The defaults will be used if not provided.
 				 *
 				 * 	@param val The data to hold
@@ -44,7 +46,10 @@ namespace bridges {
 					setNext(next);
 				}
 				/**
-				 * 	Constructs an slelement with the provided value and label,
+				 *	@brief Constructs an slelement with the provided value.
+				 *
+				 *	Constructs an slelement with the provided value
+				 *	and label,
 				 *  setting the next slelement to NULL.
 				 * 	The defaults will be used if not provided.
 				 *
@@ -55,7 +60,7 @@ namespace bridges {
 					: SLelement(nullptr, val, lab) {
 				}
 				/**
-				 *  Returns the data structure name
+				 *  @brief Returns the data structure name
 				 *
 				 *	@return The string representation of this data structure type
 				 */
@@ -64,7 +69,7 @@ namespace bridges {
 				}
 
 				/**
-				 *  Returns the next element in the list
+				 *  @brief Returns the next element in the list
 				 *	@return The next SLelement
 				 */
 				virtual SLelement* getNext() {
@@ -72,7 +77,7 @@ namespace bridges {
 				}
 
 				/**
-				 *  Returns the next element in the list -
+				 *  @brief Returns the next element in the list -
 				 *	Constant version
 				 *	@return The next SLelement
 				 */
@@ -129,6 +134,8 @@ namespace bridges {
 				}
 			protected:
 				/**
+				 *  @brief Generates the JSON representation of the element
+				 *
 				 *	Generates  the JSON representation of the nodes and links
 				 *	@return JSON string pair containing the nodes and links
 				 */
@@ -173,7 +180,7 @@ namespace bridges {
 				}
 			protected:
 				/**
-				 * 	Get the list of nodes
+				 * 	@brief Get the list of nodes
 				 *
 				 * 	@param nodes The list of nodes
 				 */
@@ -193,9 +200,15 @@ namespace bridges {
 
 			public:
 
-				/// @brief these are helper classes for SLelement for easy iteration in a
-				/// range for loop.  It is not meant to be created by the bridges user.
-				/// But it may be returned by Bridges to provide an STL compliant list API.
+				/**
+				 *	@brief These are helper classes for SLelement for easy
+				 *	 iteration.
+				 *
+				 *	These are helper classes for SLelement for easy
+				 *	iteration  in a range for loop.  It is not meant to be
+				 * 	created by the bridges user.  But it may be returned
+				 *	by Bridges to provide an STL compliant list API.
+				 */
 
 				class SLelement_listhelper {
 						typename bridges::datastructure::SLelement<E> * start;
@@ -244,8 +257,16 @@ namespace bridges {
 						}
 				};
 
-				///@brief these are helper classes for SLelement for easy iteration in a range for loop.
-				///It is not meant to be created by the bridges user. But it may be returned by Bridges to provide an STL compliant list API.
+
+				/**
+				 *	@brief These are helper classes for SLelement for easy
+				 *	 iteration.
+				 *
+				 * 	These are helper classes for SLelement for easy iteration
+				 *	in a range for loop. It is not meant to be created by the
+				 *	bridges user. But it may be returned by Bridges to
+				 *	provide an STL compliant list API.
+				 */
 				class SLelement_constlisthelper {
 						typename bridges::datastructure::SLelement<E> const * start;
 

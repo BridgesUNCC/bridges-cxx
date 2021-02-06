@@ -22,11 +22,12 @@ namespace bridges {
 		 *  Symbols correspond to a simplified subset of SVG paths
 		 *  and shapes for custom visual representations in BRIDGES.
 		 *
-		 *  Currently shapes supported are rectangle, circle, polygon, label; each shape
-		 *	has a name, location (x, y) and appropriate geometric and non-geometric attributes
+		 *  Currently shapes supported are rectangle, circle, polygon, label;
+		 *	each shape has a name, location (x, y) and appropriate geometric
+		 *	and non-geometric attributes
 		 *
 		 * @author David Burlinson, Kalpathi Subramanian
-		 * @date 12/24/18, 7/12/19
+		 * @date 12/24/18, 7/12/19, 12/28/20
 		 *
 		 */
 		class Symbol {
@@ -92,28 +93,36 @@ namespace bridges {
 
 			public:
 
+				/**
+				 * @brief default constructor
+				 */
 				Symbol() {
 					identifier = getNewIdentifier();
 				}
 
 				/**
-				 * 	virtual Method to get the JSON representation of the symbol
+				 * 	@brief Virtual method to get the JSON representation of the symbol
 				 */
 				virtual const string getSymbolRepresentation() const  = 0;
 
 				/**
-				 *	method to get the bounding box (dimensions) of the shape
+				 *	@brief Virtual method to get the bounding box
+				 *		(dimensions) of the shape
 				 */
 				virtual vector<float> getDimensions() const = 0;
 
 				/**
-				 *	create a symbole of type "symb"
+				 *	@brief Create a symbol of type "symb"
+				 *
+				 * 	@param symb  symbol to create
 				 */
 				Symbol(string symb) {
 					identifier = getNewIdentifier();
 				}
 
 				/**
+				 *	@brief return the symbol identifier.
+				 *
 				 * 	Maintains unique identifiers of symbols
 				 * 	and returns the Symbol's unique identifier
 				 *
@@ -124,7 +133,7 @@ namespace bridges {
 				}
 
 				/**
-				 * This method sets the symbol label
+				 * @brief Set the symbol label
 				 *
 				 * @param lbl the label to set
 				 */
@@ -133,7 +142,7 @@ namespace bridges {
 				}
 
 				/**
-				 * Get the symbol label
+				 * @brief Get the symbol label
 				 *
 				 * @return  the label
 				 */
@@ -143,7 +152,7 @@ namespace bridges {
 
 
 				/**
-				 * This method sets the symbol fill color
+				 * @brief Set the symbol fill color
 				 *
 				 * @param c the color to set
 				 */
@@ -151,7 +160,7 @@ namespace bridges {
 					fillColor = c;
 				}
 				/**
-				 * This method sets the symbol fill color
+				 * @brief This method sets the symbol fill color
 				 *
 				 * @param c the named color to set
 				 */
@@ -159,7 +168,7 @@ namespace bridges {
 					fillColor = Color(c);
 				}
 				/**
-				 * This method gets fill color
+				 * @brief This method gets fill color
 				 *
 				 * @return  fill color
 				 */
@@ -177,7 +186,7 @@ namespace bridges {
 				}
 
 				/**
-				 * This method sets the symbol stroke color
+				 * @brief This method sets the symbol stroke color
 				 *
 				 * @param c the named color to set
 				 */
@@ -186,7 +195,7 @@ namespace bridges {
 				}
 
 				/**
-				 * This method gets stroke color
+				 * @brief This method gets stroke color
 				 *
 				 * @return  stroke color
 				 */
@@ -195,7 +204,7 @@ namespace bridges {
 				}
 
 				/**
-				 * This method sets the symbol stroke width
+				 * @brief This method sets the symbol stroke width
 				 *
 				 * @param strk_width the stroke width to set
 				 */
@@ -207,7 +216,7 @@ namespace bridges {
 				}
 
 				/**
-				 * This method gets stroke width
+				 * @brief This method gets stroke width
 				 *
 				 * @return  stroke width
 				 */
@@ -216,7 +225,7 @@ namespace bridges {
 				}
 
 				/**
-				 * This method sets the symbol opacity
+				 * @brief This method sets the symbol opacity
 				 *
 				 * @param op the opacity to set
 				 */
@@ -228,7 +237,7 @@ namespace bridges {
 				}
 
 				/**
-				 * This method gets symbol opacity
+				 * @brief This method gets symbol opacity
 				 *
 				 * @return  symbol opacity
 				 */
@@ -237,7 +246,7 @@ namespace bridges {
 				}
 
 				/**
-				 * This method sets the stroke dash level
+				 * @brief This method sets the stroke dash level
 				 *
 				 * @param dash dash level
 				 */
@@ -249,7 +258,7 @@ namespace bridges {
 				}
 
 				/**
-				 * This method gets stroke dash level
+				 * @brief This method gets stroke dash level
 				 *
 				 * @return  stroke dash level
 				 */
@@ -258,7 +267,7 @@ namespace bridges {
 				}
 
 				/**
-				 * This method sets the symbol location
+				 * @brief This method sets the symbol location
 				 *
 				 * @param x  x coordinate
 				 * @param y  y coordinate
@@ -268,7 +277,18 @@ namespace bridges {
 				}
 
 				/**
-				 * This method sets the symbol location
+				 * @brief This method sets the symbol location
+				 *
+				 * @param x  x coordinate
+				 * @param y  y coordinate
+				 */
+				void setLocation(double x, double y) {
+					setLocation(float(x), float(y));
+				}
+
+
+				/**
+				 * @brief This method sets the symbol location
 				 *
 				 * @param x  x coordinate
 				 * @param y  y coordinate
@@ -278,7 +298,7 @@ namespace bridges {
 				}
 
 				/**
-				 * This method sets the ssymbol location
+				 * @brief This method sets the ssymbol location
 				 *
 				 * @param x  x coordinate
 				 * @param y  y coordinate
@@ -293,7 +313,7 @@ namespace bridges {
 						throw "Coordinates must be real numbers";
 				}
 				/**
-				 * This method gets the symbol location
+				 * @brief This method gets the symbol location
 				 *
 				 * @return location (x, y) of the symbol
 				 */
@@ -302,7 +322,7 @@ namespace bridges {
 				}
 
 				/**
-				 *	This method gets the name of the symbol
+				 *	@brief This method gets the name of the symbol
 				 *
 				 *  @return name   shape name
 				 */
@@ -354,6 +374,8 @@ namespace bridges {
 				}
 
 				/**
+				 *  @brief Get the JSON of the symbol representation
+				 *
 				 *	This method gets the JSON representation of all of the
 				 *  symbol attributes
 				 *

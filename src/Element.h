@@ -23,21 +23,29 @@ namespace bridges {
 		 *	@brief This is the fundamental building block for all data structures
 		 *	in BRIDGES.
 		 *
-		 *	This is the Superclass Element with SLelement, DLelement, MLElement,
+		 *	This is the Superclass Element for  SLelement, DLelement, MLElement,
 		 *	CircSlElement, CircDlElement, TreeElement, BinTreeElement, BSTElement,
-		 *	AVLTreeElement, KdTreeElement subclasses.
+		 *	AVLTreeElement, and KdTreeElement subclasses.
 		 *
 		 * 	The label field(string type) is used to label the visualization of the
 		 * 	element.
 		 *
 		 * 	Element holds a LinkVisualizer for each of its links and
-		 * 	an ElementVisualizer for itself
+		 * 	an ElementVisualizer for itself; these are use for styling the
+		 * 	nodes and edges (emanating from the link, if there is a destination
+		 * 	element), respectively.
+
+         * All the tutorials under
+		 * 
+		 * http://bridgesuncc.github.io/tutorials/Overview.html
 		 *
+		 * show how to use different types of elements
+         *
 		 * 	@param E the application data type
 		 *
 		 * 	@author Kalpathi Subramanian
 		 *
-		 * 	@date 6/11/15, 11/27/16, 7/12/19
+		 * 	@date 6/11/15, 11/27/16, 7/12/19, 12/28/20
 		 */
 
 
@@ -130,14 +138,14 @@ namespace bridges {
 				}
 
 				/**
-				 *	Get the element visualizer object
+				 *	@brief Get the element visualizer object
 				 *	@return The ElementVisualizer of this element
 				 */
 				ElementVisualizer* getVisualizer() {
 					return elvis;
 				}
 				/**
-				 *	Get the element visualizer object - constant version
+				 *	@brief Get the element visualizer object - constant version
 				 *
 				 * @return The ElementVisualizer of this element
 				 */
@@ -145,7 +153,10 @@ namespace bridges {
 					return elvis;
 				}
 				/**
-				 * Returns the LinkVisualizer of element "el" or NULL if no link exists
+				 * @brief Returns the LinkVisualizer of element
+				 *
+				 *	Returns the LinkVisualizer of element "el" or NULL
+				 *	if no link exists
 				 *
 				 * @param el The terminating element of the link
 				 *
@@ -162,6 +173,8 @@ namespace bridges {
 				}
 
 				/**
+				 * @brief Returns the LinkVisualizer of element
+				 *
 				 * Returns the LinkVisualizer of element "el" - Constant version
 				 *
 				 * @param el The terminating element of the link
@@ -172,7 +185,7 @@ namespace bridges {
 				}
 
 				/**
-				 *  Gets the label of this element
+				 *  @brief Gets the label of this element
 				 *	@return The label of the element
 				 */
 				string const & getLabel() const {
@@ -180,7 +193,7 @@ namespace bridges {
 				}
 
 				/**
-				 * Sets label  of this element
+				 * @brief Sets label  of this element
 				 *
 				 * @param lab The label of the element
 				 */
@@ -189,6 +202,8 @@ namespace bridges {
 				}
 
 				/**
+				 *  @brief Gets the object held in the generic object E
+				 *
 				 *  Gets the object (generic) held in the element  - const version
 				 *	@return The value of the element
 				 */
@@ -197,6 +212,8 @@ namespace bridges {
 				}
 
 				/**
+				 *  @brief Gets the object held in the generic object E
+				 *
 				 *  Gets the object (generic) held in the element
 				 *	@return The value of the element
 				 */
@@ -205,7 +222,7 @@ namespace bridges {
 				}
 
 				/**
-				 * Sets generic object to "val"
+				 * @brief Sets generic object to "val"
 				 *
 				 * @param val The value of the element to be set
 				 */
@@ -215,7 +232,7 @@ namespace bridges {
 
 			protected:
 				/**
-				 *  Gets the JSON string of the element representation
+				 *  @brief Gets the JSON string of the element representation
 				 *	@return The JSON string of this element's properties
 				 */
 				virtual const string getElementRepresentation() const {
@@ -282,7 +299,7 @@ namespace bridges {
 				}
 
 				/**
-				 *  Get element size
+				 *  @brief Get element size
 				 *	@return the size (in pixels) of the element
 				 *
 				 */
@@ -300,7 +317,8 @@ namespace bridges {
 				/**
 				 *  @brief Set the color by name.
 				 *
-				 *  @param col The color name. Refer to the Color class for supported color names.
+				 *  @param col The color name. Refer to the Color class for
+				 *		supported color names.
 				 */
 				void setColor(const string col) {
 					elvis->setColor(col);
@@ -316,7 +334,7 @@ namespace bridges {
 				}
 
 				/**
-				 *	set opacity of element - use the 4th color component
+				 *	@brief Set opacity of element - use the 4th color component
 				 *
 				 *  @param opacity
 				 */
@@ -345,14 +363,15 @@ namespace bridges {
 				/**
 				 *  @brief Returns the shape of the element
 				 *
-				 *	@return The shape of the element(one of Shape.CIRCLE, Shape.SQUARE, Shape.DIAMOND,
-				 *  		Shape.CROSS, Shape.TRIANGLE, Shape.WYE, Shape.STAR)
+				 *	@return The shape of the element(one of
+				 *		Shape.CIRCLE, Shape.SQUARE, Shape.DIAMOND,
+				 *  	Shape.CROSS, Shape.TRIANGLE, Shape.WYE, Shape.STAR)
 				 */
 				Shape getShape() const {
 					return elvis->getShape();
 				}
 				/**
-				 * 	Sets the location attributes of an element.
+				 * 	@brief Sets the location attributes of an element.
 				 *
 				 * 	@param locX X coordinate of the element location
 				 * 	@param locY Y coordinate of the element location
@@ -362,14 +381,14 @@ namespace bridges {
 				}
 
 				/**
-				 *  Gets the X coordinate of the location
+				 *  @brief Gets the X coordinate of the location
 				 *	@return the X coordinate of the  element's location attribute
 				 */
 				double getLocationX() const {
 					return elvis->getLocationX();
 				}
 				/**
-				 *  Gets the Y coordinate of the location
+				 *  @brief Gets the Y coordinate of the location
 				 *	@return the Y coordinate of the  element's location attribute
 				 */
 				double getLocationY() const {

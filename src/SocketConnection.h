@@ -17,12 +17,23 @@
 namespace bridges {
 	namespace game {
 
+		///@brief This is meant to be an internal class, not something
+		/// that the library user will use. Provides support for input
+		/// handling for the Game API
 		class KeypressListener {
 			public:
 				virtual void keyup(std::string JSONmessage) = 0;
 				virtual void keydown(std::string JSONmessage) = 0;
 		};
 
+		///@brief This is meant to be an internal class, not something
+		/// that the library user will use
+		///
+		///  This class provide  functionality for making socket connections
+		///	 to the Bridges Game server
+		///
+		/// @author Erik Saule, David Burlinson
+		/// @date 2019, 12/29/20
 		class SocketConnection {
 				bool debug = false;
 				sio::client client;

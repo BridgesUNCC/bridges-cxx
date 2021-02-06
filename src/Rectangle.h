@@ -26,14 +26,15 @@ namespace bridges {
 
 			public:
 				/**
-				 *  constructors
+				 *  @brief default constructor - rectangle with lower left
+				 *	 at origin and unit length sides
 				 */
 				Rectangle() {
 					setRectangle(0., 0., 1., 1.);
 				}
 
 				/**
-				 * create rectangle with width w and height h
+				 * @brief create rectangle with width w and height h
 				 * @param w  width
 				 * @param h  height
 				 */
@@ -42,7 +43,8 @@ namespace bridges {
 				}
 
 				/**
-				 * create rectangle with width w and height h
+				 * @brief create rectangle with width w and height h
+				 *   and located at given position
 				 * @param locx  rect lower left - x coord
 				 * @param locy  rect lower left - y coord
 				 * @param w  width
@@ -53,7 +55,7 @@ namespace bridges {
 				}
 
 				/**
-				 *	This method gets the data type name
+				 *	@brief This method gets the data type name
 				 *
 				 *  @return name   data type name
 				 */
@@ -62,7 +64,7 @@ namespace bridges {
 				}
 
 				/**
-				 *	This method gets the name of the shape
+				 *	@brief This method gets the name of the shape
 				 *
 				 *  @return name   shape name
 				 */
@@ -71,7 +73,7 @@ namespace bridges {
 				}
 
 				/**
-				 * This method sets the shape width
+				 * @brief This method sets the shape width
 				 *
 				 * @param w  width
 				 */
@@ -83,7 +85,7 @@ namespace bridges {
 				}
 
 				/**
-				 * This method sets the shape height
+				 * @brief This method sets the shape height
 				 *
 				 * @param h  height
 				 */
@@ -95,7 +97,7 @@ namespace bridges {
 				}
 
 				/**
-				 *	Translate the rectangle
+				 *	@brief Translate the rectangle
 				 *
 				 *	@param tx translation factor along x axis
 				 *	@param ty translation factor along y axis
@@ -107,7 +109,7 @@ namespace bridges {
 					setLocation(myloc[0], myloc[1]);
 				}
 				/**
-				 *	Scale the rectangle about its center
+				 *	@brief Scale the rectangle about its center
 				 *
 				 *	@param sx scale factor along x axis
 				 *	@param sy scale factor along y axis
@@ -141,7 +143,7 @@ namespace bridges {
 				}
 
 				/*
-				 * This method sets the location and size of the rectangle
+				 * @brief This method sets the location and size of the rectangle
 				 *
 				 * @pram locx  x coordinate of location
 				 * @pram locy  y coordinate of location
@@ -160,7 +162,7 @@ namespace bridges {
 				}
 
 				/**
-				 * This method returns the JSON representation of the shape
+				 * @brief This method returns the JSON representation of the shape
 				 *
 				 * @return string  JSON string
 				 */

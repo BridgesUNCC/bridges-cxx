@@ -54,10 +54,12 @@ namespace bridges {
 				virtual ~Array3D() {
 				}
 
-				///builds a 3D array.
-				///@param cols number of columns
-				///@param rows number of rows
-				///@param slices number of slices
+				/**
+				 * builds a 3D array.
+				 * param slices number of slices (depth)
+				 * param rows number of rows (height)
+				 * param columns number of columns (width)
+                 */
 				Array3D(int slices, int rows, int columns)
 					: num_slices(slices), num_rows(rows), num_cols(columns) {
 					int dim[] = {slices, rows, columns};
@@ -127,6 +129,10 @@ namespace bridges {
 				}
 
 
+				/**
+				 *  @brief Bracker_helper class to make [][] operators work on
+				 *	array 2d. You should never use it directly
+				 */
 				struct Bracket_helper2 {
 					Array3D<E>& arr;
 					int x;
@@ -139,7 +145,10 @@ namespace bridges {
 				};
 
 
-				/// @brief helper class to make [][] operators work on array 2d. You should never use it directly
+				/**
+				 *  @brief Bracker_helper class to make [] operators work on
+				 *	array 2d. You should never use it directly
+				 */
 				struct Bracket_helper {
 					Array3D<E>& arr;
 					int x;
@@ -155,6 +164,10 @@ namespace bridges {
 					return Bracket_helper(*this, index);
 				}
 
+				/**
+				 *  @brief helper2 const class is to make [][] operators
+				 *	work on array 2d. You should never use it directly
+				 */
 				struct Bracket_helper2_const {
 					Array3D<E> const & arr;
 					int x;
@@ -167,6 +180,10 @@ namespace bridges {
 				};
 
 
+				/**
+				 *  @brief helper const class is to make [][] operators
+				 *	work on array 2d. You should never use it directly
+				 */
 				/// @brief helper class to make [][] operators work on array 2d. You should never use it directly
 				struct Bracket_helper_const {
 					Array3D<E> const& arr;
@@ -178,7 +195,10 @@ namespace bridges {
 					}
 				};
 
-				///@brief enables using the bracket [] operator
+				/**
+				 *  @brief helper const class is to make [] operators
+				 *	work on array 2d. You should never use it directly
+				 */
 				Bracket_helper_const operator[] (int index) const {
 					return Bracket_helper_const(*this, index);
 				}

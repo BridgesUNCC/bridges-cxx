@@ -13,26 +13,41 @@ namespace bridges {
 		 *
 		 * This class is used to store the visualization elements for Bridges
 		 * Visualiztions, including the color, shape, and size of the node.
-		 * Defaults of green, circle, and 10.0 respectively.
+		 * Defaults of "steelblue", CIRCLE, and 10.0 respectively.
 		 *
-		 * Size values must range from [1.0,50.0].
+		 * Size values must range from [1.0, 50.0].
+		 * Colors can be specified by name or by (R,G,B) triplets. See the
+		 * Color class for details.
 		 *
-		 * BRIDGES supports the shapes listed in Shape ("circle", "square", "diamond",
-		 *  "cross", "wye", "triangle", "star").
+		 * BRIDGES supports a number of shapes (specified as enums),
+		 *	namely, CIRCLE, SQUARE, DIAMOND", CROSS, WYE, TRIANGLE, STAR
 		 *
-		 * Objects of this class are stored as properties of all Element subclasses.
+		 * Objects of this class are stored as properties of all Element
+		 *	subclasses.
 		 *
 		 * @author Kalpathi Subramanian
-		 * @date 6/11/15, 7/12/19
+		 * @date 6/11/15, 7/12/19, 12/28/20
 		 */
 		class ElementVisualizer {
 			public:
+				/*
+				 * @brief specifies the default color ("steelblue")
+				 * @return the default color
+				 */
 				static const Color DEFAULT_COLOR() {
 					return Color("steelblue");
 				}
+				/*
+				 * @brief specifies the default shape (CIRCLE)
+				 * @return the default shape
+				 */
 				static constexpr Shape DEFAULT_SHAPE () {
 					return CIRCLE;
 				}
+				/*
+				 * @brief specifies the default size (10.0)
+				 * @return the default size
+				 */
 				static constexpr double DEFAULT_SIZE () {
 					return 10.;
 				}
@@ -89,7 +104,7 @@ namespace bridges {
 				}
 
 				/**
-				 *  Return the element color
+				 *  @brief Return the element color
 				 *	@return The color of the element
 				 */
 				Color getColor() const {
@@ -97,9 +112,11 @@ namespace bridges {
 				}
 
 				/**
+				 *	@brief Set opacity of element
+				 *
 				 *	Set opacity of element - use the 4th color component
 				 *
-				 *  @param opacity
+				 *  @param opacity opacity of element to be set
 				 */
 				void setOpacity(double opacity) {
 					if (opacity >= 0.0 && opacity <= 1.0)
@@ -109,7 +126,7 @@ namespace bridges {
 				/**
 				 *	@brief Get opacity of element
 				 *
-				 *	@return opacity
+				 *	@return opacity  of the element
 				 */
 				double getOpacity() {
 					return color.getAlpha() / 255.;
@@ -117,7 +134,8 @@ namespace bridges {
 				/**
 				 * @brief Set the shape of the element
 				 *
-				 * @param shp is one of Shape.CIRCLE, Shape.SQUARE, Shape.DIAMOND, Shape.CROSS, Shape.TRIANGLE, Shape.WYE, Shape.STAR.
+				 * @param shp is one of CIRCLE, SQUARE, DIAMOND, CROSS,
+				 *			TRIANGLE, WYE, STAR
 				 */
 				void setShape(const Shape& shp) {
 					shape = shp;
@@ -142,12 +160,14 @@ namespace bridges {
 				}
 
 				/**
+				 *	@brief get X coordinate of element location
 				 *	@return the X coordinate of the  element's location attribute
 				 */
 				double getLocationX() const {
 					return locationX;
 				}
 				/**
+				 *	@brief get Y coordinate of element location
 				 *	@return the Y coordinate of the  element's location attribute
 				 */
 				double getLocationY() const {

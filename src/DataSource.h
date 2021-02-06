@@ -20,6 +20,8 @@ using namespace std;
 #include "./data_src/OSMVertex.h"
 #include "./data_src/OSMEdge.h"
 #include "./data_src/MovieActorWikidata.h"
+#include "./data_src/AmenityData.h"
+#include "./data_src/Amenities.h"
 #include "ColorGrid.h"
 #include "base64.h"
 #include <GraphAdjList.h>
@@ -61,14 +63,16 @@ namespace bridges {
 		private:
 
 			int debug() const {
-				return 0;
+				return 1;
 			}
 			bridges::Bridges* bridges_inst;
 			bridges::lruCache my_cache;
 
 			string getOSMBaseURL() const {
-				//return "http://cci-bridges-osm-t.uncc.edu/";
-				return "http://cci-bridges-osm.uncc.edu/";
+				return "http://bridges-data-server-osm.bridgesuncc.org/";
+			}
+			string getElevationBaseURL() const {
+				return "http://bridges-data-server-elevation.bridgesuncc.org/";
 			}
 
 		public:
@@ -81,7 +85,7 @@ namespace bridges {
 
 			/**
 			 *
-			 *  Get meta data of the IGN games collection.
+			 *  @brief Get meta data of the IGN games collection.
 			 *
 			 *  This function retrieves  and formats the data into a list of
 			 *  Game objects
@@ -119,8 +123,8 @@ namespace bridges {
 				return wrapper;
 			}
 			/**
-			 *  Get ActorMovie IMDB Data
-			 *  retrieved, formatted into a list of ActorMovieIMDB objects
+			 *  @brief Get ActorMovie IMDB Data
+			 *  Data is retrieved, formatted into a list of ActorMovieIMDB objects
 			 *
 			 *  @param number the number of actor/movie pairs, but currently unused,
 			 *      returns all records.
@@ -154,8 +158,8 @@ namespace bridges {
 
 
 			/**
-			 *  Get ActorMovie IMDB Data
-			 *  retrieved, formatted into a list of ActorMovieIMDB objects
+			 *  @brief Get ActorMovie IMDB Data
+			 *  Data is retrieved, formatted into a list of ActorMovieIMDB objects
 			 *
 			 *  @throws Exception if the request fails
 			 *
@@ -189,7 +193,7 @@ namespace bridges {
 			}
 
 			/**
-			 *  Get USGS earthquake data
+			 *  @brief Get USGS earthquake data
 			 *  USGS Tweet data (https://earthquake.usgs.gov/earthquakes/map/)
 			 *  retrieved, formatted into a list of EarthquakeUSGS objects
 			 *
@@ -291,7 +295,8 @@ namespace bridges {
 			}
 			/**
 			 *
-			 *  Get data of a particular songs (including lyrics) using the Genius API
+			 *  @brief Get data of a particular songs (including lyrics) using
+			 *	 the Genius API
 			 *  (https://docs.genius.com/), given the song title and artist name.
 			 *	Valid endpoints:  http://bridgesdata.herokuapp.com/api/songs/find/
 			 *	Valid queryParams: song title, artist name
@@ -347,7 +352,7 @@ namespace bridges {
 			}
 			/**
 			 *
-			 *  Get data of the songs (including lyrics) using the Genius API
+			 *  @brief Get data of the songs (including lyrics) using the Genius API
 			 *  https://docs.genius.com/
 			 *	Valid endpoints:  https://bridgesdata.herokuapp.com/api/songs/
 			 *
@@ -391,7 +396,7 @@ namespace bridges {
 			}
 			/**
 			 *
-			 *  Get meta data of the Gutenberg book collection (1000 books)
+			 *  @brief Get meta data of the Gutenberg book collection.
 			 *  This function retrieves,  and formats the data into a list of
 			 *  GutenbergBook objects
 			 *
@@ -457,7 +462,8 @@ namespace bridges {
 				return wrapper;
 			}
 			/**
-			 * Retrieves the CDC dataset into a vector of records
+			 * @brief Retrieves the CDC dataset of Cancer Incidence.
+			 *  Data is retrieved  into a vector of records
 			 * See CancerIncidence class for more information
 			 *
 			 */
@@ -494,6 +500,7 @@ namespace bridges {
 					c.setRace(data["Race"].GetString());
 					c.setPopulation(data["Population"].GetInt());
 					c.setEventType(data["Event Type"].GetString());
+					c.setCount(data["Count"].GetInt());
 
 					c.setAffectedArea(v["Area"].GetString());
 
@@ -507,7 +514,7 @@ namespace bridges {
 			}
 			/**
 			 *
-			 * Retrieves the Open Street Map data from a prebuilt JSON of OSM
+			 * @brief Retrieves the Open Street Map data from a prebuilt JSON of OSM
 			 * dataset.
 			 *
 			 * @param osm_json JSON string
@@ -574,9 +581,14 @@ namespace bridges {
 
 			/**
 			 *
-			 *  Get OpenStreetMap data given a bounding rectangle of lat/long
-			 *	values.
+			 *  @brief Get OpenStreetMap data given a bounding rectangle of
+			 *	lat/long values.
 			 *
+			 *  @param lat_min  latitude minimum
+			 *  @param long_min  longitude minimum
+			 *  @param lat_max   latitude maximum
+			 *  @param long_max   longitude maximum
+			 *  @param level      data resolution
 			 *  @throws Exception if the request fails
 			 *
 			 *  @return an OSMData object
@@ -586,80 +598,151 @@ namespace bridges {
 				double lat_max, double long_max, string level = "default") {
 
 				//URL for hash request
-				string hash_url = getOSMBaseURL() + "hash?minLon=" + std::to_string(long_min) +
+				string hash_url = getOSMBaseURL() + 
+					"hash?minLon=" + std::to_string(long_min) +
 					"&minLat=" + std::to_string(lat_min) +
 					"&maxLon=" + std::to_string(long_max) +
 					"&maxLat=" + std::to_string(lat_max) +
-					"&level=" + ServerComm::encodeURLPart(level);
+					"&level="  + ServerComm::encodeURLPart(level);
 
 				//URL to request map
-				string url =
+				string osm_url =
 					getOSMBaseURL() + "coords?minLon=" + std::to_string(long_min) +
 					"&minLat=" + std::to_string(lat_min) +
 					"&maxLon=" + std::to_string(long_max) +
 					"&maxLat=" + std::to_string(lat_max) +
-					"&level=" + ServerComm::encodeURLPart(level);
-
-				//trys to get hash value for bounding box map
-				if (debug())
-					std::cerr << "Hitting hash URL: " << hash_url << "\n";
-				string hash_value =  ServerComm::makeRequest(hash_url, {"Accept: application/json"});
+					"&level="  + ServerComm::encodeURLPart(level);
 
 
-				std::string osm_json;
-				//std::cerr<<"url: "<<url<<"\n";
+				// get the data set from the server or, if available, from 
+				// a local cache
+				string osm_json = getDataSetJSON(osm_url, hash_url);
 
-				//Checks to see if map requested is stored in local cache
-				if (my_cache.inCache(hash_value) == true) { //local map is up-to-date
-					try {
-						if (my_cache.inCache(hash_value)) {
-							osm_json = my_cache.getDoc(hash_value);
-						}
-					}
-					catch (CacheException& ce) {
-						//something went bad trying to access the cache
-						std::cout << "Exception while reading from cache. Ignoring cache and continue." << std::endl;
-					}
-
-				}
-				else if (hash_value.compare("false") == 0 || my_cache.inCache(hash_value) == false) {
-					//Server response is false or somehow map got saved as false
-
-					if (debug())
-						std::cerr << "Hitting json URL: " << url << "\n";
-
-					osm_json = ServerComm::makeRequest(url, {"Accept: application/json"}); //Requests the map data then requests the maps hash
-					if (debug())
-						std::cerr << "Hitting hash URL: " << hash_url << "\n";
-
-					hash_value =  ServerComm::makeRequest(hash_url, {"Accept: application/json"});
-
-					if (hash_value.compare("false") == 0) {
-						std::cerr << "Error while gathering hash data for generated map..." << std::endl;
-						std::cerr << osm_json << std::endl;
-						abort();
-					}
-
-					//Saves map to cache directory
-					try {
-						my_cache.putDoc(hash_value, osm_json);
-
-					}
-					catch (CacheException& ce) {
-
-						//something went bad trying to access the cache
-						std::cerr << "Exception while storing in cache. Weird but not critical." << std::endl;
-						if (debug())
-							std::cerr << "Tried to store hash=" << hash_value << " key=" << osm_json << std::endl;
-					}
-
-				}
+				//tries to get hash value for bounding box map
 				return getOSMDataFromJSON(osm_json);
 			}
 
+			/** 
+			 * This method retrieves the specified amenity related data given a 
+			 * bounding box of a region, from a Open Street map 
+			 *
+			 *  @param minLat  minimum latitude
+			 *  @param minLon  minimumm longitude
+			 *  @param maxLat  maximum latitude
+			 *  @param maxLon  maximum longitude
+			 *  @param amenity  amenity type
+			 *  @throws exception
+     		 */
+			AmenityData  getAmenityData(double minLat, double minLon, double 
+			      			maxLat, double maxLon, std::string amenity) {
+
+				std::string amenity_url = getOSMBaseURL() + "amenity?minLon=" + 
+					ServerComm::encodeURLPart(std::to_string(minLon)) + 
+					"&minLat=" + ServerComm::encodeURLPart(std::to_string(minLat)) +
+					"&maxLon=" + ServerComm::encodeURLPart(std::to_string(maxLon)) + 
+					"&maxLat=" + ServerComm::encodeURLPart(std::to_string(maxLat)) + 
+					"&amenity=" + ServerComm::encodeURLPart(amenity);
+					
+        		std::string hash_url = getOSMBaseURL() + "hash?minLon=" + 
+					ServerComm::encodeURLPart(std::to_string(minLon)) + 
+					"&minLat=" + ServerComm::encodeURLPart(std::to_string(minLat)) +
+					"&maxLon=" + ServerComm::encodeURLPart(std::to_string(maxLon)) + 
+					"&maxLat=" + ServerComm::encodeURLPart(std::to_string(maxLat)) +  
+					"&amenity=" + ServerComm::encodeURLPart(amenity);
+
+				// make the query to the server to get a JSON of the amenities
+				// implements caching to keep local copies
+				string amenity_json = getDataSetJSON(amenity_url, hash_url);
+
+				// parse the data and return amenity objects
+				return parseAmenityData (amenity_json);
+			}
+
+			/** 
+			 * This method retrieves the specified amenity related data given a location
+			 * from a specified openstreet mmap location
+			 *
+			 *  @param location city/town from where amenity data is sought
+			 *  @param amenity  amenity type
+			 *  @throws exception
+			 */
+			AmenityData  getAmenityData(const std::string& location, 
+									const std::string& amenity) {
+				std::string amenity_url = getOSMBaseURL() + "amenity?location=" + 
+						ServerComm::encodeURLPart(location) +
+						"&amenity=" + ServerComm::encodeURLPart(amenity);
+
+				std::string hash_url = getOSMBaseURL() + "hash?location=" + 
+						ServerComm::encodeURLPart(location) +
+						"&amenity=" + ServerComm::encodeURLPart(amenity);
+
+				// make the query to the server to get a JSON of the amenities
+				// implements caching to keep local copies
+				string amenity_json = getDataSetJSON(amenity_url, hash_url);
+
+				// parse the data and return amenity objects
+				return parseAmenityData (amenity_json);
+	  		}
+
+			/**
+			 * @brief Parses  the amenity string and returns an AmenityData object
+			 *
+			 * @param amenity_json  string of the url that will be used when requesting 
+			 *      amenity data from server
+			 *
+			 * @return AmenityData object containing meta data and a list of
+			 * 	 amenities with location, name and amenity classification 
+			 *
+			 * @throws If there is an error parsing response from 
+			 *      server or is an invalid location name
+			 */
+			AmenityData parseAmenityData(string amenity_json) {
+				using namespace rapidjson;
+
+				AmenityData amenities;
+				Document amenity_content;
+
+				amenity_content.Parse(amenity_json.c_str());
+				if (amenity_content.HasMember("nodes")) {
+					const Value& nodes = amenity_content["nodes"];
+					if (amenity_content.HasMember("meta")) {
+						const Value& meta = amenity_content["meta"];
+
+						// first get the meta data
+						amenities.setCount(meta["count"].GetInt64());
+						amenities.setMinLat(meta["minlat"].GetDouble());
+						amenities.setMinLon(meta["minlon"].GetDouble());
+						amenities.setMaxLat(meta["maxlat"].GetDouble());
+						amenities.setMaxLon(meta["maxlon"].GetDouble());
+
+						Amenities amen;
+						for (SizeType i = 0;i < nodes.Size(); i++) {
+							const Value& node = nodes[i];
+							amen.setId(node[0].GetInt64());
+							amen.setLat(node[1].GetDouble());
+							amen.setLon(node[2].GetDouble());
+							amen.setName(node[3].GetString());
+							amenities.addAmenities(amen);
+                    	}
+					}
+					else {
+						cout << "meta data not found!\n";
+						throw;
+					}
+				}
+				else {
+					cout << "nodes data not found!\n";
+					throw;
+				}
+				return amenities;
+			}
+	
 			/**
 			 *
 			 *  Get OpenStreetMap data given a city name and resolution level
+			 *
+			 *  @param location   location name (string)
+			 *  @param level      data resolution
 			 *
 			 *  @throws Exception if the request fails
 			 *
@@ -668,126 +751,42 @@ namespace bridges {
 			 */
 			OSMData getOSMData (string location, string level = "default") {
 				//URL for hash request
-				string hash_url = getOSMBaseURL() + "hash?location=" + ServerComm::encodeURLPart(location) +
-					"&level=" + ServerComm::encodeURLPart(level);
+				string hash_url = getOSMBaseURL() + " hash?location=" + 
+						ServerComm::encodeURLPart(location) +
+						"&level=" + ServerComm::encodeURLPart(level);
 
 				//URL to request map
-				string url =
-					getOSMBaseURL() + "loc?location=" + ServerComm::encodeURLPart(location) +
+				string osm_url = getOSMBaseURL() + 
+					"loc?location=" + ServerComm::encodeURLPart(location) +
 					"&level=" + ServerComm::encodeURLPart(level);
 
-				//trys to get hash value for bounding box map
-				if (debug())
-					std::cerr << "Hitting hash URL: " << hash_url << "\n";
-				string hash_value =  ServerComm::makeRequest(hash_url, {"Accept: application/json"});
+				// get the data set from the server or, if available, from 
+				// a local cache
+				string osm_json = getDataSetJSON(osm_url, hash_url);
 
-
-				std::string osm_json;
-
-				if (debug())
-				  std::cerr << "url: " << url << "\n";
-
-				if (my_cache.inCache(hash_value) == true) { //local map is up-to-date
-					try {
-						if (my_cache.inCache(hash_value)) {
-							osm_json = my_cache.getDoc(hash_value);
-						}
-					}
-					catch (CacheException& ce) {   //something went bad trying to access the cache
-						std::cout << "Exception while reading from cache. Ignoring cache and continue." << std::endl;
-					}
-
-				}
-				else if (hash_value.compare("false") == 0 || my_cache.inCache(hash_value) == false) { //Server response is false or somehow map got saved as false
-					if (debug())
-						std::cerr << "Hitting json URL: " << url << "\n";
-					osm_json = ServerComm::makeRequest(url, {"Accept: application/json"}); //Requests the map data then requests the maps hash
-					if (debug())
-						std::cerr << "Hitting hash URL: " << hash_url << "\n";
-					hash_value =  ServerComm::makeRequest(hash_url, {"Accept: application/json"});
-					if (hash_value.compare("false") == 0) {
-						std::cerr << "Error while gathering hash data for generated map..." << std::endl;
-						std::cerr << osm_json << std::endl;
-						abort();
-					}
-
-					//Saves map to cache directory
-					try {
-						my_cache.putDoc(hash_value, osm_json);
-					}
-					catch (CacheException& ce) {
-						//something went bad trying to access the cache
-						std::cerr << "Exception while storing in cache. Weird but not critical." << std::endl;
-						if (debug())
-							std::cerr << "Tried to store hash=" << hash_value << " key=" << osm_json << std::endl;
-					}
-
-				}
 				return getOSMDataFromJSON(osm_json);
 			}
-
 
 			/**
-			 * @brief old interface for the OSM data set.
-			 *
-			 * This is hitting a simpler API that has only a few map in
-			 * 	 there: "uncc_campus", "charlotte", "washington_dc",
-			 * 	 "saint_paul", "new_york", "los_angeles",
-			 * 	 "san_francisco", "miami", "minneapolis", "dallas"
-			 *
-			 * @param location which location to get the map from
-			 **/
-			OSMData getOSMDataOld (string location) {
-				std::transform(location.begin(), location.end(), location.begin(),
-					::tolower);
-				std::string osm_json;
-				bool from_cache = false;
-				try {
-					if (my_cache.inCache(location)) {
-						osm_json = my_cache.getDoc(location);
-						from_cache = true;
-					}
-				}
-				catch (CacheException& ce) {
-					//something went bad trying to access the cache
-					std::cout << "Exception while reading from cache. Ignoring cache and continue." << std::endl;
-				}
-
-				string url = string("http://osm-api.herokuapp.com/name/") + location;
-
-				if (!from_cache) {
-					// get the OSM data json
-					osm_json = ServerComm::makeRequest(url, {"Accept: application/json"});
-
-					try {
-						my_cache.putDoc(location, osm_json);
-					}
-					catch (CacheException& ce) {
-						//something went bad trying to access the cache
-						std::cerr << "Exception while storing in cache. Weird but not critical." << std::endl;
-					}
-				}
-
-				return getOSMDataFromJSON(osm_json);
-
-			}
-
-
-			/**Reconstruct a GraphAdjList from an existing GraphAdjList on the Bridges server
+			 * Reconstruct a GraphAdjList from an existing GraphAdjList on the Bridges server
 			 *
 			 * The reconstructed assignment sees vertices identified as integers in the order they are stored in the server.
-			 * The data associated with a vertex is a string that come from the label of that vertices.
-			 * The data associated with an edge is the string that come from the label of that edge.
+			 * The data associated with a vertex is a string that comes from the label of that vertices.
+			 * The data associated with an edge is the string that comes from the label of that edge.
 			 * The edge weights are also reobtained from the bridges server.
 			 *
-			 * @return the ColorGrid stored in the bridges server
 			 * @param user the name of the user who uploaded the assignment
 			 * @param assignment the ID of the assignment to get
 			 * @param subassignment the ID of the subassignment to get
-			 **/
-			bridges::GraphAdjList<int, std::string> getGraphFromAssignment (const std::string& user,
+			 *
+			 * @return the ColorGrid stored in the bridges server
+			 *
+			 */
+			bridges::GraphAdjList<int, std::string> getGraphFromAssignment (
+				const std::string& user,
 				int assignment,
 				int subassignment = 0) {
+
 				bridges::GraphAdjList<int, std::string> gr;
 
 				std::string s = this->getAssignment(user, assignment, subassignment);
@@ -1214,101 +1213,56 @@ namespace bridges {
 
 
 			/**
-			* Returns ElevationData for the provided coordinate box at the
-			* given resolution. Note that the ElevationData that is returned
-			* may have slightly different location and resolution.
-			*
-			* @param latitMin minimum latitude requested
-			* @param longitMin maximum latitude requested
-			* @param latitMax minimum longitude requested
-			* @param longitMax maximum longitude requested
-			* @param res spatial resolution, aka the distance between two samples (in degrees)
-			**/
-			ElevationData *getElevationData (
-				double latitMin, double longitMin,
-				double latitMax, double longitMax, double res = 0.0166)  {
+			 * Returns ElevationData for the provided coordinate box at the
+			 * given resolution. Note that the ElevationData that is returned
+			 * may have slightly different location and resolution.
+			 *
+			 * @param latitMin minimum latitude requested
+			 * @param longitMin maximum latitude requested
+			 * @param latitMax minimum longitude requested
+			 * @param longitMax maximum longitude requested
+			 * @param res spatial resolution, aka the distance between two samples 
+			 * 		(in degrees)
+			 **/
+			ElevationData getElevationData (
+				double minLat, double minLon,
+				double maxLat, double maxLon, double res = 0.0166)  {
 
 				// set up the elevation data url to get the data, given
 				// a lat/long bounding box
-				string server_str =
-					"http://cci-bridges-elevation-t.dyn.uncc.edu/";
 
-				string elev_str = "elevation?";
+				std::string elev_url = getElevationBaseURL() + 
+					"elevation?minLon=" + ServerComm::encodeURLPart(std::to_string(minLon))+
+					"&minLat=" + ServerComm::encodeURLPart(std::to_string(minLat)) +
+					"&maxLon=" + ServerComm::encodeURLPart(std::to_string(maxLon)) + 
+					"&maxLat=" + ServerComm::encodeURLPart(std::to_string(maxLat)) + 
+					"&resX=" + ServerComm::encodeURLPart(std::to_string(res)) +
+					"&resY=" + ServerComm::encodeURLPart(std::to_string(res));
+					
+        		std::string hash_url = getElevationBaseURL() + 
+					"hash?minLon=" + ServerComm::encodeURLPart(std::to_string(minLon)) + 
+					"&minLat=" + ServerComm::encodeURLPart(std::to_string(minLat)) +
+					"&maxLon=" + ServerComm::encodeURLPart(std::to_string(maxLon)) + 
+					"&maxLat=" + ServerComm::encodeURLPart(std::to_string(maxLat)) +  
+					"&resX=" + ServerComm::encodeURLPart(std::to_string(res)) +
+					"&resY=" + ServerComm::encodeURLPart(std::to_string(res));
 
-				string bbox_str =
-					"&minLon=" 	+ std::to_string(longitMin) +
-					"&minLat=" 	+ std::to_string(latitMin) +
-					"&maxLon=" + std::to_string(longitMax) +
-					"&maxLat=" + std::to_string(latitMax);
+				// get the dataset's JSON from the local cache, if available,
+				// else from the server
 
-				string resn_str = "&resX=" + std::to_string(res)
-					+ "&resY=" + std::to_string(res);
+				string elev_json = getDataSetJSON(elev_url, hash_url);
 
-				string elev_data_url =
-					server_str + elev_str + bbox_str + resn_str;
-
-				if (debug())
-					cerr << "Hitting data URL: " << elev_data_url << "\n";
-				string hash_str = "hash?";
-				string hash_url = server_str + hash_str + bbox_str;
-
-
-
-				if (debug())
-					cerr << "Hitting hash URL: " << hash_url << "\n";
-
-				// get hash value for elevation data
-				string hash_value =  ServerComm::makeRequest(hash_url,
-				{"Accept: application/json"});
-
-				string elev_json;
-
-				//Checks to see if elevation data is already in local cache
-				if (my_cache.inCache(hash_value)) { // already exists
-					try {
-						elev_json = my_cache.getDoc(hash_value);
-					}
-					catch (CacheException& ce) {
-						//something went bad trying to access the cache
-						cout << "Exception while reading from cache. Ignoring cache." << std::endl;
-					}
-				}
-				else { //Server response is false or not cached
-
-					if (debug())
-						cerr << "Hitting json URL: " << elev_data_url << "\n";
-
-					// get the eleveation data
-					elev_json = ServerComm::makeRequest(elev_data_url,
-					{"Accept: application/json"});
-
-					if (debug())
-						cerr << "Hitting elev data URL: " << elev_data_url << "\n";
-
-					string hash_value =  ServerComm::makeRequest(hash_url,
-					{"Accept: application/json"});
-
-					if (hash_value == "false") {
-						cerr << "Error in getting hash value for generated map..." << endl;
-						cerr << elev_json << endl;
-						abort();
-					}
-
-					// store map in cache
-					try {
-						my_cache.putDoc(hash_value, elev_json);
-					}
-					catch (CacheException& ce) {
-						//something went bad trying to access the cache
-						cerr << "Exception while storing in cache. Weird but not critical."
-							<< endl;
-					}
-				}
-				return getElevationDataFromJSON(elev_json);
+				return parseElevationData(elev_json);
 			}
 
-			// get Elevation data from the JSON
-			ElevationData *getElevationDataFromJSON (string elev_json) {
+			/**
+			 *	 @brief Parses the elevation data string and retuns
+			 * 	   an Elevation object
+			 *	@param elev_json  string containing the requested elevation data
+			 *
+			 *  @return Elevation data object
+			 */
+			ElevationData parseElevationData (string elev_json) {
 
 				// use a string stream to parse the data, which is not really a JSON,
 				// but raw text
@@ -1325,24 +1279,96 @@ namespace bridges {
 
 
 				// create the elevation object
-				ElevationData *elev_data = new ElevationData(rows, cols);
-				elev_data->setxll(ll_x);
-				elev_data->setyll(ll_y);
-				elev_data->setCellSize(cell_size);
+				ElevationData elev_data (rows, cols);
+				elev_data.setxll(ll_x);
+				elev_data.setyll(ll_y);
+				elev_data.setCellSize(cell_size);
 
-				// tmp
-				int data[85 * 185];
-				int l = 0;
 				// load the elevation data
 				for (int i = 0; i < rows; i++) {
 					for (int j = 0; j < cols; j++) {
 						ss >> elev_val;
-						elev_data->setVal(i, j, elev_val);
+						elev_data.setVal(i, j, elev_val);
 					}
 				}
 				return elev_data;
 			}
 
+		private:
+			/**
+			 *  This method is a utility function that supports retrieving 
+			 *  external dataset given a url to the dataset's server as well
+			 *	as a url to extract a hashcode for the dataset; the latter is
+			 *  is to suppor local caching. The dataset is only retrieved
+			 *  the server if a local copy is not available
+			 *
+			 *	Currently this function works with elevation, OpenStreet maps and 
+			 *  Amenity datasets
+			 *
+			 */
+			std::string getDataSetJSON(std::string data_url, std::string hash_url) {
+
+				std::string data_json = "";
+
+				// First check to see if the requested data is stored in local cache
+				// get hash value for elevation data
+				if (debug())
+					cerr << "Hitting hash URL: " << hash_url << "\n";
+
+				string hash_value =  ServerComm::makeRequest(hash_url,
+									{"Accept: application/json"});
+
+				if (my_cache.inCache(hash_value) == true) { //local map is up-to-date
+					try {
+						if (my_cache.inCache(hash_value)) {
+							data_json = my_cache.getDoc(hash_value);
+						}
+					}
+					catch (CacheException& ce) {
+						//something went bad trying to access the cache
+						std::cout << "Exception while reading from cache. " 
+								<< "Ignoring cache and continue\n.";
+					}
+				}
+				else if ((hash_value == "false") || !my_cache.inCache(hash_value)) {
+
+					//Server response is false or somehow map got saved as false
+					if (debug())
+						std::cerr << "Hitting data URL: " << data_url << "\n";
+
+					//Requests the map data then requests the map's hash code
+					data_json = ServerComm::makeRequest(data_url, 
+							{"Accept: application/json"}); 
+
+					// next get the has code for the data to keep a copy in local cache
+					if (debug())
+						std::cerr << "Hitting hash URL: " << hash_url << "\n";
+
+					hash_value = ServerComm::makeRequest(hash_url, 
+								{"Accept: application/json"});
+
+					if (hash_value == "false") {
+						std::cerr << "Error while gathering hash value for dataset..\n";
+						std::cerr << data_json << std::endl;
+						abort();
+					}
+
+					// Save map to cache directory
+					try {
+						my_cache.putDoc(hash_value, data_json);
+					}
+					catch (CacheException& ce) {
+						//something went bad trying to access the cache
+						std::cerr << "Exception while storing in cache. " <<
+									 "Weird but not critical.\n";
+						if (debug())
+							std::cerr << "Tried to store hash=" << hash_value << 
+									" key = " << data_json << std::endl;
+					}
+				}
+				return data_json;
+			}
+		
 	}; // class DataSource
 } // namespace bridges
 #endif

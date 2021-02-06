@@ -19,7 +19,7 @@ namespace bridges {
 		 *   as part of the symbol collection.
 		 *
 		 * @author Kalpathi Subramanian
-		 * @date 12/23/18
+		 * @date 12/23/18, 12/28/20
 		 *
 		 */
 		class Label : public Symbol {
@@ -50,7 +50,7 @@ namespace bridges {
 				}
 
 				/*
-				 * Get Data Structure name
+				 * @brief Get Data Structure name
 				 * @return name of data type
 				 */
 
@@ -59,7 +59,7 @@ namespace bridges {
 				}
 
 				/**
-				 *	This method gets the name of the shape
+				 *	@brief This method gets the name of the shape
 				 *
 				 *  @return name   shape name
 				 */
@@ -68,7 +68,7 @@ namespace bridges {
 				}
 
 				/**
-				 * This method sets the font size
+				 * @brief This method sets the font size
 				 *
 				 * @param sz  font size
 				 *
@@ -78,7 +78,7 @@ namespace bridges {
 				}
 
 				/**
-				 * This method gets the font size
+				 * @brief This method gets the font size
 				 *
 				 * @return   font size
 				 *
@@ -88,7 +88,7 @@ namespace bridges {
 				}
 
 				/**
-				 * This method sets the text width
+				 * @brief This method sets the text width
 				 *
 				 * @param w  text width
 				 *
@@ -98,7 +98,7 @@ namespace bridges {
 				}
 
 				/**
-				 * This method gets the text width
+				 * @brief This method gets the text width
 				 *
 				 * @return  text width
 				 *
@@ -118,7 +118,7 @@ namespace bridges {
 				}
 
 				/**
-				 * This method gets the text height
+				 * @brief This method gets the text height
 				 *
 				 * @return  text height
 				 *
@@ -129,7 +129,8 @@ namespace bridges {
 
 
 				/**
-				 * This method returns the bounding box dimensions of the shape
+				 * @brief This method returns the bounding box dimensions of
+				 *	the shape
 				 *
 				 * @return vector of floats
 				 */
@@ -147,7 +148,7 @@ namespace bridges {
 				}
 
 				/**
-				 * This method returns the JSON representation of the shape
+				 * @brief This method returns the JSON representation of the shape
 				 *
 				 * @return string  JSON string
 				 */

@@ -16,18 +16,92 @@ namespace bridges {
 		/** @brief This class provides methods to represent adjacency list
 		 *	based graphs.
 		 *
-		 *  The class is simply a wrapper around the C++ STL unordered_map
-		 *	class and thus derives all its operations from it.
+		 *	The GraphAdjList class can be used to represent adjacency list
+		 *  based graphs in BRIDGES; it takes 3 generic parameters: (1) K,
+		 *  which is an orderable key value used in accessing vertices (in
+		 *  constant time) using an STL map. This permits data sets that
+		 *  need to be accessed by keys that are strings, (2) E1, for
+		 *  maintaining vertex specific data, and (3) E2, for maintaining
+		 *  edge specific data.  The class is a wrapper around the C++
+		 *  unordered map class and, thus, derives all its operations from it.
+		 *  BRIDGES provides methods to visualize the graph and its
+		 *  contents.
 		 *
-		 *  @param K: used as an index to retrieve vertices,
-		 *  @param E1: data type used to store vertex specific information,
-		 *  @param E2: data type used to store edge specific information
+		 *  The vertices of the graph are held in a C++ hashmap, for near
+		 *  constant time access; this enables us to use strings or integer ids
+		 *  for vertices. The adjacency lists are linked lists of SLelemnt type, 
+         *  The SLelement contains edge information (stored in its data as a 
+	     *	generic). Each edge, of type Edge, contains the source,
+		 *  destination vertices and link attributes (color, opacity, thickness)
 		 *
-		 * @author Kalpathi Subramanian
-		 * @date Last modified 4/22/18, 7/12/19
+		 *
+		 * Convenience method addVertex() is provided to add vertices to
+		 * the graph, and addEdge() is provided to add edges.  Edges are
+		 * retrieved by using the map and the adjcency list, given the vertex 
+		 * ids of the edge. Vertices can be styled directly from the vertex element
+		 * returned by getVertex(), and edges are styled from a LinkVisualizer
+		 * one can access through getLinkVisualizer(). Here is a simple example:
+		 *\code{c}
+		 * GraphAdjList<string, Integer, Double> graph = new GraphAdjList<string, int, double> ();
+		 *   graph.addVertex("a");
+		 *   graph.addVertex("b");
+		 *   graph.addEdge("a", "b");
+		 *   graph.getVertex("a").setShape("square");
+		 *   graph.getLinkVisualizer("a", "b").setColor("yellow");
+		 *\endcode
+		 *
+		 * Adjacency lists are singly linked lists using the BRIDGES
+		 * SLelement. Iterators are provided for easy traversal of the
+		 * adjacency lists. For instance,
+		 *
+		 *\code{c}
+		 * GraphAdjList<string, int, double> graph = something();
+		 * for (Edge<string, double> e : graph.outgoingEdgeSetOf("a"))
+		 *   System.out.println("a -> "+e.getTo());
+		 *\endcode
+		 *
+		 * Graphs can have their nodes and links affected by visual attributes. Nodes
+		 * can have color, size, opacity and shape and  detailed in the ElementVisualizer
+		 * class. Edges support attributes such as color, thickness and opacity and are
+		 * detailed in the LinkVisualizer class.  Element and link attributes are set
+		 * using the getVisualizer() and getLinkVisualizer() methods.  For instance,
+		 *
+		 *\code{c}
+		 * GraphAdjList<string, int, double> graph = something();
+		 *   graph.addVertex("baskin");
+		 *   graph.addVertex("robins");
+		 *   graph.addEdge("baskin","robins");
+		 *   graph.getVisualizer()->setColor("cyan");
+		 *   graph.getVisualizer()->setShape("square");
+		 *   graph.getLinkVisualizer("baskin", "robins")->setColor("green");
+		 *   graph.getLinkVisualizer("baskin", "robins")->setOpacity("0.5f");
+		 *\endcode
+
+		 *
+		 *
+		 * @param K: used as an index to retrieve vertices,
+		 * @param E1: data type used to store vertex specific information,
+		 * @param E2: data type used to store edge specific information
+		 *
+		 * @author Kalpathi Subramanian, Erik Saule
+		 * @date Last modified 4/22/18, 7/12/19, 12/28/20, 1/5/21
 		 *
 		 * There is a tutorial about Graph Adjacency List  :
 		 * http://bridgesuncc.github.io/tutorials/Graph_AL.html
+		 *
+		 *
+		 * There are two visualization engines available for
+		 * graph. The small graph visualization supports all
+		 * attributes of vertices and edges but is
+		 * prohibitively slow on large graphs. The large graph
+		 * visualization only supports locations (actually
+		 * they are mandatory) and colors, all other
+		 * attributes are ignored.
+		 *
+		 * BRIDGES picks the rendering engine
+		 * automatically. But it can be forced to pick one
+		 * used forceLargeVizualization() and
+		 * forceSmallVizualization()
 		 *
 		 */
 		template<typename K, typename E1 = K, typename E2 = E1>
@@ -72,6 +146,8 @@ namespace bridges {
 					}
 				}
 				/**
+				 *	@brief Get the string representation of this data structure type.
+				 *
 				 *	@return The string representation of this data structure type
 				 */
 				virtual const string getDStype() const override {
@@ -84,6 +160,8 @@ namespace bridges {
 				}
 
 				/**
+				 *  @brief Adds a vertex to the graph.
+				 *
 				 * 	Adds a vertex of key "k" and value "e" to the graph,
 				 *	and initializes its adjacency list; If this key already
 				 *	exists  then this will not create a new vertex.
@@ -103,9 +181,9 @@ namespace bridges {
 					}
 				}
 				/**
-				 * 	@brief add an edge with data.
+				 * 	@brief Add an edge with data.
 				 *
-				 *      Note that this function adds the edge regardless of
+				 *  Note that this function adds the edge regardless of
 				 *	the contents of the adjacency list; its the user's responsibility
 				 *	to ensure there are no duplicates and ensure consistency.
 				 *
@@ -141,7 +219,7 @@ namespace bridges {
 					}
 				}
 				/**
-				 * 	Gets vertex data for a graph vertex
+				 * @brief Gets vertex data for a graph vertex.
 				 *
 				 * @param src The key of the source vertex
 				 *
@@ -160,7 +238,7 @@ namespace bridges {
 					throw "getVertexData(): vertex not found";
 				}
 				/**
-				 * 	Loads vertex specific information for a graph vertex
+				 * @brief Loads vertex specific information for a graph vertex.
 				 *
 				 * @param vertID The key of Vertex
 				 * @param data data to set
@@ -180,7 +258,7 @@ namespace bridges {
 					}
 				}
 				/**
-				 * 	Gets edge data for the edge from "src" to "dest"
+				 * @brief Gets edge data for the edge from "src" to "dest".
 				 *
 				 * @param src The key of the source Vertex
 				 * @param dest The key of the destination Vertex
@@ -212,7 +290,7 @@ namespace bridges {
 					throw "getEdgeData(): Edge not found";
 				}
 				/**
-				 * 	Gets edge data for the edge from "src" to "dest" - const version
+				 * @brief Gets edge data for the edge from "src" to "dest" - const version.
 				 *
 				 * @param src The key of the source Vertex
 				 * @param dest The key of the destination Vertex
@@ -246,8 +324,7 @@ namespace bridges {
 
 
 				/**
-				 * 	Loads edge specific information for the edge from "src" to
-				 *   "dest"
+				 * @brief Loads edge specific information for the edge from "src" to  "dest".
 				 *
 				 * @param src The key of the source Vertex
 				 * @param dest The key of the destination Vertex
@@ -282,16 +359,16 @@ namespace bridges {
 					throw "getEdgeData(): Edge not found";
 				}
 				/**
-				 *  Return the graph nodes
+				 * @brief Return the graph nodes.
 				 *
-				 *	@return The vertex list of this graph
+				 * @return The vertex list of this graph
 				 */
 				unordered_map<K, Element<E1>*>* getVertices() {
 					return &vertices;
 				}
 
 				/**
-				 *  Return the graph nodes - const version
+				 *  @brief Return the graph nodes - const version.
 				 *
 				 *	@return The vertex list of this graph
 				 */
@@ -299,7 +376,8 @@ namespace bridges {
 					return &vertices;
 				}
 				/**
-				 *  Return the vertex corresponding to a key
+				 *  @brief Return the vertex corresponding to a key.
+				 *
 				 *	@return the requested vertex of this graph or nullptr if not found
 				 */
 				const Element<E1>* getVertex(const K& key) const {
@@ -330,9 +408,36 @@ namespace bridges {
 					}
 				}
 
+				/**
+				 * @brief Get the edge between src and dest vertices.
+				 *
+				 * @param src  source vertex of edge
+				 * @param dest  destination vertex of edge
+				 * @return edge between the vertices
+				 */
+				Edge<K, E2> getEdge(const K& src, const K& dest) {
+					// check to see if the two vertices exist, else
+					// return null
+					try  {
+						// look for the edge
+						SLelement<Edge<K, E2>> *sle = adj_list[src];
+						while (sle != nullptr) {
+							K edge_dest = ((Edge<K, E2>) sle->getValue()).to();
+							if (edge_dest == dest)	// found
+								return sle->getValue();
+							sle = sle->getNext();
+						}
+					}
+					catch (const std::out_of_range& oor) { 
+						// one or both vertices doesnt exist
+						std::cout << "one or both vertices are likely missing from graph\n";
+						throw;
+					}
+					throw "Edge not found";
+				}
 
 				/**
-				 *  Return the adjacency list
+				 *  @brief Return the adjacency list.
 				 *	@return The adjacency list  of the graph
 				 */
 				const unordered_map<K, SLelement<Edge<K, E2> >*>&
@@ -341,7 +446,7 @@ namespace bridges {
 				}
 
 				/**
-				 * Returns adjacency list of a vertex with name k
+				 * @brief Returns adjacency list of a vertex with name k.
 				 *
 				 * @param k The key of the source vertex
 				 * @throw out_of_range If key is non-existent within this graph
@@ -380,7 +485,7 @@ namespace bridges {
 
 
 				/**
-				 *  Returns the  visualizer corresponding to  a graph vertex;
+				 *  @brief Returns the  visualizer corresponding to  a graph vertex.
 				 *	convenient method to set attributes of the graph vertex
 				 *
 				 *  @param k The key of the graph vertex
@@ -399,6 +504,7 @@ namespace bridges {
 					}
 				}
 				/**
+				 *  @brief Returns the link visualizer corresponding to an edge. 
 				 *  Returns the link visualizer corresponding to two graph
 				 *	nodes with an existing link; error returned if no link exists.
 				 *
@@ -409,14 +515,10 @@ namespace bridges {
 				 */
 				LinkVisualizer *getLinkVisualizer (const K& k1, const K& k2) {
 					try {
-						Element<E1> *el1 = vertices.at(k1);
-						Element<E1> *el2 = vertices.at(k2);
-
-						return el1->getLinkVisualizer(el2);
+						return getEdge(k1, k2).getLinkVisualizer();
 					}
 					catch (const out_of_range& ) {
-						cerr <<  "Either source or destination node not found in graph!"
-							<< endl;
+						cerr <<  "Either source or destination node not found in graph!\n";
 						throw;
 					}
 				}
@@ -586,6 +688,22 @@ namespace bridges {
 
 			public:
 
+				/**
+				*
+				* @brief Force the rendering engine to use large graph
+				*	visualization.
+				*
+				* This forces the rendering to a more bandwidth
+				* efficient at the cost of having less features. The large
+				* graph visualization only renders vertices that have
+				* specified locations. The only usable attribute for
+				* vertices and edges are colors.
+				*
+				* @param f set to true to force the visualization engine to
+				*  use large graphs visualization. Setting to false does not
+				*  prevent large visualization to be used, just does not force it.
+				*
+				*/
 				void forceLargeVisualization(bool f) {
 					if (f) {
 						forceLargeViz = true;
@@ -596,6 +714,22 @@ namespace bridges {
 					}
 				}
 
+				/**
+				 *
+				 * @brief Force the rendering engine to use small graph
+				 * visualization
+				 *
+				 *
+				 * The small visualization uses more bandwidth, have more
+				 * features, and support a force directed layout for vertices
+				 * which do not have a specified location.
+				 *
+				 * @param f set to true to force the visualization engine to
+				 *	use small graphs visualization. Setting to false does not
+				 *	prevent small visualization to be used, just does not
+				 *	force it.
+				 *
+				 */
 				void forceSmallVisualization(bool f) {
 					if (f) {
 						forceSmallViz = true;
@@ -606,7 +740,9 @@ namespace bridges {
 					}
 				}
 
-				///@brief This is a helper class to return sets of vertices ina  way that are iterable with range for loops. Students should not have to use this directly.
+				//	@brief This is a helper class to return sets of vertices
+				// 	in a  way that are iterable with range for loops.
+				//	Students should not have to use this directly.
 				class KeySet_helper {
 						std::unordered_map<K, Element<E1>* > const & underlying_map;
 
@@ -645,22 +781,43 @@ namespace bridges {
 						}
 				};
 
-				///returns a set of all keys (read only) that conforms to STL list interface.
-				///That means we can use range for
+				/**
+				 *  Returns a set of all keys  (helper function).
+				 * 
+				 *	Returns a set of all keys (read only) that conforms to
+				 *	STL list interface.  That means we can use range for loops
+				 *	on graph vertices.
+				 *
+				 *  @return set all keys
+				 */
 				KeySet_helper keySet() const {
 					return KeySet_helper(this->vertices);
 				}
 
-				typename SLelement<Edge<K, E2>>::SLelement_listhelper outgoingEdgeSetOf(K const & k) {
+				/**
+				 *	@brief This method is useful for iterating through a set of
+				 *  outgoing edges from a vertex.
+				 */
+				typename SLelement<Edge<K, E2>>::SLelement_listhelper
+				outgoingEdgeSetOf(K const & k) {
 					return typename SLelement<Edge<K, E2>>::SLelement_listhelper(getAdjacencyList(k));
 				}
 
-				typename SLelement<Edge<K, E2>>::SLelement_constlisthelper outgoingEdgeSetOf(K const & k) const {
+				/**
+				 *	@brief This method is useful for iterating through a set of
+				 *  outgoing edges from a vertex - const version.
+				 */
+				typename SLelement<Edge<K, E2>>::SLelement_constlisthelper
+				outgoingEdgeSetOf(K const & k) const {
 					return typename SLelement<Edge<K, E2>>::SLelement_constlisthelper(getAdjacencyList(k));
 				}
 
 
-				///@brief This is a helper class to return sets of vertices in a way that are iterable with range for loops. Students should have to use this directly.
+				/**
+				 *	@brief This is a helper class to return sets of vertices
+				 *	in a way that are iterable with range for loops. Students
+				 *	should have to use this directly.
+				 */
 				class VertexElementSet_listhelper {
 						typename std::unordered_map<K, Element<E1>* > & underlying_map;
 
@@ -669,7 +826,11 @@ namespace bridges {
 							: underlying_map(um)
 						{}
 
-						///@brief This is a helper class to return sets of vertices in a way that are iterable with range for loops. Students should have to use this directly.
+						/**
+						 * 	@brief This is a helper class to return sets of
+						 *	vertices in a way that are iterable with range
+						 *	for loops. Students should have to use this directly.
+						 */
 						class iterator {
 								typename std::unordered_map<K, Element<E1>* >::iterator it;
 							public:
@@ -691,7 +852,11 @@ namespace bridges {
 								}
 						};
 
-						///@brief This is a helper class to return sets of vertices in a way that are iterable with range for loops. Students should have to use this directly.
+						/**
+						 * @brief This is a helper class to return sets of
+						 *	vertices in a way that are iterable with range for
+						 *  loops. Students should have to use this directly.
+						 */
 						class const_iterator {
 								typename std::unordered_map<K, Element<E1>* >::const_iterator it;
 							public:
@@ -732,13 +897,20 @@ namespace bridges {
 
 				};
 
-				///returns a set of vertices (Element<E>) that conforms to STL list interface. That means we can use range for
+				/**
+				 * Returns a set of vertices (Element<E>) that conforms to
+				 *	STL list interface. That means we can use range for
+				 */
 				VertexElementSet_listhelper vertexSet () {
 					return VertexElementSet_listhelper(vertices);
 				}
 
 
-				///@brief This is a helper class to return sets of vertices ina  way that are iterable with range for loops. Students should not have to use this directly.
+				/**
+				 * @brief This is a helper class to return sets of vertices
+				 *	in a  way that are iterable with range for loops.
+				 * 	Students should not have to use this directly.
+				 */
 				class constVertexElementSet_listhelper {
 						typename std::unordered_map<K, Element<E1>* > const & underlying_map;
 
@@ -777,7 +949,10 @@ namespace bridges {
 							return const_iterator(underlying_map.begin());
 						}
 				};
-				///returns a set of vertices (Element<E>) that conforms to STL list interface. That means we can use range for
+				/**
+				 * Returns a set of vertices (Element<E>) that conforms to STL
+				 * 	list interface. That means we can use range for
+				 */
 				constVertexElementSet_listhelper vertexSet () const {
 					return constVertexElementSet_listhelper(vertices);
 				}

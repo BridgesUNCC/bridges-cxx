@@ -15,7 +15,7 @@ namespace bridges {
 		 * Generic Parameters: E the application data type
 		 *
 		 * @author Kalpathi Subramanian, Dakota Carmer
-		 * @date 6/12/15, 7/12/19
+		 * @date 6/12/15, 7/12/19, 12/28/20
 		 *
 		 * There is a tutorial about Trees :
 		 * http://bridgesuncc.github.io/tutorials/Tree.html
@@ -26,6 +26,8 @@ namespace bridges {
 				vector<TreeElement*> children;
 			public:
 				/**
+				 * @brief Construct a TreeElement from given values
+				 *
 				 * Constructs a TreeElement with the provided value and label,
 				 * setting the left and right TreeElements to NULL.
 				 * The defaults will be used if not provided.
@@ -37,14 +39,14 @@ namespace bridges {
 					: Element<E>(e, lab) {
 				}
 				/**
-				 *  Get the data structure name
+				 *  @brief Get the data structure name
 				 *	@return The name of  this data structure
 				 */
 				virtual const string getDStype() const override {
 					return "Tree";
 				}
 				/**
-				 *  Get the children of this node
+				 *  @brief Get the children of this node
 				 *	@return The children TreeElements
 				 */
 				vector<TreeElement*>& getChildren() {
@@ -53,14 +55,17 @@ namespace bridges {
 				/**
 				 * Constant version
 				 *
-				 *  Get the children of this node
+				 * @brief Get the children of this node
 				 * @return The children TreeElements
 				 */
 				const vector<TreeElement*>& getChildren() const {
 					return children;
 				}
 				/**
-				 * Gets the nth child of this TreeElement, returns null if non-existent
+				 *  @brief Gets the nth child of this node
+				 *
+				 *	Gets the nth child of this TreeElement, returns null
+				 *	if non-existent
 				 *
 				 * @param n The index of the child
 				 * @return The child TreeElement
@@ -69,9 +74,11 @@ namespace bridges {
 					return (n >= children.size() || n < 0 ) ? nullptr : children.at(n);
 				}
 				/**
-				 * Constant version
 				 *
-				 * Gets the nth child of this TreeElement, returns null if non-existent
+				 *  @brief Gets the nth child of this node - constant version
+				 *
+				 * Gets the nth child of this TreeElement, returns null if
+				 *	non-existent
 				 *
 				 * @param n The index of the child
 				 * @return The child TreeElement
@@ -80,7 +87,7 @@ namespace bridges {
 					return (n >= children.size() || n < 0) ? nullptr : children.at(n);
 				}
 				/**
-				 * Adds a child to children
+				 * @brief Adds a child to children
 				 *
 				 * @param child The child TreeElement
 				 */
@@ -91,7 +98,9 @@ namespace bridges {
 					}
 				}
 				/**
-				 * Sets child at index to "kid". Will do nothing given invalid index.
+				 * @brief Sets child at index to "kid".
+				 *
+				 * Will do nothing given invalid index.
 				 *
 				 * @param index of child to replace
 				 * @param kid The child TreeElement
