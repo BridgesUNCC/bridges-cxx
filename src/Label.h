@@ -192,10 +192,6 @@ namespace bridges {
 					bbox[1] = location[1] - height;
 					bbox[2] = width;
 					bbox[3] = height;
-cout << "Label location:" << location[0] << "," << location[1] << endl;
-cout << "Label Size(w,h):" << width << "," << height << endl;
-cout << "bbox:" << bbox[0] << "," << bbox[1] << "," << bbox[2] << "," <<
-						bbox[4] << endl;
 
 					return bbox;
 				}
@@ -208,14 +204,7 @@ cout << "bbox:" << bbox[0] << "," << bbox[1] << "," << bbox[2] << "," <<
 				vector<float> getDimensions() const {
 					vector<float> dims(4);
 
-					float length = 0.09 * fontSize * getLabel().size();
-
-					const float *location = getLocation();
-					dims[0] = location[0] - length / 2.;
-					dims[1] = location[1] + length / 2.;
-					dims[2] = dims[3] = location[1];
-
-					return dims;
+					return getBoundingBox();
 				}
 
 				/**
