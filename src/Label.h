@@ -28,6 +28,7 @@ namespace bridges {
 				int fontSize = 12;
 				int textWidth = 100;
 				int textHeight = 50;
+				float rotation_angle = 0.;
 
 			public:
 
@@ -127,7 +128,77 @@ namespace bridges {
 					return textHeight;
 				}
 
+				/**
+				 * @brief Set the rotation angle for the label
+				 *
+				 * Permits rotated text labels (only horiz and vertical 
+				 *  supported now.
+				 *
+				 * @param angle  rotation angle in dedgrees
+				 *
+				 */
+				void setRotationAngle (float angle) {
+					// temporary - only horizontal or vertical labels
+					rotation_angle = 0.;
+					if ((angle == 0.) || (angle == 90.)) 
+						rotation_angle = angle;	
 
+						
+				}
+				/**
+				 * @brief Get the rotation angle for the label
+				 *
+				 * 
+				 * @return angle  rotation angle in degrees
+				 *
+				 */
+				float getRotationAngle () {
+					return rotation_angle;
+				}
+
+				/**
+				 * @brief This method returns the bounding box dimensions of
+				 *	the shape
+				 *
+				 *  A more accurate computation, takes into account 
+				 *  the label string content
+				 *
+				 * @return vector of floats
+				 */
+
+				vector<float> getBoundingBox() const {
+					vector<float> bbox(4);
+
+					// first get the width of the string by parsing it
+					string str = getLabel();
+					float length = 0.;
+					for (auto ch: str) {
+						cout << ch << " " << endl;					
+						if (ch == 'm' || ch == 'w')
+							length +=  0.5;
+						else if (ch == 'i' || ch == 'l' || ch == 'j')
+							length +=  0.4;
+						else length += 0.6;
+					}
+					length *= fontSize;
+					cout << "length = " << length << endl;
+
+					const float *location = getLocation();
+					float width = length;
+					float height = fontSize;
+
+					// order is xmin, ymin, xmax, ymax
+					bbox[0] = location[0] - width/2.;    
+					bbox[1] = location[1] - height;
+					bbox[2] = width;
+					bbox[3] = height;
+cout << "Label location:" << location[0] << "," << location[1] << endl;
+cout << "Label Size(w,h):" << width << "," << height << endl;
+cout << "bbox:" << bbox[0] << "," << bbox[1] << "," << bbox[2] << "," <<
+						bbox[4] << endl;
+
+					return bbox;
+				}
 				/**
 				 * @brief This method returns the bounding box dimensions of
 				 *	the shape
@@ -159,7 +230,8 @@ namespace bridges {
 					shape_json +=
 						QUOTE + "name" + QUOTE + COLON +  QUOTE + getLabel() + QUOTE + COMMA +
 						QUOTE + "shape" + QUOTE + COLON + QUOTE + "text" + QUOTE + COMMA +
-						QUOTE + "font-size" + QUOTE + COLON +  to_string(fontSize)  +
+						QUOTE + "font-size" + QUOTE + COLON +  to_string(fontSize)  + COMMA + 
+						QUOTE + "angle" + QUOTE + COLON +  to_string(rotation_angle)  +
 						CLOSE_CURLY;
 
 					return shape_json;
