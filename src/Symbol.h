@@ -1,4 +1,9 @@
 
+#ifndef SYMBOL_H
+
+#define SYMBOL_H
+
+
 #include <string>
 #include <vector>
 #include <cmath>
@@ -7,11 +12,6 @@ using namespace std;
 
 #include "DataStructure.h"
 #include "Color.h"
-
-#ifndef SYMBOL_H
-
-#define SYMBOL_H
-
 
 namespace bridges {
 	namespace datastructure {
