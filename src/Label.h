@@ -1,6 +1,7 @@
 #include "DataStructure.h"
 #include "Symbol.h"
 #include <vector>
+#include <cmath>
 
 using namespace std;
 
@@ -74,7 +75,7 @@ namespace bridges {
 				 * @param sz  font size
 				 *
 				 */
-				void setFontSize(int sz) {
+				void setFontSize(float sz) {
 					fontSize = sz;
 				}
 
@@ -138,12 +139,8 @@ namespace bridges {
 				 *
 				 */
 				void setRotationAngle (float angle) {
-					// temporary - only horizontal or vertical labels
-					rotation_angle = 0.;
-					if ((angle == 0.) || (angle == 90.)) 
-						rotation_angle = angle;	
-
-						
+					// right now support for 0, 45, 90 deg.
+					rotation_angle = angle;	
 				}
 				/**
 				 * @brief Get the rotation angle for the label
@@ -172,29 +169,64 @@ namespace bridges {
 					// first get the width of the string by parsing it
 					string str = getLabel();
 					float length = 0.;
+					bool upper_case_exists = false;
 					for (auto ch: str) {
-						cout << ch << " " << endl;					
-						if (ch == 'm' || ch == 'w')
-							length +=  0.5;
-						else if (ch == 'i' || ch == 'l' || ch == 'j')
-							length +=  0.4;
-						else length += 0.6;
+						if (std::islower(ch)) {
+							cout << ch << " " << endl;					
+							if (ch == 'm' || ch == 'w')
+								length +=  0.6;
+							else if (ch == 'i' || ch == 'l' || ch == 'j')
+								length +=  0.4;
+							else length += 0.5;
+						}
+						else if (std::isupper (ch)) {
+							upper_case_exists = true;
+							if (ch == 'M' || ch == 'W')
+								length +=  0.72;
+							else if (ch == 'I') 
+								length +=  0.52;
+							else length += 0.62;
+						}
+						else // support only spaces
+							length += 0.55;
 					}
 					length *= fontSize;
 					cout << "length = " << length << endl;
 
-					const float *location = getLocation();
 					float width = length;
-					float height = fontSize;
+					float height = 0.;
+					if (upper_case_exists) {
+						height = fontSize + 0.3f*fontSize;
+					}
+					else 
+						height = fontSize + 0.1f*fontSize;
+
+					// account for text orientation to compute an 
+					// axis aligned bounding box
+
+					float bbox_width = length;
+					float bbox_height = height;
+					if (rotation_angle == 90.0f || rotation_angle == -90.0f) {
+						bbox_width = height;
+						bbox_height = length;
+					}
+					else if (rotation_angle == -45.0f || 
+								rotation_angle == 45.0f) {
+						bbox_width  = length/sqrt(2.0);
+						bbox_height = length/sqrt(2.0);
+					}
+
 
 					// order is xmin, ymin, xmax, ymax
-					bbox[0] = location[0] - width/2.;    
-					bbox[1] = location[1] - height;
-					bbox[2] = width;
-					bbox[3] = height;
+					const float *location = getLocation();
+					bbox[0] = location[0] - bbox_width/2.;    
+					bbox[1] = location[1] - bbox_height/2.;
+					bbox[2] = location[0] + bbox_width/2.;;
+					bbox[3] = location[1] + bbox_height/2.;;
 
 					return bbox;
 				}
+
 				/**
 				 * @brief This method returns the bounding box dimensions of
 				 *	the shape
