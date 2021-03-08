@@ -204,16 +204,20 @@ namespace bridges {
 
 					float bbox_width = length;
 					float bbox_height = height;
+					const float *location = getLocation();
 					if (rotation_angle == 90.0f || rotation_angle == -90.0f) {
 						bbox_width = height;
 						bbox_height = length;
+						bbox[0] =  location[0] - bbox_width/2.0f;
+						bbox[1] =  location[1] - bbox_height/2.0f;
+						bbox[2] =  location[0] + bbox_width/2.0f;
+						bbox[3] =  location[1] + bbox_height/2.0f;
 					}
 					else { 	// rotate the bounding box by the given angle
 						float pt[2];
 						bbox[0] = bbox[1] = std::numeric_limits<float>::max();
 						bbox[2] = bbox[3] = -std::numeric_limits<float>::max();
 						// rotate  the four corners of the bounding box
-						const float *location = getLocation();
 						// only need to rotate the 3 points of the box
 						for (int k = 0; k < 4; k++) {
 							switch (k) {
