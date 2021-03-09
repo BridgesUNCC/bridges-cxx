@@ -205,53 +205,44 @@ namespace bridges {
 					float bbox_width = length;
 					float bbox_height = height;
 					const float *location = getLocation();
-					if (rotation_angle == 90.0f || rotation_angle == -90.0f) {
-						bbox_width = height;
-						bbox_height = length;
-						bbox[0] =  location[0] - bbox_width/2.0f;
-						bbox[1] =  location[1] - bbox_height/2.0f;
-						bbox[2] =  location[0] + bbox_width/2.0f;
-						bbox[3] =  location[1] + bbox_height/2.0f;
-					}
-					else { 	// rotate the bounding box by the given angle
-						float pt[2];
-						bbox[0] = bbox[1] = std::numeric_limits<float>::max();
-						bbox[2] = bbox[3] = -std::numeric_limits<float>::max();
-						// rotate  the four corners of the bounding box
-						// only need to rotate the 3 points of the box
-						for (int k = 0; k < 4; k++) {
-							switch (k) {
-								case 0: 	// lower left at (0,0)
-									pt[0] = pt[1] = 0.;
-									break;
-								case 1:		// upper left
-									pt[0] = 0.;
-									pt[1] = bbox_height;
-									break;
-								case 2:		// lower right
-									pt[0] = bbox_width;
-									pt[1] = 0.;
-									break;
-								case 3:		// upper right
-									pt[0] = bbox_width;
-									pt[1] = bbox_height;
-									break;
-							}
-							rotatePoint (pt, rotation_angle);
 
-							// update bounding box
-							if (pt[0] < bbox[0])  bbox[0] = pt[0];
-							if (pt[1] < bbox[1])  bbox[1] = pt[1];
-							if (pt[0] > bbox[2])  bbox[2] = pt[0];
-							if (pt[1] > bbox[3])  bbox[3] = pt[1];
+					float pt[2];
+					bbox[0] = bbox[1] = std::numeric_limits<float>::max();
+					bbox[2] = bbox[3] = -std::numeric_limits<float>::max();
+					// rotate  the four corners of the bounding box
+					// only need to rotate the 3 points of the box
+					for (int k = 0; k < 4; k++) {
+						switch (k) {
+							case 0: 	// lower left at (0,0)
+								pt[0] = pt[1] = 0.;
+								break;
+							case 1:		// upper left
+								pt[0] = 0.;
+								pt[1] = bbox_height;
+								break;
+							case 2:		// lower right
+								pt[0] = bbox_width;
+								pt[1] = 0.;
+								break;
+							case 3:		// upper right
+								pt[0] = bbox_width;
+								pt[1] = bbox_height;
+								break;
 						}
-						// translate center of box to center of label
-						float tx = location[0]-(bbox[0]+(bbox[2]-bbox[0])/2.);
-						float ty = location[1]-(bbox[1]+(bbox[3]-bbox[1])/2.);
-						bbox[0] += tx; bbox[2] += tx;
-						bbox[1] += ty; bbox[3] += ty;
-						
+						rotatePoint (pt, rotation_angle);
+
+						// update bounding box
+						if (pt[0] < bbox[0])  bbox[0] = pt[0];
+						if (pt[1] < bbox[1])  bbox[1] = pt[1];
+						if (pt[0] > bbox[2])  bbox[2] = pt[0];
+						if (pt[1] > bbox[3])  bbox[3] = pt[1];
 					}
+					// translate center of box to center of label
+					float tx = location[0]-(bbox[0]+(bbox[2]-bbox[0])/2.);
+					float ty = location[1]-(bbox[1]+(bbox[3]-bbox[1])/2.);
+					bbox[0] += tx; bbox[2] += tx;
+					bbox[1] += ty; bbox[3] += ty;
+						
 					return bbox;
 				}
 
