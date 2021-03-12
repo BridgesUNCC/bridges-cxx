@@ -359,7 +359,7 @@ namespace bridges {
 				 *	@param pt  2D point (x, y)
 				 *  @param angle rotation angle in degrees (positive is counter clockwise, negative is clockwise)
 				 */
-				void rotatePoint (float *pt, float angle) {
+				void rotatePoint (float *pt, float angle) const {
 					// compute sin, cos
 					float angle_r = angle * M_PI / 180.;
 					float c = cos(angle_r);
