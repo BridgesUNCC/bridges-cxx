@@ -305,12 +305,14 @@ namespace bridges {
 			 *  Song object. The song if not cached in the local DB is queried
 			 *  and added to the DB
 			 *
+			 * @param songTitle title of the song. inexact is ok, will be matched by genisu
+			 * @param artistName name of artist. empty string if unspecified. If specified, must be exact
 			 *  @throws Exception if the request fails
 			 *
 			 *  @return a Song object,
 			 *
 			 */
-			Song getSong(string songTitle, string artistName) {
+			Song getSong(string songTitle, string artistName = "") {
 				using namespace rapidjson;
 
 				Document d;
@@ -323,12 +325,11 @@ namespace bridges {
 					throw "Incorrect use of getSong. songTitle should be given.";
 				}
 
-				if (artistName.size())
+				if (artistName.size() >0)
 					url += "?artistName=" + artistName;
-				else {
-					throw "Incorrect use of getSong. artistName should be given.";
-				}
+
 				// check for spaces in url and replace them by '%20'
+				//TODO should use curl to do that
 				string::size_type n = 0;
 				while ( (n = url.find(" ", n)) != string::npos) {
 					url.replace(n, 1, "%20");
