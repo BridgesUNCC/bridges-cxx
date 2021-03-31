@@ -37,7 +37,7 @@ namespace bridges {
 				int identifier;
 				string name = string();
 
-				string shape_type = "circle"; 	// rect, circle, polygon, label
+				string shape_type = "circle"; 	
 
 				// specify default attributes
 				// defaults are not sent through JSON
@@ -49,47 +49,30 @@ namespace bridges {
 				float 	default_opacity = 1.0f;
 				float 	default_stroke_width = 1.0f;
 				string 	default_symbol = "circle";
-				int 	default_font_size = 12;
 
 				// symbol attributes
 
-				string label = string();
 				Color fillColor{"blue"},
 					  strokeColor{"white"};
 				float opacity = 1.0f;
 				float strokeWidth = 1.0f;
 				int strokeDash = 1;
-				int fontSize = 12;
-				int textWidth = 100;
-				int textHeight = 50;
+
 				// symbol location
 				float location[2] = {0.0f, 0.0f};
 
-			private:
-				int getNewIdentifier() {
-					static int ids = 0;
-					ids++;
-
-					return ids - 1;
+				// matrix methods used for affine transformations on symbols
+				void matMult (float m1[][3], float m2[][3], float result[3]) {
+					for(int i=0; i < 3; ++i)
+					for(int j=0; j < 3; ++j)
+					for(int k=0; k < 3; ++k) {
+						m3[i][j]+=m1[i][k]*m2[k][j];
+					}
 				}
-
-			protected:
-				/**
-				 * @brief Set the shape type
-				 *
-				 * @param s shape type to set
-				 */
-				void setShapeType (string s) {
-					shape_type = s;
-				}
-				/**
-				 * Get the symbol label
-				 *
-				 * @return  the shape type
-				 */
-				string getShapeType() const {
-					return shape_type;
-				}
+				void copyMat(float m[][3], float copy[][3]){
+					for(int i=0; i < 3; ++i)
+					for(int j=0; j < 3; ++j)
+						copy[i][j] = m[i][j];
 
 			public:
 
@@ -140,16 +123,6 @@ namespace bridges {
 				void setLabel(string lbl) {
 					label = lbl;
 				}
-
-				/**
-				 * @brief Get the symbol label
-				 *
-				 * @return  the label
-				 */
-				string getLabel() const {
-					return label;
-				}
-
 
 				/**
 				 * @brief Set the symbol fill color
@@ -293,16 +266,6 @@ namespace bridges {
 				 * @param x  x coordinate
 				 * @param y  y coordinate
 				 */
-				void setCenter(float x, float y) {
-					setLocation(x, y);
-				}
-
-				/**
-				 * @brief This method sets the ssymbol location
-				 *
-				 * @param x  x coordinate
-				 * @param y  y coordinate
-				 */
 				void setLocation(float x, float y) {
 					if ((x > -INFINITY && x < INFINITY) &&
 						(y > -INFINITY && y < INFINITY)) {
@@ -332,14 +295,46 @@ namespace bridges {
 
 			protected:
 				/**
+				 * @brief Set the shape type
+				 *
+				 * @param s shape type to set
+				 */
+				void setShapeType (string s) {
+					shape_type = s;
+				}
+				/**
+				 * Get the symbol type
+				 *
+				 * @return  the shape type
+				 */
+				string getShapeType() const {
+					return shape_type;
+				}
+
+				// affine transform for symbol or symbol group
+				// initialize to identity matrix
+
+				float xform[3][3] = {
+									{1., 0., 0.},
+									{0., 1., 0.},
+									{0., 0., 1.} 
+								};
+
+
+				/**
 				 *  @brief Translate a 2D point
 				 *
 				 *  @param pt  2D point (x, y)
 				 *  @param tx, ty translation vector
+				 *
 				 */
 				void translatePoint (float *pt, float tx, float ty) {
-					pt[0] += tx;
-					pt[1] += ty;
+					float result[3][3];
+					float transl[3][3] = {
+							{1., 0., tx}, {0., 1., ty}, {0., 0., 1.}
+						};
+					matMult (xform, transl, result);
+					copyMat (result, xform);
 				}
 
 				/**
@@ -349,15 +344,20 @@ namespace bridges {
 				 *  @param sx, sy scale factors along each axis
 				 */
 				void scalePoint (float *pt, float sx, float sy) {
-					pt[0] *= sx;
-					pt[1] *= sy;
+					float result[3][3];
+					float scale[3][3] = {
+							{sx, 0., 0.}, {0., sy, 0.}, {0., 0., 1.}
+						};
+					matMult (xform, scale, result);
+					copyMat (result, xform);
 				}
 
 				/**
 				 *  @brief Rotate a 2D point (about Z)
 				 *
 				 *	@param pt  2D point (x, y)
-				 *  @param angle rotation angle in degrees (positive is counter clockwise, negative is clockwise)
+				 *  @param angle rotation angle in degrees 
+				 *		(positive is counter clockwise, negative is clockwise)
 				 */
 				void rotatePoint (float *pt, float angle) const {
 					// compute sin, cos
@@ -365,12 +365,13 @@ namespace bridges {
 					float c = cos(angle_r);
 					float s = sin(angle_r);
 
-					// rotate the point
-					float tmp[] = { pt[0]*c - pt[1]*s, tmp[1] = pt[0] * s + pt[1] * c};
-
-					// assign to point
-					pt[0] = tmp[0];
-					pt[1] = tmp[1];
+					// form the rotation matrix
+					float result[3][3];
+					float rotation[3][3] = {
+							{c, -s, 0.}, {s, c, 0.}, {0., 0., 1.}
+						};
+					matMult (rotation, xform, result);
+					copyMat (result, xform);
 				}
 
 				/**
