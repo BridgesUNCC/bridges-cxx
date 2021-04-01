@@ -1,10 +1,9 @@
-#include <cmath>
 #include <string>
-#include <vector>
 #include <unordered_map>
 
 using namespace std;
 
+#include <JSONutil.h>
 #include "DataStructure.h"
 #include "Symbol.h"
 
@@ -44,16 +43,15 @@ namespace bridges {
 				int identifier = 0;
 				string name = "group";
 
-				// 	default domain (assuming square coordinate space)
-				// 	domain emanates in x and y directions, both positive
-				//  and negative,
-				//	from 0,0
-
 			public:
 				/**
 				 *	Constructors
 				 */
 				SymbolGroup() {
+				}
+
+				SymbolGroup(string nm) {
+					name  = nm;
 				}
 
 				/**
@@ -64,8 +62,30 @@ namespace bridges {
 				void addSymbol(Symbol *s) {
 					symbols[identifier++] = s;
 				}
+				/**
+				 * This method returns the bounding box of all symbols making
+				 *  up the symbol group 
+				 *
+				 * @return array of 4 values
+				 */
+				vector<float> getDimensions() const {
 
-			private:
+					vector<float> dims = {INFINITY, -INFINITY, INFINITY, -INFINITY};
+					vector<float> tdims;
+					for (auto& entry : symbols) {
+						tdims = entry.second->getDimensions();
+						if (tdims[0] <  dims[0]) 
+							dims[0] = tdims[0];
+						if (tdims[1] >  dims[1]) 
+							dims[1] = tdims[1];
+						if (tdims[2] <  dims[2]) 
+							dims[2] = tdims[2];
+						if (tdims[3] >  dims[3]) 
+							dims[3] = tdims[3];
+					}
+					return dims;
+				}
+
 				/**
 				 * @brief This method returns the JSON representation of the 
 				 *		symbol group
@@ -74,33 +94,38 @@ namespace bridges {
                  */
 				virtual const string getSymbolRepresentation() const {
 
+					using bridges::JSONUtil::JSONencode;
 					string symbol_json = OPEN_CURLY;
 
 					symbol_json +=
-						QUOTE + "name" + QUOTE + COLON +  QUOTE + name + QUOTE + COMMA +
-                        QUOTE + "shape" + QUOTE + COLON + QUOTE + "symbol_group" + QUOTE + COMMA;
-                        QUOTE + "xform" + QUOTE + COLON + QUOTE + 
+						QUOTE + "name" + QUOTE + COLON +  
+								QUOTE + name + QUOTE + COMMA +
+                        QUOTE + "shape" + QUOTE + COLON + 
+								QUOTE + "symbol_group" + QUOTE + COMMA +
+                        QUOTE + "xform" + QUOTE + COLON + 
 							OPEN_BOX +
-							JSONencode(xform[0][0]) + COMMA   
-							JSONencode(xform[0][1]) + COMMA   
-							JSONencode(xform[1][0]) + COMMA   
+							JSONencode(xform[0][0]) + COMMA +
+							JSONencode(xform[0][1]) + COMMA + 
+							JSONencode(xform[1][0]) + COMMA +  
 							JSONencode(xform[1][0]) + 
 							CLOSE_BOX + COMMA;
 
 					// process the symbols in the group
-					symbol_json += "symbols" + COLON;
+					symbol_json += QUOTE + "symbols" + QUOTE + COLON + OPEN_BOX;
 					for (auto& entry : symbols) {
 						symbol_json += 
-							entry.second->getSymbolRepresentation() + COMMA;
+							entry.second->getSymbolRepresentation() + 
+								COMMA;
                     }
 
 					// remove last comma
 					if (symbols.size()) {
 						symbol_json.erase(symbol_json.size() - 1);
 					}
-					symbol_json += CLOSE_CURLY;
+					symbol_json += CLOSE_BOX + CLOSE_CURLY;
 
                     return symbol_json;
+			}
 		};
 	}
 } // namespace bridges
