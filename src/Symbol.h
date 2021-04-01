@@ -36,6 +36,7 @@ namespace bridges {
 
 				int identifier;
 				string name = string();
+				// maintain unique ids for each symbol
 
 				string shape_type = "circle"; 	
 
@@ -62,17 +63,20 @@ namespace bridges {
 				float location[2] = {0.0f, 0.0f};
 
 				// matrix methods used for affine transformations on symbols
-				void matMult (float m1[][3], float m2[][3], float result[3]) {
+				void matMult (float m1[][3], float m2[][3], float result[][3]) 
+									const {
 					for(int i=0; i < 3; ++i)
 					for(int j=0; j < 3; ++j)
 					for(int k=0; k < 3; ++k) {
-						m3[i][j]+=m1[i][k]*m2[k][j];
+						result[i][j] += m1[i][k]*m2[k][j];
 					}
 				}
+
 				void copyMat(float m[][3], float copy[][3]){
 					for(int i=0; i < 3; ++i)
 					for(int j=0; j < 3; ++j)
 						copy[i][j] = m[i][j];
+				}
 
 			public:
 
@@ -80,7 +84,17 @@ namespace bridges {
 				 * @brief default constructor
 				 */
 				Symbol() {
-					identifier = getNewIdentifier();
+					identifier = getIdentifier();
+				}
+
+				/**
+				 *	@brief Create a symbol of type "symb"
+				 *
+				 * 	@param symb  symbol to create
+				 */
+				Symbol(string symb) {
+					identifier = getIdentifier();
+					name = symb;
 				}
 
 				/**
@@ -95,15 +109,6 @@ namespace bridges {
 				virtual vector<float> getDimensions() const = 0;
 
 				/**
-				 *	@brief Create a symbol of type "symb"
-				 *
-				 * 	@param symb  symbol to create
-				 */
-				Symbol(string symb) {
-					identifier = getNewIdentifier();
-				}
-
-				/**
 				 *	@brief return the symbol identifier.
 				 *
 				 * 	Maintains unique identifiers of symbols
@@ -112,16 +117,10 @@ namespace bridges {
 				 * 	@return the identifier
 				 */
 				int getIdentifier() {
-					return identifier;
-				}
+					static int ids = 0;
+					ids++;
 
-				/**
-				 * @brief Set the symbol label
-				 *
-				 * @param lbl the label to set
-				 */
-				void setLabel(string lbl) {
-					label = lbl;
+					return ids - 1;
 				}
 
 				/**
@@ -359,7 +358,7 @@ namespace bridges {
 				 *  @param angle rotation angle in degrees 
 				 *		(positive is counter clockwise, negative is clockwise)
 				 */
-				void rotatePoint (float *pt, float angle) const {
+				void rotatePoint (float *pt, float angle) {
 					// compute sin, cos
 					float angle_r = angle * M_PI / 180.;
 					float c = cos(angle_r);

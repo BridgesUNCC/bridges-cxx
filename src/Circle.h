@@ -150,7 +150,7 @@ namespace bridges {
 					string shape = getShapeType();
 
 					shape_json +=
-						QUOTE + "name" + QUOTE + COLON +  QUOTE + getLabel() + QUOTE + COMMA +
+						QUOTE + "name" + QUOTE + COLON +  QUOTE + getName() + QUOTE + COMMA +
 						QUOTE + "shape" + QUOTE + COLON + QUOTE + shape + QUOTE + COMMA;
 
 					if (shape == "circle")

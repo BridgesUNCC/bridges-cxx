@@ -30,6 +30,28 @@ namespace bridges {
 				int textWidth = 100;
 				int textHeight = 50;
 				float rotation_angle = 0.;
+				string label_text = string();
+
+				/**
+				 *  @brief Rotate a 2D point (about Z)
+				 *
+				 *	@param pt  2D point (x, y)
+				 *  @param angle rotation angle in degrees (positive is 
+				 *		counter clockwise, negative is clockwise)
+				 */
+				void rotatePoint (float *pt, float angle) const {
+					// compute sin, cos
+					float angle_r = angle * M_PI / 180.;
+					float c = cos(angle_r);
+					float s = sin(angle_r);
+
+					// rotate the point
+					float tmp[] = { pt[0]*c - pt[1]*s, pt[0] * s + pt[1] * c };
+
+					// assign to point
+					pt[0] = tmp[0];
+					pt[1] = tmp[1];
+				}
 
 			public:
 
@@ -48,25 +70,32 @@ namespace bridges {
 				 * @param l  label
 				 */
 				Label (string l) {
-					setLabel(l);
+					label_text = l;
 				}
 
 				/*
 				 * @brief Get Data Structure name
 				 * @return name of data type
 				 */
-
 				string getDataStructType() {
 					return "label";
 				}
+				/**
+				 * @brief Set the label text
+				 *
+				 * @param lbl the label to set
+				 */
+				 void setLabel(string lbl) {
+					 label_text = lbl;
+				 }
 
 				/**
-				 *	@brief This method gets the name of the shape
+				 * @brief Get the symbol label
 				 *
-				 *  @return name   shape name
+				 * @return  the label
 				 */
-				string getName()  const {
-					return "label";
+				string getLabel() const {
+					return label_text;
 				}
 
 				/**
@@ -167,7 +196,7 @@ namespace bridges {
 					vector<float> bbox(4);
 
 					// first get the width of the string by parsing it
-					string str = getLabel();
+					string str = label_text;
 					float length = 0.;
 					bool upper_case_exists = false;
 					for (auto ch: str) {
@@ -268,7 +297,7 @@ namespace bridges {
 					string shape_json = getSymbolAttributeRepresentation();
 
 					shape_json +=
-						QUOTE + "name" + QUOTE + COLON +  QUOTE + getLabel() + QUOTE + COMMA +
+						QUOTE + "name" + QUOTE + COLON +  QUOTE + label_text + QUOTE + COMMA +
 						QUOTE + "shape" + QUOTE + COLON + QUOTE + "text" + QUOTE + COMMA +
 						QUOTE + "font-size" + QUOTE + COLON +  to_string(fontSize)  + COMMA + 
 						QUOTE + "angle" + QUOTE + COLON +  to_string(rotation_angle)  +
