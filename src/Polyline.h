@@ -22,6 +22,7 @@ namespace bridges {
 		 */
 
 		class Polyline : public Symbol {
+
 			protected:
 				// points of the polyline
 				vector<float> points;

@@ -101,8 +101,9 @@ namespace bridges {
 						QUOTE + "name" + QUOTE + COLON +  
 								QUOTE + name + QUOTE + COMMA +
                         QUOTE + "shape" + QUOTE + COLON + 
-								QUOTE + "symbol_group" + QUOTE + COMMA +
-                        QUOTE + "xform" + QUOTE + COLON + 
+								QUOTE + "symbol_group" + QUOTE + COMMA;
+//					if (!identity_matrix) {
+                        symbol_json += QUOTE + "xform" + QUOTE + COLON + 
 							OPEN_BOX +
 							JSONencode(xform[0][0]) + COMMA +
 							JSONencode(xform[1][0]) + COMMA + 
@@ -111,7 +112,7 @@ namespace bridges {
 							JSONencode(xform[0][2]) + COMMA + 
 							JSONencode(xform[1][2]) + 
 							CLOSE_BOX + COMMA;
-
+//					}
 					// process the symbols in the group
 					symbol_json += QUOTE + "symbols" + QUOTE + COLON + OPEN_BOX;
 					for (auto& entry : symbols) {

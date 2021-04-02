@@ -21,7 +21,6 @@ namespace bridges {
 		 */
 		class Circle : public Symbol {
 			private:
-
 				int radius = 1.;
 
 			public:

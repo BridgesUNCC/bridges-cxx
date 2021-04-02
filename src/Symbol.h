@@ -67,18 +67,33 @@ namespace bridges {
 
 				// matrix methods used for affine transformations on symbols
 				void matMult (float m1[][3], float m2[][3], float result[][3])
-				const {
-					for (int i = 0; i < 3; ++i)
-						for (int j = 0; j < 3; ++j)
+															const {
+					for (int i = 0; i < 3; ++i) {
+						for (int j = 0; j < 3; ++j) {
+							result[i][j] = 0.;
 							for (int k = 0; k < 3; ++k) {
 								result[i][j] += m1[i][k] * m2[k][j];
 							}
+						}
+					}
+				}
+				void identity(float m[][3]) {
+					for (int i = 0; i < 3; ++i)
+						for (int j = 0; j < 3; ++j)
+							m[i][j] = (i == j) ? 1. : 0.;
 				}
 
 				void copyMat(float m[][3], float copy[][3]) {
 					for (int i = 0; i < 3; ++i)
 						for (int j = 0; j < 3; ++j)
 							copy[i][j] = m[i][j];
+				}
+				void printMat(float m[][3]) {
+					for (int i = 0; i < 3; ++i) {
+						for (int j = 0; j < 3; ++j)
+							cout <<  m[i][j] << ", ";
+						cout << "\n";
+					}
 				}
 
 			public:
@@ -326,7 +341,7 @@ namespace bridges {
 					{0., 0., 1.}
 				};
 
-
+			public:
 				/**
 				 *  @brief Translate a 2D point
 				 *
@@ -341,7 +356,6 @@ namespace bridges {
 					};
 					matMult (xform, transl, result);
 					copyMat (result, xform);
-
 					identity_matrix = false;
 				}
 
@@ -383,6 +397,7 @@ namespace bridges {
 					copyMat (result, xform);
 					identity_matrix = false;
 				}
+			protected:
 
 				/**
 				 *  @brief Get the JSON of the symbol representation
@@ -428,16 +443,16 @@ namespace bridges {
 					}
 
 					// check transform, if it is identity, ignore
-					if (!identity_matrix) {
+					if (!this->identity_matrix) {
 						symbol_attr_json +=
 							QUOTE + "xform" + QUOTE + COLON +
 							OPEN_BOX +
-							JSONencode(xform[0][0]) + COMMA +
-							JSONencode(xform[1][0]) + COMMA +
-							JSONencode(xform[0][1]) + COMMA +
-							JSONencode(xform[1][1]) + COMMA +
-							JSONencode(xform[0][2]) + COMMA +
-							JSONencode(xform[1][2]) + 
+							JSONencode(this->xform[0][0]) + COMMA +
+							JSONencode(this->xform[1][0]) + COMMA +
+							JSONencode(this->xform[0][1]) + COMMA +
+							JSONencode(this->xform[1][1]) + COMMA +
+							JSONencode(this->xform[0][2]) + COMMA +
+							JSONencode(this->xform[1][2]) + 
 							CLOSE_BOX + COMMA;
 					}
 
