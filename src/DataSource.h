@@ -325,7 +325,7 @@ namespace bridges {
 					throw "Incorrect use of getSong. songTitle should be given.";
 				}
 
-				if (artistName.size() >0)
+				if (artistName.size() > 0)
 					url += "?artistName=" + artistName;
 
 				// check for spaces in url and replace them by '%20'
@@ -599,7 +599,7 @@ namespace bridges {
 				double lat_max, double long_max, string level = "default") {
 
 				//URL for hash request
-				string hash_url = getOSMBaseURL() + 
+				string hash_url = getOSMBaseURL() +
 					"hash?minLon=" + std::to_string(long_min) +
 					"&minLat=" + std::to_string(lat_min) +
 					"&maxLon=" + std::to_string(long_max) +
@@ -615,7 +615,7 @@ namespace bridges {
 					"&level="  + ServerComm::encodeURLPart(level);
 
 
-				// get the data set from the server or, if available, from 
+				// get the data set from the server or, if available, from
 				// a local cache
 				string osm_json = getDataSetJSON(osm_url, hash_url);
 
@@ -623,9 +623,9 @@ namespace bridges {
 				return getOSMDataFromJSON(osm_json);
 			}
 
-			/** 
-			 * This method retrieves the specified amenity related data given a 
-			 * bounding box of a region, from a Open Street map 
+			/**
+			 * This method retrieves the specified amenity related data given a
+			 * bounding box of a region, from a Open Street map
 			 *
 			 *  @param minLat  minimum latitude
 			 *  @param minLon  minimumm longitude
@@ -633,22 +633,22 @@ namespace bridges {
 			 *  @param maxLon  maximum longitude
 			 *  @param amenity  amenity type
 			 *  @throws exception
-     		 */
-			AmenityData  getAmenityData(double minLat, double minLon, double 
-			      			maxLat, double maxLon, std::string amenity) {
+			 */
+			AmenityData  getAmenityData(double minLat, double minLon, double
+				maxLat, double maxLon, std::string amenity) {
 
-				std::string amenity_url = getOSMBaseURL() + "amenity?minLon=" + 
-					ServerComm::encodeURLPart(std::to_string(minLon)) + 
+				std::string amenity_url = getOSMBaseURL() + "amenity?minLon=" +
+					ServerComm::encodeURLPart(std::to_string(minLon)) +
 					"&minLat=" + ServerComm::encodeURLPart(std::to_string(minLat)) +
-					"&maxLon=" + ServerComm::encodeURLPart(std::to_string(maxLon)) + 
-					"&maxLat=" + ServerComm::encodeURLPart(std::to_string(maxLat)) + 
+					"&maxLon=" + ServerComm::encodeURLPart(std::to_string(maxLon)) +
+					"&maxLat=" + ServerComm::encodeURLPart(std::to_string(maxLat)) +
 					"&amenity=" + ServerComm::encodeURLPart(amenity);
-					
-        		std::string hash_url = getOSMBaseURL() + "hash?minLon=" + 
-					ServerComm::encodeURLPart(std::to_string(minLon)) + 
+
+				std::string hash_url = getOSMBaseURL() + "hash?minLon=" +
+					ServerComm::encodeURLPart(std::to_string(minLon)) +
 					"&minLat=" + ServerComm::encodeURLPart(std::to_string(minLat)) +
-					"&maxLon=" + ServerComm::encodeURLPart(std::to_string(maxLon)) + 
-					"&maxLat=" + ServerComm::encodeURLPart(std::to_string(maxLat)) +  
+					"&maxLon=" + ServerComm::encodeURLPart(std::to_string(maxLon)) +
+					"&maxLat=" + ServerComm::encodeURLPart(std::to_string(maxLat)) +
 					"&amenity=" + ServerComm::encodeURLPart(amenity);
 
 				// make the query to the server to get a JSON of the amenities
@@ -659,7 +659,7 @@ namespace bridges {
 				return parseAmenityData (amenity_json);
 			}
 
-			/** 
+			/**
 			 * This method retrieves the specified amenity related data given a location
 			 * from a specified openstreet mmap location
 			 *
@@ -667,15 +667,15 @@ namespace bridges {
 			 *  @param amenity  amenity type
 			 *  @throws exception
 			 */
-			AmenityData  getAmenityData(const std::string& location, 
-									const std::string& amenity) {
-				std::string amenity_url = getOSMBaseURL() + "amenity?location=" + 
-						ServerComm::encodeURLPart(location) +
-						"&amenity=" + ServerComm::encodeURLPart(amenity);
+			AmenityData  getAmenityData(const std::string& location,
+				const std::string& amenity) {
+				std::string amenity_url = getOSMBaseURL() + "amenity?location=" +
+					ServerComm::encodeURLPart(location) +
+					"&amenity=" + ServerComm::encodeURLPart(amenity);
 
-				std::string hash_url = getOSMBaseURL() + "hash?location=" + 
-						ServerComm::encodeURLPart(location) +
-						"&amenity=" + ServerComm::encodeURLPart(amenity);
+				std::string hash_url = getOSMBaseURL() + "hash?location=" +
+					ServerComm::encodeURLPart(location) +
+					"&amenity=" + ServerComm::encodeURLPart(amenity);
 
 				// make the query to the server to get a JSON of the amenities
 				// implements caching to keep local copies
@@ -683,18 +683,18 @@ namespace bridges {
 
 				// parse the data and return amenity objects
 				return parseAmenityData (amenity_json);
-	  		}
+			}
 
 			/**
 			 * @brief Parses  the amenity string and returns an AmenityData object
 			 *
-			 * @param amenity_json  string of the url that will be used when requesting 
+			 * @param amenity_json  string of the url that will be used when requesting
 			 *      amenity data from server
 			 *
 			 * @return AmenityData object containing meta data and a list of
-			 * 	 amenities with location, name and amenity classification 
+			 * 	 amenities with location, name and amenity classification
 			 *
-			 * @throws If there is an error parsing response from 
+			 * @throws If there is an error parsing response from
 			 *      server or is an invalid location name
 			 */
 			AmenityData parseAmenityData(string amenity_json) {
@@ -717,14 +717,14 @@ namespace bridges {
 						amenities.setMaxLon(meta["maxlon"].GetDouble());
 
 						Amenities amen;
-						for (SizeType i = 0;i < nodes.Size(); i++) {
+						for (SizeType i = 0; i < nodes.Size(); i++) {
 							const Value& node = nodes[i];
 							amen.setId(node[0].GetInt64());
 							amen.setLat(node[1].GetDouble());
 							amen.setLon(node[2].GetDouble());
 							amen.setName(node[3].GetString());
 							amenities.addAmenities(amen);
-                    	}
+						}
 					}
 					else {
 						cout << "meta data not found!\n";
@@ -737,7 +737,7 @@ namespace bridges {
 				}
 				return amenities;
 			}
-	
+
 			/**
 			 *
 			 *  Get OpenStreetMap data given a city name and resolution level
@@ -752,16 +752,16 @@ namespace bridges {
 			 */
 			OSMData getOSMData (string location, string level = "default") {
 				//URL for hash request
-				string hash_url = getOSMBaseURL() + " hash?location=" + 
-						ServerComm::encodeURLPart(location) +
-						"&level=" + ServerComm::encodeURLPart(level);
+				string hash_url = getOSMBaseURL() + " hash?location=" +
+					ServerComm::encodeURLPart(location) +
+					"&level=" + ServerComm::encodeURLPart(level);
 
 				//URL to request map
-				string osm_url = getOSMBaseURL() + 
+				string osm_url = getOSMBaseURL() +
 					"loc?location=" + ServerComm::encodeURLPart(location) +
 					"&level=" + ServerComm::encodeURLPart(level);
 
-				// get the data set from the server or, if available, from 
+				// get the data set from the server or, if available, from
 				// a local cache
 				string osm_json = getDataSetJSON(osm_url, hash_url);
 
@@ -1222,7 +1222,7 @@ namespace bridges {
 			 * @param longitMin maximum latitude requested
 			 * @param latitMax minimum longitude requested
 			 * @param longitMax maximum longitude requested
-			 * @param res spatial resolution, aka the distance between two samples 
+			 * @param res spatial resolution, aka the distance between two samples
 			 * 		(in degrees)
 			 **/
 			ElevationData getElevationData (
@@ -1232,19 +1232,19 @@ namespace bridges {
 				// set up the elevation data url to get the data, given
 				// a lat/long bounding box
 
-				std::string elev_url = getElevationBaseURL() + 
-					"elevation?minLon=" + ServerComm::encodeURLPart(std::to_string(minLon))+
+				std::string elev_url = getElevationBaseURL() +
+					"elevation?minLon=" + ServerComm::encodeURLPart(std::to_string(minLon)) +
 					"&minLat=" + ServerComm::encodeURLPart(std::to_string(minLat)) +
-					"&maxLon=" + ServerComm::encodeURLPart(std::to_string(maxLon)) + 
-					"&maxLat=" + ServerComm::encodeURLPart(std::to_string(maxLat)) + 
+					"&maxLon=" + ServerComm::encodeURLPart(std::to_string(maxLon)) +
+					"&maxLat=" + ServerComm::encodeURLPart(std::to_string(maxLat)) +
 					"&resX=" + ServerComm::encodeURLPart(std::to_string(res)) +
 					"&resY=" + ServerComm::encodeURLPart(std::to_string(res));
-					
-        		std::string hash_url = getElevationBaseURL() + 
-					"hash?minLon=" + ServerComm::encodeURLPart(std::to_string(minLon)) + 
+
+				std::string hash_url = getElevationBaseURL() +
+					"hash?minLon=" + ServerComm::encodeURLPart(std::to_string(minLon)) +
 					"&minLat=" + ServerComm::encodeURLPart(std::to_string(minLat)) +
-					"&maxLon=" + ServerComm::encodeURLPart(std::to_string(maxLon)) + 
-					"&maxLat=" + ServerComm::encodeURLPart(std::to_string(maxLat)) +  
+					"&maxLon=" + ServerComm::encodeURLPart(std::to_string(maxLon)) +
+					"&maxLat=" + ServerComm::encodeURLPart(std::to_string(maxLat)) +
 					"&resX=" + ServerComm::encodeURLPart(std::to_string(res)) +
 					"&resY=" + ServerComm::encodeURLPart(std::to_string(res));
 
@@ -1297,13 +1297,13 @@ namespace bridges {
 
 		private:
 			/**
-			 *  This method is a utility function that supports retrieving 
+			 *  This method is a utility function that supports retrieving
 			 *  external dataset given a url to the dataset's server as well
 			 *	as a url to extract a hashcode for the dataset; the latter is
 			 *  is to suppor local caching. The dataset is only retrieved
 			 *  the server if a local copy is not available
 			 *
-			 *	Currently this function works with elevation, OpenStreet maps and 
+			 *	Currently this function works with elevation, OpenStreet maps and
 			 *  Amenity datasets
 			 *
 			 */
@@ -1317,7 +1317,7 @@ namespace bridges {
 					cerr << "Hitting hash URL: " << hash_url << "\n";
 
 				string hash_value =  ServerComm::makeRequest(hash_url,
-									{"Accept: application/json"});
+				{"Accept: application/json"});
 
 				if (my_cache.inCache(hash_value) == true) { //local map is up-to-date
 					try {
@@ -1327,8 +1327,8 @@ namespace bridges {
 					}
 					catch (CacheException& ce) {
 						//something went bad trying to access the cache
-						std::cout << "Exception while reading from cache. " 
-								<< "Ignoring cache and continue\n.";
+						std::cout << "Exception while reading from cache. "
+							<< "Ignoring cache and continue\n.";
 					}
 				}
 				else if ((hash_value == "false") || !my_cache.inCache(hash_value)) {
@@ -1338,15 +1338,15 @@ namespace bridges {
 						std::cerr << "Hitting data URL: " << data_url << "\n";
 
 					//Requests the map data then requests the map's hash code
-					data_json = ServerComm::makeRequest(data_url, 
-							{"Accept: application/json"}); 
+					data_json = ServerComm::makeRequest(data_url,
+					{"Accept: application/json"});
 
 					// next get the has code for the data to keep a copy in local cache
 					if (debug())
 						std::cerr << "Hitting hash URL: " << hash_url << "\n";
 
-					hash_value = ServerComm::makeRequest(hash_url, 
-								{"Accept: application/json"});
+					hash_value = ServerComm::makeRequest(hash_url,
+					{"Accept: application/json"});
 
 					if (hash_value == "false") {
 						std::cerr << "Error while gathering hash value for dataset..\n";
@@ -1361,15 +1361,15 @@ namespace bridges {
 					catch (CacheException& ce) {
 						//something went bad trying to access the cache
 						std::cerr << "Exception while storing in cache. " <<
-									 "Weird but not critical.\n";
+							"Weird but not critical.\n";
 						if (debug())
-							std::cerr << "Tried to store hash=" << hash_value << 
-									" key = " << data_json << std::endl;
+							std::cerr << "Tried to store hash=" << hash_value <<
+								" key = " << data_json << std::endl;
 					}
 				}
 				return data_json;
 			}
-		
+
 	}; // class DataSource
 } // namespace bridges
 #endif

@@ -106,7 +106,7 @@ namespace bridges {
 				/**
 				 * @brief Set partitioning dimension to "dim"
 				 *
-				 * @param th The thickness of the partitioner to set 
+				 * @param th The thickness of the partitioner to set
 				 */
 				void setThickness(const float& th) {
 					thickness = th;

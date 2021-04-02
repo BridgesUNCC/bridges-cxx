@@ -105,9 +105,11 @@ namespace bridges {
                         QUOTE + "xform" + QUOTE + COLON + 
 							OPEN_BOX +
 							JSONencode(xform[0][0]) + COMMA +
-							JSONencode(xform[0][1]) + COMMA + 
-							JSONencode(xform[1][0]) + COMMA +  
-							JSONencode(xform[1][0]) + 
+							JSONencode(xform[1][0]) + COMMA + 
+							JSONencode(xform[0][1]) + COMMA +  
+							JSONencode(xform[1][1]) + COMMA + 
+							JSONencode(xform[0][2]) + COMMA + 
+							JSONencode(xform[1][2]) + 
 							CLOSE_BOX + COMMA;
 
 					// process the symbols in the group

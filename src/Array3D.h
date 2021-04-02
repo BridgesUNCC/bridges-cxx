@@ -59,7 +59,7 @@ namespace bridges {
 				 * param slices number of slices (depth)
 				 * param rows number of rows (height)
 				 * param columns number of columns (width)
-                 */
+				 */
 				Array3D(int slices, int rows, int columns)
 					: num_slices(slices), num_rows(rows), num_cols(columns) {
 					int dim[] = {slices, rows, columns};

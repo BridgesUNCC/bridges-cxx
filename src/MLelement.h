@@ -260,7 +260,7 @@ namespace bridges {
 				/**
 				 *  Get the list of nodes into a vector
 				 *
-				 *  @param list MLelement list 
+				 *  @param list MLelement list
 				 *  @param nodes [output] The list of nodes (in a vector)
 				 */
 				void getListElements(const MLelement<E> *list,

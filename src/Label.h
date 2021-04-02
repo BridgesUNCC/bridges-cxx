@@ -36,7 +36,7 @@ namespace bridges {
 				 *  @brief Rotate a 2D point (about Z)
 				 *
 				 *	@param pt  2D point (x, y)
-				 *  @param angle rotation angle in degrees (positive is 
+				 *  @param angle rotation angle in degrees (positive is
 				 *		counter clockwise, negative is clockwise)
 				 */
 				void rotatePoint (float *pt, float angle) const {
@@ -85,9 +85,9 @@ namespace bridges {
 				 *
 				 * @param lbl the label to set
 				 */
-				 void setLabel(string lbl) {
-					 label_text = lbl;
-				 }
+				void setLabel(string lbl) {
+					label_text = lbl;
+				}
 
 				/**
 				 * @brief Get the symbol label
@@ -161,7 +161,7 @@ namespace bridges {
 				/**
 				 * @brief Set the rotation angle for the label
 				 *
-				 * Permits rotated text labels (only horiz and vertical 
+				 * Permits rotated text labels (only horiz and vertical
 				 *  supported now.
 				 *
 				 * @param angle  rotation angle in dedgrees
@@ -169,12 +169,12 @@ namespace bridges {
 				 */
 				void setRotationAngle (float angle) {
 					// right now support for 0, 45, 90 deg.
-					rotation_angle = angle;	
+					rotation_angle = angle;
 				}
 				/**
 				 * @brief Get the rotation angle for the label
 				 *
-				 * 
+				 *
 				 * @return angle  rotation angle in degrees
 				 *
 				 */
@@ -186,7 +186,7 @@ namespace bridges {
 				 * @brief This method returns the bounding box dimensions of
 				 *	the shape
 				 *
-				 *  A more accurate computation, takes into account 
+				 *  A more accurate computation, takes into account
 				 *  the label string content
 				 *
 				 * @return vector of floats
@@ -199,21 +199,23 @@ namespace bridges {
 					string str = label_text;
 					float length = 0.;
 					bool upper_case_exists = false;
-					for (auto ch: str) {
+					for (auto ch : str) {
 						if (std::islower(ch)) {
 							if (ch == 'm' || ch == 'w')
 								length +=  0.6;
 							else if (ch == 'i' || ch == 'l' || ch == 'j')
 								length +=  0.4;
-							else length += 0.5;
+							else
+								length += 0.5;
 						}
 						else if (std::isupper (ch)) {
 							upper_case_exists = true;
 							if (ch == 'M' || ch == 'W')
 								length +=  0.72;
-							else if (ch == 'I') 
+							else if (ch == 'I')
 								length +=  0.52;
-							else length += 0.62;
+							else
+								length += 0.62;
 						}
 						else // support only spaces
 							length += 0.55;
@@ -223,12 +225,12 @@ namespace bridges {
 					float width = length;
 					float height = 0.;
 					if (upper_case_exists) {
-						height = fontSize + 0.3f*fontSize;
+						height = fontSize + 0.3f * fontSize;
 					}
-					else 
-						height = fontSize + 0.1f*fontSize;
+					else
+						height = fontSize + 0.1f * fontSize;
 
-					// account for text orientation to compute an 
+					// account for text orientation to compute an
 					// axis aligned bounding box
 
 					float bbox_width = length;
@@ -261,17 +263,23 @@ namespace bridges {
 						rotatePoint (pt, rotation_angle);
 
 						// update bounding box
-						if (pt[0] < bbox[0])  bbox[0] = pt[0];
-						if (pt[1] < bbox[1])  bbox[1] = pt[1];
-						if (pt[0] > bbox[2])  bbox[2] = pt[0];
-						if (pt[1] > bbox[3])  bbox[3] = pt[1];
+						if (pt[0] < bbox[0])
+							bbox[0] = pt[0];
+						if (pt[1] < bbox[1])
+							bbox[1] = pt[1];
+						if (pt[0] > bbox[2])
+							bbox[2] = pt[0];
+						if (pt[1] > bbox[3])
+							bbox[3] = pt[1];
 					}
 					// translate center of box to center of label
-					float tx = location[0]-(bbox[0]+(bbox[2]-bbox[0])/2.);
-					float ty = location[1]-(bbox[1]+(bbox[3]-bbox[1])/2.);
-					bbox[0] += tx; bbox[2] += tx;
-					bbox[1] += ty; bbox[3] += ty;
-						
+					float tx = location[0] - (bbox[0] + (bbox[2] - bbox[0]) / 2.);
+					float ty = location[1] - (bbox[1] + (bbox[3] - bbox[1]) / 2.);
+					bbox[0] += tx;
+					bbox[2] += tx;
+					bbox[1] += ty;
+					bbox[3] += ty;
+
 					return bbox;
 				}
 
@@ -299,7 +307,7 @@ namespace bridges {
 					shape_json +=
 						QUOTE + "name" + QUOTE + COLON +  QUOTE + label_text + QUOTE + COMMA +
 						QUOTE + "shape" + QUOTE + COLON + QUOTE + "text" + QUOTE + COMMA +
-						QUOTE + "font-size" + QUOTE + COLON +  to_string(fontSize)  + COMMA + 
+						QUOTE + "font-size" + QUOTE + COLON +  to_string(fontSize)  + COMMA +
 						QUOTE + "angle" + QUOTE + COLON +  to_string(rotation_angle)  +
 						CLOSE_CURLY;
 

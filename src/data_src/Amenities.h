@@ -4,7 +4,7 @@
 #define AMENITIES
 /**
  *  @brief  Class that hold individual Open Street Map Amenities
- * 
+ *
  * This class holds the individual information for each amenity requested
  *
  * @author Kalpathi Subramanian
@@ -15,7 +15,7 @@
 
 class Amenities {
 
-    private:
+	private:
 		long id_val;
 		double lat;
 		double lon;
@@ -23,16 +23,16 @@ class Amenities {
 		vector<string> other;
 
 	public:
- 		/**
-	 	 * Default Constructor
-	 	 */
-    	Amenities(){
-        	id_val = 0;
-        	lat = 0;
-        	lon = 0;
-        	name = "";
-        	other.clear();
-    	}
+		/**
+		 * Default Constructor
+		 */
+		Amenities() {
+			id_val = 0;
+			lat = 0;
+			lon = 0;
+			name = "";
+			other.clear();
+		}
 
 		/**
 		 * Constructor
@@ -42,8 +42,8 @@ class Amenities {
 		 * @param name  Name of Amenity as found in Open Street Maps
 		 * @param other  List of special values that may have come with the amenity
 		 */
-		Amenities (double id_val, double lat, double lon, string name, 
-										vector<string> other){
+		Amenities (double id_val, double lat, double lon, string name,
+			vector<string> other) {
 			setId(id_val);
 			setLat(lat);
 			setLon(lon);
@@ -61,10 +61,10 @@ class Amenities {
 		}
 
 		/**
-		 * set the ID value of this amenity 
+		 * set the ID value of this amenity
 		 * @param id_val ID value to set
 		 */
-		void setId(long id){
+		void setId(long id) {
 			id_val = id;
 		}
 
@@ -77,10 +77,10 @@ class Amenities {
 		}
 
 		/**
-		 * set the latitude  value of this amenity 
+		 * set the latitude  value of this amenity
 		 * @param lat latitude position to set
 		 */
-		void setLat(double latitude){
+		void setLat(double latitude) {
 			lat = latitude;
 		}
 
@@ -93,10 +93,10 @@ class Amenities {
 		}
 
 		/**
-		 * set the longitude  value of this amenity 
+		 * set the longitude  value of this amenity
 		 * @param lon longitude position to set
 		 */
-		void setLon(double longitude){
+		void setLon(double longitude) {
 			lon = longitude;
 		}
 
@@ -126,7 +126,7 @@ class Amenities {
 
 		/**
 		 * set the extra data present for certain amenities
-		 * @param other 
+		 * @param other
 		 */
 		void setOther(vector<string> oth) {
 			other = oth;

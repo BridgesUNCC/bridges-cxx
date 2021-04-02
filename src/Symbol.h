@@ -38,7 +38,7 @@ namespace bridges {
 				string name = string();
 				// maintain unique ids for each symbol
 
-				string shape_type = "circle"; 	
+				string shape_type = "circle";
 
 				// specify default attributes
 				// defaults are not sent through JSON
@@ -58,24 +58,27 @@ namespace bridges {
 				float opacity = 1.0f;
 				float strokeWidth = 1.0f;
 				int strokeDash = 1;
+				// use this flag to refrain from putting it into the JSON
+				// as its the default
+				bool identity_matrix = true;
 
 				// symbol location
 				float location[2] = {0.0f, 0.0f};
 
 				// matrix methods used for affine transformations on symbols
-				void matMult (float m1[][3], float m2[][3], float result[][3]) 
-									const {
-					for(int i=0; i < 3; ++i)
-					for(int j=0; j < 3; ++j)
-					for(int k=0; k < 3; ++k) {
-						result[i][j] += m1[i][k]*m2[k][j];
-					}
+				void matMult (float m1[][3], float m2[][3], float result[][3])
+				const {
+					for (int i = 0; i < 3; ++i)
+						for (int j = 0; j < 3; ++j)
+							for (int k = 0; k < 3; ++k) {
+								result[i][j] += m1[i][k] * m2[k][j];
+							}
 				}
 
-				void copyMat(float m[][3], float copy[][3]){
-					for(int i=0; i < 3; ++i)
-					for(int j=0; j < 3; ++j)
-						copy[i][j] = m[i][j];
+				void copyMat(float m[][3], float copy[][3]) {
+					for (int i = 0; i < 3; ++i)
+						for (int j = 0; j < 3; ++j)
+							copy[i][j] = m[i][j];
 				}
 
 			public:
@@ -85,6 +88,7 @@ namespace bridges {
 				 */
 				Symbol() {
 					identifier = getIdentifier();
+					identity_matrix = true;
 				}
 
 				/**
@@ -95,6 +99,7 @@ namespace bridges {
 				Symbol(string symb) {
 					identifier = getIdentifier();
 					name = symb;
+					identity_matrix = true;
 				}
 
 				/**
@@ -313,11 +318,13 @@ namespace bridges {
 				// affine transform for symbol or symbol group
 				// initialize to identity matrix
 
+
+				// 2D affine transform matrix for the symbol
 				float xform[3][3] = {
-									{1., 0., 0.},
-									{0., 1., 0.},
-									{0., 0., 1.} 
-								};
+					{1., 0., 0.},
+					{0., 1., 0.},
+					{0., 0., 1.}
+				};
 
 
 				/**
@@ -330,10 +337,12 @@ namespace bridges {
 				void translatePoint (float *pt, float tx, float ty) {
 					float result[3][3];
 					float transl[3][3] = {
-							{1., 0., tx}, {0., 1., ty}, {0., 0., 1.}
-						};
+						{1., 0., tx}, {0., 1., ty}, {0., 0., 1.}
+					};
 					matMult (xform, transl, result);
 					copyMat (result, xform);
+
+					identity_matrix = false;
 				}
 
 				/**
@@ -345,17 +354,18 @@ namespace bridges {
 				void scalePoint (float *pt, float sx, float sy) {
 					float result[3][3];
 					float scale[3][3] = {
-							{sx, 0., 0.}, {0., sy, 0.}, {0., 0., 1.}
-						};
+						{sx, 0., 0.}, {0., sy, 0.}, {0., 0., 1.}
+					};
 					matMult (xform, scale, result);
 					copyMat (result, xform);
+					identity_matrix = false;
 				}
 
 				/**
 				 *  @brief Rotate a 2D point (about Z)
 				 *
 				 *	@param pt  2D point (x, y)
-				 *  @param angle rotation angle in degrees 
+				 *  @param angle rotation angle in degrees
 				 *		(positive is counter clockwise, negative is clockwise)
 				 */
 				void rotatePoint (float *pt, float angle) {
@@ -367,10 +377,11 @@ namespace bridges {
 					// form the rotation matrix
 					float result[3][3];
 					float rotation[3][3] = {
-							{c, -s, 0.}, {s, c, 0.}, {0., 0., 1.}
-						};
+						{c, -s, 0.}, {s, c, 0.}, {0., 0., 1.}
+					};
 					matMult (rotation, xform, result);
 					copyMat (result, xform);
+					identity_matrix = false;
 				}
 
 				/**
@@ -384,6 +395,8 @@ namespace bridges {
 				const string getSymbolAttributeRepresentation() const {
 
 					// first get all the non-geometric attributes
+
+					using bridges::JSONUtil::JSONencode;
 
 					string symbol_attr_json = OPEN_CURLY;
 
@@ -412,6 +425,20 @@ namespace bridges {
 					if (strokeDash != default_stroke_dash) {
 						symbol_attr_json += QUOTE + "stroke-dasharray" + QUOTE + COLON +
 							to_string(strokeDash) + COMMA;
+					}
+
+					// check transform, if it is identity, ignore
+					if (!identity_matrix) {
+						symbol_attr_json +=
+							QUOTE + "xform" + QUOTE + COLON +
+							OPEN_BOX +
+							JSONencode(xform[0][0]) + COMMA +
+							JSONencode(xform[1][0]) + COMMA +
+							JSONencode(xform[0][1]) + COMMA +
+							JSONencode(xform[1][1]) + COMMA +
+							JSONencode(xform[0][2]) + COMMA +
+							JSONencode(xform[1][2]) + 
+							CLOSE_BOX + COMMA;
 					}
 
 					if (location[0] != default_location[0] ||
