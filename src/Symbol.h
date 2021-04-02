@@ -334,7 +334,7 @@ namespace bridges {
 				 *  @param tx, ty translation vector
 				 *
 				 */
-				void translatePoint (float *pt, float tx, float ty) {
+				void translate (float tx, float ty) {
 					float result[3][3];
 					float transl[3][3] = {
 						{1., 0., tx}, {0., 1., ty}, {0., 0., 1.}
@@ -351,7 +351,7 @@ namespace bridges {
 				 *  @param pt  2D point (x, y)
 				 *  @param sx, sy scale factors along each axis
 				 */
-				void scalePoint (float *pt, float sx, float sy) {
+				void scale(float sx, float sy) {
 					float result[3][3];
 					float scale[3][3] = {
 						{sx, 0., 0.}, {0., sy, 0.}, {0., 0., 1.}
@@ -368,7 +368,7 @@ namespace bridges {
 				 *  @param angle rotation angle in degrees
 				 *		(positive is counter clockwise, negative is clockwise)
 				 */
-				void rotatePoint (float *pt, float angle) {
+				void rotate(float angle) {
 					// compute sin, cos
 					float angle_r = angle * M_PI / 180.;
 					float c = cos(angle_r);

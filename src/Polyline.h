@@ -94,67 +94,6 @@ namespace bridges {
 				}
 
 				/**
-				 *	@brief Translate the polyline
-				 *
-				 *	@param tx, ty translation vector
-				 */
-				void translate(float tx, float ty) {
-					// translate the points
-					for (int k = 0; k < points.size(); k += 2) {
-						points[k]   += tx;
-						points[k + 1] += ty;
-					}
-				}
-
-				/**
-				 *	@brief rotate the polyline about its center
-				 *	@param angle rotation angle in degrees (positive is
-				 * 		counter-clock wise, negative is clockwise)
-				 */
-				void rotate(float angle) {
-					// get center of polyline
-					float center[2];
-					getCenter(center);
-					// translate the center to the origin
-					float transl[] = {-center[0], -center[1]};
-					translate (transl[0], transl[1]);
-					// rotate the points
-					for (int k = 0; k < points.size(); k += 2) {
-						float tmp[] = { points[k], points[k + 1] };
-						rotatePoint (tmp,  angle);
-						points[k] = tmp[0];
-						points[k + 1] = tmp[1];
-					}
-					// translate back
-					transl[0] = center[0];
-					transl[1] = center[1];
-					translate (transl[0], transl[1]);
-				}
-
-				/**
-				 *	@brief Scale the polyline about its center
-				 *
-				 *	@param sx, sy scale factor along each axis
-				 */
-				void scale(float sx, float sy) {
-					// get center of polyline
-					float center[2];
-					getCenter(center);
-					// translate the center to the origin
-					float transl[] = {-center[0], -center[1]};
-					translate (transl[0], transl[1]);
-					// scale the points
-					for (int k = 0; k < points.size(); k += 2) {
-						points[k]   *= sx;
-						points[k + 1] *= sy;
-					}
-					// translate back
-					transl[0] = center[0];
-					transl[1] = center[1];
-					translate(transl[0], transl[1]);
-				}
-
-				/**
 				 *	@brief Get center of polyline - use its bounding box
 				 *	@param[out] center of the polyline to be returned
 				 */

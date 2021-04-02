@@ -97,33 +97,6 @@ namespace bridges {
 				}
 
 				/**
-				 *	@brief Translate the rectangle
-				 *
-				 *	@param tx translation factor along x axis
-				 *	@param ty translation factor along y axis
-				 */
-				void translate(float tx, float ty) {
-					const float *loc = getLocation();
-					float myloc[] = {loc[0], loc[1]};
-					translatePoint (myloc, tx, ty);
-					setLocation(myloc[0], myloc[1]);
-				}
-				/**
-				 *	@brief Scale the rectangle about its center
-				 *
-				 *	@param sx scale factor along x axis
-				 *	@param sy scale factor along y axis
-				 */
-				void scale(float sx, float sy) {
-					// scale the height, width
-					// center remains the same
-					float pt[2] = {(float) width, (float) height};
-					scalePoint (pt, sx, sy);
-					width = pt[0];
-					height = pt[1];
-				}
-
-				/**
 				 * This method returns the dimensions of the shape: min and max
 				 *	values in X and Y
 				 *

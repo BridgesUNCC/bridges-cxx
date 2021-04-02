@@ -97,37 +97,12 @@ namespace bridges {
 				}
 
 				/**
-				 *	@brief Translate the circle along X and Y dimensions
-				 *
-				 *	@param tx, ty translation vector
-				 */
-				void translate(float tx, float ty) {
-					const float *center = getLocation();
-					float ncenter[2];
-					ncenter[0] = center[0];
-					ncenter[1] = center[1];
-					translatePoint (ncenter, tx, ty);
-					setLocation(ncenter[0], ncenter[1]);
-				}
-				/**
-				 *	Scale the circle
-				 *  Only the radius needs to be scaled, using a single scale value
-				 *
-				 *	@param scale factor s
-				 */
-				void scale(float scale) {
-					// scale only the radius,
-					// center stays the same
-					radius  *= scale;
-				}
-				/**
 				 * This method returns the dimensions of the shape: min and max
 				 *	values in X and Y
 				 *
 				 * @return array of 4 values
 				 */
 				vector<float> getDimensions() const {
-
 					vector<float> dims(4);
 					const float *location = getLocation();
 
