@@ -219,6 +219,28 @@ namespace bridges {
 					}
 				}
 				/**
+				 * 	@brief Check if there is an edge between the given vertices
+				 *
+				 *	
+				 * @param src The key of the source Vertex
+				 * @param dest The key of the destination Vertex
+				 */
+				bool isEdge(const K& src, const K& dest) {
+					try {
+						vertices.at(src);
+						vertices.at(dest);
+						for (auto& e: outgoingEdgeSetOf(src))
+							if (e.to() == dest){  // found it
+								cout << "found it!" << src << "," << dest <<endl;
+								return true;
+							}
+					}
+					catch ( const out_of_range& ) {
+						return false;
+					}
+					return false;
+				}
+				/**
 				 * @brief Gets vertex data for a graph vertex.
 				 *
 				 * @param src The key of the source vertex
@@ -272,7 +294,7 @@ namespace bridges {
 						SLelement<Edge<K, E2> > *sle = adj_list.at(src);
 						while (sle) {
 							Edge<K, E2> ed = sle->getValue();
-							if (ed.getVertex() == dest) { //edge exists
+							if (ed.to() == dest) { //edge exists
 								return ed.getEdgeData();
 							}
 							sle = sle->getNext();
@@ -458,8 +480,7 @@ namespace bridges {
 						return adj_list.at(k);
 					}
 					catch (const out_of_range& ) {
-						cerr <<  "Cannot getAdjacencyList() of a non-existent vertex!"
-							<< endl;
+						cerr <<  "Cannot get adjacencyList of a non-existent vertex -- " << k << "\n";
 						throw;
 					}
 				}
