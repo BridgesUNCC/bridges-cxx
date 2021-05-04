@@ -221,7 +221,7 @@ namespace bridges {
 				/**
 				 * 	@brief Check if there is an edge between the given vertices
 				 *
-				 *	
+				 *
 				 * @param src The key of the source Vertex
 				 * @param dest The key of the destination Vertex
 				 */
@@ -229,9 +229,9 @@ namespace bridges {
 					try {
 						vertices.at(src);
 						vertices.at(dest);
-						for (auto& e: outgoingEdgeSetOf(src))
-							if (e.to() == dest){  // found it
-								cout << "found it!" << src << "," << dest <<endl;
+						for (auto& e : outgoingEdgeSetOf(src))
+							if (e.to() == dest) { // found it
+								cout << "found it!" << src << "," << dest << endl;
 								return true;
 							}
 					}

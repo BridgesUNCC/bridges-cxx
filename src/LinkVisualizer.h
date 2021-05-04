@@ -87,9 +87,9 @@ namespace bridges {
 				 * @throw string If invalid thickness
 				 */
 				void setThickness(const double& th) {
-					if (th < 1 || 10 < th)
+					if (th < 0.0 || 10 < th)
 						throw "Invalid Thickness Value.. " + to_string(th) +
-						" Must be in the [1.0,10.0] range";
+						" Must be in the [0.5,10.0] range";
 					else
 						thickness = th;
 				}
