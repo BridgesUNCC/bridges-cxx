@@ -35,10 +35,12 @@ namespace bridges {
 			private:
 
 				int identifier;
-				string name = string();
-				// maintain unique ids for each symbol
 
+				string name = string();
+
+				// maintain unique ids for each symbol
 				string shape_type = "circle";
+
 
 				// specify default attributes
 				// defaults are not sent through JSON
@@ -67,7 +69,7 @@ namespace bridges {
 
 				// matrix methods used for affine transformations on symbols
 				void matMult (float m1[][3], float m2[][3], float result[][3])
-															const {
+				const {
 					for (int i = 0; i < 3; ++i) {
 						for (int j = 0; j < 3; ++j) {
 							result[i][j] = 0.;
@@ -452,7 +454,7 @@ namespace bridges {
 							JSONencode(this->xform[0][1]) + COMMA +
 							JSONencode(this->xform[1][1]) + COMMA +
 							JSONencode(this->xform[0][2]) + COMMA +
-							JSONencode(this->xform[1][2]) + 
+							JSONencode(this->xform[1][2]) +
 							CLOSE_BOX + COMMA;
 					}
 
