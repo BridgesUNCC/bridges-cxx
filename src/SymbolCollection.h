@@ -126,14 +126,6 @@ namespace bridges {
 					if (dims[3] > domainymax) {
 						domainymax = dims[3];
 					}
-
-cout << "Domain: [" << domainxmin << "," << domainxmax   << domainymin << "] , [" << domainymax << " ] " << endl; 
-					// TEMP  (KRS)
-					//					domainxmin = 0;
-					//					domainxmax = 100;
-					//					domainymin = 0;
-					//					domainymax = 100;
-					// TEMP  (KRS)
 				}
 
 				/*
