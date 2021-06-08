@@ -409,24 +409,15 @@ namespace bridges {
 			 *  @return a list of GutenbergBook objects,
 			 *
 			 */
-			GutenbergBook getGutenbergBookMetaData(int id = 0) {
+		private:
+
+			GutenbergBook getAGutenbergBookMetaData(const rapidjson::Value& V) {
 				using namespace rapidjson;
 
-				Document d;
+				const int id = V["id"].GetInt();
+cout << "id:" << id << endl;
 
-				// get the query string to get meta data of book
-				string url = getGutenbergBaseURL() + "/meta?id=" + std::to_string(id);
-				cout << url <<endl;
-
-
-				d.Parse(ServerComm::makeRequest( url, {"Accept: application/json"}).c_str());
-				const Value& D = d["book_list"];
-
-				// only 1 book 
-				const Value& V = D[0];
-
-				const Value& t = V["title"];
-				string title = t.GetString();
+				string title = V["title"].GetString();
 
 				const Value& A = V["authors"];
 				vector<string> authors;
@@ -444,10 +435,37 @@ namespace bridges {
 				for (SizeType j = 0; j < G.Size(); j++) 
 					genres.push_back(G[j].GetString());
 
-				GutenbergBook gbook = GutenbergBook(title, authors, lang, genres, data_added);
+				GutenbergBook gbook = GutenbergBook(title, id, authors, lang, genres, data_added);
 
 				return gbook;
 			}
+
+		public:
+			/**
+			 *
+			 *  @brief Get meta data of a single Gutenberg book
+			 *  This function retrieves,  and formats the data into a list of
+			 *  GutenbergBook objects
+			 *
+			 *
+			 *  @param index into the collection
+			 *
+			 *  @return metadata of the book
+			 *
+			 */
+			GutenbergBook getGutenbergBookMetaData(int id = 0) {
+				using namespace rapidjson;
+
+				// get the query string to get meta data of book
+				string url = getGutenbergBaseURL() + "/meta?id=" + std::to_string(id);
+				
+				// make the query
+				Document d;
+				d.Parse(ServerComm::makeRequest( url, {"Accept: application/json"}).c_str());
+
+				return getAGutenbergBookMetaData(d["book_list"][0]);
+			}
+			
 			/**
 			 * @brief Search the gutenberg data for retrieving meta
 			 *   of books matching a string and a category
@@ -463,8 +481,18 @@ namespace bridges {
 				// get the query string to get meta data of book
 				string url = getGutenbergBaseURL() + "/search?search=" + term + "&type=" 
 											+ category;
+				// make the query
+cout << "url:" << url << endl;
+				Document d;
+				d.Parse(ServerComm::makeRequest(url, {"Accept: application/json"}).c_str());
 
-			}
+				vector<GutenbergBook> book_list;
+				int size = d["book_list"].Size();
+cout << "Size:" << size  << endl;
+				for (int k = 0; k < size;  k++) 
+					book_list.push_back(getAGutenbergBookMetaData(d["book_list"][k]));
+            }
+
 			/**
 			 * @brief Retrieves the CDC dataset of Cancer Incidence.
 			 *  Data is retrieved  into a vector of records

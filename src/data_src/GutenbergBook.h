@@ -24,6 +24,7 @@ namespace bridges {
 
 		class GutenbergBook {
 				string title;
+				int id;
 				vector<string> authors;
 				string lang, date_added;
 				vector<string> genres;
@@ -32,22 +33,23 @@ namespace bridges {
 				/**
 				 * Default Constructor
 				 */
-				GutenbergBook() {
-//					  title(""), lang(""), date_added("")
+				GutenbergBook() 
+					  : title(""), lang(""), date_added(""), id(0) {
 				}
 
 				/**
 				 * Constructor
 				 *
-				 * @param auth   	book authors
 				 * @param titl 	   	book title
+				 * @param id        book id
+				 * @param auth   	book authors
 				 * @param lng       language
 				 * @param genr		genres of book
 				 * @param da        date added
 				 */
-				GutenbergBook(const string& titl, const vector<string>& auth, 
+				GutenbergBook(const string& titl, const int& book_id, const vector<string>& auth, 
 					const string& lng, const vector<string>& genr, const string& da) 
-					: title(titl), authors(auth), lang(lng), genres(genr), date_added(da) {
+					: title(titl), id(book_id), authors(auth), lang(lng), genres(genr), date_added(da) {
 				}
 
 				/**
@@ -63,6 +65,21 @@ namespace bridges {
 				 */
 				void setAuthors(const vector<string>& auth) {
 					this->authors = auth;
+				}
+
+				/**
+				 * get  book id
+				 * @return   book's id
+				 */
+				int getId() const {
+					return id;
+				}
+				/**
+				 * set book id
+				 * @param id  id of book to set
+				 */
+				void setId(const int& id) {
+					this->id = id;
 				}
 
 				/**
