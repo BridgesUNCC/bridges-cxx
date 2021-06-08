@@ -413,7 +413,6 @@ namespace bridges {
 				using namespace rapidjson;
 
 				Document d;
-				GutenbergBook gbook;
 
 				// get the query string to get meta data of book
 				string url = getGutenbergBaseURL() + "/meta?id=" + std::to_string(id);
@@ -422,50 +421,31 @@ namespace bridges {
 
 				d.Parse(ServerComm::makeRequest( url, {"Accept: application/json"}).c_str());
 				const Value& D = d["book_list"];
-cout << "Size:: " << D.Size() << endl;
-				for (SizeType i = 0; i < D.Size(); i++) {
-					const Value& V = D[i];
 
-					const Value& A = V["authors"];
+				// only 1 book 
+				const Value& V = D[0];
 
-					vector<string> authors;
-					for (SizeType j = 0; j < A.Size(); j++) {
-						authors.push_back(A[j].GetString());
-					}
+				const Value& t = V["title"];
+				string title = t.GetString();
 
-					const Value& L = V["lang"];
-					string lang = L.GetString();
+				const Value& A = V["authors"];
+				vector<string> authors;
+				for (SizeType j = 0; j < A.Size(); j++) 
+					authors.push_back(A[j].GetString());
 
-					const Value& G = V["genres"];
-					vector<string> genre;
-					for (SizeType j = 0; j < G.Size(); j++) {
-						genre.push_back(G[j].GetString());
-					}
+				const Value& L = V["lang"];
+				string lang = L.GetString();
 
-					const Value& S = V["subjects"];
-					vector<string> subject;
-					for (SizeType j = 0; j < S.Size(); j++) {
-						subject.push_back(S[j].GetString());
-					}
+				const Value& da = V["date_added"];
+				string data_added = da.GetString();
 
-					const Value& M = V["metrics"];
-					gbook = 
-						GutenbergBook(
-							A["name"].GetString(),
-							A["birth"].GetInt(),
-							A["death"].GetInt(),
-							V["title"].GetString(),
-							lang,
-							genre,
-							subject,
-							M["characters"].GetInt(),
-							M["words"].GetInt(),
-							M["sentences"].GetInt(),
-							M["difficultWords"].GetInt(),
-							V["url"].GetString(),
-							V["downloads"].GetInt()
-						);
-				}
+				const Value& G = V["genres"];
+				vector<string> genres;
+				for (SizeType j = 0; j < G.Size(); j++) 
+					genres.push_back(G[j].GetString());
+
+				GutenbergBook gbook = GutenbergBook(title, authors, lang, genres, data_added);
+
 				return gbook;
 			}
 			/**
