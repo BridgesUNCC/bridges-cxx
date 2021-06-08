@@ -74,6 +74,9 @@ namespace bridges {
 			string getElevationBaseURL() const {
 				return "http://bridges-data-server-elevation.bridgesuncc.org/";
 			}
+			string getGutenbergBaseURL() const {
+				return "http://bridges-data-server-gutenberg.bridgesuncc.org";
+			}
 
 		public:
 			DataSource(bridges::Bridges* br = nullptr)
@@ -406,28 +409,32 @@ namespace bridges {
 			 *  @return a list of GutenbergBook objects,
 			 *
 			 */
-			vector<GutenbergBook> getGutenbergBookData(int num = 0) {
+			GutenbergBook getGutenbergBookMetaData(int id = 0) {
 				using namespace rapidjson;
 
 				Document d;
-				vector<GutenbergBook> wrapper;
-				string url = "http://bridgesdata.herokuapp.com/api/books";
-				if (num > 0) {
-					url += "?limit=" + to_string(num);
-				}
+				GutenbergBook gbook;
+
+				// get the query string to get meta data of book
+				string url = getGutenbergBaseURL() + "/meta?id=" + std::to_string(id);
+				cout << url <<endl;
+
 
 				d.Parse(ServerComm::makeRequest( url, {"Accept: application/json"}).c_str());
-				const Value& D = d["data"];
+				const Value& D = d["book_list"];
+cout << "Size:: " << D.Size() << endl;
 				for (SizeType i = 0; i < D.Size(); i++) {
 					const Value& V = D[i];
 
-					const Value& A = V["author"];
-					const Value& L = V["languages"];
+					const Value& A = V["authors"];
 
-					vector<string> lang;
-					for (SizeType j = 0; j < L.Size(); j++) {
-						lang.push_back(L[j].GetString());
+					vector<string> authors;
+					for (SizeType j = 0; j < A.Size(); j++) {
+						authors.push_back(A[j].GetString());
 					}
+
+					const Value& L = V["lang"];
+					string lang = L.GetString();
 
 					const Value& G = V["genres"];
 					vector<string> genre;
@@ -442,7 +449,7 @@ namespace bridges {
 					}
 
 					const Value& M = V["metrics"];
-					wrapper.push_back(
+					gbook = 
 						GutenbergBook(
 							A["name"].GetString(),
 							A["birth"].GetInt(),
@@ -457,10 +464,26 @@ namespace bridges {
 							M["difficultWords"].GetInt(),
 							V["url"].GetString(),
 							V["downloads"].GetInt()
-						)
-					);
+						);
 				}
-				return wrapper;
+				return gbook;
+			}
+			/**
+			 * @brief Search the gutenberg data for retrieving meta
+			 *   of books matching a string and a category
+             *
+			 *  Data is retrieved  into a vector of book records
+			 *  
+			 *  @param term  a string that matches the category 
+			 *  @param category  category can be any book attribute (title, genre, date, etc.)
+			 */
+			vector<GutenbergBook> searchGutenbergBookData(string term, string category) {
+				using namespace rapidjson;
+
+				// get the query string to get meta data of book
+				string url = getGutenbergBaseURL() + "/search?search=" + term + "&type=" 
+											+ category;
+
 			}
 			/**
 			 * @brief Retrieves the CDC dataset of Cancer Incidence.
