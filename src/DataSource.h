@@ -414,8 +414,7 @@ namespace bridges {
 			GutenbergBook getAGutenbergBookMetaData(const rapidjson::Value& V) {
 				using namespace rapidjson;
 
-				const int id = V["id"].GetInt();
-cout << "id:" << id << endl;
+				const string id = V["id"].GetString();
 
 				string title = V["title"].GetString();
 
@@ -462,7 +461,8 @@ cout << "id:" << id << endl;
 				// make the query
 				Document d;
 				d.Parse(ServerComm::makeRequest( url, {"Accept: application/json"}).c_str());
-
+int size = d["book_list"].Size();
+cout << "here.." << size << endl;
 				return getAGutenbergBookMetaData(d["book_list"][0]);
 			}
 			
@@ -479,18 +479,20 @@ cout << "id:" << id << endl;
 				using namespace rapidjson;
 
 				// get the query string to get meta data of book
-				string url = getGutenbergBaseURL() + "/search?search=" + term + "&type=" 
-											+ category;
+				string url = getGutenbergBaseURL() + "/search?search=" + 
+							ServerComm::encodeURLPart(term)+ "&type=" 
+							+ ServerComm::encodeURLPart(category);
 				// make the query
-cout << "url:" << url << endl;
 				Document d;
 				d.Parse(ServerComm::makeRequest(url, {"Accept: application/json"}).c_str());
 
 				vector<GutenbergBook> book_list;
-				int size = d["book_list"].Size();
-cout << "Size:" << size  << endl;
-				for (int k = 0; k < size;  k++) 
+				int size= d["book_list"].Size();
+
+				for (int k = 0; k < size; k++)
 					book_list.push_back(getAGutenbergBookMetaData(d["book_list"][k]));
+
+				return book_list;
             }
 
 			/**
