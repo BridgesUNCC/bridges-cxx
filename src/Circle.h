@@ -21,7 +21,7 @@ namespace bridges {
 		 */
 		class Circle : public Symbol {
 			private:
-				int radius = 1.;
+				double radius = 1.;
 
 			public:
 
@@ -36,7 +36,7 @@ namespace bridges {
 				 *  Create a circle of radius r
 				 *  @param  r : radius
 				 */
-				Circle (int r) {
+				Circle (double r) {
 					setCircle (0., 0., r);
 				}
 
@@ -45,9 +45,9 @@ namespace bridges {
 				 *  @param  locx, locy : center of circle
 				 *  @param  r : radius
 				 */
-				Circle (int locx, int locy, int r) {
+				Circle (int locx, int locy, double r) {
 					setLocation ((float)locx, (float)locy);
-					if (r < 0)
+					if (r < 0.)
 						throw "Illegal value for radius. Must be positive";
 					radius = r;
 				}
@@ -74,8 +74,8 @@ namespace bridges {
 				 *
 				 * @param r radius
 				 */
-				void setRadius(int r) {
-					if (r < 0)
+				void setRadius(double r) {
+					if (r < 0.)
 						throw "Illegal value for radius. Must be positive";
 					radius = r;
 				}
@@ -87,9 +87,9 @@ namespace bridges {
 				 * @param locy  y coordinat of location
 				 * @param r  radius
 				 */
-				void setCircle (int locx, int locy, int r) {
+				void setCircle (int locx, int locy, double r) {
 					setLocation (locx, locy);
-					if (r < 0)
+					if (r < 0.)
 						throw "Illegal value for radius. Must be positive";
 					radius = r;
 					setShapeType("circle");
