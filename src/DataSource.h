@@ -506,10 +506,9 @@ namespace bridges {
 				d.Parse(ServerComm::makeRequest(url, {"Accept: application/json"}).c_str());
 
 				string book_text = d.GetString(); 
-				cout << book_text[0] << endl;
-				exit(0);
 	
 				return book_text;
+
 				//TODO: Add local caching for book text
 			}
 
