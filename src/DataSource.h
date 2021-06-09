@@ -495,6 +495,27 @@ namespace bridges {
 				return book_list;
             }
 
+			string getGutenbergText(int id = 0)  {
+				using namespace rapidjson;
+
+				string url = getGutenbergBaseURL() + "/book?id=" + std::to_string(id);
+
+				cout << url << endl;
+
+				Document d;
+				d.Parse(ServerComm::makeRequest(url, {"Accept: application/json"}).c_str());
+
+				string book_text = d.GetString(); 
+				cout << book_text[0] << endl;
+				exit(0);
+	
+				return book_text;
+				//TODO: Add local caching for book text
+			}
+
+
+
+
 			/**
 			 * @brief Retrieves the CDC dataset of Cancer Incidence.
 			 *  Data is retrieved  into a vector of records
