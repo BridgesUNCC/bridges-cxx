@@ -457,7 +457,7 @@ namespace bridges {
 
 				// get the query string to get meta data of book
 				string url = getGutenbergBaseURL() + "/meta?id=" + std::to_string(id);
-				
+
 				// make the query
 				Document d;
 				d.Parse(ServerComm::makeRequest( url, {"Accept: application/json"}).c_str());
@@ -489,6 +489,7 @@ namespace bridges {
 				vector<GutenbergBook> book_list;
 				int size= d["book_list"].Size();
 
+				book_list.clear();
 				for (int k = 0; k < size; k++)
 					book_list.push_back(getAGutenbergBookMetaData(d["book_list"][k]));
 
