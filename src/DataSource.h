@@ -461,8 +461,8 @@ namespace bridges {
 				// make the query
 				Document d;
 				d.Parse(ServerComm::makeRequest( url, {"Accept: application/json"}).c_str());
-int size = d["book_list"].Size();
-cout << "here.." << size << endl;
+
+				// only 1 book 
 				return getAGutenbergBookMetaData(d["book_list"][0]);
 			}
 			
@@ -1102,7 +1102,6 @@ cout << "here.." << size << endl;
 
 				std::string url = ss.str();
 
-				//  std::cout<<"URL: "<<url<<std::endl;
 
 				std::string s = bridges::ServerComm::makeRequest(url, headers);
 
