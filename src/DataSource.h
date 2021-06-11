@@ -441,41 +441,16 @@ namespace bridges {
 
 		public:
 			/**
-			 *
-			 *  @brief Get meta data of a single Gutenberg book
-			 *  This function retrieves,  and formats the data into a list of
-			 *  GutenbergBook objects
-			 *
-			 *
-			 *  @param index into the collection
-			 *
-			 *  @return metadata of the book
-			 *
-			 */
-			GutenbergBook getGutenbergBookMetaData(int id = 0) {
-				using namespace rapidjson;
-
-				// get the query string to get meta data of book
-				string url = getGutenbergBaseURL() + "/meta?id=" + std::to_string(id);
-
-				// make the query
-				Document d;
-				d.Parse(ServerComm::makeRequest( url, {"Accept: application/json"}).c_str());
-
-				// only 1 book 
-				return getAGutenbergBookMetaData(d["book_list"][0]);
-			}
-			
-			/**
 			 * @brief Search the gutenberg data for retrieving meta
-			 *   of books matching a string and a category
+			 *   data of books matching a string and a category
              *
 			 *  Data is retrieved  into a vector of book records
 			 *  
 			 *  @param term  a string that matches the category 
-			 *  @param category  category can be any book attribute (title, genre, date, etc.)
+			 *  @param category  category can be any book attribute (title, genre, 
+			 *					date, Library of Congress class, language)
 			 */
-			vector<GutenbergBook> searchGutenbergBookData(string term, string category) {
+			vector<GutenbergBook> getGutenbergBookMetaData(string term, string category) {
 				using namespace rapidjson;
 
 				// get the query string to get meta data of book
@@ -496,6 +471,13 @@ namespace bridges {
 				return book_list;
             }
 
+			/**
+			 * @brief Get the full text of the book with the provided id
+             *
+			 *  Data is retrieved  into a text string
+			 *  
+			 *  @param id  id of Gutenberg book
+			 */
 			string getGutenbergText(int id = 0)  {
 				using namespace rapidjson;
 
@@ -512,8 +494,6 @@ namespace bridges {
 
 				//TODO: Add local caching for book text
 			}
-
-
 
 
 			/**
