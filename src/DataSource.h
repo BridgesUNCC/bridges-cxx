@@ -441,6 +441,30 @@ namespace bridges {
 
 		public:
 			/**
+			 *
+			 *  @brief Get meta data of a single Gutenberg book
+			 *  This function retrieves,  and formats the data into a list of
+			 *  GutenbergBook objects
+			 *
+			 *
+			 *  @param id  Gutenberg book id
+			 *
+			 *  @return metadata of the book
+			 *
+			 */
+			GutenbergBook getGutenbergBookMetaData(int id = 0) {
+				using namespace rapidjson;
+
+				// get the query string to get meta data of book
+				string url = getGutenbergBaseURL() + "/meta?id=" + std::to_string(id);
+
+				// make the query
+				Document d;
+				d.Parse(ServerComm::makeRequest( url, {"Accept: application/json"}).c_str());
+				// only 1 book 
+				return getAGutenbergBookMetaData(d["book_list"][0]);
+			}
+			/**
 			 * @brief Search the gutenberg data for retrieving meta
 			 *   data of books matching a string and a category
              *
