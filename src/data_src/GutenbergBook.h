@@ -7,24 +7,24 @@ using namespace std;
 namespace bridges {
 	namespace dataset {
 		/**
-		 * @brief  A Gutenberg Book object metadata only, used along with the
-		 * 	books data source.
+		 * @brief  A Gutenberg Book object (meta data and book's full text)
 		 *
 		 * This is a convenience class provided for  users who wish to use this
-		 *	data source as part of their application. It provides an API that makes
-		 *  it easy to access the attributes of this data set.
+		 * data source as part of their application. It provides an API that makes
+		 * it easy to access the attributes of this data set.
 		 *
 		 * Refer to tutorial examples to using this data source in data structure
-		 *  assignments.
+		 * assignments.
 		 *
 		 * @author Kalpathi Subramanian
-		 * @date   2/1/17, 12/28/20
+		 * @date   2/1/17, 12/28/20, 6/9/21
 		 *
 		 */
 
 		class GutenbergBook {
 				string title;
 				string id;
+				string loc_class;
 				vector<string> authors;
 				string lang, date_added;
 				vector<string> genres;
@@ -34,7 +34,7 @@ namespace bridges {
 				 * Default Constructor
 				 */
 				GutenbergBook() 
-					  : title(""), lang(""), date_added(""), id("") {
+					  : title(""), lang(""), date_added(""), id(""), loc_class ("") {
 				}
 
 				/**
@@ -42,6 +42,7 @@ namespace bridges {
 				 *
 				 * @param titl 	   	book title
 				 * @param id        book id
+				 * @param loc       book's library of congress class
 				 * @param auth   	book authors
 				 * @param lng       language
 				 * @param genr		genres of book
@@ -95,6 +96,21 @@ namespace bridges {
 				 */
 				void setTitle(const string& titl) {
 					this->title = titl;
+				}
+
+				/**
+				 * get  Library of Congress class
+				 * @return   book's LOC class
+				 */
+				string getLoc() const {
+					return loc_class;
+				}
+				/**
+				 * set book's LOC class
+				 * @param loc class of book to set
+				 */
+				void setLoc(const string& loc) {
+					this->loc_class = loc;
 				}
 
 				/**
