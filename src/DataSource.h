@@ -75,7 +75,7 @@ namespace bridges {
 				return "http://bridges-data-server-elevation.bridgesuncc.org/";
 			}
 			string getGutenbergBaseURL() const {
-				return "http://bridges-data-server-gutenberg.bridgesuncc.org";
+				return "http://bridges-data-server-gutenberg.bridgesuncc.org/";
 			}
 
 		public:
@@ -505,15 +505,15 @@ namespace bridges {
 			string getGutenbergText(int id = 0)  {
 				using namespace rapidjson;
 
-				string url = getGutenbergBaseURL() + "/book?id=" + std::to_string(id);
+				//URL for data request
+				string data_url = getGutenbergBaseURL() + "/book?id=" + std::to_string(id);
 
-				cout << url << endl;
+				// generate the hash code - use the id
+				string hash_value = "GutenbergBook-" + std::to_string(id);
 
-				Document d;
-				d.Parse(ServerComm::makeRequest(url, {"Accept: application/json"}).c_str());
+				// get the dataset from cache, if available, else from the server
+				string book_text = getDataSetJSON(data_url, hash_value, "gutenberg");
 
-				string book_text = d.GetString(); 
-	
 				return book_text;
 
 				//TODO: Add local caching for book text
@@ -664,6 +664,7 @@ namespace bridges {
 					"&maxLat=" + std::to_string(lat_max) +
 					"&level="  + ServerComm::encodeURLPart(level);
 
+
 				//URL to request map
 				string osm_url =
 					getOSMBaseURL() + "coords?minLon=" + std::to_string(long_min) +
@@ -675,7 +676,7 @@ namespace bridges {
 
 				// get the data set from the server or, if available, from
 				// a local cache
-				string osm_json = getDataSetJSON(osm_url, hash_url);
+				string osm_json = getDataSetJSON(osm_url, hash_url, "osm");
 
 				//tries to get hash value for bounding box map
 				return getOSMDataFromJSON(osm_json);
@@ -711,7 +712,7 @@ namespace bridges {
 
 				// make the query to the server to get a JSON of the amenities
 				// implements caching to keep local copies
-				string amenity_json = getDataSetJSON(amenity_url, hash_url);
+				string amenity_json = getDataSetJSON(amenity_url, hash_url, "amenity");
 
 				// parse the data and return amenity objects
 				return parseAmenityData (amenity_json);
@@ -735,9 +736,10 @@ namespace bridges {
 					ServerComm::encodeURLPart(location) +
 					"&amenity=" + ServerComm::encodeURLPart(amenity);
 
+
 				// make the query to the server to get a JSON of the amenities
 				// implements caching to keep local copies
-				string amenity_json = getDataSetJSON(amenity_url, hash_url);
+				string amenity_json = getDataSetJSON(amenity_url, hash_url, "amenity");
 
 				// parse the data and return amenity objects
 				return parseAmenityData (amenity_json);
@@ -821,7 +823,7 @@ namespace bridges {
 
 				// get the data set from the server or, if available, from
 				// a local cache
-				string osm_json = getDataSetJSON(osm_url, hash_url);
+				string osm_json = getDataSetJSON(osm_url, hash_url, "osm");
 
 				return getOSMDataFromJSON(osm_json);
 			}
@@ -1305,10 +1307,11 @@ namespace bridges {
 					"&resX=" + ServerComm::encodeURLPart(std::to_string(res)) +
 					"&resY=" + ServerComm::encodeURLPart(std::to_string(res));
 
+
 				// get the dataset's JSON from the local cache, if available,
 				// else from the server
 
-				string elev_json = getDataSetJSON(elev_url, hash_url);
+				string elev_json = getDataSetJSON(elev_url, hash_url, "elevation");
 
 				return parseElevationData(elev_json);
 			}
@@ -1353,6 +1356,31 @@ namespace bridges {
 			}
 
 		private:
+			/** 
+			 *   gets the hash code for the dataset
+			 *
+			 *   @param hash_url   url for hash code 
+			 *   @param data type  data set name
+			 */
+			string getHashCode (string hash_url, string data_type) {
+				string hash_value; 
+				if (data_type == "osm" || data_type == "amenity" || 
+						data_type == "elevation") {
+					hash_value = ServerComm::makeRequest(hash_url, 
+								{"Accept: application/json"});
+				}
+				else if (data_type == "gutenberg") 
+					hash_value = hash_url; 
+			
+				if (hash_value == "false") {
+					std::cerr << "Error while gathering hash value for " << 
+								data_type << " dataset..\n";
+					std::cerr << "Hash value:" << hash_value << std::endl;
+					abort();
+				}
+				return hash_value;
+			}
+
 			/**
 			 *  This method is a utility function that supports retrieving
 			 *  external dataset given a url to the dataset's server as well
@@ -1364,17 +1392,18 @@ namespace bridges {
 			 *  Amenity datasets
 			 *
 			 */
-			std::string getDataSetJSON(std::string data_url, std::string hash_url) {
+			std::string getDataSetJSON(std::string data_url, std::string hash_url, 
+												std::string data_type) {
 
 				std::string data_json = "";
 
 				// First check to see if the requested data is stored in local cache
 				// get hash value for elevation data
 				if (debug())
-					cerr << "Hitting hash URL: " << hash_url << "\n";
+					cerr << "Checking the cache:  hash code: " << hash_url << "\n";
 
-				string hash_value =  ServerComm::makeRequest(hash_url,
-				{"Accept: application/json"});
+				// generate the hash code
+				string hash_value = getHashCode(hash_url, data_type);
 
 				if (my_cache.inCache(hash_value) == true) { //local map is up-to-date
 					try {
@@ -1396,14 +1425,13 @@ namespace bridges {
 
 					//Requests the map data then requests the map's hash code
 					data_json = ServerComm::makeRequest(data_url,
-					{"Accept: application/json"});
+									{"Accept: application/json"});
 
-					// next get the has code for the data to keep a copy in local cache
+					// next get the hash code for the data to keep a copy in local cache
 					if (debug())
-						std::cerr << "Hitting hash URL: " << hash_url << "\n";
+						std::cerr << "Hitting hash URL: " << hash_value << "\n";
 
-					hash_value = ServerComm::makeRequest(hash_url,
-					{"Accept: application/json"});
+					string hash_value = getHashCode(hash_url, data_type);
 
 					if (hash_value == "false") {
 						std::cerr << "Error while gathering hash value for dataset..\n";
