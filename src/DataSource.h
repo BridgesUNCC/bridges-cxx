@@ -502,7 +502,7 @@ namespace bridges {
 			 *  
 			 *  @param id  id of Gutenberg book
 			 */
-			string getGutenbergText(int id = 0)  {
+			string getGutenbergBookText(int id = 0)  {
 				using namespace rapidjson;
 
 				//URL for data request
