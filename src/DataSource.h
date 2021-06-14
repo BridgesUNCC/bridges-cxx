@@ -75,7 +75,8 @@ namespace bridges {
 				return "http://bridges-data-server-elevation.bridgesuncc.org/";
 			}
 			string getGutenbergBaseURL() const {
-				return "http://bridges-data-server-gutenberg.bridgesuncc.org/";
+//				return "http://bridges-data-server-gutenberg.bridgesuncc.org/";
+				return "http://bridges-data-server-gutenberg-t.bridgesuncc.org/";
 			}
 
 		public:
@@ -511,12 +512,13 @@ namespace bridges {
 				// generate the hash code - use the id
 				string hash_value = "GutenbergBook-" + std::to_string(id);
 
-				// get the dataset from cache, if available, else from the server
-				string book_text = getDataSetJSON(data_url, hash_value, "gutenberg");
+				// get the dataset from cache, else from the server
+				string book_data = getDataSetJSON(data_url, hash_value, "gutenberg");
+				// parse, and get the book text
+				Document d;
+				d.Parse(book_data.c_str());
 
-				return book_text;
-
-				//TODO: Add local caching for book text
+				return d["book"].GetString();
 			}
 
 
