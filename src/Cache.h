@@ -72,7 +72,7 @@ namespace bridges {
 				if (home != nullptr)
 					cacheDir += std::string(home) + "/";
 
-				cacheDir += "cache/";
+				cacheDir += ".cache/bridges_data/cxx/";
 				//probably should check directory existence here, but exception in constructors are weird.
 			}
 
