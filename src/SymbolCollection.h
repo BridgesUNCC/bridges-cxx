@@ -86,7 +86,7 @@ namespace bridges {
 				  *	@return  The date structure type as a string
 				  */
 				virtual const string getDStype() const {
-					return "SymbolCollection";
+					return "SymbolCollectionV2";
 				}
 
 				/**
