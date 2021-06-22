@@ -193,8 +193,8 @@ namespace bridges {
 
 		}; // Array1D
 		// use some aliases for accessing iterators
-        template <class E>
-        using Array1DIterator = typename Array1D<E>::iterator;
+		template <class E>
+		using Array1DIterator = typename Array1D<E>::iterator;
 	}
 }// end namespace bridges
 

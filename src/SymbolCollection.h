@@ -48,11 +48,11 @@ namespace bridges {
 				//	from 0,0
 
 			protected:
-				mutable float domainxmin = 0.0;
+				mutable float domainxmin = -100.0;
 				mutable float domainxmax = 100.0;
-				mutable float domainymin = 0.0;
+				mutable float domainymin = -100.0;
 				mutable float domainymax = 100.0;
-				bool autoscaledomain = false;
+				bool autoscaledomain = true;
 
 			public:
 
@@ -126,13 +126,6 @@ namespace bridges {
 					if (dims[3] > domainymax) {
 						domainymax = dims[3];
 					}
-
-					// TEMP  (KRS)
-					//					domainxmin = 0;
-					//					domainxmax = 100;
-					//					domainymin = 0;
-					//					domainymax = 100;
-					// TEMP  (KRS)
 				}
 
 				/*

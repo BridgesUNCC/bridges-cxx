@@ -74,6 +74,9 @@ namespace bridges {
 			string getElevationBaseURL() const {
 				return "http://bridges-data-server-elevation.bridgesuncc.org/";
 			}
+			string getGutenbergBaseURL() const {
+				return "http://bridges-data-server-gutenberg.bridgesuncc.org/";
+			}
 
 		public:
 			DataSource(bridges::Bridges* br = nullptr)
@@ -305,12 +308,14 @@ namespace bridges {
 			 *  Song object. The song if not cached in the local DB is queried
 			 *  and added to the DB
 			 *
+			 * @param songTitle title of the song. inexact is ok, will be matched by genisu
+			 * @param artistName name of artist. empty string if unspecified. If specified, must be exact
 			 *  @throws Exception if the request fails
 			 *
 			 *  @return a Song object,
 			 *
 			 */
-			Song getSong(string songTitle, string artistName) {
+			Song getSong(string songTitle, string artistName = "") {
 				using namespace rapidjson;
 
 				Document d;
@@ -323,12 +328,11 @@ namespace bridges {
 					throw "Incorrect use of getSong. songTitle should be given.";
 				}
 
-				if (artistName.size())
+				if (artistName.size() > 0)
 					url += "?artistName=" + artistName;
-				else {
-					throw "Incorrect use of getSong. artistName should be given.";
-				}
+
 				// check for spaces in url and replace them by '%20'
+				//TODO should use curl to do that
 				string::size_type n = 0;
 				while ( (n = url.find(" ", n)) != string::npos) {
 					url.replace(n, 1, "%20");
@@ -405,62 +409,118 @@ namespace bridges {
 			 *  @return a list of GutenbergBook objects,
 			 *
 			 */
-			vector<GutenbergBook> getGutenbergBookData(int num = 0) {
+		private:
+
+			GutenbergBook getAGutenbergBookMetaData(const rapidjson::Value& V) {
 				using namespace rapidjson;
 
-				Document d;
-				vector<GutenbergBook> wrapper;
-				string url = "http://bridgesdata.herokuapp.com/api/books";
-				if (num > 0) {
-					url += "?limit=" + to_string(num);
-				}
+				const string id = V["id"].GetString();
 
-				d.Parse(ServerComm::makeRequest( url, {"Accept: application/json"}).c_str());
-				const Value& D = d["data"];
-				for (SizeType i = 0; i < D.Size(); i++) {
-					const Value& V = D[i];
+				string title = V["title"].GetString();
 
-					const Value& A = V["author"];
-					const Value& L = V["languages"];
+				const Value& A = V["authors"];
+				vector<string> authors;
+				for (SizeType j = 0; j < A.Size(); j++) 
+					authors.push_back(A[j].GetString());
 
-					vector<string> lang;
-					for (SizeType j = 0; j < L.Size(); j++) {
-						lang.push_back(L[j].GetString());
-					}
+				const Value& L = V["lang"];
+				string lang = L.GetString();
 
-					const Value& G = V["genres"];
-					vector<string> genre;
-					for (SizeType j = 0; j < G.Size(); j++) {
-						genre.push_back(G[j].GetString());
-					}
+				const Value& da = V["date_added"];
+				string data_added = da.GetString();
 
-					const Value& S = V["subjects"];
-					vector<string> subject;
-					for (SizeType j = 0; j < S.Size(); j++) {
-						subject.push_back(S[j].GetString());
-					}
+				const Value& G = V["genres"];
+				vector<string> genres;
+				for (SizeType j = 0; j < G.Size(); j++) 
+					genres.push_back(G[j].GetString());
 
-					const Value& M = V["metrics"];
-					wrapper.push_back(
-						GutenbergBook(
-							A["name"].GetString(),
-							A["birth"].GetInt(),
-							A["death"].GetInt(),
-							V["title"].GetString(),
-							lang,
-							genre,
-							subject,
-							M["characters"].GetInt(),
-							M["words"].GetInt(),
-							M["sentences"].GetInt(),
-							M["difficultWords"].GetInt(),
-							V["url"].GetString(),
-							V["downloads"].GetInt()
-						)
-					);
-				}
-				return wrapper;
+				GutenbergBook gbook = GutenbergBook(title, id, authors, lang, genres, data_added);
+
+				return gbook;
 			}
+
+		public:
+			/**
+			 *
+			 *  @brief Get meta data of a single Gutenberg book
+			 *  This function retrieves,  and formats the data into a list of
+			 *  GutenbergBook objects
+			 *
+			 *
+			 *  @param id  Gutenberg book id
+			 *
+			 *  @return metadata of the book
+			 *
+			 */
+			GutenbergBook getGutenbergBookMetaData(int id = 0) {
+				using namespace rapidjson;
+
+				// get the query string to get meta data of book
+				string url = getGutenbergBaseURL() + "/meta?id=" + std::to_string(id);
+
+				// make the query
+				Document d;
+				d.Parse(ServerComm::makeRequest( url, {"Accept: application/json"}).c_str());
+				// only 1 book 
+				return getAGutenbergBookMetaData(d["book_list"][0]);
+			}
+			/**
+			 * @brief Search the gutenberg data for retrieving meta
+			 *   data of books matching a string and a category
+             *
+			 *  Data is retrieved  into a vector of book records
+			 *  
+			 *  @param term  a string that matches the category 
+			 *  @param category  category can be any book attribute (title, genre, 
+			 *					date, Library of Congress class, language)
+			 */
+			vector<GutenbergBook> getGutenbergBookMetaData(string term, string category) {
+				using namespace rapidjson;
+
+				// get the query string to get meta data of book
+				string url = getGutenbergBaseURL() + "/search?search=" + 
+							ServerComm::encodeURLPart(term)+ "&type=" 
+							+ ServerComm::encodeURLPart(category);
+				// make the query
+				Document d;
+				d.Parse(ServerComm::makeRequest(url, {"Accept: application/json"}).c_str());
+
+				vector<GutenbergBook> book_list;
+				int size= d["book_list"].Size();
+
+				book_list.clear();
+				for (int k = 0; k < size; k++)
+					book_list.push_back(getAGutenbergBookMetaData(d["book_list"][k]));
+
+				return book_list;
+            }
+
+			/**
+			 * @brief Get the full text of the book with the provided id
+             *
+			 *  Data is retrieved  into a text string
+			 *  
+			 *  @param id  id of Gutenberg book
+			 */
+			string getGutenbergBookText(int id = 0)  {
+				using namespace rapidjson;
+
+				//URL for data request
+				string data_url = getGutenbergBaseURL() + "/book?id=" + std::to_string(id);
+
+				// generate the hash code - use the id
+				string hash_value = "gutenberg" + std::to_string(id);
+
+				// get the dataset from cache, else from the server
+				string book_data = getDataSetJSON(data_url, hash_value, "gutenberg");
+				// parse, and get the book text
+				Document d;
+				d.Parse(book_data.c_str());
+
+				return d["book"].GetString();
+			}
+
+
 			/**
 			 * @brief Retrieves the CDC dataset of Cancer Incidence.
 			 *  Data is retrieved  into a vector of records
@@ -598,12 +658,13 @@ namespace bridges {
 				double lat_max, double long_max, string level = "default") {
 
 				//URL for hash request
-				string hash_url = getOSMBaseURL() + 
+				string hash_url = getOSMBaseURL() +
 					"hash?minLon=" + std::to_string(long_min) +
 					"&minLat=" + std::to_string(lat_min) +
 					"&maxLon=" + std::to_string(long_max) +
 					"&maxLat=" + std::to_string(lat_max) +
 					"&level="  + ServerComm::encodeURLPart(level);
+
 
 				//URL to request map
 				string osm_url =
@@ -614,17 +675,17 @@ namespace bridges {
 					"&level="  + ServerComm::encodeURLPart(level);
 
 
-				// get the data set from the server or, if available, from 
+				// get the data set from the server or, if available, from
 				// a local cache
-				string osm_json = getDataSetJSON(osm_url, hash_url);
+				string osm_json = getDataSetJSON(osm_url, hash_url, "osm");
 
 				//tries to get hash value for bounding box map
 				return getOSMDataFromJSON(osm_json);
 			}
 
-			/** 
-			 * This method retrieves the specified amenity related data given a 
-			 * bounding box of a region, from a Open Street map 
+			/**
+			 * This method retrieves the specified amenity related data given a
+			 * bounding box of a region, from a Open Street map
 			 *
 			 *  @param minLat  minimum latitude
 			 *  @param minLon  minimumm longitude
@@ -632,33 +693,33 @@ namespace bridges {
 			 *  @param maxLon  maximum longitude
 			 *  @param amenity  amenity type
 			 *  @throws exception
-     		 */
-			AmenityData  getAmenityData(double minLat, double minLon, double 
-			      			maxLat, double maxLon, std::string amenity) {
+			 */
+			AmenityData  getAmenityData(double minLat, double minLon, double
+				maxLat, double maxLon, std::string amenity) {
 
-				std::string amenity_url = getOSMBaseURL() + "amenity?minLon=" + 
-					ServerComm::encodeURLPart(std::to_string(minLon)) + 
+				std::string amenity_url = getOSMBaseURL() + "amenity?minLon=" +
+					ServerComm::encodeURLPart(std::to_string(minLon)) +
 					"&minLat=" + ServerComm::encodeURLPart(std::to_string(minLat)) +
-					"&maxLon=" + ServerComm::encodeURLPart(std::to_string(maxLon)) + 
-					"&maxLat=" + ServerComm::encodeURLPart(std::to_string(maxLat)) + 
+					"&maxLon=" + ServerComm::encodeURLPart(std::to_string(maxLon)) +
+					"&maxLat=" + ServerComm::encodeURLPart(std::to_string(maxLat)) +
 					"&amenity=" + ServerComm::encodeURLPart(amenity);
-					
-        		std::string hash_url = getOSMBaseURL() + "hash?minLon=" + 
-					ServerComm::encodeURLPart(std::to_string(minLon)) + 
+
+				std::string hash_url = getOSMBaseURL() + "hash?minLon=" +
+					ServerComm::encodeURLPart(std::to_string(minLon)) +
 					"&minLat=" + ServerComm::encodeURLPart(std::to_string(minLat)) +
-					"&maxLon=" + ServerComm::encodeURLPart(std::to_string(maxLon)) + 
-					"&maxLat=" + ServerComm::encodeURLPart(std::to_string(maxLat)) +  
+					"&maxLon=" + ServerComm::encodeURLPart(std::to_string(maxLon)) +
+					"&maxLat=" + ServerComm::encodeURLPart(std::to_string(maxLat)) +
 					"&amenity=" + ServerComm::encodeURLPart(amenity);
 
 				// make the query to the server to get a JSON of the amenities
 				// implements caching to keep local copies
-				string amenity_json = getDataSetJSON(amenity_url, hash_url);
+				string amenity_json = getDataSetJSON(amenity_url, hash_url, "amenity");
 
 				// parse the data and return amenity objects
 				return parseAmenityData (amenity_json);
 			}
 
-			/** 
+			/**
 			 * This method retrieves the specified amenity related data given a location
 			 * from a specified openstreet mmap location
 			 *
@@ -666,34 +727,35 @@ namespace bridges {
 			 *  @param amenity  amenity type
 			 *  @throws exception
 			 */
-			AmenityData  getAmenityData(const std::string& location, 
-									const std::string& amenity) {
-				std::string amenity_url = getOSMBaseURL() + "amenity?location=" + 
-						ServerComm::encodeURLPart(location) +
-						"&amenity=" + ServerComm::encodeURLPart(amenity);
+			AmenityData  getAmenityData(const std::string& location,
+				const std::string& amenity) {
+				std::string amenity_url = getOSMBaseURL() + "amenity?location=" +
+					ServerComm::encodeURLPart(location) +
+					"&amenity=" + ServerComm::encodeURLPart(amenity);
 
-				std::string hash_url = getOSMBaseURL() + "hash?location=" + 
-						ServerComm::encodeURLPart(location) +
-						"&amenity=" + ServerComm::encodeURLPart(amenity);
+				std::string hash_url = getOSMBaseURL() + "hash?location=" +
+					ServerComm::encodeURLPart(location) +
+					"&amenity=" + ServerComm::encodeURLPart(amenity);
+
 
 				// make the query to the server to get a JSON of the amenities
 				// implements caching to keep local copies
-				string amenity_json = getDataSetJSON(amenity_url, hash_url);
+				string amenity_json = getDataSetJSON(amenity_url, hash_url, "amenity");
 
 				// parse the data and return amenity objects
 				return parseAmenityData (amenity_json);
-	  		}
+			}
 
 			/**
 			 * @brief Parses  the amenity string and returns an AmenityData object
 			 *
-			 * @param amenity_json  string of the url that will be used when requesting 
+			 * @param amenity_json  string of the url that will be used when requesting
 			 *      amenity data from server
 			 *
 			 * @return AmenityData object containing meta data and a list of
-			 * 	 amenities with location, name and amenity classification 
+			 * 	 amenities with location, name and amenity classification
 			 *
-			 * @throws If there is an error parsing response from 
+			 * @throws If there is an error parsing response from
 			 *      server or is an invalid location name
 			 */
 			AmenityData parseAmenityData(string amenity_json) {
@@ -716,14 +778,14 @@ namespace bridges {
 						amenities.setMaxLon(meta["maxlon"].GetDouble());
 
 						Amenities amen;
-						for (SizeType i = 0;i < nodes.Size(); i++) {
+						for (SizeType i = 0; i < nodes.Size(); i++) {
 							const Value& node = nodes[i];
 							amen.setId(node[0].GetInt64());
 							amen.setLat(node[1].GetDouble());
 							amen.setLon(node[2].GetDouble());
 							amen.setName(node[3].GetString());
 							amenities.addAmenities(amen);
-                    	}
+						}
 					}
 					else {
 						cout << "meta data not found!\n";
@@ -736,7 +798,7 @@ namespace bridges {
 				}
 				return amenities;
 			}
-	
+
 			/**
 			 *
 			 *  Get OpenStreetMap data given a city name and resolution level
@@ -751,18 +813,18 @@ namespace bridges {
 			 */
 			OSMData getOSMData (string location, string level = "default") {
 				//URL for hash request
-				string hash_url = getOSMBaseURL() + " hash?location=" + 
-						ServerComm::encodeURLPart(location) +
-						"&level=" + ServerComm::encodeURLPart(level);
+				string hash_url = getOSMBaseURL() + " hash?location=" +
+					ServerComm::encodeURLPart(location) +
+					"&level=" + ServerComm::encodeURLPart(level);
 
 				//URL to request map
-				string osm_url = getOSMBaseURL() + 
+				string osm_url = getOSMBaseURL() +
 					"loc?location=" + ServerComm::encodeURLPart(location) +
 					"&level=" + ServerComm::encodeURLPart(level);
 
-				// get the data set from the server or, if available, from 
+				// get the data set from the server or, if available, from
 				// a local cache
-				string osm_json = getDataSetJSON(osm_url, hash_url);
+				string osm_json = getDataSetJSON(osm_url, hash_url, "osm");
 
 				return getOSMDataFromJSON(osm_json);
 			}
@@ -1068,7 +1130,6 @@ namespace bridges {
 
 				std::string url = ss.str();
 
-				//  std::cout<<"URL: "<<url<<std::endl;
 
 				std::string s = bridges::ServerComm::makeRequest(url, headers);
 
@@ -1221,7 +1282,7 @@ namespace bridges {
 			 * @param longitMin maximum latitude requested
 			 * @param latitMax minimum longitude requested
 			 * @param longitMax maximum longitude requested
-			 * @param res spatial resolution, aka the distance between two samples 
+			 * @param res spatial resolution, aka the distance between two samples
 			 * 		(in degrees)
 			 **/
 			ElevationData getElevationData (
@@ -1231,26 +1292,27 @@ namespace bridges {
 				// set up the elevation data url to get the data, given
 				// a lat/long bounding box
 
-				std::string elev_url = getElevationBaseURL() + 
-					"elevation?minLon=" + ServerComm::encodeURLPart(std::to_string(minLon))+
+				std::string elev_url = getElevationBaseURL() +
+					"elevation?minLon=" + ServerComm::encodeURLPart(std::to_string(minLon)) +
 					"&minLat=" + ServerComm::encodeURLPart(std::to_string(minLat)) +
-					"&maxLon=" + ServerComm::encodeURLPart(std::to_string(maxLon)) + 
-					"&maxLat=" + ServerComm::encodeURLPart(std::to_string(maxLat)) + 
+					"&maxLon=" + ServerComm::encodeURLPart(std::to_string(maxLon)) +
+					"&maxLat=" + ServerComm::encodeURLPart(std::to_string(maxLat)) +
 					"&resX=" + ServerComm::encodeURLPart(std::to_string(res)) +
 					"&resY=" + ServerComm::encodeURLPart(std::to_string(res));
-					
-        		std::string hash_url = getElevationBaseURL() + 
-					"hash?minLon=" + ServerComm::encodeURLPart(std::to_string(minLon)) + 
+
+				std::string hash_url = getElevationBaseURL() +
+					"hash?minLon=" + ServerComm::encodeURLPart(std::to_string(minLon)) +
 					"&minLat=" + ServerComm::encodeURLPart(std::to_string(minLat)) +
-					"&maxLon=" + ServerComm::encodeURLPart(std::to_string(maxLon)) + 
-					"&maxLat=" + ServerComm::encodeURLPart(std::to_string(maxLat)) +  
+					"&maxLon=" + ServerComm::encodeURLPart(std::to_string(maxLon)) +
+					"&maxLat=" + ServerComm::encodeURLPart(std::to_string(maxLat)) +
 					"&resX=" + ServerComm::encodeURLPart(std::to_string(res)) +
 					"&resY=" + ServerComm::encodeURLPart(std::to_string(res));
+
 
 				// get the dataset's JSON from the local cache, if available,
 				// else from the server
 
-				string elev_json = getDataSetJSON(elev_url, hash_url);
+				string elev_json = getDataSetJSON(elev_url, hash_url, "elevation");
 
 				return parseElevationData(elev_json);
 			}
@@ -1295,28 +1357,54 @@ namespace bridges {
 			}
 
 		private:
+			/** 
+			 *   gets the hash code for the dataset
+			 *
+			 *   @param hash_url   url for hash code 
+			 *   @param data type  data set name
+			 */
+			string getHashCode (string hash_url, string data_type) {
+				string hash_value; 
+				if (data_type == "osm" || data_type == "amenity" || 
+						data_type == "elevation") {
+					hash_value = ServerComm::makeRequest(hash_url, 
+								{"Accept: application/json"});
+				}
+				else if (data_type == "gutenberg") 
+					hash_value = hash_url; 
+			
+				if (hash_value == "false") {
+					std::cerr << "Error while gathering hash value for " << 
+								data_type << " dataset..\n";
+					std::cerr << "Hash value:" << hash_value << std::endl;
+					abort();
+				}
+				return hash_value;
+			}
+
 			/**
-			 *  This method is a utility function that supports retrieving 
+			 *  This method is a utility function that supports retrieving
 			 *  external dataset given a url to the dataset's server as well
 			 *	as a url to extract a hashcode for the dataset; the latter is
 			 *  is to suppor local caching. The dataset is only retrieved
 			 *  the server if a local copy is not available
 			 *
-			 *	Currently this function works with elevation, OpenStreet maps and 
+			 *	Currently this function works with elevation, OpenStreet maps and
 			 *  Amenity datasets
 			 *
 			 */
-			std::string getDataSetJSON(std::string data_url, std::string hash_url) {
+			std::string getDataSetJSON(std::string data_url, std::string hash_url, 
+												std::string data_type) {
 
 				std::string data_json = "";
 
 				// First check to see if the requested data is stored in local cache
 				// get hash value for elevation data
 				if (debug())
-					cerr << "Hitting hash URL: " << hash_url << "\n";
+					cerr << "Checking the cache:  hash code: " << hash_url << "\n";
 
-				string hash_value =  ServerComm::makeRequest(hash_url,
-									{"Accept: application/json"});
+				// generate the hash code
+				string hash_value = getHashCode(hash_url, data_type);
 
 				if (my_cache.inCache(hash_value) == true) { //local map is up-to-date
 					try {
@@ -1326,8 +1414,8 @@ namespace bridges {
 					}
 					catch (CacheException& ce) {
 						//something went bad trying to access the cache
-						std::cout << "Exception while reading from cache. " 
-								<< "Ignoring cache and continue\n.";
+						std::cout << "Exception while reading from cache. "
+							<< "Ignoring cache and continue\n.";
 					}
 				}
 				else if ((hash_value == "false") || !my_cache.inCache(hash_value)) {
@@ -1337,15 +1425,14 @@ namespace bridges {
 						std::cerr << "Hitting data URL: " << data_url << "\n";
 
 					//Requests the map data then requests the map's hash code
-					data_json = ServerComm::makeRequest(data_url, 
-							{"Accept: application/json"}); 
+					data_json = ServerComm::makeRequest(data_url,
+									{"Accept: application/json"});
 
-					// next get the has code for the data to keep a copy in local cache
+					// next get the hash code for the data to keep a copy in local cache
 					if (debug())
-						std::cerr << "Hitting hash URL: " << hash_url << "\n";
+						std::cerr << "Hitting hash URL: " << hash_value << "\n";
 
-					hash_value = ServerComm::makeRequest(hash_url, 
-								{"Accept: application/json"});
+					string hash_value = getHashCode(hash_url, data_type);
 
 					if (hash_value == "false") {
 						std::cerr << "Error while gathering hash value for dataset..\n";
@@ -1360,15 +1447,15 @@ namespace bridges {
 					catch (CacheException& ce) {
 						//something went bad trying to access the cache
 						std::cerr << "Exception while storing in cache. " <<
-									 "Weird but not critical.\n";
+							"Weird but not critical.\n";
 						if (debug())
-							std::cerr << "Tried to store hash=" << hash_value << 
-									" key = " << data_json << std::endl;
+							std::cerr << "Tried to store hash=" << hash_value <<
+								" key = " << data_json << std::endl;
 					}
 				}
 				return data_json;
 			}
-		
+
 	}; // class DataSource
 } // namespace bridges
 #endif

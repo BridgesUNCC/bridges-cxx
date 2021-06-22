@@ -29,15 +29,15 @@ namespace bridges {
 		 *
 		 *  The vertices of the graph are held in a C++ hashmap, for near
 		 *  constant time access; this enables us to use strings or integer ids
-		 *  for vertices. The adjacency lists are linked lists of SLelemnt type, 
-         *  The SLelement contains edge information (stored in its data as a 
-	     *	generic). Each edge, of type Edge, contains the source,
+		 *  for vertices. The adjacency lists are linked lists of SLelemnt type,
+		 *  The SLelement contains edge information (stored in its data as a
+		 *	generic). Each edge, of type Edge, contains the source,
 		 *  destination vertices and link attributes (color, opacity, thickness)
 		 *
 		 *
 		 * Convenience method addVertex() is provided to add vertices to
 		 * the graph, and addEdge() is provided to add edges.  Edges are
-		 * retrieved by using the map and the adjcency list, given the vertex 
+		 * retrieved by using the map and the adjcency list, given the vertex
 		 * ids of the edge. Vertices can be styled directly from the vertex element
 		 * returned by getVertex(), and edges are styled from a LinkVisualizer
 		 * one can access through getLinkVisualizer(). Here is a simple example:
@@ -219,6 +219,28 @@ namespace bridges {
 					}
 				}
 				/**
+				 * 	@brief Check if there is an edge between the given vertices
+				 *
+				 *
+				 * @param src The key of the source Vertex
+				 * @param dest The key of the destination Vertex
+				 */
+				bool isEdge(const K& src, const K& dest) {
+					try {
+						vertices.at(src);
+						vertices.at(dest);
+						for (auto& e : outgoingEdgeSetOf(src))
+							if (e.to() == dest) { // found it
+								cout << "found it!" << src << "," << dest << endl;
+								return true;
+							}
+					}
+					catch ( const out_of_range& ) {
+						return false;
+					}
+					return false;
+				}
+				/**
 				 * @brief Gets vertex data for a graph vertex.
 				 *
 				 * @param src The key of the source vertex
@@ -272,7 +294,7 @@ namespace bridges {
 						SLelement<Edge<K, E2> > *sle = adj_list.at(src);
 						while (sle) {
 							Edge<K, E2> ed = sle->getValue();
-							if (ed.getVertex() == dest) { //edge exists
+							if (ed.to() == dest) { //edge exists
 								return ed.getEdgeData();
 							}
 							sle = sle->getNext();
@@ -428,7 +450,7 @@ namespace bridges {
 							sle = sle->getNext();
 						}
 					}
-					catch (const std::out_of_range& oor) { 
+					catch (const std::out_of_range& oor) {
 						// one or both vertices doesnt exist
 						std::cout << "one or both vertices are likely missing from graph\n";
 						throw;
@@ -458,8 +480,7 @@ namespace bridges {
 						return adj_list.at(k);
 					}
 					catch (const out_of_range& ) {
-						cerr <<  "Cannot getAdjacencyList() of a non-existent vertex!"
-							<< endl;
+						cerr <<  "Cannot get adjacencyList of a non-existent vertex -- " << k << "\n";
 						throw;
 					}
 				}
@@ -504,7 +525,7 @@ namespace bridges {
 					}
 				}
 				/**
-				 *  @brief Returns the link visualizer corresponding to an edge. 
+				 *  @brief Returns the link visualizer corresponding to an edge.
 				 *  Returns the link visualizer corresponding to two graph
 				 *	nodes with an existing link; error returned if no link exists.
 				 *
@@ -783,7 +804,7 @@ namespace bridges {
 
 				/**
 				 *  Returns a set of all keys  (helper function).
-				 * 
+				 *
 				 *	Returns a set of all keys (read only) that conforms to
 				 *	STL list interface.  That means we can use range for loops
 				 *	on graph vertices.

@@ -18,7 +18,7 @@ namespace bridges {
 		 * BRIDGES supports color of any legal named CSS or (R,G,B) triplets
 		 * 	value. Check the Color class for details. Default: "steelblue".
 		 *
-		 * Thickness values must range from [1.0,10.0]. Default: 1.0
+		 * Thickness values must range from ]0.0,10.0]. Default: 1.0
 		 *
 		 * @author Kalpathi Subramanian, Dakota Carmer, Erik Saule
 		 * @date 6/29/15, 6/10/16, 7/12/19, 12/28/20
@@ -81,15 +81,15 @@ namespace bridges {
 
 				/**
 				 * Set the link thickness
-				 * Valid Range:[1,10] Default: 1
+				 * Valid Range:]0.0,10.0] Default: 1
 				 *
 				 * @param th The size in pixels of the link's line weight
 				 * @throw string If invalid thickness
 				 */
 				void setThickness(const double& th) {
-					if (th < 1 || 10 < th)
+					if (th < 0.0 || 10 < th)
 						throw "Invalid Thickness Value.. " + to_string(th) +
-						" Must be in the [1.0,10.0] range";
+						" Must be in the ]0.0,10.0] range";
 					else
 						thickness = th;
 				}

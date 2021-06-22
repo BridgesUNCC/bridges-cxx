@@ -1,7 +1,7 @@
 
 #include <vector>
 /**
- * @brief class that represents an audio channel. 
+ * @brief class that represents an audio channel.
  *
  *	Used along with the BRIDGESaudio API
  */

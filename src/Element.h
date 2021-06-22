@@ -35,12 +35,12 @@ namespace bridges {
 		 * 	nodes and edges (emanating from the link, if there is a destination
 		 * 	element), respectively.
 
-         * All the tutorials under
-		 * 
+		 * All the tutorials under
+		 *
 		 * http://bridgesuncc.github.io/tutorials/Overview.html
 		 *
 		 * show how to use different types of elements
-         *
+		 *
 		 * 	@param E the application data type
 		 *
 		 * 	@author Kalpathi Subramanian

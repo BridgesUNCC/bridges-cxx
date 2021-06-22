@@ -8,20 +8,20 @@
 
 /**
  * @brief  Class that holds Open Street Map Amenity Data
- * 
+ *
  * This class holds the data for all the amenities requested by the user
- * 
+ *
  * @author Kalpathi Subramanian
  *
- * @date 1/28/21 
+ * @date 1/28/21
  */
 class AmenityData {
 
 	private:
 
-		// vector to hold amenity data, that will be returned 
+		// vector to hold amenity data, that will be returned
 		// by the query
-		vector<Amenities> data; 
+		vector<Amenities> data;
 
 		// location information - lat/long bounding box
 		double minLat;
@@ -32,19 +32,19 @@ class AmenityData {
 		// number of amenities
 		int count;
 
-    public:
+	public:
 
-    	/**
-     	 * Default Constructor
-     	 */
-		AmenityData(){
-        	data.clear();
-        	minLat = 0;
-        	minLon = 0;
-        	maxLat = 0;
-        	maxLon = 0;
-        	count = 0;
-    	}
+		/**
+		 * Default Constructor
+		 */
+		AmenityData() {
+			data.clear();
+			minLat = 0;
+			minLon = 0;
+			maxLat = 0;
+			maxLon = 0;
+			count = 0;
+		}
 
 		/**
 		 * Constructor
@@ -54,11 +54,11 @@ class AmenityData {
 		 * @param minLon  minimum longitude
 		 * @param maxLat  maximum latitude
 		 * @param maxLon  maximum longitude
-		 * @param count  number of amenities 
+		 * @param count  number of amenities
 		 */
 
-		AmenityData(vector<Amenities> amenities, double minLat, double minLon, 
-							double maxLat, double maxLon, int count){
+		AmenityData(vector<Amenities> amenities, double minLat, double minLon,
+			double maxLat, double maxLon, int count) {
 			data = amenities;
 			setMinLat(minLat);
 			setMinLon(minLon);
@@ -71,7 +71,7 @@ class AmenityData {
 		 * get Amenity data
 		 * @return amenity data
 		 */
-		vector<Amenities> getAmenities(){
+		vector<Amenities> getAmenities() {
 			return data;
 		}
 
@@ -79,7 +79,7 @@ class AmenityData {
 		 * set  Amenity data
 		 * @param amenity amenity data to be added
 		 */
-		void addAmenities(Amenities amenity){
+		void addAmenities(Amenities amenity) {
 			data.push_back(amenity);
 		}
 
@@ -88,7 +88,7 @@ class AmenityData {
 		 * @return  latitude minimum
 		 */
 
-		double getMinLat(){
+		double getMinLat() {
 			return minLat;
 		}
 
@@ -96,7 +96,7 @@ class AmenityData {
 		 * set the minimum latitude  of this amenity data
 		 * @param minLat  latitude minimum to be set
 		 */
-		void setMinLat(double lat){
+		void setMinLat(double lat) {
 			minLat = lat;
 		}
 
@@ -104,7 +104,7 @@ class AmenityData {
 		 * get the minimum longitude  of this amenity data
 		 * @return  longitude minimum
 		 */
-		double getMinLon(){
+		double getMinLon() {
 			return minLon;
 		}
 
@@ -112,7 +112,7 @@ class AmenityData {
 		 * set the minimum longitude  of this amenity data
 		 * @param minLon  longitude minimum to be set
 		 */
-		void setMinLon(double longitude){
+		void setMinLon(double longitude) {
 			minLon = longitude;
 		}
 		/**
@@ -120,7 +120,7 @@ class AmenityData {
 		 * @return  latitude maximum
 		 */
 
-		double getMaxLat(){
+		double getMaxLat() {
 			return maxLat;
 		}
 
@@ -128,7 +128,7 @@ class AmenityData {
 		 * set the maximum latitude  of this amenity data
 		 * @param maxLat  latitude maximum to be set
 		 */
-		void setMaxLat(double lat){
+		void setMaxLat(double lat) {
 			maxLat = lat;
 		}
 
@@ -136,7 +136,7 @@ class AmenityData {
 		 * get the maximum longitude  of this amenity data
 		 * @return  longitude maximum
 		 */
-		double getMaxLon(){
+		double getMaxLon() {
 			return maxLon;
 		}
 
@@ -144,7 +144,7 @@ class AmenityData {
 		 * set the maximum longitude  of this amenity data
 		 * @param maxLon  longitude maximum to be set
 		 */
-		void setMaxLon(double longitude){
+		void setMaxLon(double longitude) {
 			maxLon = longitude;
 		}
 
@@ -152,7 +152,7 @@ class AmenityData {
 		 * get the count of amenities
 		 * @param count of amenities
 		 */
-		int getCount(){
+		int getCount() {
 			return count;
 		}
 
@@ -161,7 +161,7 @@ class AmenityData {
 		 * set the count of amenities
 		 * @param count  amenity count to be set
 		 */
-		void setCount(int c){
+		void setCount(int c) {
 			count = c;
 		}
 };
