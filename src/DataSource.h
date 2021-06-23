@@ -75,7 +75,7 @@ namespace bridges {
 				return "http://bridges-data-server-elevation.bridgesuncc.org/";
 			}
 			string getGutenbergBaseURL() const {
-				return "http://bridges-data-server-gutenberg.bridgesuncc.org/";
+				return "http://bridges-data-server-gutenberg-t.bridgesuncc.org/";
 			}
 
 		public:
@@ -482,6 +482,7 @@ namespace bridges {
 							ServerComm::encodeURLPart(term)+ "&type=" 
 							+ ServerComm::encodeURLPart(category);
 				// make the query
+cout << url << endl;
 				Document d;
 				d.Parse(ServerComm::makeRequest(url, {"Accept: application/json"}).c_str());
 
@@ -517,9 +518,9 @@ namespace bridges {
 				Document d;
 				d.Parse(book_data.c_str());
 
-				return d["book"].GetString();
+				string s = std::to_string(id);
+				return d[s.c_str()].GetString();
 			}
-
 
 			/**
 			 * @brief Retrieves the CDC dataset of Cancer Incidence.
