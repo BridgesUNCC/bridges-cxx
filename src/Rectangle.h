@@ -21,9 +21,9 @@ namespace bridges {
 		 */
 		class Rectangle : public Symbol {
 			private:
-				// height, width of rectangle
-				float width = 1.0, height = 1.0;
-
+				// Rectangle specification: lower left corner and dimensions
+				float ll_x = 0., ll_y = 0., width = 1.0, height = 1.0;
+				
 			public:
 				/**
 				 *  @brief default constructor - rectangle with lower left
@@ -50,8 +50,8 @@ namespace bridges {
 				 * @param w  width
 				 * @param h  height
 				 */
-				Rectangle (float locx, float locy, float w, float h) {
-					setRectangle (locx, locy, w, h);
+				Rectangle (float llx, float lly, float w, float h) {
+					setRectangle (llx, lly, w, h);
 				}
 
 				/**
@@ -105,12 +105,11 @@ namespace bridges {
 				vector<float> getDimensions() const {
 
 					vector<float> dims(4);
-					const float *location = getLocation();
 
-					dims[0] = location[0];
-					dims[1] = location[0] + width;
-					dims[2] = location[1];
-					dims[3] = location[1] + height;
+					dims[0] = ll_x;
+					dims[1] = ll_x + width;
+					dims[2] = ll_y;
+					dims[3] = ll_y + height;
 
 					return dims;
 				}
@@ -125,12 +124,11 @@ namespace bridges {
 				 *
 				 * @return none
 				 */
-				void setRectangle(float locx, float locy, float w, float h) {
+				void setRectangle(float llx, float lly, float w, float h) {
 					if (w <= 0 || h <= 0)
 						throw  "Width, Height must be positive";
-					setLocation (float(locx), float(locy));
-					width = w;
-					height = h;
+					ll_x = llx; ll_y = lly;
+					width = w; height = h;
 					setShapeType("rect");
 				}
 
@@ -143,16 +141,15 @@ namespace bridges {
 
 					string shape_json = getSymbolAttributeRepresentation();
 
-					string shape = getShapeType();
-					shape_json +=
-						QUOTE + "name" + QUOTE + COLON +  QUOTE + getName() + QUOTE + COMMA +
-						QUOTE + "shape" + QUOTE + COLON + QUOTE + shape + QUOTE + COMMA;
-
 					// set up width and height of rectangles
-					if (shape == "rect")
-						shape_json += QUOTE + "width" + QUOTE + COLON + to_string(width) + COMMA +
-							QUOTE + "height" + QUOTE + COLON + to_string(height) +
-							CLOSE_CURLY;
+					shape_json += 
+						QUOTE + "lowerleftcorner" + QUOTE + COLON + 
+						OPEN_BOX + 
+							to_string(ll_x) + COMMA + to_string(ll_y) +
+						CLOSE_BOX + COMMA +
+						QUOTE + "width" + QUOTE + COLON + to_string(width) + COMMA +
+						QUOTE + "height" + QUOTE + COLON + to_string(height) +
+						CLOSE_CURLY;
 
 					return shape_json;
 

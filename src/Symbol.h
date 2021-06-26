@@ -102,24 +102,13 @@ namespace bridges {
 				/**
 				 * @brief default constructor
 				 */
-				Symbol() {
+				Symbol() :
+						fillColor (new Color),
+						strokeColor (new Color),
+						strokeWidth(new float),
+						strokeDash(new int),
+						opacity(new float) {
 					identifier = getIdentifier();
-					xform_flag = false;
-				}
-
-				/**
-				 *	@brief Create a symbol of type "symb"
-				 *
-				 * 	@param symb  symbol to create
-				 */
-				Symbol(string symb):
-							fillColor (new Color),
-							strokeColor (new Color),
-							strokeWidth(new float),
-							strokeDash(new int),
-							opacity(new float) {
-					identifier = getIdentifier();
-					name = symb;
 					xform_flag = false;
 				}
 
@@ -264,14 +253,6 @@ namespace bridges {
 					return *strokeDash;
 				}
 
-				/**
-				 *	@brief This method gets the name of the symbol
-				 *
-				 *  @return name   shape name
-				 */
-				string getName()  const {
-					return name;
-				}
 
 			protected:
 				/**
@@ -439,6 +420,9 @@ namespace bridges {
 
 					string symbol_attr_json = OPEN_CURLY;
 
+					symbol_attr_json += QUOTE + "type" + QUOTE + COLON +
+							QUOTE + getShapeType() + QUOTE + COMMA;
+
 					if (fillColor != nullptr) {
 						symbol_attr_json += QUOTE + "fill-color" + 
 							QUOTE + COLON + fillColor->getCSSRepresentation() 
@@ -446,6 +430,7 @@ namespace bridges {
 					}
 
 					if (opacity != nullptr) {
+cout << "opacity:" << *opacity << endl;
 						symbol_attr_json += QUOTE + "opacity" + QUOTE + COLON +
 							to_string(*opacity) + COMMA;
 					}
@@ -465,7 +450,7 @@ namespace bridges {
 							COLON + to_string(*strokeDash) + COMMA;
 					}
 
-					// check transform, if it is identity, ignore
+					// check transform, if it is not set, ignore
 					if (this->xform_flag) {
 						symbol_attr_json +=
 							QUOTE + "transform" + QUOTE + COLON +

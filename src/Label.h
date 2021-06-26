@@ -25,12 +25,19 @@ namespace bridges {
 		 */
 		class Label : public Symbol {
 			private:
-				// height, width of rectangle
+				// label origin
+				int origin[2]  = {0, 0};
+
+				// label attributes
 				int fontSize = 12;
+
 				int textWidth = 100;
 				int textHeight = 50;
 				float rotation_angle = 0.;
+
 				string label_text = string();
+
+				string anchorType = string();
 
 				/**
 				 *  @brief Rotate a 2D point (about Z)
@@ -59,6 +66,7 @@ namespace bridges {
 				 * 	constructors
 				 */
 				Label() {
+					origin[0] = origin[1] = 0;
 					fontSize = 12;
 					textWidth = 100;
 					textHeight = 50;
@@ -70,6 +78,7 @@ namespace bridges {
 				 * @param l  label
 				 */
 				Label (string l) {
+					Label();
 					label_text = l;
 				}
 
@@ -97,6 +106,23 @@ namespace bridges {
 				string getLabel() const {
 					return label_text;
 				}
+
+				/**
+				 * @brief This method sets the label origin; 
+				 *
+				 * @param  x  x coordinate of label location
+				 * @param  y  y coordinate of label location
+				 *
+				 */
+				void setLocation(int *loc) {
+					origin[0] = loc[0];
+					origin[1] = loc[1];
+				}
+
+				int *getLocation() {
+					return origin;
+				}
+				
 
 				/**
 				 * @brief This method sets the font size
@@ -235,7 +261,6 @@ namespace bridges {
 
 					float bbox_width = length;
 					float bbox_height = height;
-					const float *location = getLocation();
 
 					float pt[2];
 					bbox[0] = bbox[1] = std::numeric_limits<float>::max();
@@ -273,8 +298,8 @@ namespace bridges {
 							bbox[3] = pt[1];
 					}
 					// translate center of box to center of label
-					float tx = location[0] - (bbox[0] + (bbox[2] - bbox[0]) / 2.);
-					float ty = location[1] - (bbox[1] + (bbox[3] - bbox[1]) / 2.);
+					float tx = origin[0] - (bbox[0] + (bbox[2] - bbox[0]) / 2.);
+					float ty = origin[1] - (bbox[1] + (bbox[3] - bbox[1]) / 2.);
 					bbox[0] += tx;
 					bbox[2] += tx;
 					bbox[1] += ty;
@@ -305,14 +330,18 @@ namespace bridges {
 					string shape_json = getSymbolAttributeRepresentation();
 
 					shape_json +=
-						QUOTE + "name" + QUOTE + COLON +  QUOTE + label_text + QUOTE + COMMA +
+						QUOTE + "text" + QUOTE + COLON +  QUOTE + label_text + QUOTE + COMMA +
+						QUOTE + "anchor-location" + QUOTE + COLON +  QUOTE + 
+							OPEN_BOX + 
+								to_string(origin[0]) + COMMA + to_string(origin[0]) +
+							CLOSE_BOX + COMMA +
+						QUOTE + "anchorType" + QUOTE + COLON + QUOTE + anchorType + QUOTE + COMMA +
 						QUOTE + "shape" + QUOTE + COLON + QUOTE + "text" + QUOTE + COMMA +
 						QUOTE + "font-size" + QUOTE + COLON +  to_string(fontSize)  + COMMA +
 						QUOTE + "angle" + QUOTE + COLON +  to_string(rotation_angle)  +
 						CLOSE_CURLY;
 
 					return shape_json;
-
 				}
 		};
 	}
