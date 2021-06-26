@@ -50,12 +50,6 @@ namespace bridges {
 				std::unique_ptr<int> strokeDash;
 				std::unique_ptr<float> opacity;
 
-//				Color fillColor{"blue"},
-//					  strokeColor{"white"};
-//				float opacity = 1.0f;
-//				float strokeWidth = 1.0f;
-//				int strokeDash = 1;
-
 				// 2D affine transform matrix for the symbol
 				float xform[3][3] = {
 					{1., 0., 0.},
@@ -131,7 +125,7 @@ namespace bridges {
 				 *
 				 * 	@return the identifier
 				 */
-				int getIdentifier() {
+				int getIdentifier() const {
 					static int ids = 0;
 					ids++;
 
@@ -159,7 +153,7 @@ namespace bridges {
 				 *
 				 * @return  fill color
 				 */
-				Color getFillColor() {
+				Color getFillColor() const {
 					return *fillColor;
 				}
 
@@ -207,7 +201,7 @@ namespace bridges {
 				 *
 				 * @return  stroke width
 				 */
-				float getStrokeWidth() {
+				float getStrokeWidth() const {
 					return *strokeWidth;
 				}
 
@@ -228,7 +222,7 @@ namespace bridges {
 				 *
 				 * @return  symbol opacity
 				 */
-				float getOpacity() {
+				float getOpacity() const {
 					return *opacity;
 				}
 
@@ -249,7 +243,7 @@ namespace bridges {
 				 *
 				 * @return  stroke dash level
 				 */
-				int getStrokeDash() {
+				int getStrokeDash() const {
 					return *strokeDash;
 				}
 
@@ -430,7 +424,6 @@ namespace bridges {
 					}
 
 					if (opacity != nullptr) {
-cout << "opacity:" << *opacity << endl;
 						symbol_attr_json += QUOTE + "opacity" + QUOTE + COLON +
 							to_string(*opacity) + COMMA;
 					}
