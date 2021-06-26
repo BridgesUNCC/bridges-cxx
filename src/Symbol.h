@@ -7,6 +7,7 @@
 #include <string>
 #include <vector>
 #include <cmath>
+#include <memory>
 
 using namespace std;
 
@@ -41,31 +42,29 @@ namespace bridges {
 				// maintain unique ids for each symbol
 				string shape_type = "circle";
 
-
-				// specify default attributes
-				// defaults are not sent through JSON
-
-				float 	default_location[2] = {0.0f, 0.0f};
-				Color 	default_fill_color{"blue"};
-				Color 	default_stroke_color{"white"};
-				int 	default_stroke_dash = 1;
-				float 	default_opacity = 1.0f;
-				float 	default_stroke_width = 1.0f;
-				string 	default_symbol = "circle";
-
 				// symbol attributes
 
-				Color fillColor{"blue"},
-					  strokeColor{"white"};
-				float opacity = 1.0f;
-				float strokeWidth = 1.0f;
-				int strokeDash = 1;
+				std::unique_ptr<Color> fillColor;
+				std::unique_ptr<Color> strokeColor;
+				std::unique_ptr<float> strokeWidth;
+				std::unique_ptr<int> strokeDash;
+				std::unique_ptr<float> opacity;
+
+//				Color fillColor{"blue"},
+//					  strokeColor{"white"};
+//				float opacity = 1.0f;
+//				float strokeWidth = 1.0f;
+//				int strokeDash = 1;
+
+				// 2D affine transform matrix for the symbol
+				float xform[3][3] = {
+					{1., 0., 0.},
+					{0., 1., 0.},
+					{0., 0., 1.}
+				};
 				// use this flag to refrain from putting it into the JSON
 				// as its the default
-				bool identity_matrix = true;
-
-				// symbol location
-				float location[2] = {0.0f, 0.0f};
+				bool xform_flag = false;
 
 				// matrix methods used for affine transformations on symbols
 				void matMult (float m1[][3], float m2[][3], float result[][3])
@@ -105,7 +104,7 @@ namespace bridges {
 				 */
 				Symbol() {
 					identifier = getIdentifier();
-					identity_matrix = true;
+					xform_flag = false;
 				}
 
 				/**
@@ -113,10 +112,15 @@ namespace bridges {
 				 *
 				 * 	@param symb  symbol to create
 				 */
-				Symbol(string symb) {
+				Symbol(string symb):
+							fillColor (new Color),
+							strokeColor (new Color),
+							strokeWidth(new float),
+							strokeDash(new int),
+							opacity(new float) {
 					identifier = getIdentifier();
 					name = symb;
-					identity_matrix = true;
+					xform_flag = false;
 				}
 
 				/**
@@ -151,7 +155,7 @@ namespace bridges {
 				 * @param c the color to set
 				 */
 				void setFillColor(Color c) {
-					fillColor = c;
+					*fillColor = c;
 				}
 				/**
 				 * @brief This method sets the symbol fill color
@@ -159,7 +163,7 @@ namespace bridges {
 				 * @param c the named color to set
 				 */
 				void setFillColor(string c) {
-					fillColor = Color(c);
+					*fillColor = Color(c);
 				}
 				/**
 				 * @brief This method gets fill color
@@ -167,7 +171,7 @@ namespace bridges {
 				 * @return  fill color
 				 */
 				Color getFillColor() {
-					return fillColor;
+					return *fillColor;
 				}
 
 				/**
@@ -176,7 +180,7 @@ namespace bridges {
 				 * @param c the color to set
 				 */
 				void setStrokeColor(Color c) {
-					strokeColor = c;
+					*strokeColor = c;
 				}
 
 				/**
@@ -185,7 +189,7 @@ namespace bridges {
 				 * @param c the named color to set
 				 */
 				void setStrokeColor(string c) {
-					strokeColor = Color(c);
+					*strokeColor = Color(c);
 				}
 
 				/**
@@ -194,7 +198,7 @@ namespace bridges {
 				 * @return  stroke color
 				 */
 				Color getStrokeColor() {
-					return strokeColor;
+					return *strokeColor;
 				}
 
 				/**
@@ -203,10 +207,10 @@ namespace bridges {
 				 * @param strk_width the stroke width to set
 				 */
 				void setStrokeWidth(float strk_width) {
-					if (strokeWidth < 0.0f)
+					if (*strokeWidth < 0.0f)
 						throw "Stroke width must be positive or null";
 					else
-						strokeWidth = strk_width;
+						*strokeWidth = strk_width;
 				}
 
 				/**
@@ -215,7 +219,7 @@ namespace bridges {
 				 * @return  stroke width
 				 */
 				float getStrokeWidth() {
-					return strokeWidth;
+					return *strokeWidth;
 				}
 
 				/**
@@ -227,7 +231,7 @@ namespace bridges {
 					if (op < 0.0f || op > 1.0f)
 						throw "Opacity must be between 0 and 1";
 					else
-						opacity = op;
+						*opacity = op;
 				}
 
 				/**
@@ -236,7 +240,7 @@ namespace bridges {
 				 * @return  symbol opacity
 				 */
 				float getOpacity() {
-					return opacity;
+					return *opacity;
 				}
 
 				/**
@@ -248,7 +252,7 @@ namespace bridges {
 					if (dash < 0 || dash > 10)
 						throw "Dash must be between 0 and 10 (inclusive)";
 					else
-						strokeDash = dash;
+						*strokeDash = dash;
 				}
 
 				/**
@@ -257,52 +261,7 @@ namespace bridges {
 				 * @return  stroke dash level
 				 */
 				int getStrokeDash() {
-					return strokeDash;
-				}
-
-				/**
-				 * @brief This method sets the symbol location
-				 *
-				 * @param x  x coordinate
-				 * @param y  y coordinate
-				 */
-				void setLocation(int x, int y) {
-					setLocation(float(x), float(y));
-				}
-
-				/**
-				 * @brief This method sets the symbol location
-				 *
-				 * @param x  x coordinate
-				 * @param y  y coordinate
-				 */
-				void setLocation(double x, double y) {
-					setLocation(float(x), float(y));
-				}
-
-
-				/**
-				 * @brief This method sets the symbol location
-				 *
-				 * @param x  x coordinate
-				 * @param y  y coordinate
-				 */
-				void setLocation(float x, float y) {
-					if ((x > -INFINITY && x < INFINITY) &&
-						(y > -INFINITY && y < INFINITY)) {
-						location[0] = x;
-						location[1] = y;
-					}
-					else
-						throw "Coordinates must be real numbers";
-				}
-				/**
-				 * @brief This method gets the symbol location
-				 *
-				 * @return location (x, y) of the symbol
-				 */
-				const float *getLocation() const {
-					return location;
+					return *strokeDash;
 				}
 
 				/**
@@ -332,17 +291,6 @@ namespace bridges {
 					return shape_type;
 				}
 
-				// affine transform for symbol or symbol group
-				// initialize to identity matrix
-
-
-				// 2D affine transform matrix for the symbol
-				float xform[3][3] = {
-					{1., 0., 0.},
-					{0., 1., 0.},
-					{0., 0., 1.}
-				};
-
 			public:
 				/**
 				 *  @brief Translate a 2D point
@@ -356,9 +304,12 @@ namespace bridges {
 					float transl[3][3] = {
 						{1., 0., tx}, {0., 1., ty}, {0., 0., 1.}
 					};
+
+					// update current transform matrix
 					matMult (xform, transl, result);
 					copyMat (result, xform);
-					identity_matrix = false;
+
+					xform_flag = true;
 				}
 
 				/**
@@ -372,9 +323,12 @@ namespace bridges {
 					float scale[3][3] = {
 						{sx, 0., 0.}, {0., sy, 0.}, {0., 0., 1.}
 					};
+
+					// update current transform matrix
 					matMult (xform, scale, result);
 					copyMat (result, xform);
-					identity_matrix = false;
+
+					xform_flag = true;
 				}
 
 				/**
@@ -395,9 +349,77 @@ namespace bridges {
 					float rotation[3][3] = {
 						{c, -s, 0.}, {s, c, 0.}, {0., 0., 1.}
 					};
-					matMult (rotation, xform, result);
+
+					// update current transform matrix
+					matMult (xform, rotation, result);
 					copyMat (result, xform);
-					identity_matrix = false;
+
+					xform_flag = true;
+				}
+
+				/**
+				 *  @brief Scale about an arbitrary point (px, py)
+				 *
+				 *  @param sx, scale factors along X
+				 *  @param sy, scale factors along X
+				 *  @param px  x coord of point
+				 *  @param py  y coord of point
+				 */
+				void scale(float sx, float sy, float px, float py) {
+					float result[3][3], result2[3][3];
+					float scale[3][3] = {
+						{sx, 0., 0.}, {0., sy, 0.}, {0., 0., 1.}
+					};
+					float transl1[3][3] = 
+						{ {1., 0., -px}, {0., 1., -py}, {0., 0., 1.} };
+					float transl2[3][3] = 
+						{ {1., 0., px}, {0., 1., py}, {0., 0., 1.} };
+					
+					// form the composite transform
+					matMult (scale, transl1, result);
+					matMult (transl2, result, result2);
+
+					// update current transform matrix
+					matMult (xform, result2, result);
+					copyMat (result, xform);
+
+					xform_flag = true;
+				}
+
+				/**
+				 *  @brief Rotate a 2D point about an arbitrary point (px, py)
+				 *
+				 *  @param angle rotation angle in degrees
+				 *	@param pt  2D point (px, py)
+				 *	 (positive is counter clockwise, negative is clockwise)
+				 */
+				void rotate(float angle, float px, float py) {
+					// compute sin, cos
+					float angle_r = angle * M_PI / 180.;
+					float c = cos(angle_r);
+					float s = sin(angle_r);
+
+					// form the rotation matrix
+					float result[3][3], result2[3][3];
+					float rotation[3][3] = {
+						{c, -s, 0.}, {s, c, 0.}, {0., 0., 1.}
+					};
+					float transl1[3][3] =  {
+						{1., 0., -px}, {0., 1., -py}, {0., 0., 1.}
+					};
+					float transl2[3][3] =  {
+						{1., 0., px}, {0., 1., py}, {0., 0., 1.}
+					};
+
+					// form the composite transform
+					matMult (rotation, transl1, result);
+					matMult (transl2, result, result2);
+
+					// update current transform matrix
+					matMult (xform, result2, result);
+					copyMat (result, xform);
+
+					xform_flag = true;
 				}
 			protected:
 
@@ -417,37 +439,36 @@ namespace bridges {
 
 					string symbol_attr_json = OPEN_CURLY;
 
-					if (fillColor.getRepresentation() !=
-						default_fill_color.getRepresentation()) {
-						symbol_attr_json += QUOTE + "fill" + QUOTE + COLON +
-							fillColor.getCSSRepresentation() + COMMA;
+					if (fillColor != nullptr) {
+						symbol_attr_json += QUOTE + "fill-color" + 
+							QUOTE + COLON + fillColor->getCSSRepresentation() 
+							+ COMMA;
 					}
 
-					if (opacity != default_opacity) {
+					if (opacity != nullptr) {
 						symbol_attr_json += QUOTE + "opacity" + QUOTE + COLON +
-							to_string(opacity) + COMMA;
+							to_string(*opacity) + COMMA;
 					}
 
-					if (strokeColor.getRepresentation() !=
-						default_stroke_color.getRepresentation()) {
-						symbol_attr_json += QUOTE + "stroke" + QUOTE + COLON +
-							strokeColor.getCSSRepresentation() + COMMA;
+					if (strokeColor != nullptr) {
+						symbol_attr_json += QUOTE + "stroke-color" + QUOTE + 
+							COLON + strokeColor->getCSSRepresentation() + COMMA;
 					}
 
-					if (strokeWidth != default_stroke_width) {
-						symbol_attr_json += QUOTE + "stroke-width" + QUOTE + COLON +
-							to_string(strokeWidth) + COMMA;
+					if (strokeWidth != nullptr) {
+						symbol_attr_json += QUOTE + "stroke-width" + QUOTE + 
+							COLON + to_string(*strokeWidth) + COMMA;
 					}
 
-					if (strokeDash != default_stroke_dash) {
-						symbol_attr_json += QUOTE + "stroke-dasharray" + QUOTE + COLON +
-							to_string(strokeDash) + COMMA;
+					if (strokeDash != nullptr) {
+						symbol_attr_json += QUOTE + "stroke-dasharray" + QUOTE +
+							COLON + to_string(*strokeDash) + COMMA;
 					}
 
 					// check transform, if it is identity, ignore
-					if (!this->identity_matrix) {
+					if (this->xform_flag) {
 						symbol_attr_json +=
-							QUOTE + "xform" + QUOTE + COLON +
+							QUOTE + "transform" + QUOTE + COLON +
 							OPEN_BOX +
 							JSONencode(this->xform[0][0]) + COMMA +
 							JSONencode(this->xform[1][0]) + COMMA +
@@ -457,18 +478,6 @@ namespace bridges {
 							JSONencode(this->xform[1][2]) +
 							CLOSE_BOX + COMMA;
 					}
-
-					if (location[0] != default_location[0] ||
-						location[1] != default_location[1]) {
-						symbol_attr_json += QUOTE + "location" + QUOTE + COLON +
-							OPEN_CURLY +
-							QUOTE + "x" + QUOTE + COLON  +
-							to_string(location[0]) + COMMA +
-							QUOTE + "y" + QUOTE + COLON +
-							to_string(location[1]) +
-							CLOSE_CURLY   + COMMA;
-					}
-
 					return symbol_attr_json;
 				}
 		};
