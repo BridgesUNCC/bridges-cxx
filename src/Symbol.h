@@ -55,15 +55,6 @@ namespace bridges {
 				std::unique_ptr<int> strokeDash;
 				std::unique_ptr<float> opacity;
 
-				// 2D affine transform matrix for the symbol
-				float xform[3][3] = {
-					{1., 0., 0.},
-					{0., 1., 0.},
-					{0., 0., 1.}
-				};
-				// use this flag to refrain from putting it into the JSON
-				// as its the default
-				bool xform_flag = false;
 
 				// matrix methods used for affine transformations on symbols
 				void matMult (float m1[][3], float m2[][3], float result[][3])
@@ -272,6 +263,17 @@ namespace bridges {
 					return shape_type;
 				}
 
+				// use this flag to refrain from putting it into the JSON
+				// as its the default
+				bool xform_flag = false;
+
+				// 2D affine transform matrix for the symbol
+				float xform[3][3] = {
+					{1., 0., 0.},
+					{0., 1., 0.},
+					{0., 0., 1.}
+				};
+
 			public:
 				/**
 				 *  @brief Translate a 2D point
@@ -402,6 +404,15 @@ namespace bridges {
 
 					xform_flag = true;
 				}
+				void setTransform(float a, float b, float c, 
+							float d, float e, float f) {
+					xform[0][0] = a; xform[0][1] = b; xform[0][2] = c;
+					xform[1][0] = d; xform[1][1] = e; xform[1][2] = f;
+					xform[2][0] = 0.0f; xform[2][1] = 0.0f; xform[2][2] = 1.0f;
+
+					xform_flag = true;
+				}
+
 			protected:
 
 				/**
