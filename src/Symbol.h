@@ -109,7 +109,6 @@ namespace bridges {
 						opacity(new float) {
 
 					identifier = ids;
-cout << "Creating symbol " << identifier << endl;
 					xform_flag = false;
 
 					// set id for symbol
