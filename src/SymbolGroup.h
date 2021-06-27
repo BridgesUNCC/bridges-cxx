@@ -56,9 +56,7 @@ namespace bridges {
 				 *   @param s  symbol being added
 				 */
 				void addSymbol(Symbol *s) {
-cout << "adding symbol " << s->getIdentifier() << endl;
 					symbols[s->getIdentifier()] = s;
-cout << "num symbols " << symbols.size() << endl;
 				}
 				/**
 				 * This method returns the bounding box of all symbols making

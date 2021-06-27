@@ -7,7 +7,6 @@
 #include <string>
 #include <vector>
 #include <cmath>
-#include <memory>
 
 using namespace std;
 
@@ -49,11 +48,11 @@ namespace bridges {
 
 				// symbol attributes
 
-				std::unique_ptr<Color> fillColor;
-				std::unique_ptr<Color> strokeColor;
-				std::unique_ptr<float> strokeWidth;
-				std::unique_ptr<int> strokeDash;
-				std::unique_ptr<float> opacity;
+				Color *fillColor = nullptr;
+				Color *strokeColor = nullptr;
+				float *strokeWidth = nullptr;
+				int* strokeDash = nullptr;
+				float *opacity = nullptr;
 
 
 				// matrix methods used for affine transformations on symbols
@@ -93,17 +92,30 @@ namespace bridges {
 				 * @brief default constructor
 				 */
 				Symbol() :
-						fillColor (new Color),
-						strokeColor (new Color),
-						strokeWidth(new float),
-						strokeDash(new int),
-						opacity(new float) {
+						fillColor (nullptr),
+						strokeColor (nullptr),
+						strokeWidth(nullptr),
+						strokeDash(nullptr), 
+						opacity (nullptr) {
 
 					identifier = ids;
 					xform_flag = false;
 
 					// set id for symbol
 					ids++;
+				}
+
+				~Symbol() {
+					if (fillColor)  
+						delete fillColor;
+					if (strokeColor)
+						delete strokeColor;
+					if (strokeWidth)
+						delete strokeWidth;
+					if (strokeDash)
+						delete strokeDash;
+					if (opacity)  
+						delete opacity;
 				}
 
 				/**
@@ -135,6 +147,9 @@ namespace bridges {
 				 * @param c the color to set
 				 */
 				void setFillColor(Color c) {
+					if (!fillColor)	
+						fillColor = new Color;
+
 					*fillColor = c;
 				}
 				/**
@@ -143,6 +158,9 @@ namespace bridges {
 				 * @param c the named color to set
 				 */
 				void setFillColor(string c) {
+					if (!fillColor)	
+						fillColor = new Color;
+
 					*fillColor = Color(c);
 				}
 				/**
@@ -151,7 +169,10 @@ namespace bridges {
 				 * @return  fill color
 				 */
 				Color getFillColor() const {
-					return *fillColor;
+					if (!fillColor) 
+						throw "Fill color was not set!";
+					else 
+						return *fillColor;
 				}
 
 				/**
@@ -160,6 +181,9 @@ namespace bridges {
 				 * @param c the color to set
 				 */
 				void setStrokeColor(Color c) {
+					if (!strokeColor)
+						strokeColor = new Color;
+
 					*strokeColor = c;
 				}
 
@@ -169,6 +193,9 @@ namespace bridges {
 				 * @param c the named color to set
 				 */
 				void setStrokeColor(string c) {
+					if (!strokeColor)
+						strokeColor = new Color;
+
 					*strokeColor = Color(c);
 				}
 
@@ -178,7 +205,10 @@ namespace bridges {
 				 * @return  stroke color
 				 */
 				Color getStrokeColor() {
-					return *strokeColor;
+					if (!strokeColor)
+						throw "Stroke color was not set!";
+					else 
+						return *strokeColor;
 				}
 
 				/**
@@ -187,6 +217,9 @@ namespace bridges {
 				 * @param strk_width the stroke width to set
 				 */
 				void setStrokeWidth(float strk_width) {
+					if (!strokeWidth)
+						strokeWidth = new float;
+	
 					if (*strokeWidth < 0.0f)
 						throw "Stroke width must be positive or null";
 					else
@@ -199,6 +232,9 @@ namespace bridges {
 				 * @return  stroke width
 				 */
 				float getStrokeWidth() const {
+					if (!strokeWidth)
+						throw "Stroke width not set!";
+
 					return *strokeWidth;
 				}
 
@@ -208,6 +244,9 @@ namespace bridges {
 				 * @param op the opacity to set
 				 */
 				void setOpacity(float op) {
+					if (!opacity)
+						opacity = new float;
+
 					if (op < 0.0f || op > 1.0f)
 						throw "Opacity must be between 0 and 1";
 					else
@@ -220,6 +259,9 @@ namespace bridges {
 				 * @return  symbol opacity
 				 */
 				float getOpacity() const {
+					if (!opacity) 
+						throw "Opacity not set!";
+
 					return *opacity;
 				}
 
@@ -229,6 +271,9 @@ namespace bridges {
 				 * @param dash dash level
 				 */
 				void setStrokeDash(int dash) {
+					if (!strokeDash)
+						strokeDash = new int;
+
 					if (dash < 0 || dash > 10)
 						throw "Dash must be between 0 and 10 (inclusive)";
 					else
@@ -241,6 +286,9 @@ namespace bridges {
 				 * @return  stroke dash level
 				 */
 				int getStrokeDash() const {
+					if (!strokeDash)
+						throw "Stroke dash  not set!";
+
 					return *strokeDash;
 				}
 

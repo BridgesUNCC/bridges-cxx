@@ -29,8 +29,8 @@ namespace bridges {
 				float *origin = new float[2];
 
 				// label attributes
-				std::unique_ptr<float> fontSize;
-				std::unique_ptr<string> anchorType;
+				float *fontSize = nullptr;
+				string *anchorType = nullptr;
 
 				string label_text = string();
 
@@ -64,8 +64,8 @@ namespace bridges {
 				/**
 				 * 	constructors
 				 */
-				Text() : fontSize(new float), 
-						anchorType(new string) {
+				Text() : fontSize(nullptr), 
+						anchorType(nullptr) {
 
 					origin[0] = origin[1] = 0.0f;
 					setStrokeWidth(0.0f);
@@ -136,6 +136,9 @@ namespace bridges {
 				 *
 				 */
 				void setAnchorType(string type) {
+					if (!anchorType)
+						anchorType = new string;
+
 					*anchorType = type;
 				}
 
@@ -146,6 +149,9 @@ namespace bridges {
 				 *
 				 */
 				string  getAnchorType() {
+					if (!anchorType)
+						throw "Anchor type not set!";
+
 					return *anchorType;
 				}
 				
@@ -156,6 +162,9 @@ namespace bridges {
 				 *
 				 */
 				void setFontSize(float sz) {
+					if (!fontSize)
+						fontSize = new float;
+
 					*fontSize = sz;
 				}
 
@@ -166,6 +175,9 @@ namespace bridges {
 				 *
 				 */
 				int getFontSize() {
+					if (!fontSize) 
+						throw "Font size not set!";
+
 					return *fontSize;
 				}
 
