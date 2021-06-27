@@ -23,21 +23,20 @@ namespace bridges {
 		 * @date 12/23/18, 12/28/20
 		 *
 		 */
-		class Label : public Symbol {
+		class Text : public Symbol {
 			private:
-				// label origin
-				int origin[2]  = {0, 0};
+				// label anchor location
+				float *origin = new float[2];
 
 				// label attributes
-				int fontSize = 12;
+				std::unique_ptr<float> fontSize;
+				std::unique_ptr<string> anchorType;
+
+				string label_text = string();
 
 				int textWidth = 100;
 				int textHeight = 50;
 				float rotation_angle = 0.;
-
-				string label_text = string();
-
-				string anchorType = string();
 
 				/**
 				 *  @brief Rotate a 2D point (about Z)
@@ -65,11 +64,12 @@ namespace bridges {
 				/**
 				 * 	constructors
 				 */
-				Label() {
-					origin[0] = origin[1] = 0;
-					fontSize = 12;
-					textWidth = 100;
-					textHeight = 50;
+				Text() : fontSize(new float), 
+						anchorType(new string) {
+
+					origin[0] = origin[1] = 0.0f;
+					setStrokeWidth(0.0f);
+					setShapeType("text");
 				}
 
 				/**
@@ -77,8 +77,8 @@ namespace bridges {
 				 *
 				 * @param l  label
 				 */
-				Label (string l) {
-					Label();
+				Text (string l) {
+					Text();
 					label_text = l;
 				}
 
@@ -114,16 +114,41 @@ namespace bridges {
 				 * @param  y  y coordinate of label location
 				 *
 				 */
-				void setLocation(int *loc) {
+				void setAnchorLocation(float *loc) {
 					origin[0] = loc[0];
 					origin[1] = loc[1];
 				}
 
-				int *getLocation() {
+				/**
+				 * @brief This method gets the label anchor location; 
+				 *
+				 * @return anchor location (x, y)
+				 *
+				 */
+				float *getAnchorLocation() {
 					return origin;
 				}
-				
 
+				/**
+				 * @brief This method sets the label's anchor type
+				 *
+				 * @param  type  string
+				 *
+				 */
+				void setAnchorType(string type) {
+					*anchorType = type;
+				}
+
+				/**
+				 * @brief This method gets the label's anchor type
+				 *
+				 * @return  type  
+				 *
+				 */
+				string  getAnchorType() {
+					return *anchorType;
+				}
+				
 				/**
 				 * @brief This method sets the font size
 				 *
@@ -131,7 +156,7 @@ namespace bridges {
 				 *
 				 */
 				void setFontSize(float sz) {
-					fontSize = sz;
+					*fontSize = sz;
 				}
 
 				/**
@@ -141,7 +166,7 @@ namespace bridges {
 				 *
 				 */
 				int getFontSize() {
-					return fontSize;
+					return *fontSize;
 				}
 
 				/**
@@ -246,15 +271,15 @@ namespace bridges {
 						else // support only spaces
 							length += 0.55;
 					}
-					length *= fontSize;
+					length *= *fontSize;
 
 					float width = length;
 					float height = 0.;
 					if (upper_case_exists) {
-						height = fontSize + 0.3f * fontSize;
+						height = *fontSize + 0.3f * *fontSize;
 					}
 					else
-						height = fontSize + 0.1f * fontSize;
+						height = *fontSize + 0.1f * *fontSize;
 
 					// account for text orientation to compute an
 					// axis aligned bounding box
@@ -329,17 +354,24 @@ namespace bridges {
 
 					string shape_json = getSymbolAttributeRepresentation();
 
+					if (anchorType)  {
+						shape_json += QUOTE + "anchorType" + QUOTE + COLON + 
+								QUOTE + *anchorType + QUOTE + COMMA;
+					}
+					if (fontSize) {
+						shape_json += QUOTE + "font-size" + QUOTE + COLON +  
+								to_string(*fontSize)  + COMMA; 
+					}
+
 					shape_json +=
 						QUOTE + "text" + QUOTE + COLON +  QUOTE + label_text + QUOTE + COMMA +
-						QUOTE + "anchor-location" + QUOTE + COLON +  QUOTE + 
+						QUOTE + "anchor-location" + QUOTE + COLON +  
 							OPEN_BOX + 
-								to_string(origin[0]) + COMMA + to_string(origin[0]) +
-							CLOSE_BOX + COMMA +
-						QUOTE + "anchorType" + QUOTE + COLON + QUOTE + anchorType + QUOTE + COMMA +
-						QUOTE + "shape" + QUOTE + COLON + QUOTE + "text" + QUOTE + COMMA +
-						QUOTE + "font-size" + QUOTE + COLON +  to_string(fontSize)  + COMMA +
-						QUOTE + "angle" + QUOTE + COLON +  to_string(rotation_angle)  +
-						CLOSE_CURLY;
+								to_string(origin[0]) + COMMA + to_string(origin[1]) +
+							CLOSE_BOX + COMMA + 
+						QUOTE + "angle" + QUOTE + COLON +  to_string(rotation_angle) +
+								CLOSE_CURLY;
+
 
 					return shape_json;
 				}
