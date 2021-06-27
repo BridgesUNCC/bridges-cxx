@@ -40,18 +40,14 @@ namespace bridges {
 
 				// symbols in this group
 				unordered_map<int, Symbol*> symbols;
-				int identifier = 0;
-				string name = "group";
 
 			public:
 				/**
 				 *	Constructors
 				 */
 				SymbolGroup() {
-				}
-
-				SymbolGroup(string nm) {
-					name  = nm;
+					setShapeType("group");
+					symbols.clear();
 				}
 
 				/**
@@ -60,7 +56,9 @@ namespace bridges {
 				 *   @param s  symbol being added
 				 */
 				void addSymbol(Symbol *s) {
-					symbols[identifier++] = s;
+cout << "adding symbol " << s->getIdentifier() << endl;
+					symbols[s->getIdentifier()] = s;
+cout << "num symbols " << symbols.size() << endl;
 				}
 				/**
 				 * This method returns the bounding box of all symbols making
@@ -95,30 +93,24 @@ namespace bridges {
 				virtual const string getSymbolRepresentation() const {
 
 					using bridges::JSONUtil::JSONencode;
-					string symbol_json = OPEN_CURLY;
+					string symbol_json = getSymbolAttributeRepresentation();
 
-					symbol_json +=
-						QUOTE + "name" + QUOTE + COLON +
-						QUOTE + name + QUOTE + COMMA +
-						QUOTE + "shape" + QUOTE + COLON +
-						QUOTE + "symbol_group" + QUOTE + COMMA;
-					//					if (!identity_matrix) {
-					symbol_json += QUOTE + "xform" + QUOTE + COLON +
-						OPEN_BOX +
-						JSONencode(xform[0][0]) + COMMA +
-						JSONencode(xform[1][0]) + COMMA +
-						JSONencode(xform[0][1]) + COMMA +
-						JSONencode(xform[1][1]) + COMMA +
-						JSONencode(xform[0][2]) + COMMA +
-						JSONencode(xform[1][2]) +
-						CLOSE_BOX + COMMA;
-					//					}
 					// process the symbols in the group
 					symbol_json += QUOTE + "symbols" + QUOTE + COLON + OPEN_BOX;
+cout << "num symbols:" << symbols.size();
 					for (auto& entry : symbols) {
 						symbol_json +=
-							entry.second->getSymbolRepresentation() +
-							COMMA;
+							entry.second->getSymbolRepresentation();
+
+
+						// remove the curly brace 
+						if (symbol_json.size())
+							symbol_json.erase(symbol_json.size() - 1);
+
+						// add parent id
+						symbol_json += COMMA + QUOTE + "parentID" + QUOTE + COLON +
+								to_string(getIdentifier()) + CLOSE_CURLY + COMMA;
+cout << "Symbol Rep:" + symbol_json << endl;
 					}
 
 					// remove last comma

@@ -17,6 +17,7 @@ using namespace std;
 namespace bridges {
 	namespace datastructure {
 
+
 		/**
 		 * @brief This is an abstract class for deriving a
 		 *  number of Symbol shape objects, for use in a SymbolCollection.
@@ -35,12 +36,16 @@ namespace bridges {
 
 			private:
 
+				static int ids;
+
 				int identifier;
 
 				string name = string();
 
 				// maintain unique ids for each symbol
 				string shape_type = "circle";
+
+				// maintain ids for symbols
 
 				// symbol attributes
 
@@ -102,8 +107,13 @@ namespace bridges {
 						strokeWidth(new float),
 						strokeDash(new int),
 						opacity(new float) {
-					identifier = getIdentifier();
+
+					identifier = ids;
+cout << "Creating symbol " << identifier << endl;
 					xform_flag = false;
+
+					// set id for symbol
+					ids++;
 				}
 
 				/**
@@ -126,10 +136,7 @@ namespace bridges {
 				 * 	@return the identifier
 				 */
 				int getIdentifier() const {
-					static int ids = 0;
-					ids++;
-
-					return ids - 1;
+					return identifier;
 				}
 
 				/**
@@ -415,7 +422,9 @@ namespace bridges {
 					string symbol_attr_json = OPEN_CURLY;
 
 					symbol_attr_json += QUOTE + "type" + QUOTE + COLON +
-							QUOTE + getShapeType() + QUOTE + COMMA;
+							QUOTE + getShapeType() + QUOTE + COMMA + 
+							QUOTE + "ID" + QUOTE + COLON +
+							QUOTE + to_string(identifier) + QUOTE + COMMA;
 
 					if (fillColor != nullptr) {
 						symbol_attr_json += QUOTE + "fill-color" + 
@@ -459,6 +468,9 @@ namespace bridges {
 					return symbol_attr_json;
 				}
 		};
+
+		// initialize the id to start at zero
+		int Symbol::ids = 0;
 	}
 } // namespace bridges
 
