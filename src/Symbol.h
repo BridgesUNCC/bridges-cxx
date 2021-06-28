@@ -285,7 +285,7 @@ namespace bridges {
 				 *
 				 * @param dash dash level
 				 */
-				void setStrokeDash(int dash) {
+				Symbol& setStrokeDash(int dash) {
 					if (!strokeDash)
 						strokeDash = new int;
 
@@ -293,6 +293,8 @@ namespace bridges {
 						throw "Dash must be between 0 and 10 (inclusive)";
 					else
 						*strokeDash = dash;
+
+					return *this;
 				}
 
 				/**
@@ -371,7 +373,7 @@ namespace bridges {
 				 *  @param tx, ty translation vector
 				 *
 				 */
-				void translate (float tx, float ty) {
+				Symbol& translate (float tx, float ty) {
 					float result[3][3];
 					float transl[3][3] = {
 						{1., 0., tx}, {0., 1., ty}, {0., 0., 1.}
@@ -382,6 +384,8 @@ namespace bridges {
 					copyMat (result, xform);
 
 					xform_flag = true;
+
+					return *this;
 				}
 
 				/**
@@ -390,7 +394,7 @@ namespace bridges {
 				 *  @param pt  2D point (x, y)
 				 *  @param sx, sy scale factors along each axis
 				 */
-				void scale(float sx, float sy) {
+				Symbol& scale(float sx, float sy) {
 					float result[3][3];
 					float scale[3][3] = {
 						{sx, 0., 0.}, {0., sy, 0.}, {0., 0., 1.}
@@ -401,6 +405,8 @@ namespace bridges {
 					copyMat (result, xform);
 
 					xform_flag = true;
+
+					return *this;
 				}
 
 				/**
@@ -410,7 +416,7 @@ namespace bridges {
 				 *  @param angle rotation angle in degrees
 				 *		(positive is counter clockwise, negative is clockwise)
 				 */
-				void rotate(float angle) {
+				Symbol& rotate(float angle) {
 					// compute sin, cos
 					float angle_r = angle * M_PI / 180.;
 					float c = cos(angle_r);
@@ -427,6 +433,8 @@ namespace bridges {
 					copyMat (result, xform);
 
 					xform_flag = true;
+
+					return *this;
 				}
 
 				/**
@@ -437,7 +445,7 @@ namespace bridges {
 				 *  @param px  x coord of point
 				 *  @param py  y coord of point
 				 */
-				void scale(float sx, float sy, float px, float py) {
+				Symbol& scale(float sx, float sy, float px, float py) {
 					float result[3][3], result2[3][3];
 					float scale[3][3] = {
 						{sx, 0., 0.}, {0., sy, 0.}, {0., 0., 1.}
@@ -456,6 +464,8 @@ namespace bridges {
 					copyMat (result, xform);
 
 					xform_flag = true;
+
+					return *this;
 				}
 
 				/**
@@ -465,7 +475,7 @@ namespace bridges {
 				 *	@param pt  2D point (px, py)
 				 *	 (positive is counter clockwise, negative is clockwise)
 				 */
-				void rotate(float angle, float px, float py) {
+				Symbol& rotate(float angle, float px, float py) {
 					// compute sin, cos
 					float angle_r = angle * M_PI / 180.;
 					float c = cos(angle_r);
@@ -492,14 +502,18 @@ namespace bridges {
 					copyMat (result, xform);
 
 					xform_flag = true;
+
+					return *this;
 				}
-				void setTransform(float a, float b, float c, 
+				Symbol& setTransform(float a, float b, float c, 
 							float d, float e, float f) {
 					xform[0][0] = a; xform[0][1] = b; xform[0][2] = c;
 					xform[1][0] = d; xform[1][1] = e; xform[1][2] = f;
 					xform[2][0] = 0.0f; xform[2][1] = 0.0f; xform[2][2] = 1.0f;
 
 					xform_flag = true;
+
+					return *this;
 				}
 
 			protected:
