@@ -53,6 +53,7 @@ namespace bridges {
 				float *strokeWidth = nullptr;
 				int* strokeDash = nullptr;
 				float *opacity = nullptr;
+				int   *layer = nullptr;
 
 
 				// matrix methods used for affine transformations on symbols
@@ -116,6 +117,8 @@ namespace bridges {
 						delete strokeDash;
 					if (opacity)  
 						delete opacity;
+					if (layer)
+						delete layer;
 				}
 
 				/**
@@ -146,22 +149,26 @@ namespace bridges {
 				 *
 				 * @param c the color to set
 				 */
-				void setFillColor(Color c) {
+				Symbol& setFillColor(Color c) {
 					if (!fillColor)	
 						fillColor = new Color;
 
 					*fillColor = c;
+
+					return *this;
 				}
 				/**
 				 * @brief This method sets the symbol fill color
 				 *
 				 * @param c the named color to set
 				 */
-				void setFillColor(string c) {
+				Symbol& setFillColor(string c) {
 					if (!fillColor)	
 						fillColor = new Color;
 
 					*fillColor = Color(c);
+
+					return *this;
 				}
 				/**
 				 * @brief This method gets fill color
@@ -180,11 +187,13 @@ namespace bridges {
 				 *
 				 * @param c the color to set
 				 */
-				void setStrokeColor(Color c) {
+				Symbol& setStrokeColor(Color c) {
 					if (!strokeColor)
 						strokeColor = new Color;
 
 					*strokeColor = c;
+
+					return *this;
 				}
 
 				/**
@@ -192,11 +201,13 @@ namespace bridges {
 				 *
 				 * @param c the named color to set
 				 */
-				void setStrokeColor(string c) {
+				Symbol& setStrokeColor(string c) {
 					if (!strokeColor)
 						strokeColor = new Color;
 
 					*strokeColor = Color(c);
+
+					return *this;
 				}
 
 				/**
@@ -216,7 +227,7 @@ namespace bridges {
 				 *
 				 * @param strk_width the stroke width to set
 				 */
-				void setStrokeWidth(float strk_width) {
+				Symbol& setStrokeWidth(float strk_width) {
 					if (!strokeWidth)
 						strokeWidth = new float;
 	
@@ -224,6 +235,8 @@ namespace bridges {
 						throw "Stroke width must be positive or null";
 					else
 						*strokeWidth = strk_width;
+
+					return *this;
 				}
 
 				/**
@@ -243,7 +256,7 @@ namespace bridges {
 				 *
 				 * @param op the opacity to set
 				 */
-				void setOpacity(float op) {
+				Symbol& setOpacity(float op) {
 					if (!opacity)
 						opacity = new float;
 
@@ -251,6 +264,8 @@ namespace bridges {
 						throw "Opacity must be between 0 and 1";
 					else
 						*opacity = op;
+
+					return *this;
 				}
 
 				/**
@@ -291,6 +306,32 @@ namespace bridges {
 
 					return *strokeDash;
 				}
+
+				/**
+				 * This method sets the layer the symbol sits on
+				 *
+				 * @param l layer (lower value closer to camera)
+				 * @return the symbol
+				 */
+				Symbol& setLayer(int l) {
+					if (!layer)
+						layer = new int;
+
+					*layer = l;
+
+					return *this;
+				}
+
+				/**
+				 * This method gets layer
+				 *
+				 * @return  layer layer (lower value closer to camera)
+				 */
+
+				int getLayer() {
+					return *layer;
+				}
+
 
 
 			protected:
@@ -484,30 +525,34 @@ namespace bridges {
 							QUOTE + "ID" + QUOTE + COLON +
 							QUOTE + to_string(identifier) + QUOTE + COMMA;
 
-					if (fillColor != nullptr) {
+					if (fillColor) {
 						symbol_attr_json += QUOTE + "fill-color" + 
 							QUOTE + COLON + fillColor->getCSSRepresentation() 
 							+ COMMA;
 					}
 
-					if (opacity != nullptr) {
+					if (opacity) {
 						symbol_attr_json += QUOTE + "opacity" + QUOTE + COLON +
 							to_string(*opacity) + COMMA;
 					}
 
-					if (strokeColor != nullptr) {
+					if (strokeColor) {
 						symbol_attr_json += QUOTE + "stroke-color" + QUOTE + 
 							COLON + strokeColor->getCSSRepresentation() + COMMA;
 					}
 
-					if (strokeWidth != nullptr) {
+					if (strokeWidth) {
 						symbol_attr_json += QUOTE + "stroke-width" + QUOTE + 
 							COLON + to_string(*strokeWidth) + COMMA;
 					}
 
-					if (strokeDash != nullptr) {
+					if (strokeDash) {
 						symbol_attr_json += QUOTE + "stroke-dasharray" + QUOTE +
 							COLON + to_string(*strokeDash) + COMMA;
+					}
+					if (layer) {
+						symbol_attr_json += QUOTE + "layer" + QUOTE +
+							COLON + to_string(*layer) + COMMA;
 					}
 
 					// check transform, if it is not set, ignore
