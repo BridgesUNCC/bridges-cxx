@@ -127,12 +127,6 @@ namespace bridges {
 				virtual const string getSymbolRepresentation() const  = 0;
 
 				/**
-				 *	@brief Virtual method to get the bounding box
-				 *		(dimensions) of the shape
-				 */
-				virtual vector<float> getDimensions() const = 0;
-
-				/**
 				 *	@brief return the symbol identifier.
 				 *
 				 * 	Maintains unique identifiers of symbols

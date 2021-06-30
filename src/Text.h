@@ -29,35 +29,16 @@ namespace bridges {
 				float *origin = new float[2];
 
 				// label attributes
-				float *fontSize = nullptr;
-				string *anchorType = nullptr;
+				float 	*fontSize = nullptr;
+				string 	*anchorType = nullptr,
+						*anchorAlignmentLR = nullptr, 
+						*anchorAlignmentTB;
 
 				string label_text = string();
 
 				int textWidth = 100;
 				int textHeight = 50;
 				float rotation_angle = 0.;
-
-				/**
-				 *  @brief Rotate a 2D point (about Z)
-				 *
-				 *	@param pt  2D point (x, y)
-				 *  @param angle rotation angle in degrees (positive is
-				 *		counter clockwise, negative is clockwise)
-				 */
-				void rotatePoint (float *pt, float angle) const {
-					// compute sin, cos
-					float angle_r = angle * M_PI / 180.;
-					float c = cos(angle_r);
-					float s = sin(angle_r);
-
-					// rotate the point
-					float tmp[] = { pt[0]*c - pt[1]*s, pt[0] * s + pt[1] * c };
-
-					// assign to point
-					pt[0] = tmp[0];
-					pt[1] = tmp[1];
-				}
 
 			public:
 
@@ -69,7 +50,6 @@ namespace bridges {
 
 					origin[0] = origin[1] = 0.0f;
 					setStrokeWidth(0.0f);
-					setShapeType("text");
 				}
 
 				/**
@@ -77,8 +57,7 @@ namespace bridges {
 				 *
 				 * @param l  label
 				 */
-				Text (string l) {
-					Text();
+				Text (string l): Text() {
 					label_text = l;
 				}
 
@@ -86,24 +65,24 @@ namespace bridges {
 				 * @brief Get Data Structure name
 				 * @return name of data type
 				 */
-				string getDataStructType() {
-					return "label";
+				string getShapeType() {
+					return "text";
 				}
 				/**
 				 * @brief Set the label text
 				 *
-				 * @param lbl the label to set
+				 * @param lbl the text to set
 				 */
-				void setLabel(string lbl) {
+				void setText(string lbl) {
 					label_text = lbl;
 				}
 
 				/**
 				 * @brief Get the symbol label
 				 *
-				 * @return  the label
+				 * @return  the text label
 				 */
-				string getLabel() const {
+				string getText() const {
 					return label_text;
 				}
 
@@ -120,6 +99,27 @@ namespace bridges {
 				}
 
 				/**
+				 * Sets the alignment parameters for the text label
+				 *
+				 * @param typeLR valid parameters are "left", "middle", and "right"
+				 * @param typeTB valid parameters are "top", "bottom", 
+				 *	"embottom", "emtop", "middle"
+				 *
+				 * @return  symbol
+				 **/
+				Symbol& setAnchorAlignment(string typeLR, string typeTB) {
+					if (!anchorAlignmentLR)
+						anchorAlignmentLR = new string;
+					if (!anchorAlignmentLR)
+						anchorAlignmentTB = new string;
+
+					*anchorAlignmentLR = typeLR;
+					*anchorAlignmentTB = typeTB;
+
+					return *this;
+				}
+	
+				/**
 				 * @brief This method gets the label anchor location; 
 				 *
 				 * @return anchor location (x, y)
@@ -134,12 +134,15 @@ namespace bridges {
 				 *
 				 * @param  type  string
 				 *
+				 * @return  symbol
 				 */
-				void setAnchorType(string type) {
+				Symbol& setAnchorType(string type) {
 					if (!anchorType)
 						anchorType = new string;
 
 					*anchorType = type;
+
+					return *this;
 				}
 
 				/**
@@ -160,12 +163,15 @@ namespace bridges {
 				 *
 				 * @param sz  font size
 				 *
+				 * @return  symbol
 				 */
-				void setFontSize(float sz) {
+				Symbol& setFontSize(float sz) {
 					if (!fontSize)
 						fontSize = new float;
 
 					*fontSize = sz;
+
+					return *this;
 				}
 
 				/**
@@ -255,6 +261,7 @@ namespace bridges {
 				 * @return vector of floats
 				 */
 
+/*
 				vector<float> getBoundingBox() const {
 					vector<float> bbox(4);
 
@@ -345,18 +352,7 @@ namespace bridges {
 					return bbox;
 				}
 
-				/**
-				 * @brief This method returns the bounding box dimensions of
-				 *	the shape
-				 *
-				 * @return vector of floats
-				 */
-				vector<float> getDimensions() const {
-					vector<float> dims(4);
-
-					return getBoundingBox();
-				}
-
+*/
 				/**
 				 * @brief This method returns the JSON representation of the shape
 				 *
@@ -366,17 +362,22 @@ namespace bridges {
 
 					string shape_json = getSymbolAttributeRepresentation();
 
-					if (anchorType)  {
+					if (anchorType)  
 						shape_json += QUOTE + "anchorType" + QUOTE + COLON + 
 								QUOTE + *anchorType + QUOTE + COMMA;
-					}
-					if (fontSize) {
-						shape_json += QUOTE + "font-size" + QUOTE + COLON +  
+
+					if (anchorAlignmentLR)
+						shape_json += QUOTE + "anchor-alignmentLR" + QUOTE + COLON +
+								QUOTE + *anchorAlignmentLR + QUOTE + COMMA;
+
+					if (anchorAlignmentTB)
+						shape_json += QUOTE + "anchor-alignmentTB" + QUOTE + COLON +
+								QUOTE + *anchorAlignmentTB + QUOTE + COMMA;
+
+					shape_json += QUOTE + "font-size" + QUOTE + COLON +  
 								to_string(*fontSize)  + COMMA; 
-					}
 
 					shape_json +=
-						QUOTE + "text" + QUOTE + COLON +  QUOTE + label_text + QUOTE + COMMA +
 						QUOTE + "anchor-location" + QUOTE + COLON +  
 							OPEN_BOX + 
 								to_string(origin[0]) + COMMA + to_string(origin[1]) +

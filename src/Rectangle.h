@@ -87,24 +87,6 @@ namespace bridges {
 					height = h;
 				}
 
-				/**
-				 * This method returns the dimensions of the shape: min and max
-				 *	values in X and Y
-				 *
-				 * @return array of 4 values
-				 */
-				vector<float> getDimensions() const {
-
-					vector<float> dims(4);
-
-					dims[0] = ll_x;
-					dims[1] = ll_x + width;
-					dims[2] = ll_y;
-					dims[3] = ll_y + height;
-
-					return dims;
-				}
-
 				/*
 				 * @brief This method sets the location and size of the rectangle
 				 *

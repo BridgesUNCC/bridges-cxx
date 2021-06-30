@@ -97,23 +97,6 @@ namespace bridges {
 				}
 
 				/**
-				 * This method returns the dimensions of the shape: min and max
-				 *	values in X and Y
-				 *
-				 * @return array of 4 values
-				 */
-				vector<float> getDimensions() const {
-					vector<float> dims(4);
-
-					dims[0] = center_x - radius;
-					dims[1] = center_x + radius;
-					dims[2] = center_y - radius;
-					dims[3] = center_y + radius;
-
-					return dims;
-				}
-
-				/**
 				 * This method returns the JSON representation of the shape
 				 *
 				 * @return string  JSON string

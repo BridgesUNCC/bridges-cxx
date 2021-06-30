@@ -58,29 +58,6 @@ namespace bridges {
 				void addSymbol(Symbol *s) {
 					symbols[s->getIdentifier()] = s;
 				}
-				/**
-				 * This method returns the bounding box of all symbols making
-				 *  up the symbol group
-				 *
-				 * @return array of 4 values
-				 */
-				vector<float> getDimensions() const {
-
-					vector<float> dims = {INFINITY, -INFINITY, INFINITY, -INFINITY};
-					vector<float> tdims;
-					for (auto& entry : symbols) {
-						tdims = entry.second->getDimensions();
-						if (tdims[0] <  dims[0])
-							dims[0] = tdims[0];
-						if (tdims[1] >  dims[1])
-							dims[1] = tdims[1];
-						if (tdims[2] <  dims[2])
-							dims[2] = tdims[2];
-						if (tdims[3] >  dims[3])
-							dims[3] = tdims[3];
-					}
-					return dims;
-				}
 
 				/**
 				 * @brief This method returns the JSON representation of the
