@@ -45,19 +45,11 @@ namespace bridges {
 				}
 
 				/**
-				 * @brief Get the name of the data type
-				 * @return name of symbol type
-				 */
-				string getDataStructType() {
-					return "polyline";
-				}
-
-				/**
-				 *	@brief This method gets the name of the shape
+				 *	@brief This method gets the type of the shape
 				 *
-				 *  @return name   shape name
+				 *  @return the shape type
 				 */
-				string getName()  const {
+				string getShapeType()  const {
 					return "polyline";
 				}
 
@@ -153,10 +145,6 @@ namespace bridges {
 
 					string shape_json = getSymbolAttributeRepresentation();
 					string shape = getShapeType();
-
-					shape_json +=
-						QUOTE + "name" + QUOTE + COLON +  QUOTE + getName() + QUOTE + COMMA +
-						QUOTE + "shape" + QUOTE + COLON + QUOTE + shape + QUOTE + COMMA;
 
 					// add point list to polygons
 					shape_json += QUOTE + "points" + QUOTE + COLON + OPEN_BOX;

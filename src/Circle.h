@@ -62,11 +62,11 @@ namespace bridges {
 				}
 
 				/**
-				 *	This method gets the name of the shape
+				 *	This method gets the type of the shape
 				 *
-				 *  @return name   shape name
+				 *  @return shape type
 				 */
-				string getName()  const {
+				string getShapeType()  const {
 					return "circle";
 				}
 

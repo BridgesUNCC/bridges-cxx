@@ -40,20 +40,11 @@ namespace bridges {
 				}
 
 				/**
-				 *	@brief This method gets the name of the data type
+				 *	@brief This method gets the type of the shape
 				 *
-				 *  @return name   data type
+				 *  @return the shape type
 				 */
-				virtual string getDataStructType() {
-					return "polygon";
-				}
-
-				/**
-				 *	@brief This method gets the name of the shape
-				 *
-				 *  @return name   shape name
-				 */
-				virtual string getName()  const {
+				virtual string getShapeType()  const {
 					return "polygon";
 				}
 

@@ -55,20 +55,11 @@ namespace bridges {
 				}
 
 				/**
-				 *	@brief This method gets the data type name
+				 *	@brief This method gets the shape type name
 				 *
-				 *  @return name   data type name
+				 *  @return shape type
 				 */
-				string getDataStructType() {
-					return "rect";
-				}
-
-				/**
-				 *	@brief This method gets the name of the shape
-				 *
-				 *  @return name   shape name
-				 */
-				string getName()  const {
+				string getShapeType() {
 					return "rect";
 				}
 
