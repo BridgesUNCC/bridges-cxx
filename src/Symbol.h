@@ -505,10 +505,17 @@ namespace bridges {
 
 					return *this;
 				}
+				/**
+				 *  Directly sets the transform matrix; note that the parameters
+				 *	are provided in column major order
+				 *
+				 *  @param a, b, c, d, e, f  fills the first two rows of the matrix
+				 */
 				Symbol& setTransform(float a, float b, float c, 
 							float d, float e, float f) {
-					xform[0][0] = a; xform[0][1] = b; xform[0][2] = c;
-					xform[1][0] = d; xform[1][1] = e; xform[1][2] = f;
+					xform[0][0] = a; xform[1][0] = b; 
+					xform[0][1] = c; xform[1][1] = d; 
+					xform[0][2] = e; xform[2][2] = f;
 					xform[2][0] = 0.0f; xform[2][1] = 0.0f; xform[2][2] = 1.0f;
 
 					xform_flag = true;
