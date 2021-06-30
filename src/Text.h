@@ -72,6 +72,7 @@ namespace bridges {
 						delete anchorAlignmentLR;
 					if (anchorAlignmentTB)
 						delete anchorAlignmentTB;
+					delete [] origin;
 				}
 
 				/*
