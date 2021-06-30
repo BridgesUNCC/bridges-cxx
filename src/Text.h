@@ -46,7 +46,9 @@ namespace bridges {
 				 * 	constructors
 				 */
 				Text() : fontSize(nullptr), 
-						anchorType(nullptr) {
+						anchorType(nullptr),
+						anchorAlignmentLR(nullptr),
+						anchorAlignmentTB(nullptr) {
 
 					origin[0] = origin[1] = 0.0f;
 					setStrokeWidth(0.0f);
@@ -59,6 +61,17 @@ namespace bridges {
 				 */
 				Text (string l): Text() {
 					label_text = l;
+				}
+
+				~Text() {
+					if (fontSize)
+						delete fontSize;
+					if (anchorType)
+						delete anchorType;
+					if (anchorAlignmentLR)
+						delete anchorAlignmentLR;
+					if (anchorAlignmentTB)
+						delete anchorAlignmentTB;
 				}
 
 				/*
