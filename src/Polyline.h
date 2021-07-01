@@ -49,7 +49,7 @@ namespace bridges {
 				 *
 				 *  @return the shape type
 				 */
-				string getShapeType()  const {
+				virtual string getShapeType()  const {
 					return "polyline";
 				}
 

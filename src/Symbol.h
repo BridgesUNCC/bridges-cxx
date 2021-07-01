@@ -93,11 +93,12 @@ namespace bridges {
 				 * @brief default constructor
 				 */
 				Symbol() :
-						fillColor (nullptr),
-						strokeColor (nullptr),
+						fillColor(nullptr),
+						strokeColor(nullptr),
 						strokeWidth(nullptr),
 						strokeDash(nullptr), 
-						opacity (nullptr) {
+						opacity(nullptr),
+						layer(nullptr) {
 
 					identifier = ids;
 					xform_flag = false;
@@ -324,7 +325,7 @@ namespace bridges {
 				 * @return  layer layer (lower value closer to camera)
 				 */
 
-				int getLayer() {
+				int getLayer() const {
 					return *layer;
 				}
 
@@ -340,13 +341,11 @@ namespace bridges {
 					shape_type = s;
 				}
 				/**
-				 * Get the symbol type
+				 * Get the symbol type - implemented in subclasses
 				 *
 				 * @return  the shape type
 				 */
-				string getShapeType() const {
-					return shape_type;
-				}
+				virtual string getShapeType() const  = 0;
 
 				// use this flag to refrain from putting it into the JSON
 				// as its the default
@@ -540,36 +539,6 @@ namespace bridges {
 							QUOTE + "ID" + QUOTE + COLON +
 							QUOTE + to_string(identifier) + QUOTE + COMMA;
 
-					if (fillColor) {
-						symbol_attr_json += QUOTE + "fill-color" + 
-							QUOTE + COLON + fillColor->getCSSRepresentation() 
-							+ COMMA;
-					}
-
-					if (opacity) {
-						symbol_attr_json += QUOTE + "opacity" + QUOTE + COLON +
-							to_string(*opacity) + COMMA;
-					}
-
-					if (strokeColor) {
-						symbol_attr_json += QUOTE + "stroke-color" + QUOTE + 
-							COLON + strokeColor->getCSSRepresentation() + COMMA;
-					}
-
-					if (strokeWidth) {
-						symbol_attr_json += QUOTE + "stroke-width" + QUOTE + 
-							COLON + to_string(*strokeWidth) + COMMA;
-					}
-
-					if (strokeDash) {
-						symbol_attr_json += QUOTE + "stroke-dasharray" + QUOTE +
-							COLON + to_string(*strokeDash) + COMMA;
-					}
-					if (layer) {
-						symbol_attr_json += QUOTE + "layer" + QUOTE +
-							COLON + to_string(*layer) + COMMA;
-					}
-
 					// check transform, if it is not set, ignore
 					if (this->xform_flag) {
 						symbol_attr_json +=
@@ -583,6 +552,47 @@ namespace bridges {
 							JSONencode(this->xform[1][2]) +
 							CLOSE_BOX + COMMA;
 					}
+					if (layer) {
+						symbol_attr_json += QUOTE + "layer" + QUOTE +
+							COLON + to_string(*layer) + COMMA;
+					}
+
+					// the above attributes are all that is needed for 'group' 
+					// type, rest also include the following
+					if (getShapeType() == "group") {
+						// remove the last comma
+						symbol_attr_json.erase (symbol_attr_json.size() -1);
+						symbol_attr_json += CLOSE_CURLY;
+					}
+					else {
+
+						if (fillColor) {
+							symbol_attr_json += QUOTE + "fill-color" + 
+								QUOTE + COLON + fillColor->getCSSRepresentation() 
+								+ COMMA;
+						}
+
+						if (opacity) {
+							symbol_attr_json += QUOTE + "opacity" + QUOTE + COLON +
+								to_string(*opacity) + COMMA;
+						}
+
+						if (strokeColor) {
+							symbol_attr_json += QUOTE + "stroke-color" + QUOTE + 
+								COLON + strokeColor->getCSSRepresentation() + COMMA;
+						}
+
+						if (strokeWidth) {
+							symbol_attr_json += QUOTE + "stroke-width" + QUOTE + 
+								COLON + to_string(*strokeWidth) + COMMA;
+						}
+
+						if (strokeDash) {
+							symbol_attr_json += QUOTE + "stroke-dasharray" + QUOTE +
+								COLON + to_string(*strokeDash) + COMMA;
+						}
+					}
+
 					return symbol_attr_json;
 				}
 		};

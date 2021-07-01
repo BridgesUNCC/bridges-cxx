@@ -65,30 +65,23 @@ namespace bridges {
 				 *
 				 * @return string  JSON string
 				 */
+
+				/**
+				 *  @brief This method gets the shape type name
+				 *
+				 *  @return shape type
+				 */
+                virtual string getShapeType() const {
+                    return "group";
+                }
+
 				virtual const string getSymbolRepresentation() const {
 
 					using bridges::JSONUtil::JSONencode;
 
-					string symbol_json = OPEN_CURLY;  
-
-					if (this->xform_flag) {
-						symbol_json +=
-							QUOTE + "transform" + QUOTE + COLON +
-							OPEN_BOX +
-								JSONencode(this->xform[0][0]) + COMMA +
-								JSONencode(this->xform[1][0]) + COMMA +
-								JSONencode(this->xform[0][1]) + COMMA +
-								JSONencode(this->xform[1][1]) + COMMA +
-								JSONencode(this->xform[0][2]) + COMMA +
-								JSONencode(this->xform[1][2]) +
-								CLOSE_BOX + COMMA;
-					}
-					symbol_json += 
-                    		QUOTE + "type" + QUOTE + COLON +
-                            QUOTE + getShapeType() + QUOTE + COMMA + 
-                            QUOTE + "ID" + QUOTE + COLON +
-                            QUOTE + to_string(getIdentifier()) + QUOTE +
-						CLOSE_CURLY + COMMA;
+					
+					// first get the group's representation
+					string symbol_json = getSymbolAttributeRepresentation() + COMMA;
 
 					// process the symbols in the group
 					for (auto& entry : symbols) {

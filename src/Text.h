@@ -79,7 +79,7 @@ namespace bridges {
 				 * @brief Get Data Structure name
 				 * @return name of data type
 				 */
-				string getShapeType() {
+				virtual string getShapeType() const {
 					return "text";
 				}
 				/**
@@ -87,8 +87,10 @@ namespace bridges {
 				 *
 				 * @param lbl the text to set
 				 */
-				void setText(string lbl) {
+				Text& setText(string lbl) {
 					label_text = lbl;
+
+					return *this;
 				}
 
 				/**
@@ -103,13 +105,28 @@ namespace bridges {
 				/**
 				 * @brief This method sets the label origin; 
 				 *
-				 * @param  x  x coordinate of label location
-				 * @param  y  y coordinate of label location
+				 * @param  loc coordinates of label location
 				 *
 				 */
-				void setAnchorLocation(float *loc) {
+				Text& setAnchorLocation(float *loc) {
 					origin[0] = loc[0];
 					origin[1] = loc[1];
+
+					return *this;
+				}
+
+				/**
+				 * @brief This method sets the label origin; 
+				 *
+				 * @param  locx  x coordinate of label location
+				 * @param  locy  y coordinate of label location
+				 *
+				 */
+				Text& setAnchorLocation(float locx, float locy) {
+					origin[0] = locx;
+					origin[1] = locy;
+
+					return *this;
 				}
 
 				/**
@@ -121,11 +138,12 @@ namespace bridges {
 				 *
 				 * @return  symbol
 				 **/
-				Symbol& setAnchorAlignment(string typeLR, string typeTB) {
+				Text& setAnchorAlignment(string typeLR, string typeTB) {
 					if (!anchorAlignmentLR)
 						anchorAlignmentLR = new string;
-					if (!anchorAlignmentLR)
+					if (!anchorAlignmentTB)
 						anchorAlignmentTB = new string;
+
 
 					*anchorAlignmentLR = typeLR;
 					*anchorAlignmentTB = typeTB;
@@ -207,8 +225,10 @@ namespace bridges {
 				 * @param w  text width
 				 *
 				 */
-				void setTextWidth(int w) {
+				Text& setTextWidth(int w) {
 					textWidth = w;
+
+					return *this;
 				}
 
 				/**
@@ -227,8 +247,10 @@ namespace bridges {
 				 * @param h  text height
 				 *
 				 */
-				void setTextHeight(int h) {
+				Text& setTextHeight(int h) {
 					textHeight = h;
+
+					return *this;
 				}
 
 				/**
@@ -375,7 +397,6 @@ namespace bridges {
 				const string getSymbolRepresentation() const {
 
 					string shape_json = getSymbolAttributeRepresentation();
-
 					if (anchorType)  
 						shape_json += QUOTE + "anchorType" + QUOTE + COLON + 
 								QUOTE + *anchorType + QUOTE + COMMA;
@@ -397,6 +418,8 @@ namespace bridges {
 								to_string(origin[0]) + COMMA + to_string(origin[1]) +
 							CLOSE_BOX + COMMA + 
 						QUOTE + "angle" + QUOTE + COLON +  to_string(rotation_angle) +
+							COMMA +
+						QUOTE + "text" + QUOTE + COLON +   QUOTE + label_text + QUOTE +
 								CLOSE_CURLY;
 
 

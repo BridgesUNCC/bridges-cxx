@@ -59,7 +59,7 @@ namespace bridges {
 				 *
 				 *  @return shape type
 				 */
-				string getShapeType() {
+				virtual string getShapeType() const {
 					return "rect";
 				}
 
