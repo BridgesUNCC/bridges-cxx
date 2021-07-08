@@ -31,7 +31,7 @@ namespace bridges {
 		  float origin[2];
 
 				// label attributes
-		  float 	*fontSize = nullptr;
+		  float 	fontSize = 12;
 				string 	*anchorType = nullptr,
 						*anchorAlignmentLR = nullptr, 
 						*anchorAlignmentTB = nullptr;
@@ -43,7 +43,7 @@ namespace bridges {
 				/**
 				 * 	constructors
 				 */
-				Text() : fontSize(nullptr), 
+				Text() :  
 						anchorType(nullptr),
 						anchorAlignmentLR(nullptr),
 						anchorAlignmentTB(nullptr) {
@@ -56,9 +56,8 @@ namespace bridges {
 		    this->label_text = t.label_text;
 		    this->origin[0] = t.origin[0];
 		    this->origin[1] = t.origin[1];
+		    this->fontSize = t.fontSize;
 		    
-		    if (t.fontSize)
-		      this->fontSize = new float(*(t.fontSize));
 		    if (t.anchorType)
 		      this->anchorType = new string(*(t.anchorType));
 		    if (t.anchorAlignmentTB)
@@ -74,10 +73,6 @@ namespace bridges {
 		    this->origin[0] = t.origin[0];
 		    this->origin[1] = t.origin[1];
 
-		    if (fontSize) {
-		      delete fontSize;
-		      fontSize = nullptr;
-		    }
 		    if (anchorType) {
 		      delete anchorType;
 		      anchorType = nullptr;
@@ -91,8 +86,7 @@ namespace bridges {
 		      anchorAlignmentTB = nullptr;
 		    }
 
-		    if (t.fontSize)
-		      this->fontSize = new float(*(t.fontSize));
+		    this->fontSize = t.fontSize;
 		    if (t.anchorType)
 		      this->anchorType = new string(*(t.anchorType));
 		    if (t.anchorAlignmentTB)
@@ -113,8 +107,6 @@ namespace bridges {
 				}
 
 				~Text() {
-					if (fontSize)
-						delete fontSize;
 					if (anchorType)
 						delete anchorType;
 					if (anchorAlignmentLR)
@@ -246,10 +238,7 @@ namespace bridges {
 				 * @return  symbol
 				 */
 				Symbol& setFontSize(float sz) {
-					if (!fontSize)
-						fontSize = new float;
-
-					*fontSize = sz;
+				  fontSize = sz;
 
 					return *this;
 				}
@@ -261,10 +250,7 @@ namespace bridges {
 				 *
 				 */
 				int getFontSize() {
-					if (!fontSize) 
-						throw "Font size not set!";
-
-					return *fontSize;
+					return fontSize;
 				}
 
 
@@ -289,7 +275,7 @@ namespace bridges {
 								QUOTE + *anchorAlignmentTB + QUOTE + COMMA;
 
 					shape_json += QUOTE + "font-size" + QUOTE + COLON +  
-								to_string(*fontSize)  + COMMA; 
+								to_string(fontSize)  + COMMA; 
 
 					shape_json +=
 						QUOTE + "anchor-location" + QUOTE + COLON +  
