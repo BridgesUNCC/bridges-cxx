@@ -226,7 +226,7 @@ namespace bridges {
 					if (!strokeWidth)
 						strokeWidth = new float;
 	
-					if (*strokeWidth < 0.0f)
+					if (strk_width < 0.0f)
 						throw "Stroke width must be positive or null";
 					else
 						*strokeWidth = strk_width;
