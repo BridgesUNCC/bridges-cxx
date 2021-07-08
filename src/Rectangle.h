@@ -59,7 +59,7 @@ namespace bridges {
 				 *
 				 *  @return shape type
 				 */
-				virtual string getShapeType() const {
+				virtual string getShapeType() const override {
 					return "rect";
 				}
 
@@ -109,7 +109,7 @@ namespace bridges {
 				 *
 				 * @return string  JSON string
 				 */
-				virtual const string getSymbolRepresentation() const {
+				virtual const string getSymbolRepresentation() const override {
 
 					string shape_json = getSymbolAttributeRepresentation();
 

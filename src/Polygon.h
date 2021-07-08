@@ -42,7 +42,7 @@ namespace bridges {
 				 *
 				 *  @return the shape type
 				 */
-				virtual string getShapeType()  const {
+				virtual string getShapeType()  const override {
 					return "polygon";
 				}
 

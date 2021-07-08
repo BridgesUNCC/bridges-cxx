@@ -51,6 +51,19 @@ namespace bridges {
 				int   *layer = nullptr;
 
 
+				// use this flag to refrain from putting it into the JSON
+				// as its the default
+				bool xform_flag = false;
+
+				// 2D affine transform matrix for the symbol
+				float xform[3][3] = {
+					{1., 0., 0.},
+					{0., 1., 0.},
+					{0., 0., 1.}
+				};
+
+
+		  
 				// matrix methods used for affine transformations on symbols
 				void matMult (float m1[][3], float m2[][3], float result[][3])
 				const {
@@ -82,6 +95,33 @@ namespace bridges {
 					}
 				}
 
+		  void clear_optional() {
+		    if (fillColor)  {
+		      delete fillColor;
+		      fillColor = nullptr;
+		    }
+		    if (strokeColor) {
+		      delete strokeColor;
+		      strokeColor = nullptr;
+		    }
+		    if (strokeWidth) {
+		      delete strokeWidth;
+		      strokeWidth = nullptr;
+		    }
+		    if (strokeDash) {
+		      delete strokeDash;
+		      strokeDash = nullptr;
+		    }
+		    if (opacity) {
+		      delete opacity;
+		      opacity = nullptr;
+		    }
+		    if (layer) {
+		      delete layer;
+		      layer = nullptr;
+		    }
+		  }
+		  
 			public:
 
 				/**
@@ -101,20 +141,46 @@ namespace bridges {
 					// set id for symbol
 					ids++;
 				}
+		  
+		  Symbol(const Symbol& s)
+		    :identifier(s.identifier), name(s.name), xform_flag (s.xform_flag) {
+		    xform[0][0] = s.xform[0][0]; xform[0][1] = s.xform[0][1]; xform[0][2] = s.xform[0][2];
+		    xform[1][0] = s.xform[1][0]; xform[1][1] = s.xform[1][1]; xform[1][2] = s.xform[1][2];
+		    xform[2][0] = s.xform[2][0]; xform[2][1] = s.xform[2][1]; xform[2][2] = s.xform[2][2];
+		    
+		    if (s.fillColor) this->fillColor = new Color(*(s.fillColor));
+		    if (s.strokeColor) this->strokeColor = new Color(*(s.strokeColor));
+		    if (s.strokeWidth) this->strokeWidth = new float(*(s.strokeWidth));
+		    if (s.strokeDash) this->strokeDash = new int(*(s.strokeDash));
+		    if (s.opacity) this->opacity = new float(*(s.opacity));
+		    if (s.layer) this->layer = new int(*(s.layer));
+		    
+		  }
+
+		  Symbol& operator= (const Symbol& s) {
+		    clear_optional();
+		    
+		    this->identifier = s.identifier;
+		    this->name = s.name;
+		    this->xform_flag = s.xform_flag;
+		    xform[0][0] = s.xform[0][0]; xform[0][1] = s.xform[0][1]; xform[0][2] = s.xform[0][2];
+		    xform[1][0] = s.xform[1][0]; xform[1][1] = s.xform[1][1]; xform[1][2] = s.xform[1][2];
+		    xform[2][0] = s.xform[2][0]; xform[2][1] = s.xform[2][1]; xform[2][2] = s.xform[2][2];
+		    
+		    if (s.fillColor) this->fillColor = new Color(*(s.fillColor));
+		    if (s.strokeColor) this->strokeColor = new Color(*(s.strokeColor));
+		    if (s.strokeWidth) this->strokeWidth = new float(*(s.strokeWidth));
+		    if (s.strokeDash) this->strokeDash = new int(*(s.strokeDash));
+		    if (s.opacity) this->opacity = new float(*(s.opacity));
+		    if (s.layer) this->layer = new int(*(s.layer));
+
+		    return *this;
+		  }
+
+		  
 
 				~Symbol() {
-					if (fillColor)  
-						delete fillColor;
-					if (strokeColor)
-						delete strokeColor;
-					if (strokeWidth)
-						delete strokeWidth;
-					if (strokeDash)
-						delete strokeDash;
-					if (opacity)  
-						delete opacity;
-					if (layer)
-						delete layer;
+				  clear_optional();
 				}
 
 				/**
@@ -333,17 +399,6 @@ namespace bridges {
 				 * @return  the shape type
 				 */
 				virtual string getShapeType() const  = 0;
-
-				// use this flag to refrain from putting it into the JSON
-				// as its the default
-				bool xform_flag = false;
-
-				// 2D affine transform matrix for the symbol
-				float xform[3][3] = {
-					{1., 0., 0.},
-					{0., 1., 0.},
-					{0., 0., 1.}
-				};
 
 			public:
 				/**

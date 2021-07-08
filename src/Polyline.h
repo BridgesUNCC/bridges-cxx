@@ -48,7 +48,7 @@ namespace bridges {
 				 *
 				 *  @return the shape type
 				 */
-				virtual string getShapeType()  const {
+				virtual string getShapeType()  const override {
 					return "polyline";
 				}
 
@@ -112,7 +112,7 @@ namespace bridges {
 				 *
 				 * @return string  JSON string
 				 */
-				const string getSymbolRepresentation() const {
+				const string getSymbolRepresentation() const override {
 
 					string shape_json = getSymbolAttributeRepresentation();
 					string shape = getShapeType();

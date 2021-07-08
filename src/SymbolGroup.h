@@ -70,11 +70,11 @@ namespace bridges {
 				 *
 				 *  @return shape type
 				 */
-                virtual string getShapeType() const {
+                virtual string getShapeType() const override {
                     return "group";
                 }
 
-				virtual const string getSymbolRepresentation() const {
+				virtual const string getSymbolRepresentation() const override {
 
 					using bridges::JSONUtil::JSONencode;
 

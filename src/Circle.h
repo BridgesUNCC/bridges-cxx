@@ -54,19 +54,11 @@ namespace bridges {
 				}
 
 				/**
-				 * Get name of the data type
-				 * @return  data type name
-				 */
-				string getDataStructType() {
-					return "circle";
-				}
-
-				/**
 				 *	This method gets the type of the shape
 				 *
 				 *  @return shape type
 				 */
-				virtual string getShapeType()  const {
+				virtual string getShapeType()  const override {
 					return "circle";
 				}
 
@@ -100,7 +92,7 @@ namespace bridges {
 				 *
 				 * @return string  JSON string
 				 */
-				const string getSymbolRepresentation() const {
+				const string getSymbolRepresentation() const override {
 
 					string shape_json = getSymbolAttributeRepresentation();
 

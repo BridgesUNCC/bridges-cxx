@@ -1,3 +1,8 @@
+
+#ifndef  LABEL_H
+
+#define LABEL_H
+
 #include "DataStructure.h"
 #include "Symbol.h"
 #include <vector>
@@ -8,9 +13,6 @@ using namespace std;
 /**
  */
 
-#ifndef  LABEL_H
-
-#define LABEL_H
 
 
 namespace bridges {
@@ -29,10 +31,10 @@ namespace bridges {
 		  float origin[2];
 
 				// label attributes
-				float 	*fontSize = nullptr;
+		  float 	*fontSize = nullptr;
 				string 	*anchorType = nullptr,
 						*anchorAlignmentLR = nullptr, 
-						*anchorAlignmentTB;
+						*anchorAlignmentTB = nullptr;
 
 				string label_text = string();
 
@@ -47,10 +49,61 @@ namespace bridges {
 						anchorAlignmentTB(nullptr) {
 
 					origin[0] = origin[1] = 0.0f;
-					setStrokeWidth(0.0f);
 				}
 
-				/**
+		  Text(const Text& t):
+		    Symbol(t) {
+		    this->label_text = t.label_text;
+		    this->origin[0] = t.origin[0];
+		    this->origin[1] = t.origin[1];
+		    
+		    if (t.fontSize)
+		      this->fontSize = new float(*(t.fontSize));
+		    if (t.anchorType)
+		      this->anchorType = new string(*(t.anchorType));
+		    if (t.anchorAlignmentTB)
+		      this->anchorAlignmentTB = new string(*(t.anchorAlignmentTB));
+		    if (t.anchorAlignmentLR)
+		      this->anchorAlignmentLR = new string(*(t.anchorAlignmentLR));
+		  }
+
+		  Text& operator= (const Text& t) {
+		    Symbol::operator=(t);
+		    
+		    this->label_text = t.label_text;
+		    this->origin[0] = t.origin[0];
+		    this->origin[1] = t.origin[1];
+
+		    if (fontSize) {
+		      delete fontSize;
+		      fontSize = nullptr;
+		    }
+		    if (anchorType) {
+		      delete anchorType;
+		      anchorType = nullptr;
+		    }
+		    if (anchorAlignmentLR) {
+		      delete anchorAlignmentLR;
+		      anchorAlignmentLR = nullptr;
+		    }
+		    if (anchorAlignmentTB) {
+		      delete anchorAlignmentTB;
+		      anchorAlignmentTB = nullptr;
+		    }
+
+		    if (t.fontSize)
+		      this->fontSize = new float(*(t.fontSize));
+		    if (t.anchorType)
+		      this->anchorType = new string(*(t.anchorType));
+		    if (t.anchorAlignmentTB)
+		      this->anchorAlignmentTB = new string(*(t.anchorAlignmentTB));
+		    if (t.anchorAlignmentLR)
+		      this->anchorAlignmentLR = new string(*(t.anchorAlignmentLR));
+
+		    return *this;
+		  }
+		  
+		  /**
 				 * Create a label object with label l
 				 *
 				 * @param l  label
@@ -74,7 +127,7 @@ namespace bridges {
 				 * @brief Get Data Structure name
 				 * @return name of data type
 				 */
-				virtual string getShapeType() const {
+				virtual string getShapeType() const override {
 					return "text";
 				}
 				/**
@@ -220,7 +273,7 @@ namespace bridges {
 				 *
 				 * @return string  JSON string
 				 */
-				const string getSymbolRepresentation() const {
+				const string getSymbolRepresentation() const override {
 
 					string shape_json = getSymbolAttributeRepresentation();
 					if (anchorType)  
