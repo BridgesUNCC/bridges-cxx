@@ -36,8 +36,6 @@ namespace bridges {
 
 				string label_text = string();
 
-				float rotation_angle = 0.;
-
 			public:
 
 				/**
@@ -218,40 +216,6 @@ namespace bridges {
 
 
 				/**
-				 * @brief Set the rotation angle for the label
-				 *
-				 * Permits rotated text labels (only horiz and vertical
-				 *  supported now.
-				 *
-				 * @param angle  rotation angle in dedgrees
-				 *
-				 */
-				void setRotationAngle (float angle) {
-					// right now support for 0, 45, 90 deg.
-					rotation_angle = angle;
-				}
-				/**
-				 * @brief Get the rotation angle for the label
-				 *
-				 *
-				 * @return angle  rotation angle in degrees
-				 *
-				 */
-				float getRotationAngle () {
-					return rotation_angle;
-				}
-
-				/**
-				 * @brief This method returns the bounding box dimensions of
-				 *	the shape
-				 *
-				 *  A more accurate computation, takes into account
-				 *  the label string content
-				 *
-				 * @return vector of floats
-				 */
-
-				/**
 				 * @brief This method returns the JSON representation of the shape
 				 *
 				 * @return string  JSON string
@@ -279,8 +243,6 @@ namespace bridges {
 							OPEN_BOX + 
 								to_string(origin[0]) + COMMA + to_string(origin[1]) +
 							CLOSE_BOX + COMMA + 
-						QUOTE + "angle" + QUOTE + COLON +  to_string(rotation_angle) +
-							COMMA +
 						QUOTE + "text" + QUOTE + COLON +   QUOTE + label_text + QUOTE +
 								CLOSE_CURLY;
 
