@@ -15,8 +15,6 @@ using namespace std;
 
 namespace bridges {
 	namespace datastructure {
-
-
 		/**
 		 * @brief This is an abstract class for deriving a
 		 *  number of Symbol shape objects, for use in a SymbolCollection.
@@ -27,8 +25,8 @@ namespace bridges {
 		 *	each shape has a name, location (x, y) and appropriate geometric
 		 *	and non-geometric attributes
 		 *
-		 * @author David Burlinson, Kalpathi Subramanian
-		 * @date 12/24/18, 7/12/19, 12/28/20
+		 * @author David Burlinson, Kalpathi Subramanian, Erik Saule
+		 * @date 12/24/18, 7/12/19, 12/28/20, 7/2/21, 7/7/21
 		 *
 		 */
 		class Symbol {
@@ -40,9 +38,6 @@ namespace bridges {
 				int identifier;
 
 				string name = string();
-
-				// maintain unique ids for each symbol
-				string shape_type = "circle";
 
 				// maintain ids for symbols
 
@@ -332,14 +327,6 @@ namespace bridges {
 
 
 			protected:
-				/**
-				 * @brief Set the shape type
-				 *
-				 * @param s shape type to set
-				 */
-				void setShapeType (string s) {
-					shape_type = s;
-				}
 				/**
 				 * Get the symbol type - implemented in subclasses
 				 *

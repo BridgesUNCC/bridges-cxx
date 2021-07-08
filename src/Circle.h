@@ -93,7 +93,6 @@ namespace bridges {
 					if (r < 0.)
 						throw "Illegal value for radius. Must be positive";
 					radius = r;
-					setShapeType("circle");
 				}
 
 				/**

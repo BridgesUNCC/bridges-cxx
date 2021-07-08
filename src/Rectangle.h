@@ -102,7 +102,6 @@ namespace bridges {
 						throw  "Width, Height must be positive";
 					ll_x = llx; ll_y = lly;
 					width = w; height = h;
-					setShapeType("rect");
 				}
 
 				/**

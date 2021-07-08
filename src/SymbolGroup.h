@@ -46,7 +46,6 @@ namespace bridges {
 				 *	Constructors
 				 */
 				SymbolGroup() {
-					setShapeType("group");
 					symbols.clear();
 				}
 

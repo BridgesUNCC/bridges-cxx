@@ -33,7 +33,6 @@ namespace bridges {
 				 */
 				Polyline () {
 					points.clear();
-					setShapeType("polyline");
 				}
 
 				/**
@@ -83,7 +82,6 @@ namespace bridges {
 				 */
 				void setPolyline (vector<float> pts) {
 					points = pts;
-					setShapeType("polyline");
 				}
 
 				/**
