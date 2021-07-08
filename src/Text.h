@@ -26,7 +26,7 @@ namespace bridges {
 		class Text : public Symbol {
 			private:
 				// label anchor location
-				float *origin = new float[2];
+		  float origin[2];
 
 				// label attributes
 				float 	*fontSize = nullptr;
@@ -36,8 +36,6 @@ namespace bridges {
 
 				string label_text = string();
 
-				int textWidth = 100;
-				int textHeight = 50;
 				float rotation_angle = 0.;
 
 			public:
@@ -72,7 +70,6 @@ namespace bridges {
 						delete anchorAlignmentLR;
 					if (anchorAlignmentTB)
 						delete anchorAlignmentTB;
-					delete [] origin;
 				}
 
 				/*
@@ -219,49 +216,6 @@ namespace bridges {
 					return *fontSize;
 				}
 
-				/**
-				 * @brief This method sets the text width
-				 *
-				 * @param w  text width
-				 *
-				 */
-				Text& setTextWidth(int w) {
-					textWidth = w;
-
-					return *this;
-				}
-
-				/**
-				 * @brief This method gets the text width
-				 *
-				 * @return  text width
-				 *
-				 */
-				int getTextWidth() {
-					return textWidth;
-				}
-
-				/**
-				 * This method sets the text height
-				 *
-				 * @param h  text height
-				 *
-				 */
-				Text& setTextHeight(int h) {
-					textHeight = h;
-
-					return *this;
-				}
-
-				/**
-				 * @brief This method gets the text height
-				 *
-				 * @return  text height
-				 *
-				 */
-				int getTextHeight() {
-					return textHeight;
-				}
 
 				/**
 				 * @brief Set the rotation angle for the label
