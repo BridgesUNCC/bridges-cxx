@@ -40,7 +40,6 @@ namespace bridges {
 				// to maintain their properties
 			private:
 
-		  //unordered_map<int, Symbol*> symbols;
 		  std::vector<std::shared_ptr<Symbol>> symbols;
 
 				// 	default domain (assuming square coordinate space)
@@ -53,7 +52,6 @@ namespace bridges {
 				mutable float domainxmax = 100.0;
 				mutable float domainymin = -100.0;
 				mutable float domainymax = 100.0;
-				bool autoscaledomain = true;
 
 			public:
 
@@ -69,7 +67,6 @@ namespace bridges {
 				 */
 				void setViewport(float xmin, float xmax, float ymin, float
 					ymax) {
-					autoscaledomain = false;
 					domainxmin = xmin;
 					domainxmax = xmax;
 					domainymin = ymin;
@@ -95,50 +92,26 @@ namespace bridges {
 				 *
 				 *   @param s  symbol being added
 				 */
-		  void addSymbol(std::shared_ptr<Symbol> s) {
-					//  note: it is the user's responsibility to handle
-					//  duplicates where desired
-				  symbols.push_back(s);
-				}
 
+		  void addSymbolPtr(std::shared_ptr<Symbol> s) {
+		    symbols.push_back(s);
+		  }
+
+		  template <typename T>
+		  void addSymbol(T s) {
+		    std::shared_ptr<T> pt = std::make_shared<T>(s);
+		    addSymbolPtr ((std::shared_ptr<Symbol>)pt);
+		  }
+
+
+		  
 			private:
-				/*
-				 *  This method examines whether the axes should be expanded
-				 *	to ensure all shapes are shown
-				 *
-				 *  @param s  Symbol
-				 */
-
-				void updateAxisDomains(const Symbol& s) const {
-					vector<float> dims = s.getDimensions();
-
-					// check x axis
-					if (dims[0] < domainxmin) {
-						domainxmin = dims[0];
-					}
-					if (dims[1] > domainxmax) {
-						domainxmax = dims[1];
-					}
-
-					// check y axis
-					if (dims[2] < domainymin) {
-						domainymin = dims[2];
-					}
-					if (dims[3] > domainymax) {
-						domainymax = dims[3];
-					}
-				}
 
 				/*
 				 *	@brief Get the JSON representation of the the data structure
 				 *  @return JSON string of the symbol representation
 				 */
 				virtual const string getDataStructureRepresentation() const {
-
-					if (autoscaledomain)
-						for (auto& entry : symbols)
-							updateAxisDomains(*second);
-
 
 					string symbol_json = string();
 					for (auto& entry : symbols) {

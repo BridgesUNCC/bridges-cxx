@@ -28,7 +28,6 @@ namespace bridges {
 				 * @brief default constructor
 				 */
 				Polygon () : Polyline() {
-					setShapeType("polygon");
 				}
 
 				/**
@@ -36,24 +35,14 @@ namespace bridges {
 				 * @param pts to construct polygon
 				 */
 				Polygon (vector<float> pts) : Polyline (pts) {
-					setShapeType("polygon");
 				}
 
 				/**
-				 *	@brief This method gets the name of the data type
+				 *	@brief This method gets the type of the shape
 				 *
-				 *  @return name   data type
+				 *  @return the shape type
 				 */
-				virtual string getDataStructType() {
-					return "polygon";
-				}
-
-				/**
-				 *	@brief This method gets the name of the shape
-				 *
-				 *  @return name   shape name
-				 */
-				virtual string getName()  const {
+				virtual string getShapeType()  const override {
 					return "polygon";
 				}
 
@@ -63,7 +52,6 @@ namespace bridges {
 				 */
 				void setPolygon (vector<float> pts) {
 					this->setPolyline(pts);
-					setShapeType("polygon");
 				}
 		};
 	}

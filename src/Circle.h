@@ -21,6 +21,7 @@ namespace bridges {
 		 */
 		class Circle : public Symbol {
 			private:
+				double center_x, center_y;
 				double radius = 1.;
 
 			public:
@@ -45,27 +46,19 @@ namespace bridges {
 				 *  @param  locx, locy : center of circle
 				 *  @param  r : radius
 				 */
-				Circle (int locx, int locy, double r) {
-					setLocation ((float)locx, (float)locy);
+				Circle (int cx, int cy, double r) {
+					center_x = cx; center_y = cy;
 					if (r < 0.)
 						throw "Illegal value for radius. Must be positive";
 					radius = r;
 				}
 
 				/**
-				 * Get name of the data type
-				 * @return  data type name
-				 */
-				string getDataStructType() {
-					return "circle";
-				}
-
-				/**
-				 *	This method gets the name of the shape
+				 *	This method gets the type of the shape
 				 *
-				 *  @return name   shape name
+				 *  @return shape type
 				 */
-				string getName()  const {
+				virtual string getShapeType()  const override {
 					return "circle";
 				}
 
@@ -87,30 +80,11 @@ namespace bridges {
 				 * @param locy  y coordinat of location
 				 * @param r  radius
 				 */
-				void setCircle (int locx, int locy, double r) {
-					setLocation (locx, locy);
+				void setCircle (int cx, int cy, double r) {
+					center_x = cx; center_y = cy;
 					if (r < 0.)
 						throw "Illegal value for radius. Must be positive";
 					radius = r;
-					setShapeType("circle");
-				}
-
-				/**
-				 * This method returns the dimensions of the shape: min and max
-				 *	values in X and Y
-				 *
-				 * @return array of 4 values
-				 */
-				vector<float> getDimensions() const {
-					vector<float> dims(4);
-					const float *location = getLocation();
-
-					dims[0] = location[0] - radius;
-					dims[1] = location[0] + radius;
-					dims[2] = location[1] - radius;
-					dims[3] = location[1] + radius;
-
-					return dims;
 				}
 
 				/**
@@ -118,18 +92,16 @@ namespace bridges {
 				 *
 				 * @return string  JSON string
 				 */
-				const string getSymbolRepresentation() const {
+				const string getSymbolRepresentation() const override {
 
 					string shape_json = getSymbolAttributeRepresentation();
-					string shape = getShapeType();
 
 					shape_json +=
-						QUOTE + "name" + QUOTE + COLON +  QUOTE + getName() + QUOTE + COMMA +
-						QUOTE + "shape" + QUOTE + COLON + QUOTE + shape + QUOTE + COMMA;
-
-					if (shape == "circle")
-						shape_json += QUOTE + "r" + QUOTE + COLON + to_string(radius)
-							+ CLOSE_CURLY;
+						QUOTE + "center" + QUOTE + COLON + 
+						OPEN_BOX + 
+								to_string(center_x) + COMMA + to_string(center_y) +
+						CLOSE_BOX + COMMA +
+						QUOTE + "r" + QUOTE + COLON + to_string(radius) + CLOSE_CURLY;
 
 					return shape_json;
 

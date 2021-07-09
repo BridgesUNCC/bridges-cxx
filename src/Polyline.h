@@ -33,7 +33,6 @@ namespace bridges {
 				 */
 				Polyline () {
 					points.clear();
-					setShapeType("polyline");
 				}
 
 				/**
@@ -45,19 +44,11 @@ namespace bridges {
 				}
 
 				/**
-				 * @brief Get the name of the data type
-				 * @return name of symbol type
-				 */
-				string getDataStructType() {
-					return "polyline";
-				}
-
-				/**
-				 *	@brief This method gets the name of the shape
+				 *	@brief This method gets the type of the shape
 				 *
-				 *  @return name   shape name
+				 *  @return the shape type
 				 */
-				string getName()  const {
+				virtual string getShapeType()  const override {
 					return "polyline";
 				}
 
@@ -91,7 +82,6 @@ namespace bridges {
 				 */
 				void setPolyline (vector<float> pts) {
 					points = pts;
-					setShapeType("polyline");
 				}
 
 				/**
@@ -116,47 +106,16 @@ namespace bridges {
 					center[1] = bbox[1] + (bbox[3] - bbox[1]) / 2.;
 				}
 
-				/**
-				 * @brief This method returns the dimensions of the shape:
-				 *	min and max values in X and Y
-				 *
-				 * @return array of 4 values
-				 */
-				vector<float> getDimensions() const {
-
-					vector<float> dims(4);
-					dims[0] = dims[2] = INFINITY;
-					dims[1] = dims[3] = -INFINITY;
-					float x, y;
-					for (std::size_t i = 0, size = points.size();
-						i < size; i += 2) {
-						x = points.at(i);
-						y = points.at(i + 1);
-						if (x < dims[0])
-							dims[0] = x;
-						if (x > dims[1])
-							dims[1] = x;
-						if (y < dims[2])
-							dims[2] = y;
-						if (y > dims[3])
-							dims[3] = y;
-					}
-					return dims;
-				}
 
 				/**
 				 * @brief This method returns the JSON representation of the shape
 				 *
 				 * @return string  JSON string
 				 */
-				const string getSymbolRepresentation() const {
+				const string getSymbolRepresentation() const override {
 
 					string shape_json = getSymbolAttributeRepresentation();
 					string shape = getShapeType();
-
-					shape_json +=
-						QUOTE + "name" + QUOTE + COLON +  QUOTE + getName() + QUOTE + COMMA +
-						QUOTE + "shape" + QUOTE + COLON + QUOTE + shape + QUOTE + COMMA;
 
 					// add point list to polygons
 					shape_json += QUOTE + "points" + QUOTE + COLON + OPEN_BOX;
