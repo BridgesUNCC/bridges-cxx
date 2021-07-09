@@ -40,7 +40,8 @@ namespace bridges {
 				// to maintain their properties
 			private:
 
-				unordered_map<int, Symbol*> symbols;
+		  //unordered_map<int, Symbol*> symbols;
+		  std::vector<std::shared_ptr<Symbol>> symbols;
 
 				// 	default domain (assuming square coordinate space)
 				// 	domain emanates in x and y directions, both positive
@@ -94,10 +95,10 @@ namespace bridges {
 				 *
 				 *   @param s  symbol being added
 				 */
-				void addSymbol(Symbol *s) {
+		  void addSymbol(std::shared_ptr<Symbol> s) {
 					//  note: it is the user's responsibility to handle
 					//  duplicates where desired
-					symbols[s->getIdentifier()] = s;
+				  symbols.push_back(s);
 				}
 
 			private:
@@ -108,8 +109,8 @@ namespace bridges {
 				 *  @param s  Symbol
 				 */
 
-				void updateAxisDomains(const Symbol* s) const {
-					vector<float> dims = s->getDimensions();
+				void updateAxisDomains(const Symbol& s) const {
+					vector<float> dims = s.getDimensions();
 
 					// check x axis
 					if (dims[0] < domainxmin) {
@@ -136,13 +137,13 @@ namespace bridges {
 
 					if (autoscaledomain)
 						for (auto& entry : symbols)
-							updateAxisDomains(entry.second);
+							updateAxisDomains(*second);
 
 
 					string symbol_json = string();
 					for (auto& entry : symbols) {
 						symbol_json +=
-							entry.second->getSymbolRepresentation() + COMMA;
+							entry->getSymbolRepresentation() + COMMA;
 					}
 					// remove last comma
 					if (symbols.size()) {
