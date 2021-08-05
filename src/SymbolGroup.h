@@ -1,11 +1,13 @@
 #include <string>
 #include <unordered_map>
+#include <memory>
 
 using namespace std;
 
 #include <JSONutil.h>
 #include "DataStructure.h"
 #include "Symbol.h"
+
 
 /**
  * @brief The SymbolGroup object is a container object to hold a collection

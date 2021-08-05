@@ -424,7 +424,7 @@ namespace bridges {
 				}
 
 				/**
-				 *  @brief Scale a 2D point
+				 *  @brief Scale a Symbol
 				 *
 				 *  @param pt  2D point (x, y)
 				 *  @param sx, sy scale factors along each axis
@@ -444,6 +444,17 @@ namespace bridges {
 					return *this;
 				}
 
+				/**
+				 *  @brief Scale a Symbol
+				 *
+				 *  @param pt  2D point (x, y)
+				 *  @param scalefactor scale factors along both axis
+				 */
+				Symbol& scale(float scalefactor) {
+				  return scale(scalefactor, scalefactor);
+				}
+		  
+		  
 				/**
 				 *  @brief Rotate a 2D point (about Z)
 				 *
