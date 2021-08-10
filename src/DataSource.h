@@ -1185,7 +1185,8 @@ cout << url << endl;
 					//A11424 is "film"
 					//P31 is "instance of"
 					// "instance of film" is necessary to filter out tv shows
-					std::string sparqlquery = "SELECT ?movie ?movieLabel ?actor ?actorLabel WHERE \
+					std::string sparqlquery = 
+						"SELECT ?movie ?movieLabel ?actor ?actorLabel WHERE \
 {\
   ?movie wdt:P31 wd:Q11424.\
   ?movie wdt:P161 ?actor.\
@@ -1198,7 +1199,7 @@ cout << url << endl;
 					url += "&";
 					url += "format=json";
 
-					// get the OSM data json
+					// get the Wikidata json
 					json = ServerComm::makeRequest(url, http_headers);
 
 					try {
