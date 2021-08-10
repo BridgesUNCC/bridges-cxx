@@ -338,7 +338,8 @@ namespace bridges {
 					url.replace(n, 1, "%20");
 					n++;
 				}
-
+				if (debug())
+				  std::cerr<<"url: "<<url<<"\n";
 				d.Parse(ServerComm::makeRequest( url, {"Accept: application/json"}).c_str());
 
 				string artist 	= (d.HasMember("artist")) ?
