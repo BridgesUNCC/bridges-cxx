@@ -75,7 +75,7 @@ namespace bridges {
 				return "http://bridges-data-server-elevation.bridgesuncc.org/";
 			}
 			string getGutenbergBaseURL() const {
-				return "http://bridges-data-server-gutenberg-t.bridgesuncc.org/";
+				return "http://bridges-data-server-gutenberg.bridgesuncc.org/";
 			}
 
 		public:
