@@ -15,8 +15,14 @@ namespace bridges {
 		 *	all types of cancer reported for different demograpic groups.
 		 *	Significant groupings include age, gender, race and geographical area.
 		 *
-		 *	http://www.cdc.gov/cancer/npcr/uscs/download_data.htm
+		 * 	One does not typically create an object from this type, but 
+		 *	rather obtain them by calling 
+		 *	bridges::DataSource::getCancerIncidenceData()
+
+		 *  @sa Refer to tutorial examples on how to use this dataset: 
+		 *	https://bridgesuncc.github.io/tutorials/Data_CancerIncidence.html <br>
 		 *  Data: Courtesy of Corgis Datasets, 2017
+		 *	Link: http://www.cdc.gov/cancer/npcr/uscs/download_data.htm
 		 *
 		 *  @author Kalpathi Subramanian
 		 *	@date June, 2017

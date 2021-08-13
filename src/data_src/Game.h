@@ -17,9 +17,13 @@ namespace bridges {
 		 *
 		 * Each game record has title, platform on which it can be played,
 		 * rating,  and a list of genres.
+
+		 * One would not normally create an object of this type, but 
+		 *	rather obtain them through a call to 
+		 * 	bridges::DataSource::getGameData().
 		 *
-		 * Refer to tutorial examples to using this data source in data structure
-		 * assignments.
+		 * @sa Refer to tutorial examples on how to use this dataset: 
+		 *	https://bridgesuncc.github.io/tutorials/Data_IGN_Games.html
 		 *
 		 * @author Kalpathi Subramanian
 		 * @date   2/1/17, 12/26/20

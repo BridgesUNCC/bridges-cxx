@@ -13,8 +13,16 @@ namespace bridges {
 		 * data source as part of their application. It provides an API that makes
 		 * it easy to access the attributes of this data set.
 		 *
-		 * Refer to tutorial examples to using this data source in data structure
-		 * assignments.
+		 * Objects of this type are typically not constructed by the user 
+		 * but returned by a call to our Gutenberg API such as 
+		 * bridges::DataSource::getGutenbergBookMetaData(), with
+		 * an optional book id (integer) as a parameter.
+
+		 * The object does not contain the text of the book itself. Though it 
+		 * can be obtained using bridges::DataSource::getGutenbergBookText()
+
+		 * @sa A tutorial of how to use the Gutenberg data in BRIDGES is 
+		 * available: https://bridgesuncc.github.io/tutorials/Data_Gutenberg.html
 		 *
 		 * @author Kalpathi Subramanian
 		 * @date   2/1/17, 12/28/20, 6/9/21

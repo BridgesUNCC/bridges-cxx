@@ -11,6 +11,11 @@
  *
  * This class holds the data for all the amenities requested by the user
  *
+ * Usually this class is not created by the user but returned by 
+ *	bridges::DataSource::getAmenityData()
+
+ * @sa Check out the tutorial on getting amenity data at 
+ *		https://bridgesuncc.github.io/tutorials/Data_Amenity.html
  * @author Kalpathi Subramanian
  *
  * @date 1/28/21
