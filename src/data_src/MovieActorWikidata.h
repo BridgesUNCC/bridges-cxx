@@ -4,9 +4,17 @@
 namespace bridges {
 	namespace dataset {
 		/**
-		 * @brief This is a helper class for accessing actor-movie data from Wikidata.
+		 * @brief This is a helper class for accessing actor-movie data 
+		 *	from Wikidata.
+
+		 * 	Note that the end user will not create an object of that type in 
+		 *	regular circumstances. But rather, ActorMovieWikidata objects 
+		 *	are returned by bridges::DataSource::getWikidataActorMovie()
 		 *
-		 * @author Erik Saule, Kalpathi Subramanian (documentation)
+		 *  @sa Exemple of how to access that type of data is provided at: 
+		 *		https://bridgesuncc.github.io/tutorials/Data_WikiDataActor.html
+		 *
+		 * @author Erik Saule
 		 * @date  12/28/20
 		 */
 		// Since the data always comes from wikidata, we could strip the
