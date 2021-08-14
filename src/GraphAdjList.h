@@ -87,7 +87,7 @@ namespace bridges {
 		 * @date Last modified 4/22/18, 7/12/19, 12/28/20, 1/5/21
 		 *
 		 * There is a tutorial about Graph Adjacency List  :
-		 * http://bridgesuncc.github.io/tutorials/Graph_AL.html
+		 * http://bridgesuncc.github.io/tutorials/Graph.html
 		 *
 		 *
 		 * There are two visualization engines available for
