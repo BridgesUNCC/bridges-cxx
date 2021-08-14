@@ -20,6 +20,12 @@ namespace bridges {
 		 * @brief  Class that hold Open Street Map vertices
 		 *
 		 * Class that holds Open Street Map vertices from https://openstreetmap.org
+		 * Objects from this class are typically not created by the user 
+		 *	but contained in the OsmData object returned by 
+		 *	bridges::DataSource::getOSMData()
+		 *
+		 * @sa Check out how to use OSM data at: 
+		 *	https://bridgesuncc.github.io/tutorials/Data_OSM.html
 		 *
 		 * @author Erik Saule, Kalpathi Subramanian
 		 * @date 2/14/19, 12/28/20

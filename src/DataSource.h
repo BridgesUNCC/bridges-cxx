@@ -68,15 +68,30 @@ namespace bridges {
 			bridges::Bridges* bridges_inst;
 			bridges::lruCache my_cache;
 
+
 			string getOSMBaseURL() const {
+				if (sourceType == "local")
+					return "http://localhost:3000/";
+
 				return "http://bridges-data-server-osm.bridgesuncc.org/";
 			}
 			string getElevationBaseURL() const {
+				if (sourceType == "local")
+					return "http://localhost:3000/";
+
 				return "http://bridges-data-server-elevation.bridgesuncc.org/";
 			}
 			string getGutenbergBaseURL() const {
-				return "http://bridges-data-server-gutenberg-t.bridgesuncc.org/";
+				if (sourceType == "local")
+					return "http://localhost:3000/";
+
+				if (sourceType == "testing") 
+					return "http://bridges-data-server-gutenberg-t.bridgesuncc.org/";
+
+				return "http://bridges-data-server-gutenberg.bridgesuncc.org/";
 			}
+
+			string sourceType = "live";
 
 		public:
 			DataSource(bridges::Bridges* br = nullptr)
@@ -85,6 +100,21 @@ namespace bridges {
 			DataSource(bridges::Bridges& br )
 				: DataSource(&br) {}
 
+			/** 
+			 *  @brief set data server type
+			 *
+			 *	@param string  data server type, can be 'live', 'testing', or 'local')
+			 *  @throws exception if incorrect type is passed
+	 		 *
+			 */
+			void setSourceType(string type) {
+				if ( !((type == "live") || (type == "testing") || (type == "local")))
+					throw "Incorrect data server type. Must be live, testing or local";
+				if ((type == "testing") || (type == "local"))
+					debug();
+
+				sourceType = type;
+			}
 
 			/**
 			 *

@@ -3,9 +3,15 @@
 
 #define AMENITIES
 /**
- *  @brief  Class that hold individual Open Street Map Amenities
+ * @brief  Class that hold Open Street Map Amenity data
  *
  * This class holds the individual information for each amenity requested
+
+ * Usually this class is not created by the user but part of an AmenityData 
+ * object returned by bridges::DataSource::getAmenityData()
+
+ * @sa Check out the tutorial on getting amenity data at 
+ *		https://bridgesuncc.github.io/tutorials/Data_Amenity.html
  *
  * @author Kalpathi Subramanian
  * @date  1/28/21

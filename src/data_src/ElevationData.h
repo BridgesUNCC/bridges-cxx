@@ -12,14 +12,18 @@ namespace bridges {
 		/**
 		 * @brief  Class that hold elevation data
 		 *
-		 * Class that holds Elevation data, from  ??
+		 * Class that holds Elevation data. 
+		 *
+		 * A user would not normally create an ElevationData object but 
+		 * rather obtain one from calling bridges::DataSource::getElevationData()
+		 *
+		 * A tutorial on how to use the Elevation dataset is available at: 
+		 *	https://bridgesuncc.github.io/tutorials/Data_Elevation.html
 		 *
 		 * @author Kalpathi Subramanian
 		 *
 		 * @date 3/28/20
 		 */
-
-
 		class ElevationData {
 			private:
 

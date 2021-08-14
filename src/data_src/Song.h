@@ -12,8 +12,12 @@ namespace bridges {
 		 * data source as part of their application. It provides an API that makes
 		 * it easy to access the attributes of this data set.
 		 *
-		 * Refer to tutorial examples to using this data source in data structure
-		 * assignments.
+		 * The Song object is typically obtained from calling 
+		 * bridges::DataSource::getSongData() or 
+		 *  bridges::DataSource::getSong().
+		 *
+		 * @sa Refer to tutorial for example of using this feature: 
+		 *	https://bridgesuncc.github.io/tutorials/Data_Song_Lyrics.html
 		 *
 		 *
 		 * @author David Burlinson, C++ port: Kalpathi Subramanian

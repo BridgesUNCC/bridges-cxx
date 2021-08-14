@@ -16,6 +16,14 @@ namespace bridges {
 		 *   movie pairs and no other attribute data. The second also has
 		 *	 movie ratings and genres.
 		 *
+		 *  A user typically does not create an ActorMovieIMDB object. 
+		 *	They are usually returned by 
+		 *  bridges::DataSource::getActorMovieIMDBData() and 
+		 *	bridges::DataSource::getActorMovieIMDBData2()
+		 *
+		 * 	@sa Check out the tutorial on the IMDB dataset at 
+		 *	https://bridgesuncc.github.io/tutorials/Data_IMDB.html
+		 *
 		 *	@author Kalpathi Subramanian
 		 *	@date 2/18/18, 12/28/20
 		 *

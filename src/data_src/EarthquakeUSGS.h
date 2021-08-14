@@ -14,7 +14,15 @@ namespace bridges {
 		 * Class that holds earthquake USGIS data. BRIDGES uses scripts to continually monitor
 		 * USGIS site (tweets) and retrieve the latest quake data for use in student projects.
 		 *
-		 * Kalpathi Subramanian, 2/18/18
+		 *  One would normally not create an object of that type but 
+		 *  rather obtain one by calling 
+		 *	bridges::DataSource::getEarthquakeUSGSData()
+		 *
+		 * @sa Refer to the tutorial on how to use this dataset: 
+		 *	https://bridgesuncc.github.io/tutorials/Data_EQ_USGS.html
+		 *
+		 *
+		 * @author Kalpathi Subramanian, 2/18/18
 		 */
 
 
