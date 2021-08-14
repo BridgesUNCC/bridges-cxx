@@ -15,9 +15,9 @@ namespace bridges {
 		 *	characters, visual attributes).
 		 *
 		 * @sa See the detailed Bridges game tutorial for examples at
-		 * http://bridgesuncc.github.io/tutorials/NonBlockingGame.html
+		 * https://bridgesuncc.github.io/tutorials/NonBlockingGame.html
 		 *
-		 * @author David Burlinson, Erik Saule,
+		 * @author David Burlinson, Erik Saule
 		 * @date 2018, 2019, 12/28/20
 		 *
 		 */

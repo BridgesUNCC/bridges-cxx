@@ -14,7 +14,7 @@ namespace bridges {
 		 *	SLelement pointer
 		 *
 		 * @sa There is a tutorial about Singly Linked Lists :
-		 * http://bridgesuncc.github.io/tutorials/SinglyLinkedList.html
+		 * https://bridgesuncc.github.io/tutorials/SinglyLinkedList.html
 		 *
 		 * @param E the application data type
 		 *

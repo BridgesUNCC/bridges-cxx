@@ -31,7 +31,7 @@ namespace bridges {
 		 *	@date 6/29/15, 7/10/16, 11/27/16, 4/22/18
 		 *
 		 * There is a tutorial about Graph Adjacency Matrix  :
-		 * http://bridgesuncc.github.io/tutorials/Graph_AM.html
+		 * https://bridgesuncc.github.io/tutorials/Graph_AM.html
 		 */
 		template <typename K, typename E1 = K, typename E2 = E1>
 		class GraphAdjMatrix : public DataStructure {

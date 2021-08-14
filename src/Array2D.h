@@ -32,7 +32,7 @@ namespace bridges {
 		 * arr.getElement(12, 25).setLabel("Hi there");
 		 * \endcode
 		 *
-		 * @sa See tutorial at: http://bridgesuncc.github.io/tutorials/Array.html
+		 * @sa See tutorial at: https://bridgesuncc.github.io/tutorials/Array.html
 		 *
 		 * @param E the application data type
 		 *

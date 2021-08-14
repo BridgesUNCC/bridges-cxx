@@ -21,7 +21,7 @@ namespace bridges {
 		 *      E the application data type
 		 *
 		 * @sa There is a tutorial about Binary Search Trees :
-		 * http://bridgesuncc.github.io/tutorials/BinarySearchTree.html
+		 * https://bridgesuncc.github.io/tutorials/BinarySearchTree.html
 		 *
 		 * @author Kalpathi Subramanian
 		 * @date 6/18/15, 7/17/16, 7/12/19

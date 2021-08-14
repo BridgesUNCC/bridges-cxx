@@ -303,8 +303,8 @@ namespace bridges {
 		 * and a symbol. Refer to the  NamedColor and NamedSymbol definitions
 		 * for a list of colors and symbols that can be used.
 		 *
-		 * @sa See the detailed Bridges game tutorial for examples at
-		 * http://bridgesuncc.github.io/tutorials/NonBlockingGame.html
+		 * @sa See the detailed BRIDGES game tutorial for examples at
+		 * https://bridgesuncc.github.io/tutorials/NonBlockingGame.html
 		 *
 		 * @author Erik Saule,
 		 * @date 2018, 2019, 12/28/20
@@ -391,7 +391,7 @@ namespace bridges {
 		 *	This class is part of the Bridges Game API
 		 *
 		 * @sa See the detailed Bridges game tutorial for examples at
-		 * http://bridgesuncc.github.io/tutorials/NonBlockingGame.html
+		 * https://bridgesuncc.github.io/tutorials/NonBlockingGame.html
 		 *
 		 * @author Erik Saule,
 		 * @date 2018, 2019, 12/28/20

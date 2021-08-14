@@ -15,7 +15,7 @@ using namespace std;
  * This enables make 2D vector graphics
  *
  * @sa There is a tutorial about Symbol Collections :
- * http://bridgesuncc.github.io/tutorials/Symbol_Collection.html
+ * https://bridgesuncc.github.io/tutorials/Symbol_Collection.html
 
  * @author David Burlinson, Kalpathi Subramanian
  *

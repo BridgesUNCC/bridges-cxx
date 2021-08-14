@@ -17,7 +17,7 @@ namespace bridges {
 		 * @author David Burlinson, Kalpathi Subramanian
 		 *
 		 * There is a tutorial about ColorGrid :
-		 * http://bridgesuncc.github.io/tutorials/Grid.html
+		 * https://bridgesuncc.github.io/tutorials/Grid.html
 		 **/
 		class ColorGrid : public Grid<Color> {
 			private:

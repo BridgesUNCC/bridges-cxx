@@ -18,7 +18,7 @@ namespace bridges {
 		 * @date 6/12/15, 7/12/19, 12/28/20
 		 *
 		 * There is a tutorial about Trees :
-		 * http://bridgesuncc.github.io/tutorials/Tree.html
+		 * https://bridgesuncc.github.io/tutorials/Tree.html
 		 **/
 		template <typename E>
 		class TreeElement : public Element<E>, public DataStructure {

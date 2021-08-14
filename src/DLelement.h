@@ -12,7 +12,7 @@ namespace bridges {
 		 * pointer
 		 *
 		 * There is a tutorial about Doubly Linked Lists :
-		 * http://bridgesuncc.github.io/tutorials/DoublyLinkedList.html
+		 * https://bridgesuncc.github.io/tutorials/DoublyLinkedList.html
 		 *
 		 * @param E the application data type
 		 *

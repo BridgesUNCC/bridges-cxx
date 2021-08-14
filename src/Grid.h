@@ -16,13 +16,13 @@ namespace bridges {
 		 * This class will be useful in applications such as image processing, board
 		 * games, etc.
 		 *
-		 * @author David Burlinson, C++ port Kalpathi Subramanian
+		 * @author David Burlinson, Kalpathi Subramanian
 		 * @date 7/12/19, 12/28/20
 		 *
 		 * @param E
 		 *
 		 * There is a tutorial about Grid :
-		 * http://bridgesuncc.github.io/tutorials/Grid.html
+		 * https://bridgesuncc.github.io/tutorials/Grid.html
 		 *
 		 **/
 

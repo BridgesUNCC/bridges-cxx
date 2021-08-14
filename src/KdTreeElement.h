@@ -26,7 +26,7 @@ namespace bridges {
 		 *	to allow for use in a binary search tree implementation.
 		 *
 		 * @sa There is a tutorial about K-d Trees  :
-		 * http://bridgesuncc.github.io/tutorials/KdTree.html
+		 * https://bridgesuncc.github.io/tutorials/KdTree.html
 		 *
 		 *      @param K that is the search key type - this is usually a number, integer
 		 *			or float

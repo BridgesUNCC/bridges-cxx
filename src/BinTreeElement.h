@@ -12,7 +12,7 @@ namespace bridges {
 		 *	 children.
 		 *
 		 * @sa There is a tutorial about Binary Trees :
-		 * http://bridgesuncc.github.io/tutorials/BinTree.html
+		 * https://bridgesuncc.github.io/tutorials/BinTree.html
 		 *
 		 * @param E the application data type
 		 *

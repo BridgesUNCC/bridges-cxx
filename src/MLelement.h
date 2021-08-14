@@ -31,9 +31,9 @@ namespace bridges {
 		 *	sublists.
 		 *
 		 * @sa There is a tutorial about Multi Lists :
-		 *	http://bridgesuncc.github.io/tutorials/MultiList.html
+		 *	https://bridgesuncc.github.io/tutorials/MultiList.html
 		 *
-		 * @author , Kalpathi Subramanian
+		 * @author Kalpathi Subramanian
 		 *
 		 * @date 5/24/17, 7/12/19, 12/28/20
 		 *

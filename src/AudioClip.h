@@ -85,7 +85,7 @@ namespace bridges {
 		 *
 		 *
 		 * @sa There is a tutorial for processing audio at
-		 * http://bridgesuncc.github.io/tutorials/??
+		 * https://bridgesuncc.github.io/tutorials/AudioClip.html
 		 *
 		 *
 		 * @author Luke Sloop, Kalpathi Subramanian, Erik Saule

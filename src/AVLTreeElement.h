@@ -20,7 +20,7 @@ namespace bridges {
 		 * @date 6/18/15, 7/15/16
 		 *
 		 * There is a tutorial about AVLs  :
-		 * http://bridgesuncc.github.io/tutorials/AVL.html
+		 * https://bridgesuncc.github.io/tutorials/AVL.html
 		 */
 		template <typename K, typename E>
 		class AVLTreeElement : public BSTElement<K, E> {

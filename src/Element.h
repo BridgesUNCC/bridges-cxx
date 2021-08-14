@@ -37,7 +37,7 @@ namespace bridges {
 
 		 * All the tutorials under
 		 *
-		 * http://bridgesuncc.github.io/tutorials/Overview.html
+		 * https://bridgesuncc.github.io/tutorials/Overview.html
 		 *
 		 * show how to use different types of elements
 		 *

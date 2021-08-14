@@ -22,7 +22,7 @@ namespace bridges {
 		 *	shape, opacity, size), necessary for displaying them in a web browser
 		 *
 		 * @sa There is a tutorial about Circular Singly Linked Lists :
-		 * http://bridgesuncc.github.io/tutorials/CircularSinglyLinkedList.html
+		 * https://bridgesuncc.github.io/tutorials/CircularSinglyLinkedList.html
 		 *
 		 *	@author Kalpathi Subramanian
 		 *	@date 10/5/2016, 7/12/19

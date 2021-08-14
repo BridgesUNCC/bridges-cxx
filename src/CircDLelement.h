@@ -27,7 +27,7 @@ namespace bridges {
 		 *
 		 *
 		 * @sa There is a tutorial about Circular Doubly Linked Lists :
-		 * http://bridgesuncc.github.io/tutorials/CircularDoublyLinkedList.html
+		 * https://bridgesuncc.github.io/tutorials/CircularDoublyLinkedList.html
 		 *
 		 * @author Kalpathi Subramanian
 		 * @date  10/5/16, 7/12/19
