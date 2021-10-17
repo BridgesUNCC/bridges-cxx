@@ -445,7 +445,9 @@ namespace bridges {
 			GutenbergBook getAGutenbergBookMetaData(const rapidjson::Value& V) {
 				using namespace rapidjson;
 
-				const string id = V["id"].GetString();
+				const string s_id = V["id"].GetString();
+
+				const int id = std::stoi(s_id);
 
 				string title = V["title"].GetString();
 

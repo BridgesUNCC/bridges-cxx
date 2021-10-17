@@ -77,7 +77,7 @@ namespace bridges {
 				 * @throw string If size is invalid
 				 */
 				void setSize(const double& sz) {
-					(sz < 0.001 || 50 < sz)
+					(sz < 0.001 || 200. < sz)
 					? throw "Invalid Size Value.. " + to_string(sz) +
 					" Must be in the [0.001,50.0] range"
 					: size = sz;
