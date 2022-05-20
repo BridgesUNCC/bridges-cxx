@@ -39,6 +39,7 @@ namespace bridges {
 
 				// maximum value in the data set
 				int maxVal;
+		  int minVal;
 
 			public:
 
@@ -46,18 +47,23 @@ namespace bridges {
 				 *
 				 * default constructor
 				 *
+				 *assumes all values will be set 
 				 */
 				ElevationData() {
 
 					cols = rows = 0;
 					xll = yll = 0.;
 					cellSize = 0;
-					maxVal = 0;
+					maxVal = std::numeric_limits<int>::min();
+					minVal = std::numeric_limits<int>::max();
 				}
 
 				/**
 				 *
 				 * constructor
+				 *
+				 * assumes all values will be explicit set
+				 *
 				 * @param r number of rows (height) of elevation map
 				 * @param c number of columns (width) of elevation map
 				 */
@@ -67,7 +73,8 @@ namespace bridges {
 					data.resize(cols * rows);
 					xll = yll = 0.;
 					cellSize = 0;
-					maxVal = 0;
+					maxVal = std::numeric_limits<int>::min();
+					minVal = std::numeric_limits<int>::max();
 				}
 				/**
 				 *
@@ -78,9 +85,10 @@ namespace bridges {
 				 * @param yll  lower left of map - y coordinate
 				 * @param cellsize size of each cell
 				 * @param maxVal  max elevation value in map
+				 * @param maxVal  min elevation value in map
 				 */
 				ElevationData (int cols, int rows, int xll,
-					int yll, int cellsize, int maxVal) {
+					       int yll, int cellsize, int maxVal, int minVal) {
 					//data = new int[cols * rows];
 					data.resize(cols * rows);
 					setCols(cols);
@@ -89,6 +97,7 @@ namespace bridges {
 					setyll(yll);
 					setCellSize (cellsize);
 					setMaxVal(maxVal);
+					setMinVal(minVal);
 				}
 
 				/**
@@ -103,7 +112,7 @@ namespace bridges {
 				 * @return width of map
 				 */
 
-				int getCols() {
+				int getCols() const {
 					return cols;
 				}
 
@@ -111,7 +120,7 @@ namespace bridges {
 				 * set width of elevation map
 				 * @param c  width of map
 				 */
-				void setCols(int c) {
+				void setCols(int c)  {
 					cols = c;
 				}
 
@@ -121,7 +130,7 @@ namespace bridges {
 				 * @param r row index
 				 * @param c column index
 				 */
-				int getVal (int r, int c) {
+				int getVal (int r, int c) const {
 					return data[r * cols + c];
 				}
 
@@ -133,6 +142,9 @@ namespace bridges {
 				 * @param val  elevation value
 				 */
 				void setVal (int r, int c, int val) {
+				  minVal = std::min(minVal, val);
+				  maxVal = std::max(maxVal, val);
+				    
 					data[r * cols + c] = val;
 				}
 				/**
@@ -140,7 +152,7 @@ namespace bridges {
 				 *
 				 *	@return width of elevation map
 				 */
-				int getRows() {
+				int getRows() const {
 					return rows;
 				}
 
@@ -157,7 +169,7 @@ namespace bridges {
 				 *	get lower left corner of data (X)
 				 *  @return x coord of lower left of map
 				 */
-				int getxll() {
+				int getxll() const {
 					return xll;
 				}
 
@@ -175,7 +187,7 @@ namespace bridges {
 				 *	get lower left corner of data (Y)
 				 *  @return y coord of lower left of map
 				 */
-				int getyll() {
+				int getyll() const {
 					return yll;
 				}
 
@@ -193,7 +205,7 @@ namespace bridges {
 				 *	get  data resolution
 				 *  @return the cell size
 				 */
-				int getCellSize() {
+				int getCellSize() const {
 					return cellSize;
 				}
 
@@ -211,7 +223,7 @@ namespace bridges {
 				 *	get max elevation of data
 				 *	@return the max elevation value in the map
 				 */
-				int getMaxVal() {
+				int getMaxVal() const {
 					return maxVal;
 				}
 
@@ -223,6 +235,24 @@ namespace bridges {
 				void setMaxVal(int max_val) {
 					maxVal = max_val;
 				}
+		  /**
+				 *
+				 *	get min elevation of data
+				 *	@return the min elevation value in the map
+				 */
+				int getMinVal() const {
+					return minVal;
+				}
+
+				/**
+				 *
+				 *	set min elevation of data
+				 *	@param min_val the max value of elevation to set
+				 */
+				void setMinVal(int min_val) {
+					minVal = min_val;
+				}
+
 		};
 	}
 }
