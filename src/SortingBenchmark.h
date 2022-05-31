@@ -53,11 +53,59 @@ namespace bridges {
 				int increment;
 				double geoBase;
 				double time_cap;
-
-				void generate(int* arr, int n) {
+		  std::string generatorType;
+		  
+				void generateRandom(int* arr, int n) {
 					for (int i = 0; i < n; i++) {
 						arr[i] = ((double)rand()) / RAND_MAX * (2 * n);
 					}
+				}
+
+		  void generateInOrder(int* arr, int n) {
+		    for (int i = 0; i < n; i++) {
+		      arr[i] = i;
+		    }
+		  }
+		  void generateReverseOrder(int* arr, int n) {
+		    for (int i = 0; i < n; i++) {
+		      arr[i] = n-i;
+		    }
+		  }
+		  void generateFewValues(int* arr, int n) {
+		    for (int i = 0; i < n; i++) {
+		      arr[i] = ((double)rand()) / RAND_MAX * (4);
+		    }
+		  }
+		  void generateAlmostSorted(int* arr, int n) {
+		    if (n < 20) {
+		      generateRandom(arr, n);
+		    } else {
+		      int i;
+		      for (i = 0; i < n-20; i++) {
+			arr[i] = i;		    
+		      }
+		      for (; i < n; i++) {
+			arr[i] = ((double)rand()) / RAND_MAX * (2 * n);
+		      }		      
+		    }		    
+		  }
+		  
+		    
+		  		void generate(int* arr, int n) {
+				  if (generatorType == "random") {
+				    generateRandom(arr, n);
+				  } else if (generatorType == "inorder") {
+				    generateInOrder(arr, n);
+				  } else if (generatorType == "reverseorder") {
+				    generateReverseOrder(arr, n);
+				  } else if (generatorType == "fewdifferentvalues") {
+				    generateFewValues(arr, n);
+				  } else if (generatorType == "almostsorted") {
+				    generateAlmostSorted(arr, n);
+				  } else {
+				    throw std::string("unknown generator");
+				  }
+				  
 				}
 
 				bool check (int* arr, int n) {
@@ -83,8 +131,21 @@ namespace bridges {
 					increment = 1;
 					geoBase = 1.;
 					time_cap = std::numeric_limits<double>::max();
+					setGenerator("random");
 				}
 
+		  /**
+		   *
+		   *  @param generatorName possible values are "random", "inorder", "reverseorder", "fewdifferentvalues", "almostsorted"
+
+		   **/
+		  void setGenerator(const std::string& generatorName) {
+		    generatorType = generatorName;
+		  }
+		  
+		  std::string getGenerator() const {
+		    return generatorType;
+		  }		  
 				/**
 				 * @brief Puts a cap on the largest array to be used
 				 *
