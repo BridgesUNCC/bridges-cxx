@@ -33,6 +33,9 @@ namespace bridges {
 	 * If the FORCE_BRIDGES_ASSIGNMENT environment variable is set,
 	 * use the environment variable as assignment number in all cases.
 	 *
+	 * If the FORCE_BRIDGES_APISERVER environment variable is set,
+	 * use the environment variable as API server in all cases.
+	 *
 	 * @author Kalpathi Subramanian, Dakota Carmer, Erik Saule
 	 * @date  7/26/15, 6/5/17, 10/30/18, 7/12/19
 	 */
@@ -109,6 +112,9 @@ namespace bridges {
 			 * If the FORCE_BRIDGES_ASSIGNMENT environment variable is set,
 			 * use the environment variable as assignment number in all cases.
 			 *
+			 * If the FORCE_BRIDGES_APISERVER environment variable is set,
+			 * use the environment variable as API server in all cases.
+			 *
 			 * @param num assignment ID
 			 * @param name Bridges username
 			 * @param key Bridges APIKey of the name account. (Note that it is not the password, but the API Key one can find in the user profile.)
@@ -117,6 +123,7 @@ namespace bridges {
 				setAssignment(num);
 				setUserName(name);
 				setApiKey(key);
+				setServer("live");
 			}
 
 			/**
@@ -327,12 +334,20 @@ namespace bridges {
 			/**
 			 *  Set server type
 			 *
+			 * If the FORCE_BRIDGES_APISERVER environment variable is set,
+			 * use the environment variable as API server in all cases.
+			 *
 			 *  @param  server_type server to which to connect.
 			 *      Options are: ['live', 'local', 'games', 'clone'], and 'live'
 			 *		is the default;
 			 *
 			 */
-			void setServer(const string& server_type) {
+			void setServer(string server_type) {
+			  char* force = getenv("FORCE_BRIDGES_APISERVER");
+				if (force != nullptr) {
+					server_type = force;
+				}
+
 				if (server_type == "live")
 					server_url = "http://bridges-cs.herokuapp.com";
 				else if (server_type == "clone")
