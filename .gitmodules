@@ -3,10 +3,13 @@
 	url = git@github.com:Tencent/rapidjson.git
 [submodule "packaging/dependencies/socket.io-client-cpp"]
 	path = packaging/dependencies/socket.io-client-cpp
-	url = git@github.com:socketio/socket.io-client-cpp.git
+	url = https://github.com/socketio/socket.io-client-cpp
 [submodule "packaging/dependencies/websocketpp"]
 	path = packaging/dependencies/websocketpp
 	url = git@github.com:zaphoyd/websocketpp.git
 [submodule "packaging/dependencies/boost"]
 	path = packaging/dependencies/boost
 	url = https://github.com/boostorg/boost.git
+[submodule "packaging/dependencies/--force"]
+	path = packaging/dependencies/--force
+	url = https://github.com/socketio/socket.io-client-cpp
