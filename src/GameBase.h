@@ -50,7 +50,8 @@ namespace bridges {
 					std::string apikey, int nbRow = 10, int nbColumn = 10)
 					: bridges(assignmentID, username, apikey), gg(nbRow,
 						  nbColumn) {
-					bridges.setServer("games");
+				  //bridges.setServer("games");
+				  bridges.setServer("local");
 
 					sockcon = std::make_unique<SocketConnection>(bridges);
 
