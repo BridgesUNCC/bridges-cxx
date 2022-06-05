@@ -309,28 +309,7 @@ namespace bridges {
 				return ds_handle;
 			}
 
-			/**
-			 * @brief Sets Bridges assignment and credential information.
-			 *
-			 *
-			 * If the FORCE_BRIDGES_APIKEY environment variable is set,
-			 * use the environment variable as APIkey in all cases.
-			 *
-			 * If the FORCE_BRIDGES_USERNAME environment variable is set,
-			 * use the environment variable as username in all cases.
-			 *
-			 * If the FORCE_BRIDGES_ASSIGNMENT environment variable is set,
-			 * use the environment variable as assignment number in all cases.
-			 *
-			 * @param num  The assignment number
-			 * @param apikey The API key on the BRIDGES server (this is not your password, find the API Key on the profile page)
-			 * @param username The username on the BRIDGES server
-			 */
-			void initialize(unsigned int num, const string& username, const string& apikey) {
-				setAssignment (num);
-				setUserName(username);
-				setApiKey(apikey);
-			}
+
 			/**
 			 *  Set server type
 			 *
