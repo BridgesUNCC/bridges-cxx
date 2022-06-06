@@ -1,11 +1,16 @@
 #ifndef SOCKET_CONNECTION_H
 #define SOCKET_CONNECTION_H
 
+//////////////////////////////////////////////////////
+//technically these are defined necessarry for socketio.
+//but they only get included from here
+//so this is simpler than mocking with build chains for each compiler
 #define BOOST_DATE_TIME_NO_LIB
 #define BOOST_REGEX_NO_LIB
 #define ASIO_STANDALONE
 #define _WEBSOCKETPP_CPP11_STL_
 #define _WEBSOCKETPP_CPP11_FUNCTIONAL_
+//////////////////////////////////////////////////////
 
 #include "sio_client.h"
 #include "internal/sio_packet.h"
