@@ -1,4 +1,3 @@
-#!/bin/sh
 
 reinit() {
     git clean -ffdx ## This restore the directory to a clean build setting by removing all untracked files even if they are part of git ignore
@@ -10,59 +9,30 @@ reset_installation() {
     git submodule deinit -f .
     git submodule update --init
     git submodule foreach 'git clean -ffdx'
+    git submodule foreach --recursive git submodule update --init
+
 }
 
-## Getting boost properly setup
-install_boost() {
-    ( cd ../dependencies/boost ;
-      git submodule init ;
-      git submodule update ;
-      ./bootstrap.sh --with-libraries=system,date_time,random ; # only need a few libraries; #no need for prefix becasue we won't install in the end
-      ./b2 headers ;
-      ./b2 ;
-      #./b2 install ## ./b2 install is not necessary because socketio will copy what it needs
-    )
-}
 
-## get rapidjson properly set up. Disabling docs, examples, and tests
-install_rapidjson() {
-    ( cd ../dependencies/rapidjson;
-      cmake -D CMAKE_INSTALL_PREFIX=../../unix/build/rapidjson \
-	    -D RAPIDJSON_BUILD_TESTS=OFF \
-	    -D RAPIDJSON_BUILD_EXAMPLES=OFF \
-	    -D RAPIDJSON_BUILD_DOC=OFF \
-      . ;
-      make -j 4 install ;
-    )
-}
 
-##get websocket properly set up in unix/build/
-install_websocketpp() {
+compilesio() {
     (
-	cd ../dependencies/websocketpp;
-	cmake -D CMAKE_INSTALL_PREFIX=../../unix/build/websocketpp . ;
-	make -j 4 install
-    )
-}
+    cd ../dependencies/socket.io-client-cpp/src
+    cat > Makefile <<EOF
+SOCKETIOFLAGS=-D BOOST_DATE_TIME_NO_LIB -D BOOST_REGEX_NO_LIB -D ASIO_STANDALONE -D _WEBSOCKETPP_CPP11_STL_ -D _WEBSOCKETPP_CPP11_FUNCTIONAL_
+SOCKETIOINCLUDES=-I ../lib/asio/asio/include -I ../lib/websocketpp -I ../../rapidjson/include
+
+CXXFLAGS=\$(SOCKETIOINCLUDES) \$(SOCKETIOFLAGS)
 
 
-##get SocketIO properly setup in unix/build
-install_socketIO() {
-    #socket IO package does not seem to make install correctly, so coppying data manually
-    #the cp of internal is due to bridges using a hack for the moment.
-    ( cd ../dependencies/socket.io-client-cpp
-      cmake -D CMAKE_BUILD_TYPE=Release \
-	    -D Boost_USE_STATIC_LIBS=ON \
-            -D CMAKE_INSTALL_PREFIX=../../unix/build/socket.io-client-cpp  \
-            -D CMAKE_CXX_FLAGS="-I ../../unix/build/websocketpp/include -I ../../unix/build/rapidjson/include" \
-	    -D Boost_DEBUG=OFF -D CMAKE_VERBOSE_MAKEFILE=OFF \
-	    -D Boost_USE_DEBUG_LIBS=OFF \
-	    -D BOOST_INCLUDEDIR=../boost/ -D BOOST_LIBRARYDIR=../boost/stage/lib -D BOOST_VER=1.64.0 \
-	    .
-      make -j 8 ;
-      make -j 4 install ;
-      mv build ../../unix/build/socket.io-client-cpp;
-      cp -r src/internal ../../unix/build/socket.io-client-cpp/include ;
+all: libsioclient.a
+
+libsioclient.a: sio_client.o sio_socket.o internal/sio_client_impl.o internal/sio_packet.o
+	ar qc libsioclient.a sio_client.o sio_socket.o internal/sio_client_impl.o internal/sio_packet.o
+
+EOF
+
+    make -j 4
     )
 }
 
@@ -76,43 +46,29 @@ build_distribute() {
     
     mkdir ${INCLUDEDIR}
     mkdir ${LIBDIR}
+
+    #get libs
+    mv ../dependencies/socket.io-client-cpp/src/libsioclient.a ${LIBDIR}/libbridges.a
     
     #copy bridges headers
     cp ../../src/*.h ${INCLUDEDIR}
     cp -r ../../src/data_src ${INCLUDEDIR}  #no / after data_src to copy the directory and not its content
-    
-    #copy rapidjson
-    cp -r build/rapidjson/include/rapidjson ${INCLUDEDIR}
-    
-    #copy socketio
-    cp -r build/socket.io-client-cpp/include/* ${INCLUDEDIR}
-    
-    cp -r build/socket.io-client-cpp/lib/Release/* ${LIBDIR}
 
+    #copy socket.io headers
+    cp -r ../dependencies/socket.io-client-cpp/src/* ${INCLUDEDIR}
 
-    #
-    (
-	cd ${TARGETDIR}/lib ;
-	ar x libboost_system.a ;
-	ar x libsioclient.a ;
-	if [ "$(uname)" = "Linux" ] ; #on linux, need to include libstdc++. macos does not have that problem
-	then
-	   ar x $(gcc -print-file-name=libstdc++.a) ;
-	fi
-	rm *.a ;
-	ar qc libbridges.a *.o ;
-	rm *.o ;
-    )
+    #copy socket.io dependencies headers
+    cp -r ../dependencies/socket.io-client-cpp/lib/asio/asio/include/* ${INCLUDEDIR}
+    cp -r ../dependencies/socket.io-client-cpp/lib/websocketpp/websocketpp ${INCLUDEDIR} #no / after the last websocketpp to copy the directory and not its content
+    cp -r ../dependencies/rapidjson/include/* ${INCLUDEDIR} #copying a more recent rapidjson packaged by socketio
+    #there is a lib/catch that does not seem to be necessary
 
     tar zcvf ${TARGETDIR}.tgz ${TARGETDIR}
-}
 
+}
 
 reinit
 reset_installation
-install_boost
-install_rapidjson
-install_websocketpp
-install_socketIO
+compilesio
 build_distribute
-reset_installation
+
