@@ -1,6 +1,12 @@
 #ifndef SOCKET_CONNECTION_H
 #define SOCKET_CONNECTION_H
 
+#define BOOST_DATE_TIME_NO_LIB
+#define BOOST_REGEX_NO_LIB
+#define ASIO_STANDALONE
+#define _WEBSOCKETPP_CPP11_STL_
+#define _WEBSOCKETPP_CPP11_FUNCTIONAL_
+
 #include "sio_client.h"
 #include "internal/sio_packet.h"
 #include <Bridges.h>
