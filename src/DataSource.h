@@ -22,6 +22,7 @@ using namespace std;
 #include "./data_src/MovieActorWikidata.h"
 #include "./data_src/AmenityData.h"
 #include "./data_src/Amenities.h"
+#include "./data_src/Reddit.h"
 #include "ColorGrid.h"
 #include "base64.h"
 #include <GraphAdjList.h>
@@ -89,6 +90,14 @@ namespace bridges {
 					return "http://bridges-data-server-gutenberg-t.bridgesuncc.org/";
 
 				return "http://bridges-data-server-gutenberg.bridgesuncc.org/";
+			}
+			string  getRedditURL() {
+				if (sourceType == "testing")
+					return "http://bridges-data-server-reddit-t.bridgesuncc.org";
+				else if (sourceType == "local")
+        			return "http://localhost:9999";
+    			else
+					return "http://bridges-data-server-reddit.bridgesuncc.org";
 			}
 
 			string sourceType = "live";
@@ -1389,6 +1398,21 @@ cout << url << endl;
 					}
 				}
 				return elev_data;
+			}
+
+			vector<Reddit> getRedditData(string subreddit, int time_request) {
+				string base_url = getRedditURL();
+				cout <<  "reddit base url:" << base_url <<  "\n";
+				string url = base_url + "/cache?subreddit=" + subreddit + 
+					"&time_request=" + std::to_string(time_request);
+
+				cout<<  "reddit url:" << url <<  "\n";
+
+//				content = server_request(url)
+ //   			data = json.loads(content.decode("utf-8"))
+
+				vector<Reddit> reddit_posts;
+				return reddit_posts;
 			}
 
 		private:

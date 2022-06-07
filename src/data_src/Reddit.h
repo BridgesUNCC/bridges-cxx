@@ -1,3 +1,7 @@
+#ifndef REDDIT_H
+
+#define REDDIT_H
+
 #include <string>
 
 using std::string;
@@ -15,18 +19,18 @@ namespace bridges {
 				Reddit() {
 					id = 0;
 					title = "";
-					self.author = "";
-					self.score = 0;
-					self.vote_ratio = 0
-						self.comment_count = 0;
+					author = "";
+					score = 0;
+					vote_ratio = 0;
+					comment_count = 0;
 					subreddit = "";
-					self.post_time = 0;
-					self.url = "";
-					self.text = "";
+					post_time = 0;
+					url = "";
+					text = "";
 				}
-				Reddit (id = 0, title = "", author = "", score = 0,
-					vote_ratio = 0, comment_count = 0, subreddit = "",
-					post_time = 0, url = "", text = "")
+				Reddit (int id = 0, string title = "", string author = "", int score = 0,
+					int vote_ratio = 0, int comment_count = 0, string subreddit = "",
+					int post_time = 0, string url = "", string text = "")
 				{}
 
 
@@ -54,12 +58,13 @@ namespace bridges {
 					author = auth;
 				}
 
-				int getScore(self) {
+				int getScore() {
 					return score;
 				}
 
-				void setScore(int sc):
+				void setScore(int sc){
 					score = sc;
+				}
 
 				int  getVoteRatio() {
 					return vote_ratio;
@@ -73,12 +78,13 @@ namespace bridges {
 					return comment_count;
 				}
 
-				setCommentCount(int cnt) {
+				void setCommentCount(int cnt) {
 					comment_count = cnt;
 				}
 
-				string  getSubReddit():
+				string  getSubReddit() {
 					return subreddit;
+				}
 
 				void setSubReddit(string sr) {
 					subreddit = sr;
@@ -88,7 +94,7 @@ namespace bridges {
 					return post_time;
 				}
 
-				void  setPostTime(pt) {
+				void  setPostTime(int pt) {
 					post_time = pt;
 				}
 
@@ -96,7 +102,7 @@ namespace bridges {
 					return url;
 				}
 
-				void  setUrl(u) {
+				void  setUrl(string u) {
 					url = u;
 				}
 
@@ -104,9 +110,10 @@ namespace bridges {
 					return text;
 				}
 
-				setText(string txt) {
+				void setText(string txt) {
 					text = txt;
 				}
-		}
-	}
+		};
+	};
 };
+#endif
