@@ -33,7 +33,7 @@ namespace bridges {
 				}
 
 
-				int getCity() {
+				string getCity() {
 					return city;
 				}
 
@@ -57,15 +57,15 @@ namespace bridges {
 					country = cntry;
 				}
 
-				int getTimeZone() {
+				string getTimeZone() {
 					return time_zone;
 				}
 
-				void setTimeZone(int tz){
+				void setTimeZone(string tz){
 					time_zone = tz;
 				}
 
-				int  getLatitude() {
+				float  getLatitude() {
 					return latit;
 				}
 
@@ -73,7 +73,7 @@ namespace bridges {
 					latit = lat;
 				}
 
-				int  getLongitude()  {
+				float  getLongitude()  {
 					return longit;
 				}
 

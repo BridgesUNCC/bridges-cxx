@@ -23,6 +23,7 @@ using namespace std;
 #include "./data_src/AmenityData.h"
 #include "./data_src/Amenities.h"
 #include "./data_src/Reddit.h"
+#include "./data_src/USCities.h"
 #include "ColorGrid.h"
 #include "base64.h"
 #include <GraphAdjList.h>
@@ -103,7 +104,7 @@ namespace bridges {
 			string sourceType = "live";
 
 			string getUSCitiesURL() {
-				return "http://bridgesdata.herokuapp.com/api/us_cities"
+				return "http://bridgesdata.herokuapp.com/api/us_cities";
 			}
 
 		public:
@@ -129,26 +130,58 @@ namespace bridges {
 				sourceType = type;
 			}
 
-			vector<USCities> getUSCities (int limit = 10000) {
-				string url = getUSCitiesURL();
-				url +=  "limit=" + std::to_string(limit); 
-				
-			}
-			vector<USCities> getUSCities (string city = "Charlotte", string state = "NC", 
-									int limit = 10000) {
-				string url = getUSCitiesURL();
-				url += "city=" + city + "&" + 
-						"state=" + state + "&" + 
-						"limit=" + std::to_string(limit);
-			}
-			vector<USCities> getUSCities (float minLat, float minLong, float maxLat, float
-									maxLong, int limit = 10000) {
-				string url = getUSCitiesURL();
-				url += "city=" + city + "state=" + state + "limit=" + std::to_string(limit);
-			}
-			vector<USCities> getUSCities (int population, int limit = 10000) {
-				string url = getUSCitiesURL();
-				
+			vector<USCities> getUSCities (unordered_map<string, string> params) {
+				string url = getUSCitiesURL() + "?";
+				if (params.find("city") != params.end()) 
+					url += "city=" + params["city"] + "&";
+				if (params.find("state") != params.end()) 
+					url += "state=" + params["state"] + "&";
+				if (params.find("latitMin") != params.end()) 
+					url += "latitMin=" + params["latitMin"] + "&";
+				if (params.find("latMax") != params.end()) 
+					url += "latitMax=" + params["latitMax"] + "&";
+				if (params.find("longitMin") != params.end()) 
+					url += "latMin=" + params["latMin"] + "&";
+				if (params.find("latMax") != params.end()) 
+					url += "latMax=" + params["latMax"] + "&";
+				if (params.find("elevation") != params.end()) 
+					url += "elevation=" + params["elevation"] + "&";
+				if (params.find("population") != params.end()) 
+					url += "population=" + params["population"] + "&";
+				if (params.find("limit") != params.end()) 
+					url += "limit=" + params["limit"] + "&";
+
+				// remove the last &
+				url = url.substr(0, url.length()-1);
+
+cout << "url:" + url << endl;
+				// make the request
+				using namespace rapidjson;
+				Document doc;
+				doc.Parse(
+					ServerComm::makeRequest(url, {"Accept: application/json"}).c_str()
+				);
+
+
+				// parse the json
+				const Value& city_json = doc["data"];
+				vector<USCities> us_cities;
+				for (SizeType i = 0; i < doc.Size(); i++) {
+					const Value& val = doc[i];
+					us_cities.push_back (
+						USCities(
+							val["city"].GetString(),
+							val["state"].GetString(),
+							val["country"].GetString(),
+							val["time_zone"].GetString(),
+							val["lat"].GetDouble(),
+							val["lon"].GetDouble(),
+							val["elevation"].GetInt(),
+							val["population"].GetInt()
+						));
+				}
+
+				return us_cities;
 			}
 
 			/**
