@@ -102,6 +102,10 @@ namespace bridges {
 
 			string sourceType = "live";
 
+			string getUSCitiesURL() {
+				return "http://bridgesdata.herokuapp.com/api/us_cities"
+			}
+
 		public:
 			DataSource(bridges::Bridges* br = nullptr)
 				: bridges_inst(br), my_cache(120) {}
@@ -123,6 +127,28 @@ namespace bridges {
 					debug();
 
 				sourceType = type;
+			}
+
+			vector<USCities> getUSCities (int limit = 10000) {
+				string url = getUSCitiesURL();
+				url +=  "limit=" + std::to_string(limit); 
+				
+			}
+			vector<USCities> getUSCities (string city = "Charlotte", string state = "NC", 
+									int limit = 10000) {
+				string url = getUSCitiesURL();
+				url += "city=" + city + "&" + 
+						"state=" + state + "&" + 
+						"limit=" + std::to_string(limit);
+			}
+			vector<USCities> getUSCities (float minLat, float minLong, float maxLat, float
+									maxLong, int limit = 10000) {
+				string url = getUSCitiesURL();
+				url += "city=" + city + "state=" + state + "limit=" + std::to_string(limit);
+			}
+			vector<USCities> getUSCities (int population, int limit = 10000) {
+				string url = getUSCitiesURL();
+				
 			}
 
 			/**
