@@ -28,6 +28,8 @@ namespace bridges {
 					state = st;
 					country = cntry;
 					time_zone = tm_zone;
+					elevation = elev;
+					population = pop;
 					latit = lat;
 					longit = lon;
 				}
