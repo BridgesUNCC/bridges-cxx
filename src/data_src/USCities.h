@@ -14,7 +14,7 @@ namespace bridges {
 			private:
 				string city, state, country, time_zone;
 				int elevation, population;
-				float latit, lonit;
+				float latit, longit;
 
 			public:
 				USCities() {
