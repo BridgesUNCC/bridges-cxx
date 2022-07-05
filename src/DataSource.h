@@ -154,10 +154,10 @@ namespace bridges {
 				// remove the last &
 				url = url.substr(0, url.length()-1);
 
-cout << "url:" + url << endl;
 				// make the request
 				using namespace rapidjson;
 				Document doc;
+				cout << ServerComm::makeRequest(url, {"Accept: application/json"}).c_str();
 				doc.Parse(
 					ServerComm::makeRequest(url, {"Accept: application/json"}).c_str()
 				);
@@ -166,18 +166,18 @@ cout << "url:" + url << endl;
 				// parse the json
 				const Value& city_json = doc["data"];
 				vector<USCities> us_cities;
-				for (SizeType i = 0; i < doc.Size(); i++) {
-					const Value& val = doc[i];
+				for (SizeType i = 0; i < city_json.Size(); i++) {
+					const Value& val = city_json[i];
 					us_cities.push_back (
 						USCities(
 							val["city"].GetString(),
 							val["state"].GetString(),
 							val["country"].GetString(),
-							val["time_zone"].GetString(),
-							val["lat"].GetDouble(),
-							val["lon"].GetDouble(),
+							val["timezone"].GetString(),
 							val["elevation"].GetInt(),
-							val["population"].GetInt()
+							val["population"].GetInt(),
+							val["lat"].GetDouble(),
+							val["lon"].GetDouble()
 						));
 				}
 
