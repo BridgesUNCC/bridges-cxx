@@ -1461,15 +1461,27 @@ cout << url << endl;
 
 			vector<Reddit> getRedditData(string subreddit, int time_request) {
 				string base_url = getRedditURL();
-				cout <<  "reddit base url:" << base_url <<  "\n";
+				if (debug()) {
+				  cout <<  "reddit base url:" << base_url <<  "\n";
+				}
 				string url = base_url + "/cache?subreddit=" + subreddit + 
 					"&time_request=" + std::to_string(time_request);
 
-				cout<<  "reddit url:" << url <<  "\n";
+				if (debug()) {
+				  cout<<  "reddit url:" << url <<  "\n";
+				}
 
-//				content = server_request(url)
- //   			data = json.loads(content.decode("utf-8"))
-
+				
+				using namespace rapidjson;
+				Document doc;
+				{
+				  std::string s = ServerComm::makeRequest(url, {"Accept: application/json"});
+				  if (debug()) {
+				    std::cout<<"Returned JSON:"<<s<<"\n";
+				  }
+				  doc.Parse(s.c_str());
+				}
+				
 				vector<Reddit> reddit_posts;
 				return reddit_posts;
 			}
