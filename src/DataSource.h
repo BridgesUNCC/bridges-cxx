@@ -1483,6 +1483,44 @@ cout << url << endl;
 				}
 				
 				vector<Reddit> reddit_posts;
+				for (auto& m : doc.GetObject()) {
+				  try {
+				    if (debug()) {
+				      std::cout<<m.name.GetString()<<"\n";
+				    }
+				    auto& postJSON = m.value;
+				    
+				    std::string id = postJSON["id"].GetString();
+				    std::string title = postJSON["title"].GetString();
+				    std::string author = postJSON["author"].GetString();
+				    int score = postJSON["score"].GetInt();
+				    float vote_ratio = postJSON["vote_ratio"].GetDouble();
+				    int comment_count = postJSON["comment_count"].GetInt();
+				    std::string subreddit = postJSON["subreddit"].GetString();
+				    int posttime = postJSON["post_time"].GetDouble();
+				    std::string url = postJSON["url"].GetString();
+				    std::string text = postJSON["text"].GetString();
+				    
+				    
+				    Reddit r;
+				    r.setID(id);
+				    r.setTitle(title);
+				    r.setAuthor(author);
+				    r.setScore(score);
+				    r.setVoteRatio(vote_ratio);
+				    r.setCommentCount(comment_count);
+				    r.setPostTime(posttime);
+				    r.setURL(url);
+				    r.setText(text);
+				    reddit_posts.push_back(r);
+				  }
+				  catch(rapidjson_exception& re) {
+				    std::cerr<<"malformed Reddit post"<<"\n";
+				    std::cerr<<"Original exception: "<<(std::string)re<<"\n";
+				  }
+				}
+
+
 				return reddit_posts;
 			}
 

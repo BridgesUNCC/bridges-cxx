@@ -12,12 +12,13 @@ namespace bridges {
 		class Reddit {
 
 			private:
-				string title, author, subreddit, url, text;
-				int id, score, vote_ratio, comment_count, post_time;
+		  string id, title, author, subreddit, url, text;
+		  int score, comment_count, post_time;
+		  float vote_ratio;
 
 			public:
 				Reddit() {
-					id = 0;
+					id = "";
 					title = "";
 					author = "";
 					score = 0;
@@ -28,19 +29,15 @@ namespace bridges {
 					url = "";
 					text = "";
 				}
-				Reddit (int id = 0, string title = "", string author = "", int score = 0,
-					int vote_ratio = 0, int comment_count = 0, string subreddit = "",
-					int post_time = 0, string url = "", string text = "")
-				{}
 
 
-				int getID() {
-					return id;
-				}
+		  std::string getID() const {
+		    return id;
+		  }
 
-				void setID(int i) {
-					id = i;
-				}
+		  void setID(std::string i) {
+		    id = i;
+		  }
 
 				string  getTitle() {
 					return title;
@@ -98,11 +95,11 @@ namespace bridges {
 					post_time = pt;
 				}
 
-				string  getUrl() {
+				string  getURL() {
 					return url;
 				}
 
-				void  setUrl(string u) {
+				void  setURL(string u) {
 					url = u;
 				}
 
