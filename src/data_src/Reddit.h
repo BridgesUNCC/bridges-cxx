@@ -63,11 +63,11 @@ namespace bridges {
 					score = sc;
 				}
 
-				int  getVoteRatio() {
+				float  getVoteRatio() {
 					return vote_ratio;
 				}
 
-				void setVoteRatio(int vr) {
+				void setVoteRatio(float vr) {
 					vote_ratio = vr;
 				}
 
@@ -79,11 +79,11 @@ namespace bridges {
 					comment_count = cnt;
 				}
 
-				string  getSubReddit() {
+				string  getSubreddit() {
 					return subreddit;
 				}
 
-				void setSubReddit(string sr) {
+				void setSubreddit(string sr) {
 					subreddit = sr;
 				}
 

@@ -1509,6 +1509,7 @@ cout << url << endl;
 				    r.setScore(score);
 				    r.setVoteRatio(vote_ratio);
 				    r.setCommentCount(comment_count);
+				    r.setSubreddit(subreddit);
 				    r.setPostTime(posttime);
 				    r.setURL(url);
 				    r.setText(text);
