@@ -130,6 +130,24 @@ namespace bridges {
 				sourceType = type;
 			}
 
+			/**
+			 * @brief  Retrieves US city data based on a set of filtering parameters
+			 *
+			 * @param  params  this represents a specification of the filtering
+			 *			parameters provided as a map. Multiple parameters will result
+			 * 			in filtering as a combination (intersection)
+			 *			Available parameters and their  types are as follows:
+	         *         'city' : string
+	         *         'state' : string
+	         *         'country' : string
+	         *         'time_zone' : string
+	         *         'elevation' : integer
+	         *         'population' : integer
+	         *         'minLatLong' : float, float    -- Lat long minima
+	         *         'maxLatLong' : float, float    -- Lat long maxima
+			 *
+			 *
+			 */
 			vector<USCities> getUSCities (unordered_map<string, string> params) {
 				string url = getUSCitiesURL() + "?";
 				if (params.find("city") != params.end()) 
