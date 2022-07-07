@@ -177,7 +177,6 @@ namespace bridges {
 					ServerComm::makeRequest(url, {"Accept: application/json"}).c_str()
 				);
 
-
 				// parse the json
 				const Value& city_json = doc["data"];
 				vector<USCities> us_cities;
