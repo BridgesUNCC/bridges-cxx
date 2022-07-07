@@ -28,8 +28,6 @@ namespace bridges {
 			 * @date 6/7/22
 			 */
 
-			 */
-
 			private:
 				string city, state, country, time_zone;
 				int elevation, population;
