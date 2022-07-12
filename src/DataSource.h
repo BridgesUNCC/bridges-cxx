@@ -130,20 +130,36 @@ namespace bridges {
 				sourceType = type;
 			}
 
+			/**
+			 * @brief  Retrieves US city data based on a set of filtering parameters
+			 *
+			 * @param  params  this represents a specification of the filtering
+			 *			parameters provided as a map. Multiple parameters will result
+			 * 			in filtering as a combination (intersection)
+			 *			Available parameters and their  types are as follows:
+	         *         'city' : string
+	         *         'state' : string
+	         *         'country' : string
+	         *         'time_zone' : string
+	         *         'elevation' : integer
+	         *         'population' : integer
+	         *         'minLatLong' : float, float    -- Lat long minima
+	         *         'maxLatLong' : float, float    -- Lat long maxima
+			 *
+			 *
+			 */
 			vector<USCities> getUSCities (unordered_map<string, string> params) {
 				string url = getUSCitiesURL() + "?";
 				if (params.find("city") != params.end()) 
 					url += "city=" + params["city"] + "&";
 				if (params.find("state") != params.end()) 
 					url += "state=" + params["state"] + "&";
-				if (params.find("latitMin") != params.end()) 
-					url += "latitMin=" + params["latitMin"] + "&";
-				if (params.find("latMax") != params.end()) 
-					url += "latitMax=" + params["latitMax"] + "&";
-				if (params.find("longitMin") != params.end()) 
-					url += "latMin=" + params["latMin"] + "&";
-				if (params.find("latMax") != params.end()) 
-					url += "latMax=" + params["latMax"] + "&";
+				if (params.find("country") != params.end()) 
+					url += "country=" + params["country"] + "&";
+				if (params.find("minLatLong") != params.end()) 
+					url += "minLatLong=" + params["minLatLong"] + "&";
+				if (params.find("maxLatLong") != params.end()) 
+					url += "maxLatLong=" + params["maxLatLong"] + "&";
 				if (params.find("elevation") != params.end()) 
 					url += "elevation=" + params["elevation"] + "&";
 				if (params.find("population") != params.end()) 
@@ -157,11 +173,9 @@ namespace bridges {
 				// make the request
 				using namespace rapidjson;
 				Document doc;
-				cout << ServerComm::makeRequest(url, {"Accept: application/json"}).c_str();
 				doc.Parse(
 					ServerComm::makeRequest(url, {"Accept: application/json"}).c_str()
 				);
-
 
 				// parse the json
 				const Value& city_json = doc["data"];
