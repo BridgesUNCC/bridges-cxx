@@ -16,19 +16,7 @@ namespace bridges {
 		  float vote_ratio;
 
 			public:
-				Reddit() {
-					id = "";
-					title = "";
-					author = "";
-					score = 0;
-					vote_ratio = 0;
-					comment_count = 0;
-					subreddit = "";
-					post_time = 0;
-					url = "";
-					text = "";
-				}
-
+		  Reddit() = default;
 
 		  std::string getID() const {
 		    return id;
