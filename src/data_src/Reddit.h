@@ -11,7 +11,7 @@ namespace bridges {
 		class Reddit {
 
 			private:
-		  string id, title, author, subreddit, url, text;
+		  std::string id, title, author, subreddit, url, text;
 		  int score, comment_count, post_time;
 		  float vote_ratio;
 
@@ -38,23 +38,23 @@ namespace bridges {
 		    id = i;
 		  }
 
-				string  getTitle() {
-					return title;
-				}
-
-				void  setTitle(string titl) {
+		  std::string  getTitle() const {
+		    return title;
+		  }
+		  
+		  void  setTitle(std::string titl) {
 					title = titl;
 				}
 
-				string getAuthor() {
-					return author;
-				}
+		  std::string getAuthor() const {
+		    return author;
+		  }
 
-				void setAuthor(string auth) {
+		  void setAuthor(string auth) {
 					author = auth;
 				}
 
-				int getScore() {
+		  int getScore() const {
 					return score;
 				}
 
@@ -62,7 +62,7 @@ namespace bridges {
 					score = sc;
 				}
 
-				float  getVoteRatio() {
+				float  getVoteRatio() const {
 					return vote_ratio;
 				}
 
@@ -70,7 +70,7 @@ namespace bridges {
 					vote_ratio = vr;
 				}
 
-				int  getCommentCount()  {
+				int  getCommentCount()  const {
 					return comment_count;
 				}
 
@@ -78,15 +78,15 @@ namespace bridges {
 					comment_count = cnt;
 				}
 
-				string  getSubreddit() {
+		  std::string  getSubreddit() const {
 					return subreddit;
 				}
 
-				void setSubreddit(string sr) {
+		  void setSubreddit(std::string sr) {
 					subreddit = sr;
 				}
 
-				int  getPostTime() {
+				int  getPostTime() const {
 					return post_time;
 				}
 
@@ -94,19 +94,19 @@ namespace bridges {
 					post_time = pt;
 				}
 
-				string  getURL() {
+		  std::string  getURL() const {
 					return url;
 				}
 
-				void  setURL(string u) {
+				void  setURL(std::string u) {
 					url = u;
 				}
-
-				string  getText() {
+		  
+		  std::string  getText() const {
 					return text;
 				}
 
-				void setText(string txt) {
+				void setText(std::string txt) {
 					text = txt;
 				}
 		};
