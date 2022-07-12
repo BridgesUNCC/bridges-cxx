@@ -144,10 +144,14 @@ namespace bridges {
 					url += "latMin=" + params["latMin"] + "&";
 				if (params.find("latMax") != params.end()) 
 					url += "latMax=" + params["latMax"] + "&";
-				if (params.find("elevation") != params.end()) 
-					url += "elevation=" + params["elevation"] + "&";
-				if (params.find("population") != params.end()) 
-					url += "population=" + params["population"] + "&";
+				if (params.find("minElevation") != params.end()) 
+					url += "minElevation=" + params["minElevation"] + "&";
+				if (params.find("maxElevation") != params.end()) 
+					url += "maxElevation=" + params["maxElevation"] + "&";
+				if (params.find("minPopulation") != params.end()) 
+					url += "minPopulation=" + params["minPopulation"] + "&";
+				if (params.find("maxPopulation") != params.end()) 
+					url += "maxPopulation=" + params["maxPopulation"] + "&";
 				if (params.find("limit") != params.end()) 
 					url += "limit=" + params["limit"] + "&";
 
@@ -157,7 +161,8 @@ namespace bridges {
 				// make the request
 				using namespace rapidjson;
 				Document doc;
-				cout << ServerComm::makeRequest(url, {"Accept: application/json"}).c_str();
+cout <<  "URL" <<  url << endl;
+//				cout << ServerComm::makeRequest(url, {"Accept: application/json"}).c_str();
 				doc.Parse(
 					ServerComm::makeRequest(url, {"Accept: application/json"}).c_str()
 				);

@@ -82,6 +82,21 @@ namespace bridges {
 				void setLongitude(float lon) {
 					longit = lon;
 				}
+				float  getPopulation()  {
+					return population;
+				}
+
+				void setPopulation(int pop) {
+					population = pop;
+				}
+
+				int  getElevation()  {
+					return elevation;
+				}
+
+				void setElevation(int elev) {
+					elevation = elev;
+				}
 
 		};
 	};
