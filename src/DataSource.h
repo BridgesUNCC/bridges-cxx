@@ -160,10 +160,14 @@ namespace bridges {
 					url += "minLatLong=" + params["minLatLong"] + "&";
 				if (params.find("maxLatLong") != params.end()) 
 					url += "maxLatLong=" + params["maxLatLong"] + "&";
-				if (params.find("elevation") != params.end()) 
-					url += "elevation=" + params["elevation"] + "&";
-				if (params.find("population") != params.end()) 
-					url += "population=" + params["population"] + "&";
+				if (params.find("minElevation") != params.end()) 
+					url += "minElevation=" + params["minElevation"] + "&";
+				if (params.find("maxElevation") != params.end()) 
+					url += "maxElevation=" + params["maxElevation"] + "&";
+				if (params.find("minPopulation") != params.end()) 
+					url += "minPopulation=" + params["minPopulation"] + "&";
+				if (params.find("maxPopulation") != params.end()) 
+					url += "maxPopulation=" + params["maxPopulation"] + "&";
 				if (params.find("limit") != params.end()) 
 					url += "limit=" + params["limit"] + "&";
 
