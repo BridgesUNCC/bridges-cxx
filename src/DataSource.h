@@ -130,28 +130,40 @@ namespace bridges {
 				sourceType = type;
 			}
 
+			/**
+			 * @brief  Retrieves US city data based on a set of filtering parameters
+			 *
+			 * @param  params  this represents a specification of the filtering
+			 *			parameters provided as a map. Multiple parameters will result
+			 * 			in filtering as a combination (intersection)
+			 *			Available parameters and their  types are as follows:
+	         *         'city' : string
+	         *         'state' : string
+	         *         'country' : string
+	         *         'time_zone' : string
+	         *         'elevation' : integer
+	         *         'population' : integer
+	         *         'minLatLong' : float, float    -- Lat long minima
+	         *         'maxLatLong' : float, float    -- Lat long maxima
+			 *
+			 *
+			 */
 			vector<USCities> getUSCities (unordered_map<string, string> params) {
 				string url = getUSCitiesURL() + "?";
 				if (params.find("city") != params.end()) 
 					url += "city=" + params["city"] + "&";
 				if (params.find("state") != params.end()) 
 					url += "state=" + params["state"] + "&";
-				if (params.find("latitMin") != params.end()) 
-					url += "latitMin=" + params["latitMin"] + "&";
-				if (params.find("latMax") != params.end()) 
-					url += "latitMax=" + params["latitMax"] + "&";
-				if (params.find("longitMin") != params.end()) 
-					url += "latMin=" + params["latMin"] + "&";
-				if (params.find("latMax") != params.end()) 
-					url += "latMax=" + params["latMax"] + "&";
-				if (params.find("minElevation") != params.end()) 
-					url += "minElevation=" + params["minElevation"] + "&";
-				if (params.find("maxElevation") != params.end()) 
-					url += "maxElevation=" + params["maxElevation"] + "&";
-				if (params.find("minPopulation") != params.end()) 
-					url += "minPopulation=" + params["minPopulation"] + "&";
-				if (params.find("maxPopulation") != params.end()) 
-					url += "maxPopulation=" + params["maxPopulation"] + "&";
+				if (params.find("country") != params.end()) 
+					url += "country=" + params["country"] + "&";
+				if (params.find("minLatLong") != params.end()) 
+					url += "minLatLong=" + params["minLatLong"] + "&";
+				if (params.find("maxLatLong") != params.end()) 
+					url += "maxLatLong=" + params["maxLatLong"] + "&";
+				if (params.find("elevation") != params.end()) 
+					url += "elevation=" + params["elevation"] + "&";
+				if (params.find("population") != params.end()) 
+					url += "population=" + params["population"] + "&";
 				if (params.find("limit") != params.end()) 
 					url += "limit=" + params["limit"] + "&";
 
@@ -161,12 +173,9 @@ namespace bridges {
 				// make the request
 				using namespace rapidjson;
 				Document doc;
-cout <<  "URL" <<  url << endl;
-//				cout << ServerComm::makeRequest(url, {"Accept: application/json"}).c_str();
 				doc.Parse(
 					ServerComm::makeRequest(url, {"Accept: application/json"}).c_str()
 				);
-
 
 				// parse the json
 				const Value& city_json = doc["data"];
@@ -1464,18 +1473,107 @@ cout << url << endl;
 				return elev_data;
 			}
 
+	  std::vector<std::string> getAvailableSubreddit() {
+			string base_url = getRedditURL();
+			string url = base_url + "/listJSON";
+			  if (debug()) {
+			    std::cout<<"hitting url: "<<url<<"\n";
+			  }			
+			using namespace rapidjson;
+			Document doc;
+			{
+			  std::string s = ServerComm::makeRequest(url, {"Accept: application/json"});
+			  if (debug()) {
+			    std::cout<<"Returned JSON:"<<s<<"\n";
+			  }
+			  try {
+			    doc.Parse(s.c_str());
+			  } catch(rapidjson_exception& re) {
+			    std::cerr<<"malformed subreddit list"<<"\n";
+			    std::cerr<<"Original exception: "<<(std::string)re<<"\n";
+			  }
+			}
+
+			std::vector<std::string> subreddits;
+			  try {
+			    for (auto& m : doc.GetArray()) {
+
+			      std::string subred = m.GetString();
+			      subreddits.push_back(subred);
+
+			    }
+			  } catch(rapidjson_exception& re) {
+			    std::cerr<<"malformed subreddit list"<<"\n";
+			    std::cerr<<"Original exception: "<<(std::string)re<<"\n";
+			  }
+
+			return subreddits;
+			
+	  }
+	  
 			vector<Reddit> getRedditData(string subreddit, int time_request) {
 				string base_url = getRedditURL();
-				cout <<  "reddit base url:" << base_url <<  "\n";
+				if (debug()) {
+				  cout <<  "reddit base url:" << base_url <<  "\n";
+				}
 				string url = base_url + "/cache?subreddit=" + subreddit + 
 					"&time_request=" + std::to_string(time_request);
 
-				cout<<  "reddit url:" << url <<  "\n";
+				if (debug()) {
+				  cout<<  "reddit url:" << url <<  "\n";
+				}
 
-//				content = server_request(url)
- //   			data = json.loads(content.decode("utf-8"))
-
+				
+				using namespace rapidjson;
+				Document doc;
+				{
+				  std::string s = ServerComm::makeRequest(url, {"Accept: application/json"});
+				  if (debug()) {
+				    std::cout<<"Returned JSON:"<<s<<"\n";
+				  }
+				  doc.Parse(s.c_str());
+				}
+				
 				vector<Reddit> reddit_posts;
+				for (auto& m : doc.GetObject()) {
+				  try {
+				    if (debug()) {
+				      std::cout<<m.name.GetString()<<"\n";
+				    }
+				    auto& postJSON = m.value;
+				    
+				    std::string id = postJSON["id"].GetString();
+				    std::string title = postJSON["title"].GetString();
+				    std::string author = postJSON["author"].GetString();
+				    int score = postJSON["score"].GetInt();
+				    float vote_ratio = postJSON["vote_ratio"].GetDouble();
+				    int comment_count = postJSON["comment_count"].GetInt();
+				    std::string subreddit = postJSON["subreddit"].GetString();
+				    int posttime = postJSON["post_time"].GetDouble();
+				    std::string url = postJSON["url"].GetString();
+				    std::string text = postJSON["text"].GetString();
+				    
+				    
+				    Reddit r;
+				    r.setID(id);
+				    r.setTitle(title);
+				    r.setAuthor(author);
+				    r.setScore(score);
+				    r.setVoteRatio(vote_ratio);
+				    r.setCommentCount(comment_count);
+				    r.setSubreddit(subreddit);
+				    r.setPostTime(posttime);
+				    r.setURL(url);
+				    r.setText(text);
+				    reddit_posts.push_back(r);
+				  }
+				  catch(rapidjson_exception& re) {
+				    std::cerr<<"malformed Reddit post"<<"\n";
+				    std::cerr<<"Original exception: "<<(std::string)re<<"\n";
+				  }
+				}
+
+
 				return reddit_posts;
 			}
 

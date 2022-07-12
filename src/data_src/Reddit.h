@@ -1,5 +1,4 @@
 #ifndef REDDIT_H
-
 #define REDDIT_H
 
 #include <string>
@@ -12,53 +11,38 @@ namespace bridges {
 		class Reddit {
 
 			private:
-				string title, author, subreddit, url, text;
-				int id, score, vote_ratio, comment_count, post_time;
+		  std::string id, title, author, subreddit, url, text;
+		  int score, comment_count, post_time;
+		  float vote_ratio;
 
 			public:
-				Reddit() {
-					id = 0;
-					title = "";
-					author = "";
-					score = 0;
-					vote_ratio = 0;
-					comment_count = 0;
-					subreddit = "";
-					post_time = 0;
-					url = "";
-					text = "";
-				}
-				Reddit (int id = 0, string title = "", string author = "", int score = 0,
-					int vote_ratio = 0, int comment_count = 0, string subreddit = "",
-					int post_time = 0, string url = "", string text = "")
-				{}
+		  Reddit() = default;
 
+		  std::string getID() const {
+		    return id;
+		  }
 
-				int getID() {
-					return id;
-				}
+		  void setID(std::string i) {
+		    id = i;
+		  }
 
-				void setID(int i) {
-					id = i;
-				}
-
-				string  getTitle() {
-					return title;
-				}
-
-				void  setTitle(string titl) {
+		  std::string  getTitle() const {
+		    return title;
+		  }
+		  
+		  void  setTitle(std::string titl) {
 					title = titl;
 				}
 
-				string getAuthor() {
-					return author;
-				}
+		  std::string getAuthor() const {
+		    return author;
+		  }
 
-				void setAuthor(string auth) {
+		  void setAuthor(string auth) {
 					author = auth;
 				}
 
-				int getScore() {
+		  int getScore() const {
 					return score;
 				}
 
@@ -66,15 +50,15 @@ namespace bridges {
 					score = sc;
 				}
 
-				int  getVoteRatio() {
+				float  getVoteRatio() const {
 					return vote_ratio;
 				}
 
-				void setVoteRatio(int vr) {
+				void setVoteRatio(float vr) {
 					vote_ratio = vr;
 				}
 
-				int  getCommentCount()  {
+				int  getCommentCount()  const {
 					return comment_count;
 				}
 
@@ -82,15 +66,15 @@ namespace bridges {
 					comment_count = cnt;
 				}
 
-				string  getSubReddit() {
+		  std::string  getSubreddit() const {
 					return subreddit;
 				}
 
-				void setSubReddit(string sr) {
+		  void setSubreddit(std::string sr) {
 					subreddit = sr;
 				}
 
-				int  getPostTime() {
+				int  getPostTime() const {
 					return post_time;
 				}
 
@@ -98,19 +82,19 @@ namespace bridges {
 					post_time = pt;
 				}
 
-				string  getUrl() {
+		  std::string  getURL() const {
 					return url;
 				}
 
-				void  setUrl(string u) {
+				void  setURL(std::string u) {
 					url = u;
 				}
-
-				string  getText() {
+		  
+		  std::string  getText() const {
 					return text;
 				}
 
-				void setText(string txt) {
+				void setText(std::string txt) {
 					text = txt;
 				}
 		};
