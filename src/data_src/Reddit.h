@@ -8,7 +8,24 @@ using std::string;
 namespace bridges {
 	namespace dataset {
 
-		class Reddit {
+/**
+ * @brief  An object to represent a Reddit post, used along with the Reddit data source
+ *
+ * This is a convenience class provided for  users who wish to use this
+ * data source as part of their application. It provides an API that makes
+ * it easy to access the attributes of this data set.
+ *
+ * The Reddit object is typically not created by a student but rather
+ * obtained from calling bridges::connect::DataSource::getRedditData().
+ *
+ * Refer to tutorial for example of using this feature: https://bridgesuncc.github.io/tutorials/
+ *
+ *
+ * @author Erik Saule
+ * @date   7/12/22
+ *
+ */
+	  class Reddit {
 
 			private:
 		  std::string id, title, author, subreddit, url, text;
@@ -18,6 +35,11 @@ namespace bridges {
 			public:
 		  Reddit() = default;
 
+    	/**
+	 *           @brief return id of the reddit post
+	 *
+	 *   @return id
+	 */
 		  std::string getID() const {
 		    return id;
 		  }
@@ -26,6 +48,11 @@ namespace bridges {
 		    id = i;
 		  }
 
+    	/**
+	 *           @brief return the title of the reddit post
+	 *
+	 *   @return title
+	 */
 		  std::string  getTitle() const {
 		    return title;
 		  }
@@ -34,6 +61,11 @@ namespace bridges {
 					title = titl;
 				}
 
+    	/**
+	 *           @brief return the author of the reddit post
+	 *
+	 *   @return author's username
+	 */
 		  std::string getAuthor() const {
 		    return author;
 		  }
@@ -42,6 +74,11 @@ namespace bridges {
 					author = auth;
 				}
 
+    	/**
+	 *           @brief return the score (upvotes - downvotes) of the reddit post
+	 *
+	 *   @return score (upvotes - downvotes)
+	 */
 		  int getScore() const {
 					return score;
 				}
@@ -50,6 +87,11 @@ namespace bridges {
 					score = sc;
 				}
 
+    /**
+     *   @brief ratio of upvotes to downvotes of the reddit post
+     *
+     *   @return vote ratio
+     */
 				float  getVoteRatio() const {
 					return vote_ratio;
 				}
@@ -58,6 +100,11 @@ namespace bridges {
 					vote_ratio = vr;
 				}
 
+    /**
+     *   @brief number of comments of the reddit post
+     *
+     *   @return number of comments
+     */
 				int  getCommentCount()  const {
 					return comment_count;
 				}
@@ -66,6 +113,11 @@ namespace bridges {
 					comment_count = cnt;
 				}
 
+    /**
+     *   @brief name of the subreddit the post appeared in
+     *
+     *   @return subreddit name
+     */
 		  std::string  getSubreddit() const {
 					return subreddit;
 				}
@@ -74,6 +126,11 @@ namespace bridges {
 					subreddit = sr;
 				}
 
+    /**
+     *   @brief time the post was made (UNIX time)
+     *
+     *   @return unix time
+     */
 				int  getPostTime() const {
 					return post_time;
 				}
@@ -82,6 +139,14 @@ namespace bridges {
 					post_time = pt;
 				}
 
+    /**
+     *   @brief  URL associated with the post. 
+     *
+     *   This could be the url of the reddit post itself or the URL of an associated article/video
+     *
+     *
+     *   @return URL
+     */
 		  std::string  getURL() const {
 					return url;
 				}
@@ -90,6 +155,16 @@ namespace bridges {
 					url = u;
 				}
 		  
+    /**
+     *   @brief   returns the text of the reddit post.
+     *
+     *   The text of the reddit post. Often in markdown format.
+     *
+     *  The text could be empty if the reddit post is just a link to a video or an article
+     *
+     *
+     *   @return full text of the reddit post
+     */
 		  std::string  getText() const {
 					return text;
 				}

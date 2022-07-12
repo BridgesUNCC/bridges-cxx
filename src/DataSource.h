@@ -1473,7 +1473,13 @@ cout << url << endl;
 				return elev_data;
 			}
 
-	  std::vector<std::string> getAvailableSubreddit() {
+	      /**
+     * @brief retrieves the subreddits made available by BRIDGES
+     *
+     * @return a list of strings of subreddit names
+     **/
+
+	  std::vector<std::string> getAvailableSubreddits() {
 			string base_url = getRedditURL();
 			string url = base_url + "/listJSON";
 			  if (debug()) {
@@ -1510,8 +1516,17 @@ cout << url << endl;
 			return subreddits;
 			
 	  }
-	  
-			vector<Reddit> getRedditData(string subreddit, int time_request) {
+
+	      /**
+     *     @brief retrieves the reddit posts from a subreddit
+     * 
+     * @param subreddit the name of the subreddit ( check list available at http://bridges-data-server-reddit.bridgesuncc.org/list or using getAvailableSubreddits() )
+     * @param time_request unix timestamp of when requested subreddit was generated or less than 0 for now  
+     *
+     * @return a list of reddit objects with the data of the posts
+     *
+     **/
+			vector<Reddit> getRedditData(string subreddit, int time_request=-9999) {
 				string base_url = getRedditURL();
 				if (debug()) {
 				  cout <<  "reddit base url:" << base_url <<  "\n";
