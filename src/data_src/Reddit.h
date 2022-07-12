@@ -1,5 +1,4 @@
 #ifndef REDDIT_H
-
 #define REDDIT_H
 
 #include <string>
