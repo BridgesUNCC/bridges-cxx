@@ -116,22 +116,6 @@ namespace bridges {
 				void setElevation(int elev) {
 					elevation = elev;
 				}
-
-				int getElevation() {
-					return elevation;
-				}
-
-				void setElevation(int elev) {
-					elevation = elev;
-				}
-
-				int getPopulation() {
-					return population;
-				}
-
-				void setPopulation(int pop) {
-					population = pop;
-				}
 		};
 	};
 };
