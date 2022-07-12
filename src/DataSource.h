@@ -1459,6 +1459,44 @@ cout << url << endl;
 				return elev_data;
 			}
 
+	  std::vector<std::string> getAvailableSubreddit() {
+			string base_url = getRedditURL();
+			string url = base_url + "/listJSON";
+			  if (debug()) {
+			    std::cout<<"hitting url: "<<url<<"\n";
+			  }			
+			using namespace rapidjson;
+			Document doc;
+			{
+			  std::string s = ServerComm::makeRequest(url, {"Accept: application/json"});
+			  if (debug()) {
+			    std::cout<<"Returned JSON:"<<s<<"\n";
+			  }
+			  try {
+			    doc.Parse(s.c_str());
+			  } catch(rapidjson_exception& re) {
+			    std::cerr<<"malformed subreddit list"<<"\n";
+			    std::cerr<<"Original exception: "<<(std::string)re<<"\n";
+			  }
+			}
+
+			std::vector<std::string> subreddits;
+			  try {
+			    for (auto& m : doc.GetArray()) {
+
+			      std::string subred = m.GetString();
+			      subreddits.push_back(subred);
+
+			    }
+			  } catch(rapidjson_exception& re) {
+			    std::cerr<<"malformed subreddit list"<<"\n";
+			    std::cerr<<"Original exception: "<<(std::string)re<<"\n";
+			  }
+
+			return subreddits;
+			
+	  }
+	  
 			vector<Reddit> getRedditData(string subreddit, int time_request) {
 				string base_url = getRedditURL();
 				if (debug()) {
