@@ -23,7 +23,7 @@ using namespace std;
 #include "./data_src/AmenityData.h"
 #include "./data_src/Amenities.h"
 #include "./data_src/Reddit.h"
-#include "./data_src/USCities.h"
+#include "./data_src/City.h"
 #include "ColorGrid.h"
 #include "base64.h"
 #include <GraphAdjList.h>
@@ -148,7 +148,7 @@ namespace bridges {
 			 *
 			 *
 			 */
-			vector<USCities> getUSCities (unordered_map<string, string> params) {
+			vector<City> getUSCities (unordered_map<string, string> params) {
 				string url = getUSCitiesURL() + "?";
 				if (params.find("city") != params.end()) 
 					url += "city=" + params["city"] + "&";
@@ -183,11 +183,11 @@ namespace bridges {
 
 				// parse the json
 				const Value& city_json = doc["data"];
-				vector<USCities> us_cities;
+				vector<City> us_cities;
 				for (SizeType i = 0; i < city_json.Size(); i++) {
 					const Value& val = city_json[i];
 					us_cities.push_back (
-						USCities(
+						City(
 							val["city"].GetString(),
 							val["state"].GetString(),
 							val["country"].GetString(),

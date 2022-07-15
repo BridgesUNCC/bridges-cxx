@@ -1,6 +1,6 @@
-#ifndef US_CITIES_H
+#ifndef CITY_H
 
-#define US_CITIES_H
+#define CITY_H
 
 #include <string>
 
@@ -10,18 +10,19 @@ using std::string;
 namespace bridges {
 	namespace dataset {
 
-		class USCities {
+		class City {
 			/**
-			 * @brief Class that holds data of US Cities
+			 * @brief Class that holds data of a city
  			 * 
-			 * A user would not normally create an ElevationData object but 
-			 * rather obtain one from calling bridges::DataSource::getUSCities()
+			 * A user would not normally create a City object but 
+			 * rather obtain one from calling bridges::DataSource::getUSCities() or
+             *   bridges::DataSource::getWorldCities()
 			 *
-			 * A tutorial on how to use the US Cities dataset is available at: 
+			 * A tutorial on how to use the City dataset is available at: 
 			 *  https://bridgesuncc.github.io/tutorials/USCities.html (to be done!)
 			 *
-			 * Each city contains the city name, state, country, time zone, elevation,
-			 *  population and lat/long location information.
+			 * Each city object ccontains the city name, state, country, time zone, 
+			 *  elevation, population and lat/long location information.
 			 *
 			 * @author Kalpathi Subramanian
 			 *
@@ -37,12 +38,12 @@ namespace bridges {
 				/**
 				 *  Constructors
 				 */
-				USCities() {
+				City() {
 					city = state = country = time_zone = string();
 					elevation = population = 0;
 					latit = longit = 0.;
 				}
-				USCities (string cty, string st, string cntry, string tm_zone,
+				City (string cty, string st, string cntry, string tm_zone,
 						int elev, int pop, float lat, float lon) {
 					city = cty;
 					state = st;
