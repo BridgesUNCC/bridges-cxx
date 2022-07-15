@@ -39,7 +39,7 @@ namespace bridges {
 
 				// maximum value in the data set
 				int maxVal;
-		  int minVal;
+		  		int minVal;
 
 			public:
 
