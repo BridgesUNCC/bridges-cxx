@@ -699,6 +699,7 @@ cout << url << endl;
 			 *
 			 * @param osm_json JSON string
 			 */
+		private:
 			OSMData getOSMDataFromJSON (const string& osm_json) {
 				using namespace rapidjson;
 
@@ -758,6 +759,7 @@ cout << url << endl;
 				return osm;
 			}
 
+		public:
 
 			/**
 			 *
