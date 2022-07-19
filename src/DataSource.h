@@ -157,10 +157,14 @@ namespace bridges {
 					url += "state=" + params["state"] + "&";
 				if (params.find("country") != params.end()) 
 					url += "country=" + params["country"] + "&";
-				if (params.find("min_lat_long") != params.end()) 
-					url += "minll=" + params["min_lat_long"] + "&";
-				if (params.find("max_lat_long") != params.end()) 
-					url += "maxll=" + params["max_lat_long"] + "&";
+				if (params.find("min_lat") != params.end()) 
+					url += "minLat=" + params["min_lat"] + "&";
+				if (params.find("max_lat") != params.end()) 
+					url += "maxLat=" + params["max_lat"] + "&";
+				if (params.find("min_long") != params.end()) 
+					url += "minLong=" + params["min_long"] + "&";
+				if (params.find("max_long") != params.end()) 
+					url += "maxLong=" + params["max_long"] + "&";
 				if (params.find("min_elev") != params.end()) 
 					url += "minElevation=" + params["min_elev"] + "&";
 				if (params.find("max_elev") != params.end()) 
