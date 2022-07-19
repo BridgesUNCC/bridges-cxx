@@ -19,7 +19,7 @@
 
 #include <string>
 
-class Amenities {
+class Amenity {
 
 	private:
 		long id_val;
@@ -32,7 +32,7 @@ class Amenities {
 		/**
 		 * Default Constructor
 		 */
-		Amenities() {
+		Amenity() {
 			id_val = 0;
 			lat = 0;
 			lon = 0;
@@ -48,7 +48,7 @@ class Amenities {
 		 * @param name  Name of Amenity as found in Open Street Maps
 		 * @param other  List of special values that may have come with the amenity
 		 */
-		Amenities (double id_val, double lat, double lon, string name,
+		Amenity (double id_val, double lat, double lon, string name,
 			vector<string> other) {
 			setId(id_val);
 			setLat(lat);

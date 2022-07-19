@@ -20,8 +20,7 @@ using namespace std;
 #include "./data_src/OSMVertex.h"
 #include "./data_src/OSMEdge.h"
 #include "./data_src/MovieActorWikidata.h"
-#include "./data_src/AmenityData.h"
-#include "./data_src/Amenities.h"
+#include "./data_src/Amenity.h"
 #include "./data_src/Reddit.h"
 #include "./data_src/City.h"
 #include "ColorGrid.h"
@@ -141,10 +140,12 @@ namespace bridges {
 	         *         'state' : string
 	         *         'country' : string
 	         *         'time_zone' : string
-	         *         'elevation' : integer
-	         *         'population' : integer
-	         *         'minLatLong' : float, float    -- Lat long minima
-	         *         'maxLatLong' : float, float    -- Lat long maxima
+	         *         'min_elev' : integer
+	         *         'max_elev' : integer
+	         *         'min_pop' : integer
+	         *         'max_pop' : integer
+	         *         'min_lat_long' : float, float    -- Lat long minima
+	         *         'max_lat_long' : float, float    -- Lat long maxima
 			 *
 			 *
 			 */
@@ -156,24 +157,25 @@ namespace bridges {
 					url += "state=" + params["state"] + "&";
 				if (params.find("country") != params.end()) 
 					url += "country=" + params["country"] + "&";
-				if (params.find("minLatLong") != params.end()) 
-					url += "minLatLong=" + params["minLatLong"] + "&";
-				if (params.find("maxLatLong") != params.end()) 
-					url += "maxLatLong=" + params["maxLatLong"] + "&";
-				if (params.find("minElevation") != params.end()) 
-					url += "minElevation=" + params["minElevation"] + "&";
-				if (params.find("maxElevation") != params.end()) 
-					url += "maxElevation=" + params["maxElevation"] + "&";
-				if (params.find("minPopulation") != params.end()) 
-					url += "minPopulation=" + params["minPopulation"] + "&";
+				if (params.find("min_lat_long") != params.end()) 
+					url += "minll=" + params["min_lat_long"] + "&";
+				if (params.find("max_lat_long") != params.end()) 
+					url += "maxll=" + params["max_lat_long"] + "&";
+				if (params.find("min_elev") != params.end()) 
+					url += "minElevation=" + params["min_elev"] + "&";
+				if (params.find("max_elev") != params.end()) 
+					url += "maxElevation=" + params["max_elev"] + "&";
+				if (params.find("min_pop") != params.end()) 
+					url += "minPopulation=" + params["min_pop"] + "&";
 				if (params.find("maxPopulation") != params.end()) 
-					url += "maxPopulation=" + params["maxPopulation"] + "&";
+					url += "max_pop=" + params["max_pop"] + "&";
 				if (params.find("limit") != params.end()) 
 					url += "limit=" + params["limit"] + "&";
 
 				// remove the last &
 				url = url.substr(0, url.length()-1);
 
+cout << "URL:" << url;
 				// make the request
 				using namespace rapidjson;
 				Document doc;
@@ -814,9 +816,12 @@ cout << url << endl;
 			 *  @param maxLat  maximum latitude
 			 *  @param maxLon  maximum longitude
 			 *  @param amenity  amenity type
-			 *  @throws exception
+			 *
+			 * 	@return vector<Amenity> containing list of amenities 
+			 *
+			 * 	@throws exception
 			 */
-			AmenityData  getAmenityData(double minLat, double minLon, double
+			vector<Amenity>  getAmenityData(double minLat, double minLon, double
 				maxLat, double maxLon, std::string amenity) {
 
 				std::string amenity_url = getOSMBaseURL() + "amenity?minLon=" +
@@ -847,9 +852,12 @@ cout << url << endl;
 			 *
 			 *  @param location city/town from where amenity data is sought
 			 *  @param amenity  amenity type
+			 *
+			 * @return vector<Amenity> containing list of amenities 
+			 *
 			 *  @throws exception
 			 */
-			AmenityData  getAmenityData(const std::string& location,
+			vector<Amenity>  getAmenityData(const std::string& location,
 				const std::string& amenity) {
 				std::string amenity_url = getOSMBaseURL() + "amenity?location=" +
 					ServerComm::encodeURLPart(location) +
@@ -869,21 +877,21 @@ cout << url << endl;
 			}
 
 			/**
-			 * @brief Parses  the amenity string and returns an AmenityData object
+			 * @brief Parses  the amenity string and returns an AmenityData 
+			 *			object
 			 *
-			 * @param amenity_json  string of the url that will be used when requesting
-			 *      amenity data from server
+			 * @param amenity_json  string of the url that will be used 
+			 *	when requesting amenity data from server
 			 *
-			 * @return AmenityData object containing meta data and a list of
-			 * 	 amenities with location, name and amenity classification
+			 * @return vector<Amenity> containing list of amenities 
 			 *
 			 * @throws If there is an error parsing response from
 			 *      server or is an invalid location name
 			 */
-			AmenityData parseAmenityData(string amenity_json) {
+			vector<Amenity> parseAmenityData(string amenity_json) {
 				using namespace rapidjson;
 
-				AmenityData amenities;
+				vector<Amenity>  amenities;
 				Document amenity_content;
 
 				amenity_content.Parse(amenity_json.c_str());
@@ -893,20 +901,23 @@ cout << url << endl;
 						const Value& meta = amenity_content["meta"];
 
 						// first get the meta data
-						amenities.setCount(meta["count"].GetInt64());
-						amenities.setMinLat(meta["minlat"].GetDouble());
-						amenities.setMinLon(meta["minlon"].GetDouble());
-						amenities.setMaxLat(meta["maxlat"].GetDouble());
-						amenities.setMaxLon(meta["maxlon"].GetDouble());
+					//	amenities.setCount(meta["count"].GetInt64());
+					//	amenities.setMinLat(meta["minlat"].GetDouble());
+					//	amenities.setMinLon(meta["minlon"].GetDouble());
+					//	amenities.setMaxLat(meta["maxlat"].GetDouble());
+					//	amenities.setMaxLon(meta["maxlon"].GetDouble());
 
-						Amenities amen;
+						Amenity amen;
 						for (SizeType i = 0; i < nodes.Size(); i++) {
+							// get amenity data
 							const Value& node = nodes[i];
 							amen.setId(node[0].GetInt64());
 							amen.setLat(node[1].GetDouble());
 							amen.setLon(node[2].GetDouble());
 							amen.setName(node[3].GetString());
-							amenities.addAmenities(amen);
+
+							// add to the list
+							amenities.push_back(amen);
 						}
 					}
 					else {
