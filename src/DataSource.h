@@ -772,6 +772,13 @@ cout << url << endl;
 			 *  @brief Get OpenStreetMap data given a bounding rectangle of
 			 *	lat/long values.
 			 *
+			 *   The function also take a level of detail
+			 *   which can be anything in ["motorway",
+			 *   "trunk", "primary", "secondary",
+			 *   "tertiary, "unclassified", "residential",
+			 *   "living_street", "service", "trails",
+			 *   "walking", "bicycle" ]
+			 *
 			 *  @param lat_min  latitude minimum
 			 *  @param long_min  longitude minimum
 			 *  @param lat_max   latitude maximum
@@ -939,6 +946,13 @@ cout << url << endl;
 			/**
 			 *
 			 *  Get OpenStreetMap data given a city name and resolution level
+			 *
+			 *  The function also take a level of detail
+			 *  which can be anything in ["motorway",
+			 *  "trunk", "primary", "secondary",
+			 *  "tertiary, "unclassified", "residential",
+			 *  "living_street", "service", "trails",
+			 *  "walking", "bicycle" ]
 			 *
 			 *  @param location   location name (string)
 			 *  @param level      data resolution
