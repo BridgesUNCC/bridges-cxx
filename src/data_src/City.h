@@ -10,24 +10,24 @@ using std::string;
 namespace bridges {
 	namespace dataset {
 
-		class City {
 			/**
 			 * @brief Class that holds data of a city
- 			 * 
-			 * A user would not normally create a City object but 
-			 * rather obtain one from calling bridges::DataSource::getUSCities() or
-             *   bridges::DataSource::getWorldCities()
 			 *
-			 * A tutorial on how to use the City dataset is available at: 
-			 *  https://bridgesuncc.github.io/tutorials/USCities.html (to be done!)
+			 * A user would not normally create an City object but
+			 * rather obtain one from calling bridges::DataSource::getUSCities(),
+			 * bridges::DataSource::getWorldCities() (to come)
 			 *
-			 * Each city object ccontains the city name, state, country, time zone, 
-			 *  elevation, population and lat/long location information.
+			 * A tutorial on how to use the City objects is available at:
+			 *  https://bridgesuncc.github.io/tutorials/Data_USCities.html 
+			 *
+			 * Each city object contains the city name, state, country, time zone, elevation,
+			 *  population and lat/long location information.
 			 *
 			 * @author Kalpathi Subramanian
 			 *
 			 * @date 6/7/22
 			 */
+		class City {
 
 			private:
 				string city, state, country, time_zone;
@@ -38,11 +38,8 @@ namespace bridges {
 				/**
 				 *  Constructors
 				 */
-				City() {
-					city = state = country = time_zone = string();
-					elevation = population = 0;
-					latit = longit = 0.;
-				}
+		  City() = default;
+		  
 				City (string cty, string st, string cntry, string tm_zone,
 						int elev, int pop, float lat, float lon) {
 					city = cty;
@@ -55,7 +52,7 @@ namespace bridges {
 					longit = lon;
 				}
 
-				string getCity() {
+				string getCity() const{
 					return city;
 				}
 
@@ -63,15 +60,15 @@ namespace bridges {
 					city = c;
 				}
 
-				string  getState() {
+				string  getState() const{
 					return state;
 				}
 
 				void  setState(string st) {
-					state = st;;
+					state = st;
 				}
 
-				string getCountry() {
+				string getCountry() const{
 					return country;
 				}
 
@@ -79,7 +76,7 @@ namespace bridges {
 					country = cntry;
 				}
 
-				string getTimeZone() {
+				string getTimeZone() const{
 					return time_zone;
 				}
 
@@ -87,7 +84,7 @@ namespace bridges {
 					time_zone = tz;
 				}
 
-				float  getLatitude() {
+				float  getLatitude() const{
 					return latit;
 				}
 
@@ -95,14 +92,14 @@ namespace bridges {
 					latit = lat;
 				}
 
-				float  getLongitude()  {
+				float  getLongitude()  const{
 					return longit;
 				}
 
 				void setLongitude(float lon) {
 					longit = lon;
 				}
-				float  getPopulation()  {
+				float  getPopulation()const  {
 					return population;
 				}
 
@@ -110,7 +107,7 @@ namespace bridges {
 					population = pop;
 				}
 
-				int  getElevation()  {
+				int  getElevation() const {
 					return elevation;
 				}
 
