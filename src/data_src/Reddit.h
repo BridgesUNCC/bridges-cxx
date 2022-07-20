@@ -16,7 +16,7 @@ namespace bridges {
  * it easy to access the attributes of this data set.
  *
  * The Reddit object is typically not created by a student but rather
- * obtained from calling bridges::connect::DataSource::getRedditData().
+ * obtained from calling bridges::DataSource::getRedditData().
  *
  * Refer to tutorial for example of using this feature: https://bridgesuncc.github.io/tutorials/
  *
