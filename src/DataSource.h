@@ -1348,6 +1348,10 @@ cout << url << endl;
 					url += "&";
 					url += "format=json";
 
+
+					if (debug()) {
+					  std::cout<<"URL: "<<url<<"\n";
+					}
 					// get the Wikidata json
 					json = ServerComm::makeRequest(url, http_headers);
 

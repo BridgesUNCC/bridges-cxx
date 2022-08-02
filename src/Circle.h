@@ -46,7 +46,7 @@ namespace bridges {
 				 *  @param  locx, locy : center of circle
 				 *  @param  r : radius
 				 */
-				Circle (int cx, int cy, double r) {
+				Circle (double cx, double cy, double r) {
 					center_x = cx; center_y = cy;
 					if (r < 0.)
 						throw "Illegal value for radius. Must be positive";
@@ -65,9 +65,9 @@ namespace bridges {
 				/**
 				 * @brief This method returns the radius of the circle
 				 *
-				 * @return radius (float)
+				 * @return radius 
 				 */
-				float getRadius() {
+				double getRadius() {
 					return radius;
 				}
 				/**
@@ -88,13 +88,25 @@ namespace bridges {
 				 * @param locy  y coordinat of location
 				 * @param r  radius
 				 */
-				void setCircle (int cx, int cy, double r) {
-					center_x = cx; center_y = cy;
+				void setCircle (double cx, double cy, double r) {
+				  setCenter(cx,cy);
 					if (r < 0.)
 						throw "Illegal value for radius. Must be positive";
 					radius = r;
 				}
+				void setCenter (double cx, double cy) {
+					center_x = cx;
+					center_y = cy;
+				}
 
+		  
+		  double getCenterX() const {
+		    return center_x;
+		  }
+		  double getCenterY() const {
+		    return center_y;
+		  }
+		  
 				/**
 				 * This method returns the JSON representation of the shape
 				 *

@@ -22,7 +22,7 @@ namespace bridges {
 		class Rectangle : public Symbol {
 			private:
 				// Rectangle specification: lower left corner and dimensions
-				float ll_x = 0., ll_y = 0., width = 1.0, height = 1.0;
+				double ll_x = 0., ll_y = 0., width = 1.0, height = 1.0;
 				
 			public:
 				/**
@@ -38,7 +38,7 @@ namespace bridges {
 				 * @param w  width
 				 * @param h  height
 				 */
-				Rectangle (int w, int h) {
+				Rectangle (double w, double h) {
 					setRectangle (0., 0., w, h);
 				}
 
@@ -50,7 +50,7 @@ namespace bridges {
 				 * @param w  width
 				 * @param h  height
 				 */
-				Rectangle (float llx, float lly, float w, float h) {
+				Rectangle (double llx, double lly, double w, double h) {
 					setRectangle (llx, lly, w, h);
 				}
 
@@ -76,7 +76,7 @@ namespace bridges {
 				 *
 				 * @param w  width
 				 */
-				void setWidth(float w) {
+				void setWidth(double w) {
 					if (w <= 0.) {
 						throw "Illegal Size Value! Please enter a value in the range(0-300)";
 					}
@@ -96,7 +96,7 @@ namespace bridges {
 				 *
 				 * @param h  height
 				 */
-				void setHeight(float h) {
+				void setHeight(double h) {
 					if (h <= 0.) {
 						throw "Illegal Size Value! Please enter a value in the range(0-300)";
 					}
@@ -113,13 +113,24 @@ namespace bridges {
 				 *
 				 * @return none
 				 */
-				void setRectangle(float llx, float lly, float w, float h) {
-					if (w <= 0 || h <= 0)
-						throw  "Width, Height must be positive";
-					ll_x = llx; ll_y = lly;
-					width = w; height = h;
+				void setRectangle(double llx, double lly, double w, double h) {
+				  setLL(llx, lly);
+					setWidth(w);
+					setHeight(h);
 				}
+		  void setLL(double llx, double lly) {
+		    ll_x = llx;
+		    ll_y = lly;
+		  }
 
+		  double getLLX () const {
+		    return ll_x;
+		  }
+
+		  double getLLY () const {
+		    return ll_y;
+		  }
+		  
 				/**
 				 * @brief This method returns the JSON representation of the shape
 				 *

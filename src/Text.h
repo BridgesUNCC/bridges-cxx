@@ -28,10 +28,10 @@ namespace bridges {
 		class Text : public Symbol {
 			private:
 				// label anchor location
-		  float origin[2];
+		  double origin[2];
 
 				// label attributes
-		  float 	fontSize = 12;
+		  double 	fontSize = 12;
 				string 	*anchorType = nullptr,
 						*anchorAlignmentLR = nullptr, 
 						*anchorAlignmentTB = nullptr;
@@ -192,15 +192,25 @@ namespace bridges {
 				}
 	
 				/**
-				 * @brief This method gets the label anchor location; 
+				 * @brief This method gets the label anchor location 
 				 *
-				 * @return anchor location (x, y)
+				 * @return anchor location x
 				 *
 				 */
-				float *getAnchorLocation() {
-					return origin;
+				double getAnchorLocationX() {
+					return origin[0];
 				}
 
+				/**
+				 * @brief This method gets the label anchor location 
+				 *
+				 * @return anchor location y
+				 *
+				 */
+				double getAnchorLocationY() {
+					return origin[1];
+				}
+		  
 				/**
 				 * @brief This method sets the label's anchor type
 				 *
@@ -237,7 +247,7 @@ namespace bridges {
 				 *
 				 * @return  symbol
 				 */
-				Symbol& setFontSize(float sz) {
+				Symbol& setFontSize(double sz) {
 				  fontSize = sz;
 
 					return *this;
@@ -249,7 +259,7 @@ namespace bridges {
 				 * @return   font size
 				 *
 				 */
-				int getFontSize() {
+				double getFontSize() {
 					return fontSize;
 				}
 

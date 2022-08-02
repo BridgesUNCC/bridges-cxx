@@ -41,7 +41,6 @@ namespace bridges {
 			private:
 
 				// symbols in this group
-		  //unordered_map<int, Symbol*> symbols;
 		  std::vector<std::shared_ptr<Symbol>> symbols;
 		  
 			public:
@@ -68,6 +67,10 @@ namespace bridges {
 		    addSymbolPtr ((std::shared_ptr<Symbol>)pt);
 		  }
 
+		  std::vector<std::shared_ptr<Symbol>> getAllSymbols() const{
+		    return symbols;
+		  }
+		  
 		  /**
 				 * @brief This method returns the JSON representation of the
 				 *		symbol group
