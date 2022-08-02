@@ -4,10 +4,10 @@
 
 using namespace std;
 
-
 #ifndef  CIRCLE_H
 
 #define CIRCLE_H
+
 
 namespace bridges {
 	namespace datastructure {
