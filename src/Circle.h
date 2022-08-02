@@ -63,6 +63,14 @@ namespace bridges {
 				}
 
 				/**
+				 * @brief This method returns the radius of the circle
+				 *
+				 * @return radius (float)
+				 */
+				float getRadius() {
+					return radius;
+				}
+				/**
 				 * @brief This method sets the radius of the circle
 				 *
 				 * @param r radius
