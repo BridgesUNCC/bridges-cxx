@@ -6,6 +6,7 @@
 #include <unordered_map>
 #include <JSONutil.h>
 
+
 using namespace std;
 
 #include "SLelement.h"
@@ -15,6 +16,7 @@ namespace bridges {
 	namespace datastructure {
 		/** @brief This class provides methods to represent adjacency list
 		 *	based graphs.
+		 *
 		 *
 		 *	The GraphAdjList class can be used to represent adjacency list
 		 *  based graphs in BRIDGES; it takes 3 generic parameters: (1) K,
@@ -53,6 +55,7 @@ namespace bridges {
 		 * Adjacency lists are singly linked lists using the BRIDGES
 		 * SLelement. Iterators are provided for easy traversal of the
 		 * adjacency lists. For instance,
+		 *
 		 *
 		 *\code{c}
 		 * GraphAdjList<string, int, double> graph = something();

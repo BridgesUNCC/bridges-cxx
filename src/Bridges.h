@@ -50,7 +50,11 @@ namespace bridges {
 				return "http://bridges-cs.herokuapp.com";
 			}
 
+			
 			bool jsonFlag = false;   				// if JSON is to be printed
+
+			// this flag will turn on all labels in the visualization
+			bool element_labelFlag = false, link_labelFlag = false; 
 
 			bool post_visualization_link = true;	// post flag of visualization url
 
@@ -127,8 +131,52 @@ namespace bridges {
 			}
 
 			/**
+			 *  @brief Flag that controls if labels of elements (nodes) are 
+			 *		to be turned on
 			 *
-			 *	@return flag indicating if JSON should be printed upon visualization
+			 *	@param flag indicating if all labels in the 
+			 *		visualization are turned on 
+			 *
+			 */
+			void setElementLabelFlag(bool flag) {
+				element_labelFlag = flag;
+			}
+			/**
+			 *  @brief Flag that controls if labels of links(edges) are 
+			 *		to be turned on/off
+			 *
+			 *	@param flag indicating if all labels in the 
+			 *		visualization are turned on 
+			 *
+			 */
+			void setLinkLabelFlag(bool flag) {
+				link_labelFlag = flag;
+			}
+
+			/**
+			 *  @brief status of flag for element labels
+			 *
+			 *	@return flag boolean of element labels
+			 *
+			 */
+			bool getElementLabelFlag() const {
+				return element_labelFlag;
+			}
+			/**
+			 *  @brief Return status of flag for link labels
+			 *
+			 *	@return flag boolean indicating if all labels in the 
+			 *		visualization are turned on 
+			 *
+			 */
+			bool getLinkLabelFlag() const {
+				return link_labelFlag;
+			}
+
+			/**
+			 *
+			 *	@return flag indicating if JSON should be printed 
+			 *		upon visualization
 			 *
 			 */
 			bool getVisualizeJSONFlag() const {
@@ -153,7 +201,7 @@ namespace bridges {
 			 *	@param flag indicating if JSON should be printed upon visualization
 			 *
 			 */
-			void setVisualizeJSONFlag(bool flag) {
+			void setJSONFlag(bool flag) {
 				jsonFlag = flag;
 			}
 
@@ -520,6 +568,8 @@ namespace bridges {
 					QUOTE + "title" + QUOTE + COLON + JSONencode(getTitle()) + COMMA +
 					QUOTE + "description" + QUOTE + COLON + JSONencode( getDescription()) + COMMA +
 					QUOTE + "map_overlay" + QUOTE + COLON + ((map_overlay) ? "true" : "false") + COMMA +
+					QUOTE + "element_label_flag" + QUOTE + COLON + ((element_labelFlag) ? "true" : "false") + COMMA +
+					QUOTE + "link_label_flag" + QUOTE + COLON + ((link_labelFlag) ? "true" : "false") + COMMA +
 					QUOTE + "coord_system_type" + QUOTE + COLON + JSONencode(getCoordSystemType()) +
 					COMMA;
 
