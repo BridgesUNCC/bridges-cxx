@@ -64,6 +64,14 @@ namespace bridges {
 				}
 
 				/**
+				 * @brief This method gets the rectangle width
+				 *
+				 * @return width
+				 */
+				float getWidth() {
+					return width;
+				}
+				/**
 				 * @brief This method sets the shape width
 				 *
 				 * @param w  width
@@ -75,6 +83,14 @@ namespace bridges {
 					width = w;
 				}
 
+				/**
+				 * @brief This method gets the rectangle height
+				 *
+				 * @return height
+				 */
+				float getHeight() {
+					return height;
+				}
 				/**
 				 * @brief This method sets the shape height
 				 *
