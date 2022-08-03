@@ -536,6 +536,23 @@ namespace bridges {
 						"\t API Key: " << getApiKey() << endl <<
 						"\t Assignment Number: " << getAssignment() << endl;
 				}
+				catch (const HTTPException& he) {
+				  cerr << "\nPosting assignment to the server failed!" << endl;
+				  if (he.httpcode == 401) {
+				    cerr << "Provided Bridges Credentials are incorrect:" << endl <<
+				      "\t ServerURL: "<< getServerURL() <<endl<<
+				      "\t User Name: " << getUserName() << endl <<
+				      "\t API Key: " << getApiKey() << endl <<
+				      "\t Assignment Number: " << getAssignment() << endl;
+				  }
+				  else if (he.httpcode == 413) {
+				    cerr<<"Assignment is too large."<<endl;
+				    cerr<<"In general the assignment should be smaller than 16MB once serialized to JSON."<<endl;
+				  }
+				  else {
+				    std::cerr<<he.what()<<endl;
+				  }
+				}
 				if (profile())
 					httprequest_end = std::chrono::system_clock::now();
 

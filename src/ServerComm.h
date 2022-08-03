@@ -14,7 +14,30 @@ using namespace std;
 #include "./data_src/Song.h"
 
 namespace bridges {
-	/**
+  struct HTTPException : public std::exception{
+    std::string url; //URL hit that generated the exception
+    long httpcode; // The returned HTTP code
+    std::string headers; //The headers returned by the HTTP server
+    std::string data; //The data returned by the HTTP server
+
+    std::string what_str;
+    HTTPException (std::string url,
+		   long httpcode,
+		   std::string headers,
+		   std::string data)
+      :url(url), httpcode(httpcode), headers(headers), data(data) {
+      what_str = std::string("HTTPException raised when hitting ") + url +"\n"+
+	"HTTP code: "+to_string(httpcode)+"\n"+
+	headers + "\n"+
+	data;
+    }
+    ~HTTPException() = default;
+    virtual const char* what() const noexcept {
+      return what_str.c_str();
+    }
+  };
+  
+  /**
 	 *	@brief This is a class for handling calls to the BRIDGES server to transmit
 	 *		JSON to the server and subsequent visualization. It is not
 	 *		intended for external use
@@ -48,6 +71,7 @@ namespace bridges {
 			static string makeRequest(const string& url, const vector<string>&
 				headers, const string& data = "") {
 				string results;
+				string returned_headers;
 				// first load curl enviornment (only need be called
 				// once in entire session tho)
 				curl_global_init(CURL_GLOBAL_ALL);
@@ -78,10 +102,22 @@ namespace bridges {
 					res = curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, curlWriteFunction);
 					if (res != CURLE_OK)
 						throw "curl_easy_setopt failed";
-					// need this to catch http errors
-					res = curl_easy_setopt(curl, CURLOPT_FAILONERROR, 1L);
+					//sends all header to this function
+					res = curl_easy_setopt(curl, CURLOPT_HEADERFUNCTION, curlWriteFunction);
+					//pass pointer to callback function
+					res = curl_easy_setopt(curl, CURLOPT_HEADERDATA, &returned_headers);
 					if (res != CURLE_OK)
-						throw "curl_easy_setopt failed";
+						throw "curl_easy_setopt failed";					
+					// We should not set
+					// CURLOPT_FAILONERROR because
+					// we want the full content of
+					// the returned document and
+					// headers that may contain
+					// useful information
+					//
+					// res = curl_easy_setopt(curl, CURLOPT_FAILONERROR, 1L);
+					// if (res != CURLE_OK)
+					//   throw "curl_easy_setopt failed";
 					if (data.length() > 0) {
 						// Now specify the POST data
 						res = curl_easy_setopt(curl, CURLOPT_POSTFIELDS, data.c_str());
@@ -108,13 +144,29 @@ namespace bridges {
 					// Perform the request, res will get the return code
 					res = curl_easy_perform(curl);
 
-					if (res != CURLE_OK) {
-						throw "curl_easy_perform() failed.\nCurl Error Code "
-						+ to_string(res) + "\n" + curl_easy_strerror(res) +
-						"\n"
-						+ error_buffer + "\nPossibly Bad BRIDGES Credentials\n";
-					}
 					curl_slist_free_all(curlHeaders);
+
+					if (res != CURLE_OK) {
+
+					  string footer = string("Root cause: ")+string("curl_easy_perform() failed.\n")
+					    + "Curl Error Code "	+ to_string(res) + "\n" + curl_easy_strerror(res) + "\n"
+					    + "ErrorBuffer: " + error_buffer+"\n"
+					    + "Headers: " + returned_headers + "\n"
+					    + "Results: " + results + "\n";
+					  throw footer;
+					}
+
+					if (res == CURLE_OK) {
+					  long httpcode = -1;
+					  curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &httpcode);
+
+					  if (httpcode >= 300) {
+					    throw HTTPException(url, httpcode, returned_headers, results);
+					  }					  
+
+
+					  
+					}
 					curl_easy_cleanup(curl);
 				}
 				else {
