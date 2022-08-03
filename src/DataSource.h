@@ -4,6 +4,7 @@
 #include <vector>
 #include <string>
 #include <unordered_map>
+#include <set>
 
 using namespace std;
 
@@ -144,12 +145,32 @@ namespace bridges {
 	         *         'max_elev' : integer
 	         *         'min_pop' : integer
 	         *         'max_pop' : integer
-	         *         'min_lat_long' : float, float    -- Lat long minima
-	         *         'max_lat_long' : float, float    -- Lat long maxima
-			 *
+	         *         'min_lat' : float -- Lat minimum
+	         *         'max_lat' : float -- Lat maximum
+	         *         'min_long' : float -- Lat minimum
+	         *         'max_long' : float -- Lat maximum
+			 *		   'limit' : integer -- max number of cities to return
 			 *
 			 */
 			vector<City> getUSCities (unordered_map<string, string> params) {
+				// check the parameters for illegal keys
+				// get the legal keys into a set
+				set<string> keys;
+				keys.insert("city"); keys.insert("state"); keys.insert("country");
+				keys.insert("min_elev"); keys.insert("max_elev");
+				keys.insert("min_pop"); keys.insert("max_pop");
+				keys.insert("min_long"); keys.insert("max_long");
+				keys.insert("min_lat"); keys.insert("max_lat");
+				keys.insert("limit"); keys.insert("time_zone");
+		
+				unordered_map<string, string>::iterator it;
+				for (it = params.begin(); it != params.end(); it++) {
+					if (keys.find(it->first) == keys.end())
+						throw std::invalid_argument ("\n\nKey value : " + it->first + 
+							" incorrect\n\n Legal key values: \n   'city', 'state', 'country', 'min_lat', 'max_lat', 'min_long', 'max_long', 'min_pop', 'max_pop', 'time_zone' ");
+				}
+
+
 				string url = getUSCitiesURL() + "?";
 				if (params.find("city") != params.end()) 
 					url += "city=" + params["city"] + "&";
@@ -179,7 +200,6 @@ namespace bridges {
 				// remove the last &
 				url = url.substr(0, url.length()-1);
 
-cout << "URL:" << url;
 				// make the request
 				using namespace rapidjson;
 				Document doc;
