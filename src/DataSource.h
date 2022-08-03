@@ -167,7 +167,7 @@ namespace bridges {
 				for (it = params.begin(); it != params.end(); it++) {
 					if (keys.find(it->first) == keys.end())
 						throw std::invalid_argument ("\n\nKey value : " + it->first + 
-							" incorrect\n\n Legal key values: \n   'city', 'state', 'country', 'min_lat', 'max_lat', 'min_long', 'max_long', 'min_pop', 'max_pop', 'time_zone' ");
+							" incorrect\n\n Legal key values: \n   'city', 'state', 'country', 'min_lat', 'max_lat', 'min_long', 'max_long', 'min_pop', 'max_pop', 'time_zone', 'limit' ");
 				}
 
 
