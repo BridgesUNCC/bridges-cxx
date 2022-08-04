@@ -179,7 +179,7 @@ namespace bridges {
 			 *		upon visualization
 			 *
 			 */
-			bool getVisualizeJSONFlag() const {
+			bool getJSONFlag() const {
 				return jsonFlag;
 			}
 
