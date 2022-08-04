@@ -509,7 +509,7 @@ namespace bridges {
 				//
 				// print JSON if flag is on
 				//
-				if (getVisualizeJSONFlag()) {
+				if (getJSONFlag()) {
 					cout << "JSON[" + ds_handle->getDStype() + "]:\t" << ds_json << endl;
 				}
 
