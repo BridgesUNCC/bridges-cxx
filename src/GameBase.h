@@ -90,7 +90,7 @@ namespace bridges {
 				/// called automatically by Bridges.
 				void render() {
 					if (firsttime) {
-						bridges.setVisualizeJSONFlag(debug);
+						bridges.setJSONFlag(debug);
 
 						bridges.setDataStructure(&gg);
 
