@@ -64,9 +64,16 @@ namespace bridges {
 
 		private:
 
+			bool debug_flag = false;
+
 			int debug() const {
-				return 1;
+				return debug_flag;
 			}
+
+			void set_debug_flag() {
+				debug_flag = true;
+			}
+
 			bridges::Bridges* bridges_inst;
 			bridges::lruCache my_cache;
 
@@ -125,7 +132,7 @@ namespace bridges {
 				if ( !((type == "live") || (type == "testing") || (type == "local")))
 					throw "Incorrect data server type. Must be live, testing or local";
 				if ((type == "testing") || (type == "local"))
-					debug();
+					debug_flag = true;
 
 				sourceType = type;
 			}
@@ -1476,6 +1483,9 @@ cout << url << endl;
 					"&resX=" + ServerComm::encodeURLPart(std::to_string(res)) +
 					"&resY=" + ServerComm::encodeURLPart(std::to_string(res));
 
+				if (debug())
+					cout << "Elevation URL:" << elev_url << "\n";
+
 				std::string hash_url = getElevationBaseURL() +
 					"hash?minLon=" + ServerComm::encodeURLPart(std::to_string(minLon)) +
 					"&minLat=" + ServerComm::encodeURLPart(std::to_string(minLat)) +
@@ -1483,6 +1493,9 @@ cout << url << endl;
 					"&maxLat=" + ServerComm::encodeURLPart(std::to_string(maxLat)) +
 					"&resX=" + ServerComm::encodeURLPart(std::to_string(res)) +
 					"&resY=" + ServerComm::encodeURLPart(std::to_string(res));
+
+				if (debug())
+					cout << "Hash URL:" << hash_url << "\n";
 
 
 				// get the dataset's JSON from the local cache, if available,
@@ -1748,6 +1761,10 @@ cout << url << endl;
 								" key = " << data_json << std::endl;
 					}
 				}
+
+				if (debug())
+					cout << data_json;
+
 				return data_json;
 			}
 
