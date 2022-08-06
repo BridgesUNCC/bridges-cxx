@@ -35,7 +35,7 @@ namespace bridges {
 
 				// origin
 				int xll, yll;
-				int cellSize;
+				float cellSize;
 
 				// maximum value in the data set
 				int maxVal;
@@ -88,7 +88,7 @@ namespace bridges {
 				 * @param maxVal  min elevation value in map
 				 */
 				ElevationData (int cols, int rows, int xll,
-					       int yll, int cellsize, int maxVal, int minVal) {
+					       int yll, float cellsize, int maxVal, int minVal) {
 					//data = new int[cols * rows];
 					data.resize(cols * rows);
 					setCols(cols);
@@ -205,7 +205,7 @@ namespace bridges {
 				 *	get  data resolution
 				 *  @return the cell size
 				 */
-				int getCellSize() const {
+				float getCellSize() const {
 					return cellSize;
 				}
 
@@ -214,7 +214,7 @@ namespace bridges {
 				 *	set  data resolution
 				 *  @param cell_size set the resolution of the map to cell_size
 				 */
-				void setCellSize(int cell_size) {
+				void setCellSize(float cell_size) {
 					cellSize = cell_size;
 				}
 
