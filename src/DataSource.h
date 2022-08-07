@@ -1749,7 +1749,7 @@ cout << url << endl;
 					string hash_value = getHashCode(hash_url, data_type);
 
 					if (hash_value == "false") {
-						std::cerr << "Error while gathering hash value for dataset..\n";
+					  std::cerr << "Error while gathering hash value for "<<data_type<<" dataset..\n";
 						std::cerr << data_json << std::endl;
 						abort();
 					}
