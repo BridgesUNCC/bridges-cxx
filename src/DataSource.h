@@ -1670,6 +1670,8 @@ cout << url << endl;
 			 *
 			 *   @param hash_url   url for hash code 
 			 *   @param data type  data set name
+			 *
+			 * @return a hash code as a string or "false" if the hash value isn't know by the server at the time
 			 */
 			string getHashCode (string hash_url, string data_type) {
 				string hash_value; 
@@ -1694,11 +1696,21 @@ cout << url << endl;
 			 *  This method is a utility function that supports retrieving
 			 *  external dataset given a url to the dataset's server as well
 			 *	as a url to extract a hashcode for the dataset; the latter is
-			 *  is to suppor local caching. The dataset is only retrieved
+			 *  is to support local caching. The dataset is only retrieved
 			 *  the server if a local copy is not available
 			 *
 			 *	Currently this function works with elevation, OpenStreet maps and
 			 *  Amenity datasets
+			 *
+			 *
+			 * Multiple dataset follow the same protocol. They have a hash url and a data url.
+			 * Hitting the data URL should always returns the appropriate data.
+			 * Hitting the hash URL should return a hash code for the data, assuming such a hash code is available.
+			 *  If it is not available the cache url return "false". 
+			 *
+			 * It is possible for the hash URL to return "false" if the underlying data is not know to the server yet.
+			 * Internally, this happens in cases of server-side caching
+			 *
 			 *
 			 */
 			std::string getDataSetJSON(std::string data_url, std::string hash_url, 
