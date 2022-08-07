@@ -1722,14 +1722,12 @@ cout << url << endl;
 
 				if (my_cache.inCache(hash_value) == true) { //local cache contains the dataset
 					try {
-						if (my_cache.inCache(hash_value)) {
-							data_json = my_cache.getDoc(hash_value);
-						}
+						data_json = my_cache.getDoc(hash_value);
 					}
 					catch (CacheException& ce) {
-						//something went bad trying to access the cache
+						//something went bad trying to access the data in the local cache
 						std::cout << "Exception while reading from cache. "
-							<< "Ignoring cache and continue\n.";
+							<< "Ignoring cache and continuing..\n.";
 					}
 				}
 				else if ((hash_value == "false") || !my_cache.inCache(hash_value)) {
