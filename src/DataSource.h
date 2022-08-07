@@ -1671,7 +1671,7 @@ cout << url << endl;
 			 *   @param hash_url   url for hash code 
 			 *   @param data type  data set name
 			 *
-			 * @return a hash code as a string or "false" if the hash value isn't know by the server at the time
+			 * @return a hash code as a string or "false" if the hash value isn't know by the server at the time. 
 			 */
 			string getHashCode (string hash_url, string data_type) {
 				string hash_value; 
@@ -1683,12 +1683,6 @@ cout << url << endl;
 				else if (data_type == "gutenberg") 
 					hash_value = hash_url; 
 			
-				if (hash_value == "false") {
-					std::cerr << "Error while gathering hash value for " << 
-								data_type << " dataset..\n";
-					std::cerr << "Hash value:" << hash_value << std::endl;
-					abort();
-				}
 				return hash_value;
 			}
 
@@ -1709,7 +1703,7 @@ cout << url << endl;
 			 *  If it is not available the cache url return "false". 
 			 *
 			 * It is possible for the hash URL to return "false" if the underlying data is not know to the server yet.
-			 * Internally, this happens in cases of server-side caching
+			 * Internally, this happens in cases of server-side caching; for instance the first time a data is accessed, if you hit the hash URL before the data url, it shoudl return "false". 
 			 *
 			 *
 			 */
