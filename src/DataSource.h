@@ -1671,14 +1671,14 @@ cout << url << endl;
 			 *   @param hash_url   url for hash code 
 			 *   @param data type  data set name
 			 *
-			 * @return a hash code as a string or "false" if the hash value isn't know by the server at the time. 
+			 * 	 @return a hash code as a string or "false" if the hash value 
+			 *	 	doesnt exist on the server. 
 			 */
 			string getHashCode (string hash_url, string data_type) {
 				string hash_value; 
 				if (data_type == "osm" || data_type == "amenity" || 
 						data_type == "elevation") {
-					hash_value = ServerComm::makeRequest(hash_url, 
-								{"Accept: application/json"});
+					hash_value = ServerComm::makeRequest(hash_url, {"Accept: application/json"});
 				}
 				else if (data_type == "gutenberg") 
 					hash_value = hash_url; 
@@ -1715,12 +1715,12 @@ cout << url << endl;
 				// First check to see if the requested data is stored in local cache
 				// get hash value for elevation data
 				if (debug())
-					cerr << "Checking the cache:  hash code: " << hash_url << "\n";
+					cerr << "Checking the cache: Hash url: " << hash_url << "\n";
 
 				// generate the hash code
 				string hash_value = getHashCode(hash_url, data_type);
 
-				if (my_cache.inCache(hash_value) == true) { //local map is up-to-date
+				if (my_cache.inCache(hash_value) == true) { //local cache contains the dataset
 					try {
 						if (my_cache.inCache(hash_value)) {
 							data_json = my_cache.getDoc(hash_value);
