@@ -1720,9 +1720,12 @@ cout << url << endl;
 				// generate the hash code
 				string hash_value = getHashCode(hash_url, data_type);
 
-				if (my_cache.inCache(hash_value) == true) { //local cache contains the dataset
+				bool dataloaded=false;
+				
+				if ((hash_value != "false") && (my_cache.inCache(hash_value) == true)) { //local cache contains the dataset
 					try {
 						data_json = my_cache.getDoc(hash_value);
+						dataloaded = true;
 					}
 					catch (CacheException& ce) {
 						//something went bad trying to access the data in the local cache
@@ -1730,31 +1733,30 @@ cout << url << endl;
 							<< "Ignoring cache and continuing..\n.";
 					}
 				}
-				else if ((hash_value == "false") || !my_cache.inCache(hash_value)) {
+				if (!dataloaded) { //data could not get accessed from cache for somereason
 
-					//Server response is false or somehow map got saved as false
 					if (debug())
 						std::cerr << "Hitting data URL: " << data_url << "\n";
 
-					//Requests the map data then requests the map's hash code
+					//Requests the data then requests the data's hash code
 					data_json = ServerComm::makeRequest(data_url,
 									{"Accept: application/json"});
 
-					// next get the hash code for the data to keep a copy in local cache
-					if (debug())
-						std::cerr << "Hitting hash URL: " << hash_value << "\n";
-
-					string hash_value = getHashCode(hash_url, data_type);
-
-					if (hash_value == "false") {
-					  std::cerr << "Error while gathering hash value for "<<data_type<<" dataset..\n";
-						std::cerr << data_json << std::endl;
-						abort();
-					}
-
-					// Save map to cache directory
+					//Store the data in cache for future reuse
 					try {
-						my_cache.putDoc(hash_value, data_json);
+					  // We need the data hash code to know where to store it in local cache
+					  if (debug())
+					    std::cerr << "Hitting hash URL: " << hash_value << "\n";
+
+					  hash_value = getHashCode(hash_url, data_type);
+
+					  if (hash_value == "false") {
+					    std::cerr << "Error while gathering hash value for "<<data_type<<" dataset..\n"
+						      << "Weird but not critical.\n";
+					  }
+					  else {
+					    my_cache.putDoc(hash_value, data_json);
+					  }
 					}
 					catch (CacheException& ce) {
 						//something went bad trying to access the cache
