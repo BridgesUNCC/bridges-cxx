@@ -1733,23 +1733,29 @@ cout << url << endl;
 							<< "Ignoring cache and continuing..\n.";
 					}
 				}
-				if (!dataloaded) { //data could not get accessed from cache for somereason
-
+				if (!dataloaded) {
+				  //Data could not get accessed from cache for some reason.
+				  //So teh data need to be access from the remote server.
+				  //Then we will store it in a local cache for future usage.
 					if (debug())
 						std::cerr << "Hitting data URL: " << data_url << "\n";
 
-					//Requests the data then requests the data's hash code
+					//Requests the data
 					data_json = ServerComm::makeRequest(data_url,
 									{"Accept: application/json"});
 
 					//Store the data in cache for future reuse
 					try {
-					  // We need the data hash code to know where to store it in local cache
-					  if (debug())
-					    std::cerr << "Hitting hash URL: " << hash_value << "\n";
+					  // We need the data's hash code to know where to store it in local cache.
+					  // We may already have it from the previous query.
+					  if (hash_value == "false") {
+					    if (debug())
+					      std::cerr << "Hitting hash URL: " << hash_value << "\n";
 
-					  hash_value = getHashCode(hash_url, data_type);
+					    hash_value = getHashCode(hash_url, data_type);
+					  }
 
+					  // This test should only ever be true if something wrong happens server-side
 					  if (hash_value == "false") {
 					    std::cerr << "Error while gathering hash value for "<<data_type<<" dataset..\n"
 						      << "Weird but not critical.\n";
