@@ -64,9 +64,16 @@ namespace bridges {
 
 		private:
 
+			bool debug_flag = false;
+
 			int debug() const {
-				return 1;
+				return debug_flag;
 			}
+
+			void set_debug_flag() {
+				debug_flag = true;
+			}
+
 			bridges::Bridges* bridges_inst;
 			bridges::lruCache my_cache;
 
@@ -125,7 +132,7 @@ namespace bridges {
 				if ( !((type == "live") || (type == "testing") || (type == "local")))
 					throw "Incorrect data server type. Must be live, testing or local";
 				if ((type == "testing") || (type == "local"))
-					debug();
+					debug_flag = true;
 
 				sourceType = type;
 			}
@@ -1476,6 +1483,9 @@ cout << url << endl;
 					"&resX=" + ServerComm::encodeURLPart(std::to_string(res)) +
 					"&resY=" + ServerComm::encodeURLPart(std::to_string(res));
 
+				if (debug())
+					cout << "Elevation URL:" << elev_url << "\n";
+
 				std::string hash_url = getElevationBaseURL() +
 					"hash?minLon=" + ServerComm::encodeURLPart(std::to_string(minLon)) +
 					"&minLat=" + ServerComm::encodeURLPart(std::to_string(minLat)) +
@@ -1483,6 +1493,9 @@ cout << url << endl;
 					"&maxLat=" + ServerComm::encodeURLPart(std::to_string(maxLat)) +
 					"&resX=" + ServerComm::encodeURLPart(std::to_string(res)) +
 					"&resY=" + ServerComm::encodeURLPart(std::to_string(res));
+
+				if (debug())
+					cout << "Hash URL:" << hash_url << "\n";
 
 
 				// get the dataset's JSON from the local cache, if available,
@@ -1657,23 +1670,19 @@ cout << url << endl;
 			 *
 			 *   @param hash_url   url for hash code 
 			 *   @param data type  data set name
+			 *
+			 * 	 @return a hash code as a string or "false" if the hash value 
+			 *	 	doesnt exist on the server. 
 			 */
 			string getHashCode (string hash_url, string data_type) {
 				string hash_value; 
 				if (data_type == "osm" || data_type == "amenity" || 
 						data_type == "elevation") {
-					hash_value = ServerComm::makeRequest(hash_url, 
-								{"Accept: application/json"});
+					hash_value = ServerComm::makeRequest(hash_url, {"Accept: application/json"});
 				}
 				else if (data_type == "gutenberg") 
 					hash_value = hash_url; 
 			
-				if (hash_value == "false") {
-					std::cerr << "Error while gathering hash value for " << 
-								data_type << " dataset..\n";
-					std::cerr << "Hash value:" << hash_value << std::endl;
-					abort();
-				}
 				return hash_value;
 			}
 
@@ -1681,11 +1690,21 @@ cout << url << endl;
 			 *  This method is a utility function that supports retrieving
 			 *  external dataset given a url to the dataset's server as well
 			 *	as a url to extract a hashcode for the dataset; the latter is
-			 *  is to suppor local caching. The dataset is only retrieved
+			 *  is to support local caching. The dataset is only retrieved
 			 *  the server if a local copy is not available
 			 *
 			 *	Currently this function works with elevation, OpenStreet maps and
 			 *  Amenity datasets
+			 *
+			 *
+			 * Multiple dataset follow the same protocol. They have a hash url and a data url.
+			 * Hitting the data URL should always returns the appropriate data.
+			 * Hitting the hash URL should return a hash code for the data, assuming such a hash code is available.
+			 *  If it is not available the cache url return "false". 
+			 *
+			 * It is possible for the hash URL to return "false" if the underlying data is not know to the server yet.
+			 * Internally, this happens in cases of server-side caching; for instance the first time a data is accessed, if you hit the hash URL before the data url, it shoudl return "false". 
+			 *
 			 *
 			 */
 			std::string getDataSetJSON(std::string data_url, std::string hash_url, 
@@ -1696,48 +1715,54 @@ cout << url << endl;
 				// First check to see if the requested data is stored in local cache
 				// get hash value for elevation data
 				if (debug())
-					cerr << "Checking the cache:  hash code: " << hash_url << "\n";
+					cerr << "Checking the cache: Hash url: " << hash_url << "\n";
 
 				// generate the hash code
 				string hash_value = getHashCode(hash_url, data_type);
 
-				if (my_cache.inCache(hash_value) == true) { //local map is up-to-date
+				bool dataloaded=false;
+				
+				if ((hash_value != "false") && (my_cache.inCache(hash_value) == true)) { //local cache contains the dataset
 					try {
-						if (my_cache.inCache(hash_value)) {
-							data_json = my_cache.getDoc(hash_value);
-						}
+						data_json = my_cache.getDoc(hash_value);
+						dataloaded = true;
 					}
 					catch (CacheException& ce) {
-						//something went bad trying to access the cache
+						//something went bad trying to access the data in the local cache
 						std::cout << "Exception while reading from cache. "
-							<< "Ignoring cache and continue\n.";
+							<< "Ignoring cache and continuing..\n.";
 					}
 				}
-				else if ((hash_value == "false") || !my_cache.inCache(hash_value)) {
-
-					//Server response is false or somehow map got saved as false
+				if (!dataloaded) {
+				  //Data could not get accessed from cache for some reason.
+				  //So teh data need to be access from the remote server.
+				  //Then we will store it in a local cache for future usage.
 					if (debug())
 						std::cerr << "Hitting data URL: " << data_url << "\n";
 
-					//Requests the map data then requests the map's hash code
+					//Requests the data
 					data_json = ServerComm::makeRequest(data_url,
 									{"Accept: application/json"});
 
-					// next get the hash code for the data to keep a copy in local cache
-					if (debug())
-						std::cerr << "Hitting hash URL: " << hash_value << "\n";
-
-					string hash_value = getHashCode(hash_url, data_type);
-
-					if (hash_value == "false") {
-						std::cerr << "Error while gathering hash value for dataset..\n";
-						std::cerr << data_json << std::endl;
-						abort();
-					}
-
-					// Save map to cache directory
+					//Store the data in cache for future reuse
 					try {
-						my_cache.putDoc(hash_value, data_json);
+					  // We need the data's hash code to know where to store it in local cache.
+					  // We may already have it from the previous query.
+					  if (hash_value == "false") {
+					    if (debug())
+					      std::cerr << "Hitting hash URL: " << hash_value << "\n";
+
+					    hash_value = getHashCode(hash_url, data_type);
+					  }
+
+					  // This test should only ever be true if something wrong happens server-side
+					  if (hash_value == "false") {
+					    std::cerr << "Error while gathering hash value for "<<data_type<<" dataset..\n"
+						      << "Weird but not critical.\n";
+					  }
+					  else {
+					    my_cache.putDoc(hash_value, data_json);
+					  }
 					}
 					catch (CacheException& ce) {
 						//something went bad trying to access the cache
@@ -1748,6 +1773,10 @@ cout << url << endl;
 								" key = " << data_json << std::endl;
 					}
 				}
+
+				if (debug())
+					cout << data_json;
+
 				return data_json;
 			}
 
