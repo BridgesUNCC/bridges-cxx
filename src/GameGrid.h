@@ -478,11 +478,15 @@ namespace bridges {
 				 * GameGrid constructors
 				 *
 				 **/
-				GameGrid (int nbrow = 10, int nbcol = 10) : Grid<GameCell> (nbrow, nbcol) {
+				GameGrid (int nbrow = 10, int nbcol = 10)
+				  : Grid<GameCell> (nbrow, nbcol) {
 					initializeGrid();
 				}
 
+		  GameGrid (const GameGrid &) = delete;
 
+		  virtual ~GameGrid() = default;
+		  
 			private:
 
 				//public:

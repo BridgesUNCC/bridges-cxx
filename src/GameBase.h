@@ -31,9 +31,9 @@ namespace bridges {
 				bool firsttime = true;
 
 
-				std::unique_ptr<SocketConnection> sockcon;
 
 				bool bquit = false;
+				std::unique_ptr<SocketConnection> sockcon;
 
 			protected:
 				bool debug = false;
@@ -58,6 +58,8 @@ namespace bridges {
 						std::cerr << "nbRow: " << nbRow << " nbCol: " <<
 							nbColumn << std::endl;
 				}
+
+		  virtual ~GameBase() =default;
 
 				/// @brief This function is called once when the game starts.
 				///

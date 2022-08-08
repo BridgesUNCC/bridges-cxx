@@ -180,6 +180,8 @@ namespace bridges {
 
 				}
 
+		  virtual ~NonBlockingGame() =default;
+		  
 				/// @brief Call this function from main to start the game. Runs
 				/// exactly once.
 				void start() {

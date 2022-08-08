@@ -161,8 +161,8 @@ namespace bridges {
 
 
 				~SocketConnection() {
-					client.sync_close();
 					client.clear_con_listeners();
+					client.sync_close();
 				}
 
 		  void reconfigure_socket() {

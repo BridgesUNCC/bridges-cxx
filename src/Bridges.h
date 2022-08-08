@@ -85,6 +85,7 @@ namespace bridges {
 
 
 		public:
+	      
 			Bridges() {
 				Bridges (0, "", "");
 			}
