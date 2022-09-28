@@ -14,7 +14,7 @@ public:
   int fov;
   float position[3];
 
-  camera(string type, int fov, float position[3]) : type(type), fov(fov), strcpy {
-    
+  camera(string type, int fov, float position[3]) : type(type), fov(fov) {
+    //TODO
   }
 };
