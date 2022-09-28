@@ -59,9 +59,9 @@ public:
     obJ1.vertices = vertices;
   }
 
-  //TODO 
+  //TODO add sceneJson
   void pushRepresentation(){
-    
+    obJ1.vertices = vertices;
   }
   
 };
