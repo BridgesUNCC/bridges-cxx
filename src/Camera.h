@@ -1,47 +1,48 @@
 #include <string>
 using namespace std;
 
-class camera {
+namespace bridges {
+	class camera {
+		struct objectJson {
+  			string type;
+  			int fov;
+  			float position[3];
+		};
 
-struct objectJson {
-  string type;
-  int fov;
-  float position[3];
-};
+		public:
+  			string type;
+  			int fov;
+  			float position[3];
+  			objectJson obJ1;
 
-public:
-  string type;
-  int fov;
-  float position[3];
-  objectJson obJ1;
+  		camera(string type, int fov, float position[3]) : setType(type), setFov(fov), setPosition(position) {
+			obJ1.type = type;
+			obJ1.fov = for;
+			obJ1.position = position;    
+  		}
 
-  camera(string type, int fov, float position[3]) : setType(type), setFov(fov), setPosition(position) {
-	obJ1.type = type;
-	obJ1.fov = for;
-	obJ1.position = position;    
-  }
-
-  def getType(){
-	return type;
-  }
+  		def getType(){
+			return type;
+  		}
   
-  def setType(string t) {
-	type = t;
-  }
+  		def setType(string t) {
+			type = t;
+  		}
   
-  def getFov(){
-	return fov;
-  }
+  		def getFov(){
+			return fov;
+  		}
 
-  def setFov(int f){
-	fov = f;
-  }
+  		def setFov(int f){
+			fov = f;
+  		}
 
-  def setPosition(float p[3]){
-	position = p;
-  }
+  		def setPosition(float p[3]){
+			position = p;
+  		}
 
-  def pushRepresentation(){
-	return obJ1;
-  }
-};
+  		def pushRepresentation(){
+			return obJ1;
+  		}
+	};
+} //namespace bridges
