@@ -7,8 +7,9 @@
 
 #include "Camera.h"
 #include "TerrainMesh.h"
+#include "DataStructure.h"
 
-namespace bridges {
+namespace bridges : public DataStructure {
     class Scene {
 
     	private:
@@ -23,6 +24,13 @@ namespace bridges {
                 camera.setFov(fov);
                 camera.setPosition(position);
     		}
+
+			/** 
+			 * @brief Get data structure type
+			 */
+			virtual const string getDStype() const override {
+				return "scene";
+			}
 
             /**
              * @brief add function for Camera objects
