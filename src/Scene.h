@@ -29,7 +29,7 @@ namespace bridges : public DataStructure {
 			 * @brief Get data structure type
 			 */
 			virtual const string getDStype() const override {
-				return "scene";
+				return "Scene";
 			}
 
             /**
