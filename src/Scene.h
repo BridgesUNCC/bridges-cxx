@@ -3,15 +3,17 @@
 #define SCENE_H
 
 #include <string> 
-#include <unordered_list>
+#include <list>
 
 #include "Camera.h"
+#include "TerrainMesh.h"
 
 namespace bridges {
     class Scene {
 
     	private:
-    		std::unordered_list<> scene_list;
+    		std::list<Camera> cameraSceneList;
+            std::list<TerrainMesh> terrainSceneList;
     		Camera  camera;
 
     	public:
@@ -22,13 +24,19 @@ namespace bridges {
                 camera.setPosition(position);
     		}
 
-    		void add (??? scene_object) {
-    			scene_list[scene_object.getName()] = scene_object;
+            /**
+             * @brief add function for Camera objects
+             */
+    		void add (Camera scene_object) {
+    			cameraSceneList.push_back(scene_object);
     		}
 
-    		?? get (std::string scene_object_name) {
-    			return scene_list[scene_object.scene_object_name];
-    		}
+            /**
+             * @brief add function for TerrainMesh objects
+             */
+            void add(TerrainMesh scene_object){
+                terrainSceneList.push_back(scene_object);
+            }
 
     		Camera getCamera() {
     			return camera;
@@ -38,15 +46,29 @@ namespace bridges {
     			camera = cam;
     		}
 
-            void remove(??? scene_object) {
-                std::remove(std::begin(scene_list), std::end(scene_list), scene_object);
+            /**
+             * @brief remove function for Camera objects
+             */
+            void remove(Camera scene_object) {
+                cameraSceneList.remove(scene_object);
+            }
+
+            /**
+             * @brief remove function for TerrainMesh objects
+             */
+            void remove(TerrainMesh scene_object) {
+                terrainSceneList.remove(scene_object);
             }
 
     		std::string getDataStructureRepresentation() {
     			std::string scene_json;
-    			for (auto i: scene_list) {
-    				scene_json
+    			for (auto i: cameraSceneList) {
+    				scene_json += i;
     			}
+
+                for(auto i: terrainSceneList) {
+                    scene_json += i;
+                }
     		}
     };
 }

@@ -20,17 +20,17 @@ namespace bridges {
   			vector<float> vertices;
   			objectJson obJ1;
 
-  		terrainMesh(int rows, int cols, vector<float> elevationData) : setRows(rows), setCols(cols), setVertices(elevationData) {
-    			string name = "terr";
-    			float colors[0] = {};
-    			float color[4] = {1.0, 1.0, 1.0, 1.0};
-    			float transform[0];
-    			obJ1.name = name;
-    			obJ1.type = "terrain";
-    			obJ1.vertices = vertices;
-    			obJ1.colors = colors;
-    			obJ1.rows = rows;
-    			obJ1.cols = cols;
+  		terrainMesh(int rows, int cols, vector<float> elevationData) {
+            string name = "terr";
+            float colors[0] = {};
+            float color[4] = {1.0, 1.0, 1.0, 1.0};
+            float transform[0];
+            obJ1.name = name;
+            obJ1.type = "terrain";
+            obJ1.vertices = vertices;
+            memcpy(obJ1.colors, colors, sizeof(colors));
+            obJ1.rows = rows;
+            obJ1.cols = cols;
   		}
 
   		int getRows() {
