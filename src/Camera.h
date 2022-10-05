@@ -43,6 +43,9 @@ namespace bridges {
             void setPosition(float p[3]){
                 memcpy(position, p, sizeof(position));
             }
+			void getPosition (float *p) {
+				p[0] = position[0]; p[1] = position[0]; p[2] = position[0];
+			}
 
             objectJson pushRepresentation(){
                 return obJ1;
