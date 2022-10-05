@@ -125,6 +125,13 @@ namespace bridges {
 				}
 
 				/**
+				 *  get the elevation data
+				 */
+				vector<int> getData() {
+					return data;
+				}
+
+				/**
 				 * get width of elevation map
 				 *
 				 * @param r row index

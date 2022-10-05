@@ -1,4 +1,4 @@
-#ifdef SCENE_H
+#ifndef SCENE_H
 
 #define SCENE_H
 
@@ -9,17 +9,16 @@
 #include "TerrainMesh.h"
 #include "DataStructure.h"
 
-namespace bridges : public DataStructure {
-    class Scene {
+namespace bridges  {
+    class Scene: public DataStructure {
 
     	private:
-    		std::list<Camera> cameras;
             std::list<TerrainMesh> terrains;
     		Camera  camera;
 
     	public:
+			Scene() {}
     		Scene(std::string type, int fov, float position[3]) {
-    			scene_list.clear();
                 camera.setType(type);
                 camera.setFov(fov);
                 camera.setPosition(position);
@@ -35,9 +34,16 @@ namespace bridges : public DataStructure {
             /**
              * @brief add function for Camera objects
              */
-    		void add (Camera scene_object) {
-    			cameraSceneList.push_back(scene_object);
+    		void setCamera (Camera& c) {
+    			camera = c;
     		}
+
+			/** 
+			 * 	@brief get the current camera
+			 */
+			Camera getCamera () {
+				return camera;
+			}
 
             /**
              * @brief add function for TerrainMesh objects
@@ -46,66 +52,50 @@ namespace bridges : public DataStructure {
                 terrains.push_back(scene_object);
             }
 
-    		Camera getCamera() {
-    			return camera;
-    		}
-
-    		void setCamera(Camera& cam) {
-    			camera = cam;
-    		}
-
-            /**
-             * @brief remove function for Camera objects
-             */
-            void remove(Camera scene_object) {
-                cameraSceneList.remove(scene_object);
-            }
-
             /**
              * @brief remove function for TerrainMesh objects
              */
-            void remove(TerrainMesh scene_object) {
-                terrains.remove(scene_object);
-            }
+//			void remove(TerrainMesh scene_object) {
+//				terrains.remove(scene_object);
+// 			}
 
-    		std::string getDataStructureRepresentation() {
+			virtual const string getDataStructureRepresentation() const 
+											override {
+
     			std::string scene_json = "";
 				float pos[3];
-				// add cameras
-    			for (auto c: cameras) {
-					c.getPosition(pos);
-    				scene_json += 
-							QUOTE + "camera" + QUOTE + COLON + 
-							OPEN_CURLY + 
-								QUOTE + c.getType() + QUOTE  + 
-								QUOTE + "fov" + QUOTE + COLON + 
-								QUOTE + std::to_string(c.getFov()) + QUOTE  + 
-								QUOTE + "position" + QUOTE + COLON + 
-								OPEN_BOX + 
-										std::to_string(pos[0]) + COMMA +
-										std::to_string(pos[1]) + COMMA +
-										std::to_string(pos[2])  + 
-								CLOSE_BOX + 
-							CLOSE_CURLY + COMMA; 
-    			}
-				// remove the last comma
-				scene_json.erase(scene_json.size()-1);
+				// add camera
+				camera.getPosition(pos);
+    			scene_json += 
+						QUOTE + "camera" + QUOTE + COLON + 
+						OPEN_CURLY + 
+							QUOTE + "name" + QUOTE  +  COLON + 
+							QUOTE + camera.getType() + QUOTE  + COMMA +
+							QUOTE + "fov" + QUOTE + COLON + 
+							QUOTE + std::to_string(camera.getFov()) + QUOTE + COMMA +  
+							QUOTE + "position" + QUOTE + COLON + 
+							OPEN_BOX + 
+								std::to_string(pos[0]) + COMMA +
+								std::to_string(pos[1]) + COMMA +
+								std::to_string(pos[2])  + 
+							CLOSE_BOX + 
+						CLOSE_CURLY + COMMA; 
 
 				// add lights
 				scene_json += QUOTE + "lights" + QUOTE + COLON + 
-								OPEN_BOX + CLOSE_BOX;
+								OPEN_BOX + CLOSE_BOX + COMMA;
 
 				// add terrain meshes
 				scene_json += 
-					QUOTE + "meshes" + COLON + OPEN_BOX;
+					QUOTE + "meshes" + QUOTE + COLON + OPEN_BOX;
                 for(auto t : terrains) {
 					// get vertices of this mesh
 					vector<float> verts = t.getVertices();
 					scene_json += OPEN_CURLY + 
 						QUOTE + "name" + QUOTE + COLON + QUOTE + t.getName() + QUOTE + COMMA +
 						QUOTE + "type" + QUOTE + COLON + QUOTE + t.getType()+ QUOTE + COMMA +
-						QUOTE + "rows" + QUOTE + COLON + QUOTE + t.getRows()+ QUOTE + COMMA +
-						QUOTE + "cols" + QUOTE + COLON + QUOTE + t.getCols()+ QUOTE + COMMA +
+						QUOTE + "rows" + QUOTE + COLON + QUOTE + std::to_string(t.getRows()) + QUOTE + COMMA +
+						QUOTE + "cols" + QUOTE + COLON + QUOTE + std::to_string(t.getCols())+ QUOTE + COMMA +
 						QUOTE + "vertices" + QUOTE + COLON; 
 
 						scene_json += OPEN_BOX;			//vertices start
@@ -116,16 +106,20 @@ namespace bridges : public DataStructure {
 							for (int j = 0; j < t.getCols(); j++) {
 								scene_json += std::to_string(verts[k++])+COMMA;
 							}
+							// remove the last comma
+							scene_json.erase(scene_json.size()-1);
 							scene_json += CLOSE_BOX + COMMA; // row end
 						}
 						// remove the last comma
 						scene_json.erase(scene_json.size()-1);
-						scene_json += CLOSE_BOX + CLOSE_CURLY + COMMA;//vertices end
+						scene_json += CLOSE_BOX + CLOSE_CURLY + CLOSE_BOX;//vertices end
                 }
 				// remove the last comma
 				scene_json.erase(scene_json.size()-1);
 
-				scene_json += CLOSE_BOX;
+				scene_json += CLOSE_BOX + CLOSE_CURLY;
+
+				return scene_json;
     		}
     };
 }

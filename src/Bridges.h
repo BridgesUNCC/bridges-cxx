@@ -530,6 +530,7 @@ namespace bridges {
 					cout << "JSON[" + ds_handle->getDStype() + "]:\t" << ds_json << endl;
 				}
 
+
 				if (profile())
 					httprequest_start = std::chrono::system_clock::now();
 
