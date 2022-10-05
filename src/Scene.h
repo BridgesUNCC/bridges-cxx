@@ -62,7 +62,7 @@ namespace bridges  {
 			virtual const string getDataStructureRepresentation() const 
 											override {
 
-    			std::string scene_json = "";
+    			std::string scene_json = OPEN_CURLY;
 				float pos[3];
 				// add camera
 				camera.getPosition(pos);
@@ -88,14 +88,17 @@ namespace bridges  {
 				// add terrain meshes
 				scene_json += 
 					QUOTE + "meshes" + QUOTE + COLON + OPEN_BOX;
-                for(auto t : terrains) {
+				for(auto t : terrains) {
 					// get vertices of this mesh
 					vector<float> verts = t.getVertices();
+					vector<float> colors = t.getColors();
 					scene_json += OPEN_CURLY + 
 						QUOTE + "name" + QUOTE + COLON + QUOTE + t.getName() + QUOTE + COMMA +
 						QUOTE + "type" + QUOTE + COLON + QUOTE + t.getType()+ QUOTE + COMMA +
 						QUOTE + "rows" + QUOTE + COLON + QUOTE + std::to_string(t.getRows()) + QUOTE + COMMA +
 						QUOTE + "cols" + QUOTE + COLON + QUOTE + std::to_string(t.getCols())+ QUOTE + COMMA +
+
+						// terrain vertices
 						QUOTE + "vertices" + QUOTE + COLON; 
 
 						scene_json += OPEN_BOX;			//vertices start
@@ -112,10 +115,34 @@ namespace bridges  {
 						}
 						// remove the last comma
 						scene_json.erase(scene_json.size()-1);
-						scene_json += CLOSE_BOX + CLOSE_CURLY + CLOSE_BOX;//vertices end
-                }
-				// remove the last comma
-				scene_json.erase(scene_json.size()-1);
+						scene_json += CLOSE_BOX + CLOSE_CURLY + CLOSE_BOX + COMMA; //vertices end
+
+						// terrain colors
+						scene_json += QUOTE + "colors" + QUOTE + COLON; 
+						scene_json += OPEN_BOX + OPEN_BOX;	//colors start
+
+						// list colors one row at a time
+						k = 0;
+						for (int i = 0; i < t.getRows(); i++) {
+							scene_json += OPEN_BOX;	// row start
+							for (int j = 0; j < t.getCols(); j++) {
+								string col_str = std::to_string(colors[k])
+									+ COMMA + std::to_string(colors[k+1])
+									+ COMMA + std::to_string(colors[k+2])
+									+ COMMA + std::to_string(colors[k+3]);
+								scene_json += OPEN_BOX + col_str + CLOSE_BOX +
+										COMMA;
+								k += 4;
+							}
+							// remove the last comma
+							scene_json.erase(scene_json.size()-1);
+							scene_json += CLOSE_BOX + COMMA; // row end
+						}
+						// remove the last comma
+						scene_json.erase(scene_json.size()-1);
+						scene_json += CLOSE_BOX;//colors end
+				}
+
 
 				scene_json += CLOSE_BOX + CLOSE_CURLY;
 

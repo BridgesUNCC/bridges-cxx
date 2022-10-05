@@ -14,17 +14,21 @@ namespace bridges {
 			string name;
   			string type;
   			vector<float> vertices;
-  			float colors[3];
+  			vector<float> colors;
   			int rows;
   			int cols;
 
 		public:
   			TerrainMesh(int r, int c, vector<float> elevation_data) {
             	name = "terr";
-            	colors[0] = colors[1] = colors[2] = 0;
             	type = "terrain";
 				rows = r; cols = c; 
 				vertices = elevation_data;
+				// set color for each vertex
+				for (int i = 0; i < rows; i++)
+				for (int j = 0; j < cols; j++) 
+				for (int k = 0; k < 4; k++) 
+					colors.push_back(1.);
   			}
 		
 			void setName (string n) {
@@ -58,6 +62,16 @@ namespace bridges {
 	  		void setCols(int c) {
 	    		cols = c;
 	  		}
+
+			
+	  		vector<float>  getColors() {
+	    		return colors;
+	  		}
+	
+	  		void setColors(vector<float> cols) {
+	    		colors = cols;
+	  		}
+
 
 	  		vector<float> getVertices() {
 	    		return vertices;
