@@ -519,7 +519,15 @@ namespace bridges {
 				if (profile())
 					jsonbuild_start = std::chrono::system_clock::now();
 
-				string ds_json = getJSONHeader() + ds_handle->getDataStructureRepresentation();
+				// THIS IS BAD - NEEDS FIXING!!!
+				string ds_json;
+				if (ds_handle->getDStype() == "Scene") {
+					string ds_part_json = ds_handle->getDataStructureRepresentation(); 
+					// erase open curly brace
+					ds_part_json.erase(0, 1);
+					ds_json = getJSONHeader() + ds_part_json;
+				}
+				else ds_json = getJSONHeader() + ds_handle->getDataStructureRepresentation();
 				if (profile())
 					jsonbuild_end = std::chrono::system_clock::now();
 

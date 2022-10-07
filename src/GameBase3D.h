@@ -89,7 +89,7 @@ namespace bridges {
 					if (firsttime) {
 						bridges.setJSONFlag(debug);
 
-						bridges.setDataStructure(scene);
+						bridges.setDataStructure(&scene);
 
 						bridges.visualize();
 
