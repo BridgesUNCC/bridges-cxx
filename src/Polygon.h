@@ -23,6 +23,16 @@ namespace bridges {
 		 */
 		class Polygon : public Polyline {
 
+			private:
+				/**
+				 *	@brief This method gets the type of the shape
+				 *
+				 *  @return the shape type
+				 */
+				virtual string getShapeType()  const override {
+					return "polygon";
+				}
+
 			public:
 				/**
 				 * @brief default constructor
@@ -37,15 +47,7 @@ namespace bridges {
 				Polygon (vector<float> pts) : Polyline (pts) {
 				}
 
-				/**
-				 *	@brief This method gets the type of the shape
-				 *
-				 *  @return the shape type
-				 */
-				virtual string getShapeType()  const override {
-					return "polygon";
-				}
-
+			public:
 				/**
 				 * @brief constructs a polygon, given a set of points
 				 * @param pts to construct polygon

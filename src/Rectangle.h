@@ -23,6 +23,16 @@ namespace bridges {
 			private:
 				// Rectangle specification: lower left corner and dimensions
 				double ll_x = 0., ll_y = 0., width = 1.0, height = 1.0;
+
+				/**
+				 *	@brief This method gets the shape type name
+				 *
+				 *  @return shape type
+				 */
+				virtual string getShapeType() const override {
+					return "rect";
+				}
+
 				
 			public:
 				/**
@@ -52,15 +62,6 @@ namespace bridges {
 				 */
 				Rectangle (double llx, double lly, double w, double h) {
 					setRectangle (llx, lly, w, h);
-				}
-
-				/**
-				 *	@brief This method gets the shape type name
-				 *
-				 *  @return shape type
-				 */
-				virtual string getShapeType() const override {
-					return "rect";
 				}
 
 				/**
