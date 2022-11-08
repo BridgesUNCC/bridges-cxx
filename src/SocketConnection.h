@@ -16,6 +16,7 @@
 #include "internal/sio_packet.h"
 #include <Bridges.h>
 #include <GameGrid.h>
+#include <Scene.h>
 #include <list>
 #include <thread>
 #include <mutex>
@@ -254,6 +255,14 @@ namespace bridges {
 					std::string gridjson = "{" + gg.getDataStructureRepresentation();
 
 					current_socket->emit("gamegrid:recv", gridjson);
+				}
+			
+				void sendSceneData(const Scene& s) {
+					if (debug && debugVerbose)
+						std::cerr << "Sending Scene\n";
+					std::string scenejson = "{" + s.getDataStructureRepresentation();
+
+					current_socket->emit("scene:recv", scenejson);
 				}
 		};
 	}
