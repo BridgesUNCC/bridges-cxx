@@ -97,7 +97,7 @@ namespace bridges {
 					}
 					scene_state = scene.getDataStructureRepresentation();
 
-					sockcon->SendData(scene_state, scene.getDataStructureType());
+					sockcon->sendSceneData(scene_state);
 				}
 
 			protected:
