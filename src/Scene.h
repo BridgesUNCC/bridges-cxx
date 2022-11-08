@@ -115,11 +115,10 @@ namespace bridges  {
 						}
 						// remove the last comma
 						scene_json.erase(scene_json.size()-1);
-						scene_json += CLOSE_BOX + CLOSE_CURLY + CLOSE_BOX + COMMA; //vertices end
-
+						scene_json += CLOSE_BOX + COMMA;	//end of vertices
 						// terrain colors
 						scene_json += QUOTE + "colors" + QUOTE + COLON; 
-						scene_json += OPEN_BOX + OPEN_BOX;	//colors start
+						scene_json += OPEN_BOX;				//colors start
 
 						// list colors one row at a time
 						k = 0;
@@ -136,16 +135,12 @@ namespace bridges  {
 							}
 							// remove the last comma
 							scene_json.erase(scene_json.size()-1);
-							scene_json += CLOSE_BOX + COMMA; // row end
+							scene_json += CLOSE_BOX + COMMA; // row (colors) end
 						}
 						// remove the last comma
 						scene_json.erase(scene_json.size()-1);
-						scene_json += CLOSE_BOX;//colors end
+						scene_json += CLOSE_BOX + CLOSE_CURLY + CLOSE_BOX + CLOSE_CURLY; 
 				}
-
-
-				scene_json += CLOSE_BOX + CLOSE_CURLY;
-
 				return scene_json;
     		}
     };
