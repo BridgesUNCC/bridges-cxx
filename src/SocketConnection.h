@@ -253,7 +253,7 @@ namespace bridges {
 						std::cerr << "Sending GameGrid\n";
 					std::string gridjson = "{" + gg.getDataStructureRepresentation();
 
-					current_socket->emit("VisType::lower", gridjson);
+					current_socket->emit("gamegrid:recv", gridjson);
 				}
 		};
 	}
