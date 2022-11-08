@@ -23,6 +23,17 @@ namespace bridges {
 
 		class Polyline : public Symbol {
 
+			private:
+
+				/**
+				 *	@brief This method gets the type of the shape
+				 *
+				 *  @return the shape type
+				 */
+				virtual string getShapeType()  const override {
+					return "polyline";
+				}
+
 			protected:
 				// points of the polyline
 				vector<float> points;
@@ -41,15 +52,6 @@ namespace bridges {
 				 */
 				Polyline (vector<float> pts) {
 					setPolyline(pts);
-				}
-
-				/**
-				 *	@brief This method gets the type of the shape
-				 *
-				 *  @return the shape type
-				 */
-				virtual string getShapeType()  const override {
-					return "polyline";
 				}
 
 				/**

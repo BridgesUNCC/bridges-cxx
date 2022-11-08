@@ -21,8 +21,19 @@ namespace bridges {
 		 */
 		class Circle : public Symbol {
 			private:
+
 				double center_x, center_y;
 				double radius = 1.;
+
+				/**
+				 *	This method gets the type of the shape
+				 *
+				 *  @return shape type
+				 */
+				virtual string getShapeType()  const override {
+					return "circle";
+				}
+
 
 			public:
 
@@ -51,15 +62,6 @@ namespace bridges {
 					if (r < 0.)
 						throw "Illegal value for radius. Must be positive";
 					radius = r;
-				}
-
-				/**
-				 *	This method gets the type of the shape
-				 *
-				 *  @return shape type
-				 */
-				virtual string getShapeType()  const override {
-					return "circle";
 				}
 
 				/**
