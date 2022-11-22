@@ -1,7 +1,8 @@
 #ifndef GAME_BASE_3D_H
 #define GAME_BASE_3D_H
 
-#include <SocketConnection.h>
+#include "SocketConnection.h"
+#include "GameGrid.h"
 #include "Bridges.h"
 #include "Scene.h"
 
@@ -20,7 +21,7 @@ namespace bridges {
 		 *
 		 */
 
-		class GameBase {
+		class GameBase3D {
 			private:
 				Bridges bridges;
 
@@ -31,29 +32,29 @@ namespace bridges {
 				bool bquit = false;
 				std::unique_ptr<SocketConnection> sockcon;
 
+				// we keep this object locally to prevent users from creating a 
+				// a whole bunch of Scene objects
+				// Scene scene;
+
 			protected:
 				bool debug = false;
 
-
 				/**
-				 *  @brief Protected constructed prevens direct creation
+				 *  @brief Protected construction prevens direct creation
 				 *
 				 * Having a protected constructor prevents the object from being
 				 * directly created. Since GameBase is meant to be a
 				 * purely internal class, that seems appropriate.
 				 */
-				GameBase(int assignmentID, std::string username, std::string apikey)
-								: bridges(assignmentID, username, apikey), 
+				GameBase3D(int assignmentID, std::string username, std::string apikey)
+								: bridges(assignmentID, username, apikey)  {
 
 					bridges.setServer("games");
 				  
 					sockcon = std::make_unique<SocketConnection>(bridges);
-
-					// set up the default 3D scene
-					scene = Scene({'fov': 90, 'type': 'fps', 'position': [0.0, 0.0, 0.0]})
 				}
 
-		  virtual ~GameBase3D() =default;
+		  		virtual ~GameBase3D() =default;
 
 				/// @brief This function is called once when the game starts.
 				///
@@ -69,7 +70,6 @@ namespace bridges {
 				virtual void gameLoop () = 0;
 
 
-			protected:
 				/// @brief register a new KeypressListener
 				///
 				/// Students should not have to call this function directly.  The
@@ -89,18 +89,17 @@ namespace bridges {
 					if (firsttime) {
 						bridges.setJSONFlag(debug);
 
-						bridges.setDataStructure(&scene);
+						bridges.setDataStructure(&current_scene);
 
 						bridges.visualize();
 
 						firsttime = false;
 					}
-					scene_state = scene.getDataStructureRepresentation();
+//					scene_state = scene.getDataStructureRepresentation();
 					
-					sockcon->sendSceneData(scene);
+					sockcon->sendSceneData(current_scene);
 				}
 
-			protected:
 
 				///@brief calling this function causes the game to end.
 				///
@@ -124,7 +123,25 @@ namespace bridges {
 				void setDescription(std::string desc) {
 					bridges.setDescription(desc);
 				}
+
+			public:
+				// current scene object
+				Scene current_scene;
+
+				// accessors
+				void addScene(Scene& sc) {
+					current_scene = sc;
+				}
+
+				Scene getCurrentScene() {
+					return current_scene;
+				}
+
+				bool gameover() const {
+                    return bquit;
+                }
 		};
+	}
 }
 
 #endif
