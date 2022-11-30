@@ -10,7 +10,6 @@ namespace bridges {
 	class TerrainMesh {
 
 		private:
-
 			string name;
   			string type;
   			vector<float> vertices;
@@ -19,8 +18,9 @@ namespace bridges {
   			int cols;
 
 		public:
-  			TerrainMesh(int r, int c, vector<float> elevation_data) {
-            	name = "terr";
+			TerrainMesh() {}
+  			TerrainMesh(string id, int r, int c, vector<float> elevation_data) {
+            	name = id;
             	type = "terrain";
 				rows = r; cols = c; 
 				vertices = elevation_data;

@@ -58,14 +58,14 @@ namespace bridges {
 				/// @param apikey        Bridges API authentication key
 				/// @param nbRow         GameGrid height
 				/// @param nbCol         GameGrid width
-				NonBlockingGame(int assignmentID, std::string username, 
+				NonBlockingGame3D(int assignmentID, std::string username, 
 											std::string apikey)
 							: GameBase3D(assignmentID, username, apikey) {
 
 					registerKeyListener(&ih);
 				}
 
-		  virtual ~NonBlockingGame() =default;
+		  virtual ~NonBlockingGame3D() =default;
 		  
 				/// @brief Call this function from main to start the game. Runs
 				/// exactly once.

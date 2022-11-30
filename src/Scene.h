@@ -4,6 +4,7 @@
 
 #include <string> 
 #include <list>
+#include <unordered_map>
 
 #include "Camera.h"
 #include "TerrainMesh.h"
@@ -13,11 +14,15 @@ namespace bridges  {
     class Scene: public DataStructure {
 
     	private:
-            std::list<TerrainMesh> terrains;
+            std::unordered_map<string, TerrainMesh> terrains;
     		Camera  camera;
 
     	public:
-			Scene() {}
+			Scene() {
+				float pos[] = {0., 0., 0.};
+				Scene("fps", 90, pos);
+			}
+
     		Scene(std::string type, int fov, float position[3]) {
                 camera.setType(type);
                 camera.setFov(fov);
@@ -48,8 +53,15 @@ namespace bridges  {
             /**
              * @brief add function for TerrainMesh objects
              */
-            void add(TerrainMesh scene_object){
-                terrains.push_back(scene_object);
+            void add(TerrainMesh terrain){
+                terrains[terrain.getName()] = terrain;
+            }
+
+            /**
+             * @brief add function for TerrainMesh objects
+             */
+            TerrainMesh& get(string mesh_name){
+                return terrains[mesh_name];
             }
 
             /**
@@ -90,13 +102,14 @@ namespace bridges  {
 					QUOTE + "meshes" + QUOTE + COLON + OPEN_BOX;
 				for(auto t : terrains) {
 					// get vertices of this mesh
-					vector<float> verts = t.getVertices();
-					vector<float> colors = t.getColors();
+					TerrainMesh tr = t.second;
+					vector<float> verts = tr.getVertices();
+					vector<float> colors = tr.getColors();
 					scene_json += OPEN_CURLY + 
-						QUOTE + "name" + QUOTE + COLON + QUOTE + t.getName() + QUOTE + COMMA +
-						QUOTE + "type" + QUOTE + COLON + QUOTE + t.getType()+ QUOTE + COMMA +
-						QUOTE + "rows" + QUOTE + COLON + QUOTE + std::to_string(t.getRows()) + QUOTE + COMMA +
-						QUOTE + "cols" + QUOTE + COLON + QUOTE + std::to_string(t.getCols())+ QUOTE + COMMA +
+						QUOTE + "name" + QUOTE + COLON + QUOTE + tr.getName() + QUOTE + COMMA +
+						QUOTE + "type" + QUOTE + COLON + QUOTE + tr.getType()+ QUOTE + COMMA +
+						QUOTE + "rows" + QUOTE + COLON + QUOTE + std::to_string(tr.getRows()) + QUOTE + COMMA +
+						QUOTE + "cols" + QUOTE + COLON + QUOTE + std::to_string(tr.getCols())+ QUOTE + COMMA +
 
 						// terrain vertices
 						QUOTE + "vertices" + QUOTE + COLON; 
@@ -104,9 +117,9 @@ namespace bridges  {
 						scene_json += OPEN_BOX;			//vertices start
 						// list vertices one row at a time
 						int k = 0;
-						for (int i = 0; i < t.getRows(); i++) {
+						for (int i = 0; i < tr.getRows(); i++) {
 							scene_json += OPEN_BOX;	// row start
-							for (int j = 0; j < t.getCols(); j++) {
+							for (int j = 0; j < tr.getCols(); j++) {
 								scene_json += std::to_string(verts[k++])+COMMA;
 							}
 							// remove the last comma
@@ -115,17 +128,16 @@ namespace bridges  {
 						}
 						// remove the last comma
 						scene_json.erase(scene_json.size()-1);
-						scene_json += CLOSE_BOX + CLOSE_CURLY + CLOSE_BOX + COMMA; //vertices end
-
+						scene_json += CLOSE_BOX + COMMA;	//end of vertices
 						// terrain colors
 						scene_json += QUOTE + "colors" + QUOTE + COLON; 
-						scene_json += OPEN_BOX + OPEN_BOX;	//colors start
+						scene_json += OPEN_BOX;				//colors start
 
 						// list colors one row at a time
 						k = 0;
-						for (int i = 0; i < t.getRows(); i++) {
+						for (int i = 0; i < tr.getRows(); i++) {
 							scene_json += OPEN_BOX;	// row start
-							for (int j = 0; j < t.getCols(); j++) {
+							for (int j = 0; j < tr.getCols(); j++) {
 								string col_str = std::to_string(colors[k])
 									+ COMMA + std::to_string(colors[k+1])
 									+ COMMA + std::to_string(colors[k+2])
@@ -136,16 +148,12 @@ namespace bridges  {
 							}
 							// remove the last comma
 							scene_json.erase(scene_json.size()-1);
-							scene_json += CLOSE_BOX + COMMA; // row end
+							scene_json += CLOSE_BOX + COMMA; // row (colors) end
 						}
 						// remove the last comma
 						scene_json.erase(scene_json.size()-1);
-						scene_json += CLOSE_BOX;//colors end
+						scene_json += CLOSE_BOX + CLOSE_CURLY + CLOSE_BOX + CLOSE_CURLY; 
 				}
-
-
-				scene_json += CLOSE_BOX + CLOSE_CURLY;
-
 				return scene_json;
     		}
     };
