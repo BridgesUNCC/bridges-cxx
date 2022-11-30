@@ -248,7 +248,7 @@ namespace bridges {
 
 				}
 
-				void sendGameGrid(const GameGrid& gg) {
+				void sendDataToServer(const GameGrid& gg) {
 					if (debug && debugVerbose)
 						std::cerr << "Sending GameGrid\n";
 					std::string gridjson = "{" + gg.getDataStructureRepresentation();

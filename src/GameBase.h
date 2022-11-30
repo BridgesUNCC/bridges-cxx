@@ -102,7 +102,7 @@ namespace bridges {
 
 					}
 
-					sockcon->sendGameGrid(gg);
+					sockcon->sendDataToServer(gg);
 				}
 
 			protected:

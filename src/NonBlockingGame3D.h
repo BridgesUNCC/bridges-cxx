@@ -1,7 +1,7 @@
 #ifndef NONBLOCKING_GAME_H
 #define NONBLOCKING_GAME_H
 
-#include <GameBase.h>
+#include <GameBase3D.h>
 #include <InputHelper.h>
 
 namespace bridges {

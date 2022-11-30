@@ -20,7 +20,7 @@ namespace bridges {
 		 *
 		 */
 
-		class GameBase {
+		class GameBase3D {
 			private:
 				Bridges bridges;
 
@@ -30,6 +30,8 @@ namespace bridges {
 
 				bool bquit = false;
 				std::unique_ptr<SocketConnection> sockcon;
+
+				Scene *scene;
 
 			protected:
 				bool debug = false;
@@ -42,15 +44,16 @@ namespace bridges {
 				 * directly created. Since GameBase is meant to be a
 				 * purely internal class, that seems appropriate.
 				 */
-				GameBase(int assignmentID, std::string username, std::string apikey)
-								: bridges(assignmentID, username, apikey), 
+				GameBase3D(int assignmentID, std::string username, std::string apikey)
+								: bridges(assignmentID, username, apikey)  {
 
 					bridges.setServer("games");
 				  
 					sockcon = std::make_unique<SocketConnection>(bridges);
 
 					// set up the default 3D scene
-					scene = Scene({'fov': 90, 'type': 'fps', 'position': [0.0, 0.0, 0.0]})
+					float position[] = {0., 0., 0.};
+					scene = new Scene("fps", 90, position);
 				}
 
 		  virtual ~GameBase3D() =default;
@@ -89,15 +92,15 @@ namespace bridges {
 					if (firsttime) {
 						bridges.setJSONFlag(debug);
 
-						bridges.setDataStructure(&scene);
+						bridges.setDataStructure(scene);
 
 						bridges.visualize();
 
 						firsttime = false;
 					}
-					scene_state = scene.getDataStructureRepresentation();
+					string scene_state = scene->getDataStructureRepresentation();
 
-					sockcon->SendData(scene_state, scene.getDataStructureType());
+					sockcon->sendDataToServer(scene_state, scene->getDataStructureType());
 				}
 
 			protected:
