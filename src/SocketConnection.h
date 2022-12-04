@@ -257,7 +257,7 @@ namespace bridges {
 					current_socket->emit("gamegrid:recv", gridjson);
 				}
 			
-				void sendSceneData(const Scene& s) {
+				void sendSceneDataToServer(const Scene& s) {
 					if (debug && debugVerbose)
 						std::cerr << "Sending Scene\n";
 					std::string scenejson = "{" + s.getDataStructureRepresentation();

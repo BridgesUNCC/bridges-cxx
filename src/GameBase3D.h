@@ -100,9 +100,7 @@ namespace bridges {
 
 						firsttime = false;
 					}
-					string scene_state = scene->getDataStructureRepresentation();
-
-					sockcon->sendDataToServer(scene_state, scene->getDataStructureType());
+					sockcon->sendSceneDataToServer(*scene);
 				}
 
 
