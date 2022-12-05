@@ -94,13 +94,13 @@ namespace bridges {
 					if (firsttime) {
 						bridges.setJSONFlag(debug);
 
-						bridges.setDataStructure(scene);
+						bridges.setDataStructure(current_scene);
 
 						bridges.visualize();
 
 						firsttime = false;
 					}
-					sockcon->sendSceneDataToServer(*scene);
+					sockcon->sendSceneDataToServer(current_scene);
 				}
 
 

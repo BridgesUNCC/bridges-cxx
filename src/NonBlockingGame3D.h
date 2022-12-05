@@ -1,5 +1,5 @@
-#ifndef NONBLOCKING_GAME_H
-#define NONBLOCKING_GAME_H
+#ifndef NONBLOCKING_GAME_3D_H
+#define NONBLOCKING_GAME_3D_H
 
 #include <GameBase3D.h>
 #include <InputHelper.h>
@@ -75,6 +75,7 @@ namespace bridges {
 
 					render();
 
+exit(0);
 					long framelimit = -1; //negative means no limit
 					{
 						char* str_limit = getenv("FORCE_BRIDGES_FRAMELIMIT");
