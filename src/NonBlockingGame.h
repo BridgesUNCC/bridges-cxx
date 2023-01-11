@@ -173,7 +173,7 @@ namespace bridges {
 		 * @sa There is a tutorial at: https://bridgesuncc.github.io/tutorials/NonBlockingGame.html
 		 *
 		 * @author Erik Saule
-		 * @date 7/21/19, 12/28/20
+		 * @date 7/21/2019, 12/28/2020, 1/11/2023
 		 *
 		 **/
 		class NonBlockingGame : public GameBase {
@@ -320,21 +320,33 @@ namespace bridges {
 				bool keyLeft() {
 					return ih.keyLeft();
 				}
+
+		  ///@brief indicates whether the Left key has just been pressed this current frame.
     bool keyLeftJustPressed() {
         return leftSM.justPressed();
     }
+
+		  ///@brief indicates whether the Left key is still being pressed this current frame.
     bool keyLeftStillPressed() {
         return leftSM.stillPressed();
     }
+		  ///@brief indicates whether the Left key has just been released this current frame.
     bool keyLeftJustNotPressed() {
         return leftSM.justNotPressed();
     }
+		  ///@brief indicates whether the Left key is not pressed and has not been pressed for more than a frame.
     bool keyLeftStillNotPressed() {
         return leftSM.stillNotPressed();
     }
+
+		  ///@brief indicates whether the current frame is a fire frame for the Left key.
     bool keyLeftFire() {
         return leftSM.fire();
     }
+
+		  ///@brief configures how many frames between two fire events for the Left key.
+		  ///
+		  ///@param f how many frames between two fire events
     void keyLeftSetupFire(int f) {
         leftSM.setFireCooldown(f);
     }
@@ -344,21 +356,29 @@ namespace bridges {
 				bool keyRight() {
 					return ih.keyRight();
 				}
+		  		  ///@brief indicates whether the right key has just been pressed this current frame.
     bool keyRightJustPressed() {
         return rightSM.justPressed();
     }
+		  ///@brief indicates whether the Right key is still being pressed this current frame.
     bool keyRightStillPressed() {
         return rightSM.stillPressed();
     }
+		  ///@brief indicates whether the Right key has just been released this current frame.
     bool keyRightJustNotPressed() {
         return rightSM.justNotPressed();
     }
+		  ///@brief indicates whether the Right key is not pressed and has not been pressed for more than a frame.
     bool keyRightStillNotPressed() {
         return rightSM.stillNotPressed();
     }
+		  ///@brief indicates whether the current frame is a fire frame for the Right key.
     bool keyRightFire() {
         return rightSM.fire();
     }
+		  ///@brief configures how many frames between two fire events for the Right key.
+		  ///
+		  ///@param f how many frames between two fire events
     void keyRightSetupFire(int f) {
         rightSM.setFireCooldown(f);
     }
@@ -369,32 +389,39 @@ namespace bridges {
 					return ih.keyUp();
 				}
 
-
+		  ///@brief indicates whether the Up key has just been pressed this current frame.
     bool keyUpJustPressed() {
         return upSM.justPressed();
     }
+		  ///@brief indicates whether the Up key is still being pressed this current frame.
+
     bool keyUpStillPressed() {
         return upSM.stillPressed();
     }
+		  ///@brief indicates whether the Up key has just been released this current frame.
+		  
     bool keyUpJustNotPressed() {
         return upSM.justNotPressed();
     }
+		  		  ///@brief indicates whether the Up key is not pressed and has not been pressed for more than a frame.
+
     bool keyUpStillNotPressed() {
         return upSM.stillNotPressed();
     }
+		  		  ///@brief indicates whether the current frame is a fire frame for the Up key.
+
     bool keyUpFire() {
         return upSM.fire();
     }
+		  		  ///@brief configures how many frames between two fire events for the Up key.
+		  ///
+		  ///@param f how many frames between two fire events
+
     void keyUpSetupFire(int f) {
         upSM.setFireCooldown(f);
     }
 
 
-
-
-
-
-		  
 				///@brief Is Down currently pressed?
 				///
 				///@return true if Down is currently pressed
@@ -402,21 +429,32 @@ namespace bridges {
 					return ih.keyDown();
 				}
 
+		  		  ///@brief indicates whether the Down key has just been pressed this current frame.
     bool keyDownJustPressed() {
         return downSM.justPressed();
     }
+		  		  ///@brief indicates whether the Down key is still being pressed this current frame.
+
     bool keyDownStillPressed() {
         return downSM.stillPressed();
     }
+		  		  ///@brief indicates whether the Down key has just been released this current frame.
+		  
     bool keyDownJustNotPressed() {
         return downSM.justNotPressed();
     }
+		  ///@brief indicates whether the Down key is not pressed and has not been pressed for more than a frame.
     bool keyDownStillNotPressed() {
         return downSM.stillNotPressed();
     }
+		  		  		  ///@brief indicates whether the current frame is a fire frame for the Down key.
     bool keyDownFire() {
         return downSM.fire();
     }
+		  		  ///@brief configures how many frames between two fire events for the Down key.
+		  ///
+		  ///@param f how many frames between two fire events
+
     void keyDownSetupFire(int f) {
         downSM.setFireCooldown(f);
     }
@@ -429,21 +467,33 @@ namespace bridges {
 					return ih.keyW();
 				}
 
+		  		  ///@brief indicates whether the W key has just been pressed this current frame.
     bool keyWJustPressed() {
         return wSM.justPressed();
     }
+		  		  ///@brief indicates whether the W key is still being pressed this current frame.
+
     bool keyWStillPressed() {
         return wSM.stillPressed();
     }
+		  ///@brief indicates whether the W key has just been released this current frame.
+		  
     bool keyWJustNotPressed() {
         return wSM.justNotPressed();
     }
+		  		  ///@brief indicates whether the W key is not pressed and has not been pressed for more than a frame.
+
     bool keyWStillNotPressed() {
         return wSM.stillNotPressed();
     }
+		  		  		  ///@brief indicates whether the current frame is a fire frame for the W key.
     bool keyWFire() {
         return wSM.fire();
     }
+		  		  ///@brief configures how many frames between two fire events for the W key.
+		  ///
+		  ///@param f how many frames between two fire events
+
     void keyWSetupFire(int f) {
         wSM.setFireCooldown(f);
     }
@@ -455,22 +505,33 @@ namespace bridges {
 					return ih.keyA();
 				}
 
-
+		  ///@brief indicates whether the A key has just been pressed this current frame.
     bool keyAJustPressed() {
         return aSM.justPressed();
     }
+		  		  ///@brief indicates whether the A key is still being pressed this current frame.
+
     bool keyAStillPressed() {
         return aSM.stillPressed();
     }
+		  		  ///@brief indicates whether the A key has just been released this current frame.
+		  
     bool keyAJustNotPressed() {
         return aSM.justNotPressed();
     }
+		  		  ///@brief indicates whether the A key is not pressed and has not been pressed for more than a frame.
+
     bool keyAStillNotPressed() {
         return aSM.stillNotPressed();
     }
+		  		  		  ///@brief indicates whether the current frame is a fire frame for the A key.
     bool keyAFire() {
         return aSM.fire();
     }
+		  		  ///@brief configures how many frames between two fire events for the A key.
+		  ///
+		  ///@param f how many frames between two fire events
+
     void keyASetupFire(int f) {
         aSM.setFireCooldown(f);
     }
@@ -482,22 +543,34 @@ namespace bridges {
 					return ih.keyS();
 				}
 
-
+		  ///@brief indicates whether the S key has just been pressed this current frame.
     bool keySJustPressed() {
         return sSM.justPressed();
     }
+
+		  ///@brief indicates whether the S key is still being pressed this current frame.
+
     bool keySStillPressed() {
         return sSM.stillPressed();
     }
+		  ///@brief indicates whether the S key has just been released this current frame.
+
     bool keySJustNotPressed() {
         return sSM.justNotPressed();
     }
+		  		  ///@brief indicates whether the S key is not pressed and has not been pressed for more than a frame.
+
     bool keySStillNotPressed() {
         return sSM.stillNotPressed();
     }
+		  		  		  ///@brief indicates whether the current frame is a fire frame for the S key.
     bool keySFire() {
         return sSM.fire();
     }
+		  		  ///@brief configures how many frames between two fire events for the S key.
+		  ///
+		  ///@param f how many frames between two fire events
+
     void keySSetupFire(int f) {
         sSM.setFireCooldown(f);
     }
@@ -508,22 +581,33 @@ namespace bridges {
 				bool keyD() {
 					return ih.keyD();
 				}
-
+		  ///@brief indicates whether the D key has just been pressed this current frame.
     bool keyDJustPressed() {
         return dSM.justPressed();
     }
+		  ///@brief indicates whether the D key is still being pressed this current frame.
+		  
     bool keyDStillPressed() {
         return dSM.stillPressed();
     }
+		  ///@brief indicates whether the D key has just been released this current frame.
+		  
     bool keyDJustNotPressed() {
         return dSM.justNotPressed();
     }
+		  ///@brief indicates whether the D key is not pressed and has not been pressed for more than a frame.
+
     bool keyDStillNotPressed() {
         return dSM.stillNotPressed();
     }
+		  		  		  ///@brief indicates whether the current frame is a fire frame for the D key.
     bool keyDFire() {
         return dSM.fire();
     }
+		  		  ///@brief configures how many frames between two fire events for the D key.
+		  ///
+		  ///@param f how many frames between two fire events
+
     void keyDSetupFire(int f) {
         dSM.setFireCooldown(f);
     }
@@ -533,21 +617,33 @@ namespace bridges {
 				bool keyQ() {
 					return ih.keyQ();
 				}
+		  		  ///@brief indicates whether the Q key has just been pressed this current frame.
     bool keyQJustPressed() {
         return qSM.justPressed();
     }
+		  ///@brief indicates whether the Q key is still being pressed this current frame.
+
     bool keyQStillPressed() {
         return qSM.stillPressed();
     }
+		  ///@brief indicates whether the Q key has just been released this current frame.
+		  
     bool keyQJustNotPressed() {
         return qSM.justNotPressed();
     }
+		  		  ///@brief indicates whether the Q key is not pressed and has not been pressed for more than a frame.
+
     bool keyQStillNotPressed() {
         return qSM.stillNotPressed();
     }
+		  		  		  ///@brief indicates whether the current frame is a fire frame for the Q key.
     bool keyQFire() {
         return qSM.fire();
     }
+		  		  ///@brief configures how many frames between two fire events for the Q key.
+		  ///
+		  ///@param f how many frames between two fire events
+
     void keyQSetupFire(int f) {
         qSM.setFireCooldown(f);
     }
@@ -557,21 +653,33 @@ namespace bridges {
 				bool keySpace() {
 					return ih.keySpace();
 				}
+		  		  ///@brief indicates whether the Space key has just been pressed this current frame.
     bool keySpaceJustPressed() {
         return spaceSM.justPressed();
     }
+		  		  ///@brief indicates whether the Space key is still being pressed this current frame.
+
     bool keySpaceStillPressed() {
         return spaceSM.stillPressed();
     }
+		  		  ///@brief indicates whether the Space key has just been released this current frame.
+
     bool keySpaceJustNotPressed() {
         return spaceSM.justNotPressed();
     }
+		  ///@brief indicates whether the Space key is not pressed and has not been pressed for more than a frame.
+
     bool keySpaceStillNotPressed() {
         return spaceSM.stillNotPressed();
     }
+		  		  		  ///@brief indicates whether the current frame is a fire frame for the Space key.
     bool keySpaceFire() {
         return spaceSM.fire();
     }
+		  		  ///@brief configures how many frames between two fire events for the Space key.
+		  ///
+		  ///@param f how many frames between two fire events
+
     void keySpaceSetupFire(int f) {
         spaceSM.setFireCooldown(f);
     }
