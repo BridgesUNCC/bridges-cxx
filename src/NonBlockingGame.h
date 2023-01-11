@@ -135,6 +135,19 @@ namespace bridges {
 
 				InputHelper ih;
 				InputStateMachine upSM;
+				InputStateMachine downSM;
+				InputStateMachine leftSM;
+				InputStateMachine rightSM;
+
+				InputStateMachine qSM;
+				InputStateMachine spaceSM;
+
+				InputStateMachine wSM;
+				InputStateMachine aSM;
+				InputStateMachine sSM;
+				InputStateMachine dSM;
+
+		  
 		  
 				double fps = 30.;
 
@@ -161,6 +174,17 @@ namespace bridges {
 
 		  void updateInputState() {
 		    upSM.update();
+		    downSM.update();
+		    leftSM.update();
+		    rightSM.update();
+
+		    qSM.update();
+		    spaceSM.update();
+
+		    wSM.update();
+		    aSM.update();
+		    sSM.update();
+		    dSM.update();
 		  }
 
 			public:
@@ -174,7 +198,19 @@ namespace bridges {
 					std::string apikey, int nbRow = 10, int nbCol = 10)
 				  : GameBase(assignmentID, username, apikey, nbRow, nbCol),
 				    ih(),
-				    upSM([this]() ->bool {return this->ih.keyUp();}) {
+				    upSM([this]() ->bool {return this->ih.keyUp();}),
+				    downSM([this]() ->bool {return this->ih.keyDown();}),
+				    leftSM([this]() ->bool {return this->ih.keyLeft();}),
+				    rightSM([this]() ->bool {return this->ih.keyRight();}),
+
+				    qSM([this]() ->bool {return this->ih.keyQ();}),
+				    spaceSM([this]() ->bool {return this->ih.keySpace();}),
+
+				    wSM([this]() ->bool {return this->ih.keyW();}),
+				    aSM([this]() ->bool {return this->ih.keyA();}),
+				    sSM([this]() ->bool {return this->ih.keyS();}),
+				    dSM([this]() ->bool {return this->ih.keyD();})
+		  {
 					if (debug)
 						std::cerr << "nbRow: " << nbRow << " nbCol: " <<
 							nbCol << std::endl;
@@ -234,14 +270,48 @@ namespace bridges {
 				bool keyLeft() {
 					return ih.keyLeft();
 				}
-
+    bool keyLeftJustPressed() {
+        return leftSM.justPressed();
+    }
+    bool keyLeftStillPressed() {
+        return leftSM.stillPressed();
+    }
+    bool keyLeftJustNotPressed() {
+        return leftSM.justNotPressed();
+    }
+    bool keyLeftStillNotPressed() {
+        return leftSM.stillNotPressed();
+    }
+    bool keyLeftFire() {
+        return leftSM.fire();
+    }
+    void keyLeftSetupFire(int f) {
+        leftSM.setFireCooldown(f);
+    }
 				///@brief Is Right currently pressed?
 				///
 				///@return true if Right is currently pressed
 				bool keyRight() {
 					return ih.keyRight();
 				}
-
+    bool keyRightJustPressed() {
+        return rightSM.justPressed();
+    }
+    bool keyRightStillPressed() {
+        return rightSM.stillPressed();
+    }
+    bool keyRightJustNotPressed() {
+        return rightSM.justNotPressed();
+    }
+    bool keyRightStillNotPressed() {
+        return rightSM.stillNotPressed();
+    }
+    bool keyRightFire() {
+        return rightSM.fire();
+    }
+    void keyRightSetupFire(int f) {
+        rightSM.setFireCooldown(f);
+    }
 				///@brief Is Up currently pressed?
 				///
 				///@return true if Up is currently pressed
@@ -282,6 +352,26 @@ namespace bridges {
 					return ih.keyDown();
 				}
 
+    bool keyDownJustPressed() {
+        return downSM.justPressed();
+    }
+    bool keyDownStillPressed() {
+        return downSM.stillPressed();
+    }
+    bool keyDownJustNotPressed() {
+        return downSM.justNotPressed();
+    }
+    bool keyDownStillNotPressed() {
+        return downSM.stillNotPressed();
+    }
+    bool keyDownFire() {
+        return downSM.fire();
+    }
+    void keyDownSetupFire(int f) {
+        downSM.setFireCooldown(f);
+    }
+
+		  
 				///@brief Is W currently pressed?
 				///
 				///@return true if W is currently pressed
@@ -289,6 +379,25 @@ namespace bridges {
 					return ih.keyW();
 				}
 
+    bool keyWJustPressed() {
+        return wSM.justPressed();
+    }
+    bool keyWStillPressed() {
+        return wSM.stillPressed();
+    }
+    bool keyWJustNotPressed() {
+        return wSM.justNotPressed();
+    }
+    bool keyWStillNotPressed() {
+        return wSM.stillNotPressed();
+    }
+    bool keyWFire() {
+        return wSM.fire();
+    }
+    void keyWSetupFire(int f) {
+        wSM.setFireCooldown(f);
+    }
+		  
 				///@brief Is A currently pressed?
 				///
 				///@return true if A is currently pressed
@@ -296,6 +405,26 @@ namespace bridges {
 					return ih.keyA();
 				}
 
+
+    bool keyAJustPressed() {
+        return aSM.justPressed();
+    }
+    bool keyAStillPressed() {
+        return aSM.stillPressed();
+    }
+    bool keyAJustNotPressed() {
+        return aSM.justNotPressed();
+    }
+    bool keyAStillNotPressed() {
+        return aSM.stillNotPressed();
+    }
+    bool keyAFire() {
+        return aSM.fire();
+    }
+    void keyASetupFire(int f) {
+        aSM.setFireCooldown(f);
+    }
+		  
 				///@brief Is S currently pressed?
 				///
 				///@return true if S is currently pressed
@@ -303,6 +432,26 @@ namespace bridges {
 					return ih.keyS();
 				}
 
+
+    bool keySJustPressed() {
+        return sSM.justPressed();
+    }
+    bool keySStillPressed() {
+        return sSM.stillPressed();
+    }
+    bool keySJustNotPressed() {
+        return sSM.justNotPressed();
+    }
+    bool keySStillNotPressed() {
+        return sSM.stillNotPressed();
+    }
+    bool keySFire() {
+        return sSM.fire();
+    }
+    void keySSetupFire(int f) {
+        sSM.setFireCooldown(f);
+    }
+		  
 				///@brief Is D currently pressed?
 				///
 				///@return true if D is currently pressed
@@ -310,20 +459,72 @@ namespace bridges {
 					return ih.keyD();
 				}
 
+    bool keyDJustPressed() {
+        return dSM.justPressed();
+    }
+    bool keyDStillPressed() {
+        return dSM.stillPressed();
+    }
+    bool keyDJustNotPressed() {
+        return dSM.justNotPressed();
+    }
+    bool keyDStillNotPressed() {
+        return dSM.stillNotPressed();
+    }
+    bool keyDFire() {
+        return dSM.fire();
+    }
+    void keyDSetupFire(int f) {
+        dSM.setFireCooldown(f);
+    }
 				///@brief Is Q currently pressed?
 				///
 				///@return true if S is currently pressed
 				bool keyQ() {
 					return ih.keyQ();
 				}
-
+    bool keyQJustPressed() {
+        return qSM.justPressed();
+    }
+    bool keyQStillPressed() {
+        return qSM.stillPressed();
+    }
+    bool keyQJustNotPressed() {
+        return qSM.justNotPressed();
+    }
+    bool keyQStillNotPressed() {
+        return qSM.stillNotPressed();
+    }
+    bool keyQFire() {
+        return qSM.fire();
+    }
+    void keyQSetupFire(int f) {
+        qSM.setFireCooldown(f);
+    }
 				///@brief Is Space currently pressed?
 				///
 				///@return true if Space is currently pressed
 				bool keySpace() {
 					return ih.keySpace();
 				}
-
+    bool keySpaceJustPressed() {
+        return spaceSM.justPressed();
+    }
+    bool keySpaceStillPressed() {
+        return spaceSM.stillPressed();
+    }
+    bool keySpaceJustNotPressed() {
+        return spaceSM.justNotPressed();
+    }
+    bool keySpaceStillNotPressed() {
+        return spaceSM.stillNotPressed();
+    }
+    bool keySpaceFire() {
+        return spaceSM.fire();
+    }
+    void keySpaceSetupFire(int f) {
+        spaceSM.setFireCooldown(f);
+    }
 		};
 	}
 }
