@@ -104,11 +104,13 @@ namespace bridges {
 		 * }
 		 * \endcode
 		 *
-		 * The gameLoop can also probe the state of some keys
+		 * There are three ways for your game to take input.
+		 *
+		 * The gameLoop can probe the state of some keys
 		 * of the keyboard using functions keyUp(), keyLeft(),
 		 * keyDown(), keyRight(), keyW(), keyA(), keyS(),
 		 * keyD(), keySpace(), and keyQ(). These functions
-		 * return a boolean that indicate whether the key is
+		 * return a boolean that indicates whether the key is
 		 * pressed at that frame or not. For instance, the
 		 * following code will only color the board randomly
 		 * when the up arrow is pressed.
@@ -119,6 +121,54 @@ namespace bridges {
 		 *     setBGColor(rand()%10, rand()%10, NamedColor.lightsalmon);
 		 * }
 		 * \endcode
+		 *
+		 * The previous way will havex an action executed at each
+		 * frame of the game if the key stays pressed. This
+		 * could be cumbersome for some games and you may want
+		 * a key press to be triggered with a cooldown (so
+		 * that it activates only every so many frames). You can
+		 * configure how many frames will pass between two
+		 * activations of the key with keyUpSetupFire() and
+		 * you can tell whether it is a fire frame with
+		 * keyUpFire(). There are similar functions for all
+		 * keys that are recognized by Bridges. See the
+		 * following code for a simple usage:
+		 *
+		 * \code{.cpp}
+		 * virtual void initialize() override {
+		 *   keyUpSetupFire(20); 
+		 * }
+		 * virtual void gameLoop() override {
+		 *   if (keyUpFire()) //will only be true once every 20 frames
+		 *     setBGColor(rand()%10, rand()%10, NamedColor.lightsalmon);
+		 * }
+		 * \endcode		 
+		 *
+		 * Bridges supports a third way to use inputs that
+		 * enables you to know the first frame a key is
+		 * pressed and the first frame a key is no longer
+		 * pressed. You can also know whether a key is still
+		 * being pressed (after the first frame it is being
+		 * pressed) and whether it is still not pressed (after
+		 * the first frame it is no longer pressed). The four
+		 * functions are keyUpJustPressed(),
+		 * keyUpStillPressed(), keyUpJustNotPressed(),
+		 * keyUpStillNotPressed(). The following code
+		 * examplifies the usage of these functions.
+		 *
+		 * \code{.cpp}
+		 * virtual void gameLoop() override {
+		 *   if (keyUpJustPressed())
+		 *     setBGColor(0, 0, NamedColor.lightsalmon);
+		 *   if (keyUpStillPressed())
+		 *     setBGColor(0, 1, NamedColor.lightsalmon);
+		 *   if (keyUpJustNotPressed())
+		 *     setBGColor(0, 2, NamedColor.lightsalmon);
+		 *   if (keyUpStillNotPressed())
+		 *     setBGColor(0, 3, NamedColor.lightsalmon);
+		 * }
+		 * \endcode		 
+		 *
 		 *
 		 * @sa There is a tutorial at: https://bridgesuncc.github.io/tutorials/NonBlockingGame.html
 		 *
