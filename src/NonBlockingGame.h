@@ -3,6 +3,7 @@
 
 #include <GameBase.h>
 #include <InputHelper.h>
+#include <InputStateMachine.h>
 
 namespace bridges {
 	namespace game {
@@ -133,7 +134,8 @@ namespace bridges {
 				typedef std::chrono::steady_clock localclock;
 
 				InputHelper ih;
-
+				InputStateMachine upSM;
+		  
 				double fps = 30.;
 
 				localclock::time_point timeOfLastFrame;
@@ -157,6 +159,9 @@ namespace bridges {
 					timeOfLastFrame = localclock::now();
 				}
 
+		  void updateInputState() {
+		    upSM.update();
+		  }
 
 			public:
 				/// constructor
@@ -167,7 +172,9 @@ namespace bridges {
 				/// @param nbCol         GameGrid width
 				NonBlockingGame(int assignmentID, std::string username,
 					std::string apikey, int nbRow = 10, int nbCol = 10)
-					: GameBase(assignmentID, username, apikey, nbRow, nbCol) {
+				  : GameBase(assignmentID, username, apikey, nbRow, nbCol),
+				    ih(),
+				    upSM([this]() ->bool {return this->ih.keyUp();}) {
 					if (debug)
 						std::cerr << "nbRow: " << nbRow << " nbCol: " <<
 							nbCol << std::endl;
@@ -200,6 +207,7 @@ namespace bridges {
 					}
 					long frame = 0;
 					while (!gameover()) {
+					  updateInputState();
 						gameLoop();
 						render();
 						handleFrameRate();
@@ -241,6 +249,32 @@ namespace bridges {
 					return ih.keyUp();
 				}
 
+
+    bool keyUpJustPressed() {
+        return upSM.justPressed();
+    }
+    bool keyUpStillPressed() {
+        return upSM.stillPressed();
+    }
+    bool keyUpJustNotPressed() {
+        return upSM.justNotPressed();
+    }
+    bool keyUpStillNotPressed() {
+        return upSM.stillNotPressed();
+    }
+    bool keyUpFire() {
+        return upSM.fire();
+    }
+    void keyUpSetupFire(int f) {
+        upSM.setFireCooldown(f);
+    }
+
+
+
+
+
+
+		  
 				///@brief Is Down currently pressed?
 				///
 				///@return true if Down is currently pressed
