@@ -122,7 +122,7 @@ namespace bridges {
 		 * }
 		 * \endcode
 		 *
-		 * The previous way will havex an action executed at each
+		 * The previous way will have an action executed at each
 		 * frame of the game if the key stays pressed. This
 		 * could be cumbersome for some games and you may want
 		 * a key press to be triggered with a cooldown (so
