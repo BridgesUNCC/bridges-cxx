@@ -64,16 +64,16 @@ namespace bridges {
 	  		}
 
 			
-	  		vector<float>  getColors() {
+	  		vector<float>&  getColors() {
 	    		return colors;
 	  		}
 	
-	  		void setColors(vector<float> cols) {
+	  		void setColors(vector<float>& cols) {
 	    		colors = cols;
 	  		}
 
 
-	  		vector<float> getVertices() {
+	  		vector<float>& getVertices() {
 	    		return vertices;
 	  		}
 	
