@@ -38,7 +38,7 @@ namespace bridges {
 				// Scene scene;
 
 			protected:
-				bool debug = false;
+				bool debug = true;
 
 				/**
 				 *  @brief Protected construction prevens direct creation
@@ -50,7 +50,7 @@ namespace bridges {
 				GameBase3D(int assignmentID, std::string username, std::string apikey)
 								: bridges(assignmentID, username, apikey)  {
 
-					bridges.setServer("games");
+					bridges.setServer("local");
 				  
 					sockcon = std::make_unique<SocketConnection>(bridges);
 
@@ -94,13 +94,13 @@ namespace bridges {
 					if (firsttime) {
 						bridges.setJSONFlag(debug);
 
-						bridges.setDataStructure(current_scene);
+						bridges.setDataStructure(*scene);
 
 						bridges.visualize();
 
 						firsttime = false;
 					}
-					sockcon->sendSceneDataToServer(current_scene);
+					sockcon->sendSceneDataToServer(*scene);
 				}
 
 
@@ -129,15 +129,15 @@ namespace bridges {
 
 			public:
 				// current scene object
-				Scene current_scene;
+				//Scene current_scene;
 
 				// accessors
-				void addScene(Scene& sc) {
-					current_scene = sc;
+				void addScene(Scene &sc) {
+					scene = &sc;
 				}
 
-				Scene getCurrentScene() {
-					return current_scene;
+				Scene* getCurrentScene() {
+					return scene;
 				}
 
 				bool gameover() const {

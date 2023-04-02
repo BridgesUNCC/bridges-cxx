@@ -72,10 +72,6 @@ namespace bridges {
 				void start() {
 					timeOfLastFrame = localclock::now();
 					initialize();
-
-					render();
-
-exit(0);
 					long framelimit = -1; //negative means no limit
 					{
 						char* str_limit = getenv("FORCE_BRIDGES_FRAMELIMIT");

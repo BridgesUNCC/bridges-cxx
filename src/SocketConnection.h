@@ -260,7 +260,7 @@ namespace bridges {
 				void sendSceneDataToServer(const Scene& s) {
 					if (debug && debugVerbose)
 						std::cerr << "Sending Scene\n";
-					std::string scenejson = "{" + s.getDataStructureRepresentation();
+					std::string scenejson = s.getDataStructureRepresentation();
 
 					current_socket->emit("scene:recv", scenejson);
 				}
