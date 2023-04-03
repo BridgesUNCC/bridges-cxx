@@ -149,9 +149,10 @@ namespace bridges {
   			// }
 
   			const std::string getDataStructureRepresentation() const override{
-  				std::string terrain_json = QUOTE + "name" + QUOTE + COLON + 
-						QUOTE + name + QUOTE  + COMMA +
-						QUOTE + "type" + QUOTE + COLON + QUOTE + meshType + QUOTE + COMMA +
+  				std::string terrain_json = 
+  				// 		QUOTE + "name" + QUOTE + COLON + 
+						// QUOTE + name + QUOTE  + COMMA +
+						// QUOTE + "type" + QUOTE + COLON + QUOTE + meshType + QUOTE + COMMA +
   						QUOTE + "rows" + QUOTE + COLON + QUOTE + std::to_string(rows) + QUOTE + COMMA +
 						QUOTE + "cols" + QUOTE + COLON + QUOTE + std::to_string(cols)+ QUOTE + COMMA +
 						// terrain vertices

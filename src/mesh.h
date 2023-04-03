@@ -1,6 +1,6 @@
-#ifndef Mesh_H
+#ifndef MESH_H
 
-#define Mesh_H
+#define MESH_H
 
 #include "SceneObject.h"
 #include <string>
@@ -13,7 +13,6 @@ namespace bridges{
 		std::string meshType;
 		std::string name;
 
-		float position[3] = {0.0, 0.0, 0.0};
 		float color[3] = {1.0, 0.0, 1.0};
 
 		Mesh(){}
@@ -31,16 +30,14 @@ namespace bridges{
 			return meshType;
 		}
 
-		void moveTo(float pos[3]) override {
-			position[0] = pos[0];
-			position[1] = pos[1];
-			position[2] = pos[2];
-
-			updatedThisFrame = true;
-		}
-
 		virtual std::string getObjectType(){
 			return "Mesh";
+		}
+
+		void moveTo(float v[3]) override{
+			position[0] = v[0];
+			position[1] = v[1];
+			position[2] = v[2];
 		}
 
 
@@ -56,9 +53,10 @@ namespace bridges{
 		virtual const std::string getDataStructureRepresentation() const override{
 
 				std::string scene_json = "";
-				scene_json += QUOTE + "name" + QUOTE + COLON + 
-				QUOTE + name + QUOTE  + COMMA +
-				QUOTE + "type" + QUOTE + COLON + QUOTE + meshType + QUOTE + COMMA +  
+				scene_json += 
+				// QUOTE + "name" + QUOTE + COLON + 
+				// QUOTE + name + QUOTE  + COMMA +
+				// QUOTE + "type" + QUOTE + COLON + QUOTE + meshType + QUOTE + COMMA +  
 				QUOTE + "position" + QUOTE + COLON + 
 								OPEN_BOX + 
 									std::to_string(position[0]) + COMMA +

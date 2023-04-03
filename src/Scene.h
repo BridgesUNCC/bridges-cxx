@@ -105,6 +105,7 @@ namespace bridges  {
     				if(o.second->updatedThisFrame){
     					scene_json += OPEN_CURLY;
     					objectUpdated = true;
+    					scene_json += o.second->getJSONHeader();
     					scene_json += o.second->getDataStructureRepresentation();
     					o.second->updatedThisFrame = false;
     				}
