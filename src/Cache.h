@@ -63,6 +63,8 @@ namespace bridges {
 
 			//make a directory called s or throw an exception
 			void makeDirectory (const std::string &s) {
+			  //ideally we would use std::filesystem::create_directories to make the directories recursively.
+			  //but this is a C++17 thing. And we maintain compatibility with C++14.
 #ifndef _WIN32
 				int ret = mkdir(s.c_str(), 0700);
 #endif
