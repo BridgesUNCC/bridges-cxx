@@ -8,10 +8,26 @@
 #include <direct.h>
 #endif
 
+#if __cplusplus >= 201703L
+#include <filesystem>
+#endif
+
 namespace bridges {
 
 
 	class CacheException : public std::exception {
+	  const char* whatmsg;
+	public:
+	  
+	  CacheException(const char* what_msg="")
+	    :std::exception(),whatmsg(what_msg) {
+	    
+	  }
+
+	  virtual const char* what() const noexcept {
+	    return whatmsg;
+	  }
+	  
 	};
 
 	class Cache {
@@ -54,7 +70,7 @@ namespace bridges {
 						return true;
 					}
 					else {
-						throw CacheException(); //s exist but is not a directory
+						throw CacheException("Expect directory"); //s exist but is not a directory
 					}
 				}
 
@@ -62,19 +78,31 @@ namespace bridges {
 			}
 
 			//make a directory called s or throw an exception
-			void makeDirectory (const std::string &s) {
-			  //ideally we would use std::filesystem::create_directories to make the directories recursively.
-			  //but this is a C++17 thing. And we maintain compatibility with C++14.
+			static void makeDirectory (const std::string &s) {
+#if __cplusplus >= 201703L
+			  //C++17 support
+
+			  //we can use std::filesystem::create_directories to make the directories recursively.
+
+			  bool ret = std::filesystem::create_directories(s);
+			  if (!ret)
+					throw CacheException("error in makeDirectory");
+
+#else
+			  //No C++17 support. So no std::filesystem support
+			  //So forgo recursive creation. Probably not worth the cost of writing the code.
 #ifndef _WIN32
 				int ret = mkdir(s.c_str(), 0700);
 #endif
 #ifdef _WIN32
 				int ret = _mkdir(s.c_str());
 #endif
-
-
 				if (ret != 0)
-					throw CacheException();
+					throw CacheException("error in makeDirectory");
+
+#endif
+
+
 			}
 
 		public:
@@ -129,7 +157,7 @@ namespace bridges {
 				std::ifstream in(filename);
 
 				if (!in.good() || !(in.is_open()))
-					throw CacheException();
+					throw CacheException("Can't open file to read");
 
 
 				std::string contents;
@@ -138,7 +166,7 @@ namespace bridges {
 				in.seekg(0, std::ios::beg);
 				in.read(&contents[0], contents.size());
 				if (! (in.good()))
-					throw CacheException();
+					throw CacheException("Error while reading cache document");
 				in.close();
 				return (contents);
 
@@ -155,11 +183,11 @@ namespace bridges {
 
 				std::ofstream out(filename);
 				if (!out.good() || !(out.is_open()))
-					throw CacheException();
+					throw CacheException("can't open file to store");
 
 				out << content.c_str(); //this assumes string isn't binary
 				if (!out.good() || !(out.is_open()))
-					throw CacheException();
+					throw CacheException("error while writing cache document");
 
 			}
 
