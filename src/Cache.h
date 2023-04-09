@@ -11,7 +11,7 @@
 namespace bridges {
 
 
-	class CacheException : std::exception {
+	class CacheException : public std::exception {
 	};
 
 	class Cache {
