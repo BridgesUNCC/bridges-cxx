@@ -991,7 +991,7 @@ cout << url << endl;
 			 */
 			OSMData getOSMData (string location, string level = "default") {
 				//URL for hash request
-				string hash_url = getOSMBaseURL() + " hash?location=" +
+				string hash_url = getOSMBaseURL() + "hash?location=" +
 					ServerComm::encodeURLPart(location) +
 					"&level=" + ServerComm::encodeURLPart(level);
 
