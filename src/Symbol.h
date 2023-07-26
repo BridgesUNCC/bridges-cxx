@@ -415,7 +415,7 @@ namespace bridges {
 					};
 
 					// update current transform matrix
-					matMult (xform, transl, result);
+					matMult (transl, xform, result);
 					copyMat (result, xform);
 
 					xform_flag = true;
@@ -436,7 +436,7 @@ namespace bridges {
 					};
 
 					// update current transform matrix
-					matMult (xform, scale, result);
+					matMult (scale, xform, result);
 					copyMat (result, xform);
 
 					xform_flag = true;
@@ -475,7 +475,7 @@ namespace bridges {
 					};
 
 					// update current transform matrix
-					matMult (xform, rotation, result);
+					matMult (rotation, xform, result);
 					copyMat (result, xform);
 
 					xform_flag = true;
@@ -506,7 +506,7 @@ namespace bridges {
 					matMult (transl2, result, result2);
 
 					// update current transform matrix
-					matMult (xform, result2, result);
+					matMult (result2, xform, result);
 					copyMat (result, xform);
 
 					xform_flag = true;
@@ -544,7 +544,7 @@ namespace bridges {
 					matMult (transl2, result, result2);
 
 					// update current transform matrix
-					matMult (xform, result2, result);
+					matMult (result2, xform, result);
 					copyMat (result, xform);
 
 					xform_flag = true;
