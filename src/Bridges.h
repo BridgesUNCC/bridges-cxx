@@ -480,6 +480,10 @@ namespace bridges {
 				wc_window.push_back(ymax);
 			}
 
+	  string getVisualizeURL() const {
+	    return BASE_URL + to_string(getAssignment()) + "/" + getUserName();
+	  }
+	  
 			/**
 			 *
 			 * 	Sends relevant meta-data and representation of the data structure to the BRIDGES server,
@@ -550,7 +554,7 @@ namespace bridges {
 					if (post_visualization_link) {
 						cout << "Success: Assignment posted to the server. " << endl
 							<< "Check out your visualization at:" << endl << endl
-							<< BASE_URL + to_string(getAssignment()) + "/" + getUserName() << endl << endl;
+						     << getVisualizeURL() << endl << endl;
 					}
 					subAssignNum++;
 				}
