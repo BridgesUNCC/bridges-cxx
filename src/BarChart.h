@@ -16,6 +16,8 @@ namespace bridges{
 			std::string yLabel;
 			std::string plotTitle;
 			std::string plotSubTitle;
+			std::string tooltipSuffix;
+			std::string alignment;
 
 			unordered_map<string, vector<double>> seriesData;
 			std::vector<std::string> seriesBins;
@@ -26,6 +28,8 @@ namespace bridges{
 				plotSubTitle = "";
 				yLabel = "";
 				xLabel = "";
+				tooltipSuffix = "";
+				alignment = "horizontal";
 			}
 
 			/**
@@ -77,7 +81,7 @@ namespace bridges{
 			 *
 			 * @param yaxisName label to show for the Y-axis
 			 **/
-			void setYLabel(std::string yaxisName) {
+			void setSeriesLabel(std::string yaxisName) {
 				yLabel = yaxisName;
 			}
 
@@ -86,7 +90,7 @@ namespace bridges{
 			 *
 			 * @return label shown for the Y-axis
 			 **/
-			std::string getYLabel() const {
+			std::string getSeriesLabel() const {
 				return yLabel;
 			}
 
@@ -95,7 +99,7 @@ namespace bridges{
 			 *
 			 * @param xaxisName label to use for the X-axis
 			 **/
-			void setXLabel(std::string xaxisName) {
+			void setBinsLabel(std::string xaxisName) {
 				xLabel = xaxisName;
 			}
 
@@ -104,8 +108,24 @@ namespace bridges{
 			 *
 			 * @return label shown for the Y-axis
 			 **/
-			std::string getXLabel() const {
+			std::string getBinsLabel() const {
 				return xLabel;
+			}
+
+			void setBarAlignment(std::string align){
+				alignment = align;
+			}
+
+			std::string getBarAlignment() const {
+				return alignment;
+			}
+
+			void setTooltipSuffix(std::string suffix){
+				tooltipSuffix = suffix;
+			}
+
+			std::string getTooltipSuffix() const {
+				return tooltipSuffix;
 			}
 
 			void setSeriesBins(std::vector<std::string> bins){
@@ -153,7 +173,10 @@ namespace bridges{
 
 					std::string json_str = JSONencode("plot_title") + COLON +  JSONencode(getTitle()) + COMMA +
 						JSONencode("subtitle") + COLON + JSONencode(getSubTitle())  + COMMA +
-						JSONencode("xLabel") + COLON + JSONencode(getXLabel()) +  COMMA +
+						JSONencode("xLabel") + COLON + JSONencode(getBinsLabel()) +  COMMA +
+						JSONencode("yLabel") + COLON + JSONencode(getSeriesLabel()) + COMMA +
+						JSONencode("tooltipSuffix") + COLON + JSONencode(getTooltipSuffix()) + COMMA +
+						JSONencode("alignment") + COLON + JSONencode(getBarAlignment()) + COMMA +
 						JSONencode("xaxis_data") + COLON + OPEN_CURLY + bins + CLOSE_CURLY + COMMA +
 						JSONencode("yaxis_data") + COLON + OPEN_CURLY + series + CLOSE_CURLY + CLOSE_CURLY;
 
