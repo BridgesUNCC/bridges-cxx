@@ -94,7 +94,6 @@ namespace bridges {
 					double reflat = 40.74; //New York City, NC
 					double reflong = -73.98;
 
-
 					for (double radius = 0.02; radius < 0.15; radius += 0.02) {
 						std::cerr << "*" << std::flush;
 						//std::tie(vertexCount, edgeCount)= generateWikidataMovieActor(year, 2019, graph);
@@ -106,7 +105,6 @@ namespace bridges {
 
 						long vertexCount = countVertices(graph);
 						long edgeCount = countEdges(graph);
-
 
 						int root = getCenter(osm_data, graph, reflat, reflong);
 
@@ -120,7 +118,6 @@ namespace bridges {
 						std::chrono::time_point<std::chrono::system_clock> end = std::chrono::system_clock::now();
 
 						std::chrono::duration<double> elapsed_seconds = end - start;
-
 
 						time.push_back ((double)elapsed_seconds.count() );
 						vtxCounts.push_back ( (double)vertexCount );

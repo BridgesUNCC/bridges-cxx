@@ -9,7 +9,7 @@ namespace bridges {
 
 		/**
 		 * @brief This class is an extension of the NonBlockingGame class to 3D game
-         *    environments
+		 *    environments
 		 *
 		 * The games that can be created out of NonBlockingGame3D are
 		 * currently based on terrain models and simple interactions with them
@@ -50,7 +50,6 @@ namespace bridges {
 					timeOfLastFrame = localclock::now();
 				}
 
-
 			public:
 				/// constructor
 				/// @param assignmentID  Bridges assignment id
@@ -58,15 +57,15 @@ namespace bridges {
 				/// @param apikey        Bridges API authentication key
 				/// @param nbRow         GameGrid height
 				/// @param nbCol         GameGrid width
-				NonBlockingGame3D(int assignmentID, std::string username, 
-											std::string apikey)
-							: GameBase3D(assignmentID, username, apikey) {
+				NonBlockingGame3D(int assignmentID, std::string username,
+					std::string apikey)
+					: GameBase3D(assignmentID, username, apikey) {
 
 					registerKeyListener(&ih);
 				}
 
-		  virtual ~NonBlockingGame3D() =default;
-		  
+				virtual ~NonBlockingGame3D() = default;
+
 				/// @brief Call this function from main to start the game. Runs
 				/// exactly once.
 				void start() {
@@ -75,7 +74,7 @@ namespace bridges {
 
 					render();
 
-exit(0);
+					exit(0);
 					long framelimit = -1; //negative means no limit
 					{
 						char* str_limit = getenv("FORCE_BRIDGES_FRAMELIMIT");
@@ -96,7 +95,6 @@ exit(0);
 							quit();
 					}
 				}
-
 
 			protected:
 				/// @brief What frame rate is the game running at?

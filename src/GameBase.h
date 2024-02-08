@@ -3,8 +3,6 @@
 
 #include <SocketConnection.h>
 
-
-
 namespace bridges {
 	namespace game {
 		/**
@@ -30,14 +28,11 @@ namespace bridges {
 
 				bool firsttime = true;
 
-
-
 				bool bquit = false;
 				std::unique_ptr<SocketConnection> sockcon;
 
 			protected:
 				bool debug = false;
-
 
 				/**
 				 *  @brief Protected constructed prevens direct creation
@@ -50,8 +45,8 @@ namespace bridges {
 					std::string apikey, int nbRow = 10, int nbColumn = 10)
 					: bridges(assignmentID, username, apikey), gg(nbRow,
 						  nbColumn) {
-				  bridges.setServer("games");
-				  
+					bridges.setServer("games");
+
 					sockcon = std::make_unique<SocketConnection>(bridges);
 
 					if (debug)
@@ -59,7 +54,7 @@ namespace bridges {
 							nbColumn << std::endl;
 				}
 
-		  virtual ~GameBase() =default;
+				virtual ~GameBase() = default;
 
 				/// @brief This function is called once when the game starts.
 				///
@@ -72,7 +67,6 @@ namespace bridges {
 				/// Students write this function.
 				/// It will be called at each frame of the game.
 				virtual void gameLoop () = 0;
-
 
 			protected:
 				/// @brief register a new KeypressListener

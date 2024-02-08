@@ -4,7 +4,6 @@
 
 using namespace std;
 
-
 #ifndef  POLYLINE_H
 
 #define POLYLINE_H
@@ -107,7 +106,6 @@ namespace bridges {
 					center[0] = bbox[0] + (bbox[2] - bbox[0]) / 2.;
 					center[1] = bbox[1] + (bbox[3] - bbox[1]) / 2.;
 				}
-
 
 				/**
 				 * @brief This method returns the JSON representation of the shape

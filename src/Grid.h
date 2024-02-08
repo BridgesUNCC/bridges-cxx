@@ -26,7 +26,6 @@ namespace bridges {
 		 *
 		 **/
 
-
 		template <typename E>
 		class Grid : public  DataStructure {
 
@@ -55,7 +54,6 @@ namespace bridges {
 						throw "invalid location in Grid";
 
 				}
-
 
 			protected:
 				E  **grid = nullptr;
@@ -90,7 +88,6 @@ namespace bridges {
 				Grid()
 					: Grid(10, 10) {
 				}
-
 
 				/**
 				 *
@@ -141,7 +138,6 @@ namespace bridges {
 					return *this;
 				}
 
-
 				/**
 				 * @brief Construct the grid given the dimensions
 				 *
@@ -168,8 +164,6 @@ namespace bridges {
 				int const * getDimensions() {
 					return gridSize;
 				}
-
-
 
 				/**
 				 * @brief Get the (row, col) element in the grid
@@ -242,7 +236,6 @@ namespace bridges {
 				BracketHelper operator[] (int row)  {
 					return BracketHelper(*this, row);
 				}
-
 
 		}; // end class Grid
 	}

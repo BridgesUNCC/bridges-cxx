@@ -31,7 +31,6 @@ namespace bridges {
 		 * @param E
 		 */
 
-
 		template <typename K, typename E2 = K>
 		class Edge {
 			private:
@@ -77,7 +76,6 @@ namespace bridges {
 				const K& from() const {
 					return fromv;
 				}
-
 
 				/**
 				 *  @brief Destination vertex accessor

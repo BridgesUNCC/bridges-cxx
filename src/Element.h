@@ -48,7 +48,6 @@ namespace bridges {
 		 * 	@date 6/11/15, 11/27/16, 7/12/19, 12/28/20
 		 */
 
-
 		template <typename E> class Element {
 				//Used for access to generateJSON() and for links manipulation
 				template <typename K, typename E1, typename E2> friend class GraphAdjList;
@@ -79,8 +78,6 @@ namespace bridges {
 					};
 					return sn;
 				}
-
-
 
 				//this element's label
 				string label;
@@ -273,7 +270,6 @@ namespace bridges {
 				static const string getLinkRepresentation(const LinkVisualizer& lv,
 					const string& src, const string& dest) {
 					using bridges::JSONUtil::JSONencode;
-
 
 					//write out LinkVisualizer properties
 					return OPEN_CURLY +

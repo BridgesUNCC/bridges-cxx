@@ -32,7 +32,6 @@ namespace bridges {
 				bool q = false;
 				bool space = false;
 
-
 			private:
 				void handleKey(std::string JSONmessage) {
 					using namespace rapidjson;
@@ -69,7 +68,6 @@ namespace bridges {
 						space = setto;
 				}
 
-
 			protected:
 				virtual void keyup(std::string JSONmessage) override {
 					if (debug)
@@ -82,7 +80,6 @@ namespace bridges {
 						std::cerr << "InputHelper::keydown(\"" << JSONmessage << "\")\n";
 					handleKey(JSONmessage);
 				}
-
 
 			public:
 

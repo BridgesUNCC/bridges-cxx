@@ -101,7 +101,6 @@ namespace bridges {
 					return  Array<E>::setElement(indx, e);
 				}
 
-
 				///enabling range for loops
 				class iterator {
 						Array1D<E>& arr;

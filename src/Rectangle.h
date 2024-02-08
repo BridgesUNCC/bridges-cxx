@@ -2,7 +2,6 @@
 #include "Symbol.h"
 #include <vector>
 
-
 using namespace std;
 
 #ifndef  RECTANGLE_H
@@ -33,7 +32,6 @@ namespace bridges {
 					return "rect";
 				}
 
-				
 			public:
 				/**
 				 *  @brief default constructor - rectangle with lower left
@@ -115,23 +113,23 @@ namespace bridges {
 				 * @return none
 				 */
 				void setRectangle(double llx, double lly, double w, double h) {
-				  setLL(llx, lly);
+					setLL(llx, lly);
 					setWidth(w);
 					setHeight(h);
 				}
-		  void setLL(double llx, double lly) {
-		    ll_x = llx;
-		    ll_y = lly;
-		  }
+				void setLL(double llx, double lly) {
+					ll_x = llx;
+					ll_y = lly;
+				}
 
-		  double getLLX () const {
-		    return ll_x;
-		  }
+				double getLLX () const {
+					return ll_x;
+				}
 
-		  double getLLY () const {
-		    return ll_y;
-		  }
-		  
+				double getLLY () const {
+					return ll_y;
+				}
+
 				/**
 				 * @brief This method returns the JSON representation of the shape
 				 *
@@ -142,10 +140,10 @@ namespace bridges {
 					string shape_json = getSymbolAttributeRepresentation();
 
 					// set up width and height of rectangles
-					shape_json += 
-						QUOTE + "lowerleftcorner" + QUOTE + COLON + 
-						OPEN_BOX + 
-							to_string(ll_x) + COMMA + to_string(ll_y) +
+					shape_json +=
+						QUOTE + "lowerleftcorner" + QUOTE + COLON +
+						OPEN_BOX +
+						to_string(ll_x) + COMMA + to_string(ll_y) +
 						CLOSE_BOX + COMMA +
 						QUOTE + "width" + QUOTE + COLON + to_string(width) + COMMA +
 						QUOTE + "height" + QUOTE + COLON + to_string(height) +

@@ -75,7 +75,6 @@ namespace bridges {
 					initializeGrid(color);
 				}
 
-
 				/**
 				 * Copy Constructor
 				 **/
@@ -253,10 +252,8 @@ namespace bridges {
 						QUOTE + CLOSE_BOX +
 						CLOSE_CURLY;
 
-
 					return grid_json;
 				}
-
 
 		};
 	}

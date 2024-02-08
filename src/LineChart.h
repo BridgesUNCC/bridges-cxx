@@ -157,7 +157,6 @@ namespace bridges {
 					return plotSubtitle;
 				}
 
-
 				/**
 				 * @brief Change the label for the Y-axis
 				 *
@@ -194,7 +193,6 @@ namespace bridges {
 					return xLabel;
 				}
 
-
 				/**
 				 * @brief Add a series (or update it)
 				 *
@@ -206,7 +204,6 @@ namespace bridges {
 					setXData(seriesName, xdata);
 					setYData(seriesName, ydata);
 				}
-
 
 				/**
 				 * @brief Changes the X data for a series
@@ -340,7 +337,6 @@ namespace bridges {
 						yaxis_json += CLOSE_BOX + CLOSE_CURLY + COMMA;
 					}
 					yaxis_json = yaxis_json.erase(yaxis_json.length() - 1);
-
 
 					string json_str = JSONencode("plot_title") + COLON +  JSONencode(getTitle()) + COMMA +
 						JSONencode("subtitle") + COLON + JSONencode(getSubTitle())  + COMMA +

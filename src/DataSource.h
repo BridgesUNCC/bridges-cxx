@@ -37,16 +37,11 @@ using namespace std;
 #include <sys/stat.h>
 #include <stdio.h>
 
-
 #include <Cache.h>
-
 
 namespace bridges {
 	using namespace bridges::dataset;
 	using namespace bridges::datastructure;
-
-
-
 
 	/**
 	 * @brief This class provides an API to various data sources used in BRIDGES.
@@ -77,7 +72,6 @@ namespace bridges {
 			bridges::Bridges* bridges_inst;
 			bridges::lruCache my_cache;
 
-
 			string getOSMBaseURL() const {
 				if (sourceType == "local")
 					return "http://localhost:3000/";
@@ -94,7 +88,7 @@ namespace bridges {
 				if (sourceType == "local")
 					return "http://localhost:3000/";
 
-				if (sourceType == "testing") 
+				if (sourceType == "testing")
 					return "http://bridges-data-server-gutenberg-t.bridgesuncc.org/";
 
 				return "http://bridges-data-server-gutenberg.bridgesuncc.org/";
@@ -103,8 +97,8 @@ namespace bridges {
 				if (sourceType == "testing")
 					return "http://bridges-data-server-reddit-t.bridgesuncc.org";
 				else if (sourceType == "local")
-        			return "http://localhost:9999";
-    			else
+					return "http://localhost:9999";
+				else
 					return "http://bridges-data-server-reddit.bridgesuncc.org";
 			}
 
@@ -121,12 +115,12 @@ namespace bridges {
 			DataSource(bridges::Bridges& br )
 				: DataSource(&br) {}
 
-			/** 
+			/**
 			 *  @brief set data server type
 			 *
 			 *	@param string  data server type, can be 'live', 'testing', or 'local')
 			 *  @throws exception if incorrect type is passed
-	 		 *
+			 *
 			 */
 			void setSourceType(string type) {
 				if ( !((type == "live") || (type == "testing") || (type == "local")))
@@ -144,18 +138,18 @@ namespace bridges {
 			 *			parameters provided as a map. Multiple parameters will result
 			 * 			in filtering as a combination (intersection)
 			 *			Available parameters and their  types are as follows:
-	         *         'city' : string
-	         *         'state' : string
-	         *         'country' : string
-	         *         'time_zone' : string
-	         *         'min_elev' : integer
-	         *         'max_elev' : integer
-	         *         'min_pop' : integer
-	         *         'max_pop' : integer
-	         *         'min_lat' : float -- Lat minimum
-	         *         'max_lat' : float -- Lat maximum
-	         *         'min_long' : float -- Lat minimum
-	         *         'max_long' : float -- Lat maximum
+			 *         'city' : string
+			 *         'state' : string
+			 *         'country' : string
+			 *         'time_zone' : string
+			 *         'min_elev' : integer
+			 *         'max_elev' : integer
+			 *         'min_pop' : integer
+			 *         'max_pop' : integer
+			 *         'min_lat' : float -- Lat minimum
+			 *         'max_lat' : float -- Lat maximum
+			 *         'min_long' : float -- Lat minimum
+			 *         'max_long' : float -- Lat maximum
 			 *		   'limit' : integer -- max number of cities to return
 			 *
 			 */
@@ -163,49 +157,55 @@ namespace bridges {
 				// check the parameters for illegal keys
 				// get the legal keys into a set
 				set<string> keys;
-				keys.insert("city"); keys.insert("state"); keys.insert("country");
-				keys.insert("min_elev"); keys.insert("max_elev");
-				keys.insert("min_pop"); keys.insert("max_pop");
-				keys.insert("min_long"); keys.insert("max_long");
-				keys.insert("min_lat"); keys.insert("max_lat");
-				keys.insert("limit"); keys.insert("time_zone");
-		
+				keys.insert("city");
+				keys.insert("state");
+				keys.insert("country");
+				keys.insert("min_elev");
+				keys.insert("max_elev");
+				keys.insert("min_pop");
+				keys.insert("max_pop");
+				keys.insert("min_long");
+				keys.insert("max_long");
+				keys.insert("min_lat");
+				keys.insert("max_lat");
+				keys.insert("limit");
+				keys.insert("time_zone");
+
 				unordered_map<string, string>::iterator it;
 				for (it = params.begin(); it != params.end(); it++) {
 					if (keys.find(it->first) == keys.end())
-						throw std::invalid_argument ("\n\nKey value : " + it->first + 
+						throw std::invalid_argument ("\n\nKey value : " + it->first +
 							" incorrect\n\n Legal key values: \n   'city', 'state', 'country', 'min_lat', 'max_lat', 'min_long', 'max_long', 'min_pop', 'max_pop', 'time_zone', 'limit' ");
 				}
 
-
 				string url = getUSCitiesURL() + "?";
-				if (params.find("city") != params.end()) 
+				if (params.find("city") != params.end())
 					url += "city=" + params["city"] + "&";
-				if (params.find("state") != params.end()) 
+				if (params.find("state") != params.end())
 					url += "state=" + params["state"] + "&";
-				if (params.find("country") != params.end()) 
+				if (params.find("country") != params.end())
 					url += "country=" + params["country"] + "&";
-				if (params.find("min_lat") != params.end()) 
+				if (params.find("min_lat") != params.end())
 					url += "minLat=" + params["min_lat"] + "&";
-				if (params.find("max_lat") != params.end()) 
+				if (params.find("max_lat") != params.end())
 					url += "maxLat=" + params["max_lat"] + "&";
-				if (params.find("min_long") != params.end()) 
+				if (params.find("min_long") != params.end())
 					url += "minLong=" + params["min_long"] + "&";
-				if (params.find("max_long") != params.end()) 
+				if (params.find("max_long") != params.end())
 					url += "maxLong=" + params["max_long"] + "&";
-				if (params.find("min_elev") != params.end()) 
+				if (params.find("min_elev") != params.end())
 					url += "minElevation=" + params["min_elev"] + "&";
-				if (params.find("max_elev") != params.end()) 
+				if (params.find("max_elev") != params.end())
 					url += "maxElevation=" + params["max_elev"] + "&";
-				if (params.find("min_pop") != params.end()) 
+				if (params.find("min_pop") != params.end())
 					url += "minPopulation=" + params["min_pop"] + "&";
-				if (params.find("maxPopulation") != params.end()) 
+				if (params.find("maxPopulation") != params.end())
 					url += "max_pop=" + params["max_pop"] + "&";
-				if (params.find("limit") != params.end()) 
+				if (params.find("limit") != params.end())
 					url += "limit=" + params["limit"] + "&";
 
 				// remove the last &
-				url = url.substr(0, url.length()-1);
+				url = url.substr(0, url.length() - 1);
 
 				// make the request
 				using namespace rapidjson;
@@ -307,7 +307,6 @@ namespace bridges {
 				}
 				return wrapper;
 			}
-
 
 			/**
 			 *  @brief Get ActorMovie IMDB Data
@@ -488,7 +487,7 @@ namespace bridges {
 					n++;
 				}
 				if (debug())
-				  std::cerr<<"url: "<<url<<"\n";
+					std::cerr << "url: " << url << "\n";
 				d.Parse(ServerComm::makeRequest( url, {"Accept: application/json"}).c_str());
 
 				string artist 	= (d.HasMember("artist")) ?
@@ -572,7 +571,7 @@ namespace bridges {
 
 				const Value& A = V["authors"];
 				vector<string> authors;
-				for (SizeType j = 0; j < A.Size(); j++) 
+				for (SizeType j = 0; j < A.Size(); j++)
 					authors.push_back(A[j].GetString());
 
 				const Value& L = V["lang"];
@@ -583,7 +582,7 @@ namespace bridges {
 
 				const Value& G = V["genres"];
 				vector<string> genres;
-				for (SizeType j = 0; j < G.Size(); j++) 
+				for (SizeType j = 0; j < G.Size(); j++)
 					genres.push_back(G[j].GetString());
 
 				GutenbergBook gbook = GutenbergBook(title, id, authors, lang, genres, data_added);
@@ -613,46 +612,46 @@ namespace bridges {
 				// make the query
 				Document d;
 				d.Parse(ServerComm::makeRequest( url, {"Accept: application/json"}).c_str());
-				// only 1 book 
+				// only 1 book
 				return getAGutenbergBookMetaData(d["book_list"][0]);
 			}
 			/**
 			 * @brief Search the gutenberg data for retrieving meta
 			 *   data of books matching a string and a category
-             *
+			 *
 			 *  Data is retrieved  into a vector of book records
-			 *  
-			 *  @param term  a string that matches the category 
-			 *  @param category  category can be any book attribute (title, genre, 
+			 *
+			 *  @param term  a string that matches the category
+			 *  @param category  category can be any book attribute (title, genre,
 			 *					date, Library of Congress class, language)
 			 */
 			vector<GutenbergBook> getGutenbergBookMetaData(string term, string category) {
 				using namespace rapidjson;
 
 				// get the query string to get meta data of book
-				string url = getGutenbergBaseURL() + "/search?search=" + 
-							ServerComm::encodeURLPart(term)+ "&type=" 
-							+ ServerComm::encodeURLPart(category);
+				string url = getGutenbergBaseURL() + "/search?search=" +
+					ServerComm::encodeURLPart(term) + "&type="
+					+ ServerComm::encodeURLPart(category);
 				// make the query
-cout << url << endl;
+				cout << url << endl;
 				Document d;
 				d.Parse(ServerComm::makeRequest(url, {"Accept: application/json"}).c_str());
 
 				vector<GutenbergBook> book_list;
-				int size= d["book_list"].Size();
+				int size = d["book_list"].Size();
 
 				book_list.clear();
 				for (int k = 0; k < size; k++)
 					book_list.push_back(getAGutenbergBookMetaData(d["book_list"][k]));
 
 				return book_list;
-            }
+			}
 
 			/**
 			 * @brief Get the full text of the book with the provided id
-             *
+			 *
 			 *  Data is retrieved  into a text string
-			 *  
+			 *
 			 *  @param id  id of Gutenberg book
 			 */
 			string getGutenbergBookText(int id = 0)  {
@@ -827,7 +826,6 @@ cout << url << endl;
 					"&maxLat=" + std::to_string(lat_max) +
 					"&level="  + ServerComm::encodeURLPart(level);
 
-
 				//URL to request map
 				string osm_url =
 					getOSMBaseURL() + "coords?minLon=" + std::to_string(long_min) +
@@ -835,7 +833,6 @@ cout << url << endl;
 					"&maxLon=" + std::to_string(long_max) +
 					"&maxLat=" + std::to_string(lat_max) +
 					"&level="  + ServerComm::encodeURLPart(level);
-
 
 				// get the data set from the server or, if available, from
 				// a local cache
@@ -855,7 +852,7 @@ cout << url << endl;
 			 *  @param maxLon  maximum longitude
 			 *  @param amenity  amenity type
 			 *
-			 * 	@return vector<Amenity> containing list of amenities 
+			 * 	@return vector<Amenity> containing list of amenities
 			 *
 			 * 	@throws exception
 			 */
@@ -891,7 +888,7 @@ cout << url << endl;
 			 *  @param location city/town from where amenity data is sought
 			 *  @param amenity  amenity type
 			 *
-			 * @return vector<Amenity> containing list of amenities 
+			 * @return vector<Amenity> containing list of amenities
 			 *
 			 *  @throws exception
 			 */
@@ -905,7 +902,6 @@ cout << url << endl;
 					ServerComm::encodeURLPart(location) +
 					"&amenity=" + ServerComm::encodeURLPart(amenity);
 
-
 				// make the query to the server to get a JSON of the amenities
 				// implements caching to keep local copies
 				string amenity_json = getDataSetJSON(amenity_url, hash_url, "amenity");
@@ -915,13 +911,13 @@ cout << url << endl;
 			}
 
 			/**
-			 * @brief Parses  the amenity string and returns an AmenityData 
+			 * @brief Parses  the amenity string and returns an AmenityData
 			 *			object
 			 *
-			 * @param amenity_json  string of the url that will be used 
+			 * @param amenity_json  string of the url that will be used
 			 *	when requesting amenity data from server
 			 *
-			 * @return vector<Amenity> containing list of amenities 
+			 * @return vector<Amenity> containing list of amenities
 			 *
 			 * @throws If there is an error parsing response from
 			 *      server or is an invalid location name
@@ -939,11 +935,11 @@ cout << url << endl;
 						const Value& meta = amenity_content["meta"];
 
 						// first get the meta data
-					//	amenities.setCount(meta["count"].GetInt64());
-					//	amenities.setMinLat(meta["minlat"].GetDouble());
-					//	amenities.setMinLon(meta["minlon"].GetDouble());
-					//	amenities.setMaxLat(meta["maxlat"].GetDouble());
-					//	amenities.setMaxLon(meta["maxlon"].GetDouble());
+						//	amenities.setCount(meta["count"].GetInt64());
+						//	amenities.setMinLat(meta["minlat"].GetDouble());
+						//	amenities.setMinLon(meta["minlon"].GetDouble());
+						//	amenities.setMaxLat(meta["maxlat"].GetDouble());
+						//	amenities.setMaxLon(meta["maxlon"].GetDouble());
 
 						Amenity amen;
 						for (SizeType i = 0; i < nodes.Size(); i++) {
@@ -1070,7 +1066,6 @@ cout << url << endl;
 						nodes->value.IsArray() == false)
 						throw "Malformed GraphAdjacencyList JSON: malformed nodes";
 
-
 					const auto& nodeArray = nodes->value.GetArray();
 					int nbVertex = nodeArray.Size();
 					for (int i = 0; i < nbVertex; ++i) {
@@ -1119,7 +1114,6 @@ cout << url << endl;
 						}
 						src = srcJSON->value.GetInt();
 
-
 						//checking destination
 						const auto& dstJSON = linkJSONstr.FindMember("target");
 						if (dstJSON == linkJSONstr.MemberEnd()
@@ -1135,7 +1129,6 @@ cout << url << endl;
 							throw "Malformed GraphAdjacencyList JSON: malformed link";
 						}
 						wgt = wgtJSON->value.GetInt();
-
 
 						//adding edge.
 						gr.addEdge(src, dest, name);
@@ -1173,14 +1166,12 @@ cout << url << endl;
 					throw "Malformed JSON: Not a Bridges assignment?";
 				}
 
-
 				try {
 					auto& data = doc["data"][0];
 
 					std::string encoding = data["encoding"].GetString();
 					if (encoding != "RAW" && encoding != "RLE")
 						throw "Malformed ColorGrid JSON: encoding not supported";
-
 
 					//Access doc["data"][0]["dimensions"]
 					const auto& dimensions = data["dimensions"];
@@ -1193,11 +1184,9 @@ cout << url << endl;
 					//Access doc["data"][0]["nodes"][0]
 					std::string base64_encoded_assignment = data["nodes"][0].GetString();
 
-
 					std::vector<bridges::BYTE> decoded = bridges::base64::decode(base64_encoded_assignment);
 
 					bridges::ColorGrid cg (dimx, dimy);
-
 
 					if (encoding == "RAW") {
 						if (debug())
@@ -1236,8 +1225,6 @@ cout << url << endl;
 						while (currentInDecoded != decoded.size()) {
 							if (currentInDecoded + 5 > decoded.size())
 								throw "Malformed ColorGrid JSON: nodes is not a multiple of 5";
-
-
 
 							int repeat = (BYTE) decoded[currentInDecoded++];
 							int r = (BYTE) decoded[currentInDecoded++];
@@ -1308,12 +1295,10 @@ cout << url << endl;
 
 				std::string url = ss.str();
 
-
 				std::string s = bridges::ServerComm::makeRequest(url, headers);
 
 				return s;
 			}
-
 
 			void removeFirstOccurence (std::string & str, const std::string & toRemove) {
 				size_t pos = str.find(toRemove);
@@ -1346,7 +1331,6 @@ cout << url << endl;
 					std::cout << "Exception while reading from cache. Ignoring cache and continue." << std::endl;
 				}
 
-
 				if (!from_cache) {
 					std::vector<std::string> http_headers;
 					http_headers.push_back("User-Agent: bridges-cxx"); //wikidata kicks you out if you don't have a useragent
@@ -1361,7 +1345,7 @@ cout << url << endl;
 					//A11424 is "film"
 					//P31 is "instance of"
 					// "instance of film" is necessary to filter out tv shows
-					std::string sparqlquery = 
+					std::string sparqlquery =
 						"SELECT ?movie ?movieLabel ?actor ?actorLabel WHERE \
 {\
   ?movie wdt:P31 wd:Q11424.\
@@ -1375,9 +1359,8 @@ cout << url << endl;
 					url += "&";
 					url += "format=json";
 
-
 					if (debug()) {
-					  std::cout<<"URL: "<<url<<"\n";
+						std::cout << "URL: " << url << "\n";
 					}
 					// get the Wikidata json
 					json = ServerComm::makeRequest(url, http_headers);
@@ -1412,7 +1395,6 @@ cout << url << endl;
 							removeFirstOccurence (actoruri, "http://www.wikidata.org/entity/");
 
 							removeFirstOccurence (movieuri, "http://www.wikidata.org/entity/");
-
 
 							mak.setActorURI(actoruri);
 							mak.setMovieURI(movieuri);
@@ -1455,7 +1437,6 @@ cout << url << endl;
 				return ret;
 			}
 
-
 			/**
 			 * Returns ElevationData for the provided coordinate box at the
 			 * given resolution. Note that the ElevationData that is returned
@@ -1497,7 +1478,6 @@ cout << url << endl;
 				if (debug())
 					cout << "Hash URL:" << hash_url << "\n";
 
-
 				// get the dataset's JSON from the local cache, if available,
 				// else from the server
 
@@ -1528,7 +1508,6 @@ cout << url << endl;
 					tmp >> ll_x >> tmp >> ll_y >>
 					tmp >> cell_size;
 
-
 				// create the elevation object
 				ElevationData elev_data (rows, cols);
 				elev_data.setxll(ll_x);
@@ -1545,144 +1524,143 @@ cout << url << endl;
 				return elev_data;
 			}
 
-	      /**
-     * @brief retrieves the subreddits made available by BRIDGES
-     *
-     * @return a list of strings of subreddit names
-     **/
+			/**
+			* @brief retrieves the subreddits made available by BRIDGES
+			*
+			* @return a list of strings of subreddit names
+			**/
 
-	  std::vector<std::string> getAvailableSubreddits() {
-			string base_url = getRedditURL();
-			string url = base_url + "/listJSON";
-			  if (debug()) {
-			    std::cout<<"hitting url: "<<url<<"\n";
-			  }			
-			using namespace rapidjson;
-			Document doc;
-			{
-			  std::string s = ServerComm::makeRequest(url, {"Accept: application/json"});
-			  if (debug()) {
-			    std::cout<<"Returned JSON:"<<s<<"\n";
-			  }
-			  try {
-			    doc.Parse(s.c_str());
-			  } catch(rapidjson_exception& re) {
-			    std::cerr<<"malformed subreddit list"<<"\n";
-			    std::cerr<<"Original exception: "<<(std::string)re<<"\n";
-			  }
-			}
-
-			std::vector<std::string> subreddits;
-			  try {
-			    for (auto& m : doc.GetArray()) {
-
-			      std::string subred = m.GetString();
-			      subreddits.push_back(subred);
-
-			    }
-			  } catch(rapidjson_exception& re) {
-			    std::cerr<<"malformed subreddit list"<<"\n";
-			    std::cerr<<"Original exception: "<<(std::string)re<<"\n";
-			  }
-
-			return subreddits;
-			
-	  }
-
-	      /**
-     *     @brief retrieves the reddit posts from a subreddit
-     * 
-     * @param subreddit the name of the subreddit ( check list available at http://bridges-data-server-reddit.bridgesuncc.org/list or using getAvailableSubreddits() )
-     * @param time_request unix timestamp of when requested subreddit was generated or less than 0 for now  
-     *
-     * @return a list of reddit objects with the data of the posts
-     *
-     **/
-			vector<Reddit> getRedditData(string subreddit, int time_request=-9999) {
+			std::vector<std::string> getAvailableSubreddits() {
 				string base_url = getRedditURL();
+				string url = base_url + "/listJSON";
 				if (debug()) {
-				  cout <<  "reddit base url:" << base_url <<  "\n";
+					std::cout << "hitting url: " << url << "\n";
 				}
-				string url = base_url + "/cache?subreddit=" + subreddit + 
-					"&time_request=" + std::to_string(time_request);
-
-				if (debug()) {
-				  cout<<  "reddit url:" << url <<  "\n";
-				}
-
-				
 				using namespace rapidjson;
 				Document doc;
 				{
-				  std::string s = ServerComm::makeRequest(url, {"Accept: application/json"});
-				  if (debug()) {
-				    std::cout<<"Returned JSON:"<<s<<"\n";
-				  }
-				  doc.Parse(s.c_str());
-				}
-				
-				vector<Reddit> reddit_posts;
-				for (auto& m : doc.GetObject()) {
-				  try {
-				    if (debug()) {
-				      std::cout<<m.name.GetString()<<"\n";
-				    }
-				    auto& postJSON = m.value;
-				    
-				    std::string id = postJSON["id"].GetString();
-				    std::string title = postJSON["title"].GetString();
-				    std::string author = postJSON["author"].GetString();
-				    int score = postJSON["score"].GetInt();
-				    float vote_ratio = postJSON["vote_ratio"].GetDouble();
-				    int comment_count = postJSON["comment_count"].GetInt();
-				    std::string subreddit = postJSON["subreddit"].GetString();
-				    int posttime = postJSON["post_time"].GetDouble();
-				    std::string url = postJSON["url"].GetString();
-				    std::string text = postJSON["text"].GetString();
-				    
-				    
-				    Reddit r;
-				    r.setID(id);
-				    r.setTitle(title);
-				    r.setAuthor(author);
-				    r.setScore(score);
-				    r.setVoteRatio(vote_ratio);
-				    r.setCommentCount(comment_count);
-				    r.setSubreddit(subreddit);
-				    r.setPostTime(posttime);
-				    r.setURL(url);
-				    r.setText(text);
-				    reddit_posts.push_back(r);
-				  }
-				  catch(rapidjson_exception& re) {
-				    std::cerr<<"malformed Reddit post"<<"\n";
-				    std::cerr<<"Original exception: "<<(std::string)re<<"\n";
-				  }
+					std::string s = ServerComm::makeRequest(url, {"Accept: application/json"});
+					if (debug()) {
+						std::cout << "Returned JSON:" << s << "\n";
+					}
+					try {
+						doc.Parse(s.c_str());
+					}
+					catch (rapidjson_exception& re) {
+						std::cerr << "malformed subreddit list" << "\n";
+						std::cerr << "Original exception: " << (std::string)re << "\n";
+					}
 				}
 
+				std::vector<std::string> subreddits;
+				try {
+					for (auto& m : doc.GetArray()) {
+
+						std::string subred = m.GetString();
+						subreddits.push_back(subred);
+
+					}
+				}
+				catch (rapidjson_exception& re) {
+					std::cerr << "malformed subreddit list" << "\n";
+					std::cerr << "Original exception: " << (std::string)re << "\n";
+				}
+
+				return subreddits;
+
+			}
+
+			/**
+			*     @brief retrieves the reddit posts from a subreddit
+			*
+			* @param subreddit the name of the subreddit ( check list available at http://bridges-data-server-reddit.bridgesuncc.org/list or using getAvailableSubreddits() )
+			* @param time_request unix timestamp of when requested subreddit was generated or less than 0 for now
+			*
+			* @return a list of reddit objects with the data of the posts
+			*
+			**/
+			vector<Reddit> getRedditData(string subreddit, int time_request = -9999) {
+				string base_url = getRedditURL();
+				if (debug()) {
+					cout <<  "reddit base url:" << base_url <<  "\n";
+				}
+				string url = base_url + "/cache?subreddit=" + subreddit +
+					"&time_request=" + std::to_string(time_request);
+
+				if (debug()) {
+					cout <<  "reddit url:" << url <<  "\n";
+				}
+
+				using namespace rapidjson;
+				Document doc;
+				{
+					std::string s = ServerComm::makeRequest(url, {"Accept: application/json"});
+					if (debug()) {
+						std::cout << "Returned JSON:" << s << "\n";
+					}
+					doc.Parse(s.c_str());
+				}
+
+				vector<Reddit> reddit_posts;
+				for (auto& m : doc.GetObject()) {
+					try {
+						if (debug()) {
+							std::cout << m.name.GetString() << "\n";
+						}
+						auto& postJSON = m.value;
+
+						std::string id = postJSON["id"].GetString();
+						std::string title = postJSON["title"].GetString();
+						std::string author = postJSON["author"].GetString();
+						int score = postJSON["score"].GetInt();
+						float vote_ratio = postJSON["vote_ratio"].GetDouble();
+						int comment_count = postJSON["comment_count"].GetInt();
+						std::string subreddit = postJSON["subreddit"].GetString();
+						int posttime = postJSON["post_time"].GetDouble();
+						std::string url = postJSON["url"].GetString();
+						std::string text = postJSON["text"].GetString();
+
+						Reddit r;
+						r.setID(id);
+						r.setTitle(title);
+						r.setAuthor(author);
+						r.setScore(score);
+						r.setVoteRatio(vote_ratio);
+						r.setCommentCount(comment_count);
+						r.setSubreddit(subreddit);
+						r.setPostTime(posttime);
+						r.setURL(url);
+						r.setText(text);
+						reddit_posts.push_back(r);
+					}
+					catch (rapidjson_exception& re) {
+						std::cerr << "malformed Reddit post" << "\n";
+						std::cerr << "Original exception: " << (std::string)re << "\n";
+					}
+				}
 
 				return reddit_posts;
 			}
 
 		private:
-			/** 
+			/**
 			 *   gets the hash code for the dataset
 			 *
-			 *   @param hash_url   url for hash code 
+			 *   @param hash_url   url for hash code
 			 *   @param data type  data set name
 			 *
-			 * 	 @return a hash code as a string or "false" if the hash value 
-			 *	 	doesnt exist on the server. 
+			 * 	 @return a hash code as a string or "false" if the hash value
+			 *	 	doesnt exist on the server.
 			 */
 			string getHashCode (string hash_url, string data_type) {
-				string hash_value; 
-				if (data_type == "osm" || data_type == "amenity" || 
-						data_type == "elevation") {
+				string hash_value;
+				if (data_type == "osm" || data_type == "amenity" ||
+					data_type == "elevation") {
 					hash_value = ServerComm::makeRequest(hash_url, {"Accept: application/json"});
 				}
-				else if (data_type == "gutenberg") 
-					hash_value = hash_url; 
-			
+				else if (data_type == "gutenberg")
+					hash_value = hash_url;
+
 				return hash_value;
 			}
 
@@ -1700,15 +1678,15 @@ cout << url << endl;
 			 * Multiple dataset follow the same protocol. They have a hash url and a data url.
 			 * Hitting the data URL should always returns the appropriate data.
 			 * Hitting the hash URL should return a hash code for the data, assuming such a hash code is available.
-			 *  If it is not available the cache url return "false". 
+			 *  If it is not available the cache url return "false".
 			 *
 			 * It is possible for the hash URL to return "false" if the underlying data is not know to the server yet.
-			 * Internally, this happens in cases of server-side caching; for instance the first time a data is accessed, if you hit the hash URL before the data url, it shoudl return "false". 
+			 * Internally, this happens in cases of server-side caching; for instance the first time a data is accessed, if you hit the hash URL before the data url, it shoudl return "false".
 			 *
 			 *
 			 */
-			std::string getDataSetJSON(std::string data_url, std::string hash_url, 
-												std::string data_type) {
+			std::string getDataSetJSON(std::string data_url, std::string hash_url,
+				std::string data_type) {
 
 				std::string data_json = "";
 
@@ -1720,8 +1698,8 @@ cout << url << endl;
 				// generate the hash code
 				string hash_value = getHashCode(hash_url, data_type);
 
-				bool dataloaded=false;
-				
+				bool dataloaded = false;
+
 				if ((hash_value != "false") && (my_cache.inCache(hash_value) == true)) { //local cache contains the dataset
 					try {
 						data_json = my_cache.getDoc(hash_value);
@@ -1734,35 +1712,35 @@ cout << url << endl;
 					}
 				}
 				if (!dataloaded) {
-				  //Data could not get accessed from cache for some reason.
-				  //So teh data need to be access from the remote server.
-				  //Then we will store it in a local cache for future usage.
+					//Data could not get accessed from cache for some reason.
+					//So teh data need to be access from the remote server.
+					//Then we will store it in a local cache for future usage.
 					if (debug())
 						std::cerr << "Hitting data URL: " << data_url << "\n";
 
 					//Requests the data
 					data_json = ServerComm::makeRequest(data_url,
-									{"Accept: application/json"});
+					{"Accept: application/json"});
 
 					//Store the data in cache for future reuse
 					try {
-					  // We need the data's hash code to know where to store it in local cache.
-					  // We may already have it from the previous query.
-					  if (hash_value == "false") {
-					    if (debug())
-					      std::cerr << "Hitting hash URL: " << hash_value << "\n";
+						// We need the data's hash code to know where to store it in local cache.
+						// We may already have it from the previous query.
+						if (hash_value == "false") {
+							if (debug())
+								std::cerr << "Hitting hash URL: " << hash_value << "\n";
 
-					    hash_value = getHashCode(hash_url, data_type);
-					  }
+							hash_value = getHashCode(hash_url, data_type);
+						}
 
-					  // This test should only ever be true if something wrong happens server-side
-					  if (hash_value == "false") {
-					    std::cerr << "Error while gathering hash value for "<<data_type<<" dataset..\n"
-						      << "Weird but not critical.\n";
-					  }
-					  else {
-					    my_cache.putDoc(hash_value, data_json);
-					  }
+						// This test should only ever be true if something wrong happens server-side
+						if (hash_value == "false") {
+							std::cerr << "Error while gathering hash value for " << data_type << " dataset..\n"
+								<< "Weird but not critical.\n";
+						}
+						else {
+							my_cache.putDoc(hash_value, data_json);
+						}
 					}
 					catch (CacheException& ce) {
 						//something went bad trying to access the cache

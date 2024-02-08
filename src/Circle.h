@@ -8,7 +8,6 @@ using namespace std;
 
 #define CIRCLE_H
 
-
 namespace bridges {
 	namespace datastructure {
 		/**
@@ -34,7 +33,6 @@ namespace bridges {
 					return "circle";
 				}
 
-
 			public:
 
 				/**
@@ -58,7 +56,8 @@ namespace bridges {
 				 *  @param  r : radius
 				 */
 				Circle (double cx, double cy, double r) {
-					center_x = cx; center_y = cy;
+					center_x = cx;
+					center_y = cy;
 					if (r < 0.)
 						throw "Illegal value for radius. Must be positive";
 					radius = r;
@@ -67,7 +66,7 @@ namespace bridges {
 				/**
 				 * @brief This method returns the radius of the circle
 				 *
-				 * @return radius 
+				 * @return radius
 				 */
 				double getRadius() {
 					return radius;
@@ -91,7 +90,7 @@ namespace bridges {
 				 * @param r  radius
 				 */
 				void setCircle (double cx, double cy, double r) {
-				  setCenter(cx,cy);
+					setCenter(cx, cy);
 					if (r < 0.)
 						throw "Illegal value for radius. Must be positive";
 					radius = r;
@@ -101,14 +100,13 @@ namespace bridges {
 					center_y = cy;
 				}
 
-		  
-		  double getCenterX() const {
-		    return center_x;
-		  }
-		  double getCenterY() const {
-		    return center_y;
-		  }
-		  
+				double getCenterX() const {
+					return center_x;
+				}
+				double getCenterY() const {
+					return center_y;
+				}
+
 				/**
 				 * This method returns the JSON representation of the shape
 				 *
@@ -119,9 +117,9 @@ namespace bridges {
 					string shape_json = getSymbolAttributeRepresentation();
 
 					shape_json +=
-						QUOTE + "center" + QUOTE + COLON + 
-						OPEN_BOX + 
-								to_string(center_x) + COMMA + to_string(center_y) +
+						QUOTE + "center" + QUOTE + COLON +
+						OPEN_BOX +
+						to_string(center_x) + COMMA + to_string(center_y) +
 						CLOSE_BOX + COMMA +
 						QUOTE + "r" + QUOTE + COLON + to_string(radius) + CLOSE_CURLY;
 

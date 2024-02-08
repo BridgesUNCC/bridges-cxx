@@ -6,7 +6,6 @@
 #include <unordered_map>
 #include <JSONutil.h>
 
-
 using namespace std;
 
 #include "SLelement.h"
@@ -121,7 +120,6 @@ namespace bridges {
 
 				bool forceLargeViz = false;
 				bool forceSmallViz = false;
-
 
 				GraphAdjList(const GraphAdjList& gr) = delete; //would not be correct
 				const GraphAdjList& operator= (const GraphAdjList& gr) = delete; //would not be correct
@@ -347,7 +345,6 @@ namespace bridges {
 					throw "getEdgeData(): Edge not found";
 				}
 
-
 				/**
 				 * @brief Loads edge specific information for the edge from "src" to  "dest".
 				 *
@@ -415,7 +412,6 @@ namespace bridges {
 						return nullptr;
 					}
 				}
-
 
 				/**
 				 *  Return the requested vertex corresponding to a key - non-const version
@@ -506,7 +502,6 @@ namespace bridges {
 						throw;
 					}
 				}
-
 
 				/**
 				 *  @brief Returns the  visualizer corresponding to  a graph vertex.
@@ -612,7 +607,6 @@ namespace bridges {
 						links_JSON + CLOSE_BOX +
 						CLOSE_CURLY;
 
-
 					return graph_alist_json;
 				}
 				/**
@@ -708,7 +702,6 @@ namespace bridges {
 					}
 					return true;
 				}
-
 
 			public:
 
@@ -836,7 +829,6 @@ namespace bridges {
 					return typename SLelement<Edge<K, E2>>::SLelement_constlisthelper(getAdjacencyList(k));
 				}
 
-
 				/**
 				 *	@brief This is a helper class to return sets of vertices
 				 *	in a way that are iterable with range for loops. Students
@@ -902,7 +894,6 @@ namespace bridges {
 								}
 						};
 
-
 						iterator begin() {
 							return iterator(underlying_map.begin());
 						}
@@ -928,7 +919,6 @@ namespace bridges {
 				VertexElementSet_listhelper vertexSet () {
 					return VertexElementSet_listhelper(vertices);
 				}
-
 
 				/**
 				 * @brief This is a helper class to return sets of vertices

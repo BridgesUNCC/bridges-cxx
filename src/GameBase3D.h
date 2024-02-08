@@ -6,8 +6,6 @@
 #include "Bridges.h"
 #include "Scene.h"
 
-
-
 namespace bridges {
 	namespace game {
 		/**
@@ -33,7 +31,7 @@ namespace bridges {
 				std::unique_ptr<SocketConnection> sockcon;
 
 				Scene *scene;
-				// we keep this object locally to prevent users from creating a 
+				// we keep this object locally to prevent users from creating a
 				// a whole bunch of Scene objects
 				// Scene scene;
 
@@ -48,10 +46,10 @@ namespace bridges {
 				 * purely internal class, that seems appropriate.
 				 */
 				GameBase3D(int assignmentID, std::string username, std::string apikey)
-								: bridges(assignmentID, username, apikey)  {
+					: bridges(assignmentID, username, apikey)  {
 
 					bridges.setServer("games");
-				  
+
 					sockcon = std::make_unique<SocketConnection>(bridges);
 
 					// set up the default 3D scene
@@ -59,7 +57,7 @@ namespace bridges {
 					scene = new Scene("fps", 90, position);
 				}
 
-		  		virtual ~GameBase3D() =default;
+				virtual ~GameBase3D() = default;
 
 				/// @brief This function is called once when the game starts.
 				///
@@ -73,7 +71,6 @@ namespace bridges {
 				/// It will be called at each frame of the game.
 
 				virtual void gameLoop () = 0;
-
 
 				/// @brief register a new KeypressListener
 				///
@@ -103,7 +100,6 @@ namespace bridges {
 					sockcon->sendSceneDataToServer(current_scene);
 				}
 
-
 				///@brief calling this function causes the game to end.
 				///
 				///That is to say, the current frame will be the last frame of the
@@ -111,7 +107,6 @@ namespace bridges {
 				void quit() {
 					bquit = true;
 				}
-
 
 				/// @brief Set the title of the game
 				///
@@ -141,8 +136,8 @@ namespace bridges {
 				}
 
 				bool gameover() const {
-                    return bquit;
-                }
+					return bquit;
+				}
 		};
 	}
 }

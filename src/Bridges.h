@@ -12,8 +12,6 @@ using namespace std;
 #include <alltypes.h>
 #include <chrono>
 
-
-
 namespace bridges {
 	using namespace bridges::datastructure;
 
@@ -45,16 +43,14 @@ namespace bridges {
 				return false;
 			}
 
-
 			static string getDefaultServerURL() {
 				return "http://bridges-cs.herokuapp.com";
 			}
 
-			
 			bool jsonFlag = false;   				// if JSON is to be printed
 
 			// this flag will turn on all labels in the visualization
-			bool element_labelFlag = false, link_labelFlag = false; 
+			bool element_labelFlag = false, link_labelFlag = false;
 
 			bool post_visualization_link = true;	// post flag of visualization url
 
@@ -85,9 +81,8 @@ namespace bridges {
 
 			unsigned int lastAssignNum = 0, subAssignNum = 0;
 
-
 		public:
-	      
+
 			Bridges() {
 				Bridges (0, "", "");
 			}
@@ -134,22 +129,22 @@ namespace bridges {
 			}
 
 			/**
-			 *  @brief Flag that controls if labels of elements (nodes) are 
+			 *  @brief Flag that controls if labels of elements (nodes) are
 			 *		to be turned on
 			 *
-			 *	@param flag indicating if all labels in the 
-			 *		visualization are turned on 
+			 *	@param flag indicating if all labels in the
+			 *		visualization are turned on
 			 *
 			 */
 			void setElementLabelFlag(bool flag) {
 				element_labelFlag = flag;
 			}
 			/**
-			 *  @brief Flag that controls if labels of links(edges) are 
+			 *  @brief Flag that controls if labels of links(edges) are
 			 *		to be turned on/off
 			 *
-			 *	@param flag indicating if all labels in the 
-			 *		visualization are turned on 
+			 *	@param flag indicating if all labels in the
+			 *		visualization are turned on
 			 *
 			 */
 			void setLinkLabelFlag(bool flag) {
@@ -168,8 +163,8 @@ namespace bridges {
 			/**
 			 *  @brief Return status of flag for link labels
 			 *
-			 *	@return flag boolean indicating if all labels in the 
-			 *		visualization are turned on 
+			 *	@return flag boolean indicating if all labels in the
+			 *		visualization are turned on
 			 *
 			 */
 			bool getLinkLabelFlag() const {
@@ -178,7 +173,7 @@ namespace bridges {
 
 			/**
 			 *
-			 *	@return flag indicating if JSON should be printed 
+			 *	@return flag indicating if JSON should be printed
 			 *		upon visualization
 			 *
 			 */
@@ -350,7 +345,6 @@ namespace bridges {
 				setDataStructure(&ds);
 			}
 
-
 			/**
 			 *
 			 *  @return member holding the data structure handle
@@ -359,7 +353,6 @@ namespace bridges {
 			DataStructure* getDataStructure() {
 				return ds_handle;
 			}
-
 
 			/**
 			 *  Set server type
@@ -373,7 +366,7 @@ namespace bridges {
 			 *
 			 */
 			void setServer(string server_type) {
-			  char* force = getenv("FORCE_BRIDGES_APISERVER");
+				char* force = getenv("FORCE_BRIDGES_APISERVER");
 				if (force != nullptr) {
 					server_type = force;
 				}
@@ -404,9 +397,9 @@ namespace bridges {
 			/**
 			 *  @brief Sets the type of map overlay to use
 			 *
-			 *  @param map     this is an Array describing the map overlay. 
+			 *  @param map     this is an Array describing the map overlay.
 			 *     	The first element of the array is which map to use: "world" or "us"
-			 *  	and the second element is what attribute from the map to show: a country 
+			 *  	and the second element is what attribute from the map to show: a country
 			 *		from world map, or a state from US map.
 			 *
 			 **/
@@ -480,10 +473,10 @@ namespace bridges {
 				wc_window.push_back(ymax);
 			}
 
-	  string getVisualizeURL() const {
-	    return BASE_URL + to_string(getAssignment()) + "/" + getUserName();
-	  }
-	  
+			string getVisualizeURL() const {
+				return BASE_URL + to_string(getAssignment()) + "/" + getUserName();
+			}
+
 			/**
 			 *
 			 * 	Sends relevant meta-data and representation of the data structure to the BRIDGES server,
@@ -500,7 +493,6 @@ namespace bridges {
 
 				if (profile())
 					start = std::chrono::system_clock::now();
-
 
 				if (getAssignment() != lastAssignNum) { 		// reset if a new assignment
 					lastAssignNum = getAssignment();
@@ -526,12 +518,13 @@ namespace bridges {
 				// THIS IS BAD - NEEDS FIXING!!!
 				string ds_json;
 				if (ds_handle->getDStype() == "Scene") {
-					string ds_part_json = ds_handle->getDataStructureRepresentation(); 
+					string ds_part_json = ds_handle->getDataStructureRepresentation();
 					// erase open curly brace
 					ds_part_json.erase(0, 1);
 					ds_json = getJSONHeader() + ds_part_json;
 				}
-				else ds_json = getJSONHeader() + ds_handle->getDataStructureRepresentation();
+				else
+					ds_json = getJSONHeader() + ds_handle->getDataStructureRepresentation();
 				if (profile())
 					jsonbuild_end = std::chrono::system_clock::now();
 
@@ -541,7 +534,6 @@ namespace bridges {
 				if (getJSONFlag()) {
 					cout << "JSON[" + ds_handle->getDStype() + "]:\t" << ds_json << endl;
 				}
-
 
 				if (profile())
 					httprequest_start = std::chrono::system_clock::now();
@@ -554,7 +546,7 @@ namespace bridges {
 					if (post_visualization_link) {
 						cout << "Success: Assignment posted to the server. " << endl
 							<< "Check out your visualization at:" << endl << endl
-						     << getVisualizeURL() << endl << endl;
+							<< getVisualizeURL() << endl << endl;
 					}
 					subAssignNum++;
 				}
@@ -567,26 +559,24 @@ namespace bridges {
 						"\t Assignment Number: " << getAssignment() << endl;
 				}
 				catch (const HTTPException& he) {
-				  cerr << "\nPosting assignment to the server failed!" << endl;
-				  if (he.httpcode == 401) {
-				    cerr << "Provided Bridges Credentials are incorrect:" << endl <<
-				      "\t ServerURL: "<< getServerURL() <<endl<<
-				      "\t User Name: " << getUserName() << endl <<
-				      "\t API Key: " << getApiKey() << endl <<
-				      "\t Assignment Number: " << getAssignment() << endl;
-				  }
-				  else if (he.httpcode == 413) {
-				    cerr<<"Assignment is too large."<<endl;
-				    cerr<<"In general the assignment should be smaller than 16MB once serialized to JSON."<<endl;
-				  }
-				  else {
-				    std::cerr<<he.what()<<endl;
-				  }
+					cerr << "\nPosting assignment to the server failed!" << endl;
+					if (he.httpcode == 401) {
+						cerr << "Provided Bridges Credentials are incorrect:" << endl <<
+							"\t ServerURL: " << getServerURL() << endl <<
+							"\t User Name: " << getUserName() << endl <<
+							"\t API Key: " << getApiKey() << endl <<
+							"\t Assignment Number: " << getAssignment() << endl;
+					}
+					else if (he.httpcode == 413) {
+						cerr << "Assignment is too large." << endl;
+						cerr << "In general the assignment should be smaller than 16MB once serialized to JSON." << endl;
+					}
+					else {
+						std::cerr << he.what() << endl;
+					}
 				}
 				if (profile())
 					httprequest_end = std::chrono::system_clock::now();
-
-
 
 				if (profile()) {
 					end = std::chrono::system_clock::now();
@@ -606,7 +596,6 @@ namespace bridges {
 				return server_url;
 			}
 
-
 			string getJSONHeader () {
 				using bridges::JSONUtil::JSONencode;
 
@@ -615,8 +604,8 @@ namespace bridges {
 					QUOTE + "title" + QUOTE + COLON + JSONencode(getTitle()) + COMMA +
 					QUOTE + "description" + QUOTE + COLON + JSONencode( getDescription()) + COMMA +
 					QUOTE + "map_overlay" + QUOTE + COLON + ((map_overlay) ? "true" : "false") + COMMA +
-					QUOTE + "map" + QUOTE + COLON + OPEN_BOX + QUOTE + map[0] + QUOTE + 
-								COMMA + QUOTE + map[1] + QUOTE + CLOSE_BOX + COMMA +
+					QUOTE + "map" + QUOTE + COLON + OPEN_BOX + QUOTE + map[0] + QUOTE +
+					COMMA + QUOTE + map[1] + QUOTE + CLOSE_BOX + COMMA +
 					QUOTE + "element_label_flag" + QUOTE + COLON + ((element_labelFlag) ? "true" : "false") + COMMA +
 					QUOTE + "link_label_flag" + QUOTE + COLON + ((link_labelFlag) ? "true" : "false") + COMMA +
 					QUOTE + "coord_system_type" + QUOTE + COLON + JSONencode(getCoordSystemType()) +

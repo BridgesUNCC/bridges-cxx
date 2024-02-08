@@ -86,7 +86,6 @@ namespace bridges {
 					return edges;
 				}
 
-
 			public:
 				/**
 				 * @brief sets an upper bound to the time of a run.

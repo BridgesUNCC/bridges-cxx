@@ -167,7 +167,6 @@ namespace bridges {
 				Array(const Array&) = delete; //would be incorrect, so disabled.
 				Array& operator=(const Array&) = delete; //would be incorrect, so disabled.
 
-
 			private:
 				const string generateJSON( const vector<const Element<E>*>& nodes) const {
 					if (MAX_ELEMENTS_ALLOWED <= nodes.size()) {
@@ -198,7 +197,6 @@ namespace bridges {
 
 					return nodes_JSON;
 				};
-
 
 		}; // Array
 	}

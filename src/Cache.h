@@ -10,7 +10,6 @@
 
 namespace bridges {
 
-
 	class CacheException : std::exception {
 	};
 
@@ -58,7 +57,6 @@ namespace bridges {
 				int ret = _mkdir(s.c_str());
 #endif
 
-
 				if (ret != 0)
 					throw CacheException();
 			}
@@ -96,7 +94,6 @@ namespace bridges {
 				if (!in.good() || !(in.is_open()))
 					throw CacheException();
 
-
 				std::string contents;
 				in.seekg(0, std::ios::end);
 				contents.resize(in.tellg());
@@ -116,7 +113,6 @@ namespace bridges {
 					makeDirectory(cacheDir);
 
 				std::string filename = getFilename(docName);
-
 
 				std::ofstream out(filename);
 				if (!out.good() || !(out.is_open()))
@@ -139,7 +135,6 @@ namespace bridges {
 				return std::remove(f.c_str()) == 0;
 			}
 	};
-
 
 	class lruCache : public Cache {
 
@@ -182,8 +177,6 @@ namespace bridges {
 				saveLRU();
 				return;
 			}
-
-
 
 		private:
 			void updateLRU(std::string hash_value) {

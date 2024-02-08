@@ -39,10 +39,8 @@ using namespace std;
 
  */
 
-
 namespace bridges {
 	typedef unsigned char BYTE;
-
 
 	namespace base64 {
 
@@ -50,7 +48,6 @@ namespace bridges {
 			"ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 			"abcdefghijklmnopqrstuvwxyz"
 			"0123456789+/";
-
 
 		inline bool is_base64(BYTE c) {
 			return (isalnum(c) || (c == '+') || (c == '/'));

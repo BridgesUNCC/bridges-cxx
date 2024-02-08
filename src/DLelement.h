@@ -193,7 +193,6 @@ namespace bridges {
 						OPEN_BOX + links_JSON + CLOSE_BOX +
 						CLOSE_CURLY;
 
-
 					return dl_list_json;
 				}
 
@@ -363,7 +362,6 @@ namespace bridges {
 		using DLelement_List = typename DLelement<E>::DLelement_listhelper;
 		template <class E>
 		using DLelement_ConstList = typename DLelement<E>::DLelement_constlisthelper;
-
 
 	}
 }//end of bridges namespace

@@ -49,19 +49,18 @@ namespace bridges {
 					return "GraphAdjacencyMatrix";
 				}
 
-		  virtual ~GraphAdjMatrix() {
-		    for (auto it : vertices)
-		      delete it.second;
-		  }
-		  GraphAdjMatrix() = default;
+				virtual ~GraphAdjMatrix() {
+					for (auto it : vertices)
+						delete it.second;
+				}
+				GraphAdjMatrix() = default;
 
-		  // The default version of these functions would be incorrect.
-		  // So marking them delete to avoid problems.
-		  // We could write them if necessary
-		  GraphAdjMatrix(const GraphAdjMatrix&) = delete;
-		  GraphAdjMatrix& operator=(const GraphAdjMatrix&) = delete;
+				// The default version of these functions would be incorrect.
+				// So marking them delete to avoid problems.
+				// We could write them if necessary
+				GraphAdjMatrix(const GraphAdjMatrix&) = delete;
+				GraphAdjMatrix& operator=(const GraphAdjMatrix&) = delete;
 
-		  
 				/**
 				 * Adds a vertex of key "k" and value "e" to the graph.
 				 * Sets all of its edges to be of weight 0.

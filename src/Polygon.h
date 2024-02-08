@@ -4,7 +4,6 @@
 
 using namespace std;
 
-
 #ifndef  POLYGON_H
 
 #define POLYGON_H

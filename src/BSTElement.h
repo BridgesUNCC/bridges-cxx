@@ -6,7 +6,6 @@
 #include "BinTreeElement.h" //string, sstream, using std
 #include <JSONutil.h>
 
-
 namespace bridges {
 	namespace datastructure {
 		/**

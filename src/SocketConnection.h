@@ -25,7 +25,6 @@
 
 #include <unistd.h>
 
-
 namespace bridges {
 	namespace game {
 
@@ -48,7 +47,7 @@ namespace bridges {
 		/// @date 2019, 12/29/20
 		class SocketConnection {
 				bool debug = false;
-		  bool debugVerbose = false;
+				bool debugVerbose = false;
 				sio::client client;
 				sio::socket::ptr current_socket;
 
@@ -69,7 +68,6 @@ namespace bridges {
 					static sio::packet_manager manager;
 					static std::mutex packetLock;
 					std::lock_guard< std::mutex > guard( packetLock );
-
 
 					std::stringstream ss;
 					sio::packet packet( "/", msg );
@@ -110,10 +108,8 @@ namespace bridges {
 					client.set_reconnect_listener(std::bind(&SocketConnection::on_reconnect, this, std::placeholders::_1, std::placeholders::_2));
 					client.set_socket_open_listener(std::bind(&SocketConnection::on_socketopen, this, std::placeholders::_1));
 
-					
-					
 					//client.set_logs_verbose();
-					
+
 					std::string serverURL = bridges.getServerURL();
 
 					if (debug)
@@ -160,14 +156,13 @@ namespace bridges {
 						ptr->keydown(jsonmsg);
 				}
 
-
 				~SocketConnection() {
 					client.clear_con_listeners();
 					client.sync_close();
 				}
 
-		  void reconfigure_socket() {
-		    					current_socket = client.socket();
+				void reconfigure_socket() {
+					current_socket = client.socket();
 
 					current_socket->on("keyup", std::bind(&SocketConnection::forwardKeyUp, this, std::placeholders::_1));
 					current_socket->on("keydown", std::bind(&SocketConnection::forwardKeyDown, this, std::placeholders::_1));
@@ -175,7 +170,7 @@ namespace bridges {
 					current_socket->on_error(std::bind(&SocketConnection::on_socketerror, this, std::placeholders::_1));
 					sendCredentials();
 
-		  }
+				}
 
 				void sendCredentials() {
 
@@ -196,17 +191,17 @@ namespace bridges {
 						std::cerr << "Credentials sent\n";
 				}
 
-		  void on_reconnect(unsigned, unsigned) {
-		    std::cout<<"reconnect..."<<std::endl;
-		    //reconfigure_socket();
+				void on_reconnect(unsigned, unsigned) {
+					std::cout << "reconnect..." << std::endl;
+					//reconfigure_socket();
 				}
 
-		  void on_socketopen(const std::string & nsp) {
-		    					std::lock_guard< std::mutex > guard( _lock );
+				void on_socketopen(const std::string & nsp) {
+					std::lock_guard< std::mutex > guard( _lock );
 
-							std::cout<<"sockopen on namespace "<<nsp<<std::endl;
-		    
-		    reconfigure_socket();
+					std::cout << "sockopen on namespace " << nsp << std::endl;
+
+					reconfigure_socket();
 				}
 
 				void on_connected() {
@@ -218,17 +213,16 @@ namespace bridges {
 					connect_finish = true;
 				}
 
-		  
 				void on_close(sio::client::close_reason const& reason) {
 					std::cout << "sio closed\n";
 					exit(0);
 				}
 
-		  void on_socketerror(sio::message::ptr const& message) {
+				void on_socketerror(sio::message::ptr const& message) {
 					std::cout << "socket errror\n";
 
 				}
-		  
+
 				void on_fail() {
 					std::cout << "sio failed\n";
 					exit(0);
@@ -256,7 +250,7 @@ namespace bridges {
 
 					current_socket->emit("gamegrid:recv", gridjson);
 				}
-			
+
 				void sendSceneDataToServer(const Scene& s) {
 					if (debug && debugVerbose)
 						std::cerr << "Sending Scene\n";

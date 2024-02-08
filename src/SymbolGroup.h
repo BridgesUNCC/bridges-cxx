@@ -8,7 +8,6 @@ using namespace std;
 #include "DataStructure.h"
 #include "Symbol.h"
 
-
 /**
  * @brief The SymbolGroup object is a container object to hold a collection
  *	of primitive symbol objects  such as rectangles, polygons, circles, labels.
@@ -41,8 +40,8 @@ namespace bridges {
 			private:
 
 				// symbols in this group
-		  std::vector<std::shared_ptr<Symbol>> symbols;
-		  
+				std::vector<std::shared_ptr<Symbol>> symbols;
+
 			public:
 				/**
 				 *	Constructors
@@ -57,41 +56,40 @@ namespace bridges {
 				 *   @param s  symbol being added
 				 */
 
-		  void addSymbolPtr(std::shared_ptr<Symbol> s) {
-		    symbols.push_back(s);
-		  }
+				void addSymbolPtr(std::shared_ptr<Symbol> s) {
+					symbols.push_back(s);
+				}
 
-		  template <typename T>
-		  void addSymbol(T s) {
-		    std::shared_ptr<T> pt = std::make_shared<T>(s);
-		    addSymbolPtr ((std::shared_ptr<Symbol>)pt);
-		  }
+				template <typename T>
+				void addSymbol(T s) {
+					std::shared_ptr<T> pt = std::make_shared<T>(s);
+					addSymbolPtr ((std::shared_ptr<Symbol>)pt);
+				}
 
-		  std::vector<std::shared_ptr<Symbol>> getAllSymbols() const{
-		    return symbols;
-		  }
-		  
-		  /**
-				 * @brief This method returns the JSON representation of the
-				 *		symbol group
-				 *
-				 * @return string  JSON string
-				 */
+				std::vector<std::shared_ptr<Symbol>> getAllSymbols() const {
+					return symbols;
+				}
+
+				/**
+					 * @brief This method returns the JSON representation of the
+					 *		symbol group
+					 *
+					 * @return string  JSON string
+					 */
 
 				/**
 				 *  @brief This method gets the shape type name
 				 *
 				 *  @return shape type
 				 */
-                virtual string getShapeType() const override {
-                    return "group";
-                }
+				virtual string getShapeType() const override {
+					return "group";
+				}
 
 				virtual const string getSymbolRepresentation() const override {
 
 					using bridges::JSONUtil::JSONencode;
 
-					
 					// first get the group's representation
 					string symbol_json = getSymbolAttributeRepresentation() + COMMA;
 
@@ -100,13 +98,13 @@ namespace bridges {
 						symbol_json +=
 							entry->getSymbolRepresentation();
 
-						// remove the close curly brace 
+						// remove the close curly brace
 						if (symbol_json.size())
 							symbol_json.erase(symbol_json.size() - 1);
 
 						// add parent id
 						symbol_json += COMMA + QUOTE + "parentID" + QUOTE + COLON +
-								to_string(getIdentifier()) + CLOSE_CURLY + COMMA;
+							to_string(getIdentifier()) + CLOSE_CURLY + COMMA;
 					}
 					// remove last comma
 					if (symbols.size()) {

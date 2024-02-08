@@ -80,7 +80,6 @@ namespace bridges {
 
 						std::chrono::duration<double> elapsed_seconds = end - start;
 
-
 						time.push_back ((double)elapsed_seconds.count() );
 						vtxCounts.push_back ( (double)vertexCount );
 						edgeCounts.push_back ( (double)edgeCount );

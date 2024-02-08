@@ -13,7 +13,6 @@
 #include "DataStructure.h" //string, using std
 #include <JSONutil.h>
 
-
 namespace bridges {
 	namespace datastructure {
 		/**

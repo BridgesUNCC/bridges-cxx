@@ -3,7 +3,6 @@
 
 #define SYMBOL_H
 
-
 #include <string>
 #include <vector>
 #include <cmath>
@@ -50,7 +49,6 @@ namespace bridges {
 				float *opacity = nullptr;
 				int   *layer = nullptr;
 
-
 				// use this flag to refrain from putting it into the JSON
 				// as its the default
 				bool xform_flag = false;
@@ -62,8 +60,6 @@ namespace bridges {
 					{0., 0., 1.}
 				};
 
-
-		  
 				// matrix methods used for affine transformations on symbols
 				void matMult (float m1[][3], float m2[][3], float result[][3])
 				const {
@@ -95,45 +91,45 @@ namespace bridges {
 					}
 				}
 
-		  void clear_optional() {
-		    if (fillColor)  {
-		      delete fillColor;
-		      fillColor = nullptr;
-		    }
-		    if (strokeColor) {
-		      delete strokeColor;
-		      strokeColor = nullptr;
-		    }
-		    if (strokeWidth) {
-		      delete strokeWidth;
-		      strokeWidth = nullptr;
-		    }
-		    if (strokeDash) {
-		      delete strokeDash;
-		      strokeDash = nullptr;
-		    }
-		    if (opacity) {
-		      delete opacity;
-		      opacity = nullptr;
-		    }
-		    if (layer) {
-		      delete layer;
-		      layer = nullptr;
-		    }
-		  }
-		  
+				void clear_optional() {
+					if (fillColor)  {
+						delete fillColor;
+						fillColor = nullptr;
+					}
+					if (strokeColor) {
+						delete strokeColor;
+						strokeColor = nullptr;
+					}
+					if (strokeWidth) {
+						delete strokeWidth;
+						strokeWidth = nullptr;
+					}
+					if (strokeDash) {
+						delete strokeDash;
+						strokeDash = nullptr;
+					}
+					if (opacity) {
+						delete opacity;
+						opacity = nullptr;
+					}
+					if (layer) {
+						delete layer;
+						layer = nullptr;
+					}
+				}
+
 			public:
 
 				/**
 				 * @brief default constructor
 				 */
 				Symbol() :
-						fillColor(nullptr),
-						strokeColor(nullptr),
-						strokeWidth(nullptr),
-						strokeDash(nullptr), 
-						opacity(nullptr),
-						layer(nullptr) {
+					fillColor(nullptr),
+					strokeColor(nullptr),
+					strokeWidth(nullptr),
+					strokeDash(nullptr),
+					opacity(nullptr),
+					layer(nullptr) {
 
 					identifier = ids;
 					xform_flag = false;
@@ -141,46 +137,68 @@ namespace bridges {
 					// set id for symbol
 					ids++;
 				}
-		  
-		  Symbol(const Symbol& s)
-		    :identifier(s.identifier), name(s.name), xform_flag (s.xform_flag) {
-		    xform[0][0] = s.xform[0][0]; xform[0][1] = s.xform[0][1]; xform[0][2] = s.xform[0][2];
-		    xform[1][0] = s.xform[1][0]; xform[1][1] = s.xform[1][1]; xform[1][2] = s.xform[1][2];
-		    xform[2][0] = s.xform[2][0]; xform[2][1] = s.xform[2][1]; xform[2][2] = s.xform[2][2];
-		    
-		    if (s.fillColor) this->fillColor = new Color(*(s.fillColor));
-		    if (s.strokeColor) this->strokeColor = new Color(*(s.strokeColor));
-		    if (s.strokeWidth) this->strokeWidth = new float(*(s.strokeWidth));
-		    if (s.strokeDash) this->strokeDash = new int(*(s.strokeDash));
-		    if (s.opacity) this->opacity = new float(*(s.opacity));
-		    if (s.layer) this->layer = new int(*(s.layer));
-		    
-		  }
 
-		  Symbol& operator= (const Symbol& s) {
-		    clear_optional();
-		    
-		    this->identifier = s.identifier;
-		    this->name = s.name;
-		    this->xform_flag = s.xform_flag;
-		    xform[0][0] = s.xform[0][0]; xform[0][1] = s.xform[0][1]; xform[0][2] = s.xform[0][2];
-		    xform[1][0] = s.xform[1][0]; xform[1][1] = s.xform[1][1]; xform[1][2] = s.xform[1][2];
-		    xform[2][0] = s.xform[2][0]; xform[2][1] = s.xform[2][1]; xform[2][2] = s.xform[2][2];
-		    
-		    if (s.fillColor) this->fillColor = new Color(*(s.fillColor));
-		    if (s.strokeColor) this->strokeColor = new Color(*(s.strokeColor));
-		    if (s.strokeWidth) this->strokeWidth = new float(*(s.strokeWidth));
-		    if (s.strokeDash) this->strokeDash = new int(*(s.strokeDash));
-		    if (s.opacity) this->opacity = new float(*(s.opacity));
-		    if (s.layer) this->layer = new int(*(s.layer));
+				Symbol(const Symbol& s)
+					: identifier(s.identifier), name(s.name), xform_flag (s.xform_flag) {
+					xform[0][0] = s.xform[0][0];
+					xform[0][1] = s.xform[0][1];
+					xform[0][2] = s.xform[0][2];
+					xform[1][0] = s.xform[1][0];
+					xform[1][1] = s.xform[1][1];
+					xform[1][2] = s.xform[1][2];
+					xform[2][0] = s.xform[2][0];
+					xform[2][1] = s.xform[2][1];
+					xform[2][2] = s.xform[2][2];
 
-		    return *this;
-		  }
+					if (s.fillColor)
+						this->fillColor = new Color(*(s.fillColor));
+					if (s.strokeColor)
+						this->strokeColor = new Color(*(s.strokeColor));
+					if (s.strokeWidth)
+						this->strokeWidth = new float(*(s.strokeWidth));
+					if (s.strokeDash)
+						this->strokeDash = new int(*(s.strokeDash));
+					if (s.opacity)
+						this->opacity = new float(*(s.opacity));
+					if (s.layer)
+						this->layer = new int(*(s.layer));
 
-		  
+				}
+
+				Symbol& operator= (const Symbol& s) {
+					clear_optional();
+
+					this->identifier = s.identifier;
+					this->name = s.name;
+					this->xform_flag = s.xform_flag;
+					xform[0][0] = s.xform[0][0];
+					xform[0][1] = s.xform[0][1];
+					xform[0][2] = s.xform[0][2];
+					xform[1][0] = s.xform[1][0];
+					xform[1][1] = s.xform[1][1];
+					xform[1][2] = s.xform[1][2];
+					xform[2][0] = s.xform[2][0];
+					xform[2][1] = s.xform[2][1];
+					xform[2][2] = s.xform[2][2];
+
+					if (s.fillColor)
+						this->fillColor = new Color(*(s.fillColor));
+					if (s.strokeColor)
+						this->strokeColor = new Color(*(s.strokeColor));
+					if (s.strokeWidth)
+						this->strokeWidth = new float(*(s.strokeWidth));
+					if (s.strokeDash)
+						this->strokeDash = new int(*(s.strokeDash));
+					if (s.opacity)
+						this->opacity = new float(*(s.opacity));
+					if (s.layer)
+						this->layer = new int(*(s.layer));
+
+					return *this;
+				}
 
 				~Symbol() {
-				  clear_optional();
+					clear_optional();
 				}
 
 				/**
@@ -206,7 +224,7 @@ namespace bridges {
 				 * @param c the color to set
 				 */
 				Symbol& setFillColor(Color c) {
-					if (!fillColor)	
+					if (!fillColor)
 						fillColor = new Color;
 
 					*fillColor = c;
@@ -219,7 +237,7 @@ namespace bridges {
 				 * @param c the named color to set
 				 */
 				Symbol& setFillColor(string c) {
-					if (!fillColor)	
+					if (!fillColor)
 						fillColor = new Color;
 
 					*fillColor = Color(c);
@@ -232,9 +250,9 @@ namespace bridges {
 				 * @return  fill color
 				 */
 				Color getFillColor() const {
-					if (!fillColor) 
+					if (!fillColor)
 						throw "Fill color was not set!";
-					else 
+					else
 						return *fillColor;
 				}
 
@@ -274,7 +292,7 @@ namespace bridges {
 				Color getStrokeColor() {
 					if (!strokeColor)
 						throw "Stroke color was not set!";
-					else 
+					else
 						return *strokeColor;
 				}
 
@@ -286,7 +304,7 @@ namespace bridges {
 				Symbol& setStrokeWidth(float strk_width) {
 					if (!strokeWidth)
 						strokeWidth = new float;
-	
+
 					if (strk_width < 0.0f)
 						throw "Stroke width must be positive or null";
 					else
@@ -330,7 +348,7 @@ namespace bridges {
 				 * @return  symbol opacity
 				 */
 				float getOpacity() const {
-					if (!opacity) 
+					if (!opacity)
 						throw "Opacity not set!";
 
 					return *opacity;
@@ -389,8 +407,6 @@ namespace bridges {
 				int getLayer() const {
 					return *layer;
 				}
-
-
 
 			protected:
 				/**
@@ -451,10 +467,9 @@ namespace bridges {
 				 *  @param scalefactor scale factors along both axis
 				 */
 				Symbol& scale(float scalefactor) {
-				  return scale(scalefactor, scalefactor);
+					return scale(scalefactor, scalefactor);
 				}
-		  
-		  
+
 				/**
 				 *  @brief Rotate a 2D point (about Z)
 				 *
@@ -496,11 +511,11 @@ namespace bridges {
 					float scale[3][3] = {
 						{sx, 0., 0.}, {0., sy, 0.}, {0., 0., 1.}
 					};
-					float transl1[3][3] = 
-						{ {1., 0., -px}, {0., 1., -py}, {0., 0., 1.} };
-					float transl2[3][3] = 
-						{ {1., 0., px}, {0., 1., py}, {0., 0., 1.} };
-					
+					float transl1[3][3] =
+					{ {1., 0., -px}, {0., 1., -py}, {0., 0., 1.} };
+					float transl2[3][3] =
+					{ {1., 0., px}, {0., 1., py}, {0., 0., 1.} };
+
 					// form the composite transform
 					matMult (scale, transl1, result);
 					matMult (transl2, result, result2);
@@ -557,12 +572,17 @@ namespace bridges {
 				 *
 				 *  @param a, b, c, d, e, f  fills the first two rows of the matrix
 				 */
-				Symbol& setTransform(float a, float b, float c, 
-							float d, float e, float f) {
-					xform[0][0] = a; xform[1][0] = b; 
-					xform[0][1] = c; xform[1][1] = d; 
-					xform[0][2] = e; xform[2][2] = f;
-					xform[2][0] = 0.0f; xform[2][1] = 0.0f; xform[2][2] = 1.0f;
+				Symbol& setTransform(float a, float b, float c,
+					float d, float e, float f) {
+					xform[0][0] = a;
+					xform[1][0] = b;
+					xform[0][1] = c;
+					xform[1][1] = d;
+					xform[0][2] = e;
+					xform[2][2] = f;
+					xform[2][0] = 0.0f;
+					xform[2][1] = 0.0f;
+					xform[2][2] = 1.0f;
 
 					xform_flag = true;
 
@@ -588,9 +608,9 @@ namespace bridges {
 					string symbol_attr_json = OPEN_CURLY;
 
 					symbol_attr_json += QUOTE + "type" + QUOTE + COLON +
-							QUOTE + getShapeType() + QUOTE + COMMA + 
-							QUOTE + "ID" + QUOTE + COLON +
-							QUOTE + to_string(identifier) + QUOTE + COMMA;
+						QUOTE + getShapeType() + QUOTE + COMMA +
+						QUOTE + "ID" + QUOTE + COLON +
+						QUOTE + to_string(identifier) + QUOTE + COMMA;
 
 					// check transform, if it is not set, ignore
 					if (this->xform_flag) {
@@ -610,18 +630,18 @@ namespace bridges {
 							COLON + to_string(*layer) + COMMA;
 					}
 
-					// the above attributes are all that is needed for 'group' 
+					// the above attributes are all that is needed for 'group'
 					// type, rest also include the following
 					if (getShapeType() == "group") {
 						// remove the last comma
-						symbol_attr_json.erase (symbol_attr_json.size() -1);
+						symbol_attr_json.erase (symbol_attr_json.size() - 1);
 						symbol_attr_json += CLOSE_CURLY;
 					}
 					else {
 
 						if (fillColor) {
-							symbol_attr_json += QUOTE + "fill-color" + 
-								QUOTE + COLON + fillColor->getCSSRepresentation() 
+							symbol_attr_json += QUOTE + "fill-color" +
+								QUOTE + COLON + fillColor->getCSSRepresentation()
 								+ COMMA;
 						}
 
@@ -631,12 +651,12 @@ namespace bridges {
 						}
 
 						if (strokeColor) {
-							symbol_attr_json += QUOTE + "stroke-color" + QUOTE + 
+							symbol_attr_json += QUOTE + "stroke-color" + QUOTE +
 								COLON + strokeColor->getCSSRepresentation() + COMMA;
 						}
 
 						if (strokeWidth) {
-							symbol_attr_json += QUOTE + "stroke-width" + QUOTE + 
+							symbol_attr_json += QUOTE + "stroke-width" + QUOTE +
 								COLON + to_string(*strokeWidth) + COMMA;
 						}
 

@@ -382,8 +382,6 @@ namespace bridges {
 
 		};
 
-
-
 		//TODO: implement RLE encoding
 		/**
 		 * @brief This is a class in BRIDGES for representing an (n x n)game grid.
@@ -412,7 +410,6 @@ namespace bridges {
 				}
 			public:
 
-
 				/**
 				 *  Set background color of a cell using an enum argument
 				 *
@@ -435,7 +432,6 @@ namespace bridges {
 					return (*this)[row][col].getSymbol();
 				}
 
-
 				/**
 				 *  Set foreground color of a cell using an enum argument
 				 *
@@ -456,7 +452,6 @@ namespace bridges {
 					(*this)[row][col].setSymbol(symbol);
 				}
 
-
 				/**
 				 *  Draw a symbol at the specified location
 				 *  @param row, col - integer indices specifying the position to modify
@@ -469,7 +464,6 @@ namespace bridges {
 					setSymbol(row, col, symbol);
 				}
 
-
 				virtual const string getDStype() const override {
 					return "GameGrid";
 				}
@@ -479,14 +473,14 @@ namespace bridges {
 				 *
 				 **/
 				GameGrid (int nbrow = 10, int nbcol = 10)
-				  : Grid<GameCell> (nbrow, nbcol) {
+					: Grid<GameCell> (nbrow, nbcol) {
 					initializeGrid();
 				}
 
-		  GameGrid (const GameGrid &) = delete;
+				GameGrid (const GameGrid &) = delete;
 
-		  virtual ~GameGrid() = default;
-		  
+				virtual ~GameGrid() = default;
+
 			private:
 
 				//public:
@@ -509,7 +503,6 @@ namespace bridges {
 					std::string bgstr = base64::encode (&(bgbuf[0]), bgbuf.size());
 					std::string fgstr = base64::encode (&(fgbuf[0]), fgbuf.size());
 					std::string symbolstr = base64::encode (&(symbolbuf[0]), symbolbuf.size());
-
 
 					std::string ret;
 					// Add the representation of the gamegrid
@@ -535,12 +528,10 @@ namespace bridges {
 					json_str += QUOTE + "dimensions" + QUOTE + COLON +
 						OPEN_BOX + std::to_string(gridSize[0]) + "," + std::to_string(gridSize[1]) + CLOSE_BOX + COMMA;
 
-
 					json_str += getRAWRepresentation();
 
 					return json_str + CLOSE_CURLY;
 				}
-
 
 		};
 	}

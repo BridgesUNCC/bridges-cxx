@@ -4,7 +4,6 @@
 #include "DataStructure.h"
 #include "Element.h" //string, using std
 
-
 namespace bridges {
 	namespace datastructure {
 		/**
@@ -128,7 +127,6 @@ namespace bridges {
 						QUOTE + "links" + QUOTE + COLON + OPEN_BOX +
 						json_nodes_links.second + CLOSE_BOX +
 						CLOSE_CURLY;
-
 
 					return sl_list_json;
 				}
@@ -257,7 +255,6 @@ namespace bridges {
 						}
 				};
 
-
 				/**
 				 *	@brief These are helper classes for SLelement for easy
 				 *	 iteration.
@@ -305,7 +302,6 @@ namespace bridges {
 							return iterator(nullptr);
 						}
 				};
-
 
 		}; //end of SLelement class
 		// use some aliases for accessing iterators

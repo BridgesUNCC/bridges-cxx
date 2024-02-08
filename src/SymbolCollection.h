@@ -40,7 +40,7 @@ namespace bridges {
 				// to maintain their properties
 			private:
 
-		  std::vector<std::shared_ptr<Symbol>> symbols;
+				std::vector<std::shared_ptr<Symbol>> symbols;
 
 				// 	default domain (assuming square coordinate space)
 				// 	domain emanates in x and y directions, both positive
@@ -93,18 +93,16 @@ namespace bridges {
 				 *   @param s  symbol being added
 				 */
 
-		  void addSymbolPtr(std::shared_ptr<Symbol> s) {
-		    symbols.push_back(s);
-		  }
+				void addSymbolPtr(std::shared_ptr<Symbol> s) {
+					symbols.push_back(s);
+				}
 
-		  template <typename T>
-		  void addSymbol(T s) {
-		    std::shared_ptr<T> pt = std::make_shared<T>(s);
-		    addSymbolPtr ((std::shared_ptr<Symbol>)pt);
-		  }
+				template <typename T>
+				void addSymbol(T s) {
+					std::shared_ptr<T> pt = std::make_shared<T>(s);
+					addSymbolPtr ((std::shared_ptr<Symbol>)pt);
+				}
 
-
-		  
 			private:
 
 				/*

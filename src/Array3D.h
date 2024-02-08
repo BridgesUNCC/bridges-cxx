@@ -4,7 +4,6 @@
 #include "Element.h"
 #include "Array.h"
 
-
 namespace bridges {
 	namespace datastructure {
 		/**
@@ -49,7 +48,6 @@ namespace bridges {
 					num_slices = num_rows = num_cols = 0;
 				}
 			public:
-
 
 				virtual ~Array3D() {
 				}
@@ -128,7 +126,6 @@ namespace bridges {
 					setElement(slice * num_rows * num_cols + row * num_cols + col, el);
 				}
 
-
 				/**
 				 *  @brief Bracker_helper class to make [][] operators work on
 				 *	array 2d. You should never use it directly
@@ -143,7 +140,6 @@ namespace bridges {
 						return arr.getElement(x, y, z).getValue();
 					}
 				};
-
 
 				/**
 				 *  @brief Bracker_helper class to make [] operators work on
@@ -178,7 +174,6 @@ namespace bridges {
 						return arr.getElement(x, y, z).getValue();
 					}
 				};
-
 
 				/**
 				 *  @brief helper const class is to make [][] operators

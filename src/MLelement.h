@@ -42,7 +42,6 @@ namespace bridges {
 		 *
 		 */
 
-
 		template <typename E>
 		class MLelement : public SLelement<E> {
 
