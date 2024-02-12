@@ -151,13 +151,14 @@ namespace bridges {
 
 					std::string json_str = JSONencode("plot_title") + COLON +  JSONencode(getTitle()) + COMMA +
 						JSONencode("subtitle") + COLON + JSONencode(getSubTitle())  + COMMA +
-						JSONencode("xLabel") + COLON + JSONencode(getBinsLabel()) +  COMMA +
-						JSONencode("yLabel") + COLON + JSONencode(getSeriesLabel()) + COMMA +
-						JSONencode("tooltipSuffix") + COLON + JSONencode(getTooltipSuffix()) + COMMA +
-						JSONencode("alignment") + COLON + JSONencode(getBarAlignment()) + COMMA +
+						JSONencode("xLabel") + COLON + JSONencode(getXLabel()) +  COMMA +
+						JSONencode("yLabel") + COLON + JSONencode(getYLabel()) + COMMA +
+//						JSONencode("tooltipSuffix") + COLON + JSONencode(getTooltipSuffix()) + COMMA +
+//						JSONencode("alignment") + COLON + JSONencode(getBarAlignment()) + COMMA +
 						JSONencode("xaxis_data") + COLON + OPEN_CURLY + bins + CLOSE_CURLY + COMMA +
 						JSONencode("yaxis_data") + COLON + OPEN_CURLY + series + CLOSE_CURLY + CLOSE_CURLY;
 
+cout << json_str;
 					return json_str;
 				}
 		};
