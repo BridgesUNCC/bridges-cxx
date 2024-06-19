@@ -108,12 +108,19 @@ namespace bridges {
 				return "http://bridgesdata.herokuapp.com/api/us_cities";
 			}
 
+	  void defaultDebug() {
+	    char* force = getenv("FORCE_BRIDGES_DATADEBUG");
+	    if (force != nullptr)
+	      set_debug_flag();
+
+	  }
+	  
 		public:
 			DataSource(bridges::Bridges* br = nullptr)
-				: bridges_inst(br), my_cache(120) {}
+			  : bridges_inst(br), my_cache(120) {defaultDebug();}
 
 			DataSource(bridges::Bridges& br )
-				: DataSource(&br) {}
+				: DataSource(&br) {defaultDebug();}
 
 			/**
 			 *  @brief set data server type
@@ -1481,7 +1488,7 @@ namespace bridges {
 				// get the dataset's JSON from the local cache, if available,
 				// else from the server
 
-				string elev_json = getDataSetJSON(elev_url, hash_url, "elevation");
+				string elev_json = getDataSetJSON(elev_url, hash_url, "elevation"); //Erik says: we call that function but the format ain't JSON somehow.
 
 				return parseElevationData(elev_json);
 			}
@@ -1508,6 +1515,10 @@ namespace bridges {
 					tmp >> ll_x >> tmp >> ll_y >>
 					tmp >> cell_size;
 
+				if (!ss)
+				  throw "Parse Error";
+				  
+				
 				// create the elevation object
 				ElevationData elev_data (rows, cols);
 				elev_data.setxll(ll_x);
@@ -1521,6 +1532,9 @@ namespace bridges {
 						elev_data.setVal(i, j, elev_val);
 					}
 				}
+				if (!ss)
+				  throw "Parse Error";
+				  
 				return elev_data;
 			}
 
