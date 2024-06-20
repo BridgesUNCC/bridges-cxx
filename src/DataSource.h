@@ -53,6 +53,10 @@ namespace bridges {
 	 * Functions are provided that access a user specified number of data
 	 * records; objects of the appropriate type are returned as a list.
 	 *
+	 * Outputs more information if the environment variable
+	 * FORCE_BRIDGES_DATADEBUG exists, regardless of what it is
+	 * set too.
+	 *
 	 */
 
 	class DataSource {

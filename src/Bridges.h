@@ -34,6 +34,9 @@ namespace bridges {
 	 * If the FORCE_BRIDGES_APISERVER environment variable is set,
 	 * use the environment variable as API server in all cases.
 	 *
+	 * If the FORCE_BRIDGES_DATADEBUG environment variable is set,
+	 * output debug information about access data sources.
+	 *
 	 * @author Kalpathi Subramanian, Dakota Carmer, Erik Saule
 	 * @date  7/26/15, 6/5/17, 10/30/18, 7/12/19
 	 */
