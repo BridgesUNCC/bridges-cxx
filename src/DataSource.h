@@ -53,6 +53,10 @@ namespace bridges {
 	 * Functions are provided that access a user specified number of data
 	 * records; objects of the appropriate type are returned as a list.
 	 *
+	 * Outputs more information if the environment variable
+	 * FORCE_BRIDGES_DATADEBUG exists, regardless of what it is
+	 * set too.
+	 *
 	 */
 
 	class DataSource {
@@ -108,12 +112,19 @@ namespace bridges {
 				return "http://bridgesdata.herokuapp.com/api/us_cities";
 			}
 
+	  void defaultDebug() {
+	    char* force = getenv("FORCE_BRIDGES_DATADEBUG");
+	    if (force != nullptr)
+	      set_debug_flag();
+
+	  }
+	  
 		public:
 			DataSource(bridges::Bridges* br = nullptr)
-				: bridges_inst(br), my_cache(120) {}
+			  : bridges_inst(br), my_cache(120) {defaultDebug();}
 
 			DataSource(bridges::Bridges& br )
-				: DataSource(&br) {}
+				: DataSource(&br) {defaultDebug();}
 
 			/**
 			 *  @brief set data server type
@@ -1328,7 +1339,7 @@ namespace bridges {
 				}
 				catch (CacheException& ce) {
 					//something went bad trying to access the cache
-					std::cout << "Exception while reading from cache. Ignoring cache and continue." << std::endl;
+				  std::cout << "Exception while reading from cache. Ignoring cache and continue.\n( What was:"<<ce.what() <<")" << std::endl;
 				}
 
 				if (!from_cache) {
@@ -1370,7 +1381,7 @@ namespace bridges {
 					}
 					catch (CacheException& ce) {
 						//something went bad trying to access the cache
-						std::cerr << "Exception while storing in cache. Weird but not critical." << std::endl;
+					  std::cerr << "Exception while storing in cache. Weird but not critical. (What was: "<<ce.what()<<" )" << std::endl;
 					}
 				}
 
@@ -1481,7 +1492,7 @@ namespace bridges {
 				// get the dataset's JSON from the local cache, if available,
 				// else from the server
 
-				string elev_json = getDataSetJSON(elev_url, hash_url, "elevation");
+				string elev_json = getDataSetJSON(elev_url, hash_url, "elevation"); //Erik says: we call that function but the format ain't JSON somehow.
 
 				return parseElevationData(elev_json);
 			}
@@ -1508,6 +1519,10 @@ namespace bridges {
 					tmp >> ll_x >> tmp >> ll_y >>
 					tmp >> cell_size;
 
+				if (!ss)
+				  throw "Parse Error";
+				  
+				
 				// create the elevation object
 				ElevationData elev_data (rows, cols);
 				elev_data.setxll(ll_x);
@@ -1521,6 +1536,9 @@ namespace bridges {
 						elev_data.setVal(i, j, elev_val);
 					}
 				}
+				if (!ss)
+				  throw "Parse Error";
+				  
 				return elev_data;
 			}
 
@@ -1708,7 +1726,7 @@ namespace bridges {
 					catch (CacheException& ce) {
 						//something went bad trying to access the data in the local cache
 						std::cout << "Exception while reading from cache. "
-							<< "Ignoring cache and continuing..\n.";
+							  << "Ignoring cache and continuing..\n (What was:"<<ce.what()<<")\n";
 					}
 				}
 				if (!dataloaded) {
@@ -1745,7 +1763,8 @@ namespace bridges {
 					catch (CacheException& ce) {
 						//something went bad trying to access the cache
 						std::cerr << "Exception while storing in cache. " <<
-							"Weird but not critical.\n";
+						  "Weird but not critical.\n" <<
+						  "(What was: "<<ce.what()<<")\n";
 						if (debug())
 							std::cerr << "Tried to store hash=" << hash_value <<
 								" key = " << data_json << std::endl;

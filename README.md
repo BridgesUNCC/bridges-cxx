@@ -31,9 +31,9 @@ Notes:
 5. Uses rapidjson to parse JSON of external datasets
 
 
-## For BRIDGES developper
+## For BRIDGES developer
 
-### How to make a release ?
+### How to make a release?
 
 First tag the commit that you want with the correct version number. Assuming you are on that commit:
 
