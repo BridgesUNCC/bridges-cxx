@@ -1335,7 +1335,7 @@ namespace bridges {
 				}
 				catch (CacheException& ce) {
 					//something went bad trying to access the cache
-					std::cout << "Exception while reading from cache. Ignoring cache and continue." << std::endl;
+				  std::cout << "Exception while reading from cache. Ignoring cache and continue.\n( What was:"<<ce.what() <<")" << std::endl;
 				}
 
 				if (!from_cache) {
@@ -1377,7 +1377,7 @@ namespace bridges {
 					}
 					catch (CacheException& ce) {
 						//something went bad trying to access the cache
-						std::cerr << "Exception while storing in cache. Weird but not critical." << std::endl;
+					  std::cerr << "Exception while storing in cache. Weird but not critical. (What was: "<<ce.what()<<" )" << std::endl;
 					}
 				}
 
@@ -1722,7 +1722,7 @@ namespace bridges {
 					catch (CacheException& ce) {
 						//something went bad trying to access the data in the local cache
 						std::cout << "Exception while reading from cache. "
-							<< "Ignoring cache and continuing..\n.";
+							  << "Ignoring cache and continuing..\n (What was:"<<ce.what()<<")\n";
 					}
 				}
 				if (!dataloaded) {
@@ -1759,7 +1759,8 @@ namespace bridges {
 					catch (CacheException& ce) {
 						//something went bad trying to access the cache
 						std::cerr << "Exception while storing in cache. " <<
-							"Weird but not critical.\n";
+						  "Weird but not critical.\n" <<
+						  "(What was: "<<ce.what()<<")\n";
 						if (debug())
 							std::cerr << "Tried to store hash=" << hash_value <<
 								" key = " << data_json << std::endl;

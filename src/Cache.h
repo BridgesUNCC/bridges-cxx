@@ -8,9 +8,26 @@
 #include <direct.h>
 #endif
 
+#if __cplusplus >= 201703L
+#include <filesystem>
+#endif
+
 namespace bridges {
 
-	class CacheException : std::exception {
+
+	class CacheException : public std::exception {
+	  const char* whatmsg;
+	public:
+	  
+	  CacheException(const char* what_msg="")
+	    :std::exception(),whatmsg(what_msg) {
+	    
+	  }
+
+	  virtual const char* what() const noexcept {
+	    return whatmsg;
+	  }
+	  
 	};
 
 	class Cache {
@@ -22,6 +39,18 @@ namespace bridges {
 				const std::string & content) noexcept(false) = 0;
 	};
 
+  /**
+   * @brief object managing a disk cache for which ever purpose needed.
+   *
+   * This object is not meant to be used directly by the end-user
+   * (student or instructor) but rather to be used internally for caching purposes.
+   *
+   * The cache is created according to XDG ( https://specifications.freedesktop.org/basedir-spec/basedir-spec-latest.html ) that it is to it is created in $XDG_CACHE_HOME/bridges_data/cxx/ if XDG_CACHE_HOME is defined or $HOME/.cache/bridges_data/cxx/ otherwise. On windows it is created in $LOCALAPPDATA/.cache/bridges_data/cxx/ . 
+   *
+   * You can force a different cache location by setting $FORCE_BRIDGES_CACHEDIR .
+   * 
+   *
+   **/
 	class SimpleCache : public Cache {
 		private:
 			std::string cacheDir;
@@ -41,7 +70,7 @@ namespace bridges {
 						return true;
 					}
 					else {
-						throw CacheException(); //s exist but is not a directory
+						throw CacheException("Expect directory"); //s exist but is not a directory
 					}
 				}
 
@@ -49,7 +78,19 @@ namespace bridges {
 			}
 
 			//make a directory called s or throw an exception
-			void makeDirectory (const std::string &s) {
+			static void makeDirectory (const std::string &s) {
+#if __cplusplus >= 201703L
+			  //C++17 support
+
+			  //we can use std::filesystem::create_directories to make the directories recursively.
+
+			  bool ret = std::filesystem::create_directories(s);
+			  if (!ret)
+					throw CacheException("error in makeDirectory");
+
+#else
+			  //No C++17 support. So no std::filesystem support
+			  //So forgo recursive creation. Probably not worth the cost of writing the code.
 #ifndef _WIN32
 				int ret = mkdir(s.c_str(), 0700);
 #endif
@@ -58,20 +99,45 @@ namespace bridges {
 #endif
 
 				if (ret != 0)
-					throw CacheException();
+					throw CacheException("error in makeDirectory");
+
+#endif
+
+
 			}
 
 		public:
 			SimpleCache() {
+			  //According to XDG, you should put the cache data in
+			  //$XDG_CACHE_HOME and if not defined in $HOME/.cache
+			  //However, MS Windows does not set $HOME. So we
+			  //use $LOCALAPPDATA as if it was $HOME.
+			  //
+			  //So we put the data in $XDG_CACHE_HOME/bridges_data/cxx
+			  //
+			  //Finally, one can overide everything by setting $FORCE_BRIDGES_CACHEDIR
+			  
 				char * home = getenv("HOME"); // a reasonable location on unixes
 				if (home == nullptr)
 					home = getenv("LOCALAPPDATA"); // a reasonnable location on windowses
 
 				if (home != nullptr)
-					cacheDir += std::string(home) + "/";
+					cacheDir += std::string(home) + "/.cache/";
 
-				cacheDir += ".cache/bridges_data/cxx/";
+
+				//override the directory of the cache if  is set
+				char* xdg_cache_home = getenv("XDG_CACHE_HOME");
+				if (xdg_cache_home != nullptr)
+				  cacheDir = std::string(xdg_cache_home) + "/";
+				
+				cacheDir += "bridges_data/cxx/";
 				//probably should check directory existence here, but exception in constructors are weird.
+
+				
+				//override the directory of the cache if FORCE_BRIDGES_CACHEDIR is set
+				char* forcedir = getenv("FORCE_BRIDGES_CACHEDIR");
+				if (forcedir != nullptr)
+				  cacheDir = std::string(forcedir)+"/";
 			}
 
 			virtual ~SimpleCache() = default;
@@ -92,7 +158,7 @@ namespace bridges {
 				std::ifstream in(filename);
 
 				if (!in.good() || !(in.is_open()))
-					throw CacheException();
+					throw CacheException("Can't open file to read");
 
 				std::string contents;
 				in.seekg(0, std::ios::end);
@@ -100,7 +166,7 @@ namespace bridges {
 				in.seekg(0, std::ios::beg);
 				in.read(&contents[0], contents.size());
 				if (! (in.good()))
-					throw CacheException();
+					throw CacheException("Error while reading cache document");
 				in.close();
 				return (contents);
 
@@ -116,11 +182,11 @@ namespace bridges {
 
 				std::ofstream out(filename);
 				if (!out.good() || !(out.is_open()))
-					throw CacheException();
+					throw CacheException("can't open file to store");
 
 				out << content.c_str(); //this assumes string isn't binary
 				if (!out.good() || !(out.is_open()))
-					throw CacheException();
+					throw CacheException("error while writing cache document");
 
 			}
 
