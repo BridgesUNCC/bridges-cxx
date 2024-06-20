@@ -18,11 +18,11 @@ namespace bridges {
 		 * Each game record has title, platform on which it can be played,
 		 * rating,  and a list of genres.
 
-		 * One would not normally create an object of this type, but 
-		 *	rather obtain them through a call to 
+		 * One would not normally create an object of this type, but
+		 *	rather obtain them through a call to
 		 * 	bridges::DataSource::getGameData().
 		 *
-		 * @sa Refer to tutorial examples on how to use this dataset: 
+		 * @sa Refer to tutorial examples on how to use this dataset:
 		 *	https://bridgesuncc.github.io/tutorials/Data_IGN_Games.html
 		 *
 		 * @author Kalpathi Subramanian
@@ -53,7 +53,6 @@ namespace bridges {
 				 * @param rating  rating of game (double)
 				 * @param genre  genres of game (vector of strings)
 				 */
-
 
 				Game(const string& title, const string& platform, double rating,
 					const vector<string>& genre)

@@ -7,10 +7,10 @@
  *
  * This class holds the individual information for each amenity requested
 
- * Usually this class is not created by the user but part of an AmenityData 
+ * Usually this class is not created by the user but part of an AmenityData
  * object returned by bridges::DataSource::getAmenityData()
 
- * @sa Check out the tutorial on getting amenity data at 
+ * @sa Check out the tutorial on getting amenity data at
  *		https://bridgesuncc.github.io/tutorials/Data_Amenity.html
  *
  * @author Kalpathi Subramanian
@@ -56,7 +56,6 @@ class Amenity {
 			setName(name);
 			setOther(other);
 		}
-
 
 		/**
 		 * get the ID  of this amenity

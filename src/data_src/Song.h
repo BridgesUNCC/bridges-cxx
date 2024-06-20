@@ -2,7 +2,6 @@
 #ifndef SONG_H
 #define SONG_H
 
-
 namespace bridges {
 	namespace dataset {
 		/**
@@ -12,11 +11,11 @@ namespace bridges {
 		 * data source as part of their application. It provides an API that makes
 		 * it easy to access the attributes of this data set.
 		 *
-		 * The Song object is typically obtained from calling 
-		 * bridges::DataSource::getSongData() or 
+		 * The Song object is typically obtained from calling
+		 * bridges::DataSource::getSongData() or
 		 *  bridges::DataSource::getSong().
 		 *
-		 * @sa Refer to tutorial for example of using this feature: 
+		 * @sa Refer to tutorial for example of using this feature:
 		 *	https://bridgesuncc.github.io/tutorials/Data_Song_Lyrics.html
 		 *
 		 *
@@ -69,7 +68,6 @@ namespace bridges {
 				 *   Set song artist
 				 *   @param artist artist to set
 				 */
-
 
 				void setArtist (const string& artist) {
 					this->artist = artist;

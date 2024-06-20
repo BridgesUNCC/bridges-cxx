@@ -2,7 +2,6 @@
 
 #define OSM_AMENITY_DATA
 
-
 #include "Amenities.h"
 #include <vector>
 
@@ -11,10 +10,10 @@
  *
  * This class holds the data for all the amenities requested by the user
  *
- * Usually this class is not created by the user but returned by 
+ * Usually this class is not created by the user but returned by
  *	bridges::DataSource::getAmenityData()
 
- * @sa Check out the tutorial on getting amenity data at 
+ * @sa Check out the tutorial on getting amenity data at
  *		https://bridgesuncc.github.io/tutorials/Data_Amenity.html
  * @author Kalpathi Subramanian
  *
@@ -160,7 +159,6 @@ class AmenityData {
 		int getCount() {
 			return count;
 		}
-
 
 		/**
 		 * set the count of amenities

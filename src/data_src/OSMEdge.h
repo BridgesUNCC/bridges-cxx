@@ -5,7 +5,6 @@
 #include <string>
 #include "./data_src/OSMVertex.h"
 
-
 using namespace std;
 
 namespace bridges {
@@ -15,11 +14,11 @@ namespace bridges {
 		 *
 		 * Class that holds Open Street Map edges from https://openstreetmap.org
 		 *
-		 * Objects from this class are typically not created by the user but 
-		 * contained in the OsmData object returned by 
+		 * Objects from this class are typically not created by the user but
+		 * contained in the OsmData object returned by
 		 * bridges::DataSource::getOSMData()
 
-		 * @sa Check out how to use OSM data at: 
+		 * @sa Check out how to use OSM data at:
 		 *	https://bridgesuncc.github.io/tutorials/Data_OSM.html
 		 *
 		 * @author Erik Saule, Kalpathi Subramanian

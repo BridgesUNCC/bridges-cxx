@@ -13,15 +13,15 @@ namespace bridges {
 		 * data source as part of their application. It provides an API that makes
 		 * it easy to access the attributes of this data set.
 		 *
-		 * Objects of this type are typically not constructed by the user 
-		 * but returned by a call to our Gutenberg API such as 
+		 * Objects of this type are typically not constructed by the user
+		 * but returned by a call to our Gutenberg API such as
 		 * bridges::DataSource::getGutenbergBookMetaData(), with
 		 * an optional book id (integer) as a parameter.
 
-		 * The object does not contain the text of the book itself. Though it 
+		 * The object does not contain the text of the book itself. Though it
 		 * can be obtained using bridges::DataSource::getGutenbergBookText()
 
-		 * @sa A tutorial of how to use the Gutenberg data in BRIDGES is 
+		 * @sa A tutorial of how to use the Gutenberg data in BRIDGES is
 		 * available: https://bridgesuncc.github.io/tutorials/Data_Gutenberg.html
 		 *
 		 * @author Kalpathi Subramanian
@@ -41,8 +41,8 @@ namespace bridges {
 				/**
 				 * Default Constructor
 				 */
-				GutenbergBook() 
-					  : title(""), lang(""), date_added(""), id(0), loc_class ("") {
+				GutenbergBook()
+					: title(""), lang(""), date_added(""), id(0), loc_class ("") {
 				}
 
 				/**
@@ -56,8 +56,8 @@ namespace bridges {
 				 * @param genr		genres of book
 				 * @param da        date added
 				 */
-				GutenbergBook(const string& titl, const int& book_id, const vector<string>& auth, 
-					const string& lng, const vector<string>& genr, const string& da) 
+				GutenbergBook(const string& titl, const int& book_id, const vector<string>& auth,
+					const string& lng, const vector<string>& genr, const string& da)
 					: title(titl), id(book_id), authors(auth), lang(lng), genres(genr), date_added(da) {
 				}
 
@@ -171,4 +171,3 @@ namespace bridges {
 }// namespace bridges
 
 #endif
-

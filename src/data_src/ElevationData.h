@@ -12,12 +12,12 @@ namespace bridges {
 		/**
 		 * @brief  Class that hold elevation data
 		 *
-		 * Class that holds Elevation data. 
+		 * Class that holds Elevation data.
 		 *
-		 * A user would not normally create an ElevationData object but 
+		 * A user would not normally create an ElevationData object but
 		 * rather obtain one from calling bridges::DataSource::getElevationData()
 		 *
-		 * A tutorial on how to use the Elevation dataset is available at: 
+		 * A tutorial on how to use the Elevation dataset is available at:
 		 *	https://bridgesuncc.github.io/tutorials/Data_Elevation.html
 		 *
 		 * @author Kalpathi Subramanian
@@ -39,7 +39,7 @@ namespace bridges {
 
 				// maximum value in the data set
 				int maxVal;
-		  		int minVal;
+				int minVal;
 
 			public:
 
@@ -47,7 +47,7 @@ namespace bridges {
 				 *
 				 * default constructor
 				 *
-				 *assumes all values will be set 
+				 *assumes all values will be set
 				 */
 				ElevationData() {
 
@@ -88,7 +88,7 @@ namespace bridges {
 				 * @param maxVal  min elevation value in map
 				 */
 				ElevationData (int cols, int rows, int xll,
-					       int yll, float cellsize, int maxVal, int minVal) {
+					int yll, float cellsize, int maxVal, int minVal) {
 					//data = new int[cols * rows];
 					data.resize(cols * rows);
 					setCols(cols);
@@ -149,9 +149,9 @@ namespace bridges {
 				 * @param val  elevation value
 				 */
 				void setVal (int r, int c, int val) {
-				  minVal = std::min(minVal, val);
-				  maxVal = std::max(maxVal, val);
-				    
+					minVal = std::min(minVal, val);
+					maxVal = std::max(maxVal, val);
+
 					data[r * cols + c] = val;
 				}
 				/**
@@ -242,11 +242,11 @@ namespace bridges {
 				void setMaxVal(int max_val) {
 					maxVal = max_val;
 				}
-		  /**
-				 *
-				 *	get min elevation of data
-				 *	@return the min elevation value in the map
-				 */
+				/**
+					 *
+					 *	get min elevation of data
+					 *	@return the min elevation value in the map
+					 */
 				int getMinVal() const {
 					return minVal;
 				}

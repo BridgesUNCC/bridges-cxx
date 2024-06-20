@@ -5,14 +5,12 @@
 #include <math.h>
 #include <cmath>
 
-
 #include <algorithm>
 
 //should be defined in math.h but VS2017 has a weird behavior here.
 #ifndef M_PI
 #define M_PI 3.1415926535897
 #endif
-
 
 #include <GraphAdjList.h>
 
@@ -27,10 +25,10 @@ namespace bridges {
 		 *
 		 * Class that holds Open Street Map data, from https://openstreetmap.org
 
-	     * Objects from this class are typically not created by the user 
+		 * Objects from this class are typically not created by the user
 		 *  but retruned by bridges::DataSource::getOSMData()
 
-		 * @sa Check out how to use OSM data at: 
+		 * @sa Check out how to use OSM data at:
 		 *	https://bridgesuncc.github.io/tutorials/Data_OSM.html
 		 *
 		 * @author Erik Saule, Kalpathi Subramanian
@@ -58,7 +56,6 @@ namespace bridges {
 				static double degreeToRadians(double deg) {
 					return deg * M_PI / 180.;
 				}
-
 
 				void recomputeCartesianRange() {
 					cartesian_range_x[0] = 1000000.;
@@ -160,7 +157,6 @@ namespace bridges {
 							yrange[0] << "," << yrange[1] << endl;
 					}
 
-
 					double ll[2], ur[2];
 					// translation
 					double tx  = xrange[0];
@@ -176,7 +172,6 @@ namespace bridges {
 					}
 
 					std::unordered_map<OSMVertex::OSMVertexID, int> vert_map;
-
 
 					k = 0;
 					for (int k = 0; k < vertices.size(); k++) {
@@ -208,7 +203,6 @@ namespace bridges {
 					}
 
 				}
-
 
 				OSMData() {
 				}

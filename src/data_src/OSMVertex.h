@@ -11,7 +11,6 @@
 #define M_PI 3.1415926535897
 #endif
 
-
 using namespace std;
 
 namespace bridges {
@@ -20,11 +19,11 @@ namespace bridges {
 		 * @brief  Class that hold Open Street Map vertices
 		 *
 		 * Class that holds Open Street Map vertices from https://openstreetmap.org
-		 * Objects from this class are typically not created by the user 
-		 *	but contained in the OsmData object returned by 
+		 * Objects from this class are typically not created by the user
+		 *	but contained in the OsmData object returned by
 		 *	bridges::DataSource::getOSMData()
 		 *
-		 * @sa Check out how to use OSM data at: 
+		 * @sa Check out how to use OSM data at:
 		 *	https://bridgesuncc.github.io/tutorials/Data_OSM.html
 		 *
 		 * @author Erik Saule, Kalpathi Subramanian
@@ -72,7 +71,6 @@ namespace bridges {
 
 					toCartesianCoords ();
 				}
-
 
 				/**
 				 * Constructor
