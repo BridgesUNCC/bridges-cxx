@@ -1442,7 +1442,7 @@ namespace bridges {
 
 				std::vector<MovieActorWikidata> ret;
 				for (int y = yearbegin; y <= yearend; ++y) {
-					cout << "getting year " << y << endl;
+					// cout << "getting year " << y << endl;
 					getWikidataActorMovieDirect (y, y, ret);
 				}
 				return ret;
