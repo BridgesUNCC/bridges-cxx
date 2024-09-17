@@ -43,7 +43,7 @@ namespace bridges {
 				std::string plotTitle;
 				std::string plotSubTitle;
 				std::string tooltipSuffix;
-				std::string alignment;
+				std::string orientation;
 
 				unordered_map<string, vector<double>> seriesData;
 				std::vector<std::string> seriesBins;
@@ -55,7 +55,7 @@ namespace bridges {
 					yLabel = "";
 					xLabel = "";
 					tooltipSuffix = "";
-					alignment = "horizontal";
+					orientation = "horizontal";
 				}
 
 				/**
@@ -139,23 +139,25 @@ namespace bridges {
 				}
 
 				/**
-				 * @brief sets the bar chart alignment
+				 * @brief sets the bar chart orientation
 				 *
 				 * Bar charts can be 'horizontal' or 'vertical'
 				 *
 				 * @param align 
 				 **/
-				void setBarAlignment(std::string align) {
-					alignment = align;
+				void setBarOrientation(const std::string& orient) {
+				  if (orient != "horizontal" && orient != "vertical")
+				    throw std::invalid_argument("Orientation should be \"horizontal\" or \"vertical\".");
+				  orientation = orient;
 				}
 
 				/**
-				 * @brief gets the bar chart alignment
+				 * @brief gets the bar chart orientation
 				 *
-				 * @return alignment 
+				 * @return orientation (either "horizontal" or "vertical")
 				 **/
-				std::string getBarAlignment() const {
-					return alignment;
+				std::string getBarOrientation() const {
+					return orientation;
 				}
 
 				/**
@@ -233,7 +235,7 @@ namespace bridges {
 						JSONencode("xLabel") + COLON + JSONencode(getBinsLabel()) +  COMMA +
 						JSONencode("yLabel") + COLON + JSONencode(getSeriesLabel()) + COMMA +
 						JSONencode("tooltipSuffix") + COLON + JSONencode(getTooltipSuffix()) + COMMA +
-						JSONencode("alignment") + COLON + JSONencode(getBarAlignment()) + COMMA +
+						JSONencode("alignment") + COLON + JSONencode(getBarOrientation()) + COMMA +
 						JSONencode("xaxis_data") + COLON + OPEN_CURLY + bins + CLOSE_CURLY + COMMA +
 						JSONencode("yaxis_data") + COLON + OPEN_CURLY + series + CLOSE_CURLY + CLOSE_CURLY;
 
