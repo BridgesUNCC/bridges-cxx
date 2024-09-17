@@ -7,6 +7,32 @@
 #include <DataStructure.h>
 #include <JSONutil.h>
 
+/**
+ * @brief Support for drawing Bar charts 
+ *
+ * Bar charts (https://en.wikipedia.org/wiki/Bar_chart) are used to
+ * represent categorical data as a series of rectangular bars with heights
+ * proportional to the values they represent
+ *  
+ * A series is represented by two arrays xdata and ydata. The x axis
+ * data is a series of equal sized bins, while the y axis data represents 
+ * the value of that bin (or count).  Bins are added using setSeriesBins() and
+ * their values are added using addDataSeries(). Labels are associated with 
+ * the datasets
+ *      
+ * The Bar charts  can have a title, subtitle, and a tooltip indicating the
+ * the bin values.
+ *  
+ * @sa See tutorial on using BarChart at:
+ *      https://bridgesuncc.github.io/tutorials/BarChart.html
+ *
+ * @author Matthew Mcquaigue, Kalpathi Subramanian
+ *
+ * @date 09/15/24 (updated)
+ *
+ **/
+
+
 namespace bridges {
 	namespace datastructure {
 
@@ -112,37 +138,64 @@ namespace bridges {
 					return xLabel;
 				}
 
+				/**
+				 * @brief sets the bar chart alignment
+				 *
+				 * @param align 
+				 **/
 				void setBarAlignment(std::string align) {
 					alignment = align;
 				}
 
+				/**
+				 * @brief gets the bar chart alignment
+				 *
+				 * @return alignment 
+				 **/
 				std::string getBarAlignment() const {
 					return alignment;
 				}
 
+				/**
+				* @brief sets the tooltip suffix
+				*
+				* @param suffix 
+				**/
 				void setTooltipSuffix(std::string suffix) {
 					tooltipSuffix = suffix;
 				}
 
+				/**
+				* @brief gets the tooltip suffix
+				*
+				* @return suffix 
+				**/
 				std::string getTooltipSuffix() const {
 					return tooltipSuffix;
 				}
 
+				/**
+				 *  @brief set the bins for this bar chart
+				 *
+				 *  @param bins
+				 */
 				void setSeriesBins(std::vector<std::string> bins) {
 					seriesBins = bins;
 				}
 
 				/**
-				 * @brief Add a series (or update it)
+				 * @brief Add data values for the bins
 				 *
-				 * @param seriesName indicates the series to add (or change)
-				 * @param xdata the X data in the series
-				 * @param ydata the Y data in the series
+				 * @param seriesName indicates the name of the data to add
+				 * @param data values of the bins
 				 **/
 				void addDataSeries(std::string seriesName, std::vector<double> data) {
 					seriesData[seriesName] = data;
 				}
 
+				/**
+				 * @brief get the data structure representation as a JSON
+				 */
 				virtual const std::string getDataStructureRepresentation() const override {
 					using bridges::JSONUtil::JSONencode;
 					std::string bins = "";
