@@ -18,15 +18,15 @@
  * (sometimes called bins). Categories are defined using
  * setCategories() and the series are added using addDataSeries().
  * The series are rendered in the order in which they were added. Once
- * a serie has been added, it can not be modified.
+ * a series has been added, it can not be modified.
  *
  * One should always define the categories before adding data. Changing the
- * categories after series have been added will throw an exceptions and
+ * categories after series have been added will throw exceptions;
  * adding series with different number of values than the number of
  * categories will throw an exception.
  *      
  * The Bar charts can have a title, subtitle. The charts can be
- * horizontal or vertically aligned using setBarOrientation().
+ * horizontal or vertically oriented, using setBarOrientation().
  * 
  * A tooltip indicating the value of a series in a particular bin is
  * displayed by hovering on a bar. One can append a string to the
@@ -55,7 +55,7 @@ namespace bridges {
 				std::string tooltipSuffix;
 				std::string orientation;
 
-		  std::vector<std::pair<string, vector<double>>>  seriesData; //name, data
+				std::vector<std::pair<string, vector<double>>>  seriesData; //name, data
 				std::vector<std::string> categories;
 
 			public:
@@ -95,7 +95,7 @@ namespace bridges {
 				}
 
 				/**
-				 * @brief Subtitle of the plot
+				 * @brief set subtitle of the plot
 				 *
 				 * @param s the subtitle to be shown
 				 **/
@@ -104,7 +104,7 @@ namespace bridges {
 				}
 
 				/**
-				 * @brief Subtitle of the plot
+				 * @brief get the subtitle of the plot
 				 *
 				 * @return the subtitle to be shown
 				 **/
@@ -115,7 +115,7 @@ namespace bridges {
 				/**
 				 * @brief Change the label for the value axis
 				 *
-				 * @param yaxisName label to show for the value axis
+				 * @param vAxisName label to show for the value axis
 				 **/
 				void setValueLabel(const std::string& vAxisName) {
 					vLabel = vAxisName;
@@ -220,7 +220,7 @@ namespace bridges {
 				  for (auto& entry : seriesData) {
 				    std::string key = entry.first;
 				    if (key == seriesName)
-				      throw std::runtime_error ("Can't have two series with the same name.")
+				      throw std::runtime_error ("Can't have two series with the same name.");
 				  }
 				  
 				  seriesData.push_back(std::make_pair(seriesName, data));
