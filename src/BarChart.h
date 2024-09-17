@@ -131,9 +131,9 @@ namespace bridges {
 				}
 
 				/**
-				 * @brief Change the label for categories
+				 * @brief Change the label for categoryt axis
 				 *
-				 * @param cAxisName label to use for the categoriess
+				 * @param cAxisName label to use for the category axis
 				 **/
 				void setCategoriesLabel(std::string cAxisName) {
 					cLabel = cAxisName;
@@ -171,8 +171,7 @@ namespace bridges {
 				/**
 				 * @brief sets the tooltip suffix
 				 *
-				 * This prints a string that is more informative of the values
-				 * represented by the bars
+				 * This appends a string to the values in the hover tooltip.
 				 *
 				 * @param suffix 
 				 **/
@@ -190,7 +189,7 @@ namespace bridges {
 				}
 
 				/**
-				 *  @brief set the categoriess for this bar chart
+				 *  @brief set the categories for this bar chart
 				 *
 				 * Will throw an exception if there are already data series defined. 
 				 *
@@ -223,7 +222,6 @@ namespace bridges {
 				    if (key == seriesName)
 				      throw std::runtime_error ("Can't have two series with the same name.")
 				  }
-				  
 				  
 				  seriesData.push_back(std::make_pair(seriesName, data));
 				}
