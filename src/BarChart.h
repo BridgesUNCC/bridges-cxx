@@ -21,7 +21,7 @@
  * the datasets
  *      
  * The Bar charts  can have a title, subtitle, and a tooltip indicating the
- * the bin values.
+ * the bin values. The charts can be horizontal or vertically aligned
  *  
  * @sa See tutorial on using BarChart at:
  *      https://bridgesuncc.github.io/tutorials/BarChart.html
@@ -141,6 +141,8 @@ namespace bridges {
 				/**
 				 * @brief sets the bar chart alignment
 				 *
+				 * Bar charts can be 'horizontal' or 'vertical'
+				 *
 				 * @param align 
 				 **/
 				void setBarAlignment(std::string align) {
@@ -157,10 +159,13 @@ namespace bridges {
 				}
 
 				/**
-				* @brief sets the tooltip suffix
-				*
-				* @param suffix 
-				**/
+				 * @brief sets the tooltip suffix
+				 *
+				 * This prints a string that is more informative of the values
+				 * represented by the bars
+				 *
+				 * @param suffix 
+				 **/
 				void setTooltipSuffix(std::string suffix) {
 					tooltipSuffix = suffix;
 				}
