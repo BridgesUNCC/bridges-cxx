@@ -215,7 +215,7 @@ namespace bridges {
 				 **/
 				void addDataSeries(std::string seriesName, std::vector<double> data) {
 				  if (data.size() != categories.size())
-				    throw std::runtime_error ("The data vector should have the same size as the number of categoriess.");
+				    throw std::runtime_error ("The data vector should have the same size as the number of categories.");
 
 				  for (auto& entry : seriesData) {
 				    std::string key = entry.first;
