@@ -8,25 +8,34 @@
 #include <JSONutil.h>
 
 /**
- * @brief Support for drawing Bar charts 
+ * @brief Support for drawing Bar charts.
  *
  * Bar charts (https://en.wikipedia.org/wiki/Bar_chart) are used to
- * represent categorical data as a series of rectangular bars with heights
- * proportional to the values they represent
+ * represent categorical data as a series of rectangular bars with length
+ * proportional to the values they represent.
  *  
- * A series is represented by two arrays xdata and ydata. The x axis
- * data is a series of equal sized bins, while the y axis data represents 
- * the value of that bin (or count).  Bins are added using setSeriesBins() and
- * their values are added using addDataSeries(). Labels are associated with 
- * the datasets
+ * Series in a bar chart provides data for a number of categories,
+ * called bins. Bins are defined using setSeriesBins() and the series
+ * are added using addDataSeries(). 
+ *
+ * One should always define the bins before adding data. Changing the
+ * bins after series have been added will throw an exceptions and
+ * adding series with different number of values than the number of
+ * bins will throw an exception.
  *      
- * The Bar charts  can have a title, subtitle, and a tooltip indicating the
- * the bin values. The charts can be horizontal or vertically aligned
+ * The Bar charts can have a title, subtitle. The charts can be
+ * horizontal or vertically aligned using setBarOrientation().
+ * 
+ * A tooltip indicating the value of a series in a particular bin is
+ * displayed by hovering on a bar. One can append a string to the
+ * value using setTooltipSuffix() to specify units in the tooltip if desired.
  *  
+ * 
+ *
  * @sa See tutorial on using BarChart at:
  *      https://bridgesuncc.github.io/tutorials/BarChart.html
  *
- * @author Matthew Mcquaigue, Kalpathi Subramanian
+ * @author Matthew Mcquaigue, Kalpathi Subramanian, Erik Saule
  *
  * @date 09/15/24 (updated)
  *
@@ -38,8 +47,8 @@ namespace bridges {
 
 		class BarChart : public DataStructure {
 			private:
-				std::string xLabel;
-				std::string yLabel;
+				std::string bLabel;
+				std::string vLabel;
 				std::string plotTitle;
 				std::string plotSubTitle;
 				std::string tooltipSuffix;
@@ -52,8 +61,8 @@ namespace bridges {
 				BarChart() {
 					plotTitle = "";
 					plotSubTitle = "";
-					yLabel = "";
-					xLabel = "";
+					vLabel = "";
+					bLabel = "";
 					tooltipSuffix = "";
 					orientation = "horizontal";
 				}
@@ -89,7 +98,7 @@ namespace bridges {
 				 *
 				 * @param s the subtitle to be shown
 				 **/
-				void setSubTitle(std::string s) {
+				void setSubTitle(const std::string& s) {
 					plotSubTitle = s;
 				}
 
@@ -103,47 +112,45 @@ namespace bridges {
 				}
 
 				/**
-				 * @brief Change the label for the Y-axis
+				 * @brief Change the label for the value axis
 				 *
-				 * @param yaxisName label to show for the Y-axis
+				 * @param yaxisName label to show for the value axis
 				 **/
-				void setSeriesLabel(std::string yaxisName) {
-					yLabel = yaxisName;
+				void setValueLabel(const std::string& vAxisName) {
+					vLabel = vAxisName;
 				}
 
 				/**
-				 * @brief Returns the label for the Y-axis
+				 * @brief Returns the label for the value axis
 				 *
-				 * @return label shown for the Y-axis
+				 * @return label shown for the value axis
 				 **/
-				std::string getSeriesLabel() const {
-					return yLabel;
+				std::string getValueLabel() const {
+					return vLabel;
 				}
 
 				/**
-				 * @brief Change the label for the X-axis
+				 * @brief Change the label for bins
 				 *
-				 * @param xaxisName label to use for the X-axis
+				 * @param xaxisName label to use for the bins
 				 **/
-				void setBinsLabel(std::string xaxisName) {
-					xLabel = xaxisName;
+				void setBinsLabel(std::string bAxisName) {
+					bLabel = bAxisName;
 				}
 
 				/**
-				 * @brief Returns the label for the Y-axis
+				 * @brief Returns the label for the bins
 				 *
-				 * @return label shown for the Y-axis
+				 * @return label shown for the bins
 				 **/
 				std::string getBinsLabel() const {
-					return xLabel;
+					return bLabel;
 				}
 
 				/**
 				 * @brief sets the bar chart orientation
 				 *
-				 * Bar charts can be 'horizontal' or 'vertical'
-				 *
-				 * @param align 
+				 * @param orient can be 'horizontal' or 'vertical'
 				 **/
 				void setBarOrientation(const std::string& orient) {
 				  if (orient != "horizontal" && orient != "vertical")
@@ -184,20 +191,28 @@ namespace bridges {
 				/**
 				 *  @brief set the bins for this bar chart
 				 *
-				 *  @param bins
+				 * Will throw an exception if there are already data series defined. 
+				 *
+				 *  @param bins Names of different bins
 				 */
 				void setSeriesBins(std::vector<std::string> bins) {
-					seriesBins = bins;
+				  if (seriesData.size() > 0)
+				    throw std::runtime_error ("Can't change bins after series have been added.");
+				  seriesBins = bins;
 				}
 
 				/**
-				 * @brief Add data values for the bins
+				 * @brief Add a series of data
+				 *
+				 * This will throw an exception if the data vector does not have the same size as the number of bins.
 				 *
 				 * @param seriesName indicates the name of the data to add
-				 * @param data values of the bins
+				 * @param data values of that serie for each  bin
 				 **/
 				void addDataSeries(std::string seriesName, std::vector<double> data) {
-					seriesData[seriesName] = data;
+				  if (data.size() != seriesBins.size())
+				    throw std::runtime_error ("The data vector should have the same size as the number of bins.");
+				  seriesData[seriesName] = data;
 				}
 
 				/**
@@ -233,7 +248,7 @@ namespace bridges {
 					std::string json_str = JSONencode("plot_title") + COLON +  JSONencode(getTitle()) + COMMA +
 						JSONencode("subtitle") + COLON + JSONencode(getSubTitle())  + COMMA +
 						JSONencode("xLabel") + COLON + JSONencode(getBinsLabel()) +  COMMA +
-						JSONencode("yLabel") + COLON + JSONencode(getSeriesLabel()) + COMMA +
+						JSONencode("yLabel") + COLON + JSONencode(getValueLabel()) + COMMA +
 						JSONencode("tooltipSuffix") + COLON + JSONencode(getTooltipSuffix()) + COMMA +
 						JSONencode("alignment") + COLON + JSONencode(getBarOrientation()) + COMMA +
 						JSONencode("xaxis_data") + COLON + OPEN_CURLY + bins + CLOSE_CURLY + COMMA +
