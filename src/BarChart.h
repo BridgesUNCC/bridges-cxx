@@ -14,14 +14,14 @@
  * represent categorical data as a series of rectangular bars with length
  * proportional to the values they represent.
  *  
- * Series in a bar chart provides data for a number of categories,
- * called bins. Bins are defined using setSeriesBins() and the series
- * are added using addDataSeries(). 
+ * Series in a bar chart provides data for a number of categories
+ * (sometimes called bins). Categories are defined using
+ * setCategories() and the series are added using addDataSeries().
  *
- * One should always define the bins before adding data. Changing the
- * bins after series have been added will throw an exceptions and
+ * One should always define the categories before adding data. Changing the
+ * categories after series have been added will throw an exceptions and
  * adding series with different number of values than the number of
- * bins will throw an exception.
+ * categories will throw an exception.
  *      
  * The Bar charts can have a title, subtitle. The charts can be
  * horizontal or vertically aligned using setBarOrientation().
@@ -47,7 +47,7 @@ namespace bridges {
 
 		class BarChart : public DataStructure {
 			private:
-				std::string bLabel;
+				std::string cLabel;
 				std::string vLabel;
 				std::string plotTitle;
 				std::string plotSubTitle;
@@ -55,14 +55,14 @@ namespace bridges {
 				std::string orientation;
 
 				unordered_map<string, vector<double>> seriesData;
-				std::vector<std::string> seriesBins;
+				std::vector<std::string> categories;
 
 			public:
 				BarChart() {
 					plotTitle = "";
 					plotSubTitle = "";
 					vLabel = "";
-					bLabel = "";
+					cLabel = "";
 					tooltipSuffix = "";
 					orientation = "horizontal";
 				}
@@ -130,21 +130,21 @@ namespace bridges {
 				}
 
 				/**
-				 * @brief Change the label for bins
+				 * @brief Change the label for categories
 				 *
-				 * @param xaxisName label to use for the bins
+				 * @param cAxisName label to use for the categoriess
 				 **/
-				void setBinsLabel(std::string bAxisName) {
-					bLabel = bAxisName;
+				void setCategoriesLabel(std::string cAxisName) {
+					cLabel = cAxisName;
 				}
 
 				/**
-				 * @brief Returns the label for the bins
+				 * @brief Returns the axis label for the categories
 				 *
-				 * @return label shown for the bins
+				 * @return label shown for the categories
 				 **/
-				std::string getBinsLabel() const {
-					return bLabel;
+				std::string getCategoriesLabel() const {
+					return cLabel;
 				}
 
 				/**
@@ -189,29 +189,31 @@ namespace bridges {
 				}
 
 				/**
-				 *  @brief set the bins for this bar chart
+				 *  @brief set the categoriess for this bar chart
 				 *
 				 * Will throw an exception if there are already data series defined. 
 				 *
-				 *  @param bins Names of different bins
+				 *  @param categories Names of different categories
 				 */
-				void setSeriesBins(std::vector<std::string> bins) {
+				void setCategories(std::vector<std::string> categories) {
 				  if (seriesData.size() > 0)
-				    throw std::runtime_error ("Can't change bins after series have been added.");
-				  seriesBins = bins;
+				    throw std::runtime_error ("Can't change categoriess after series have been added.");
+				  this->categories = categories;
 				}
 
 				/**
 				 * @brief Add a series of data
 				 *
-				 * This will throw an exception if the data vector does not have the same size as the number of bins.
+				 * This will throw an exception if the
+				 * data vector does not have the same
+				 * size as the number of categories.
 				 *
 				 * @param seriesName indicates the name of the data to add
-				 * @param data values of that serie for each  bin
+				 * @param data values of that serie for each category
 				 **/
 				void addDataSeries(std::string seriesName, std::vector<double> data) {
-				  if (data.size() != seriesBins.size())
-				    throw std::runtime_error ("The data vector should have the same size as the number of bins.");
+				  if (data.size() != categories.size())
+				    throw std::runtime_error ("The data vector should have the same size as the number of categoriess.");
 				  seriesData[seriesName] = data;
 				}
 
@@ -222,7 +224,7 @@ namespace bridges {
 					using bridges::JSONUtil::JSONencode;
 					std::string bins = "";
 					bins += JSONencode("xAxis") + COLON + OPEN_CURLY + JSONencode("categories") + COLON + OPEN_BOX;
-					for (auto& entry : seriesBins) {
+					for (auto& entry : categories) {
 						bins += JSONencode(entry) + COMMA;
 					}
 					bins = bins.erase(bins.length() - 1);
@@ -247,7 +249,7 @@ namespace bridges {
 
 					std::string json_str = JSONencode("plot_title") + COLON +  JSONencode(getTitle()) + COMMA +
 						JSONencode("subtitle") + COLON + JSONencode(getSubTitle())  + COMMA +
-						JSONencode("xLabel") + COLON + JSONencode(getBinsLabel()) +  COMMA +
+						JSONencode("xLabel") + COLON + JSONencode(getCategoriesLabel()) +  COMMA +
 						JSONencode("yLabel") + COLON + JSONencode(getValueLabel()) + COMMA +
 						JSONencode("tooltipSuffix") + COLON + JSONencode(getTooltipSuffix()) + COMMA +
 						JSONencode("alignment") + COLON + JSONencode(getBarOrientation()) + COMMA +
