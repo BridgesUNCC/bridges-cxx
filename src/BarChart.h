@@ -32,7 +32,6 @@
  * displayed by hovering on a bar. One can append a string to the
  * value using setTooltipSuffix() to specify units in the tooltip if desired.
  *  
- * 
  *
  * @sa See tutorial on using BarChart at:
  *      https://bridgesuncc.github.io/tutorials/BarChart.html
@@ -210,12 +209,22 @@ namespace bridges {
 				 * data vector does not have the same
 				 * size as the number of categories.
 				 *
+				 * This will throw exceptions if two series have the same name.
+				 *
 				 * @param seriesName indicates the name of the data to add
 				 * @param data values of that serie for each category
 				 **/
 				void addDataSeries(std::string seriesName, std::vector<double> data) {
 				  if (data.size() != categories.size())
 				    throw std::runtime_error ("The data vector should have the same size as the number of categoriess.");
+
+				  for (auto& entry : seriesData) {
+				    std::string key = entry.first;
+				    if (key == seriesName)
+				      throw std::runtime_error ("Can't have two series with the same name.")
+				  }
+				  
+				  
 				  seriesData.push_back(std::make_pair(seriesName, data));
 				}
 
