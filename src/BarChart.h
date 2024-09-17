@@ -17,6 +17,8 @@
  * Series in a bar chart provides data for a number of categories
  * (sometimes called bins). Categories are defined using
  * setCategories() and the series are added using addDataSeries().
+ * The series are rendered in the order in which they were added. Once
+ * a serie has been added, it can not be modified.
  *
  * One should always define the categories before adding data. Changing the
  * categories after series have been added will throw an exceptions and
@@ -54,7 +56,7 @@ namespace bridges {
 				std::string tooltipSuffix;
 				std::string orientation;
 
-				unordered_map<string, vector<double>> seriesData;
+		  std::vector<std::pair<string, vector<double>>>  seriesData; //name, data
 				std::vector<std::string> categories;
 
 			public:
@@ -214,7 +216,7 @@ namespace bridges {
 				void addDataSeries(std::string seriesName, std::vector<double> data) {
 				  if (data.size() != categories.size())
 				    throw std::runtime_error ("The data vector should have the same size as the number of categoriess.");
-				  seriesData[seriesName] = data;
+				  seriesData.push_back(std::make_pair(seriesName, data));
 				}
 
 				/**
