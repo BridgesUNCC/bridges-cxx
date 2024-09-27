@@ -50,8 +50,8 @@ namespace bridges {
 			private:
 				std::string cLabel;
 				std::string vLabel;
-				std::string plotTitle;
-				std::string plotSubTitle;
+				std::string title;
+				std::string subTitle;
 				std::string tooltipSuffix;
 				std::string orientation;
 
@@ -60,8 +60,8 @@ namespace bridges {
 
 			public:
 				BarChart() {
-					plotTitle = "";
-					plotSubTitle = "";
+					title = "";
+					subTitle = "";
 					vLabel = "";
 					cLabel = "";
 					tooltipSuffix = "";
@@ -82,7 +82,7 @@ namespace bridges {
 				 * @param t the title to be shown
 				 **/
 				void setTitle(std::string t) {
-					plotTitle = t;
+					title = t;
 				}
 
 				/**
@@ -91,7 +91,7 @@ namespace bridges {
 				 * @return the title to be shown
 				 **/
 				std::string getTitle() const {
-					return plotTitle;
+					return title;
 				}
 
 				/**
@@ -100,7 +100,7 @@ namespace bridges {
 				 * @param s the subtitle to be shown
 				 **/
 				void setSubTitle(const std::string& s) {
-					plotSubTitle = s;
+					subTitle = s;
 				}
 
 				/**
@@ -109,7 +109,7 @@ namespace bridges {
 				 * @return the subtitle to be shown
 				 **/
 				std::string getSubTitle() const {
-					return plotSubTitle;
+					return subTitle;
 				}
 
 				/**
@@ -135,7 +135,7 @@ namespace bridges {
 				 *
 				 * @param cAxisName label to use for the category axis
 				 **/
-				void setCategoriesLabel(std::string cAxisName) {
+				void setCategoriesLabel(const std::string& cAxisName) {
 					cLabel = cAxisName;
 				}
 
@@ -151,7 +151,7 @@ namespace bridges {
 				/**
 				 * @brief sets the bar chart orientation
 				 *
-				 * @param orient can be 'horizontal' or 'vertical'
+				 * @param orient can be 'horizontal' or 'vertical'. (Throws exception on other values)
 				 **/
 				void setBarOrientation(const std::string& orient) {
 				  if (orient != "horizontal" && orient != "vertical")
@@ -175,7 +175,7 @@ namespace bridges {
 				 *
 				 * @param suffix 
 				 **/
-				void setTooltipSuffix(std::string suffix) {
+				void setTooltipSuffix(const std::string& suffix) {
 					tooltipSuffix = suffix;
 				}
 
@@ -215,7 +215,7 @@ namespace bridges {
 				 **/
 				void addDataSeries(std::string seriesName, std::vector<double> data) {
 				  if (data.size() != categories.size())
-				    throw std::runtime_error ("The data vector should have the same size as the number of categoriess.");
+				    throw std::runtime_error ("The data vector should have the same size as the number of categories.");
 
 				  for (auto& entry : seriesData) {
 				    std::string key = entry.first;
