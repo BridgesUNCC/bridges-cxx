@@ -261,6 +261,12 @@ namespace bridges {
 					return this->sampleBits;
 				}
 
+				void setSampleBits(int bit_depth) {
+					if (bit_depth == 8 || bit_depth == 16 || bit_depth == 24 || bit_depth == 32)
+						this->sampleBits = bit_depth;
+					else cerr << "Bit rate must 8,16,24 or 32!"  << "\n";
+				}
+
 				/**
 				* @brief access a particular sample
 
