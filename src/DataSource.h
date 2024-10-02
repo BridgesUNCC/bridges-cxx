@@ -112,6 +112,10 @@ namespace bridges {
 				return "http://bridgesdata.herokuapp.com/api/us_cities";
 			}
 
+			string getWorldCitiesURL() {
+				return "http://bridgesdata.herokuapp.com/api/world_cities";
+			}
+
 	  void defaultDebug() {
 	    char* force = getenv("FORCE_BRIDGES_DATADEBUG");
 	    if (force != nullptr)
@@ -244,6 +248,81 @@ namespace bridges {
 				}
 
 				return us_cities;
+			}
+			/**
+			 * @brief  Retrieves world city data based on a set of filtering 
+			 * parameters
+			 *
+			 * @param  params  this represents a specification of the filtering
+			 *			parameters provided as a map. Multiple parameters will result
+			 * 			in filtering as a combination (intersection)
+			 *			Available parameters and their  types are as follows:
+			 *         'city' : string
+			 *         'state' : string
+			 *         'country' : string
+			 *         'state' : string
+			 *         'country' : string
+			 *         'min_pop' : integer
+			 *         'max_pop' : integer
+			 *         'min_lat_long' : float[2] -- Lat/Long minimum
+			 *         'max_lat_long' : float[2] -- Lat/Long maximum
+			 *         'min_elev' : integer
+			 *         'max_elev' : integer
+			 *		   'limit' : integer -- max number of cities to return
+			 *
+			 */
+			vector<City> getWorldCities (unordered_map<string, string> params) {
+				string url = getWorldCitiesURL() + "?";
+				if (params.find("city") != params.end())
+					url += "city=" + params["city"] + "&";
+				if (params.find("state") != params.end())
+					url += "state=" + params["state"] + "&";
+				if (params.find("country") != params.end())
+					url += "country=" + params["country"] + "&";
+				if (params.find("min_pop") != params.end())
+					url += "minPopulation=" + params["min_pop"] + "&";
+				if (params.find("maxPopulation") != params.end())
+					url += "max_pop=" + params["max_pop"] + "&";
+				if (params.find("min_lat_long") != params.end())
+					url += "minLatLong=" + params["minll"][0] + "," + 
+										params["minll"][1] + "&";
+				if (params.find("max_lat_long") != params.end())
+					url += "maxLatLong=" + params["maxll"][0] + "," + 
+										params["maxll"][1] + "&";
+				if (params.find("min_elev") != params.end())
+					url += "minElevation=" + params["min_elev"] + "&";
+				if (params.find("max_elev") != params.end())
+					url += "maxElevation=" + params["max_elev"] + "&";
+				if (params.find("limit") != params.end())
+					url += "limit=" + params["limit"] + "&";
+
+				// remove the last &
+				url = url.substr(0, url.length() - 1);
+
+				// make the request
+				using namespace rapidjson;
+				Document doc;
+				doc.Parse(
+					ServerComm::makeRequest(url, {"Accept: application/json"}).c_str()
+				);
+				// parse the json
+				const Value& city_json = doc["data"];
+				vector<City> world_cities;
+				for (SizeType i = 0; i < city_json.Size(); i++) {
+					const Value& val = city_json[i];
+					us_cities.push_back (
+						City(
+							val["city"].GetString(),
+							val["state"].GetString(),
+							val["country"].GetString(),
+							val["timezone"].GetString(),
+							val["elevation"].GetInt(),
+							val["population"].GetInt(),
+							val["lat"].GetDouble(),
+							val["lon"].GetDouble()
+						));
+				}
+				return world_cities;
 			}
 
 			/**
