@@ -271,6 +271,7 @@ namespace bridges {
 			 *		   'limit' : integer -- max number of cities to return
 			 *
 			 */
+/*
 			vector<City> getWorldCities (unordered_map<string, string> params) {
 				string url = getWorldCitiesURL() + "?";
 				if (params.find("city") != params.end())
@@ -310,7 +311,7 @@ namespace bridges {
 				vector<City> world_cities;
 				for (SizeType i = 0; i < city_json.Size(); i++) {
 					const Value& val = city_json[i];
-					us_cities.push_back (
+					_cities.push_back (
 						City(
 							val["city"].GetString(),
 							val["state"].GetString(),
@@ -324,6 +325,7 @@ namespace bridges {
 				}
 				return world_cities;
 			}
+*/
 
 			/**
 			 *

@@ -60,7 +60,7 @@ namespace bridges {
 			string user_name = string(),
 				   api_key = string(); 				// user credentials
 
-			string map[2]; 							// for map overlays
+			vector<string> map; 					// for map overlays
 
 			string description = string();			// visualization description
 
@@ -406,9 +406,8 @@ namespace bridges {
 			 *		from world map, or a state from US map.
 			 *
 			 **/
-			void setMap(string my_map, string info) {
-				map[0] = my_map;
-				map[1] = info;
+			void setMap(vector<string> map_info) {
+				map = map_info;
 			}
 
 			/**
@@ -606,10 +605,15 @@ namespace bridges {
 					QUOTE + "visual" + QUOTE + COLON + JSONencode(ds_handle->getDStype()) + COMMA +
 					QUOTE + "title" + QUOTE + COLON + JSONencode(getTitle()) + COMMA +
 					QUOTE + "description" + QUOTE + COLON + JSONencode( getDescription()) + COMMA +
-					QUOTE + "map_overlay" + QUOTE + COLON + ((map_overlay) ? "true" : "false") + COMMA +
-					QUOTE + "map" + QUOTE + COLON + OPEN_BOX + QUOTE + map[0] + QUOTE +
-					COMMA + QUOTE + map[1] + QUOTE + CLOSE_BOX + COMMA +
-					QUOTE + "element_label_flag" + QUOTE + COLON + ((element_labelFlag) ? "true" : "false") + COMMA +
+					QUOTE + "map_overlay" + QUOTE + COLON + ((map_overlay) ? "true" : "false") + COMMA + QUOTE + "map" + QUOTE + COLON + OPEN_BOX;
+
+				for (auto st: map) {
+					json_header += QUOTE + st + QUOTE + COMMA;
+				}
+				json_header = json_header.substr(json_header.size()-1, 0) + 
+							CLOSE_BOX + COMMA;
+
+				json_header += QUOTE + "element_label_flag" + QUOTE + COLON + ((element_labelFlag) ? "true" : "false") + COMMA +
 					QUOTE + "link_label_flag" + QUOTE + COLON + ((link_labelFlag) ? "true" : "false") + COMMA +
 					QUOTE + "coord_system_type" + QUOTE + COLON + JSONencode(getCoordSystemType()) +
 					COMMA;
