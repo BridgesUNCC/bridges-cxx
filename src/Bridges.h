@@ -410,6 +410,13 @@ namespace bridges {
 				map = map_info;
 			}
 
+			string getMap(vector<string> states} {
+				string url = "http://bridgesdata.herokuapp.com/api/us_map?state="
+				for (auto st : states) 
+					url += st + ",";	
+				url = url.substr(url, url.size.length-1, 0);
+			}
+
 			/**
 			 *  Sets the coordinate system type for location specific data;
 			 *	default is cartesian
@@ -605,13 +612,17 @@ namespace bridges {
 					QUOTE + "visual" + QUOTE + COLON + JSONencode(ds_handle->getDStype()) + COMMA +
 					QUOTE + "title" + QUOTE + COLON + JSONencode(getTitle()) + COMMA +
 					QUOTE + "description" + QUOTE + COLON + JSONencode( getDescription()) + COMMA +
-					QUOTE + "map_overlay" + QUOTE + COLON + ((map_overlay) ? "true" : "false") + COMMA + QUOTE + "map" + QUOTE + COLON + OPEN_BOX;
+					QUOTE + "map_overlay" + QUOTE + COLON + ((map_overlay) ? "true" : "false") + COMMA + QUOTE + "map" + QUOTE + COLON;
 
-				for (auto st: map) {
-					json_header += QUOTE + st + QUOTE + COMMA;
+				if (map[0] == "all") // for world map
+					json_header += QUOTE + "all" + QUOTE + COMMA;
+				else {
+					// this part not working yet!!
+					for (auto st: map) {
+						json_header += QUOTE + st + QUOTE + COMMA;
+						json_header += json_header.substr(json_header.size()-1, 0) + CLOSE_BOX + COMMA;
+					}
 				}
-				json_header = json_header.substr(json_header.size()-1, 0) + 
-							CLOSE_BOX + COMMA;
 
 				json_header += QUOTE + "element_label_flag" + QUOTE + COLON + ((element_labelFlag) ? "true" : "false") + COMMA +
 					QUOTE + "link_label_flag" + QUOTE + COLON + ((link_labelFlag) ? "true" : "false") + COMMA +
@@ -626,6 +637,7 @@ namespace bridges {
 					json_header += CLOSE_BOX + COMMA;
 
 				}
+cout << "\n\nJson Header" <<json_header << "\n";
 
 				return json_header;
 			}
