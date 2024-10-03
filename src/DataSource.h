@@ -116,6 +116,10 @@ namespace bridges {
 				return "http://bridgesdata.herokuapp.com/api/world_cities";
 			}
 
+			string getUSStateCountiesURL() {
+				return http://bridgesdata.herokuapp.com/api/us_map?state=";
+			}
+
 	  void defaultDebug() {
 	    char* force = getenv("FORCE_BRIDGES_DATADEBUG");
 	    if (force != nullptr)
@@ -326,6 +330,36 @@ namespace bridges {
 				return world_cities;
 			}
 */
+			// get US State County Data
+			vector<State> getUSStateCountyData (vector<string> states) {
+				string url = getUSStateCountiesURL();
+				url += states[0];  // just testing with 1 state
+
+				// make the request
+				using namespace rapidjson;
+				Document doc;
+				doc.Parse(
+					ServerComm::makeRequest(url, 
+						{"Accept: application/json"}).c_str()
+					);
+				vector<State> states;
+				const Value& state_data =  doc["data"];
+				for (auto& i : state_data.GetArray())
+					Value& st = state_data[i];
+					Value& counties = state_data[i]['counties']);
+
+					states.push_back(State(state_data[i]['_id']['input']);
+					for (auto &j : counties.size()) {
+						states[i].counties.push_back(
+							County(
+								counties[j][ 'properties']['GEOID'],
+								counties[j]['properties']['FIPS_CODE'],
+								counties[j]['properties']['COUNTY_STATE_CODE'],
+								counties[j]['properties']['COUNTY_STATE_NAME']);
+					}
+
+				return states;
+			}
 
 			/**
 			 *
