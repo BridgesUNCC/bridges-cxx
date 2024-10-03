@@ -410,11 +410,14 @@ namespace bridges {
 				map = map_info;
 			}
 
-			string getMap(vector<string> states} {
-				string url = "http://bridgesdata.herokuapp.com/api/us_map?state="
+			string getMap(vector<string> states) {
+				string json_str;
+				string url = "http://bridgesdata.herokuapp.com/api/us_map?state=";
 				for (auto st : states) 
 					url += st + ",";	
-				url = url.substr(url, url.size.length-1, 0);
+				url = url.substr(0, url.size()-1);
+				
+				return json_str;
 			}
 
 			/**
