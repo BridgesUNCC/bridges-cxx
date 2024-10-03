@@ -24,6 +24,8 @@ using namespace std;
 #include "./data_src/Amenity.h"
 #include "./data_src/Reddit.h"
 #include "./data_src/City.h"
+#include "./data_src/State.h"
+#include "./data_src/County.h"
 #include "ColorGrid.h"
 #include "base64.h"
 #include <GraphAdjList.h>
@@ -117,7 +119,7 @@ namespace bridges {
 			}
 
 			string getUSStateCountiesURL() {
-				return http://bridgesdata.herokuapp.com/api/us_map?state=";
+				return "http://bridgesdata.herokuapp.com/api/us_map?state=";
 			}
 
 	  void defaultDebug() {
@@ -331,9 +333,13 @@ namespace bridges {
 			}
 */
 			// get US State County Data
-			vector<State> getUSStateCountyData (vector<string> states) {
+			vector<State> getUSStateCountyData (vector<string> state_names) {
 				string url = getUSStateCountiesURL();
-				url += states[0];  // just testing with 1 state
+				for (auto& k : state_names)
+					url += state_names[0] + ',';  // just testing with 1 state
+
+				// remove the last comma 
+				url = url.substr(0, url.size()-1);
 
 				// make the request
 				using namespace rapidjson;
@@ -344,20 +350,24 @@ namespace bridges {
 					);
 				vector<State> states;
 				const Value& state_data =  doc["data"];
-				for (auto& i : state_data.GetArray())
-					Value& st = state_data[i];
-					Value& counties = state_data[i]['counties']);
+				for (SizeType i  = 0; i < state_names.size(); i++) {
+					const Value& st = state_data[i];
+					const Value& counties = state_data[i]["counties"];
 
-					states.push_back(State(state_data[i]['_id']['input']);
-					for (auto &j : counties.size()) {
+//					cout << state_data[i]["_id"]["input"] << "\n";
+					const Value&  st_name = state_data[i]["_id"]["input"];
+					states.push_back(State(st_name.GetString()));
+					for (SizeType j = 0; j < counties.Size(); j++) {
+						const Value& val = counties[j];
 						states[i].counties.push_back(
 							County(
-								counties[j][ 'properties']['GEOID'],
-								counties[j]['properties']['FIPS_CODE'],
-								counties[j]['properties']['COUNTY_STATE_CODE'],
-								counties[j]['properties']['COUNTY_STATE_NAME']);
+								(val["properties"]["GEOID"]).GetString(),
+								(val["properties"]["FIPS_CODE"]).GetString(),
+								(val["properties"]["COUNTY_STATE_CODE"]).GetString(),
+								(val["properties"]["COUNTY_STATE_NAME"]).GetString()
+							));
 					}
-
+				}
 				return states;
 			}
 

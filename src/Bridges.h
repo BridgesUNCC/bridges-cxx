@@ -412,10 +412,14 @@ namespace bridges {
 
 			string getMap(vector<string> states) {
 				string json_str;
+
+				// form the url and get the state county data
 				string url = "http://bridgesdata.herokuapp.com/api/us_map?state=";
-				for (auto st : states) 
-					url += st + ",";	
-				url = url.substr(0, url.size()-1);
+				url += states[0];
+//				to do muultiple states -- later
+//				for (auto st : states) 
+//					url += st + ",";	
+//				url = url.substr(0, url.size()-1);
 				
 				return json_str;
 			}
