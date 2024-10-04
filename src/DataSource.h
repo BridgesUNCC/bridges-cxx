@@ -358,25 +358,24 @@ namespace bridges {
 
 					// create the state
 					states.push_back(State(st_name.GetString()));
-					vector<County> counties = states[i].getCounties();
+					unordered_map<int, County> counties = states[i].getCounties();
 
 					// get county data
 					for (SizeType j = 0; j < county_data.Size(); j++) {
 						const Value& val = county_data[j];
 						// get its geoid
-						int geoid = stoi((val["properties"]["GEOID"]).GetString()),
+						int geoid = stoi((val["properties"]["GEOID"]).GetString());
 						counties[geoid] = County(geoid,
 								stoi((val["properties"]["FIPS_CODE"]).GetString()),
 								(val["properties"]["COUNTY_STATE_CODE"]).GetString(),
 								(val["properties"]["COUNTY_STATE_NAME"]).GetString()
-							));
+							);
 					}
 					states[i].setCounties(counties);
 				}
 				return states;
 			}
-				// need to construct a JSON of the map data
-			void setMap(vector<State> map_data) {
+			string getMapDataJSON(vector<State> state_data) {
 				string map_str = OPEN_BOX + OPEN_CURLY + 
 				for (auto& st : state_data) {
 					map_str += "_state_name" + JSONencode(st.getName()) + 
@@ -403,8 +402,10 @@ namespace bridges {
 						map_str += CLOSE_CURLY + COMMA;
 				}
 				map_str = map_str.substr(0, map_str.size()-1) +  + CLOSE_BOX;
-				cout << "JSON of Map:" + map_str
+				cout << "JSON of Map:" + map_str;
+				return map_str;
 			}
+
 			/**
 			 *
 			 *  @brief Get meta data of the IGN games collection.
