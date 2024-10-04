@@ -365,8 +365,8 @@ namespace bridges {
 						const Value& val = county_data[j];
 						counties.push_back(
 							County(
-								(val["properties"]["GEOID"]).GetString(),
-								(val["properties"]["FIPS_CODE"]).GetString(),
+								stoi((val["properties"]["GEOID"]).GetString()),
+								stoi((val["properties"]["FIPS_CODE"]).GetString()),
 								(val["properties"]["COUNTY_STATE_CODE"]).GetString(),
 								(val["properties"]["COUNTY_STATE_NAME"]).GetString()
 							));
