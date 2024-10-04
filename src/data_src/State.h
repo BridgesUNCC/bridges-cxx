@@ -17,9 +17,9 @@ namespace bridges{
 				bool view_counties;
 				float stroke_width;
 				Color fill_color;
+				vector<County> counties;
 
 			public:
-				vector<County> counties;
 				State(string st) {
         			name = st;
 					stroke_color = Color("blue");
@@ -27,17 +27,20 @@ namespace bridges{
 					stroke_width = 0.5;
 					fill_color = Color("blue");
 				}
-			vector<County> getCounties() {
-				return counties;
-			}
-			void setCounties(vector<County> & c) {
-				counties = c;;
-			}
-		};
-		// getters, setters
+				vector<County> getCounties() {
+					return counties;
+				}
+				void setCounties(vector<County> & c) {
+					counties = c;;
+				}
+				// getters, setters
+				string getStateName() {
+					return name;
+				}
 		
+		};
 	};
-};
+}
 /*
     @property
     def state_name(self):

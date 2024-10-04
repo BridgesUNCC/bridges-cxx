@@ -32,6 +32,9 @@ namespace bridges{
 					hide = false;
 				}
 			// getters, setters
+			string getCountyName() {
+				return county_name;
+			}
 		};
 	};
 };

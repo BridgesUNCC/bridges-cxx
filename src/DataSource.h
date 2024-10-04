@@ -334,9 +334,10 @@ namespace bridges {
 */
 			// get US State County Data
 			vector<State> getUSStateCountyData (vector<string> state_names) {
+				using bridges::JSONUtil::JSONencode;
 				string url = getUSStateCountiesURL();
 				for (auto& k : state_names)
-					url += state_names[0] + ',';  // just testing with 1 state
+					url += ServerComm::encodeURLPart(k) + ',';  
 
 				// remove the last comma 
 				url = url.substr(0, url.size()-1);
@@ -352,14 +353,17 @@ namespace bridges {
 				const Value& state_data =  doc["data"];
 				for (SizeType i  = 0; i < state_names.size(); i++) {
 					const Value& st = state_data[i];
-					const Value& counties = state_data[i]["counties"];
+					const Value& county_data = st["counties"];
+					const Value& st_name = st["_id"]["input"];
 
-//					cout << state_data[i]["_id"]["input"] << "\n";
-					const Value&  st_name = state_data[i]["_id"]["input"];
+					// create the state
 					states.push_back(State(st_name.GetString()));
-					for (SizeType j = 0; j < counties.Size(); j++) {
-						const Value& val = counties[j];
-						states[i].counties.push_back(
+					vector<County> counties = states[i].getCounties();
+
+					// get county data
+					for (SizeType j = 0; j < county_data.Size(); j++) {
+						const Value& val = county_data[j];
+						counties.push_back(
 							County(
 								(val["properties"]["GEOID"]).GetString(),
 								(val["properties"]["FIPS_CODE"]).GetString(),
@@ -367,6 +371,7 @@ namespace bridges {
 								(val["properties"]["COUNTY_STATE_NAME"]).GetString()
 							));
 					}
+					states[i].setCounties(counties);
 				}
 				return states;
 			}
