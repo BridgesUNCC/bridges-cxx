@@ -363,9 +363,9 @@ namespace bridges {
 					// get county data
 					for (SizeType j = 0; j < county_data.Size(); j++) {
 						const Value& val = county_data[j];
-						counties.push_back(
-							County(
-								stoi((val["properties"]["GEOID"]).GetString()),
+						// get its geoid
+						int geoid = stoi((val["properties"]["GEOID"]).GetString()),
+						counties[geoid] = County(geoid,
 								stoi((val["properties"]["FIPS_CODE"]).GetString()),
 								(val["properties"]["COUNTY_STATE_CODE"]).GetString(),
 								(val["properties"]["COUNTY_STATE_NAME"]).GetString()
@@ -375,7 +375,36 @@ namespace bridges {
 				}
 				return states;
 			}
-
+				// need to construct a JSON of the map data
+			void setMap(vector<State> map_data) {
+				string map_str = OPEN_BOX + OPEN_CURLY + 
+				for (auto& st : state_data) {
+					map_str += "_state_name" + JSONencode(st.getName()) + 
+						"_stroke_color" + JSONencode(st.getStrokeColor()) + 
+						"_stroke_width" + JSONencode(st.getStrokeWidth() + ;
+						"_fill_color" + JSONencode(st.getFillColor() + 
+						"_view_counties" + JSONencode(st.getViewCounties() +
+						"_counties" + COLON + OPEN_BOX + OPEN_CURLY +  
+						// get all the counties
+						for (auto& c : st.getCounties) {
+							map_str += 
+								"_geoid" + COLON + JSONencode(c.getGeocode())+
+								"_fips_code" + COLON + JSONencode(c.getFipscode())+
+								"_county_name" + COLON + JSONencode(c.getCountyName()) +
+								"_state_name" + COLON + JSONencode(c.getStateName()) +
+								"_stroke_color" + JSONencode(st.getStrokeColor()) + 
+								"_stroke_width" + JSONencode(st.getStrokeWidth()) + 
+								"_fill_color" + JSONencode(st.getFillColor()) + 
+								"_hide" + JSONencode(st.getHideFlag()) + 
+								CLOSE_CURLY + COMMA;
+						}
+						// remove last comma
+						map_str = map_str.substr(0, map_str.size()-1);
+						map_str += CLOSE_CURLY + COMMA;
+				}
+				map_str = map_str.substr(0, map_str.size()-1) +  + CLOSE_BOX;
+				cout << "JSON of Map:" + map_str
+			}
 			/**
 			 *
 			 *  @brief Get meta data of the IGN games collection.

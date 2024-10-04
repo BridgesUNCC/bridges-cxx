@@ -17,7 +17,7 @@ namespace bridges{
 				bool view_counties;
 				float stroke_width;
 				Color fill_color;
-				vector<County> counties;
+				unordered_map<int, County> counties;
 
 			public:
 				State(string st) {
@@ -27,17 +27,16 @@ namespace bridges{
 					stroke_width = 0.5;
 					fill_color = Color("blue");
 				}
-				vector<County> getCounties() {
+				unordered_map<int, County> getCounties() {
 					return counties;
 				}
-				void setCounties(vector<County> & c) {
+				void setCounties(unordered_map<int, County> & c) {
 					counties = c;;
 				}
 				// getters, setters
 				string getStateName() {
 					return name;
 				}
-		
 		};
 	};
 }
