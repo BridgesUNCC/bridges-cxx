@@ -333,7 +333,7 @@ namespace bridges {
 			}
 */
 			// get US State County Data
-			vector<State> getUSStateCountyData (vector<string> state_names) {
+			vector<State> getUSStateCountyMapData (vector<string> state_names) {
 				using bridges::JSONUtil::JSONencode;
 				string url = getUSStateCountiesURL();
 				for (auto& k : state_names)
