@@ -12,8 +12,8 @@ namespace bridges{
 
 		class County {
 			private:
-				string geoid;
-				string fips_code;
+				int geoid;
+				int fips_code;
 				string county_name;
 				string state_name;
 				Color stroke_color;
@@ -22,7 +22,7 @@ namespace bridges{
 				bool hide;
 
 			public:
-				County (string id, string code, string county, string state) {
+				County (int id, int code, string county, string state) {
         			geoid = id;
 					fips_code = code;
 					county_name = county;
