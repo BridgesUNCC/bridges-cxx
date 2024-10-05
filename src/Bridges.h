@@ -8,8 +8,8 @@ using namespace std;
 #include "DataStructure.h" //string, using std
 #include "ServerComm.h" //vector
 
-#include "./data_src/State.h"
 #include "DataSource.h"
+#include "./data_src/State.h"
 
 #include <JSONutil.h>
 #include <alltypes.h>
@@ -409,7 +409,7 @@ namespace bridges {
 			 *		from world map, or a state from US map.
 			 *
 			 **/
-			void setMap(vector<dataset::State> state_data, DataSource& ds) {
+			void setMap(vector<dataset::State> state_data, Datasource& ds) {
 				// need to construct a JSON of the map data
 
 				string map_str = ds.getMapDataJSON(state_data);
@@ -441,7 +441,7 @@ namespace bridges {
 				}
 				map_str = map_str.substr(0, map_str.size()-1) +  + CLOSE_BOX;
 */
-				cout << "JSON of Map:" + map_str;
+				cout << "JSON of Map:" + map_str << "\n";
 			}
 
 			string getMap(vector<string> states) {

@@ -376,32 +376,33 @@ namespace bridges {
 				return states;
 			}
 			string getMapDataJSON(vector<State> state_data) {
-				string map_str = OPEN_BOX + OPEN_CURLY + 
+				string map_str = OPEN_BOX + OPEN_CURLY; 
+				using bridges::JSONUtil::JSONencode;
 				for (auto& st : state_data) {
-					map_str += "_state_name" + JSONencode(st.getName()) + 
+					map_str += "_state_name" + JSONencode(st.getStateName()) + 
 						"_stroke_color" + JSONencode(st.getStrokeColor()) + 
-						"_stroke_width" + JSONencode(st.getStrokeWidth() + ;
-						"_fill_color" + JSONencode(st.getFillColor() + 
-						"_view_counties" + JSONencode(st.getViewCounties() +
-						"_counties" + COLON + OPEN_BOX + OPEN_CURLY +  
+						"_stroke_width" + JSONencode(st.getStrokeWidth()) +
+						"_fill_color" + JSONencode(st.getFillColor()) + 
+						"_view_counties" + JSONencode(st.getViewCountiesFlag()) +
+						"_counties" + COLON + OPEN_BOX + OPEN_CURLY;
 						// get all the counties
-						for (auto& c : st.getCounties) {
+						for (auto& c : st.getCounties()) {
 							map_str += 
-								"_geoid" + COLON + JSONencode(c.getGeocode())+
-								"_fips_code" + COLON + JSONencode(c.getFipscode())+
-								"_county_name" + COLON + JSONencode(c.getCountyName()) +
-								"_state_name" + COLON + JSONencode(c.getStateName()) +
-								"_stroke_color" + JSONencode(st.getStrokeColor()) + 
-								"_stroke_width" + JSONencode(st.getStrokeWidth()) + 
-								"_fill_color" + JSONencode(st.getFillColor()) + 
-								"_hide" + JSONencode(st.getHideFlag()) + 
+								"_geoid" + COLON + JSONencode(c.second.getGeoId())+
+								"_fips_code" + COLON + JSONencode(c.second.getFipsCode())+
+								"_county_name" + COLON + JSONencode(c.second.getCountyName()) +
+								"_state_name" + COLON + JSONencode(c.second.getStateName()) +
+								"_stroke_color" + JSONencode(c.second.getStrokeColor()) + 
+								"_stroke_width" + JSONencode(c.second.getStrokeWidth()) + 
+								"_fill_color" + JSONencode(c.second.getFillColor()) + 
+								"_hide" + JSONencode(c.second.getHideFlag()) + 
 								CLOSE_CURLY + COMMA;
 						}
 						// remove last comma
 						map_str = map_str.substr(0, map_str.size()-1);
 						map_str += CLOSE_CURLY + COMMA;
 				}
-				map_str = map_str.substr(0, map_str.size()-1) +  + CLOSE_BOX;
+				map_str = map_str.substr(0, map_str.size()-1) +  CLOSE_BOX;
 				cout << "JSON of Map:" + map_str;
 				return map_str;
 			}
