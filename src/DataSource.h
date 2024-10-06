@@ -334,7 +334,6 @@ namespace bridges {
 */
 			// get US State County Data
 			vector<State> getUSStateCountyMapData (vector<string> state_names) {
-				using bridges::JSONUtil::JSONencode;
 				string url = getUSStateCountiesURL();
 				for (auto& k : state_names)
 					url += ServerComm::encodeURLPart(k) + ',';  
@@ -374,37 +373,6 @@ namespace bridges {
 					states[i].setCounties(counties);
 				}
 				return states;
-			}
-			string getMapDataJSON(vector<State> state_data) {
-				string map_str = OPEN_BOX + OPEN_CURLY; 
-				using bridges::JSONUtil::JSONencode;
-				for (auto& st : state_data) {
-					map_str += "_state_name" + JSONencode(st.getStateName()) + 
-						"_stroke_color" + JSONencode(st.getStrokeColor()) + 
-						"_stroke_width" + JSONencode(st.getStrokeWidth()) +
-						"_fill_color" + JSONencode(st.getFillColor()) + 
-						"_view_counties" + JSONencode(st.getViewCountiesFlag()) +
-						"_counties" + COLON + OPEN_BOX + OPEN_CURLY;
-						// get all the counties
-						for (auto& c : st.getCounties()) {
-							map_str += 
-								"_geoid" + COLON + JSONencode(c.second.getGeoId())+
-								"_fips_code" + COLON + JSONencode(c.second.getFipsCode())+
-								"_county_name" + COLON + JSONencode(c.second.getCountyName()) +
-								"_state_name" + COLON + JSONencode(c.second.getStateName()) +
-								"_stroke_color" + JSONencode(c.second.getStrokeColor()) + 
-								"_stroke_width" + JSONencode(c.second.getStrokeWidth()) + 
-								"_fill_color" + JSONencode(c.second.getFillColor()) + 
-								"_hide" + JSONencode(c.second.getHideFlag()) + 
-								CLOSE_CURLY + COMMA;
-						}
-						// remove last comma
-						map_str = map_str.substr(0, map_str.size()-1);
-						map_str += CLOSE_CURLY + COMMA;
-				}
-				map_str = map_str.substr(0, map_str.size()-1) +  CLOSE_BOX;
-				cout << "JSON of Map:" + map_str;
-				return map_str;
 			}
 
 			/**

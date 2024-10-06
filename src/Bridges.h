@@ -9,7 +9,6 @@ using namespace std;
 #include "ServerComm.h" //vector
 
 #include "DataSource.h"
-#include "./data_src/State.h"
 
 #include <JSONutil.h>
 #include <alltypes.h>
@@ -63,7 +62,7 @@ namespace bridges {
 			string user_name = string(),
 				   api_key = string(); 				// user credentials
 
-			vector<string> map; 					// for map overlays
+			string map; 							// for map overlays
 
 			string description = string();			// visualization description
 
@@ -409,11 +408,12 @@ namespace bridges {
 			 *		from world map, or a state from US map.
 			 *
 			 **/
-			void setMap(vector<dataset::State> state_data, Datasource& ds) {
+			void setMap(string map_str) {
 				// need to construct a JSON of the map data
 
-				string map_str = ds.getMapDataJSON(state_data);
+				map = map_str;
 /*
+				string map_str = ds.getMapDataJSON(state_data);
 				string map_str = OPEN_BOX + OPEN_CURLY + 
 				for (auto& st : state_data) {
 					map_str += "_state_name" + JSONencode(st.getName()) + 
@@ -573,6 +573,10 @@ namespace bridges {
 					ds_part_json.erase(0, 1);
 					ds_json = getJSONHeader() + ds_part_json;
 				}
+				else if (ds_handle->getDStype() == "us_map") {
+					string map_str = ds_handle->getDataStructureRepresentation();
+					setMap(map_str);
+				}
 				else
 					ds_json = getJSONHeader() + ds_handle->getDataStructureRepresentation();
 				if (profile())
@@ -653,17 +657,9 @@ namespace bridges {
 					QUOTE + "visual" + QUOTE + COLON + JSONencode(ds_handle->getDStype()) + COMMA +
 					QUOTE + "title" + QUOTE + COLON + JSONencode(getTitle()) + COMMA +
 					QUOTE + "description" + QUOTE + COLON + JSONencode( getDescription()) + COMMA +
-					QUOTE + "map_overlay" + QUOTE + COLON + ((map_overlay) ? "true" : "false") + COMMA + QUOTE + "map" + QUOTE + COLON;
-
-				if (map[0] == "all") // for world map
-					json_header += QUOTE + "all" + QUOTE + COMMA;
-				else {
-					// this part not working yet!!
-					for (auto st: map) {
-						json_header += QUOTE + st + QUOTE + COMMA;
-						json_header += json_header.substr(json_header.size()-1, 0) + CLOSE_BOX + COMMA;
-					}
-				}
+					QUOTE + "map_overlay" + QUOTE + COLON + 
+						((map_overlay) ? "true" : "false") + COMMA + 
+					QUOTE + "map" + QUOTE + COLON + QUOTE + map + QUOTE + COMMA;
 
 				json_header += QUOTE + "element_label_flag" + QUOTE + COLON + ((element_labelFlag) ? "true" : "false") + COMMA +
 					QUOTE + "link_label_flag" + QUOTE + COLON + ((link_labelFlag) ? "true" : "false") + COMMA +

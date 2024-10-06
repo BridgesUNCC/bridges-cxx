@@ -7,11 +7,6 @@
 
 #include <algorithm>
 
-//should be defined in math.h but VS2017 has a weird behavior here.
-#ifndef M_PI
-#define M_PI 3.1415926535897
-#endif
-
 #include <string>
 #include <vector>
 

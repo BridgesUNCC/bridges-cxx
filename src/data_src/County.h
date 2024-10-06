@@ -22,6 +22,7 @@ namespace bridges{
 				bool hide;
 
 			public:
+				County() = default;
 				County (int id, int code, string county, string state) {
         			geoid = id;
 					fips_code = code;
