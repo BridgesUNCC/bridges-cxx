@@ -17,7 +17,7 @@ namespace bridges{
 				bool view_counties;
 				float stroke_width;
 				string fill_color;
-				unordered_map<int, County> counties;
+				unordered_map<string, County> counties;
 
 			public:
 				State() = default;
@@ -29,10 +29,10 @@ namespace bridges{
 					stroke_width = 0.5;
 					fill_color = "blue";
 				}
-				unordered_map<int, County> getCounties() const {
+				unordered_map<string, County> getCounties() const {
 					return counties;
 				}
-				void setCounties(unordered_map<int, County> & c) {
+				void setCounties(unordered_map<string, County> & c) {
 					counties = c;;
 				}
 				// getters, setters

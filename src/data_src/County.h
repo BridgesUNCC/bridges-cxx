@@ -23,7 +23,7 @@ namespace bridges{
 
 			public:
 				County() = default;
-				County (int id, int code, string county, string state) {
+				County (string id, string code, string county, string state) {
         			geoid = id;
 					fips_code = code;
 					county_name = county;

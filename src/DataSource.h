@@ -357,15 +357,15 @@ namespace bridges {
 
 					// create the state
 					states.push_back(State(st_name.GetString()));
-					unordered_map<int, County> counties = states[i].getCounties();
+					unordered_map<string, County> counties = states[i].getCounties();
 
 					// get county data
 					for (SizeType j = 0; j < county_data.Size(); j++) {
 						const Value& val = county_data[j];
 						// get its geoid
-						int geoid = stoi((val["properties"]["GEOID"]).GetString());
+						string geoid = (val["properties"]["GEOID"]).GetString();
 						counties[geoid] = County(geoid,
-								stoi((val["properties"]["FIPS_CODE"]).GetString()),
+								(val["properties"]["FIPS_CODE"]).GetString(),
 								(val["properties"]["COUNTY_STATE_CODE"]).GetString(),
 								(val["properties"]["COUNTY_STATE_NAME"]).GetString()
 							);
