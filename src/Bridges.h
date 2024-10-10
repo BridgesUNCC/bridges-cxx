@@ -64,6 +64,7 @@ namespace bridges {
 				   api_key = string(); 				// user credentials
 
 			string map; 							// for map overlays
+	  bool map_as_json = false;
 
 			string description = string();			// visualization description
 
@@ -410,12 +411,24 @@ namespace bridges {
 			 *
 			 **/
 			void setMap(string map_str) {
-				// need to construct a JSON of the map data
-
 				map = map_str;
 				cout << "JSON of Map:" + map_str << "\n";
+				setMapAsJSON(false);
 			}
 
+			void setMap(const USMap* map) {
+			  string map_str = map->getMapRepresentation();
+			  setMapOverlay(true);
+			  setCoordSystemType("albersusa");
+			  this->map = map_str;
+			  setMapAsJSON(true);
+			}
+
+	  
+	  void setMapAsJSON(bool b){
+	    map_as_json = b;
+	  }
+	  
 			string getMap(vector<string> states) {
 				string json_str;
 
@@ -546,10 +559,7 @@ namespace bridges {
 					ds_json = getJSONHeader() + ds_part_json;
 				}
 				else if (ds_handle->getDStype() == "us_map") {
-					string map_str = ((USMap*)ds_handle)->getMapRepresentation();
-					setMapOverlay(true);
-					setCoordSystemType("albersusa");
-					setMap(map_str);
+				  setMap((USMap*)ds_handle);
 					ds_json = getJSONHeader() + ds_handle->getDataStructureRepresentation();
 				}
 				else
@@ -633,8 +643,11 @@ namespace bridges {
 					QUOTE + "title" + QUOTE + COLON + JSONencode(getTitle()) + COMMA +
 					QUOTE + "description" + QUOTE + COLON + JSONencode( getDescription()) + COMMA +
 					QUOTE + "map_overlay" + QUOTE + COLON + 
-						((map_overlay) ? "true" : "false") + COMMA + 
-					QUOTE + "map" + QUOTE + COLON + QUOTE + map + QUOTE + COMMA;
+				  ((map_overlay) ? "true" : "false") + COMMA;
+				if (map_as_json)
+				  json_header += QUOTE + "map" + QUOTE + COLON + map + COMMA;
+				  else
+				    json_header += QUOTE + "map" + QUOTE + COLON + QUOTE + map + QUOTE + COMMA;
 
 				json_header += QUOTE + "element_label_flag" + QUOTE + COLON + ((element_labelFlag) ? "true" : "false") + COMMA +
 					QUOTE + "link_label_flag" + QUOTE + COLON + ((link_labelFlag) ? "true" : "false") + COMMA +
