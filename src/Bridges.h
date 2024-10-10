@@ -423,6 +423,9 @@ namespace bridges {
 			  this->map = map_str;
 			  setMapAsJSON(true);
 			}
+			void setMap(const USMap& map) {
+			  setMap(&map);
+			}
 
 	  
 	  void setMapAsJSON(bool b){
