@@ -16,20 +16,27 @@ using std::vector;
 #include "DataStructure.h"
 #include "./data_src/State.h"
 #include "./data_src/County.h"
-
+#include <JSONutil.h>
 
 namespace bridges {
 	namespace datastructure {
 
 		using namespace bridges::datastructure;
-		class USMaps :  public DataStructure {
-
+using bridges::dataset::State;
+		class USMap :  public DataStructure {
 			private:
 				vector<string> state_names;
 				vector<State> state_data;
 	
-				virtual const string getDataStructureRepresentation () 
+				virtual const string getDataStructureRepresentation ()
 												const override {
+                    using bridges::JSONUtil::JSONencode;
+
+					return JSONencode("mapdummy")+COLON+JSONencode(true)+CLOSE_CURLY;
+				}
+public:
+				virtual const string getMapRepresentation () 
+												const {
 					// generates a JSON of the states with county information
 					string map_str = OPEN_BOX;
 					using bridges::JSONUtil::JSONencode;
@@ -79,16 +86,16 @@ namespace bridges {
 					return map_str;
 				}
 			public: 
-				USMaps() {
-					state_names.clear();
-					state_data.clear();
+				USMap(vector<State> st_data) {
+					state_data = st_data;
+				}
+
+				vector<State>& getStates() {
+					return state_data;
 				}
 	
 				virtual const string getDStype() const override {
 					return "us_map";
-				}
-				void setMap(vector<State> st_data){
-					state_data = st_data;
 				}
 		};
 	}

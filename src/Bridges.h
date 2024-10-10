@@ -13,6 +13,7 @@ using namespace std;
 #include <JSONutil.h>
 #include <alltypes.h>
 #include <chrono>
+#include <USMaps.h>
 
 namespace bridges {
 	using namespace bridges::datastructure;
@@ -412,35 +413,6 @@ namespace bridges {
 				// need to construct a JSON of the map data
 
 				map = map_str;
-/*
-				string map_str = ds.getMapDataJSON(state_data);
-				string map_str = OPEN_BOX + OPEN_CURLY + 
-				for (auto& st : state_data) {
-					map_str += "_state_name" + JSONencode(st.getName()) + 
-						"_stroke_color" + JSONencode(st.getStrokeColor()) + 
-						"_stroke_width" + JSONencode(st.getStrokeWidth() + ;
-						"_fill_color" + JSONencode(st.getFillColor() + 
-						"_view_counties" + JSONencode(st.getViewCounties() +
-						"_counties" + COLON + OPEN_BOX + OPEN_CURLY +  
-						// get all the counties
-						for (auto& c : st.getCounties) {
-							map_str += 
-								"_geoid" + COLON + JSONencode(c.getGeocode())+
-								"_fips_code" + COLON + JSONencode(c.getFipscode())+
-								"_county_name" + COLON + JSONencode(c.getCountyName()) +
-								"_state_name" + COLON + JSONencode(c.getStateName()) +
-								"_stroke_color" + JSONencode(st.getStrokeColor()) + 
-								"_stroke_width" + JSONencode(st.getStrokeWidth()) + 
-								"_fill_color" + JSONencode(st.getFillColor()) + 
-								"_hide" + JSONencode(st.getHideFlag()) + 
-								CLOSE_CURLY + COMMA;
-						}
-						// remove last comma
-						map_str = map_str.substr(0, map_str.size()-1);
-						map_str += CLOSE_CURLY + COMMA;
-				}
-				map_str = map_str.substr(0, map_str.size()-1) +  + CLOSE_BOX;
-*/
 				cout << "JSON of Map:" + map_str << "\n";
 			}
 
@@ -574,8 +546,11 @@ namespace bridges {
 					ds_json = getJSONHeader() + ds_part_json;
 				}
 				else if (ds_handle->getDStype() == "us_map") {
-					string map_str = ds_handle->getDataStructureRepresentation();
+					string map_str = ((USMap*)ds_handle)->getMapRepresentation();
+					setMapOverlay(true);
+					setCoordSystemType("albersusa");
 					setMap(map_str);
+					ds_json = getJSONHeader() + ds_handle->getDataStructureRepresentation();
 				}
 				else
 					ds_json = getJSONHeader() + ds_handle->getDataStructureRepresentation();
