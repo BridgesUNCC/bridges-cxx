@@ -21,58 +21,76 @@ using std::vector;
 namespace bridges {
 	namespace datastructure {
 
-using namespace bridges::datastructure;
-	class USMaps :  public DataStructure {
+		using namespace bridges::datastructure;
+		class USMaps :  public DataStructure {
 
-		private:
-			vector<string> state_names;
-			vector<State> state_data;
+			private:
+				vector<string> state_names;
+				vector<State> state_data;
+	
+				virtual const string getDataStructureRepresentation () 
+												const override {
+					// generates a JSON of the states with county information
+					string map_str = OPEN_BOX;
+					using bridges::JSONUtil::JSONencode;
+					for (auto& st : state_data) {
+						map_str += OPEN_CURLY + 
+							QUOTE + "_state_name" + QUOTE + COLON + 
+								JSONencode(st.getStateName()) + COMMA +
+						QUOTE+ "_stroke_color" + QUOTE + COLON 
+							+ JSONencode(st.getStrokeColor()) + COMMA +
+						QUOTE +	"_stroke_width" + QUOTE + COLON + 
+							JSONencode(st.getStrokeWidth()) +COMMA +
+						QUOTE +	"_fill_color" + QUOTE + COLON + 
+							JSONencode(st.getFillColor()) + COMMA +
+						QUOTE +	"_view_counties" + QUOTE + COLON + 
+							JSONencode(st.getViewCountiesFlag()) + COMMA +
+						QUOTE +	"_counties" + QUOTE + COLON + OPEN_BOX;
+							// get all the counties
 
-			virtual const string getDataStructureRepresentation () 
-											const override {
-				// generates a JSON of the states with county information
-				string map_str = OPEN_BOX + OPEN_CURLY; 
-				using bridges::JSONUtil::JSONencode;
-				for (auto& st : state_data) {
-					map_str += "_state_name" + JSONencode(st.getStateName()) + 
-						"_stroke_color" + JSONencode(st.getStrokeColor()) + 
-						"_stroke_width" + JSONencode(st.getStrokeWidth()) +
-						"_fill_color" + JSONencode(st.getFillColor()) + 
-						"_view_counties" + JSONencode(st.getViewCountiesFlag()) +
-						"_counties" + COLON + OPEN_BOX + OPEN_CURLY;
-						// get all the counties
 						for (auto& c : st.getCounties()) {
-							map_str += 
-								"_geoid" + COLON + JSONencode(c.second.getGeoId())+
-								"_fips_code" + COLON + JSONencode(c.second.getFipsCode())+
-								"_county_name" + COLON + JSONencode(c.second.getCountyName()) +
-								"_state_name" + COLON + JSONencode(c.second.getStateName()) +
-								"_stroke_color" + JSONencode(c.second.getStrokeColor()) + 
-								"_stroke_width" + JSONencode(c.second.getStrokeWidth()) + 
-								"_fill_color" + JSONencode(c.second.getFillColor()) + 
-								"_hide" + JSONencode(c.second.getHideFlag()) + 
-								CLOSE_CURLY + COMMA;
-						}
-						// remove last comma
-						map_str = map_str.substr(0, map_str.size()-1);
-						map_str += CLOSE_CURLY + COMMA;
+						cnt++;
+						if (cnt > 3) break;
+							map_str +=  OPEN_CURLY +
+							QUOTE +	"_geoid" + QUOTE + COLON + 
+								JSONencode(c.second.getGeoId())+ COMMA +
+							QUOTE +	"_fips_code" + QUOTE + COLON + 
+								JSONencode(c.second.getFipsCode())+ COMMA +
+							QUOTE +	"_county_name" + QUOTE +COLON + 
+								JSONencode(c.second.getCountyName()) + COMMA +
+							QUOTE +	"_state_name" + QUOTE +COLON + 
+								JSONencode(c.second.getStateName()) + COMMA +
+							QUOTE +	"_stroke_color" + QUOTE +COLON + 
+								JSONencode(c.second.getStrokeColor())+ COMMA +
+							QUOTE +	"_stroke_width" + QUOTE +COLON + 
+								JSONencode(c.second.getStrokeWidth()) + COMMA +
+							QUOTE +	"_fill_color" + QUOTE +COLON + 
+								JSONencode(c.second.getFillColor()) + COMMA +
+							QUOTE +	"_hide" + QUOTE + COLON + 
+								JSONencode(c.second.getHideFlag()) + 
+									CLOSE_CURLY + COMMA;
+							}
+							// remove last comma
+							map_str = map_str.substr(0, map_str.size()-1);
+							map_str += CLOSE_CURLY + CLOSE_BOX + COMMA;
+					}
+					map_str = map_str.substr(0, map_str.size()-1) +  CLOSE_BOX;
+//					cout << "JSON of Map:" + map_str;
+					return map_str;
 				}
-				map_str = map_str.substr(0, map_str.size()-1) +  CLOSE_BOX;
-				cout << "JSON of Map:" + map_str;
-				return map_str;
-			}
-		public: 
-			USMaps() {
-				state_names.clear();
-				state_data.clear();
-			}
-
-			virtual const string getDStype() const override {
-				return "us_map";
-			}
-			vector<State> setMap(vector<State> st_data){
-				state_data = st_data;
-			}
-	};
+			public: 
+				USMaps() {
+					state_names.clear();
+					state_data.clear();
+				}
+	
+				virtual const string getDStype() const override {
+					return "us_map";
+				}
+				void setMap(vector<State> st_data){
+					state_data = st_data;
+				}
+		};
+	}
 }
 #endif
