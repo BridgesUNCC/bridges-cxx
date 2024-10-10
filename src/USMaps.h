@@ -45,12 +45,11 @@ namespace bridges {
 							JSONencode(st.getFillColor()) + COMMA +
 						QUOTE +	"_view_counties" + QUOTE + COLON + 
 							JSONencode(st.getViewCountiesFlag()) + COMMA +
-						QUOTE +	"_counties" + QUOTE + COLON + OPEN_BOX;
-							// get all the counties
+						QUOTE +	"_counties" + QUOTE + COLON;
 
+						// get all the counties
+						map_str += OPEN_BOX;  // array of counties
 						for (auto& c : st.getCounties()) {
-						cnt++;
-						if (cnt > 3) break;
 							map_str +=  OPEN_CURLY +
 							QUOTE +	"_geoid" + QUOTE + COLON + 
 								JSONencode(c.second.getGeoId())+ COMMA +
@@ -72,8 +71,9 @@ namespace bridges {
 							}
 							// remove last comma
 							map_str = map_str.substr(0, map_str.size()-1);
-							map_str += CLOSE_CURLY + CLOSE_BOX + COMMA;
+							map_str += CLOSE_BOX + CLOSE_CURLY +  COMMA;
 					}
+					// close the states array
 					map_str = map_str.substr(0, map_str.size()-1) +  CLOSE_BOX;
 //					cout << "JSON of Map:" + map_str;
 					return map_str;
