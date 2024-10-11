@@ -1,6 +1,6 @@
-#ifndef US_MAPS_H
+#ifndef US_MAP_H
 
-#define US_MAPS_H
+#define US_MAP_H
 
 #include <math.h>
 #include <cmath>
@@ -14,16 +14,22 @@ using std::string;
 using std::vector;
 
 #include "DataStructure.h"
+#include "Map.h"
 #include "./data_src/State.h"
 #include "./data_src/County.h"
 #include <JSONutil.h>
+
+#include <rapidjson/document.h>
+#include <rapidjson/stringbuffer.h>
+#include <rapidjson/writer.h>
 
 namespace bridges {
 	namespace datastructure {
 
 		using namespace bridges::datastructure;
-using bridges::dataset::State;
-		class USMap :  public DataStructure {
+		using bridges::dataset::State;
+
+		class USMap :  public Map, DataStructure {
 			private:
 				vector<string> state_names;
 				vector<State> state_data;
@@ -34,10 +40,17 @@ using bridges::dataset::State;
 
 					return JSONencode("mapdummy")+COLON+JSONencode(true)+CLOSE_CURLY;
 				}
-public:
-				virtual const string getMapRepresentation () 
-												const {
+			public:
+				const string getProjection() const override {
+					return "albersusa";
+				}
+				const bool getOverlay() const override {
+					return true;
+				}
+
+				virtual const string getMapRepresentation () const override  {
 					// generates a JSON of the states with county information
+string s = getMapRepresentation2();
 					string map_str = OPEN_BOX;
 					using bridges::JSONUtil::JSONencode;
 					for (auto& st : state_data) {
@@ -56,7 +69,9 @@ public:
 
 						// get all the counties
 						map_str += OPEN_BOX;  // array of counties
+int cnt = 0;
 						for (auto& c : st.getCounties()) {
+if (cnt++ > 3) break;
 							map_str +=  OPEN_CURLY +
 							QUOTE +	"_geoid" + QUOTE + COLON + 
 								JSONencode(c.second.getGeoId())+ COMMA +
@@ -82,8 +97,46 @@ public:
 					}
 					// close the states array
 					map_str = map_str.substr(0, map_str.size()-1) +  CLOSE_BOX;
-//					cout << "JSON of Map:" + map_str;
+					cout << "JSON of Map:" + map_str;
 					return map_str;
+				}
+				string getMapRepresentation2 () const{
+					using namespace rapidjson;
+					StringBuffer sb;
+					Writer<StringBuffer> writer(sb);
+					writer.StartArray();  // start of states --array
+cout << "Rapid json test:" << endl;
+					for (auto& st : state_data) {
+						writer.StartObject();   // start of this state
+						writer.Key("_state_name"); writer.String(st.getStateName().c_str());
+						writer.Key("_stroke_color"); writer.String(st.getStrokeColor().c_str());
+						writer.Key("_fill_color"); writer.String(st.getFillColor().c_str());
+						writer.Key("_stroke_width"); writer.Double(st.getStrokeWidth());
+						writer.Key("_view_counties"); writer.Bool(st.getViewCountiesFlag());
+						writer.Key("_counties"); 
+						// get all the counties
+						writer.StartArray();   // start of counties for this state
+int cnt = 0;
+						for (auto& c : st.getCounties()) {
+if (cnt++ > 3) break;
+							writer.StartObject();	// start of this county
+							writer.Key("_geoid"); writer.String(c.second.getGeoId().c_str());
+							writer.Key("_fips_code"); writer.String(c.second.getFipsCode().c_str());
+							writer.Key("_county_name"); writer.String(c.second.getCountyName().c_str());
+							writer.Key("_state_name"); writer.String(c.second.getStateName().c_str());
+							writer.Key("_stroke_color"); writer.String(c.second.getStrokeColor().c_str());
+							writer.Key("_stroke_width"); writer.Double(c.second.getStrokeWidth());
+							writer.Key("_fill_color"); writer.String(c.second.getFillColor().c_str());
+							writer.Key("_hide"); writer.Bool(c.second.getHideFlag());
+							writer.EndObject();  // end of this county 
+						}
+						writer.EndArray();  // end of counties for this state
+						writer.EndObject(); // end of this state
+					}
+					writer.EndArray(); // end of states
+
+					cout << sb.GetString() << endl;
+					return sb.GetString();
 				}
 			public: 
 				USMap(vector<State> st_data) {

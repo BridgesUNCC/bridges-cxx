@@ -13,7 +13,7 @@ using namespace std;
 #include <JSONutil.h>
 #include <alltypes.h>
 #include <chrono>
-#include <USMaps.h>
+#include <USMap.h>
 
 namespace bridges {
 	using namespace bridges::datastructure;
