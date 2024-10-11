@@ -1,6 +1,7 @@
 #ifndef MAP_H
 #define MAP_H
 
+using namespace rapidjson;
 namespace bridges {
 	namespace datastructure {
 

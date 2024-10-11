@@ -23,6 +23,7 @@ using std::vector;
 #include <rapidjson/stringbuffer.h>
 #include <rapidjson/writer.h>
 
+
 namespace bridges {
 	namespace datastructure {
 
@@ -51,7 +52,6 @@ namespace bridges {
 /*
 				virtual const string getMapRepresentation () const override  {
 					// generates a JSON of the states with county information
-string s = getMapRepresentation2();
 					string map_str = OPEN_BOX;
 					using bridges::JSONUtil::JSONencode;
 					for (auto& st : state_data) {
@@ -70,9 +70,7 @@ string s = getMapRepresentation2();
 
 						// get all the counties
 						map_str += OPEN_BOX;  // array of counties
-int cnt = 0;
 						for (auto& c : st.getCounties()) {
-if (cnt++ > 3) break;
 							map_str +=  OPEN_CURLY +
 							QUOTE +	"_geoid" + QUOTE + COLON + 
 								JSONencode(c.second.getGeoId())+ COMMA +
@@ -119,9 +117,7 @@ cout << "Rapid json test:" << endl;
 						writer.Key("_counties"); 
 						// get all the counties
 						writer.StartArray();   // start of counties for this state
-int cnt = 0;
 						for (auto& c : st.getCounties()) {
-if (cnt++ > 3) break;
 							writer.StartObject();	// start of this county
 							writer.Key("_geoid"); writer.String(c.second.getGeoId().c_str());
 							writer.Key("_fips_code"); writer.String(c.second.getFipsCode().c_str());
@@ -138,6 +134,7 @@ if (cnt++ > 3) break;
 					}
 					writer.EndArray(); // end of states
 
+//					return writer;
 					cout << sb.GetString() << endl;
 					return sb.GetString();
 				}

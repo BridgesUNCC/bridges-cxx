@@ -14,9 +14,13 @@ using namespace std;
 #include <alltypes.h>
 #include <chrono>
 #include <USMap.h>
+#include <rapidjson/document.h>
+#include <rapidjson/stringbuffer.h>
+#include <rapidjson/writer.h>
 
 namespace bridges {
 	using namespace bridges::datastructure;
+	using namespace rapidjson;
 
 	namespace game {
 		class SocketConnection;
@@ -64,7 +68,7 @@ namespace bridges {
 				   api_key = string(); 				// user credentials
 
 			string map; 							// for map overlays
-	  bool map_as_json = false;
+			bool map_as_json = false;
 
 			string description = string();			// visualization description
 
@@ -87,6 +91,9 @@ namespace bridges {
 			vector<double> wc_window;
 
 			unsigned int lastAssignNum = 0, subAssignNum = 0;
+
+			// JSON object - contains the data structure representationa
+			rapidjson::Writer<rapidjson::StringBuffer> json_obj;
 
 		public:
 
@@ -417,11 +424,13 @@ namespace bridges {
 			}
 
 			void setMap(const USMap* map) {
-			  string map_str = map->getMapRepresentation();
-			  setMapOverlay(true);
-			  setCoordSystemType("albersusa");
-			  this->map = map_str;
-			  setMapAsJSON(true);
+				string map_str = map->getMapRepresentation();
+				setMapOverlay(map->getOverlay());
+				setCoordSystemType(map->getProjection());
+
+				// get the string rep of the map json
+				this->map = map_str;
+				setMapAsJSON(true);
 			}
 			void setMap(const USMap& map) {
 			  setMap(&map);
@@ -562,8 +571,10 @@ namespace bridges {
 					ds_json = getJSONHeader() + ds_part_json;
 				}
 				else if (ds_handle->getDStype() == "us_map") {
-				  setMap((USMap*)ds_handle);
-					ds_json = getJSONHeader() + ds_handle->getDataStructureRepresentation();
+					setMap((USMap*)ds_handle);
+//					ds_json = getJSONHeader() + ds_handle->getDataStructureRepresentation();
+					ds_json = getJSONHeader();
+cout << "Output:"  << ds_json << endl;
 				}
 				else
 					ds_json = getJSONHeader() + ds_handle->getDataStructureRepresentation();
@@ -638,6 +649,34 @@ namespace bridges {
 				return server_url;
 			}
 
+/*
+			string getJSONHeader() {
+				StringBuffer s;
+				Writer<StringBuffer> json_ds(s);
+				using bridges::JSONUtil::JSONencode;
+
+				json_ds.StartObject();
+				json_ds.Key("visual"); json_ds.String((ds_handle->getDStype()).c_str());
+				json_ds.Key("title"); json_ds.String(getTitle().c_str());
+				json_ds.Key("description"); json_ds.String(getDescription().c_str());
+				writer.Key("map_overlay"); writer.Bool(map_overlay? true : false);
+				json_ds.Key("map"); json_ds.String(map.c_str());
+				json_ds.Key("element_label_flag"); json_ds.Bool(element_labelFlag);
+				json_ds.Key("link_label_flag"); json_ds.Bool(link_labelFlag);
+				json_ds.Key("coord_system_type"); json_ds.String(getCoordSystemType().c_str());
+				if (wc_window.size() == 4) {// world coord window has been specified
+					json_ds.Key("window"); 
+					json_ds.StartArray();
+						json_ds.Double(wc_window[0]);
+						json_ds.Double(wc_window[1]);
+						json_ds.Double(wc_window[2]);
+						json_ds.Double(wc_window[3]);
+					json_ds.EndArray();
+				}
+				json_ds.EndObject();
+				return s.GetString();
+			}
+*/
 			string getJSONHeader () {
 				using bridges::JSONUtil::JSONencode;
 
