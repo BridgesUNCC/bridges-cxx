@@ -48,6 +48,7 @@ namespace bridges {
 					return true;
 				}
 
+/*
 				virtual const string getMapRepresentation () const override  {
 					// generates a JSON of the states with county information
 string s = getMapRepresentation2();
@@ -98,9 +99,11 @@ if (cnt++ > 3) break;
 					// close the states array
 					map_str = map_str.substr(0, map_str.size()-1) +  CLOSE_BOX;
 					cout << "JSON of Map:" + map_str;
-					return map_str;
+//					return map_str;
+					return s;
 				}
-				string getMapRepresentation2 () const{
+*/
+				virtual const string getMapRepresentation () const override{
 					using namespace rapidjson;
 					StringBuffer sb;
 					Writer<StringBuffer> writer(sb);
