@@ -37,8 +37,19 @@ namespace bridges {
 	
 				virtual const string getDataStructureRepresentation ()
 												const override {
+//				virtual const rapidjson::Document getDataStructureRepresentation ()
+//												const override {
+//					using namespace rapidjson;
                     using bridges::JSONUtil::JSONencode;
 
+//					Document d;
+//					Value key, value;
+//					d.setObject();
+//						key.SetString("mapdummy");
+//						value.SetBool(true);
+//						d.AddMember(key, value, d.GetAllocator());
+
+//					return d;
 					return JSONencode("mapdummy")+COLON+JSONencode(true)+CLOSE_CURLY;
 				}
 			public:
@@ -106,7 +117,6 @@ namespace bridges {
 					StringBuffer sb;
 					Writer<StringBuffer> writer(sb);
 					writer.StartArray();  // start of states --array
-cout << "Rapid json test:" << endl;
 					for (auto& st : state_data) {
 						writer.StartObject();   // start of this state
 						writer.Key("_state_name"); writer.String(st.getStateName().c_str());
@@ -134,8 +144,6 @@ cout << "Rapid json test:" << endl;
 					}
 					writer.EndArray(); // end of states
 
-//					return writer;
-					cout << sb.GetString() << endl;
 					return sb.GetString();
 				}
 			public: 

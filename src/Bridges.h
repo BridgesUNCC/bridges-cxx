@@ -571,13 +571,25 @@ namespace bridges {
 					ds_json = getJSONHeader() + ds_part_json;
 				}
 				else if (ds_handle->getDStype() == "us_map") {
-					setMap((USMap*)ds_handle);
+					setMap((USMap*) ds_handle);
+//					string tmp = ds_handle->getDataStructureRepresentation();
+					Document d;
+						d.SetObject();
+						Value key, value;
+						key.SetString("mapdummy"); value.SetBool(true);
+						d.AddMember(key, value, d.GetAllocator());
+					ds_json = getJSONHeader(d);
 //					ds_json = getJSONHeader() + ds_handle->getDataStructureRepresentation();
-					ds_json = getJSONHeader();
-cout << "Output:"  << ds_json << endl;
+//					ds_json = getJSONHeader();
+cout << "Output JSON :"  << ds_json << endl;
 				}
-				else
+				else {
+					Document d;
+					d.SetObject();
+					string s = getJSONHeader(d);
+cout << "Doc output:" << s;
 					ds_json = getJSONHeader() + ds_handle->getDataStructureRepresentation();
+				}
 				if (profile())
 					jsonbuild_end = std::chrono::system_clock::now();
 
@@ -649,34 +661,63 @@ cout << "Output:"  << ds_json << endl;
 				return server_url;
 			}
 
-/*
-			string getJSONHeader() {
-				StringBuffer s;
-				Writer<StringBuffer> json_ds(s);
-				using bridges::JSONUtil::JSONencode;
+			string  getJSONHeader(Document& d) {
+				Value key, value;
 
-				json_ds.StartObject();
-				json_ds.Key("visual"); json_ds.String((ds_handle->getDStype()).c_str());
-				json_ds.Key("title"); json_ds.String(getTitle().c_str());
-				json_ds.Key("description"); json_ds.String(getDescription().c_str());
-				writer.Key("map_overlay"); writer.Bool(map_overlay? true : false);
-				json_ds.Key("map"); json_ds.String(map.c_str());
-				json_ds.Key("element_label_flag"); json_ds.Bool(element_labelFlag);
-				json_ds.Key("link_label_flag"); json_ds.Bool(link_labelFlag);
-				json_ds.Key("coord_system_type"); json_ds.String(getCoordSystemType().c_str());
+				key.SetString("visual", d.GetAllocator());
+				value.SetString(ds_handle->getDStype().c_str(), d.GetAllocator());
+				d.AddMember(key, value, d.GetAllocator());
+
+cout << "here.." << endl;
+				key.SetString("title", d.GetAllocator());
+				value.SetString(getTitle().c_str(), d.GetAllocator());
+				d.AddMember(key, value, d.GetAllocator());
+				
+				key.SetString("description", d.GetAllocator());
+				value.SetString(getDescription().c_str(), d.GetAllocator());
+				d.AddMember(key, value, d.GetAllocator());
+
+				key.SetString("map", d.GetAllocator());
+				value.SetString(map.c_str(), d.GetAllocator());
+				d.AddMember(key, value, d.GetAllocator());
+
+				key.SetString("map_overlay", d.GetAllocator());
+				value.SetBool((map_overlay) ? true : false);
+				d.AddMember(key, value, d.GetAllocator());
+
+				key.SetString("element_label_flag", d.GetAllocator());
+				value.SetBool(element_labelFlag);
+				d.AddMember(key, value, d.GetAllocator());
+
+				key.SetString("link_label_flag", d.GetAllocator());
+				value.SetBool(link_labelFlag);
+				d.AddMember(key, value, d.GetAllocator());
+				
+				key.SetString("coord_system_type", d.GetAllocator());
+				value.SetString(getCoordSystemType().c_str(), d.GetAllocator());
+				d.AddMember(key, value, d.GetAllocator());
+
 				if (wc_window.size() == 4) {// world coord window has been specified
-					json_ds.Key("window"); 
-					json_ds.StartArray();
-						json_ds.Double(wc_window[0]);
-						json_ds.Double(wc_window[1]);
-						json_ds.Double(wc_window[2]);
-						json_ds.Double(wc_window[3]);
-					json_ds.EndArray();
+					Value v;
+					d.SetArray();
+					Value w_array(kArrayType);
+					w_array.PushBack(v.SetDouble(wc_window[0]), d.GetAllocator());
+					w_array.PushBack(v.SetDouble(wc_window[1]), d.GetAllocator());
+					w_array.PushBack(v.SetDouble(wc_window[2]), d.GetAllocator());
+					w_array.PushBack(v.SetDouble(wc_window[3]), d.GetAllocator());
+	
+					d.AddMember("window", w_array, d.GetAllocator());
 				}
-				json_ds.EndObject();
+				// conver JSON to a string
+				StringBuffer s;
+				Writer<StringBuffer> writer(s);
+				d.Accept(writer);
+
+cout << "Using rapidjson to create json:" << s.GetString();
+
 				return s.GetString();
 			}
-*/
+
 			string getJSONHeader () {
 				using bridges::JSONUtil::JSONencode;
 
