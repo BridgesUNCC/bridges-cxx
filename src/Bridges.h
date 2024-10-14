@@ -578,8 +578,9 @@ namespace bridges {
 						Value key, value;
 						key.SetString("mapdummy"); value.SetBool(true);
 						d.AddMember(key, value, d.GetAllocator());
-					ds_json = getJSONHeader(d);
-//					ds_json = getJSONHeader() + ds_handle->getDataStructureRepresentation();
+//					ds_json = getJSONHeader(d);
+cout << "DS Rep:" + ds_handle->getDataStructureRepresentation();
+					ds_json = getJSONHeader() + ds_handle->getDataStructureRepresentation();
 //					ds_json = getJSONHeader();
 cout << "Output JSON :"  << ds_json << endl;
 				}

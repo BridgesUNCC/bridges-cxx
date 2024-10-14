@@ -30,7 +30,7 @@ namespace bridges {
 		using namespace bridges::datastructure;
 		using bridges::dataset::State;
 
-		class USMap :  public Map, DataStructure {
+		class USMap :  public Map, public DataStructure {
 			private:
 				vector<string> state_names;
 				vector<State> state_data;
@@ -60,7 +60,6 @@ namespace bridges {
 					return true;
 				}
 
-/*
 				virtual const string getMapRepresentation () const override  {
 					// generates a JSON of the states with county information
 					string map_str = OPEN_BOX;
@@ -108,10 +107,9 @@ namespace bridges {
 					// close the states array
 					map_str = map_str.substr(0, map_str.size()-1) +  CLOSE_BOX;
 					cout << "JSON of Map:" + map_str;
-//					return map_str;
-					return s;
+					return map_str;
 				}
-*/
+/*
 				virtual const string getMapRepresentation () const override{
 					using namespace rapidjson;
 					StringBuffer sb;
@@ -146,6 +144,94 @@ namespace bridges {
 
 					return sb.GetString();
 				}
+				virtual const string getMapRepresentation () const override{
+					using namespace rapidjson;
+					Document d;
+					d.SetObject();
+					Document::AllocatorType& allocator = d.GetAllocator();	
+					Value key, value;
+					Value st_array(kArrayType);
+					for (auto& st : state_data) {
+						Value st_obj;
+						st_obj.SetObject();
+						key.SetString("_state_name", allocator);
+						value.SetString(st.getStateName().c_str(), allocator);
+						st_obj.AddMember(key, value, allocator);
+
+						key.SetString("_stroke_color", allocator);
+						value.SetString(st.getStrokeColor().c_str(), allocator);
+						st_obj.AddMember(key, value, allocator);
+
+						key.SetString("_fill_color", allocator);
+						value.SetString(st.getFillColor().c_str(), allocator);
+						st_obj.AddMember(key, value, allocator);
+
+						key.SetString("stroke_width", allocator);
+						value.SetDouble(st.getStrokeWidth());
+						st_obj.AddMember(key, value, allocator);
+
+						key.SetString("_view_counties", allocator);
+						value.SetBool(st.getViewCountiesFlag());
+						st_obj.AddMember(key, value, allocator);
+
+							// put counties into an array
+						Value ct_array(kArrayType);
+						for (auto& c : st.getCounties()) {
+							Value c_obj;
+							c_obj.SetObject();
+
+							key.SetString("_geoid", allocator);
+							value.SetString(c.second.getGeoId().c_str(), allocator);
+							c_obj.AddMember(key, value, allocator);
+
+							key.SetString("_fips_code", allocator);
+							value.SetString(c.second.getFipsCode().c_str(), allocator);
+							c_obj.AddMember(key, value, allocator);
+
+							key.SetString("_county_name", allocator);
+							value.SetString(c.second.getCountyName().c_str(), allocator);
+							c_obj.AddMember(key, value, allocator);
+
+							key.SetString("_state_name", allocator);
+							value.SetString(c.second.getStateName().c_str(), allocator);
+							c_obj.AddMember(key, value, allocator);
+
+							key.SetString("_stroke_color", allocator);
+							value.SetString(c.second.getStrokeColor().c_str(), allocator);
+							c_obj.AddMember(key, value, allocator);
+
+							key.SetString("_stroke_width", allocator);
+							value.SetDouble(c.second.getStrokeWidth());
+							c_obj.AddMember(key, value, allocator);
+
+							key.SetString("_fill_color", allocator);
+							value.SetString(c.second.getFillColor().c_str(), allocator);
+							c_obj.AddMember(key, value, allocator);
+
+							key.SetString("_hide", allocator);
+							value.SetBool(c.second.getHideFlag());
+							c_obj.AddMember(key, value, allocator);
+
+							ct_array.PushBack(c_obj, allocator);
+						}
+						st_obj.AddMember("counties", ct_array, allocator);
+						st_array.PushBack(st_obj, allocator);
+						d.AddMember("states", st_array, allocator);
+					}
+
+					// convert to string
+					StringBuffer sb;
+					Writer<StringBuffer> writer(sb);
+					d["states"].Accept(writer);
+
+
+					string s = sb.GetString();
+					string s2 = s.substr(10, s.size()-11);
+cout << "Map String(JSON) " << s << endl;
+
+					return s;
+				}
+*/
 			public: 
 				USMap(vector<State> st_data) {
 					state_data = st_data;
