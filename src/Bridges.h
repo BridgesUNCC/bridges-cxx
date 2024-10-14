@@ -588,8 +588,8 @@ cout << "Output JSON :"  << ds_json << endl;
 					Document d;
 					d.SetObject();
 					string s = getJSONHeader(d);
-cout << "Doc output:" << s;
 					ds_json = getJSONHeader() + ds_handle->getDataStructureRepresentation();
+cout << "Doc output:" << ds_json;
 				}
 				if (profile())
 					jsonbuild_end = std::chrono::system_clock::now();
@@ -669,7 +669,6 @@ cout << "Doc output:" << s;
 				value.SetString(ds_handle->getDStype().c_str(), d.GetAllocator());
 				d.AddMember(key, value, d.GetAllocator());
 
-cout << "here.." << endl;
 				key.SetString("title", d.GetAllocator());
 				value.SetString(getTitle().c_str(), d.GetAllocator());
 				d.AddMember(key, value, d.GetAllocator());

@@ -130,6 +130,7 @@ namespace bridges {
 
 					return sl_list_json;
 				}
+
 			protected:
 				/**
 				 *  @brief Generates the JSON representation of the element

@@ -352,6 +352,76 @@ namespace bridges {
 
 					return json_str;
 				}
+/*
+				virtual void getDataStructureRepresentation(rapidjson::Document& d)
+														 const override {
+					using namespace rapidjson;
+
+					check();
+					Document::AllocatorType& allocator = d.GetAllocator();
+					for (auto& entry : xaxisData) {
+						Value key, value;
+
+						d.SetObject();
+						key.SetString("Plot_Name", allocator);
+						value.SetString(entry.first.c_str(), allocator);
+						d.AddMember(key, value, allocator);
+
+						key.SetString("xaxis_data", allocator);
+						Value plot_arr(kArraytype);
+						for (auto val : entry.second) {
+							Value v; v.SetDouble(val);
+							plot_arr.PushBack(v, allocator);
+						}
+						d.AddMember("xaxis_data", plot_arr, allocator);
+					}
+					for (auto& entry : yaxisData) {
+						Value key, value;
+
+						d.SetObject();
+						key.SetString("Plot_Name", allocator);
+						value.SetString(entry.first.c_str(), allocator);
+						d.AddMember(key, value, allocator);
+
+						key.SetString("yaxis_data", allocator);
+						Value plot_arr(kArraytype);
+						for (auto val : entry.second) {
+							Value v; v.SetDouble(val);
+							plot_arr.PushBack(v, allocator);
+						}
+						d.AddMember("yaxis_data", plot_arr, allocator);
+					}
+					Value v;
+					d.AddMember("plot_title", getTitle().c_str(), allocator);
+					d.AddMember("xLabel", getXLabel().c_str(), allocator);
+					d.AddMember("yLabel", getYLabel().c_str(), allocator);
+					d.AddMember("xaxisType", v.SetBool(logarithmicx));
+					d.AddMember("yaxisType", v.SetBool(logarithmicy););
+					d.SetObject();
+					Value obj;
+						obj.AddMember("mouseTracking", v.SetBool(mouseTrack));
+						obj.AddMember("dataLabels", v.SetBool(dataLabel));
+					d.AddMember("options", obj, allocator);
+					d.AddMember("options", "mouseTracking");
+					d.AddMember("xaxis_data", );
+					d.AddMember("yaxis_data", );
+				
+
+					string json_str = JSONencode("plot_title") + COLON +  JSONencode(getTitle()) + COMMA +
+						JSONencode("subtitle") + COLON + JSONencode(getSubTitle())  + COMMA +
+						JSONencode("xLabel") + COLON + JSONencode(getXLabel()) +  COMMA +
+						JSONencode("yLabel") + COLON + JSONencode(getYLabel()) + COMMA +
+						JSONencode("xaxisType") + COLON + JSONencode(logarithmicx) + COMMA +
+						JSONencode("yaxisType") + COLON + JSONencode(logarithmicy) + COMMA +
+						JSONencode("options") + COLON + OPEN_CURLY + JSONencode("mouseTracking") + COLON +
+						JSONencode(mouseTrack) + COMMA + JSONencode("dataLabels") + COLON + JSONencode(dataLabel) + CLOSE_CURLY + COMMA +
+						JSONencode("xaxis_data") + COLON + OPEN_BOX + xaxis_json + CLOSE_BOX + COMMA +
+						JSONencode("yaxis_data") + COLON + OPEN_BOX + yaxis_json + CLOSE_BOX +
+						CLOSE_CURLY;
+
+					return json_str;
+				}
+*/
 
 		};
 	}
