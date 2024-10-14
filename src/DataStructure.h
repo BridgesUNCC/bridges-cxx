@@ -38,6 +38,7 @@
  *  Charlotte, NC.
  */
 #include <string> //string
+#include <rapidjson/document.h>
 using namespace std;
 
 namespace bridges {
@@ -101,6 +102,7 @@ namespace bridges {
 				 * @return The JSON representation of the data structure: A pair holding the nodes and links JSON strings respectively
 				 */
 				virtual const string getDataStructureRepresentation() const = 0;
+				virtual void getDataStructureRepresentation(rapidjson::Document& d) const = 0;
 
 		};  //end of DataStructure class
 	}

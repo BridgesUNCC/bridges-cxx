@@ -267,6 +267,9 @@ namespace bridges {
 
 					return json_str;
 				}
+			virtual void getDataStructureRepresentation(rapidjson::Document& d)
+												const override {
+   			}
 		};
 	}
 

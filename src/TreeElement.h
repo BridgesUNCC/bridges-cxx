@@ -144,6 +144,9 @@ namespace bridges {
 
 					return tree_json;
 				}
+				virtual const string getDataStructureRepresentation() 
+										const override final {
+				}
 
 				/**
 				 * Does a preorder traversal to build a hierarchical JSON of the tree

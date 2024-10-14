@@ -256,6 +256,8 @@ namespace bridges {
 
 					return ml_list_json;
 				}
+				virtual void getDataStructureRepresentation(rapidjson::Document& d) const override {
+				}
 				/**
 				 *  Get the list of nodes into a vector
 				 *

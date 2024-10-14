@@ -130,6 +130,8 @@ namespace bridges {
 
 					return sl_list_json;
 				}
+				virtual void getDataStructureRepresentation(rapidjson::Document& d) const override {
+				}
 
 			protected:
 				/**

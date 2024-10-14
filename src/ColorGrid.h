@@ -254,6 +254,8 @@ namespace bridges {
 
 					return grid_json;
 				}
+				virtual void getDataStructureRepresentation (rapidjson::Document& d) const override {
+				}
 
 		};
 	}

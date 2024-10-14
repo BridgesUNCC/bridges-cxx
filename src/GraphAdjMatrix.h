@@ -333,6 +333,9 @@ namespace bridges {
 
 					return graph_amatrix_json;
 				}
+				virtual void getDataStructureRepresentation(rapidjson::Document& d) 
+                                        const override final {
+				}
 		}; //end of GraphAdjList class
 	}
 }//end of bridges namespace

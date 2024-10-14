@@ -419,7 +419,6 @@ namespace bridges {
 			 **/
 			void setMap(string map_str) {
 				map = map_str;
-				cout << "JSON of Map:" + map_str << "\n";
 				setMapAsJSON(false);
 			}
 
@@ -579,17 +578,24 @@ namespace bridges {
 						key.SetString("mapdummy"); value.SetBool(true);
 						d.AddMember(key, value, d.GetAllocator());
 //					ds_json = getJSONHeader(d);
-cout << "DS Rep:" + ds_handle->getDataStructureRepresentation();
 					ds_json = getJSONHeader() + ds_handle->getDataStructureRepresentation();
 //					ds_json = getJSONHeader();
-cout << "Output JSON :"  << ds_json << endl;
 				}
-				else {
+				else if (ds_handle->getDStype() == "LineChart") {
+					// this is testing using rapidjson's json writing
+					// facilities to generate the full JSON
 					Document d;
 					d.SetObject();
 					string s = getJSONHeader(d);
+					ds_handle->getDataStructureRepresentation(d);
+					StringBuffer sb;
+					Writer<StringBuffer> w(sb);
+					d.Accept(w);
+					ds_json = sb.GetString();
+
+				}
+				else {
 					ds_json = getJSONHeader() + ds_handle->getDataStructureRepresentation();
-cout << "Doc output:" << ds_json;
 				}
 				if (profile())
 					jsonbuild_end = std::chrono::system_clock::now();
@@ -713,8 +719,6 @@ cout << "Doc output:" << ds_json;
 				Writer<StringBuffer> writer(s);
 				d.Accept(writer);
 
-cout << "Using rapidjson to create json:" << s.GetString();
-
 				return s.GetString();
 			}
 
@@ -745,7 +749,6 @@ cout << "Using rapidjson to create json:" << s.GetString();
 					json_header += CLOSE_BOX + COMMA;
 
 				}
-cout << "\n\nJson Header" <<json_header << "\n";
 
 				return json_header;
 			}
