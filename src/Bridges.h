@@ -556,13 +556,18 @@ namespace bridges {
 
 				//
 				// get the JSON of the data structure
-				// each data structure is responsible for generating its JSON
+				// each data structure is responsible for generating its own JSON
 				//
 				if (profile())
 					jsonbuild_start = std::chrono::system_clock::now();
 
-				// THIS IS BAD - NEEDS FIXING!!!
 				string ds_json;
+				// We are transitioning to using rapidjson to 
+				// generate the JSON of the data structure reprsentation
+				Document doc;  
+				StringBuffer sb;
+				Writer<StringBuffer> json_writer(sb); 	// for conversion to string
+				doc.SetObject();
 				if (ds_handle->getDStype() == "Scene") {
 					string ds_part_json = ds_handle->getDataStructureRepresentation();
 					// erase open curly brace
@@ -581,18 +586,15 @@ namespace bridges {
 					ds_json = getJSONHeader() + ds_handle->getDataStructureRepresentation();
 //					ds_json = getJSONHeader();
 				}
-				else if (ds_handle->getDStype() == "LineChart") {
-					// this is testing using rapidjson's json writing
-					// facilities to generate the full JSON
-					Document d;
-					d.SetObject();
-					string s = getJSONHeader(d);
-					ds_handle->getDataStructureRepresentation(d);
-					StringBuffer sb;
-					Writer<StringBuffer> w(sb);
-					d.Accept(w);
-					ds_json = sb.GetString();
+				else if (ds_handle->getDStype() == "LineChart"){
+								
+					// get the header information
+					string s = getJSONHeader(doc);
 
+					// get the data structure representation
+					ds_handle->getDataStructureRepresentation(doc);
+					doc.Accept(json_writer);
+					ds_json = sb.GetString();
 				}
 				else {
 					ds_json = getJSONHeader() + ds_handle->getDataStructureRepresentation();

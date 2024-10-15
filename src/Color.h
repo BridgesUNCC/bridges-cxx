@@ -414,6 +414,26 @@ namespace bridges {
 
 					return OPEN_BOX + strCSS + CLOSE_BOX;
 				}
+				const void getCSSRepresentation(rapidjson::Document& d) const {
+					
+					
+					double r = 0, g = 0, b = 0, alpha = 0;
+					Value v;
+					Document::AllocatorType& allocator = d.GetAllocator();
+					if (this->isTransparent()) {
+						//leaves off other channels if transparent
+						d.AddMember("color", v.SetString("[0, 0, 0, 0]"),
+													allocator);
+					}
+					else {
+						Value col_arr(kArrayType);
+						col_arr.PushBack(v.SetDouble(this->getRed()), allocator);
+						col_arr.PushBack(v.SetDouble(this->getGreen()), allocator);
+						col_arr.PushBack(v.SetDouble(this->getBlue()), allocator);
+						col_arr.PushBack(v.SetDouble(this->getAlpha()), allocator);
+						d.AddMember("color", col_arr, allocator);
+					}
+				}
 
 			private:
 

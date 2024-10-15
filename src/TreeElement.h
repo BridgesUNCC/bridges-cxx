@@ -144,7 +144,7 @@ namespace bridges {
 
 					return tree_json;
 				}
-				virtual const string getDataStructureRepresentation() 
+				virtual void getDataStructureRepresentation(rapidjson::Document& d) 
 										const override final {
 				}
 
