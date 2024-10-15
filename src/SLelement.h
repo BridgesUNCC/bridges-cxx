@@ -106,7 +106,6 @@ namespace bridges {
 				 * @return JSON string of the singly linked list representation
 				 */
 				virtual const string getDataStructureRepresentation() const override {
-
 					vector<const SLelement<E>*> nodes;
 					// get the list of nodes
 					getListElements(nodes);
@@ -130,7 +129,22 @@ namespace bridges {
 
 					return sl_list_json;
 				}
-				virtual void getDataStructureRepresentation(rapidjson::Document& d) const override {
+				virtual void getDataStructureRepresentation(rapidjson::Document& d)
+													 const override {
+					vector<const SLelement<E>*> nodes;
+					// get the list of nodes
+					getListElements(nodes);
+					// generate the JSON 
+
+					if (MAX_ELEMENTS_ALLOWED <= nodes.size()) {
+						// cant exceed max number of elements
+						throw "Max allowed elements(for visualization) exceeded.."
+							 + to_string(nodes.size()) + " Must be less than " +
+							to_string(MAX_ELEMENTS_ALLOWED);
+					}
+					generateJSON(nodes, d);
+//StringBuffer sb; Writer<StringBuffer> w(sb);
+//d["nodes"].Accept(w); cout << "DS Rep:\n" << sb.GetString() << endl;;
 				}
 
 			protected:
@@ -178,6 +192,49 @@ namespace bridges {
 					}
 
 					return pair<string, string> (nodes_JSON, links_JSON);
+				}
+				virtual void generateJSON( vector<const SLelement<E>*> nodes, 
+									rapidjson::Document& d) const {
+					// map the nodes to a sequence of ids, 0...N-1
+					// then get the JSON string for nodes placeholder
+					// nullptr prevents insertion of other nullptrs
+
+					using namespace rapidjson;
+					unordered_map<const SLelement*, int> node_map { {nullptr, -1} };
+		
+					d.SetObject();
+					Document::AllocatorType& allocator = d.GetAllocator();
+					Value key;
+
+					Value node_arr(kArrayType);
+
+					int i = 0; 		// get the JSON string for nodes
+					for (const auto* e : nodes) {
+						if (node_map.emplace(e, i).second)  {
+							// successful emplacement
+							i++;
+							Document dn;
+							e->getElementRepresentation(dn);
+							node_arr.PushBack(dn["element"], allocator);
+						}
+					}
+
+					d.AddMember ("nodes", node_arr, allocator);
+
+					// for each pair<SLelement*,int> in map
+					Value link_arr(kArrayType);
+					for (unsigned int k = 0; k < nodes.size(); k++) {
+						if (nodes[k]->next != nullptr) { // link exists
+							Document dl;
+						
+							this->getLinkRepresentation(
+								nodes[k]->links.at(nodes[k]->next),
+								to_string(node_map[nodes[k]]),
+								to_string(node_map[nodes[k]->next]), dl);
+							link_arr.PushBack(dl["link"], allocator);
+						}
+					}
+					d.AddMember ("links", link_arr, allocator);
 				}
 			protected:
 				/**

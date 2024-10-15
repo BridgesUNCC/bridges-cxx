@@ -270,7 +270,6 @@ namespace bridges {
 					el_obj.SetObject();
 
 					// first check if location is set and needs to be included
-					string loc_str = "";
 					if ( (elvis->getLocationX() != INFINITY) &&
 						(elvis->getLocationY() != INFINITY) ) {
 
@@ -324,7 +323,7 @@ namespace bridges {
 						QUOTE + "target"    + QUOTE + COLON + JSONencode(dest) +
 						CLOSE_CURLY;
 				}
-				static const string getLinkRepresentation(
+				static void getLinkRepresentation(
 							const LinkVisualizer& lv,
 							const string& src, const string& dest,
 							rapidjson::Document& d) { 
@@ -341,12 +340,12 @@ namespace bridges {
 					if (!lv.getLabel().empty()) {
 						v.SetString(lv.getLabel().c_str(), allocator);
 						lv_obj.AddMember("label", v, allocator);
-						lv_obj.AddMember("thickness", v.SetDouble(lv.getThickness()), allocator);
-						v.SetString(src.c_str(), allocator);
-						lv_obj.AddMember("source", v, allocator);
-						v.SetString(dest.c_str(), allocator);
-						lv_obj.AddMember("target", v, allocator);
 					}
+					lv_obj.AddMember("thickness", v.SetDouble(lv.getThickness()), allocator);
+					v.SetString(src.c_str(), allocator);
+					lv_obj.AddMember("source", v, allocator);
+					v.SetString(dest.c_str(), allocator);
+					lv_obj.AddMember("target", v, allocator);
 					d.AddMember("link", lv_obj, allocator);
 				}
 			public:
