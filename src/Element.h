@@ -283,7 +283,16 @@ namespace bridges {
 
 					Document d2;
 					d2.SetObject();
-					elvis->getColor().getCSSRepresentation(d2);
+//					elvis->getColor().getCSSRepresentation(d2);
+					Value arr(kArrayType);
+					Value v2; 
+					arr.PushBack(v2.SetDouble(50.), allocator);
+					arr.PushBack(v2.SetDouble(50.), allocator);
+					d2.AddMember("color", arr, allocator);
+StringBuffer sb;
+Writer<StringBuffer> w(sb);
+d2["color"].Accept(w);
+cout << "Color:" << sb.GetString() << endl;
 					el_obj.AddMember("color", d2["color"], allocator);
 					string s = ShapeNames().at(elvis->getShape());
 					v.SetString(s.c_str(), allocator);

@@ -600,7 +600,6 @@ namespace bridges {
 					ds_json = getJSONHeader() + ds_handle->getDataStructureRepresentation();
 
 					// this part not working yet!!
-/*
 					Document d;
 					ds_handle->getDataStructureRepresentation(d);
 cout << "here..\n";
@@ -608,7 +607,6 @@ StringBuffer sb; Writer<StringBuffer> w(sb);
 d["nodes"].Accept(w); 
 cout << "DS Rep:\n" << sb.GetString() << endl;;
 cout << "here2..\n";
-*/
 				//	d.Accept(json_writer);
 				//	cout << "JSON(SLL): " << sb.GetString() << "\n";
 						
