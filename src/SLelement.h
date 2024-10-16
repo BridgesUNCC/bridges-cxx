@@ -204,21 +204,20 @@ namespace bridges {
 		
 					d.SetObject();
 					Document::AllocatorType& allocator = d.GetAllocator();
-					Value key;
+					Value key, val;
 
 					Value node_arr(kArrayType);
 
 					int i = 0; 		// get the JSON string for nodes
+					Document dn;
 					for (const auto* e : nodes) {
 						if (node_map.emplace(e, i).second)  {
 							// successful emplacement
 							i++;
-							Document dn;
 							e->getElementRepresentation(dn);
 							node_arr.PushBack(dn["element"], allocator);
 						}
 					}
-
 					d.AddMember ("nodes", node_arr, allocator);
 
 					// for each pair<SLelement*,int> in map
