@@ -427,11 +427,23 @@ namespace bridges {
 					}
 					else {
 						Value col_arr(kArrayType);
-						col_arr.PushBack(v.SetDouble(this->getRed()), allocator);
-						col_arr.PushBack(v.SetDouble(this->getGreen()), allocator);
-						col_arr.PushBack(v.SetDouble(this->getBlue()), allocator);
-						col_arr.PushBack(v.SetDouble(this->getAlpha()), allocator);
+						Value v; v.SetDouble(50.);
+						col_arr.PushBack(v, allocator);
+						v.SetDouble(50.);
+						col_arr.PushBack(v, allocator);
+						v.SetDouble(50.);
+						col_arr.PushBack(v, allocator);
+						v.SetDouble(50.);
+						col_arr.PushBack(v, allocator);
+					//	col_arr.PushBack(v.SetDouble(this->getRed()), allocator);
+					//	col_arr.PushBack(v.SetDouble(this->getGreen()), allocator);
+					//	col_arr.PushBack(v.SetDouble(this->getBlue()), allocator);
+					//	col_arr.PushBack(v.SetDouble(this->getAlpha()), allocator);
 						d.AddMember("color", col_arr, allocator);
+StringBuffer sb;
+Writer<StringBuffer> w(sb);
+d["color"].Accept(w);
+//cout << "Color:" << sb.GetString() << endl;
 					}
 				}
 
