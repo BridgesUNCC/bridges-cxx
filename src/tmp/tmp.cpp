@@ -22,6 +22,16 @@ int main() {
 	return 0;
 }
 
+void getColor(rapidjson::Document& d) {
+	Value col_arr(kArrayType);
+	Value v;
+	Document::AllocatorType& allocator = d.GetAllocator();
+	col_arr.PushBack(v.SetDouble(128.), allocator);
+	col_arr.PushBack(v.SetDouble(243.), allocator);
+	col_arr.PushBack(v.SetDouble(255.), allocator);
+	col_arr.PushBack(v.SetDouble(255.), allocator);
+    d.AddMember("color", col_arr, allocator);
+}
 
 void json_test (Document & d){
 
@@ -51,7 +61,11 @@ void json_test (Document & d){
 		obj3.AddMember("three", v.SetDouble(6.0), allocator);
 	arr.PushBack (obj3, allocator);
 
+	Document d2; d2.SetObject();
+	getColor (d2);
+
 	obj.AddMember ("array", arr, allocator);
+	obj.AddMember ("color", d2["color"], allocator);
 
 	d.AddMember("stats", obj, allocator);
 }
