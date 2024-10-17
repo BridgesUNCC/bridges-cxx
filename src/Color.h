@@ -414,14 +414,15 @@ namespace bridges {
 
 					return OPEN_BOX + strCSS + CLOSE_BOX;
 				}
-				const void getCSSRepresentation(rapidjson::Value& col_arr) const {
+				const void getCSSRepresentation(rapidjson::Document& d) const {
 					
 					
 					using namespace rapidjson;
 					double r = 0, g = 0, b = 0, alpha = 0;
 					Value v;
-					Document d;
+					d.SetObject();
 					Document::AllocatorType& allocator = d.GetAllocator();
+					Value col_arr(kArrayType);
 					if (this->isTransparent()) {
 						//leaves off other channels if transparent
 					//	d.AddMember("color", v.SetString("[0, 0, 0, 0]"),
@@ -432,25 +433,16 @@ namespace bridges {
 						col_arr.PushBack(0., allocator);
 					}
 					else {
-//						Value col_arr(kArrayType);
-						Value v; v.SetDouble(50.);
-						col_arr.PushBack(v, allocator);
-						v.SetDouble(50.);
-						col_arr.PushBack(v, allocator);
-						v.SetDouble(50.);
-						col_arr.PushBack(v, allocator);
-						v.SetDouble(50.);
-						col_arr.PushBack(v, allocator);
-					//	col_arr.PushBack(v.SetDouble(this->getRed()), allocator);
-					//	col_arr.PushBack(v.SetDouble(this->getGreen()), allocator);
-					//	col_arr.PushBack(v.SetDouble(this->getBlue()), allocator);
-					//	col_arr.PushBack(v.SetDouble(this->getAlpha()), allocator);
-				//		d.AddMember("color", col_arr, allocator);
+						col_arr.PushBack(v.SetDouble(this->getRed()), allocator);
+						col_arr.PushBack(v.SetDouble(this->getGreen()), allocator);
+						col_arr.PushBack(v.SetDouble(this->getBlue()), allocator);
+						col_arr.PushBack(v.SetDouble(this->getAlpha()), allocator);
+					}
+					d.AddMember("color", col_arr, allocator);
 StringBuffer sb;
 Writer<StringBuffer> w(sb);
-col_arr.Accept(w);
+d.Accept(w);
 cout << "Color (in Color.h):" << sb.GetString() << endl;
-					}
 				}
 
 			private:

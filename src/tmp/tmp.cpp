@@ -3,9 +3,12 @@
 #include <rapidjson/stringbuffer.h>
 #include <rapidjson/writer.h>
 
+
 #include <iostream>
 using namespace std;
 using namespace rapidjson;
+
+#include "color.h"
 
 void json_test(Document& d);
 int main() {
@@ -22,14 +25,15 @@ int main() {
 	return 0;
 }
 
-void getColor(rapidjson::Document& d) {
+
+void getColor(rapidjson::Document& d, Color c) {
 	Value col_arr(kArrayType);
 	Value v;
 	Document::AllocatorType& allocator = d.GetAllocator();
-	col_arr.PushBack(v.SetDouble(128.), allocator);
-	col_arr.PushBack(v.SetDouble(243.), allocator);
-	col_arr.PushBack(v.SetDouble(255.), allocator);
-	col_arr.PushBack(v.SetDouble(255.), allocator);
+	col_arr.PushBack(v.SetDouble(c.getRed()), allocator);
+	col_arr.PushBack(v.SetDouble(c.getGreen()), allocator);
+	col_arr.PushBack(v.SetDouble(c.getBlue()), allocator);
+	col_arr.PushBack(v.SetDouble(c.getAlpha()), allocator);
     d.AddMember("color", col_arr, allocator);
 }
 
@@ -62,7 +66,8 @@ void json_test (Document & d){
 	arr.PushBack (obj3, allocator);
 
 	Document d2; d2.SetObject();
-	getColor (d2);
+	Color c;
+	getColor (d2, c);
 
 	obj.AddMember ("array", arr, allocator);
 	obj.AddMember ("color", d2["color"], allocator);

@@ -281,10 +281,12 @@ namespace bridges {
 						el_obj.AddMember("location", loc_arr, allocator);
 					}
 
-					string col_rep = elvis->getColor().getCSSRepresentation();
-cout << col_rep << "\n";
-					v.SetString(col_rep.c_str(), allocator);
-					el_obj.AddMember("color", v, allocator);
+				//	string col_rep = elvis->getColor().getCSSRepresentation();
+//cout << col_rep << "\n";
+				//	v.SetString(col_rep.c_str(), allocator);
+					Document d2;
+					elvis->getColor().getCSSRepresentation(d2);
+					el_obj.AddMember("color", d2["color"], allocator);
 					string s = ShapeNames().at(elvis->getShape());
 					v.SetString(s.c_str(), allocator);
 					el_obj.AddMember("shape", v, allocator);
