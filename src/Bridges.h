@@ -598,18 +598,18 @@ namespace bridges {
 				}
 				else if (ds_handle->getDStype() == "SinglyLinkedList"){
 					ds_json = getJSONHeader() + ds_handle->getDataStructureRepresentation();
+					getJSONHeader(doc);
+/*
+					doc.Accept(json_writer);
+					ds_handle->getDataStructureRepresentation(doc);
+					doc.Accept(json_writer);
+					ds_json = sb.GetString();
+cout << "DS Rep(in visualize():\n" << sb.GetString() << endl;;
 
-					// this part not working yet!!
-					Document d;
-					ds_handle->getDataStructureRepresentation(d);
-cout << "here..\n";
-StringBuffer sb; Writer<StringBuffer> w(sb);
-d["nodes"].Accept(w); 
-cout << "DS Rep:\n" << sb.GetString() << endl;;
+					StringBuffer sb; Writer<StringBuffer> w(sb);
+d.Accept(w); 
 cout << "here2..\n";
-				//	d.Accept(json_writer);
-				//	cout << "JSON(SLL): " << sb.GetString() << "\n";
-						
+*/
 				}
 				else {
 					ds_json = getJSONHeader() + ds_handle->getDataStructureRepresentation();

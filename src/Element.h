@@ -281,19 +281,10 @@ namespace bridges {
 						el_obj.AddMember("location", loc_arr, allocator);
 					}
 
-					Document d2;
-					d2.SetObject();
-//					elvis->getColor().getCSSRepresentation(d2);
-					Value arr(kArrayType);
-					Value v2; 
-					arr.PushBack(v2.SetDouble(50.), allocator);
-					arr.PushBack(v2.SetDouble(50.), allocator);
-					d2.AddMember("color", arr, allocator);
-StringBuffer sb;
-Writer<StringBuffer> w(sb);
-d2["color"].Accept(w);
-cout << "Color:" << sb.GetString() << endl;
-					el_obj.AddMember("color", d2["color"], allocator);
+					string col_rep = elvis->getColor().getCSSRepresentation();
+cout << col_rep << "\n";
+					v.SetString(col_rep.c_str(), allocator);
+					el_obj.AddMember("color", v, allocator);
 					string s = ShapeNames().at(elvis->getShape());
 					v.SetString(s.c_str(), allocator);
 					el_obj.AddMember("shape", v, allocator);
@@ -303,6 +294,10 @@ cout << "Color:" << sb.GetString() << endl;
 
 					// put this into an element
 					d.AddMember ("element", el_obj, allocator);
+cout << "here..\n";
+StringBuffer sb; Writer<StringBuffer> w(sb);
+d["element"].Accept(w);
+cout << "DS Rep:\n" << sb.GetString() << endl;;
 				}
 				/**
 				 * Gets the JSON representation of this link visualizer using
@@ -335,17 +330,18 @@ cout << "Color:" << sb.GetString() << endl;
 				static void getLinkRepresentation(
 							const LinkVisualizer& lv,
 							const string& src, const string& dest,
-							rapidjson::Document& d) { 
+							rapidjson::Document* d) { 
 
 					using namespace rapidjson;
-					Document::AllocatorType& allocator = d.GetAllocator();
-					d.SetObject();
-					Value lv_obj, v;
+					Document::AllocatorType& allocator = d->GetAllocator();
+					d->SetObject();
+					Value lv_obj, v, v2;
 					lv_obj.SetObject();
 
-					Document d2; d2.SetObject();
-					lv.getColor().getCSSRepresentation(d2);
-					lv_obj.AddMember("color", d2["color"], allocator);
+cout << "here2\n";
+					string col_str = lv.getColor().getCSSRepresentation();
+					v.SetString(col_str.c_str(), allocator);
+					lv_obj.AddMember("color", v, allocator);
 					if (!lv.getLabel().empty()) {
 						v.SetString(lv.getLabel().c_str(), allocator);
 						lv_obj.AddMember("label", v, allocator);
@@ -353,9 +349,12 @@ cout << "Color:" << sb.GetString() << endl;
 					lv_obj.AddMember("thickness", v.SetDouble(lv.getThickness()), allocator);
 					v.SetString(src.c_str(), allocator);
 					lv_obj.AddMember("source", v, allocator);
-					v.SetString(dest.c_str(), allocator);
-					lv_obj.AddMember("target", v, allocator);
-					d.AddMember("link", lv_obj, allocator);
+					v2.SetString(dest.c_str(), allocator);
+					lv_obj.AddMember("target", v2, allocator);
+					d->AddMember("link", lv_obj, allocator);
+StringBuffer sb;
+Writer <StringBuffer> w(sb);
+d->Accept(w); cout << "Link:" << sb.GetString() << "\n";
 				}
 			public:
 				/**

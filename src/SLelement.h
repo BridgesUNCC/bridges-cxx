@@ -224,12 +224,12 @@ namespace bridges {
 					Value link_arr(kArrayType);
 					for (unsigned int k = 0; k < nodes.size(); k++) {
 						if (nodes[k]->next != nullptr) { // link exists
-							Document dl;
 						
+							Document dl;
 							this->getLinkRepresentation(
 								nodes[k]->links.at(nodes[k]->next),
 								to_string(node_map[nodes[k]]),
-								to_string(node_map[nodes[k]->next]), dl);
+								to_string(node_map[nodes[k]->next]), &dl);
 							link_arr.PushBack(dl["link"], allocator);
 						}
 					}
