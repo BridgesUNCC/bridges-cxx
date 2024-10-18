@@ -129,8 +129,9 @@ namespace bridges {
 
 					return sl_list_json;
 				}
-				virtual void getDataStructureRepresentation(rapidjson::Document& d)
-													 const override {
+
+				virtual void getDataStructureRepresentation(
+						rapidjson::Document& d) const override {
 					vector<const SLelement<E>*> nodes;
 					// get the list of nodes
 					getListElements(nodes);
@@ -143,8 +144,12 @@ namespace bridges {
 							to_string(MAX_ELEMENTS_ALLOWED);
 					}
 					generateJSON(nodes, d);
-//StringBuffer sb; Writer<StringBuffer> w(sb);
-//d["nodes"].Accept(w); cout << "DS Rep:\n" << sb.GetString() << endl;;
+
+assert (d.IsObject());
+assert (d["links"].IsObject());
+cout << "in slelement:getds..\n";
+StringBuffer sb; Writer<StringBuffer> w(sb);
+d.Accept(w); cout << "DS Rep(nodes, links):\n" << sb.GetString() << endl;;
 				}
 
 			protected:
@@ -215,12 +220,17 @@ namespace bridges {
 							// successful emplacement
 							i++;
 							e->getElementRepresentation(dn);
+cout << "printing dn[element]...\n";
+StringBuffer sb; Writer<StringBuffer> w(sb); dn["element"].Accept(w); cout << sb.GetString();
 							node_arr.PushBack(dn["element"], allocator);
 						}
 					}
 StringBuffer sb; Writer <StringBuffer> w(sb);
 node_arr.Accept(w); cout << "Element (in SLelement):" << sb.GetString() << "\n";
 					d.AddMember ("nodes", node_arr, allocator);
+assert(d["nodes"].IsArray());
+cout << "printing d[nodes]...\n";
+StringBuffer sb; Writer<StringBuffer> w(sb); d.Accept(w); cout << sb.GetString();
 
 					// for each pair<SLelement*,int> in map
 					Value link_arr(kArrayType);

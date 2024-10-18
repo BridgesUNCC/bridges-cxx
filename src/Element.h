@@ -294,9 +294,6 @@ namespace bridges {
 
 					// put this into an element
 					d.AddMember ("element", el_obj, allocator);
-StringBuffer sb; Writer<StringBuffer> w(sb);
-d["element"].Accept(w);
-cout << "Elem obj (in Element.h):\n" << sb.GetString() << endl;;
 				}
 				/**
 				 * Gets the JSON representation of this link visualizer using
@@ -350,9 +347,6 @@ cout << "Elem obj (in Element.h):\n" << sb.GetString() << endl;;
 					v2.SetString(dest.c_str(), allocator);
 					lv_obj.AddMember("target", v2, allocator);
 					d.AddMember("link", lv_obj, allocator);
-// StringBuffer sb;
-// Writer <StringBuffer> w(sb);
-// d.Accept(w); cout << "Link (in link Rep()):" << sb.GetString() << "\n";
 				}
 			public:
 				/**
