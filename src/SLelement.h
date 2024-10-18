@@ -208,7 +208,7 @@ namespace bridges {
 
 					Value node_arr(kArrayType);
 
-					int i = 0; 		// get the JSON string for nodes
+					int i = 0, k = 0; 		// get the JSON string for nodes
 					Document dn;
 					for (const auto* e : nodes) {
 						if (node_map.emplace(e, i).second)  {
@@ -218,18 +218,20 @@ namespace bridges {
 							node_arr.PushBack(dn["element"], allocator);
 						}
 					}
+StringBuffer sb; Writer <StringBuffer> w(sb);
+node_arr.Accept(w); cout << "Element (in SLelement):" << sb.GetString() << "\n";
 					d.AddMember ("nodes", node_arr, allocator);
 
 					// for each pair<SLelement*,int> in map
 					Value link_arr(kArrayType);
+					Document dl;
 					for (unsigned int k = 0; k < nodes.size(); k++) {
 						if (nodes[k]->next != nullptr) { // link exists
 						
-							Document dl;
 							this->getLinkRepresentation(
 								nodes[k]->links.at(nodes[k]->next),
 								to_string(node_map[nodes[k]]),
-								to_string(node_map[nodes[k]->next]), &dl);
+								to_string(node_map[nodes[k]->next]), dl);
 							link_arr.PushBack(dl["link"], allocator);
 						}
 					}

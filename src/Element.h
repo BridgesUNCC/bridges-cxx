@@ -266,8 +266,7 @@ namespace bridges {
 					d.SetObject();
 					Document::AllocatorType& allocator = d.GetAllocator();
 
-					Value el_obj;
-					el_obj.SetObject();
+					Value el_obj(kObjectType);
 
 					// first check if location is set and needs to be included
 					if ( (elvis->getLocationX() != INFINITY) &&
@@ -282,7 +281,6 @@ namespace bridges {
 					}
 
 				//	string col_rep = elvis->getColor().getCSSRepresentation();
-//cout << col_rep << "\n";
 				//	v.SetString(col_rep.c_str(), allocator);
 					Document d2;
 					elvis->getColor().getCSSRepresentation(d2);
@@ -296,10 +294,9 @@ namespace bridges {
 
 					// put this into an element
 					d.AddMember ("element", el_obj, allocator);
-cout << "here..\n";
 StringBuffer sb; Writer<StringBuffer> w(sb);
 d["element"].Accept(w);
-cout << "DS Rep:\n" << sb.GetString() << endl;;
+cout << "Elem obj (in Element.h):\n" << sb.GetString() << endl;;
 				}
 				/**
 				 * Gets the JSON representation of this link visualizer using
@@ -332,15 +329,14 @@ cout << "DS Rep:\n" << sb.GetString() << endl;;
 				static void getLinkRepresentation(
 							const LinkVisualizer& lv,
 							const string& src, const string& dest,
-							rapidjson::Document* d) { 
+							rapidjson::Document& d) { 
 
 					using namespace rapidjson;
-					Document::AllocatorType& allocator = d->GetAllocator();
-					d->SetObject();
+					Document::AllocatorType& allocator = d.GetAllocator();
+					d.SetObject();
 					Value lv_obj, v, v2;
 					lv_obj.SetObject();
 
-cout << "here2\n";
 					string col_str = lv.getColor().getCSSRepresentation();
 					v.SetString(col_str.c_str(), allocator);
 					lv_obj.AddMember("color", v, allocator);
@@ -353,10 +349,10 @@ cout << "here2\n";
 					lv_obj.AddMember("source", v, allocator);
 					v2.SetString(dest.c_str(), allocator);
 					lv_obj.AddMember("target", v2, allocator);
-					d->AddMember("link", lv_obj, allocator);
-StringBuffer sb;
-Writer <StringBuffer> w(sb);
-d->Accept(w); cout << "Link:" << sb.GetString() << "\n";
+					d.AddMember("link", lv_obj, allocator);
+// StringBuffer sb;
+// Writer <StringBuffer> w(sb);
+// d.Accept(w); cout << "Link (in link Rep()):" << sb.GetString() << "\n";
 				}
 			public:
 				/**

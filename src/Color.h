@@ -439,10 +439,6 @@ namespace bridges {
 						col_arr.PushBack(v.SetDouble(this->getAlpha()), allocator);
 					}
 					d.AddMember("color", col_arr, allocator);
-StringBuffer sb;
-Writer<StringBuffer> w(sb);
-d.Accept(w);
-cout << "Color (in Color.h):" << sb.GetString() << endl;
 				}
 
 			private:
