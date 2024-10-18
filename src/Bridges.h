@@ -601,14 +601,13 @@ namespace bridges {
 				//	getJSONHeader(doc);
 
 				//	doc.Accept(json_writer);
+/*
 					ds_handle->getDataStructureRepresentation(doc);
 					doc.Accept(json_writer);
 					ds_json = sb.GetString();
 cout << "DS Rep(in visualize():\n" << sb.GetString() << endl;;
+*/
 
-	//				StringBuffer sb; Writer<StringBuffer> w(sb);
-//d.Accept(w); 
-cout << "here2..\n";
 				}
 				else {
 					ds_json = getJSONHeader() + ds_handle->getDataStructureRepresentation();
