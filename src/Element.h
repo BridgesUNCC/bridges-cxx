@@ -296,10 +296,6 @@ namespace bridges {
 
 					// put this into an element
 					d.AddMember ("element", el_obj, allocator);
-cout << "here..\n";
-StringBuffer sb; Writer<StringBuffer> w(sb);
-d["element"].Accept(w);
-cout << "DS Rep:\n" << sb.GetString() << endl;;
 				}
 				/**
 				 * Gets the JSON representation of this link visualizer using
