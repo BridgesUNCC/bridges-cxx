@@ -200,6 +200,7 @@ d.Accept(w); cout << "DS Rep(nodes, links):\n" << sb.GetString() << endl;;
 
 					return pair<string, string> (nodes_JSON, links_JSON);
 				}
+/*
 				virtual void generateJSON( vector<const SLelement<E>*> nodes, 
 									rapidjson::Document& d) const {
 					// map the nodes to a sequence of ids, 0...N-1
@@ -249,6 +250,7 @@ d.Accept(w); cout << "DS Rep(nodes, links):\n" << sb.GetString() << endl;;
 					}
 					d.AddMember ("links", link_arr, allocator);
 				}
+*/
 			protected:
 				/**
 				 * 	@brief Get the list of nodes

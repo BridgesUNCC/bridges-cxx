@@ -195,9 +195,6 @@ namespace bridges {
 
 					return dl_list_json;
 				}
-				virtual const string getDataStructureRepresentation() 
-                                        const override final {
-				}
 
 				/**
 				*  Get the list of nodes

@@ -257,6 +257,7 @@ namespace bridges {
 						QUOTE + "name" + QUOTE + COLON + JSONencode( label) +
 						CLOSE_CURLY;
 				}
+/*
 				virtual void getElementRepresentation(rapidjson::Document& d) 
 														const {
 					using namespace rapidjson;
@@ -295,6 +296,7 @@ namespace bridges {
 					// put this into an element
 					d.AddMember ("element", el_obj, allocator);
 				}
+*/
 				/**
 				 * Gets the JSON representation of this link visualizer using
 				 * the supplied source and destination strings
