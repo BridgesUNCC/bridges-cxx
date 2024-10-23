@@ -163,8 +163,6 @@ namespace bridges {
 
 					return array_json;
 				}
-				virtual void getDataStructureRepresentation(rapidjson::Document& d) const override {
-                }
 
 				Array(const Array&) = delete; //would be incorrect, so disabled.
 				Array& operator=(const Array&) = delete; //would be incorrect, so disabled.
