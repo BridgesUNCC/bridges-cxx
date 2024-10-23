@@ -266,12 +266,8 @@ namespace bridges {
 						JSONencode("yaxis_data") + COLON + OPEN_CURLY + series + CLOSE_CURLY + CLOSE_CURLY;
 
 					return json_str;
-				}
-			virtual void getDataStructureRepresentation(rapidjson::Document& d)
-												const override {
-   			}
-		};
-	}
-
+			}
+   		};
+	};
 }
 #endif
