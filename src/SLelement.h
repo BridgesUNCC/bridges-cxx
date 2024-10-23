@@ -130,6 +130,7 @@ namespace bridges {
 					return sl_list_json;
 				}
 
+/*
 				virtual void getDataStructureRepresentation(
 						rapidjson::Document& d) const override {
 					vector<const SLelement<E>*> nodes;
@@ -151,6 +152,7 @@ cout << "in slelement:getds..\n";
 StringBuffer sb; Writer<StringBuffer> w(sb);
 d.Accept(w); cout << "DS Rep(nodes, links):\n" << sb.GetString() << endl;;
 				}
+*/
 
 			protected:
 				/**

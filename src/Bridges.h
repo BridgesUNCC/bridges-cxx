@@ -586,6 +586,7 @@ namespace bridges {
 					ds_json = getJSONHeader() + ds_handle->getDataStructureRepresentation();
 //					ds_json = getJSONHeader();
 				}
+/*
 				else if (ds_handle->getDStype() == "LineChart"){
 								
 					// get the header information
@@ -596,19 +597,20 @@ namespace bridges {
 					doc.Accept(json_writer);
 					ds_json = sb.GetString();
 				}
+*/
+/*
 				else if (ds_handle->getDStype() == "SinglyLinkedList"){
 					ds_json = getJSONHeader() + ds_handle->getDataStructureRepresentation();
 				//	getJSONHeader(doc);
 
 				//	doc.Accept(json_writer);
-/*
 					ds_handle->getDataStructureRepresentation(doc);
 					doc.Accept(json_writer);
 					ds_json = sb.GetString();
 cout << "DS Rep(in visualize():\n" << sb.GetString() << endl;;
-*/
 
 				}
+*/
 				else {
 					ds_json = getJSONHeader() + ds_handle->getDataStructureRepresentation();
 				}

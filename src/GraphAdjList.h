@@ -609,8 +609,6 @@ namespace bridges {
 
 					return graph_alist_json;
 				}
-				virtual void getDataStructureRepresentation(rapidjson::Document& d) const override {
-				}
 				/**
 				 *
 				 *  For large graphs, we will use a very lean representation,

@@ -106,7 +106,6 @@ namespace bridges {
 					}
 					// close the states array
 					map_str = map_str.substr(0, map_str.size()-1) +  CLOSE_BOX;
-					cout << "JSON of Map:" + map_str;
 					return map_str;
 				}
 /*

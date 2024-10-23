@@ -352,6 +352,7 @@ namespace bridges {
 
 					return json_str;
 				}
+/*
 				virtual void getDataStructureRepresentation(rapidjson::Document& d)
 														 const override {
 					using namespace rapidjson;
@@ -415,6 +416,7 @@ namespace bridges {
 					Writer<StringBuffer> writer(sb);
 					d.Accept(writer);
 				};
+*/
 		};
 	}
 }
