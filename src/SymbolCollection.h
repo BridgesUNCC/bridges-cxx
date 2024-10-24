@@ -133,8 +133,6 @@ namespace bridges {
 					}
 					return symbol_json;
 				}
-				virtual void getDataStructureRepresentation(rapidjson::Document& d) const override {
-                }
 		};
 	}
 } // namespace bridges
