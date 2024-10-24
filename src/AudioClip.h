@@ -216,8 +216,6 @@ namespace bridges {
 
 					return jsonString;
 				}
-				virtual void getDataStructureRepresentation(rapidjson::Document& d) const override {
-                }
 
 				/**
 				 * @brief returns the number of channels of the clip
