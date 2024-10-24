@@ -144,9 +144,6 @@ namespace bridges {
 
 					return tree_json;
 				}
-				virtual void getDataStructureRepresentation(rapidjson::Document& d) 
-										const override final {
-				}
 
 				/**
 				 * Does a preorder traversal to build a hierarchical JSON of the tree
