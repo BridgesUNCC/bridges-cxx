@@ -65,7 +65,7 @@ namespace bridges {
 					string map_str = OPEN_BOX;
 					using bridges::JSONUtil::JSONencode;
 					for (auto& st : state_data) {
-cout << st.getStrokeColor().getCSSRepresentation() << endl;
+cout << st.getViewCountiesFlag() << endl;
 						map_str += OPEN_CURLY + 
 							QUOTE + "_state_name" + QUOTE + COLON + 
 								JSONencode(st.getStateName()) + COMMA +
@@ -237,8 +237,12 @@ cout << "Map String(JSON) " << s << endl;
 					state_data = st_data;
 				}
 
-				vector<State>& getStates() {
+				vector<State>& getMapData() {
 					return state_data;
+				}
+
+				void setStateData(vector<State> st_data) {
+					state_data = st_data;
 				}
 	
 				virtual const string getDStype() const override {
