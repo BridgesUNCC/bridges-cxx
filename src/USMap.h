@@ -65,15 +65,16 @@ namespace bridges {
 					string map_str = OPEN_BOX;
 					using bridges::JSONUtil::JSONencode;
 					for (auto& st : state_data) {
+cout << st.getStrokeColor().getCSSRepresentation() << endl;
 						map_str += OPEN_CURLY + 
 							QUOTE + "_state_name" + QUOTE + COLON + 
 								JSONencode(st.getStateName()) + COMMA +
 						QUOTE+ "_stroke_color" + QUOTE + COLON 
-							+ JSONencode(st.getStrokeColor()) + COMMA +
+							+ st.getStrokeColor().getCSSRepresentation() + COMMA +
 						QUOTE +	"_stroke_width" + QUOTE + COLON + 
 							JSONencode(st.getStrokeWidth()) +COMMA +
 						QUOTE +	"_fill_color" + QUOTE + COLON + 
-							JSONencode(st.getFillColor()) + COMMA +
+							st.getFillColor().getCSSRepresentation() + COMMA +
 						QUOTE +	"_view_counties" + QUOTE + COLON + 
 							JSONencode(st.getViewCountiesFlag()) + COMMA +
 						QUOTE +	"_counties" + QUOTE + COLON;
@@ -90,12 +91,12 @@ namespace bridges {
 								JSONencode(c.second.getCountyName()) + COMMA +
 							QUOTE +	"_state_name" + QUOTE +COLON + 
 								JSONencode(c.second.getStateName()) + COMMA +
-							QUOTE +	"_stroke_color" + QUOTE +COLON + 
-								JSONencode(c.second.getStrokeColor())+ COMMA +
+							QUOTE +	"_stroke_color" + QUOTE + COLON + 
+								c.second.getStrokeColor().getCSSRepresentation()+ COMMA +
 							QUOTE +	"_stroke_width" + QUOTE +COLON + 
 								JSONencode(c.second.getStrokeWidth()) + COMMA +
-							QUOTE +	"_fill_color" + QUOTE +COLON + 
-								JSONencode(c.second.getFillColor()) + COMMA +
+							QUOTE +	"_fill_color" + QUOTE + COLON + 
+								c.second.getFillColor().getCSSRepresentation() + COMMA +
 							QUOTE +	"_hide" + QUOTE + COLON + 
 								JSONencode(c.second.getHideFlag()) + 
 									CLOSE_CURLY + COMMA;
