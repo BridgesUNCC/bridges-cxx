@@ -33,14 +33,14 @@ namespace bridges{
 					hide = false;
 				}
 				// getters, setters
-				string getGeoId() {
+				string getGeoId() const {
 					return geoid;
 				}
 				
-				string getFipsCode() {
+				string getFipsCode() const {
 					return fips_code;
 				}
-				// getters, setters
+
 				string getStateName() const {
 					return state_name;
 				}
