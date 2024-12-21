@@ -30,7 +30,7 @@ namespace bridges{
 
 				State(string st) {
         			name = st;
-					stroke_color = datastructure::Color("blue");
+					stroke_color = datastructure::Color("red");
 					view_counties = true;
 					stroke_width = 0.5;
 					fill_color = datastructure::Color("blue");
@@ -38,8 +38,11 @@ namespace bridges{
 				unordered_map<string, County> getCounties() const {
 					return counties;
 				}
+				unordered_map<string, County>& accesCounties() {
+					return counties;
+				}
 				void setCounties(unordered_map<string, County> & c) {
-					counties = c;;
+					counties = c;
 				}
 
 				// getters, setters
@@ -60,7 +63,7 @@ namespace bridges{
 				datastructure::Color getFillColor() const {
 					return fill_color;
 				}
-				void setFillColor(datastructure::Color& c) {
+				void setFillColor(datastructure::Color c) {
 					fill_color = c;
 				}
 

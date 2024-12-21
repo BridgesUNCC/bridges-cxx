@@ -28,7 +28,7 @@ namespace bridges{
 					county_name = county;
 					state_name = state;
 					stroke_width = 0.5;
-					fill_color = datastructure::Color("blue");
+					fill_color = datastructure::Color("red");
 					stroke_color = datastructure::Color("blue");
 					hide = false;
 				}
@@ -64,7 +64,7 @@ namespace bridges{
 				datastructure::Color getFillColor() const {
 					return fill_color;
 				}
-				void setFillColor(datastructure::Color& c) {
+				void setFillColor(datastructure::Color c) {
 					fill_color = c;
 				}
 
