@@ -35,10 +35,28 @@ namespace bridges{
 					stroke_width = 0.5;
 					fill_color = datastructure::Color("blue");
 				}
+		  /**
+		   * @brief obtain a copy of the county data for that state
+		   *
+		   * 
+		   **/
 				unordered_map<string, County> getCounties() const {
 					return counties;
 				}
-				unordered_map<string, County>& accesCounties() {
+		  /**
+		   * @brief obtain reference to the county data for that state
+		   *
+		   * This is mostly useful to get direct access to the county data inside of the state for manipulation. For instance
+		   * \code{c}
+		   * State s;
+		   * for (auto& c: s.accessCounties()) {
+		   *   c.second.setStrokeColor(Color(50,250,50));
+		   *   c.second.setFillColor(Color(0,0,25));
+		   * }
+		   * \endcode{c}
+		   * 
+		   **/
+				unordered_map<string, County>& accessCounties() {
 					return counties;
 				}
 				void setCounties(unordered_map<string, County> & c) {
