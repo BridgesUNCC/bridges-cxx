@@ -1,11 +1,10 @@
-
 #ifndef COUNTY_H
 #define COUNTY_H
 
 #include <string>
+#include "Color.h"
 
 using std::string;
-
 
 namespace bridges{
 	namespace dataset {
@@ -16,10 +15,10 @@ namespace bridges{
 				string fips_code;
 				string county_name;
 				string state_name;
-				string  stroke_color;
-				float stroke_width;
-				string  fill_color;
-				bool hide;
+				datastructure::Color  stroke_color;
+				float  stroke_width;
+				datastructure::Color  fill_color;
+				bool hide;			// county visibility
 
 			public:
 				County() = default;
@@ -29,35 +28,60 @@ namespace bridges{
 					county_name = county;
 					state_name = state;
 					stroke_width = 0.5;
-					fill_color = "blue";
-					stroke_color = "blue";
+					fill_color = datastructure::Color("blue");
+					stroke_color = datastructure::Color("blue");
 					hide = false;
 				}
 				// getters, setters
 				string getGeoId() {
 					return geoid;
 				}
+				
 				string getFipsCode() {
 					return fips_code;
 				}
-				string getCountyName() {
-					return county_name;
-				}
-				string getStateName() {
+				// getters, setters
+				string getStateName() const {
 					return state_name;
 				}
-				string getStrokeColor() {
+				void setStateName(string n) {
+					state_name = n;	
+				}
+				string getCountyName() const {
+					return county_name;
+				}
+				void setCountyName(string n) {
+					county_name = n;	
+				}
+
+				datastructure::Color getStrokeColor() const {
 					return stroke_color;
 				}
-				string getFillColor() {
+				void setStrokeColor(datastructure::Color c) {
+					stroke_color = c; 
+				}
+
+				datastructure::Color getFillColor() const {
 					return fill_color;
 				}
-				float getStrokeWidth() {
+				void setFillColor(datastructure::Color& c) {
+					fill_color = c;
+				}
+
+				float getStrokeWidth() const {
 					return stroke_width;
 				}
-				bool getHideFlag() {
+				void setStrokeWidth(float width) {
+					stroke_width = width;
+				}
+
+				bool getHideFlag() const {
 					return hide;
 				}
+				void setHideFlag(bool flag) {
+					hide = flag;
+				}
+
 		};
 	};
 };
