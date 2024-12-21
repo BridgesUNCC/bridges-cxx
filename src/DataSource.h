@@ -333,15 +333,20 @@ namespace bridges {
 			}
 */
 			// get US State County Data
-			vector<State> getUSStateCountyMapData (vector<string> state_names) {
-				// first check if the input contains 'all', which means
-				// all states are requested
-				if (std::find(state_names.begin(), state_names.end(), 
-						"all") != state_names.end())  { // all states
-					vector<string> all_states = {"Alabama","Alaska","Arizona","Arkansas","California","Colorado","Connecticut","Delaware","Florida","Georgia","Hawaii","Idaho","Illinois","Indiana","Iowa","Kansas","Kentucky","Louisiana","Maine","Maryland","Massachusetts","Michigan","Minnesota","Mississippi","Missouri","Montana","Nebraska","Nevada","New Hampshire","New Jersey","New Mexico","New York","North Carolina","North Dakota","Ohio","Oklahoma","Oregon","Pennsylvania","Rhode Island","South Carolina","South Dakota","Tennessee","Texas","Utah","Vermont","Virginia","Washington","West Virginia","Wisconsin","Wyoming"};
-cout << "num states:" << all_states[0] << endl;
-					state_names = all_states;
-				}
+			// list of all states
+			const vector<string> all_states = {"Alabama","Alaska","Arizona","Arkansas","California","Colorado","Connecticut","Delaware","Florida","Georgia","Hawaii","Idaho","Illinois","Indiana","Iowa","Kansas","Kentucky","Louisiana","Maine","Maryland","Massachusetts","Michigan","Minnesota","Mississippi","Missouri","Montana","Nebraska","Nevada","New Hampshire","New Jersey","New Mexico","New York","North Carolina","North Dakota","Ohio","Oklahoma","Oregon","Pennsylvania","Rhode Island","South Carolina","South Dakota","Tennessee","Texas","Utah","Vermont","Virginia","Washington","West Virginia","Wisconsin","Wyoming"};
+
+			// this function gets all states  but no county information
+			vector<State> getUSMapData () {
+				return getUSMapCountyData(all_states, false);
+			}
+
+			vector<State> getUSMapCountyData () {
+				return getUSMapCountyData(all_states, true);
+			}
+
+			vector<State> getUSMapCountyData (vector<string> state_names,
+								bool view_counties = true) {
 				string url = getUSStateCountiesURL();
 				for (auto& k : state_names)
 					url += ServerComm::encodeURLPart(k) + ',';  
@@ -371,16 +376,19 @@ cout << "num states:" << all_states[0] << endl;
 					unordered_map<string, County> counties = states[i].getCounties();
 
 					// get county data
-					for (SizeType j = 0; j < county_data.Size(); j++) {
-						const Value& val = county_data[j];
-						// get its geoid
-						string geoid = (val["properties"]["GEOID"]).GetString();
-						counties[geoid] = County(geoid,
-								(val["properties"]["FIPS_CODE"]).GetString(),
-								(val["properties"]["COUNTY_STATE_CODE"]).GetString(),
-								(val["properties"]["COUNTY_STATE_NAME"]).GetString()
-							);
+					if (view_counties) {
+						for (SizeType j = 0; j < county_data.Size(); j++) {
+							const Value& val = county_data[j];
+							// get its geoid
+							string geoid = (val["properties"]["GEOID"]).GetString();
+							counties[geoid] = County(geoid,
+									(val["properties"]["FIPS_CODE"]).GetString(),
+									(val["properties"]["COUNTY_STATE_CODE"]).GetString(),
+									(val["properties"]["COUNTY_STATE_NAME"]).GetString()
+								);
+						}
 					}
+					else states[i].setViewCountiesFlag(false);
 					states[i].setCounties(counties);
 				}
 				return states;

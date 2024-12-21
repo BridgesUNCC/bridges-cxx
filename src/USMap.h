@@ -102,7 +102,8 @@ cout << st.getViewCountiesFlag() << endl;
 									CLOSE_CURLY + COMMA;
 							}
 							// remove last comma
-							map_str = map_str.substr(0, map_str.size()-1);
+							if (st.getCounties().size()) // case where counties are on
+								map_str = map_str.substr(0, map_str.size()-1);
 							map_str += CLOSE_BOX + CLOSE_CURLY +  COMMA;
 					}
 					// close the states array
