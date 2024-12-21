@@ -334,6 +334,14 @@ namespace bridges {
 */
 			// get US State County Data
 			vector<State> getUSStateCountyMapData (vector<string> state_names) {
+				// first check if the input contains 'all', which means
+				// all states are requested
+				if (std::find(state_names.begin(), state_names.end(), 
+						"all") != state_names.end())  { // all states
+					vector<string> all_states = {"Alabama","Alaska","Arizona","Arkansas","California","Colorado","Connecticut","Delaware","Florida","Georgia","Hawaii","Idaho","Illinois","Indiana","Iowa","Kansas","Kentucky","Louisiana","Maine","Maryland","Massachusetts","Michigan","Minnesota","Mississippi","Missouri","Montana","Nebraska","Nevada","New Hampshire","New Jersey","New Mexico","New York","North Carolina","North Dakota","Ohio","Oklahoma","Oregon","Pennsylvania","Rhode Island","South Carolina","South Dakota","Tennessee","Texas","Utah","Vermont","Virginia","Washington","West Virginia","Wisconsin","Wyoming"};
+cout << "num states:" << all_states[0] << endl;
+					state_names = all_states;
+				}
 				string url = getUSStateCountiesURL();
 				for (auto& k : state_names)
 					url += ServerComm::encodeURLPart(k) + ',';  
@@ -1606,6 +1614,7 @@ namespace bridges {
 
 				if (debug())
 					cout << "Elevation URL:" << elev_url << "\n";
+				cout << "Elevation URL:" << elev_url << "\n";
 
 				std::string hash_url = getElevationBaseURL() +
 					"hash?minLon=" + ServerComm::encodeURLPart(std::to_string(minLon)) +
