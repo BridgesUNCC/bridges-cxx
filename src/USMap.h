@@ -65,7 +65,6 @@ namespace bridges {
 					string map_str = OPEN_BOX;
 					using bridges::JSONUtil::JSONencode;
 					for (auto& st : state_data) {
-cout << st.getViewCountiesFlag() << endl;
 						map_str += OPEN_CURLY + 
 							QUOTE + "_state_name" + QUOTE + COLON + 
 								JSONencode(st.getStateName()) + COMMA +
