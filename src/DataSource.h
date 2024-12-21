@@ -349,6 +349,9 @@ cout << "num states:" << all_states[0] << endl;
 				// remove the last comma 
 				url = url.substr(0, url.size()-1);
 
+				if (debug())
+				  std::cerr<<"Hitting: "<<url<<std::endl;
+				
 				// make the request
 				using namespace rapidjson;
 				Document doc;
