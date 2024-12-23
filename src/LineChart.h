@@ -352,71 +352,71 @@ namespace bridges {
 
 					return json_str;
 				}
-/*
-				virtual void getDataStructureRepresentation(rapidjson::Document& d)
-														 const override {
-					using namespace rapidjson;
-					check();
-					Document::AllocatorType& allocator = d.GetAllocator();
-					Value xdata_charts(kArrayType);
-					for (auto& entry : xaxisData) {
-						Value key, value, obj;
+				/*
+								virtual void getDataStructureRepresentation(rapidjson::Document& d)
+																		 const override {
+									using namespace rapidjson;
+									check();
+									Document::AllocatorType& allocator = d.GetAllocator();
+									Value xdata_charts(kArrayType);
+									for (auto& entry : xaxisData) {
+										Value key, value, obj;
 
-						obj.SetObject();
-						key.SetString("Plot_Name", allocator);
-						value.SetString(entry.first.c_str(), allocator);
-						obj.AddMember(key, value, allocator);
+										obj.SetObject();
+										key.SetString("Plot_Name", allocator);
+										value.SetString(entry.first.c_str(), allocator);
+										obj.AddMember(key, value, allocator);
 
-						Value xaxis_arr(kArrayType);
-						for (auto val : entry.second) {
-							Value v; v.SetDouble(val);
-							xaxis_arr.PushBack(v, allocator);
-						}
-						obj.AddMember("xaxis_data", xaxis_arr, allocator);
-						xdata_charts.PushBack(obj, allocator);
-					}
-					d.AddMember("xaxis_data", xdata_charts, allocator);
-					
-					Value yaxis_arr(kArrayType);
-					for (auto& entry : yaxisData) {
-						Value key, value, obj;
+										Value xaxis_arr(kArrayType);
+										for (auto val : entry.second) {
+											Value v; v.SetDouble(val);
+											xaxis_arr.PushBack(v, allocator);
+										}
+										obj.AddMember("xaxis_data", xaxis_arr, allocator);
+										xdata_charts.PushBack(obj, allocator);
+									}
+									d.AddMember("xaxis_data", xdata_charts, allocator);
 
-						obj.SetObject();
-						key.SetString("Plot_Name", allocator);
-						value.SetString(entry.first.c_str(), allocator);
-						obj.AddMember(key, value, allocator);
+									Value yaxis_arr(kArrayType);
+									for (auto& entry : yaxisData) {
+										Value key, value, obj;
 
-						key.SetString("yaxis_data", allocator);
-						Value plot_arr(kArrayType);
-						for (auto val : entry.second) {
-							Value v; v.SetDouble(val);
-							plot_arr.PushBack(v, allocator);
-						}
-						obj.AddMember("yaxis_data", plot_arr, allocator);
-						yaxis_arr.PushBack(obj, allocator);
-					}
-					d.AddMember("yaxis_data", yaxis_arr, allocator);
-					Value v;
-					v.SetString(getTitle().c_str(), allocator);
-					d.AddMember("plot_title", v, allocator);
-					v.SetString(getXLabel().c_str(), allocator);
-					d.AddMember("xLabel", v, allocator);
-					v.SetString(getYLabel().c_str(), allocator);
-					d.AddMember("yLabel", v, allocator);
-					d.AddMember("xaxisType", v.SetBool(logarithmicx), allocator);
-					d.AddMember("yaxisType", v.SetBool(logarithmicy), allocator);
+										obj.SetObject();
+										key.SetString("Plot_Name", allocator);
+										value.SetString(entry.first.c_str(), allocator);
+										obj.AddMember(key, value, allocator);
 
-					Value obj;
-					obj.SetObject();
-					obj.AddMember("mouseTracking", v.SetBool(mouseTrack), allocator);
-					obj.AddMember("dataLabels", v.SetBool(dataLabel), allocator);
-					d.AddMember("options", obj, allocator);
+										key.SetString("yaxis_data", allocator);
+										Value plot_arr(kArrayType);
+										for (auto val : entry.second) {
+											Value v; v.SetDouble(val);
+											plot_arr.PushBack(v, allocator);
+										}
+										obj.AddMember("yaxis_data", plot_arr, allocator);
+										yaxis_arr.PushBack(obj, allocator);
+									}
+									d.AddMember("yaxis_data", yaxis_arr, allocator);
+									Value v;
+									v.SetString(getTitle().c_str(), allocator);
+									d.AddMember("plot_title", v, allocator);
+									v.SetString(getXLabel().c_str(), allocator);
+									d.AddMember("xLabel", v, allocator);
+									v.SetString(getYLabel().c_str(), allocator);
+									d.AddMember("yLabel", v, allocator);
+									d.AddMember("xaxisType", v.SetBool(logarithmicx), allocator);
+									d.AddMember("yaxisType", v.SetBool(logarithmicy), allocator);
 
-					StringBuffer sb;
-					Writer<StringBuffer> writer(sb);
-					d.Accept(writer);
-				};
-*/
+									Value obj;
+									obj.SetObject();
+									obj.AddMember("mouseTracking", v.SetBool(mouseTrack), allocator);
+									obj.AddMember("dataLabels", v.SetBool(dataLabel), allocator);
+									d.AddMember("options", obj, allocator);
+
+									StringBuffer sb;
+									Writer<StringBuffer> writer(sb);
+									d.Accept(writer);
+								};
+				*/
 		};
 	}
 }

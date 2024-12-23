@@ -432,25 +432,25 @@ namespace bridges {
 				setMapAsJSON(true);
 			}
 			void setMap(const USMap& map) {
-			  setMap(&map);
+				setMap(&map);
 			}
 
-	  
-	  void setMapAsJSON(bool b){
-	    map_as_json = b;
-	  }
-	  
+
+			void setMapAsJSON(bool b) {
+				map_as_json = b;
+			}
+
 			string getMap(vector<string> states) {
 				string json_str;
 
 				// form the url and get the state county data
 				string url = "http://bridgesdata.herokuapp.com/api/us_map?state=";
 				url += states[0];
-//				to do muultiple states -- later
-//				for (auto st : states) 
-//					url += st + ",";	
-//				url = url.substr(0, url.size()-1);
-				
+				//				to do muultiple states -- later
+				//				for (auto st : states)
+				//					url += st + ",";
+				//				url = url.substr(0, url.size()-1);
+
 				return json_str;
 			}
 
@@ -562,9 +562,9 @@ namespace bridges {
 					jsonbuild_start = std::chrono::system_clock::now();
 
 				string ds_json;
-				// We are transitioning to using rapidjson to 
+				// We are transitioning to using rapidjson to
 				// generate the JSON of the data structure reprsentation
-				Document doc;  
+				Document doc;
 				StringBuffer sb;
 				Writer<StringBuffer> json_writer(sb); 	// for conversion to string
 				doc.SetObject();
@@ -576,41 +576,42 @@ namespace bridges {
 				}
 				else if (ds_handle->getDStype() == "us_map") {
 					setMap((USMap*) ds_handle);
-//					string tmp = ds_handle->getDataStructureRepresentation();
+					//					string tmp = ds_handle->getDataStructureRepresentation();
 					Document d;
-						d.SetObject();
-						Value key, value;
-						key.SetString("mapdummy"); value.SetBool(true);
-						d.AddMember(key, value, d.GetAllocator());
-//					ds_json = getJSONHeader(d);
+					d.SetObject();
+					Value key, value;
+					key.SetString("mapdummy");
+					value.SetBool(true);
+					d.AddMember(key, value, d.GetAllocator());
+					//					ds_json = getJSONHeader(d);
 					ds_json = getJSONHeader() + ds_handle->getDataStructureRepresentation();
-//					ds_json = getJSONHeader();
+					//					ds_json = getJSONHeader();
 				}
-/*
-				else if (ds_handle->getDStype() == "LineChart"){
-								
-					// get the header information
-					string s = getJSONHeader(doc);
+				/*
+								else if (ds_handle->getDStype() == "LineChart"){
 
-					// get the data structure representation
-					ds_handle->getDataStructureRepresentation(doc);
-					doc.Accept(json_writer);
-					ds_json = sb.GetString();
-				}
-*/
-/*
-				else if (ds_handle->getDStype() == "SinglyLinkedList"){
-					ds_json = getJSONHeader() + ds_handle->getDataStructureRepresentation();
-				//	getJSONHeader(doc);
+									// get the header information
+									string s = getJSONHeader(doc);
 
-				//	doc.Accept(json_writer);
-					ds_handle->getDataStructureRepresentation(doc);
-					doc.Accept(json_writer);
-					ds_json = sb.GetString();
-cout << "DS Rep(in visualize():\n" << sb.GetString() << endl;;
+									// get the data structure representation
+									ds_handle->getDataStructureRepresentation(doc);
+									doc.Accept(json_writer);
+									ds_json = sb.GetString();
+								}
+				*/
+				/*
+								else if (ds_handle->getDStype() == "SinglyLinkedList"){
+									ds_json = getJSONHeader() + ds_handle->getDataStructureRepresentation();
+								//	getJSONHeader(doc);
 
-				}
-*/
+								//	doc.Accept(json_writer);
+									ds_handle->getDataStructureRepresentation(doc);
+									doc.Accept(json_writer);
+									ds_json = sb.GetString();
+				cout << "DS Rep(in visualize():\n" << sb.GetString() << endl;;
+
+								}
+				*/
 				else {
 					ds_json = getJSONHeader() + ds_handle->getDataStructureRepresentation();
 				}
@@ -695,7 +696,7 @@ cout << "DS Rep(in visualize():\n" << sb.GetString() << endl;;
 				key.SetString("title", d.GetAllocator());
 				value.SetString(getTitle().c_str(), d.GetAllocator());
 				d.AddMember(key, value, d.GetAllocator());
-				
+
 				key.SetString("description", d.GetAllocator());
 				value.SetString(getDescription().c_str(), d.GetAllocator());
 				d.AddMember(key, value, d.GetAllocator());
@@ -715,7 +716,7 @@ cout << "DS Rep(in visualize():\n" << sb.GetString() << endl;;
 				key.SetString("link_label_flag", d.GetAllocator());
 				value.SetBool(link_labelFlag);
 				d.AddMember(key, value, d.GetAllocator());
-				
+
 				key.SetString("coord_system_type", d.GetAllocator());
 				value.SetString(getCoordSystemType().c_str(), d.GetAllocator());
 				d.AddMember(key, value, d.GetAllocator());
@@ -728,7 +729,7 @@ cout << "DS Rep(in visualize():\n" << sb.GetString() << endl;;
 					w_array.PushBack(v.SetDouble(wc_window[1]), d.GetAllocator());
 					w_array.PushBack(v.SetDouble(wc_window[2]), d.GetAllocator());
 					w_array.PushBack(v.SetDouble(wc_window[3]), d.GetAllocator());
-	
+
 					d.AddMember("window", w_array, d.GetAllocator());
 				}
 				// conver JSON to a string
@@ -746,12 +747,12 @@ cout << "DS Rep(in visualize():\n" << sb.GetString() << endl;;
 					QUOTE + "visual" + QUOTE + COLON + JSONencode(ds_handle->getDStype()) + COMMA +
 					QUOTE + "title" + QUOTE + COLON + JSONencode(getTitle()) + COMMA +
 					QUOTE + "description" + QUOTE + COLON + JSONencode( getDescription()) + COMMA +
-					QUOTE + "map_overlay" + QUOTE + COLON + 
-				  ((map_overlay) ? "true" : "false") + COMMA;
+					QUOTE + "map_overlay" + QUOTE + COLON +
+					((map_overlay) ? "true" : "false") + COMMA;
 				if (map_as_json)
-				  json_header += QUOTE + "map" + QUOTE + COLON + map + COMMA;
-				  else
-				    json_header += QUOTE + "map" + QUOTE + COLON + QUOTE + map + QUOTE + COMMA;
+					json_header += QUOTE + "map" + QUOTE + COLON + map + COMMA;
+				else
+					json_header += QUOTE + "map" + QUOTE + COLON + QUOTE + map + QUOTE + COMMA;
 
 				json_header += QUOTE + "element_label_flag" + QUOTE + COLON + ((element_labelFlag) ? "true" : "false") + COMMA +
 					QUOTE + "link_label_flag" + QUOTE + COLON + ((link_labelFlag) ? "true" : "false") + COMMA +

@@ -83,7 +83,7 @@ namespace bridges {
 				  *
 				  *	@return  The date structure type as a string
 				  */
-				virtual const string getDStype() const override{
+				virtual const string getDStype() const override {
 					return "SymbolCollectionV2";
 				}
 
@@ -109,7 +109,7 @@ namespace bridges {
 				 *	@brief Get the JSON representation of the the data structure
 				 *  @return JSON string of the symbol representation
 				 */
-				virtual const string getDataStructureRepresentation() const override{
+				virtual const string getDataStructureRepresentation() const override {
 
 					string symbol_json = string();
 					for (auto& entry : symbols) {

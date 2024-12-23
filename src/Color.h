@@ -415,8 +415,8 @@ namespace bridges {
 					return OPEN_BOX + strCSS + CLOSE_BOX;
 				}
 				const void getCSSRepresentation(rapidjson::Document& d) const {
-					
-					
+
+
 					using namespace rapidjson;
 					double r = 0, g = 0, b = 0, alpha = 0;
 					Value v;
@@ -425,8 +425,8 @@ namespace bridges {
 					Value col_arr(kArrayType);
 					if (this->isTransparent()) {
 						//leaves off other channels if transparent
-					//	d.AddMember("color", v.SetString("[0, 0, 0, 0]"),
-					//								allocator);
+						//	d.AddMember("color", v.SetString("[0, 0, 0, 0]"),
+						//								allocator);
 						col_arr.PushBack(0., allocator);
 						col_arr.PushBack(0., allocator);
 						col_arr.PushBack(0., allocator);

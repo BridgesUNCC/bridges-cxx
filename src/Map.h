@@ -10,7 +10,7 @@ namespace bridges {
 			public:
 				virtual const string getProjection() const = 0;
 				virtual const bool getOverlay() const = 0;
-	
+
 				virtual const string getMapRepresentation() const = 0;
 		};
 	};

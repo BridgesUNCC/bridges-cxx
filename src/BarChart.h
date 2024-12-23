@@ -13,7 +13,7 @@
  * Bar charts (https://en.wikipedia.org/wiki/Bar_chart) are used to
  * represent categorical data as a series of rectangular bars with length
  * proportional to the values they represent.
- *  
+ *
  * Series in a bar chart provides data for a number of categories
  * (sometimes called bins). Categories are defined using
  * setCategories() and the series are added using addDataSeries().
@@ -24,14 +24,14 @@
  * categories after series have been added will throw exceptions;
  * adding series with different number of values than the number of
  * categories will throw an exception.
- *      
+ *
  * The Bar charts can have a title, subtitle. The charts can be
  * horizontal or vertically oriented, using setBarOrientation().
- * 
+ *
  * A tooltip indicating the value of a series in a particular bin is
  * displayed by hovering on a bar. One can append a string to the
  * value using setTooltipSuffix() to specify units in the tooltip if desired.
- *  
+ *
  *
  * @sa See tutorial on using BarChart at:
  *      https://bridgesuncc.github.io/tutorials/BarChart.html
@@ -154,9 +154,9 @@ namespace bridges {
 				 * @param orient can be 'horizontal' or 'vertical'. (Throws exception on other values)
 				 **/
 				void setBarOrientation(const std::string& orient) {
-				  if (orient != "horizontal" && orient != "vertical")
-				    throw std::invalid_argument("Orientation should be \"horizontal\" or \"vertical\".");
-				  orientation = orient;
+					if (orient != "horizontal" && orient != "vertical")
+						throw std::invalid_argument("Orientation should be \"horizontal\" or \"vertical\".");
+					orientation = orient;
 				}
 
 				/**
@@ -173,7 +173,7 @@ namespace bridges {
 				 *
 				 * This appends a string to the values in the hover tooltip.
 				 *
-				 * @param suffix 
+				 * @param suffix
 				 **/
 				void setTooltipSuffix(const std::string& suffix) {
 					tooltipSuffix = suffix;
@@ -182,7 +182,7 @@ namespace bridges {
 				/**
 				* @brief gets the tooltip suffix
 				*
-				* @return suffix 
+				* @return suffix
 				**/
 				std::string getTooltipSuffix() const {
 					return tooltipSuffix;
@@ -191,14 +191,14 @@ namespace bridges {
 				/**
 				 *  @brief set the categories for this bar chart
 				 *
-				 * Will throw an exception if there are already data series defined. 
+				 * Will throw an exception if there are already data series defined.
 				 *
 				 *  @param categories Names of different categories
 				 */
 				void setCategories(std::vector<std::string> categories) {
-				  if (seriesData.size() > 0)
-				    throw std::runtime_error ("Can't change categoriess after series have been added.");
-				  this->categories = categories;
+					if (seriesData.size() > 0)
+						throw std::runtime_error ("Can't change categoriess after series have been added.");
+					this->categories = categories;
 				}
 
 				/**
@@ -214,16 +214,16 @@ namespace bridges {
 				 * @param data values of that serie for each category
 				 **/
 				void addDataSeries(std::string seriesName, std::vector<double> data) {
-				  if (data.size() != categories.size())
-				    throw std::runtime_error ("The data vector should have the same size as the number of categories.");
+					if (data.size() != categories.size())
+						throw std::runtime_error ("The data vector should have the same size as the number of categories.");
 
-				  for (auto& entry : seriesData) {
-				    std::string key = entry.first;
-				    if (key == seriesName)
-				      throw std::runtime_error ("Can't have two series with the same name.");
-				  }
-				  
-				  seriesData.push_back(std::make_pair(seriesName, data));
+					for (auto& entry : seriesData) {
+						std::string key = entry.first;
+						if (key == seriesName)
+							throw std::runtime_error ("Can't have two series with the same name.");
+					}
+
+					seriesData.push_back(std::make_pair(seriesName, data));
 				}
 
 				/**
@@ -266,8 +266,8 @@ namespace bridges {
 						JSONencode("yaxis_data") + COLON + OPEN_CURLY + series + CLOSE_CURLY + CLOSE_CURLY;
 
 					return json_str;
-			}
-   		};
+				}
+		};
 	};
 }
 #endif
