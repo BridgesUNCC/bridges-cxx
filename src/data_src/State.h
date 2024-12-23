@@ -30,9 +30,9 @@ namespace bridges{
 
 				State(string st) {
         			name = st;
-					stroke_color = datastructure::Color("red");
+					stroke_color = datastructure::Color("white");
 					view_counties = true;
-					stroke_width = 0.5;
+					stroke_width = 2.;
 					fill_color = datastructure::Color("blue");
 				}
 		  /**
