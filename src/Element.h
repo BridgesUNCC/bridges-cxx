@@ -257,46 +257,46 @@ namespace bridges {
 						QUOTE + "name" + QUOTE + COLON + JSONencode( label) +
 						CLOSE_CURLY;
 				}
-/*
-				virtual void getElementRepresentation(rapidjson::Document& d) 
-														const {
-					using namespace rapidjson;
-					//write out ElementVisualizer properties
+				/*
+								virtual void getElementRepresentation(rapidjson::Document& d)
+																		const {
+									using namespace rapidjson;
+									//write out ElementVisualizer properties
 
-					Value k, v;
-					d.SetObject();
-					Document::AllocatorType& allocator = d.GetAllocator();
+									Value k, v;
+									d.SetObject();
+									Document::AllocatorType& allocator = d.GetAllocator();
 
-					Value el_obj(kObjectType);
+									Value el_obj(kObjectType);
 
-					// first check if location is set and needs to be included
-					if ( (elvis->getLocationX() != INFINITY) &&
-						(elvis->getLocationY() != INFINITY) ) {
+									// first check if location is set and needs to be included
+									if ( (elvis->getLocationX() != INFINITY) &&
+										(elvis->getLocationY() != INFINITY) ) {
 
-						Value loc_arr(kArrayType);
-						loc_arr.PushBack(v.SetDouble(elvis->getLocationX()),
-												allocator); 
-						loc_arr.PushBack(v.SetDouble(elvis->getLocationY()), 
-												allocator);
-						el_obj.AddMember("location", loc_arr, allocator);
-					}
+										Value loc_arr(kArrayType);
+										loc_arr.PushBack(v.SetDouble(elvis->getLocationX()),
+																allocator);
+										loc_arr.PushBack(v.SetDouble(elvis->getLocationY()),
+																allocator);
+										el_obj.AddMember("location", loc_arr, allocator);
+									}
 
-				//	string col_rep = elvis->getColor().getCSSRepresentation();
-				//	v.SetString(col_rep.c_str(), allocator);
-					Document d2;
-					elvis->getColor().getCSSRepresentation(d2);
-					el_obj.AddMember("color", d2["color"], allocator);
-					string s = ShapeNames().at(elvis->getShape());
-					v.SetString(s.c_str(), allocator);
-					el_obj.AddMember("shape", v, allocator);
-					el_obj.AddMember("size", v.SetDouble(elvis->getSize()), allocator);
-					v.SetString(label.c_str(), allocator);
-					el_obj.AddMember("name", v, allocator);
+								//	string col_rep = elvis->getColor().getCSSRepresentation();
+								//	v.SetString(col_rep.c_str(), allocator);
+									Document d2;
+									elvis->getColor().getCSSRepresentation(d2);
+									el_obj.AddMember("color", d2["color"], allocator);
+									string s = ShapeNames().at(elvis->getShape());
+									v.SetString(s.c_str(), allocator);
+									el_obj.AddMember("shape", v, allocator);
+									el_obj.AddMember("size", v.SetDouble(elvis->getSize()), allocator);
+									v.SetString(label.c_str(), allocator);
+									el_obj.AddMember("name", v, allocator);
 
-					// put this into an element
-					d.AddMember ("element", el_obj, allocator);
-				}
-*/
+									// put this into an element
+									d.AddMember ("element", el_obj, allocator);
+								}
+				*/
 				/**
 				 * Gets the JSON representation of this link visualizer using
 				 * the supplied source and destination strings
@@ -308,8 +308,8 @@ namespace bridges {
 				 *
 				 */
 				static const string getLinkRepresentation(
-							const LinkVisualizer& lv,
-							const string& src, const string& dest) { 
+					const LinkVisualizer& lv,
+					const string& src, const string& dest) {
 					using bridges::JSONUtil::JSONencode;
 
 					//write out LinkVisualizer properties
@@ -326,9 +326,9 @@ namespace bridges {
 						CLOSE_CURLY;
 				}
 				static void getLinkRepresentation(
-							const LinkVisualizer& lv,
-							const string& src, const string& dest,
-							rapidjson::Document& d) { 
+					const LinkVisualizer& lv,
+					const string& src, const string& dest,
+					rapidjson::Document& d) {
 
 					using namespace rapidjson;
 					Document::AllocatorType& allocator = d.GetAllocator();

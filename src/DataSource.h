@@ -122,19 +122,23 @@ namespace bridges {
 				return "http://bridgesdata.herokuapp.com/api/us_map?state=";
 			}
 
-	  void defaultDebug() {
-	    char* force = getenv("FORCE_BRIDGES_DATADEBUG");
-	    if (force != nullptr)
-	      set_debug_flag();
+			void defaultDebug() {
+				char* force = getenv("FORCE_BRIDGES_DATADEBUG");
+				if (force != nullptr)
+					set_debug_flag();
 
-	  }
-	  
+			}
+
 		public:
 			DataSource(bridges::Bridges* br = nullptr)
-			  : bridges_inst(br), my_cache(120) {defaultDebug();}
+				: bridges_inst(br), my_cache(120) {
+				defaultDebug();
+			}
 
 			DataSource(bridges::Bridges& br )
-				: DataSource(&br) {defaultDebug();}
+				: DataSource(&br) {
+				defaultDebug();
+			}
 
 			/**
 			 *  @brief set data server type
@@ -256,7 +260,7 @@ namespace bridges {
 				return us_cities;
 			}
 			/**
-			 * @brief  Retrieves world city data based on a set of filtering 
+			 * @brief  Retrieves world city data based on a set of filtering
 			 * parameters
 			 *
 			 * @param  params  this represents a specification of the filtering
@@ -277,64 +281,64 @@ namespace bridges {
 			 *		   'limit' : integer -- max number of cities to return
 			 *
 			 */
-/*
-			vector<City> getWorldCities (unordered_map<string, string> params) {
-				string url = getWorldCitiesURL() + "?";
-				if (params.find("city") != params.end())
-					url += "city=" + params["city"] + "&";
-				if (params.find("state") != params.end())
-					url += "state=" + params["state"] + "&";
-				if (params.find("country") != params.end())
-					url += "country=" + params["country"] + "&";
-				if (params.find("min_pop") != params.end())
-					url += "minPopulation=" + params["min_pop"] + "&";
-				if (params.find("maxPopulation") != params.end())
-					url += "max_pop=" + params["max_pop"] + "&";
-				if (params.find("min_lat_long") != params.end())
-					url += "minLatLong=" + params["minll"][0] + "," + 
-										params["minll"][1] + "&";
-				if (params.find("max_lat_long") != params.end())
-					url += "maxLatLong=" + params["maxll"][0] + "," + 
-										params["maxll"][1] + "&";
-				if (params.find("min_elev") != params.end())
-					url += "minElevation=" + params["min_elev"] + "&";
-				if (params.find("max_elev") != params.end())
-					url += "maxElevation=" + params["max_elev"] + "&";
-				if (params.find("limit") != params.end())
-					url += "limit=" + params["limit"] + "&";
+			/*
+						vector<City> getWorldCities (unordered_map<string, string> params) {
+							string url = getWorldCitiesURL() + "?";
+							if (params.find("city") != params.end())
+								url += "city=" + params["city"] + "&";
+							if (params.find("state") != params.end())
+								url += "state=" + params["state"] + "&";
+							if (params.find("country") != params.end())
+								url += "country=" + params["country"] + "&";
+							if (params.find("min_pop") != params.end())
+								url += "minPopulation=" + params["min_pop"] + "&";
+							if (params.find("maxPopulation") != params.end())
+								url += "max_pop=" + params["max_pop"] + "&";
+							if (params.find("min_lat_long") != params.end())
+								url += "minLatLong=" + params["minll"][0] + "," +
+													params["minll"][1] + "&";
+							if (params.find("max_lat_long") != params.end())
+								url += "maxLatLong=" + params["maxll"][0] + "," +
+													params["maxll"][1] + "&";
+							if (params.find("min_elev") != params.end())
+								url += "minElevation=" + params["min_elev"] + "&";
+							if (params.find("max_elev") != params.end())
+								url += "maxElevation=" + params["max_elev"] + "&";
+							if (params.find("limit") != params.end())
+								url += "limit=" + params["limit"] + "&";
 
-				// remove the last &
-				url = url.substr(0, url.length() - 1);
+							// remove the last &
+							url = url.substr(0, url.length() - 1);
 
-				// make the request
-				using namespace rapidjson;
-				Document doc;
-				doc.Parse(
-					ServerComm::makeRequest(url, {"Accept: application/json"}).c_str()
-				);
-				// parse the json
-				const Value& city_json = doc["data"];
-				vector<City> world_cities;
-				for (SizeType i = 0; i < city_json.Size(); i++) {
-					const Value& val = city_json[i];
-					_cities.push_back (
-						City(
-							val["city"].GetString(),
-							val["state"].GetString(),
-							val["country"].GetString(),
-							val["timezone"].GetString(),
-							val["elevation"].GetInt(),
-							val["population"].GetInt(),
-							val["lat"].GetDouble(),
-							val["lon"].GetDouble()
-						));
-				}
-				return world_cities;
-			}
-*/
+							// make the request
+							using namespace rapidjson;
+							Document doc;
+							doc.Parse(
+								ServerComm::makeRequest(url, {"Accept: application/json"}).c_str()
+							);
+							// parse the json
+							const Value& city_json = doc["data"];
+							vector<City> world_cities;
+							for (SizeType i = 0; i < city_json.Size(); i++) {
+								const Value& val = city_json[i];
+								_cities.push_back (
+									City(
+										val["city"].GetString(),
+										val["state"].GetString(),
+										val["country"].GetString(),
+										val["timezone"].GetString(),
+										val["elevation"].GetInt(),
+										val["population"].GetInt(),
+										val["lat"].GetDouble(),
+										val["lon"].GetDouble()
+									));
+							}
+							return world_cities;
+						}
+			*/
 			// get US State County Data
 			// list of all states
-			const vector<string> all_states = {"Alabama","Alaska","Arizona","Arkansas","California","Colorado","Connecticut","Delaware","Florida","Georgia","Hawaii","Idaho","Illinois","Indiana","Iowa","Kansas","Kentucky","Louisiana","Maine","Maryland","Massachusetts","Michigan","Minnesota","Mississippi","Missouri","Montana","Nebraska","Nevada","New Hampshire","New Jersey","New Mexico","New York","North Carolina","North Dakota","Ohio","Oklahoma","Oregon","Pennsylvania","Rhode Island","South Carolina","South Dakota","Tennessee","Texas","Utah","Vermont","Virginia","Washington","West Virginia","Wisconsin","Wyoming"};
+			const vector<string> all_states = {"Alabama", "Alaska", "Arizona", "Arkansas", "California", "Colorado", "Connecticut", "Delaware", "Florida", "Georgia", "Hawaii", "Idaho", "Illinois", "Indiana", "Iowa", "Kansas", "Kentucky", "Louisiana", "Maine", "Maryland", "Massachusetts", "Michigan", "Minnesota", "Mississippi", "Missouri", "Montana", "Nebraska", "Nevada", "New Hampshire", "New Jersey", "New Mexico", "New York", "North Carolina", "North Dakota", "Ohio", "Oklahoma", "Oregon", "Pennsylvania", "Rhode Island", "South Carolina", "South Dakota", "Tennessee", "Texas", "Utah", "Vermont", "Virginia", "Washington", "West Virginia", "Wisconsin", "Wyoming"};
 
 			// this function gets all states  but no county information
 			vector<State> getUSMapData () {
@@ -346,24 +350,24 @@ namespace bridges {
 			}
 
 			vector<State> getUSMapCountyData (vector<string> state_names,
-								bool view_counties = true) {
+				bool view_counties = true) {
 				string url = getUSStateCountiesURL();
 				for (auto& k : state_names)
-					url += ServerComm::encodeURLPart(k) + ',';  
+					url += ServerComm::encodeURLPart(k) + ',';
 
-				// remove the last comma 
-				url = url.substr(0, url.size()-1);
+				// remove the last comma
+				url = url.substr(0, url.size() - 1);
 
 				if (debug())
-				  std::cerr<<"Hitting: "<<url<<std::endl;
-				
+					std::cerr << "Hitting: " << url << std::endl;
+
 				// make the request
 				using namespace rapidjson;
 				Document doc;
 				doc.Parse(
-					ServerComm::makeRequest(url, 
-						{"Accept: application/json"}).c_str()
-					);
+					ServerComm::makeRequest(url,
+				{"Accept: application/json"}).c_str()
+				);
 				vector<State> states;
 				const Value& state_data =  doc["data"];
 				for (SizeType i  = 0; i < state_names.size(); i++) {
@@ -388,7 +392,8 @@ namespace bridges {
 								);
 						}
 					}
-					else states[i].setViewCountiesFlag(false);
+					else
+						states[i].setViewCountiesFlag(false);
 					states[i].setCounties(counties);
 				}
 				return states;
@@ -1487,7 +1492,7 @@ namespace bridges {
 				}
 				catch (CacheException& ce) {
 					//something went bad trying to access the cache
-				  std::cout << "Exception while reading from cache. Ignoring cache and continue.\n( What was:"<<ce.what() <<")" << std::endl;
+					std::cout << "Exception while reading from cache. Ignoring cache and continue.\n( What was:" << ce.what() << ")" << std::endl;
 				}
 
 				if (!from_cache) {
@@ -1529,7 +1534,7 @@ namespace bridges {
 					}
 					catch (CacheException& ce) {
 						//something went bad trying to access the cache
-					  std::cerr << "Exception while storing in cache. Weird but not critical. (What was: "<<ce.what()<<" )" << std::endl;
+						std::cerr << "Exception while storing in cache. Weird but not critical. (What was: " << ce.what() << " )" << std::endl;
 					}
 				}
 
@@ -1669,9 +1674,9 @@ namespace bridges {
 					tmp >> cell_size;
 
 				if (!ss)
-				  throw "Parse Error";
-				  
-				
+					throw "Parse Error";
+
+
 				// create the elevation object
 				ElevationData elev_data (rows, cols);
 				elev_data.setxll(ll_x);
@@ -1686,8 +1691,8 @@ namespace bridges {
 					}
 				}
 				if (!ss)
-				  throw "Parse Error";
-				  
+					throw "Parse Error";
+
 				return elev_data;
 			}
 
@@ -1875,7 +1880,7 @@ namespace bridges {
 					catch (CacheException& ce) {
 						//something went bad trying to access the data in the local cache
 						std::cout << "Exception while reading from cache. "
-							  << "Ignoring cache and continuing..\n (What was:"<<ce.what()<<")\n";
+							<< "Ignoring cache and continuing..\n (What was:" << ce.what() << ")\n";
 					}
 				}
 				if (!dataloaded) {
@@ -1912,8 +1917,8 @@ namespace bridges {
 					catch (CacheException& ce) {
 						//something went bad trying to access the cache
 						std::cerr << "Exception while storing in cache. " <<
-						  "Weird but not critical.\n" <<
-						  "(What was: "<<ce.what()<<")\n";
+							"Weird but not critical.\n" <<
+							"(What was: " << ce.what() << ")\n";
 						if (debug())
 							std::cerr << "Tried to store hash=" << hash_value <<
 								" key = " << data_json << std::endl;

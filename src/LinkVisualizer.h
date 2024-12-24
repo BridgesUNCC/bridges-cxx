@@ -90,8 +90,9 @@ namespace bridges {
 					if (th < 0.0 || 10 < th)
 						throw "Invalid Thickness Value.. " + to_string(th) +
 						" Must be in the ]0.0,10.0] range";
-					else
+					else {
 						thickness = th;
+					}
 				}
 				/**
 				 *  @brief Get the link thickness
