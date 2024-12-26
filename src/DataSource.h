@@ -379,6 +379,7 @@ namespace bridges {
 					states.push_back(USState(st_name.GetString()));
 					unordered_map<string, USCounty> counties = states[i].getCounties();
 
+					states[i].setViewCountiesFlag(view_counties);
 					// get county data
 					if (view_counties) {
 						for (SizeType j = 0; j < county_data.Size(); j++) {
@@ -392,8 +393,7 @@ namespace bridges {
 								);
 						}
 					}
-					else
-						states[i].setViewCountiesFlag(false);
+
 					states[i].setCounties(counties);
 				}
 				return states;
