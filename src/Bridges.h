@@ -422,7 +422,7 @@ namespace bridges {
 				setMapAsJSON(false);
 			}
 
-			void setMap(const USMap* map) {
+			void setMap(const Map* map) {
 				string map_str = map->getMapRepresentation();
 				setMapOverlay(map->getOverlay());
 				setCoordSystemType(map->getProjection());
@@ -431,7 +431,7 @@ namespace bridges {
 				this->map = map_str;
 				setMapAsJSON(true);
 			}
-			void setMap(const USMap& map) {
+			void setMap(const Map& map) {
 				setMap(&map);
 			}
 
@@ -440,6 +440,7 @@ namespace bridges {
 				map_as_json = b;
 			}
 
+	  //TODO: What is this get map? This is clearly not how to access map data. What were we trying to do here?
 			string getMap(vector<string> states) {
 				string json_str;
 
