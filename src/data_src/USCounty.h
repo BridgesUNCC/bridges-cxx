@@ -9,7 +9,7 @@ using std::string;
 namespace bridges{
 	namespace dataset {
 
-		class County {
+		class USCounty {
 			private:
 				string geoid;
 				string fips_code;
@@ -21,8 +21,8 @@ namespace bridges{
 				bool hide;			// county visibility
 
 			public:
-				County() = default;
-				County (string id, string code, string county, string state) {
+				USCounty() = default;
+				USCounty (string id, string code, string county, string state) {
         			geoid = id;
 					fips_code = code;
 					county_name = county;

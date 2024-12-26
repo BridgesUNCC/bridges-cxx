@@ -1,7 +1,7 @@
 #ifndef STATE_H
 #define STATE_H
 
-#include "County.h"
+#include "USCounty.h"
 #include "../Color.h"
 
 #include <string>
@@ -17,18 +17,18 @@ using std::string;
 namespace bridges{
 	namespace dataset {
 
-		class State {
+		class USState {
 				string name;
 				datastructure::Color stroke_color;
 				bool view_counties;  // flag to visualize county boundaries
 				float stroke_width;
 				datastructure::Color fill_color;
-				unordered_map<string, County> counties; // holds county info
+				unordered_map<string, USCounty> counties; // holds county info
 
 			public:
-				State() = default;
+				USState() = default;
 
-				State(string st) {
+				USState(string st) {
         			name = st;
 					stroke_color = datastructure::Color("white");
 					view_counties = true;
@@ -40,7 +40,7 @@ namespace bridges{
 		   *
 		   * 
 		   **/
-				unordered_map<string, County> getCounties() const {
+				unordered_map<string, USCounty> getCounties() const {
 					return counties;
 				}
 		  /**
@@ -56,10 +56,10 @@ namespace bridges{
 		   * \endcode{c}
 		   * 
 		   **/
-				unordered_map<string, County>& accessCounties() {
+				unordered_map<string, USCounty>& accessCounties() {
 					return counties;
 				}
-				void setCounties(unordered_map<string, County> & c) {
+				void setCounties(unordered_map<string, USCounty> & c) {
 					counties = c;
 				}
 

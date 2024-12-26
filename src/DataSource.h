@@ -24,8 +24,8 @@ using namespace std;
 #include "./data_src/Amenity.h"
 #include "./data_src/Reddit.h"
 #include "./data_src/City.h"
-#include "./data_src/State.h"
-#include "./data_src/County.h"
+#include "./data_src/USState.h"
+#include "./data_src/USCounty.h"
 #include "ColorGrid.h"
 #include "base64.h"
 #include <GraphAdjList.h>
@@ -341,15 +341,15 @@ namespace bridges {
 			const vector<string> all_states = {"Alabama", "Alaska", "Arizona", "Arkansas", "California", "Colorado", "Connecticut", "Delaware", "Florida", "Georgia", "Hawaii", "Idaho", "Illinois", "Indiana", "Iowa", "Kansas", "Kentucky", "Louisiana", "Maine", "Maryland", "Massachusetts", "Michigan", "Minnesota", "Mississippi", "Missouri", "Montana", "Nebraska", "Nevada", "New Hampshire", "New Jersey", "New Mexico", "New York", "North Carolina", "North Dakota", "Ohio", "Oklahoma", "Oregon", "Pennsylvania", "Rhode Island", "South Carolina", "South Dakota", "Tennessee", "Texas", "Utah", "Vermont", "Virginia", "Washington", "West Virginia", "Wisconsin", "Wyoming"};
 
 			// this function gets all states  but no county information
-			vector<State> getUSMapData () {
+			vector<USState> getUSMapData () {
 				return getUSMapCountyData(all_states, false);
 			}
 
-			vector<State> getUSMapCountyData () {
+			vector<USState> getUSMapCountyData () {
 				return getUSMapCountyData(all_states, true);
 			}
 
-			vector<State> getUSMapCountyData (vector<string> state_names,
+			vector<USState> getUSMapCountyData (vector<string> state_names,
 				bool view_counties = true) {
 				string url = getUSStateCountiesURL();
 				for (auto& k : state_names)
@@ -368,7 +368,7 @@ namespace bridges {
 					ServerComm::makeRequest(url,
 				{"Accept: application/json"}).c_str()
 				);
-				vector<State> states;
+				vector<USState> states;
 				const Value& state_data =  doc["data"];
 				for (SizeType i  = 0; i < state_names.size(); i++) {
 					const Value& st = state_data[i];
@@ -376,8 +376,8 @@ namespace bridges {
 					const Value& st_name = st["_id"]["input"];
 
 					// create the state
-					states.push_back(State(st_name.GetString()));
-					unordered_map<string, County> counties = states[i].getCounties();
+					states.push_back(USState(st_name.GetString()));
+					unordered_map<string, USCounty> counties = states[i].getCounties();
 
 					// get county data
 					if (view_counties) {
@@ -385,7 +385,7 @@ namespace bridges {
 							const Value& val = county_data[j];
 							// get its geoid
 							string geoid = (val["properties"]["GEOID"]).GetString();
-							counties[geoid] = County(geoid,
+							counties[geoid] = USCounty(geoid,
 									(val["properties"]["FIPS_CODE"]).GetString(),
 									(val["properties"]["COUNTY_STATE_CODE"]).GetString(),
 									(val["properties"]["COUNTY_STATE_NAME"]).GetString()

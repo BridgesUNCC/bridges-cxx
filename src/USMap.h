@@ -15,8 +15,8 @@ using std::vector;
 
 #include "DataStructure.h"
 #include "Map.h"
-#include "./data_src/State.h"
-#include "./data_src/County.h"
+#include "./data_src/USState.h"
+#include "./data_src/USCounty.h"
 #include <JSONutil.h>
 
 #include <rapidjson/document.h>
@@ -28,12 +28,12 @@ namespace bridges {
 	namespace datastructure {
 
 		using namespace bridges::datastructure;
-		using bridges::dataset::State;
+		using bridges::dataset::USState;
 
 		class USMap :  public Map, public DataStructure {
 			private:
 				vector<string> state_names;
-				vector<State> state_data;
+				vector<USState> state_data;
 
 				virtual const string getDataStructureRepresentation ()
 				const override {
@@ -233,15 +233,15 @@ namespace bridges {
 								}
 				*/
 			public:
-				USMap(vector<State> st_data) {
+				USMap(vector<USState> st_data) {
 					state_data = st_data;
 				}
 
-				vector<State>& getMapData() {
+				vector<USState>& getMapData() {
 					return state_data;
 				}
 
-				void setStateData(vector<State> st_data) {
+				void setStateData(vector<USState> st_data) {
 					state_data = st_data;
 				}
 
