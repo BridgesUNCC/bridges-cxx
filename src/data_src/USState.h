@@ -38,6 +38,7 @@ namespace bridges{
 		  /**
 		   * @brief obtain a copy of the county data for that state
 		   *
+		   * The Counties are indexed by FIPS code. (FIPS code are defined by the US Federal Government. See list here: https://transition.fcc.gov/oet/info/maps/census/fips/fips.txt )
 		   * 
 		   **/
 				unordered_map<string, USCounty> getCounties() const {
