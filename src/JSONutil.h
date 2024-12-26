@@ -18,7 +18,9 @@ struct rapidjson_exception {
 	}
 };
 
+#ifndef RAPIDJSON_ASSERT
 #define RAPIDJSON_ASSERT(x) if (!( x )) { throw rapidjson_exception( #x, __FILE__, __LINE__ ) ;}
+#endif
 #define RAPIDJSON_ASSERT_THROWS
 
 #include <rapidjson/document.h>
