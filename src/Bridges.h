@@ -422,6 +422,11 @@ namespace bridges {
 				setMapAsJSON(false);
 			}
 
+			/*
+			 * @brief this function is used when US maps are drawn as
+			 *  an overlay behind a data structure view or when data
+			 *  attributes are assignment to states or counties
+			 */
 			void setMap(const Map* map) {
 				string map_str = map->getMapRepresentation();
 				setMapOverlay(map->getOverlay());
@@ -431,16 +436,19 @@ namespace bridges {
 				this->map = map_str;
 				setMapAsJSON(true);
 			}
+
+			// sets the map object 
 			void setMap(const Map& map) {
 				setMap(&map);
 			}
 
 
+			// specifies the map object being send as a JSON or not
 			void setMapAsJSON(bool b) {
 				map_as_json = b;
 			}
 
-	  //TODO: What is this get map? This is clearly not how to access map data. What were we trying to do here?
+	  //TODO: What is this get map? This is clearly not how to access map data. What were we trying to do here? [KRS: Probably obsolete?]
 			string getMap(vector<string> states) {
 				string json_str;
 
