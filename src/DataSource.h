@@ -336,21 +336,43 @@ namespace bridges {
 							return world_cities;
 						}
 			*/
-			// get US State County Data
+
 			// list of all states
 			const vector<string> all_states = {"Alabama", "Alaska", "Arizona", "Arkansas", "California", "Colorado", "Connecticut", "Delaware", "Florida", "Georgia", "Hawaii", "Idaho", "Illinois", "Indiana", "Iowa", "Kansas", "Kentucky", "Louisiana", "Maine", "Maryland", "Massachusetts", "Michigan", "Minnesota", "Mississippi", "Missouri", "Montana", "Nebraska", "Nevada", "New Hampshire", "New Jersey", "New Mexico", "New York", "North Carolina", "North Dakota", "Ohio", "Oklahoma", "Oregon", "Pennsylvania", "Rhode Island", "South Carolina", "South Dakota", "Tennessee", "Texas", "Utah", "Vermont", "Virginia", "Washington", "West Virginia", "Wisconsin", "Wyoming"};
 
-			// this function gets all states  but no county information
+			/* get US State County Data
+             *
+			 * @brief Get US State boundaries  af all 50 states
+             *
+			 * @params none 
+             */
 			vector<USState> getUSMapData () {
 				return getUSMapCountyData(all_states, false);
 			}
 
+			/* get US State County Data
+             *
+			 * @brief Get US State boundaries and counties af all 50 states
+             *
+			 * @params none 
+             */
 			vector<USState> getUSMapCountyData () {
 				return getUSMapCountyData(all_states, true);
 			}
 
+			/* get US State County Data
+             *
+			 * @brief Get US State boundaries and counties af specified
+			 *   states
+             *
+			 * @params  state_names  states that will be retrieved
+			 * @params  view_counties  boolean flag  also extract county 
+			 *           boundaries of the specified states
+             */
 			vector<USState> getUSMapCountyData (vector<string> state_names,
 				bool view_counties = true) {
+
+				// form the http query
 				string url = getUSStateCountiesURL();
 				for (auto& k : state_names)
 					url += ServerComm::encodeURLPart(k) + ',';
@@ -365,9 +387,11 @@ namespace bridges {
 				using namespace rapidjson;
 				Document doc;
 				doc.Parse(
-					ServerComm::makeRequest(url,
-				{"Accept: application/json"}).c_str()
+					ServerComm::makeRequest(url, {"Accept: application/json"}).c_str()
 				);
+
+				// iterate through the states to parse and store in
+				// the State and County objects
 				vector<USState> states;
 				const Value& state_data =  doc["data"];
 				for (SizeType i  = 0; i < state_names.size(); i++) {
@@ -375,11 +399,12 @@ namespace bridges {
 					const Value& county_data = st["counties"];
 					const Value& st_name = st["_id"]["input"];
 
-					// create the state
+					// create the state object and add it to a list
 					states.push_back(USState(st_name.GetString()));
 					unordered_map<string, USCounty> counties = states[i].getCounties();
 
 					states[i].setViewCountiesFlag(view_counties);
+
 					// get county data
 					if (view_counties) {
 						for (SizeType j = 0; j < county_data.Size(); j++) {
@@ -394,6 +419,7 @@ namespace bridges {
 						}
 					}
 
+					// add the county list to the state
 					states[i].setCounties(counties);
 				}
 				return states;
