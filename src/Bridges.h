@@ -578,12 +578,12 @@ namespace bridges {
 				else if (ds_handle->getDStype() == "us_map") {
 					setMap((USMap*) ds_handle);
 					//					string tmp = ds_handle->getDataStructureRepresentation();
-					Document d;
-					d.SetObject();
-					Value key, value;
-					key.SetString("mapdummy");
-					value.SetBool(true);
-					d.AddMember(key, value, d.GetAllocator());
+					// Document d;
+					// d.SetObject();
+					// Value key, value;
+					// key.SetString("mapdummy");
+					// value.SetBool(true);
+					// d.AddMember(key, value, d.GetAllocator());
 					//					ds_json = getJSONHeader(d);
 					ds_json = getJSONHeader() + ds_handle->getDataStructureRepresentation();
 					//					ds_json = getJSONHeader();
