@@ -30,7 +30,7 @@ namespace bridges{
 
 				USState(string st) {
         			name = st;
-					stroke_color = datastructure::Color("white");
+					stroke_color = datastructure::Color("red");
 					view_counties = true;
 					stroke_width = 2.;
 					fill_color = datastructure::Color("blue");
