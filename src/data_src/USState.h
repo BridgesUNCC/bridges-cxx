@@ -7,12 +7,17 @@
 #include <string>
 #include <unordered_map>
 
-// Class that defines a US State and its counties
-// Last  modified:  Dec. 20, 2024
-// Autho: Kalpathi Subramanian, Erik Saule
-
 using std::string;
 
+/*
+ * @brief This object stores US State and links to information
+ *
+ * This object is used alongside with the USMap object. Each state
+ * has a stroke color and fill color and list of counties of type County
+ *
+ * @author Kalpathi Subramanian, Erik Saule
+ * @date  Last modified Dec 29, 2024
+ */
 
 namespace bridges{
 	namespace dataset {
@@ -21,8 +26,8 @@ namespace bridges{
 				string name;
 				datastructure::Color stroke_color;
 				bool view_counties;  // flag to visualize county boundaries
-				float stroke_width;
-				datastructure::Color fill_color;
+				float stroke_width;  // boundary color
+				datastructure::Color fill_color; // fill color of state
 				unordered_map<string, USCounty> counties; // holds county info
 
 			public:
@@ -35,31 +40,39 @@ namespace bridges{
 					stroke_width = 2.;
 					fill_color = datastructure::Color("blue");
 				}
-		  /**
-		   * @brief obtain a copy of the county data for that state
-		   *
-		   * The Counties are indexed by FIPS code. (FIPS code are defined by the US Federal Government. See list here: https://transition.fcc.gov/oet/info/maps/census/fips/fips.txt )
-		   * 
-		   **/
+				/**
+				 * @brief obtain a copy of the county data for that state
+				 *
+				 * The Counties are indexed by FIPS code. (FIPS code are 
+				 * defined by the US Federal Government. See list here: 
+				 * https://transition.fcc.gov/oet/info/maps/census/fips/fips.txt )
+				 * 
+				 */
 				unordered_map<string, USCounty> getCounties() const {
 					return counties;
 				}
-		  /**
-		   * @brief obtain reference to the county data for that state
-		   *
-		   * This is mostly useful to get direct access to the county data inside of the state for manipulation. For instance
-		   * \code{c}
-		   * State s;
-		   * for (auto& c: s.accessCounties()) {
-		   *   c.second.setStrokeColor(Color(50,250,50));
-		   *   c.second.setFillColor(Color(0,0,25));
-		   * }
-		   * \endcode{c}
-		   * 
-		   **/
+		  		/**
+				 * @brief obtain reference to the county data for that state
+		   		 *
+		   		 * This is mostly useful to get direct access to the county data inside of the state for manipulation. For instance
+		   		 * \code{c}
+		   		 * State s;
+		   		 * for (auto& c: s.accessCounties()) {
+		   		 *   c.second.setStrokeColor(Color(50,250,50));
+		   		 *   c.second.setFillColor(Color(0,0,25));
+		   		 * }
+		   		 * \endcode{c}
+		   		 * 
+		   		 **/
 				unordered_map<string, USCounty>& accessCounties() {
 					return counties;
 				}
+
+				/**
+				 * @brief  sets the counties for this state
+				 *
+				 * @param c  list o counties of this state
+				 */
 				void setCounties(unordered_map<string, USCounty> & c) {
 					counties = c;
 				}
@@ -93,6 +106,9 @@ namespace bridges{
 					stroke_width = width;
 				}
 
+				/**
+				 * @brief this flag lets you turn  on/off counties as needed
+			 	 */
 				bool getViewCountiesFlag() const {
 					return view_counties;
 				}
