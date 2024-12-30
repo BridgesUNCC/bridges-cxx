@@ -6,6 +6,20 @@
 
 using std::string;
 
+/**
+ * @brief This object contains US county related information
+ *
+ * This object is used alongside with the USMap object. Each county
+ * has a stroke color and fill color attributes. Each county has a geoid
+ * and FIPS code for identification. The geoid is used as the key in the
+ * USState object to efficiently access the county information using a 
+ * hash table
+ *
+ * @author Kalpathi Subramanian, Erik Saule
+ * @date  Last modified Dec 29, 2024
+ */
+
+
 namespace bridges{
 	namespace dataset {
 
@@ -21,7 +35,22 @@ namespace bridges{
 				bool hide;			// county visibility
 
 			public:
+				/**
+				 * 
+				 * @brief Constructor  
+				 */
 				USCounty() = default;
+
+				/**
+				 * 
+				 * @brief Constructor  
+				 *
+				 * @param  geoid Geoid of county 
+				 * @param code  FIPS code of county 
+				 * @param county  county name
+				 * @param state   state containing the county
+				 *
+				 */
 				USCounty (string id, string code, string county, string state) {
         			geoid = id;
 					fips_code = code;
@@ -39,6 +68,10 @@ namespace bridges{
 				
 				string getFipsCode() const {
 					return fips_code;
+				}
+
+				void setFipsCode(string code) {
+					fips_code = code;
 				}
 
 				string getStateName() const {
