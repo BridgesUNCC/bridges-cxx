@@ -5,6 +5,14 @@ using namespace rapidjson;
 namespace bridges {
 	namespace datastructure {
 
+	/** 
+	 *
+	 * @brief Abstract class for Map API
+	 *
+	 * Defines virtual functions for projection, map overlay and representation
+	 *
+	 */
+
 		class Map {
 
 			public:
