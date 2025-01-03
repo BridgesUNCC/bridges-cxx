@@ -22,7 +22,7 @@ namespace bridges {
 		 *  @sa Refer to tutorial examples on how to use this dataset:
 		 *	https://bridgesuncc.github.io/tutorials/Data_CancerIncidence.html <br>
 		 *  Data: Courtesy of Corgis Datasets, 2017
-		 *	Link: http://www.cdc.gov/cancer/npcr/uscs/download_data.htm
+		 *	Link: https://www.cdc.gov/united-states-cancer-statistics/public-use/index.html
 		 *
 		 *  @author Kalpathi Subramanian
 		 *	@date June, 2017
