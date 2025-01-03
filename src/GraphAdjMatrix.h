@@ -103,7 +103,7 @@ namespace bridges {
 				 *  Return the adjacency matrix
 				 *	@return The matrix of this graphs edges
 				 */
-				const unordered_map<K, unordered_map<K, int>>& getMatrix() const {
+				const unordered_map<K, unordered_map<K, int >> & getMatrix() const {
 					return matrix;
 				}
 
@@ -175,7 +175,7 @@ namespace bridges {
 					}
 					catch ( const out_of_range& ) {
 						cerr << "setVertexData(): Nonexistent vertices or " <<
-							" edge not found" << endl;
+								" edge not found" << endl;
 						throw;
 					}
 					catch (const char* msg) {
@@ -198,7 +198,7 @@ namespace bridges {
 					}
 					catch ( const out_of_range& oor) {
 						cerr << "getEdgeData(): Nonexistent vertices or " <<
-							" edge not found" << endl;
+								" edge not found" << endl;
 						throw;
 					}
 					catch (const char* msg) {
@@ -223,7 +223,7 @@ namespace bridges {
 					}
 					catch ( const out_of_range& oor) {
 						cerr << "setEdgeData(): Nonexistent vertices or " <<
-							" edge not found" << endl;
+								" edge not found" << endl;
 						throw;
 					}
 					catch (const char* msg) {
@@ -333,9 +333,9 @@ namespace bridges {
 
 					return graph_amatrix_json;
 				}
-		  //virtual void getDataStructureRepresentation(rapidjson::Document& d)
-		  //const final {
-		  //}
+				//virtual void getDataStructureRepresentation(rapidjson::Document& d)
+				//const final {
+				//}
 		}; //end of GraphAdjList class
 	}
 }//end of bridges namespace

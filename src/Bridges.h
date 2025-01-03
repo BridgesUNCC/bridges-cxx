@@ -437,7 +437,7 @@ namespace bridges {
 				setMapAsJSON(true);
 			}
 
-			// sets the map object 
+			// sets the map object
 			void setMap(const Map& map) {
 				setMap(&map);
 			}
@@ -448,7 +448,7 @@ namespace bridges {
 				map_as_json = b;
 			}
 
-	  //TODO: What is this get map? This is clearly not how to access map data. What were we trying to do here? [KRS: Probably obsolete?]
+			//TODO: What is this get map? This is clearly not how to access map data. What were we trying to do here? [KRS: Probably obsolete?]
 			string getMap(vector<string> states) {
 				string json_str;
 
@@ -653,18 +653,18 @@ namespace bridges {
 					cerr << "\nPosting assignment to the server failed!" << endl
 						<< error_str << endl << endl;
 					cerr << "Provided Bridges Credentials:" << endl <<
-						"\t User Name: " << getUserName() << endl <<
-						"\t API Key: " << getApiKey() << endl <<
-						"\t Assignment Number: " << getAssignment() << endl;
+							"\t User Name: " << getUserName() << endl <<
+							"\t API Key: " << getApiKey() << endl <<
+							"\t Assignment Number: " << getAssignment() << endl;
 				}
 				catch (const HTTPException& he) {
 					cerr << "\nPosting assignment to the server failed!" << endl;
 					if (he.httpcode == 401) {
 						cerr << "Provided Bridges Credentials are incorrect:" << endl <<
-							"\t ServerURL: " << getServerURL() << endl <<
-							"\t User Name: " << getUserName() << endl <<
-							"\t API Key: " << getApiKey() << endl <<
-							"\t Assignment Number: " << getAssignment() << endl;
+								"\t ServerURL: " << getServerURL() << endl <<
+								"\t User Name: " << getUserName() << endl <<
+								"\t API Key: " << getApiKey() << endl <<
+								"\t Assignment Number: " << getAssignment() << endl;
 					}
 					else if (he.httpcode == 413) {
 						cerr << "Assignment is too large." << endl;

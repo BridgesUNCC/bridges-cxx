@@ -30,7 +30,7 @@ namespace bridges {
 			private:
 				virtual const string getDataStructureRepresentation ()
 				const override {
-				  using bridges::JSONUtil::JSONencode;
+					using bridges::JSONUtil::JSONencode;
 					return JSONencode("mapdummy") + COLON + JSONencode(true) + CLOSE_CURLY;
 				}
 			public:

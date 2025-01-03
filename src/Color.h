@@ -50,9 +50,9 @@ namespace bridges {
 		class Color {
 			private:
 				// The named colors' rgba channel value mappings
-				static const unordered_map<string, const array<int, 4>>&
+				static const unordered_map<string, const array<int, 4 >> &
 				ColorNames() {
-					static unordered_map<string, const array<int, 4>> cn {
+					static unordered_map<string, const array<int, 4 >> cn {
 
 						{	{"aliceblue", {{240, 248, 255, 255}}},
 							{"antiquewhite", {{250, 235, 215, 255}}},
@@ -374,7 +374,7 @@ namespace bridges {
 						for (size_t i = 0; i < name.size() / chanChars; i++) {
 							//converts and save hex val to rgba val
 							channels.at(i) = (int) strtol(name.substr(i * chanChars,
-										chanChars).c_str(), nullptr, 16) * chanMultiplier;
+								chanChars).c_str(), nullptr, 16) * chanMultiplier;
 						}
 					}
 					else { //invalid color

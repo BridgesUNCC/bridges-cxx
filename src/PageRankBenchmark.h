@@ -57,7 +57,7 @@ namespace bridges {
 				 **/
 				void run(std::string algoName,
 					void (*pralgo)(const GraphAdjList<std::string>& gr,
-						std::unordered_map<std::string, double>& out)) {
+					std::unordered_map<std::string, double>& out)) {
 					std::vector<double> time;
 					std::vector<double> vtxCounts;
 					std::vector<double> edgeCounts;

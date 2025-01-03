@@ -23,33 +23,31 @@ using std::vector;
 #include <rapidjson/stringbuffer.h>
 #include <rapidjson/writer.h>
 
-	/**
-     * @brief This class provides an API to building, displaying and 
-	 * manipulating	 US maps and counties in BRIDGES
-     *
-     * In the current implementation, we can draw a US map  with all state 
-     * boundaries, a map with all US state and county boundaries, or 
-     * specify a set of states  and display the state and/or county
-	 * boundaries. 
-	 *
-     * Functions are provided to access each US state or county and color
-     * its boundary or its interior using the stroke color  and fill color
-     * functions. This lets us build map based applications where the fill
-	 * fill color can be used to represent different data attributes, such 
-	 * population counts, election statistics or any attribute at the state
-	 * or county level.
-     *
-	 * See the Maps tutorials for examples of the usage of the US Map API
-     *
-     */
-
-
 namespace bridges {
 	namespace datastructure {
 
 		using namespace bridges::datastructure;
 		using bridges::dataset::USState;
 
+		/**
+		 * @brief This class provides an API to building, displaying and
+		 * manipulating	 US maps and counties in BRIDGES
+		 *
+		 * In the current implementation, we can draw a US map  with all state
+		 * boundaries, a map with all US state and county boundaries, or
+		 * specify a set of states  and display the state and/or county
+		 * boundaries.
+		 *
+		 * Functions are provided to access each US state or county and color
+		 * its boundary or its interior using the stroke color  and fill color
+		 * functions. This lets us build map based applications where the fill
+		 * fill color can be used to represent different data attributes, such
+		 * population counts, election statistics or any attribute at the state
+		 * or county level.
+		 *
+		 * See the Maps tutorials for examples of the usage of the US Map API
+		 *
+		 */
 		class USMap :  public Map, public DataStructure {
 			private:
 				vector<string> state_names;
@@ -74,7 +72,7 @@ namespace bridges {
 				}
 			public:
 				/**
-				 * @brief Gets the type of map projection. For US map we 
+				 * @brief Gets the type of map projection. For US map we
 				 *  currently use albersusa
 				 *
 				 */
@@ -83,7 +81,7 @@ namespace bridges {
 				}
 				/**
 				 *
-				 * @brief Gets the map overlay flag. 
+				 * @brief Gets the map overlay flag.
 				 *
 				 */
 				const bool getOverlay() const override {
@@ -93,7 +91,7 @@ namespace bridges {
 				/**
 				 * @brief Generates the JSON representation of the US map
 				 *
-				 * @returns string 
+				 * @returns string
 				 */
 				virtual const string getMapRepresentation () const override  {
 					// generates a JSON of the states with county information
@@ -270,7 +268,7 @@ namespace bridges {
 			public:
 				/*
 				 * @brief Constructs a US Map object  with map data
-				 *  
+				 *
 				 * @param   st_data  data containg state/county information
 				 */
 				USMap(vector<USState> st_data) {
@@ -278,7 +276,7 @@ namespace bridges {
 				}
 
 				/*
-				 * @brief This function returns the current state/county data 
+				 * @brief This function returns the current state/county data
 				 *  in the US map object.
 				 *
 				 * @return list of state information
@@ -288,7 +286,7 @@ namespace bridges {
 				}
 
 				/*
-				 * @brief This function sets the state/county data 
+				 * @brief This function sets the state/county data
 				 *  in the US map object.
 				 *
 				 * @param  list of state information
@@ -301,7 +299,7 @@ namespace bridges {
 				/*
 				 *
 				 * @brief This function gets the data structure type for
-				 * the US map, 
+				 * the US map,
 				 *
 				 */
 				virtual const string getDStype() const override {

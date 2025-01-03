@@ -183,7 +183,7 @@ namespace bridges {
 					string nodes_JSON;
 
 					int i = 0; // get the JSON string for nodes
-					for (const auto* e : nodes) {
+					for (const auto * e : nodes) {
 						if (map.emplace(e, i).second && ++i)  {
 							// short circut only incriments i and gets rep
 							// upon successful emplacement

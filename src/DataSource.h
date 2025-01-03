@@ -341,34 +341,34 @@ namespace bridges {
 			const vector<string> all_states = {"Alabama", "Alaska", "Arizona", "Arkansas", "California", "Colorado", "Connecticut", "Delaware", "Florida", "Georgia", "Hawaii", "Idaho", "Illinois", "Indiana", "Iowa", "Kansas", "Kentucky", "Louisiana", "Maine", "Maryland", "Massachusetts", "Michigan", "Minnesota", "Mississippi", "Missouri", "Montana", "Nebraska", "Nevada", "New Hampshire", "New Jersey", "New Mexico", "New York", "North Carolina", "North Dakota", "Ohio", "Oklahoma", "Oregon", "Pennsylvania", "Rhode Island", "South Carolina", "South Dakota", "Tennessee", "Texas", "Utah", "Vermont", "Virginia", "Washington", "West Virginia", "Wisconsin", "Wyoming"};
 
 			/* get US State County Data
-             *
+			 *
 			 * @brief Get US State boundaries  af all 50 states
-             *
-			 * @params none 
-             */
+			 *
+			 * @params none
+			 */
 			vector<USState> getUSMapData () {
 				return getUSMapCountyData(all_states, false);
 			}
 
 			/* get US State County Data
-             *
+			 *
 			 * @brief Get US State boundaries and counties af all 50 states
-             *
-			 * @params none 
-             */
+			 *
+			 * @params none
+			 */
 			vector<USState> getUSMapCountyData () {
 				return getUSMapCountyData(all_states, true);
 			}
 
 			/* get US State County Data
-             *
+			 *
 			 * @brief Get US State boundaries and counties af specified
 			 *   states
-             *
+			 *
 			 * @params  state_names  states that will be retrieved
-			 * @params  view_counties  boolean flag  also extract county 
+			 * @params  view_counties  boolean flag  also extract county
 			 *           boundaries of the specified states
-             */
+			 */
 			vector<USState> getUSMapCountyData (vector<string> state_names,
 				bool view_counties = true) {
 
@@ -458,9 +458,9 @@ namespace bridges {
 					}
 					wrapper.push_back(
 						Game(	V["game"].GetString(),
-							V["platform"].GetString(),
-							V["rating"].GetDouble(),
-							genre ) );
+						V["platform"].GetString(),
+						V["rating"].GetDouble(),
+						genre ) );
 				}
 				return wrapper;
 			}
@@ -568,7 +568,7 @@ namespace bridges {
 				}
 				else {
 					d.Parse(ServerComm::makeRequest( "http://earthquakes-uncc.herokuapp.com/eq/latest/" +
-							to_string(number), {"Accept: application/json"}).c_str());
+						to_string(number), {"Accept: application/json"}).c_str());
 
 					const Value& D = d["Earthquakes"];
 					for (SizeType i = 0; i < D.Size(); i++) {
@@ -1943,11 +1943,11 @@ namespace bridges {
 					catch (CacheException& ce) {
 						//something went bad trying to access the cache
 						std::cerr << "Exception while storing in cache. " <<
-							"Weird but not critical.\n" <<
-							"(What was: " << ce.what() << ")\n";
+									 "Weird but not critical.\n" <<
+									 "(What was: " << ce.what() << ")\n";
 						if (debug())
 							std::cerr << "Tried to store hash=" << hash_value <<
-								" key = " << data_json << std::endl;
+										 " key = " << data_json << std::endl;
 					}
 				}
 

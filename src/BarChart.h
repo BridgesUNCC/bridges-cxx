@@ -55,7 +55,7 @@ namespace bridges {
 				std::string tooltipSuffix;
 				std::string orientation;
 
-				std::vector<std::pair<string, vector<double>>>  seriesData; //name, data
+				std::vector<std::pair<string, vector<double >>>  seriesData; //name, data
 				std::vector<std::string> categories;
 
 			public:

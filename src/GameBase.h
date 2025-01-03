@@ -44,7 +44,7 @@ namespace bridges {
 				GameBase(int assignmentID, std::string username,
 					std::string apikey, int nbRow = 10, int nbColumn = 10)
 					: bridges(assignmentID, username, apikey), gg(nbRow,
-						  nbColumn) {
+						nbColumn) {
 					bridges.setServer("games");
 
 					sockcon = std::make_unique<SocketConnection>(bridges);

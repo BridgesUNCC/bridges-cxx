@@ -65,9 +65,9 @@ namespace bridges {
 				 * List of shapes supported by BRIDGES : CIRCLE, SQUARE, DIAMOND,
 				 *	CROSS, TRIANGLE, WYE, STAR
 				 */
-				static const unordered_map<const Shape, const string, hash<int>>& ShapeNames() {
+				static const unordered_map<const Shape, const string, hash<int >> & ShapeNames() {
 
-					static std::unordered_map<const Shape, const string, hash<int>> sn = {
+					static std::unordered_map<const Shape, const string, hash<int >> sn = {
 						{CIRCLE, "circle"},
 						{SQUARE, "square"},
 						{DIAMOND, "diamond"},
@@ -160,7 +160,7 @@ namespace bridges {
 				 * @return The LinkVisualizer
 				 */
 				LinkVisualizer* getLinkVisualizer(const Element* el) {
-					if (links.find(const_cast<Element*>(el)) != links.end()) {
+					if (links.find(const_cast<Element * >(el)) != links.end()) {
 						return &(links.at(const_cast<Element*>(el)));
 					}
 					if (debug())
@@ -317,8 +317,8 @@ namespace bridges {
 						QUOTE + "color"     + QUOTE + COLON + lv.getColor().getCSSRepresentation()
 						+ COMMA +
 						(!lv.getLabel().empty() ?
-							(QUOTE + "label" + QUOTE + COLON +
-								JSONencode( lv.getLabel()) + COMMA) : "") +
+						(QUOTE + "label" + QUOTE + COLON +
+							JSONencode( lv.getLabel()) + COMMA) : "") +
 						QUOTE + "thickness" + QUOTE + COLON +
 						JSONencode(lv.getThickness()) + COMMA +
 						QUOTE + "source"    + QUOTE + COLON + JSONencode(src)  + COMMA +

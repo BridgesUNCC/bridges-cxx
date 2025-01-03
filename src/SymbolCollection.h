@@ -40,7 +40,7 @@ namespace bridges {
 				// to maintain their properties
 			private:
 
-				std::vector<std::shared_ptr<Symbol>> symbols;
+				std::vector<std::shared_ptr<Symbol >> symbols;
 
 				// 	default domain (assuming square coordinate space)
 				// 	domain emanates in x and y directions, both positive

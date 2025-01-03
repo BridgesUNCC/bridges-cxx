@@ -133,7 +133,7 @@ namespace bridges {
 							throw "curl_easy_setopt failed";
 					}
 
-					struct curl_slist* curlHeaders = nullptr;
+					struct curl_slist * curlHeaders = nullptr;
 					for (const string& header : headers) {
 						curlHeaders = curl_slist_append(curlHeaders, header.c_str());
 					}
