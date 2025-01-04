@@ -26,6 +26,10 @@ namespace bridges {
 
 		using namespace bridges::datastructure;
 
+	  /** @brief enable visulization of the World Map
+	   *
+	   *  See tutorial at  https://bridgesuncc.github.io/tutorials/Map.html
+	   */
 		class WorldMap :  public Map, public DataStructure {
 			private:
 				virtual const string getDataStructureRepresentation ()

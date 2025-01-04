@@ -46,6 +46,7 @@ namespace bridges {
 		 * or county level.
 		 *
 		 * See the Maps tutorials for examples of the usage of the US Map API
+		 *  at  https://bridgesuncc.github.io/tutorials/Map.html
 		 *
 		 */
 		class USMap :  public Map, public DataStructure {

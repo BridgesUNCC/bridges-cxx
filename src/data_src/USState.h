@@ -18,6 +18,8 @@ namespace bridges {
 		 * This object is used alongside with the USMap object. Each state
 		 * has a stroke color and fill color and list of counties of type County
 		 *
+		 *  See tutorial at  https://bridgesuncc.github.io/tutorials/Map.html
+		 *
 		 * @author Kalpathi Subramanian, Erik Saule
 		 * @date  Last modified Dec 29, 2024
 		 */

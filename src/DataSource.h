@@ -340,9 +340,9 @@ namespace bridges {
 			// list of all states
 			const vector<string> all_states = {"Alabama", "Alaska", "Arizona", "Arkansas", "California", "Colorado", "Connecticut", "Delaware", "Florida", "Georgia", "Hawaii", "Idaho", "Illinois", "Indiana", "Iowa", "Kansas", "Kentucky", "Louisiana", "Maine", "Maryland", "Massachusetts", "Michigan", "Minnesota", "Mississippi", "Missouri", "Montana", "Nebraska", "Nevada", "New Hampshire", "New Jersey", "New Mexico", "New York", "North Carolina", "North Dakota", "Ohio", "Oklahoma", "Oregon", "Pennsylvania", "Rhode Island", "South Carolina", "South Dakota", "Tennessee", "Texas", "Utah", "Vermont", "Virginia", "Washington", "West Virginia", "Wisconsin", "Wyoming"};
 
-			/* get US State County Data
+	                /** @brief Get US State of all 50 states
 			 *
-			 * @brief Get US State boundaries  af all 50 states
+			 *  See tutorial at  https://bridgesuncc.github.io/tutorials/Map.html
 			 *
 			 * @params none
 			 */
@@ -350,9 +350,10 @@ namespace bridges {
 				return getUSMapCountyData(all_states, false);
 			}
 
-			/* get US State County Data
+	                /** @brief Get US State boundaries and counties af all 50 states
 			 *
-			 * @brief Get US State boundaries and counties af all 50 states
+			 *  See tutorial at  https://bridgesuncc.github.io/tutorials/Map.html
+			 * 
 			 *
 			 * @params none
 			 */
@@ -360,11 +361,10 @@ namespace bridges {
 				return getUSMapCountyData(all_states, true);
 			}
 
-			/* get US State County Data
+	                /** @brief Get US State boundaries and counties of specified states
 			 *
-			 * @brief Get US State boundaries and counties af specified
-			 *   states
 			 *
+			 *  See tutorial at  https://bridgesuncc.github.io/tutorials/Map.html
 			 * @params  state_names  states that will be retrieved
 			 * @params  view_counties  boolean flag  also extract county
 			 *           boundaries of the specified states

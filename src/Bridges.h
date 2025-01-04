@@ -411,6 +411,8 @@ namespace bridges {
 			/**
 			 *  @brief Sets the type of map overlay to use
 			 *
+			 * In general, this isn't the function you want to use. You probably want setMap(const Map*)
+			 *
 			 *  @param map     this is an Array describing the map overlay.
 			 *     	The first element of the array is which map to use: "world" or "us"
 			 *  	and the second element is what attribute from the map to show: a country
@@ -426,6 +428,9 @@ namespace bridges {
 			 * @brief this function is used when US maps are drawn as
 			 *  an overlay behind a data structure view or when data
 			 *  attributes are assignment to states or counties
+			 *
+			 *  See tutorial at  https://bridgesuncc.github.io/tutorials/Map.html
+			 *
 			 */
 			void setMap(const Map* map) {
 				string map_str = map->getMapRepresentation();

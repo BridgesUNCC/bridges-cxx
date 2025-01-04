@@ -20,6 +20,8 @@ namespace bridges {
 		 * USState object to efficiently access the county information using a
 		 * hash table
 		 *
+		 *  See tutorial at  https://bridgesuncc.github.io/tutorials/Map.html
+		 *
 		 * @author Kalpathi Subramanian, Erik Saule
 		 * @date  Last modified Dec 29, 2024
 		 */
