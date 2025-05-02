@@ -153,8 +153,8 @@ namespace bridges {
 				 */
 				virtual const string getDStype() const override {
 					if (forceLargeViz || (!forceSmallViz &&
-						vertices.size() > LargeGraphVertSize &&
-						areAllVerticesLocated())) {
+							vertices.size() > LargeGraphVertSize &&
+							areAllVerticesLocated())) {
 						return "largegraph";
 					}
 					return "GraphAdjacencyList";
@@ -207,13 +207,13 @@ namespace bridges {
 						conv << dest;
 						// add the edge
 						adj_list.at(src) =
-								new SLelement<Edge<K, E2> > (adj_list.at(src),
+							new SLelement<Edge<K, E2> > (adj_list.at(src),
 							Edge<K, E2> (src, dest, &(vertices[src]->links[vertices.at(dest)]), data), conv.str());
 
 					}
 					catch ( const out_of_range& ) {
 						cerr << "addEdge(): Nonexistent vertex?" << endl <<
-								"Create vertices first prior to adding edges that use that vertex" << endl
+							"Create vertices first prior to adding edges that use that vertex" << endl
 							<<  "Cannot add edge between non-existent verticies"
 							<< endl;
 						throw;
@@ -371,7 +371,7 @@ namespace bridges {
 					}
 					catch ( const out_of_range& ) {
 						cerr << "setEdgeData(): Nonexistent vertices or " <<
-								" edge not found" << endl;
+							" edge not found" << endl;
 						throw;
 					}
 					catch (const char* msg) {

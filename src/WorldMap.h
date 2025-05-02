@@ -10,26 +10,23 @@
 #include <string>
 #include <vector>
 
-
 #include "DataStructure.h"
 #include "Map.h"
 #include <JSONutil.h>
 
-
 #include <rapidjson/document.h>
 #include <rapidjson/stringbuffer.h>
 #include <rapidjson/writer.h>
-
 
 namespace bridges {
 	namespace datastructure {
 
 		using namespace bridges::datastructure;
 
-	  /** @brief enable visulization of the World Map
-	   *
-	   *  See tutorial at  https://bridgesuncc.github.io/tutorials/Map.html
-	   */
+		/** @brief enable visulization of the World Map
+		 *
+		 *  See tutorial at  https://bridgesuncc.github.io/tutorials/Map.html
+		 */
 		class WorldMap :  public Map, public DataStructure {
 			private:
 				virtual const string getDataStructureRepresentation ()

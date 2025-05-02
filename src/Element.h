@@ -317,8 +317,8 @@ namespace bridges {
 						QUOTE + "color"     + QUOTE + COLON + lv.getColor().getCSSRepresentation()
 						+ COMMA +
 						(!lv.getLabel().empty() ?
-						(QUOTE + "label" + QUOTE + COLON +
-							JSONencode( lv.getLabel()) + COMMA) : "") +
+							(QUOTE + "label" + QUOTE + COLON +
+								JSONencode( lv.getLabel()) + COMMA) : "") +
 						QUOTE + "thickness" + QUOTE + COLON +
 						JSONencode(lv.getThickness()) + COMMA +
 						QUOTE + "source"    + QUOTE + COLON + JSONencode(src)  + COMMA +

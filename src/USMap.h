@@ -296,7 +296,6 @@ namespace bridges {
 					state_data = st_data;
 				}
 
-
 				/*
 				 *
 				 * @brief This function gets the data structure type for

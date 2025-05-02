@@ -374,7 +374,7 @@ namespace bridges {
 						for (size_t i = 0; i < name.size() / chanChars; i++) {
 							//converts and save hex val to rgba val
 							channels.at(i) = (int) strtol(name.substr(i * chanChars,
-								chanChars).c_str(), nullptr, 16) * chanMultiplier;
+										chanChars).c_str(), nullptr, 16) * chanMultiplier;
 						}
 					}
 					else { //invalid color
@@ -415,7 +415,6 @@ namespace bridges {
 					return OPEN_BOX + strCSS + CLOSE_BOX;
 				}
 				const void getCSSRepresentation(rapidjson::Document& d) const {
-
 
 					using namespace rapidjson;
 					double r = 0, g = 0, b = 0, alpha = 0;

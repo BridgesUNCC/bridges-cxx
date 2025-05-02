@@ -14,7 +14,6 @@
 
 namespace bridges {
 
-
 	class CacheException : public std::exception {
 			const char* whatmsg;
 		public:
@@ -103,7 +102,6 @@ namespace bridges {
 
 #endif
 
-
 			}
 
 		public:
@@ -124,7 +122,6 @@ namespace bridges {
 				if (home != nullptr)
 					cacheDir += std::string(home) + "/.cache/";
 
-
 				//override the directory of the cache if  is set
 				char* xdg_cache_home = getenv("XDG_CACHE_HOME");
 				if (xdg_cache_home != nullptr)
@@ -132,7 +129,6 @@ namespace bridges {
 
 				cacheDir += "bridges_data/cxx/";
 				//probably should check directory existence here, but exception in constructors are weird.
-
 
 				//override the directory of the cache if FORCE_BRIDGES_CACHEDIR is set
 				char* forcedir = getenv("FORCE_BRIDGES_CACHEDIR");

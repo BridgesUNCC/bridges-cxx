@@ -81,9 +81,9 @@ namespace bridges {
 				 **/
 				void run(std::string algoName,
 					void (*spalgo)(const GraphAdjList<int, OSMVertex, double>& gr,
-					int source,
-					std::unordered_map<int, double>& distance,
-					std::unordered_map<int, int>& parent)) {
+						int source,
+						std::unordered_map<int, double>& distance,
+						std::unordered_map<int, int>& parent)) {
 					std::vector<double> time;
 					std::vector<double> vtxCounts;
 					std::vector<double> edgeCounts;
