@@ -42,7 +42,6 @@
  *
  **/
 
-
 namespace bridges {
 	namespace datastructure {
 

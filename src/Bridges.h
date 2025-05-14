@@ -447,7 +447,6 @@ namespace bridges {
 				setMap(&map);
 			}
 
-
 			// specifies the map object being send as a JSON or not
 			void setMapAsJSON(bool b) {
 				map_as_json = b;

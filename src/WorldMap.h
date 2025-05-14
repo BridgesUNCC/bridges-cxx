@@ -10,16 +10,13 @@
 #include <string>
 #include <vector>
 
-
 #include "DataStructure.h"
 #include "Map.h"
 #include <JSONutil.h>
 
-
 #include <rapidjson/document.h>
 #include <rapidjson/stringbuffer.h>
 #include <rapidjson/writer.h>
-
 
 namespace bridges {
 	namespace datastructure {

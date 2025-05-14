@@ -1702,7 +1702,6 @@ namespace bridges {
 				if (!ss)
 					throw "Parse Error";
 
-
 				// create the elevation object
 				ElevationData elev_data (rows, cols);
 				elev_data.setxll(ll_x);
