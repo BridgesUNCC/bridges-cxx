@@ -175,7 +175,7 @@ namespace bridges {
 					}
 					catch ( const out_of_range& ) {
 						cerr << "setVertexData(): Nonexistent vertices or " <<
-								" edge not found" << endl;
+							" edge not found" << endl;
 						throw;
 					}
 					catch (const char* msg) {
@@ -198,7 +198,7 @@ namespace bridges {
 					}
 					catch ( const out_of_range& oor) {
 						cerr << "getEdgeData(): Nonexistent vertices or " <<
-								" edge not found" << endl;
+							" edge not found" << endl;
 						throw;
 					}
 					catch (const char* msg) {
@@ -223,7 +223,7 @@ namespace bridges {
 					}
 					catch ( const out_of_range& oor) {
 						cerr << "setEdgeData(): Nonexistent vertices or " <<
-								" edge not found" << endl;
+							" edge not found" << endl;
 						throw;
 					}
 					catch (const char* msg) {

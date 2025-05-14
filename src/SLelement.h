@@ -41,7 +41,7 @@ namespace bridges {
 				 * 	@param next The next SLelement
 				 */
 				SLelement(SLelement* next, const E& val = E(), const string& lab =
-					string()) : Element<E>(val, lab) {
+						string()) : Element<E>(val, lab) {
 					setNext(next);
 				}
 				/**
@@ -188,8 +188,8 @@ namespace bridges {
 					for (unsigned int k = 0; k < nodes.size(); k++) {
 						if (nodes[k]->next != nullptr) { // link exists
 							links_JSON += this->getLinkRepresentation(nodes[k]->links.at(nodes[k]->next),
-								to_string(node_map[nodes[k]]),
-								to_string(node_map[nodes[k]->next]) ) + COMMA;
+									to_string(node_map[nodes[k]]),
+									to_string(node_map[nodes[k]->next]) ) + COMMA;
 						}
 					}
 

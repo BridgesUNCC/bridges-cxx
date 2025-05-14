@@ -96,7 +96,7 @@ namespace bridges {
 					// process the symbols in the group
 					for (auto& entry : symbols) {
 						symbol_json +=
-						entry->getSymbolRepresentation();
+							entry->getSymbolRepresentation();
 
 						// remove the close curly brace
 						if (symbol_json.size())
@@ -104,7 +104,7 @@ namespace bridges {
 
 						// add parent id
 						symbol_json += COMMA + QUOTE + "parentID" + QUOTE + COLON +
-						to_string(getIdentifier()) + CLOSE_CURLY + COMMA;
+							to_string(getIdentifier()) + CLOSE_CURLY + COMMA;
 					}
 					// remove last comma
 					if (symbols.size()) {

@@ -276,7 +276,7 @@ namespace bridges {
 								if (xdata[i] == 0) {
 									cout << "Xaxis scale is logarithmic but series \"" + series
 										+ "\" has xdata[" << i << "] = " <<  xdata[i]  <<
-									  " (should be stricly positive)";
+										" (should be stricly positive)";
 								}
 							}
 						}
@@ -285,7 +285,7 @@ namespace bridges {
 								if (ydata[i] == 0) {
 									cout << "Yaxis scale is logarithmic but series \"" +
 										series + "\" has ydata[" <<  i <<  "] = "  <<  ydata[i] <<
-											 " (should be stricly positive)";
+										" (should be stricly positive)";
 								}
 							}
 						}
