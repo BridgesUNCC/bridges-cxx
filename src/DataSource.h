@@ -535,11 +535,13 @@ namespace bridges {
 
 			/**
 			 *  @brief Get USGS earthquake data
-			 *  USGS Tweet data (https://earthquake.usgs.gov/earthquakes/map/)
-			 *  retrieved, formatted into a list of EarthquakeUSGS objects
 			 *
-			 *  @param number the number of earthquake records retrieved,
-			 *		limited to 5000
+			 *  USGS Tweet data (https://earthquake.usgs.gov/earthquakes/map/)
+			 *  retrieved, formatted into a list of EarthquakeUSGS objects.
+			 *  The most recent earthqaukes are returned.
+			 *
+			 *  @param number the number of earthquake records retrieved. Zero or a negative number fetch all earthquakes available.
+			 *		
 			 *  @throws Exception if the request fails
 			 *
 			 *  @return a list of earthquake records
@@ -551,42 +553,28 @@ namespace bridges {
 				if (number <= 0) {
 					d.Parse(ServerComm::makeRequest( "http://earthquakes-uncc.herokuapp.com/eq",
 					{"Accept: application/json"}).c_str());
-					for (SizeType i = 0; i < d.Size(); i++) {
-						const Value& V = d[i]["properties"];
-						const Value& G = d[i]["geometry"]["coordinates"];
-						wrapper.push_back(
-							EarthquakeUSGS(
-								V["mag"].GetDouble(),
-								G[0].GetDouble(),
-								G[1].GetDouble(),
-								V["place"].GetString(),
-								V["title"].GetString(),
-								V["url"].GetString(),
-								V["time"].GetString() )
-						);
-					}
 				}
 				else {
 					d.Parse(ServerComm::makeRequest( "http://earthquakes-uncc.herokuapp.com/eq/latest/" +
 							to_string(number), {"Accept: application/json"}).c_str());
 
-					const Value& D = d["Earthquakes"];
-					for (SizeType i = 0; i < D.Size(); i++) {
-						const Value& V = D[i]["properties"];
-						const Value& G = D[i]["geometry"]["coordinates"];
-						//				wrapper.push_back({V["mag"].GetDouble(),G[0].GetDouble(),G[1].GetDouble(),V["place"].GetString(),V["title"].GetString(),V["url"].GetString(),V["time"].GetString()});
-						wrapper.push_back(
-							EarthquakeUSGS(
-								V["mag"].GetDouble(),
-								G[0].GetDouble(),
-								G[1].GetDouble(),
-								V["place"].GetString(),
-								V["title"].GetString(),
-								V["url"].GetString(),
-								V["time"].GetString() )
-						);
-					}
 				}
+				const Value& D = d["Earthquakes"];
+				for (SizeType i = 0; i < D.Size(); i++) {
+				  const Value& V = D[i]["properties"];
+				  const Value& G = D[i]["geometry"]["coordinates"];
+				  wrapper.push_back(
+						    EarthquakeUSGS(
+								   V["mag"].GetDouble(),
+								   G[0].GetDouble(),
+								   G[1].GetDouble(),
+								   V["place"].GetString(),
+								   V["title"].GetString(),
+								   V["url"].GetString(),
+								   V["time"].GetString() )
+						    );
+				}
+
 				return wrapper;
 			}
 			/**
