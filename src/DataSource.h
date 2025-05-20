@@ -205,29 +205,29 @@ namespace bridges {
 
 				string url = getUSCitiesURL() + "?";
 				if (params.find("city") != params.end())
-					url += "city=" + params["city"] + "&";
+				  url += "city=" + ServerComm::encodeURLPart(params["city"]) + "&";
 				if (params.find("state") != params.end())
-					url += "state=" + params["state"] + "&";
+				  url += "state=" + ServerComm::encodeURLPart(params["state"]) + "&";
 				if (params.find("country") != params.end())
-					url += "country=" + params["country"] + "&";
+				  url += "country=" + ServerComm::encodeURLPart(params["country"]) + "&";
 				if (params.find("min_lat") != params.end())
-					url += "minLat=" + params["min_lat"] + "&";
+				  url += "minLat=" + ServerComm::encodeURLPart(params["min_lat"]) + "&";
 				if (params.find("max_lat") != params.end())
-					url += "maxLat=" + params["max_lat"] + "&";
+				  url += "maxLat=" + ServerComm::encodeURLPart(params["max_lat"]) + "&";
 				if (params.find("min_long") != params.end())
-					url += "minLong=" + params["min_long"] + "&";
+				  url += "minLong=" + ServerComm::encodeURLPart(params["min_long"]) + "&";
 				if (params.find("max_long") != params.end())
-					url += "maxLong=" + params["max_long"] + "&";
+				  url += "maxLong=" + ServerComm::encodeURLPart(params["max_long"]) + "&";
 				if (params.find("min_elev") != params.end())
-					url += "minElevation=" + params["min_elev"] + "&";
+				  url += "minElevation=" + ServerComm::encodeURLPart(params["min_elev"]) + "&";
 				if (params.find("max_elev") != params.end())
-					url += "maxElevation=" + params["max_elev"] + "&";
+				  url += "maxElevation=" + ServerComm::encodeURLPart(params["max_elev"]) + "&";
 				if (params.find("min_pop") != params.end())
-					url += "minPopulation=" + params["min_pop"] + "&";
+				  url += "minPopulation=" + ServerComm::encodeURLPart(params["min_pop"]) + "&";
 				if (params.find("maxPopulation") != params.end())
-					url += "max_pop=" + params["max_pop"] + "&";
+				  url += "max_pop=" + ServerComm::encodeURLPart(params["max_pop"]) + "&";
 				if (params.find("limit") != params.end())
-					url += "limit=" + params["limit"] + "&";
+				  url += "limit=" + ServerComm::encodeURLPart(params["limit"]) + "&";
 
 				// remove the last &
 				url = url.substr(0, url.length() - 1);
@@ -601,7 +601,7 @@ namespace bridges {
 				string url = "http://bridgesdata.herokuapp.com/api/shakespeare/";
 
 				if (type == "plays" || type == "poems")
-					url += "/" + type;
+				  url += "/" + ServerComm::encodeURLPart(type);
 				if (textonly) {
 					url += "?format=simple";
 				}
@@ -649,21 +649,14 @@ namespace bridges {
 				string url = "http://bridgesdata.herokuapp.com/api/songs/find/";
 				// retrieve the data and parse
 				if (songTitle.size() > 0)
-					url += songTitle;
+				  url += ServerComm::encodeURLPart(songTitle);
 				else {
 					throw "Incorrect use of getSong. songTitle should be given.";
 				}
 
 				if (artistName.size() > 0)
-					url += "?artistName=" + artistName;
+				  url += "?artistName=" + ServerComm::encodeURLPart(artistName);
 
-				// check for spaces in url and replace them by '%20'
-				//TODO should use curl to do that
-				string::size_type n = 0;
-				while ( (n = url.find(" ", n)) != string::npos) {
-					url.replace(n, 1, "%20");
-					n++;
-				}
 				if (debug())
 					std::cerr << "url: " << url << "\n";
 				d.Parse(ServerComm::makeRequest( url, {"Accept: application/json"}).c_str());
@@ -1469,7 +1462,7 @@ namespace bridges {
 				ss << "/assignmentJSON/"
 					<< assignment << ".";
 				ss << std::setfill('0') << std::setw(2) << subassignment;
-				ss << "/" << user;
+				ss << "/" << ServerComm::encodeURLPart(user);
 
 				std::string url = ss.str();
 
@@ -1769,7 +1762,7 @@ namespace bridges {
 				if (debug()) {
 					cout <<  "reddit base url:" << base_url <<  "\n";
 				}
-				string url = base_url + "/cache?subreddit=" + subreddit +
+				string url = base_url + "/cache?subreddit=" + ServerComm::encodeURLPart(subreddit) +
 					"&time_request=" + std::to_string(time_request);
 
 				if (debug()) {
