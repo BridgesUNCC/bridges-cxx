@@ -53,16 +53,16 @@ namespace bridges {
 
 				virtual const string getDataStructureRepresentation ()
 				const override {
-					return JSONencode("mapdummy") + COLON + JSONencode(true) + CLOSE_CURLY;
-				}
+					using bridges::JSONUtil::JSONencode;
+					return JSONencode("mapdummy") + COLON + JSONencode(true) +
+CLOSE_CURLY; } 
 			public:
-				/**
+				/** 
 				 * @brief Gets the type of map projection. For US map we
-				 *  currently use albersusa
-				 *
+				 * currently use albersusa
 				 */
-				const string getProjection() const override {
-					return "equirectangular";
+				const string getProjection() const override { 
+					return "equirectangular"; 
 				}
 				/**
 				 *
@@ -86,12 +86,12 @@ namespace bridges {
 						map_str += OPEN_CURLY +
 							QUOTE + "_country_name" + QUOTE + COLON +
 							JSONencode(cntry.getCountryName()) + COMMA +
-							QUOTE + "_stroke_color" + QUOTE + COLON
-							+ cntry.getStrokeColor().getCSSRepresentation() + COMMA +
+							QUOTE + "_stroke_color" + QUOTE + COLON + 
+							cntry.getStrokeColor().getCSSRepresentation()+COMMA+
 							QUOTE +	"_stroke_width" + QUOTE + COLON +
 							JSONencode(cntry.getStrokeWidth()) + COMMA +
 							QUOTE +	"_fill_color" + QUOTE + COLON +
-							cntry.getFillColor().getCSSRepresentation() + COMMA +
+							cntry.getFillColor().getCSSRepresentation() + COMMA;
 
 						// remove last comma
 						if (cntry.getCounties().size()) // case where counties are on

@@ -56,19 +56,7 @@ namespace bridges {
 
 				virtual const string getDataStructureRepresentation ()
 				const override {
-					//				virtual const rapidjson::Document getDataStructureRepresentation ()
-					//												const override {
-					//					using namespace rapidjson;
 					using bridges::JSONUtil::JSONencode;
-
-					//					Document d;
-					//					Value key, value;
-					//					d.setObject();
-					//						key.SetString("mapdummy");
-					//						value.SetBool(true);
-					//						d.AddMember(key, value, d.GetAllocator());
-
-					//					return d;
 					return JSONencode("mapdummy") + COLON + JSONencode(true) + CLOSE_CURLY;
 				}
 			public:
@@ -143,129 +131,6 @@ namespace bridges {
 					map_str = map_str.substr(0, map_str.size() - 1) +  CLOSE_BOX;
 					return map_str;
 				}
-				/*
-								virtual const string getMapRepresentation () const override{
-									using namespace rapidjson;
-									StringBuffer sb;
-									Writer<StringBuffer> writer(sb);
-									writer.StartArray();  // start of states --array
-									for (auto& st : state_data) {
-										writer.StartObject();   // start of this state
-										writer.Key("_state_name"); writer.String(st.getStateName().c_str());
-										writer.Key("_stroke_color"); writer.String(st.getStrokeColor().c_str());
-										writer.Key("_fill_color"); writer.String(st.getFillColor().c_str());
-										writer.Key("_stroke_width"); writer.Double(st.getStrokeWidth());
-										writer.Key("_view_counties"); writer.Bool(st.getViewCountiesFlag());
-										writer.Key("_counties");
-										// get all the counties
-										writer.StartArray();   // start of counties for this state
-										for (auto& c : st.getCounties()) {
-											writer.StartObject();	// start of this county
-											writer.Key("_geoid"); writer.String(c.second.getGeoId().c_str());
-											writer.Key("_fips_code"); writer.String(c.second.getFipsCode().c_str());
-											writer.Key("_county_name"); writer.String(c.second.getCountyName().c_str());
-											writer.Key("_state_name"); writer.String(c.second.getStateName().c_str());
-											writer.Key("_stroke_color"); writer.String(c.second.getStrokeColor().c_str());
-											writer.Key("_stroke_width"); writer.Double(c.second.getStrokeWidth());
-											writer.Key("_fill_color"); writer.String(c.second.getFillColor().c_str());
-											writer.Key("_hide"); writer.Bool(c.second.getHideFlag());
-											writer.EndObject();  // end of this county
-										}
-										writer.EndArray();  // end of counties for this state
-										writer.EndObject(); // end of this state
-									}
-									writer.EndArray(); // end of states
-
-									return sb.GetString();
-								}
-								virtual const string getMapRepresentation () const override{
-									using namespace rapidjson;
-									Document d;
-									d.SetObject();
-									Document::AllocatorType& allocator = d.GetAllocator();
-									Value key, value;
-									Value st_array(kArrayType);
-									for (auto& st : state_data) {
-										Value st_obj;
-										st_obj.SetObject();
-										key.SetString("_state_name", allocator);
-										value.SetString(st.getStateName().c_str(), allocator);
-										st_obj.AddMember(key, value, allocator);
-
-										key.SetString("_stroke_color", allocator);
-										value.SetString(st.getStrokeColor().c_str(), allocator);
-										st_obj.AddMember(key, value, allocator);
-
-										key.SetString("_fill_color", allocator);
-										value.SetString(st.getFillColor().c_str(), allocator);
-										st_obj.AddMember(key, value, allocator);
-
-										key.SetString("stroke_width", allocator);
-										value.SetDouble(st.getStrokeWidth());
-										st_obj.AddMember(key, value, allocator);
-
-										key.SetString("_view_counties", allocator);
-										value.SetBool(st.getViewCountiesFlag());
-										st_obj.AddMember(key, value, allocator);
-
-											// put counties into an array
-										Value ct_array(kArrayType);
-										for (auto& c : st.getCounties()) {
-											Value c_obj;
-											c_obj.SetObject();
-
-											key.SetString("_geoid", allocator);
-											value.SetString(c.second.getGeoId().c_str(), allocator);
-											c_obj.AddMember(key, value, allocator);
-
-											key.SetString("_fips_code", allocator);
-											value.SetString(c.second.getFipsCode().c_str(), allocator);
-											c_obj.AddMember(key, value, allocator);
-
-											key.SetString("_county_name", allocator);
-											value.SetString(c.second.getCountyName().c_str(), allocator);
-											c_obj.AddMember(key, value, allocator);
-
-											key.SetString("_state_name", allocator);
-											value.SetString(c.second.getStateName().c_str(), allocator);
-											c_obj.AddMember(key, value, allocator);
-
-											key.SetString("_stroke_color", allocator);
-											value.SetString(c.second.getStrokeColor().c_str(), allocator);
-											c_obj.AddMember(key, value, allocator);
-
-											key.SetString("_stroke_width", allocator);
-											value.SetDouble(c.second.getStrokeWidth());
-											c_obj.AddMember(key, value, allocator);
-
-											key.SetString("_fill_color", allocator);
-											value.SetString(c.second.getFillColor().c_str(), allocator);
-											c_obj.AddMember(key, value, allocator);
-
-											key.SetString("_hide", allocator);
-											value.SetBool(c.second.getHideFlag());
-											c_obj.AddMember(key, value, allocator);
-
-											ct_array.PushBack(c_obj, allocator);
-										}
-										st_obj.AddMember("counties", ct_array, allocator);
-										st_array.PushBack(st_obj, allocator);
-										d.AddMember("states", st_array, allocator);
-									}
-
-									// convert to string
-									StringBuffer sb;
-									Writer<StringBuffer> writer(sb);
-									d["states"].Accept(writer);
-
-
-									string s = sb.GetString();
-									string s2 = s.substr(10, s.size()-11);
-				cout << "Map String(JSON) " << s << endl;
-
-									return s;
-								}
-				*/
 			public:
 				/*
 				 * @brief Constructs a US Map object  with map data
