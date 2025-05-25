@@ -26,12 +26,14 @@ using namespace std;
 #include "./data_src/City.h"
 #include "./data_src/USState.h"
 #include "./data_src/USCounty.h"
+#include "./data_src/Country.h"
 #include "ColorGrid.h"
 #include "base64.h"
 #include <GraphAdjList.h>
 #include <ServerComm.h>
 #include <Bridges.h>
 #include "rapidjson/document.h"
+#include <rapidjson/istreamwrapper.h>
 #include "assert.h"
 #include "rapidjson/error/en.h"
 #include <fstream>
@@ -362,13 +364,13 @@ namespace bridges {
 			}
 
 			/** @brief Get US State boundaries and counties of specified states
-			*
-				 *
-				 *  See tutorial at  https://bridgesuncc.github.io/tutorials/Map.html
-				 * @params  state_names  states that will be retrieved
-				 * @params  view_counties  boolean flag  also extract county
-				 *           boundaries of the specified states
-				 */
+			 *
+			 *
+			 *  See tutorial at  https://bridgesuncc.github.io/tutorials/Map.html
+			 * @params  state_names  states that will be retrieved
+			 * @params  view_counties  boolean flag  also extract county
+			 *           boundaries of the specified states
+			 */
 			vector<USState> getUSMapCountyData (vector<string> state_names,
 				bool view_counties = true) {
 
@@ -424,7 +426,66 @@ namespace bridges {
 				}
 				return states;
 			}
+			/* 
+			 * See tutorial at  https://bridgesuncc.github.io/tutorials/??
+			 *
+			 * @brief Gets the countrydata for all world countries
+			 *
+			 * Currently reads from a data file (json), which will be pushed to a URL 
+			 * end point
+			 * at a later point
+			 *
+			 * @returns  vector of country data in Country objects
+			 */
+			vector<Country> getWorldMapData() {
+				vector<Country> countries;
+				std::ifstream ifs("/Users/krs/bridges/cxx/src/world-countries-iso-3166.json");
+				if (!ifs.is_open()) {
+					std::cerr << "Could not open file for reading!\n";
+					return countries;
+				}
+				rapidjson::IStreamWrapper isw (ifs);
+				
+				Document doc {};
+					doc.ParseStream (isw);
+				if ( doc.HasParseError() ) {
+					std::cout << "Error  : " << doc.GetParseError()  << '\n'
+					<< "Offset : " << doc.GetErrorOffset() << '\n';
+					return countries;
+				}
 
+				// parse the JSON 
+				const Value& country_json = doc["data"];
+				for (SizeType i = 0; i < country_json.Size(); i++) {
+			//	for (Value::ConstMemberIterator iter = v.MemberBegin(); 
+			//					iter != v.MemberEnd(); ++iter){
+			//		const Value& cval = iter->value;
+					countries.push_back (
+						Country(
+							string(cval["name"].GetString()),
+							string(cval["alpha-2"].GetString()),
+							string(cval["alpha-3"].GetString()),
+							cval["numeric-3"].GetInt(),
+							datastructure::Color("red"),
+							datastructure::Color("blue"),
+							2.
+						));
+				}
+				return countries;
+			}
+
+			/* 
+			 * See tutorial at  https://bridgesuncc.github.io/tutorials/??
+			 *
+			 * @brief Gets the country data for specified countries
+			 *
+			 * Currently reads from a data file, which will be pushed to a URL end point
+			 * at a later point
+			 *
+			 * @returns  vector of country data in Country objects
+			 */
+			// vector<Country> getWorldMapData(vector<string> countries) {
+			// }
 			/**
 			 *
 			 *  @brief Get meta data of the IGN games collection.

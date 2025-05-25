@@ -94,7 +94,7 @@ CLOSE_CURLY; }
 							cntry.getFillColor().getCSSRepresentation() + COMMA;
 
 						// remove last comma
-						if (cntry.getCounties().size()) // case where counties are on
+						if (country_data.size()) // case where counties are on
 							map_str = map_str.substr(0, map_str.size() - 1);
 						map_str += CLOSE_BOX + CLOSE_CURLY +  COMMA;
 					}
@@ -103,6 +103,9 @@ CLOSE_CURLY; }
 					return map_str;
 				}
 			public:
+				// constructors
+				WorldMap() {
+				}
 				/*
 				 * @brief Constructs a World Map object  with map data
 				 *
@@ -128,7 +131,7 @@ CLOSE_CURLY; }
 				 *
 				 * @param  list of countries
 				 */
-				void setStateData(vector<USState> cntry_data) {
+				void setCountryData(vector<Country> cntry_data) {
 					country_data = cntry_data;
 				}
 

@@ -22,7 +22,10 @@ namespace bridges {
 		 * @date  Last modified May 22, 2025
 		 */
 		class Country {
-				string name;
+				string name;		// country name
+				string alpha2_id; 	// two letter alphabetic id
+				string alpha3_id; 	// three letter alphabetic id
+				int numeric3_id; 	// numerical id
 				datastructure::Color stroke_color;
 				float stroke_width;  // boundary color
 				datastructure::Color fill_color; // fill color of state
@@ -32,9 +35,22 @@ namespace bridges {
 
 				Country(string cntry) {
 					name = cntry;
+					alpha2_id = "";	
+					alpha3_id = "";	
+					numeric3_id = 0;	
 					stroke_color = datastructure::Color("red");
 					stroke_width = 2.;
 					fill_color = datastructure::Color("blue");
+				}
+				Country (string cntry, string alpha2, string alpha3, int numeric,
+							Color fill_col, Color stroke_col, float stroke_w) {
+					name = cntry;
+					alpha2_id = alpha2;	
+					alpha3_id = alpha3;	
+					numeric3_id = numeric;	
+					fill_col = fill_col;
+					stroke_color = stroke_col;
+					stroke_width = stroke_w;
 				}
 
 				// getters, setters
@@ -44,7 +60,24 @@ namespace bridges {
 				void setCountryName(string n) {
 					name = n;
 				}
-
+				string getAlpha2Id() const {
+					return alpha2_id;
+				}
+				void setAlpha2Id(string id) {
+					alpha2_id = id;
+				}
+				string getAlpha3Id() const {
+					return alpha3_id;
+				}
+				void setAlpha3Id(string id) {
+					alpha3_id = id;
+				}
+				int getNumeric3Id() const {
+					return numeric3_id;
+				}
+				void setNumeric3Id(int id) {
+					numeric3_id = id;
+				}
 				datastructure::Color getStrokeColor() const {
 					return stroke_color;
 				}
