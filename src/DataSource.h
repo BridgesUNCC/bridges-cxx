@@ -469,6 +469,7 @@ namespace bridges {
 							datastructure::Color("blue"),
 							2.
 						));
+					cout << "{\"" << string(cval["name"].GetString()) << "\"" << ",";
 				}
 				return countries;
 			}

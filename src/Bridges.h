@@ -604,7 +604,7 @@ namespace bridges {
 				else if (ds_handle->getDStype() == "world_map") {
 					setMap((WorldMap*) ds_handle);
 					ds_json = getJSONHeader()+ds_handle->getDataStructureRepresentation();
-cout << "JSON(World Map:):\n" << ds_json << "\n"; 
+//cout << "JSON(World Map:):\n" << ds_json << "\n"; 
 exit(0);
 				}
 				/*
