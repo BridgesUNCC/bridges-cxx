@@ -440,6 +440,7 @@ namespace bridges {
 			vector<Country> getWorldMapData() {
 				vector<Country> countries;
 				std::ifstream ifs("/Users/krs/bridges/cxx/src/world-countries-iso-3166.json");
+//				std::ifstream ifs("/world-countries-iso-3166.json");
 				if (!ifs.is_open()) {
 					std::cerr << "Could not open file for reading!\n";
 					return countries;
@@ -457,9 +458,7 @@ namespace bridges {
 				// parse the JSON 
 				const Value& country_json = doc["data"];
 				for (SizeType i = 0; i < country_json.Size(); i++) {
-			//	for (Value::ConstMemberIterator iter = v.MemberBegin(); 
-			//					iter != v.MemberEnd(); ++iter){
-			//		const Value& cval = iter->value;
+					const Value& cval = country_json[i];
 					countries.push_back (
 						Country(
 							string(cval["name"].GetString()),

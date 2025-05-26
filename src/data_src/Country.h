@@ -43,7 +43,8 @@ namespace bridges {
 					fill_color = datastructure::Color("blue");
 				}
 				Country (string cntry, string alpha2, string alpha3, int numeric,
-							Color fill_col, Color stroke_col, float stroke_w) {
+						datastructure::Color fill_col, datastructure::Color stroke_col, 
+						float stroke_w) {
 					name = cntry;
 					alpha2_id = alpha2;	
 					alpha3_id = alpha3;	

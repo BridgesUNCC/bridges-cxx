@@ -86,7 +86,13 @@ CLOSE_CURLY; }
 						map_str += OPEN_CURLY +
 							QUOTE + "_country_name" + QUOTE + COLON +
 							JSONencode(cntry.getCountryName()) + COMMA +
-							QUOTE + "_stroke_color" + QUOTE + COLON + 
+							QUOTE + "_alpha2" + QUOTE + COLON +
+							JSONencode(cntry.getAlpha2Id()) + COMMA +
+							QUOTE + "_alpha3" + QUOTE + COLON + 
+							JSONencode(cntry.getAlpha3Id()) + COMMA +
+							QUOTE + "_numeric" + QUOTE + COLON + 
+							JSONencode(cntry.getNumeric3Id()) + COMMA +
+							QUOTE +	"_stroke_color" + QUOTE + COLON +
 							cntry.getStrokeColor().getCSSRepresentation()+COMMA+
 							QUOTE +	"_stroke_width" + QUOTE + COLON +
 							JSONencode(cntry.getStrokeWidth()) + COMMA +
@@ -96,7 +102,7 @@ CLOSE_CURLY; }
 						// remove last comma
 						if (country_data.size()) // case where counties are on
 							map_str = map_str.substr(0, map_str.size() - 1);
-						map_str += CLOSE_BOX + CLOSE_CURLY +  COMMA;
+						map_str += CLOSE_CURLY +  COMMA;
 					}
 					// close the countries array
 					map_str = map_str.substr(0, map_str.size() - 1) +  CLOSE_BOX;
