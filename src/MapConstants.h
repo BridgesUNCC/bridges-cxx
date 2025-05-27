@@ -1,4 +1,4 @@
-#ifdef MAP_CONSTANTS_H
+#ifndef MAP_CONSTANTS_H
 
 #define MAP_CONSTANTS_H
 
@@ -15,11 +15,10 @@ const vector<string> all_us_states =
 			"Virginia", "Washington", "West Virginia", "Wisconsin", "Wyoming"};
 
 
-const string all_countries = 
-	{
+const vector<string> all_countries = {
 		"Andorra", "United Arab Emirates", "Afghanistan", "Antigua and Barbuda", 
 		"Anguilla", "Albania", "Armenia", "Angola", "Antarctica", "Argentina", 
-		"American Samoa", "Austria", "Australia", "Aruba", "Aland Islands", 
+		"American Samoa", "Austria", "Australia", "Aruba", "Aland Islands" 
 		"Azerbaijan", "Barbados", "Bangladesh", "Belgium", "Burkina Faso", "Bulgaria", 
 		"Bahrain", "Burundi", "Benin", "Saint Barthelemy", "Bermuda", 
 		"Brunei Darussalam", "Bolivia (Plurinational State of)", 
@@ -55,8 +54,18 @@ const string all_countries =
 		"Portugal", "Palau", "Paraguay", "Qatar", "Reunion", "Romania", "Serbia", 
 		"Russian Federation", "Rwanda", "Saudi Arabia", "Solomon Islands", "Seychelles", 
 		"Sudan", "Sweden", "Singapore", "Saint Helena, Ascension and Tristan da Cunha", 
-		"Slovenia", "Svalbard and Jan Mayen", "Slovakia", "Sierra Leone", "San Marino", "Senegal", "Somalia", "Suriname", "South Sudan", "Sao Tome and Principe", "El Salvador", "Sint Maarten (Dutch Part)", "Syrian Arab Republic", "Eswatini", "Turks and Caicos Islands", "Chad", "French Southern Territories", "Togo", "Thailand", "Tajikistan", "Tokelau", "Timor-Leste", "Turkmenistan", "Tunisia", "Tonga", "Turkey", "Trinidad and Tobago", "Tuvalu", "Taiwan (Province of China)", "Tanzania, United Republic of", "Ukraine", "Uganda", "United States Minor Outlying Islands", "United States of America", "Uruguay", "Uzbekistan", "Holy See", "Saint Vincent and the Grenadines", "Venezuela (Bolivarian Republic of)", "Virgin Islands (British)", "Virgin Islands (U.S.)", "Viet Nam", "Vanuatu", "Wallis and Futuna", "Samoa", "Yemen", "Mayotte", "South Africa", "Zambia", "Zimbabwe"
+		"Slovenia", "Svalbard and Jan Mayen", "Slovakia", "Sierra Leone", "San Marino", 
+		"Senegal", "Somalia", "Suriname", "South Sudan", "Sao Tome and Principe", "El Salvador", 
+		"Sint Maarten (Dutch Part)", "Syrian Arab Republic", "Eswatini", 
+		"Turks and Caicos Islands", "Chad", "French Southern Territories", "Togo", 
+		"Thailand", "Tajikistan", "Tokelau", "Timor-Leste", "Turkmenistan", "Tunisia", 
+		"Tonga", "Turkey", "Trinidad and Tobago", "Tuvalu", "Taiwan (Province of China)", 
+		"Tanzania, United Republic of", "Ukraine", "Uganda", 
+		"United States Minor Outlying Islands", "United States of America", "Uruguay", 
+		"Uzbekistan", "Holy See", "Saint Vincent and the Grenadines", 
+		"Venezuela (Bolivarian Republic of)", "Virgin Islands (British)", 
+		"Virgin Islands (U.S.)", "Viet Nam", "Vanuatu", "Wallis and Futuna", "Samoa", 
+		"Yemen", "Mayotte", "South Africa", "Zambia", "Zimbabwe"
 	};
-
 
 #endif

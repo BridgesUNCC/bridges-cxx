@@ -55,7 +55,7 @@ namespace bridges {
 				const override {
 					using bridges::JSONUtil::JSONencode;
 					return JSONencode("mapdummy") + COLON + JSONencode(true) +
-CLOSE_CURLY; } 
+												CLOSE_CURLY; } 
 			public:
 				/** 
 				 * @brief Gets the type of map projection. For US map we
@@ -106,6 +106,7 @@ CLOSE_CURLY; }
 					}
 					// close the countries array
 					map_str = map_str.substr(0, map_str.size() - 1) +  CLOSE_BOX;
+cout << map_str << endl;
 					return map_str;
 				}
 			public:
