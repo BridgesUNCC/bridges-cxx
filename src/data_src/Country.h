@@ -27,9 +27,9 @@ namespace bridges {
 				string alpha2_id; 	// two letter alphabetic id
 				string alpha3_id; 	// three letter alphabetic id
 				int numeric3_id; 	// numerical id
-				datastructure::Color stroke_color;
-				float stroke_width;  // boundary color
-				datastructure::Color fill_color; // fill color of state
+				datastructure::Color fill_color; // fill color of country
+				datastructure::Color stroke_color; // boundary color
+				float stroke_width; // boundary width
 
 			public:
 				Country() = default;
@@ -39,9 +39,9 @@ namespace bridges {
 					alpha2_id = "";	
 					alpha3_id = "";	
 					numeric3_id = 0;	
-					stroke_color = datastructure::Color("red");
-					stroke_width = 2.;
-					fill_color = datastructure::Color("blue");
+					stroke_color = datastructure::Color("green");
+					stroke_width = 1.;
+					fill_color = datastructure::Color("lightblue");
 				}
 				Country (string cntry, string alpha2, string alpha3, int numeric,
 						datastructure::Color fill_col, datastructure::Color stroke_col, 
@@ -50,7 +50,7 @@ namespace bridges {
 					alpha2_id = alpha2;	
 					alpha3_id = alpha3;	
 					numeric3_id = numeric;	
-					fill_col = fill_col;
+					fill_color = fill_col;
 					stroke_color = stroke_col;
 					stroke_width = stroke_w;
 				}

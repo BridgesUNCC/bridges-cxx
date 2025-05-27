@@ -446,7 +446,8 @@ namespace bridges {
 
 				vector<Country> country_data;
 
-				// read the country data json
+				// TO DO: Replace input file reading by an http query to get the data
+				// Read the country data json 
 				std::ifstream ifs("/Users/krs/bridges/cxx/src/world-countries-iso-3166.json");
 //				std::ifstream ifs("/world-countries-iso-3166.json");
 				if (!ifs.is_open()) {
@@ -475,33 +476,18 @@ namespace bridges {
 							string(cval["alpha-2"].GetString()),
 							string(cval["alpha-3"].GetString()),
 							cval["numeric-3"].GetInt(),
-							datastructure::Color("red"),
-							datastructure::Color("blue"),
-							2.
+							datastructure::Color("lightblue"),
+							datastructure::Color("green"),
+							1.
 						);
 				}
 				// put the country info into a vector
 				for (auto c : countries) {
 					country_data.push_back(country_map[c]);
 				}
-
-cout << "Num Countries:" << country_data.size() << "\n";
-
 				return country_data;
 			}
 
-			/* 
-			 * See tutorial at  https://bridgesuncc.github.io/tutorials/??
-			 *
-			 * @brief Gets the country data for specified countries
-			 *
-			 * Currently reads from a data file, which will be pushed to a URL end point
-			 * at a later point
-			 *
-			 * @returns  vector of country data in Country objects
-			 */
-			// vector<Country> getWorldMapData(vector<string> countries) {
-			// }
 			/**
 			 *
 			 *  @brief Get meta data of the IGN games collection.
