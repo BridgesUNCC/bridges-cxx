@@ -438,13 +438,17 @@ namespace bridges {
 			 * @returns  vector of country data in Country objects
 			 */
 			vector<Country> getWorldMapData() {
-				cout << "a country:" << all_countries[0] << "\n";
 				return getWorldMapData(all_countries);
 			}
 			vector<Country> getWorldMapData(vector<string> countries) {
-				cout << countries[0] << "\n";
 
 				vector<Country> country_data;
+
+				cout << "countries:" << countries[0] << "\n";
+				if (countries[0] == "all")		// all countries included
+					countries = all_countries;
+
+				cout << "countries:" << countries[0] << "\n";
 
 				// TO DO: Replace input file reading by an http query to get the data
 				// Read the country data json 
