@@ -452,8 +452,8 @@ namespace bridges {
 
 				// TO DO: Replace input file reading by an http query to get the data
 				// Read the country data json 
-				std::ifstream ifs("/Users/krs/bridges/cxx/src/world-countries-iso-3166.json");
-//				std::ifstream ifs("/world-countries-iso-3166.json");
+//				std::ifstream ifs("/Users/krs/bridges/cxx/src/world-countries-iso-3166.json");
+				std::ifstream ifs("./world-countries-iso-3166.json");
 				if (!ifs.is_open()) {
 					std::cerr << "Could not open file for reading!\n";
 					return country_data;
