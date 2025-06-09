@@ -35,10 +35,10 @@ namespace bridges {
 
 				USState(string st) {
 					name = st;
-					stroke_color = datastructure::Color("red");
+					stroke_color = datastructure::Color("green");
 					view_counties = true;
 					stroke_width = 2.;
-					fill_color = datastructure::Color("blue");
+					fill_color = datastructure::Color("lightblue");
 				}
 				/**
 				 * @brief obtain a copy of the county data for that state
