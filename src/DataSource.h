@@ -444,7 +444,6 @@ namespace bridges {
 
 				vector<Country> country_data;
 
-				cout << "countries:" << countries[0] << "\n";
 				if (countries[0] == "all")		// all countries included
 					countries = all_countries;
 
