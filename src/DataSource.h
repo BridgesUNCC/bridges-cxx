@@ -26,20 +26,25 @@ using namespace std;
 #include "./data_src/City.h"
 #include "./data_src/USState.h"
 #include "./data_src/USCounty.h"
+#include "./data_src/Country.h"
+#include "MapConstants.h"
 #include "ColorGrid.h"
 #include "base64.h"
 #include <GraphAdjList.h>
 #include <ServerComm.h>
 #include <Bridges.h>
 #include "rapidjson/document.h"
+#include <rapidjson/istreamwrapper.h>
 #include "assert.h"
 #include "rapidjson/error/en.h"
+
 #include <fstream>
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <stdio.h>
 
 #include <Cache.h>
+
 
 namespace bridges {
 	using namespace bridges::dataset;
@@ -337,17 +342,14 @@ namespace bridges {
 						}
 			*/
 
-			// list of all states
-			const vector<string> all_states = {"Alabama", "Alaska", "Arizona", "Arkansas", "California", "Colorado", "Connecticut", "Delaware", "Florida", "Georgia", "Hawaii", "Idaho", "Illinois", "Indiana", "Iowa", "Kansas", "Kentucky", "Louisiana", "Maine", "Maryland", "Massachusetts", "Michigan", "Minnesota", "Mississippi", "Missouri", "Montana", "Nebraska", "Nevada", "New Hampshire", "New Jersey", "New Mexico", "New York", "North Carolina", "North Dakota", "Ohio", "Oklahoma", "Oregon", "Pennsylvania", "Rhode Island", "South Carolina", "South Dakota", "Tennessee", "Texas", "Utah", "Vermont", "Virginia", "Washington", "West Virginia", "Wisconsin", "Wyoming"};
-
-			/** @brief Get US State of all 50 states
-			*
-				 *  See tutorial at  https://bridgesuncc.github.io/tutorials/Map.html
-				 *
-				 * @params none
-				 */
+			/** @brief Get US State data of all 50 states
+			 *
+			 *  See tutorial at  https://bridgesuncc.github.io/tutorials/Map.html
+			 *
+			 * @params none
+			 **/
 			vector<USState> getUSMapData () {
-				return getUSMapCountyData(all_states, false);
+				return getUSMapCountyData(all_us_states, false);
 			}
 
 			/** @brief Get US State boundaries and counties af all 50 states
@@ -358,17 +360,17 @@ namespace bridges {
 				 * @params none
 				 */
 			vector<USState> getUSMapCountyData () {
-				return getUSMapCountyData(all_states, true);
+				return getUSMapCountyData(all_us_states, true);
 			}
 
 			/** @brief Get US State boundaries and counties of specified states
-			*
-				 *
-				 *  See tutorial at  https://bridgesuncc.github.io/tutorials/Map.html
-				 * @params  state_names  states that will be retrieved
-				 * @params  view_counties  boolean flag  also extract county
-				 *           boundaries of the specified states
-				 */
+			 *
+			 *
+			 *  See tutorial at  https://bridgesuncc.github.io/tutorials/Map.html
+			 * @params  state_names  states that will be retrieved
+			 * @params  view_counties  boolean flag  also extract county
+			 *           boundaries of the specified states
+			 */
 			vector<USState> getUSMapCountyData (vector<string> state_names,
 				bool view_counties = true) {
 
@@ -423,6 +425,70 @@ namespace bridges {
 					states[i].setCounties(counties);
 				}
 				return states;
+			}
+			/* 
+			 * See tutorial at  https://bridgesuncc.github.io/tutorials/??
+			 *
+			 * @brief Gets the countrydata for all world countries
+			 *
+			 * Currently reads from a data file (json), which will be pushed to a URL 
+			 * end point
+			 * at a later point
+			 *
+			 * @returns  vector of country data in Country objects
+			 */
+			vector<Country> getWorldMapData() {
+				return getWorldMapData(all_countries);
+			}
+			vector<Country> getWorldMapData(vector<string> countries) {
+
+				vector<Country> country_data;
+
+				if (countries[0] == "all")		// all countries included
+					countries = all_countries;
+
+				cout << "countries:" << countries[0] << "\n";
+
+				// TO DO: Replace input file reading by an http query to get the data
+				// Read the country data json 
+				std::ifstream ifs("/Users/krs/bridges/data/world-countries-iso-3166.json");
+//				std::ifstream ifs("./world-countries-iso-3166.json");
+				if (!ifs.is_open()) {
+					std::cerr << "Could not open file for reading!\n";
+					return country_data;
+				}
+				rapidjson::IStreamWrapper isw (ifs);
+				
+				Document doc {};
+					doc.ParseStream (isw);
+				if ( doc.HasParseError() ) {
+					std::cout << "Error  : " << doc.GetParseError()  << '\n'
+					<< "Offset : " << doc.GetErrorOffset() << '\n';
+					return country_data;
+				}
+
+				// parse the JSON, put the countries by name into a map
+				// makes it easier to extract a subset of countries
+				unordered_map<string, Country>  country_map;
+				const Value& country_json = doc["data"];
+				for (SizeType i = 0; i < country_json.Size(); i++) {
+					const Value& cval = country_json[i];
+					string name = string(cval["name"].GetString());
+					country_map[name] = Country(
+							string(cval["name"].GetString()),
+							string(cval["alpha-2"].GetString()),
+							string(cval["alpha-3"].GetString()),
+							cval["numeric-3"].GetInt(),
+							datastructure::Color("lightblue"),
+							datastructure::Color("green"),
+							1.
+						);
+				}
+				// put the country info into a vector
+				for (auto c : countries) {
+					country_data.push_back(country_map[c]);
+				}
+				return country_data;
 			}
 
 			/**

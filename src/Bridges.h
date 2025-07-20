@@ -14,6 +14,7 @@ using namespace std;
 #include <alltypes.h>
 #include <chrono>
 #include <USMap.h>
+#include <WorldMap.h>
 #include <rapidjson/document.h>
 #include <rapidjson/stringbuffer.h>
 #include <rapidjson/writer.h>
@@ -599,6 +600,11 @@ namespace bridges {
 					//					ds_json = getJSONHeader(d);
 					ds_json = getJSONHeader() + ds_handle->getDataStructureRepresentation();
 					//					ds_json = getJSONHeader();
+				}
+				else if (ds_handle->getDStype() == "world_map") {
+					setMap((WorldMap*) ds_handle);
+					ds_json = getJSONHeader()+ds_handle->getDataStructureRepresentation();
+//exit(0);
 				}
 				/*
 								else if (ds_handle->getDStype() == "LineChart"){
