@@ -82,44 +82,44 @@ namespace bridges {
 				if (sourceType == "local")
 					return "http://localhost:3000/";
 
-				return "http://bridges-data-server-osm.bridgesuncc.org/";
+				return "http://osm-data.bridgesuncc.org/";
 			}
 			string getElevationBaseURL() const {
 				if (sourceType == "local")
 					return "http://localhost:3000/";
 
-				return "http://bridges-data-server-elevation.bridgesuncc.org/";
+				return "http://elevation-data.bridgesuncc.org/";
 			}
 			string getGutenbergBaseURL() const {
 				if (sourceType == "local")
 					return "http://localhost:3000/";
 
 				if (sourceType == "testing")
-					return "http://bridges-data-server-gutenberg-t.bridgesuncc.org/";
+					return "gutenberg-t-data.bridgesuncc.org/";
 
-				return "http://bridges-data-server-gutenberg.bridgesuncc.org/";
+				return "http://gutenberg-data.bridgesuncc.org/";
 			}
 			string  getRedditURL() {
 				if (sourceType == "testing")
-					return "http://bridges-data-server-reddit-t.bridgesuncc.org";
+					return "http://reddit-t-data.bridgesuncc.org";
 				else if (sourceType == "local")
 					return "http://localhost:9999";
 				else
-					return "http://bridges-data-server-reddit.bridgesuncc.org";
+					return "http://reddit-data.bridgesuncc.org";
 			}
 
 			string sourceType = "live";
 
 			string getUSCitiesURL() {
-				return "http://bridgesdata.herokuapp.com/api/us_cities";
+				return "http://static-data.bridgesuncc.org/api/us_cities";
 			}
 
 			string getWorldCitiesURL() {
-				return "http://bridgesdata.herokuapp.com/api/world_cities";
+				return "http://static-data.bridgesuncc.org/api/world_cities";
 			}
 
 			string getUSStateCountiesURL() {
-				return "http://bridgesdata.herokuapp.com/api/us_map?state=";
+				return "http://static-data.bridgesuncc.org/api/us_map?state=";
 			}
 
 			void defaultDebug() {
@@ -443,7 +443,7 @@ namespace bridges {
 
 				// request the game dataset and parse it
 				d.Parse(
-					ServerComm::makeRequest("http://bridgesdata.herokuapp.com/api/games",
+					ServerComm::makeRequest("http://static-data.bridgesuncc.org/api/games",
 				{"Accept: application/json"}).c_str());
 
 				const Value& D = d["data"];
@@ -479,7 +479,7 @@ namespace bridges {
 				using namespace rapidjson;
 				Document d;
 				vector<ActorMovieIMDB> wrapper;
-				string url = "http://bridgesdata.herokuapp.com/api/imdb?limit=" +
+				string url = "http://static-data.bridgesuncc.org/api/imdb?limit=" +
 					to_string(number);
 
 				// retrieve the data and parse
@@ -512,7 +512,7 @@ namespace bridges {
 				using namespace rapidjson;
 				Document d;
 				vector<ActorMovieIMDB> wrapper;
-				string url = "http://bridgesdata.herokuapp.com/api/imdb2";
+				string url = "http://static-data.bridgesuncc.org/api/imdb2";
 
 				// retrieve the data and parse
 				d.Parse(ServerComm::makeRequest( url, {"Accept: application/json"}).c_str());

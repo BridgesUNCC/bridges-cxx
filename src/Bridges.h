@@ -54,7 +54,7 @@ namespace bridges {
 			}
 
 			static string getDefaultServerURL() {
-				return "http://bridges-cs.herokuapp.com";
+			  return "http://assignments.bridgesuncc.org";
 			}
 
 			bool jsonFlag = false;   				// if JSON is to be printed
@@ -78,7 +78,7 @@ namespace bridges {
 
 			DataStructure* ds_handle = nullptr;  	// data structure handle
 
-			string server_url = "http://bridges-cs.herokuapp.com";
+			string server_url = "http://assignments.bridgesuncc.org";
 
 			string BASE_URL = server_url + "/assignments/";
 
@@ -386,11 +386,11 @@ namespace bridges {
 				}
 
 				if (server_type == "live")
-					server_url = "http://bridges-cs.herokuapp.com";
+					server_url = "http://assignments.bridgesuncc.org";
 				else if (server_type == "clone")
-					server_url = "http://bridges-clone.herokuapp.com";
+					server_url = "http://assignments-clone.bridgesuncc.org";
 				else if (server_type == "games")
-					server_url = "http://bridges-games.herokuapp.com";
+					server_url = "http://games.bridgesuncc.org";
 				else if (server_type == "local")
 					server_url = "http://127.0.0.1:3000";
 
@@ -457,7 +457,7 @@ namespace bridges {
 				string json_str;
 
 				// form the url and get the state county data
-				string url = "http://bridgesdata.herokuapp.com/api/us_map?state=";
+				string url = "http://static-data.bridgesuncc.org/api/us_map?state=";
 				url += states[0];
 				//				to do muultiple states -- later
 				//				for (auto st : states)

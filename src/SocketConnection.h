@@ -115,7 +115,6 @@ namespace bridges {
 					if (debug)
 						std::cerr << "connecting SocketIO with " << serverURL << "\n";
 
-					//serverURL="https://bridges-games.herokuapp.com";
 					client.connect(serverURL); //get from bridges object
 
 					wait_on_connection();
