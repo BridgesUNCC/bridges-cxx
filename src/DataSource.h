@@ -127,6 +127,10 @@ namespace bridges {
 				return "http://static-data.bridgesuncc.org/api/us_map?state=";
 			}
 
+			string getWorldCountriesURL() {
+				return "http://static-data.bridgesuncc.org/api/world_map?country=";
+			}
+
 			void defaultDebug() {
 				char* force = getenv("FORCE_BRIDGES_DATADEBUG");
 				if (force != nullptr)
