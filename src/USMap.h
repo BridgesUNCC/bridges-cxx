@@ -47,7 +47,7 @@ namespace bridges {
 		 * population counts, election statistics or any attribute at the state
 		 * or county level.
 		 *
-		 *
+		 * One can also construct the object with the default constructor, passing no data. And only a simple outline of the states will be rendered.
 		 *
 		 * See the Maps tutorials for examples of the usage of the US Map API
 		 *  at  https://bridgesuncc.github.io/tutorials/Map.html
