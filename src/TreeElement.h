@@ -179,10 +179,10 @@ namespace bridges {
 										QUOTE + "color" + QUOTE + COLON +
 										c.getCSSRepresentation() + COMMA +
 										QUOTE + "thickness" + QUOTE + COLON +
-										JSONencode(lv->getThickness()) + 
-// COMMA + (!lv->getLabel().empty() ?
- //	(QUOTE + "label" + QUOTE + COLON +
- //	JSONencode( lv->getLabel())) : "") +
+										JSONencode(lv->getThickness()) +
+										// COMMA + (!lv->getLabel().empty() ?
+										//	(QUOTE + "label" + QUOTE + COLON +
+										//	JSONencode( lv->getLabel())) : "") +
 
 										//									QUOTE + "weight" + QUOTE + COLON +
 										//									JSONencode(lv->getWeight()) +

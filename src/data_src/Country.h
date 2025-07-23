@@ -36,20 +36,20 @@ namespace bridges {
 
 				Country(string cntry) {
 					name = cntry;
-					alpha2_id = "";	
-					alpha3_id = "";	
-					numeric3_id = 0;	
+					alpha2_id = "";
+					alpha3_id = "";
+					numeric3_id = 0;
 					stroke_color = datastructure::Color("green");
 					stroke_width = 1.;
 					fill_color = datastructure::Color("lightblue");
 				}
 				Country (string cntry, string alpha2, string alpha3, int numeric,
-						datastructure::Color fill_col, datastructure::Color stroke_col, 
-						float stroke_w) {
+					datastructure::Color fill_col, datastructure::Color stroke_col,
+					float stroke_w) {
 					name = cntry;
-					alpha2_id = alpha2;	
-					alpha3_id = alpha3;	
-					numeric3_id = numeric;	
+					alpha2_id = alpha2;
+					alpha3_id = alpha3;
+					numeric3_id = numeric;
 					fill_color = fill_col;
 					stroke_color = stroke_col;
 					stroke_width = stroke_w;

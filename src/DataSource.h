@@ -214,29 +214,29 @@ namespace bridges {
 
 				string url = getUSCitiesURL() + "?";
 				if (params.find("city") != params.end())
-				  url += "city=" + ServerComm::encodeURLPart(params["city"]) + "&";
+					url += "city=" + ServerComm::encodeURLPart(params["city"]) + "&";
 				if (params.find("state") != params.end())
-				  url += "state=" + ServerComm::encodeURLPart(params["state"]) + "&";
+					url += "state=" + ServerComm::encodeURLPart(params["state"]) + "&";
 				if (params.find("country") != params.end())
-				  url += "country=" + ServerComm::encodeURLPart(params["country"]) + "&";
+					url += "country=" + ServerComm::encodeURLPart(params["country"]) + "&";
 				if (params.find("min_lat") != params.end())
-				  url += "minLat=" + ServerComm::encodeURLPart(params["min_lat"]) + "&";
+					url += "minLat=" + ServerComm::encodeURLPart(params["min_lat"]) + "&";
 				if (params.find("max_lat") != params.end())
-				  url += "maxLat=" + ServerComm::encodeURLPart(params["max_lat"]) + "&";
+					url += "maxLat=" + ServerComm::encodeURLPart(params["max_lat"]) + "&";
 				if (params.find("min_long") != params.end())
-				  url += "minLong=" + ServerComm::encodeURLPart(params["min_long"]) + "&";
+					url += "minLong=" + ServerComm::encodeURLPart(params["min_long"]) + "&";
 				if (params.find("max_long") != params.end())
-				  url += "maxLong=" + ServerComm::encodeURLPart(params["max_long"]) + "&";
+					url += "maxLong=" + ServerComm::encodeURLPart(params["max_long"]) + "&";
 				if (params.find("min_elev") != params.end())
-				  url += "minElevation=" + ServerComm::encodeURLPart(params["min_elev"]) + "&";
+					url += "minElevation=" + ServerComm::encodeURLPart(params["min_elev"]) + "&";
 				if (params.find("max_elev") != params.end())
-				  url += "maxElevation=" + ServerComm::encodeURLPart(params["max_elev"]) + "&";
+					url += "maxElevation=" + ServerComm::encodeURLPart(params["max_elev"]) + "&";
 				if (params.find("min_pop") != params.end())
-				  url += "minPopulation=" + ServerComm::encodeURLPart(params["min_pop"]) + "&";
+					url += "minPopulation=" + ServerComm::encodeURLPart(params["min_pop"]) + "&";
 				if (params.find("maxPopulation") != params.end())
-				  url += "max_pop=" + ServerComm::encodeURLPart(params["max_pop"]) + "&";
+					url += "max_pop=" + ServerComm::encodeURLPart(params["max_pop"]) + "&";
 				if (params.find("limit") != params.end())
-				  url += "limit=" + ServerComm::encodeURLPart(params["limit"]) + "&";
+					url += "limit=" + ServerComm::encodeURLPart(params["limit"]) + "&";
 
 				// remove the last &
 				url = url.substr(0, url.length() - 1);
@@ -430,12 +430,12 @@ namespace bridges {
 				}
 				return states;
 			}
-			/* 
+			/*
 			 * See tutorial at  https://bridgesuncc.github.io/tutorials/??
 			 *
 			 * @brief Gets the countrydata for all world countries
 			 *
-			 * Currently reads from a data file (json), which will be pushed to a URL 
+			 * Currently reads from a data file (json), which will be pushed to a URL
 			 * end point
 			 * at a later point
 			 *
@@ -460,8 +460,8 @@ namespace bridges {
 				using namespace rapidjson;
 				Document doc;
 				doc.Parse(
-                    ServerComm::makeRequest(url, {"Accept: application/json"}).c_str()
-                );
+					ServerComm::makeRequest(url, {"Accept: application/json"}).c_str()
+				);
 
 				// parse the JSON, put the countries by name into a map
 				// makes it easier to extract a subset of countries
@@ -603,7 +603,7 @@ namespace bridges {
 			 *  The most recent earthqaukes are returned.
 			 *
 			 *  @param number the number of earthquake records retrieved. Zero or a negative number fetch all earthquakes available.
-			 *		
+			 *
 			 *  @throws Exception if the request fails
 			 *
 			 *  @return a list of earthquake records
@@ -623,18 +623,18 @@ namespace bridges {
 				}
 				const Value& D = d["Earthquakes"];
 				for (SizeType i = 0; i < D.Size(); i++) {
-				  const Value& V = D[i]["properties"];
-				  const Value& G = D[i]["geometry"]["coordinates"];
-				  wrapper.push_back(
-						    EarthquakeUSGS(
-								   V["mag"].GetDouble(),
-								   G[0].GetDouble(),
-								   G[1].GetDouble(),
-								   V["place"].GetString(),
-								   V["title"].GetString(),
-								   V["url"].GetString(),
-								   V["time"].GetString() )
-						    );
+					const Value& V = D[i]["properties"];
+					const Value& G = D[i]["geometry"]["coordinates"];
+					wrapper.push_back(
+						EarthquakeUSGS(
+							V["mag"].GetDouble(),
+							G[0].GetDouble(),
+							G[1].GetDouble(),
+							V["place"].GetString(),
+							V["title"].GetString(),
+							V["url"].GetString(),
+							V["time"].GetString() )
+					);
 				}
 
 				return wrapper;
@@ -663,7 +663,7 @@ namespace bridges {
 				string url = "http://bridgesdata.herokuapp.com/api/shakespeare/";
 
 				if (type == "plays" || type == "poems")
-				  url += "/" + ServerComm::encodeURLPart(type);
+					url += "/" + ServerComm::encodeURLPart(type);
 				if (textonly) {
 					url += "?format=simple";
 				}
@@ -711,13 +711,13 @@ namespace bridges {
 				string url = "http://bridgesdata.herokuapp.com/api/songs/find/";
 				// retrieve the data and parse
 				if (songTitle.size() > 0)
-				  url += ServerComm::encodeURLPart(songTitle);
+					url += ServerComm::encodeURLPart(songTitle);
 				else {
 					throw "Incorrect use of getSong. songTitle should be given.";
 				}
 
 				if (artistName.size() > 0)
-				  url += "?artistName=" + ServerComm::encodeURLPart(artistName);
+					url += "?artistName=" + ServerComm::encodeURLPart(artistName);
 
 				if (debug())
 					std::cerr << "url: " << url << "\n";

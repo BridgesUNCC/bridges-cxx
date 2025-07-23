@@ -34,7 +34,7 @@ namespace bridges {
 		 *
 		 * Functions are provided to access each country county and color
 		 * its boundary, its interior using stroke and fill color
-		 * functions. This lets us build map based applications where the 
+		 * functions. This lets us build map based applications where the
 		 * fill color can be used to represent different data attributes, such
 		 * as population counts, election statistics or any attribute at the country
 		 * level. We stop at the country level as each country has its own subdivisions,
@@ -43,26 +43,28 @@ namespace bridges {
 		 * See the Maps tutorials for examples of the usage of the World Map API
 		 *  at https://bridgesuncc.github.io/tutorials/Map.html
 		 *
-         * Authors: Kalpathi Subramanian, Erik Saule
-         * Last modified : May 22, 2025
+		 * Authors: Kalpathi Subramanian, Erik Saule
+		 * Last modified : May 22, 2025
 		 */
 		class WorldMap :  public Map, public DataStructure {
 			private:
 				vector<string> country_names;
 				vector<Country> country_data;
+				bool all;
 
 				virtual const string getDataStructureRepresentation ()
 				const override {
 					using bridges::JSONUtil::JSONencode;
 					return JSONencode("mapdummy") + COLON + JSONencode(true) +
-												CLOSE_CURLY; } 
+						CLOSE_CURLY;
+				}
 			public:
-				/** 
+				/**
 				 * @brief Gets the type of map projection. For US map we
 				 * currently use albersusa
 				 */
-				const string getProjection() const override { 
-					return "equirectangular"; 
+				const string getProjection() const override {
+					return "equirectangular";
 				}
 				/**
 				 *
@@ -79,19 +81,21 @@ namespace bridges {
 				 * @returns string
 				 */
 				virtual const string getMapRepresentation () const override  {
+					if (this->all)
+						return "[\"all\"]";
 					// generates a JSON of the country information
 					string map_str = OPEN_BOX;
 					using bridges::JSONUtil::JSONencode;
 					for (auto& cntry : country_data) {
-					  std::cout<<"1\n";
+						std::cout << "1\n";
 						map_str += OPEN_CURLY +
 							QUOTE + "_country_name" + QUOTE + COLON +
 							JSONencode(cntry.getCountryName()) + COMMA +
 							QUOTE + "_alpha2" + QUOTE + COLON +
 							JSONencode(cntry.getAlpha2Id()) + COMMA +
-							QUOTE + "_alpha3" + QUOTE + COLON + 
+							QUOTE + "_alpha3" + QUOTE + COLON +
 							JSONencode(cntry.getAlpha3Id()) + COMMA +
-							QUOTE + "_numeric" + QUOTE + COLON + 
+							QUOTE + "_numeric" + QUOTE + COLON +
 							JSONencode(cntry.getNumeric3Id()) + COMMA +
 							QUOTE +	"_fill_color" + QUOTE + COLON +
 							cntry.getFillColor().getCSSRepresentation() + COMMA +
@@ -99,20 +103,21 @@ namespace bridges {
 							cntry.getStrokeColor().getCSSRepresentation() + COMMA +
 							QUOTE +	"_stroke_width" + QUOTE + COLON +
 							JSONencode(cntry.getStrokeWidth()) + CLOSE_CURLY +  COMMA;
-						  
+
 
 					}
 					// remove last comma
-					if (country_data.size()) 
-					  map_str = map_str.substr(0, map_str.size() - 1);
+					if (country_data.size())
+						map_str = map_str.substr(0, map_str.size() - 1);
 					// close the countries array
 					map_str = map_str +  CLOSE_BOX;
-//cout << map_str << endl;
+					//cout << map_str << endl;
 					return map_str;
 				}
 			public:
 				// constructors
 				WorldMap() {
+					all = true;
 				}
 				/*
 				 * @brief Constructs a World Map object  with map data
@@ -120,6 +125,7 @@ namespace bridges {
 				 * @param   country_data  data containg country information
 				 */
 				WorldMap(vector<Country> cntry_data) {
+					all = false;
 					country_data = cntry_data;
 				}
 
@@ -140,6 +146,7 @@ namespace bridges {
 				 * @param  list of countries
 				 */
 				void setCountryData(vector<Country> cntry_data) {
+					all = false;
 					country_data = cntry_data;
 				}
 

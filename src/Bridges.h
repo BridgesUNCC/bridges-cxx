@@ -55,7 +55,7 @@ namespace bridges {
 			}
 
 			static string getDefaultServerURL() {
-			  return "http://assignments.bridgesuncc.org";
+				return "http://assignments.bridgesuncc.org";
 			}
 
 			bool jsonFlag = false;   				// if JSON is to be printed
@@ -604,8 +604,8 @@ namespace bridges {
 				}
 				else if (ds_handle->getDStype() == "world_map") {
 					setMap((WorldMap*) ds_handle);
-					ds_json = getJSONHeader()+ds_handle->getDataStructureRepresentation();
-//exit(0);
+					ds_json = getJSONHeader() + ds_handle->getDataStructureRepresentation();
+					//exit(0);
 				}
 				/*
 								else if (ds_handle->getDStype() == "LineChart"){
