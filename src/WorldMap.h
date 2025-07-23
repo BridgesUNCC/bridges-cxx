@@ -83,6 +83,7 @@ namespace bridges {
 					string map_str = OPEN_BOX;
 					using bridges::JSONUtil::JSONencode;
 					for (auto& cntry : country_data) {
+					  std::cout<<"1\n";
 						map_str += OPEN_CURLY +
 							QUOTE + "_country_name" + QUOTE + COLON +
 							JSONencode(cntry.getCountryName()) + COMMA +
@@ -97,15 +98,15 @@ namespace bridges {
 							QUOTE +	"_stroke_color" + QUOTE + COLON +
 							cntry.getStrokeColor().getCSSRepresentation() + COMMA +
 							QUOTE +	"_stroke_width" + QUOTE + COLON +
-							JSONencode(cntry.getStrokeWidth()) + COMMA;
+							JSONencode(cntry.getStrokeWidth()) + CLOSE_CURLY +  COMMA;
+						  
 
-						// remove last comma
-						if (country_data.size()) // case where counties are on
-							map_str = map_str.substr(0, map_str.size() - 1);
-						map_str += CLOSE_CURLY +  COMMA;
 					}
+					// remove last comma
+					if (country_data.size()) 
+					  map_str = map_str.substr(0, map_str.size() - 1);
 					// close the countries array
-					map_str = map_str.substr(0, map_str.size() - 1) +  CLOSE_BOX;
+					map_str = map_str +  CLOSE_BOX;
 //cout << map_str << endl;
 					return map_str;
 				}
