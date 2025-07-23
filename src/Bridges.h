@@ -542,6 +542,7 @@ namespace bridges {
 			 * 	Sends relevant meta-data and representation of the data structure to the BRIDGES server,
 			 *	and upon successful completion, prints the URL to display the Bridges visualization.
 			 *
+			 * might throw a bridges::HTTPException exception
 			 */
 			void visualize() {
 				std::chrono::time_point<std::chrono::system_clock> start;
@@ -666,6 +667,7 @@ namespace bridges {
 						"\t User Name: " << getUserName() << endl <<
 						"\t API Key: " << getApiKey() << endl <<
 						"\t Assignment Number: " << getAssignment() << endl;
+					throw bridges::RuntimeException();
 				}
 				catch (const HTTPException& he) {
 					cerr << "\nPosting assignment to the server failed!" << endl;
@@ -683,6 +685,7 @@ namespace bridges {
 					else {
 						std::cerr << he.what() << endl;
 					}
+					throw;
 				}
 				if (profile())
 					httprequest_end = std::chrono::system_clock::now();

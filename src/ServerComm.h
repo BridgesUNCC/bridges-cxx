@@ -12,30 +12,9 @@ using namespace std;
 #include "./data_src/CancerIncidence.h"
 #include "./data_src/ActorMovieIMDB.h"
 #include "./data_src/Song.h"
+#include "bridges_exception.h"
 
 namespace bridges {
-	struct HTTPException : public std::exception {
-		std::string url; //URL hit that generated the exception
-		long httpcode; // The returned HTTP code
-		std::string headers; //The headers returned by the HTTP server
-		std::string data; //The data returned by the HTTP server
-
-		std::string what_str;
-		HTTPException (std::string url,
-			long httpcode,
-			std::string headers,
-			std::string data)
-			: url(url), httpcode(httpcode), headers(headers), data(data) {
-			what_str = std::string("HTTPException raised when hitting ") + url + "\n" +
-				"HTTP code: " + to_string(httpcode) + "\n" +
-				headers + "\n" +
-				data;
-		}
-		~HTTPException() = default;
-		virtual const char* what() const noexcept {
-			return what_str.c_str();
-		}
-	};
 
 	/**
 	 *	@brief This is a class for handling calls to the BRIDGES server to transmit
