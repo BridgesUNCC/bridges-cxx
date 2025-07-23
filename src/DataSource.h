@@ -128,7 +128,7 @@ namespace bridges {
 			}
 
 			string getWorldCountriesURL() {
-				return "http://static-data.bridgesuncc.org/api/world_map?country=";
+				return "http://static-data.bridgesuncc.org/api/world_map";
 			}
 
 			void defaultDebug() {
@@ -451,25 +451,17 @@ namespace bridges {
 				if (countries[0] == "all")		// all countries included
 					countries = all_countries;
 
-				cout << "countries:" << countries[0] << "\n";
+				string url = getWorldCountriesURL();
 
-				// TO DO: Replace input file reading by an http query to get the data
-				// Read the country data json 
-				std::ifstream ifs("/Users/krs/bridges/data/world-countries-iso-3166.json");
-//				std::ifstream ifs("./world-countries-iso-3166.json");
-				if (!ifs.is_open()) {
-					std::cerr << "Could not open file for reading!\n";
-					return country_data;
-				}
-				rapidjson::IStreamWrapper isw (ifs);
-				
-				Document doc {};
-					doc.ParseStream (isw);
-				if ( doc.HasParseError() ) {
-					std::cout << "Error  : " << doc.GetParseError()  << '\n'
-					<< "Offset : " << doc.GetErrorOffset() << '\n';
-					return country_data;
-				}
+				if (debug())
+					std::cerr << "Hitting: " << url << std::endl;
+
+				// make the request
+				using namespace rapidjson;
+				Document doc;
+				doc.Parse(
+                    ServerComm::makeRequest(url, {"Accept: application/json"}).c_str()
+                );
 
 				// parse the JSON, put the countries by name into a map
 				// makes it easier to extract a subset of countries
