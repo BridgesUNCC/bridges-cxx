@@ -35,7 +35,7 @@ namespace bridges {
 		 * @brief This class provides an API to building, displaying and
 		 * manipulating	 US maps and counties in BRIDGES
 		 *
-		 * In the current implementation, we can draw a US map  with all state
+		 * We can draw a US map  with all state
 		 * boundaries, a map with all US state and county boundaries, or
 		 * specify a set of states  and display the state and/or county
 		 * boundaries.
@@ -47,6 +47,8 @@ namespace bridges {
 		 * population counts, election statistics or any attribute at the state
 		 * or county level.
 		 *
+		 *
+		 *
 		 * See the Maps tutorials for examples of the usage of the US Map API
 		 *  at  https://bridgesuncc.github.io/tutorials/Map.html
 		 *
@@ -56,6 +58,8 @@ namespace bridges {
 				vector<string> state_names;
 				vector<USState> state_data;
 
+		  bool all;
+		  
 				virtual const string getDataStructureRepresentation ()
 				const override {
 					using bridges::JSONUtil::JSONencode;
@@ -141,6 +145,9 @@ namespace bridges {
 				 * @returns string
 				 */
 				virtual const string getMapRepresentation () const override  {
+				  if (this->all)
+						return "[\"all\"]";
+
 					// generates a JSON of the states with county information
 					string map_str = OPEN_BOX;
 					using bridges::JSONUtil::JSONencode;
@@ -192,12 +199,16 @@ namespace bridges {
 					return map_str;
 				}
 			public:
+		  USMap() {
+		    all = true;
+		  }
 				/*
 				 * @brief Constructs a US Map object  with map data
 				 *
 				 * @param   st_data  data containg state/county information
 				 */
 				USMap(vector<USState> st_data) {
+				  all = false;
 					state_data = st_data;
 				}
 
@@ -218,6 +229,7 @@ namespace bridges {
 				 * @param  list of state information
 				 */
 				void setStateData(vector<USState> st_data) {
+				  all = false;
 					state_data = st_data;
 				}
 

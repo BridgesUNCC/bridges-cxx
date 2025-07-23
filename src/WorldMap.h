@@ -28,7 +28,7 @@ namespace bridges {
 		 * @brief This class provides an API to building, displaying and
 		 * manipulating	 World maps and countries in BRIDGES
 		 *
-		 * In the current implementation, we can draw a World map  with all country
+		 * We can draw a World map  with all country
 		 * boundaries, or specify a set of countries  and display the country
 		 * boundaries.
 		 *
@@ -39,6 +39,8 @@ namespace bridges {
 		 * as population counts, election statistics or any attribute at the country
 		 * level. We stop at the country level as each country has its own subdivisions,
 		 * such as discticts, states, regions, counties, etc.
+		 *
+		 * One can also construct the object with the default constructor, passing no data. And only a simple outline of the states will be rendered.
 		 *
 		 * See the Maps tutorials for examples of the usage of the World Map API
 		 *  at https://bridgesuncc.github.io/tutorials/Map.html
