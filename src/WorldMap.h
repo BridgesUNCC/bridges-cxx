@@ -89,7 +89,6 @@ namespace bridges {
 					string map_str = OPEN_BOX;
 					using bridges::JSONUtil::JSONencode;
 					for (auto& cntry : country_data) {
-						std::cout << "1\n";
 						map_str += OPEN_CURLY +
 							QUOTE + "_country_name" + QUOTE + COLON +
 							JSONencode(cntry.getCountryName()) + COMMA +
