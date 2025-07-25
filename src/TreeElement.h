@@ -202,7 +202,6 @@ namespace bridges {
 							json_str += CLOSE_BOX;
 					}
 
-cout << json_str << endl;
 					return json_str;
 				}
 		}; //end of TreeElement class
