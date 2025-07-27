@@ -32,8 +32,16 @@ namespace bridges {
 				float stroke_width; // boundary width
 
 			public:
+				/**
+				 *  @brief constructors
+				 */
 				Country() = default;
 
+                /**
+				 * @brief creates a country object for a specific country
+				 *
+				 * @param cntry  country name
+				 */
 				Country(string cntry) {
 					name = cntry;
 					alpha2_id = "";
@@ -43,6 +51,18 @@ namespace bridges {
 					stroke_width = 1.;
 					fill_color = datastructure::Color("lightblue");
 				}
+
+                /**
+                 *  @brief  creates a country object with specific parameters
+				 *
+				 *  @param cntry  country name
+				 *  @param alpha2  2 letter alpabet code for country
+				 *  @param alpha3  3 letter alpabet code for country
+				 *  @param numeric  numeric id
+				 *  @param fill_col  fill color 
+				 *  @param stroke_col  boundary color
+				 *  @param stroke_w  stroke width
+				 */ 
 				Country (string cntry, string alpha2, string alpha3, int numeric,
 					datastructure::Color fill_col, datastructure::Color stroke_col,
 					float stroke_w) {
@@ -55,7 +75,9 @@ namespace bridges {
 					stroke_width = stroke_w;
 				}
 
-				// getters, setters
+				/**
+				 *   @brief getters, setters  for class
+				 */
 				string getCountryName() const {
 					return name;
 				}

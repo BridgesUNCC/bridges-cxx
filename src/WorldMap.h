@@ -117,11 +117,18 @@ namespace bridges {
 				}
 			public:
 				// constructors
+
+				/* this is useful when you simply need the world map as an overlay
+				 * using a default fill and boundary colors for the map
+				 */
 				WorldMap() {
 					all = true;
 				}
 				/*
 				 * @brief Constructs a World Map object  with map data
+                 *
+   				 * This constructor is useful for mapping data attributes to specific
+  				 * countries
 				 *
 				 * @param   country_data  data containg country information
 				 */
@@ -144,7 +151,7 @@ namespace bridges {
 				 * @brief This function sets the country data
 				 *  in the US map object.
 				 *
-				 * @param  list of countries
+				 * @param  list of country data
 				 */
 				void setCountryData(vector<Country> cntry_data) {
 					all = false;
