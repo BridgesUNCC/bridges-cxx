@@ -46,8 +46,8 @@ namespace bridges {
 		/// @author Erik Saule, David Burlinson
 		/// @date 2019, 12/29/20
 		class SocketConnection {
-				bool debug = true;
-				bool debugVerbose = true;
+				bool debug = false;
+				bool debugVerbose = false;
 				sio::client client;
 				sio::socket::ptr current_socket;
 
