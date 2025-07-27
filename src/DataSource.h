@@ -100,7 +100,7 @@ namespace bridges {
 					return "http://localhost:3000/";
 
 				if (sourceType == "testing")
-					return "gutenberg-t-data.bridgesuncc.org/";
+					return "http://gutenberg-t-data.bridgesuncc.org/";
 
 				return "http://gutenberg-data.bridgesuncc.org/";
 			}

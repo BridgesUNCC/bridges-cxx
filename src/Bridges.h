@@ -392,6 +392,8 @@ namespace bridges {
 					server_url = "http://assignments-clone.bridgesuncc.org";
 				else if (server_type == "games")
 					server_url = "http://games.bridgesuncc.org";
+				else if (server_type == "games-clone")
+					server_url = "http://games-clone.bridgesuncc.org";
 				else if (server_type == "local")
 					server_url = "http://127.0.0.1:3000";
 
