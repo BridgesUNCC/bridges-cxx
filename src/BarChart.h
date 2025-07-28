@@ -76,7 +76,7 @@ namespace bridges {
 				}
 
 				/**
-				 * @brief Title of the plot
+				 * @brief Set title of the plot
 				 *
 				 * @param t the title to be shown
 				 **/
@@ -85,7 +85,7 @@ namespace bridges {
 				}
 
 				/**
-				 * @brief Title of the plot
+				 * @brief Get title of the plot
 				 *
 				 * @return the title to be shown
 				 **/
@@ -112,7 +112,7 @@ namespace bridges {
 				}
 
 				/**
-				 * @brief Change the label for the value axis
+				 * @brief Set the label for the value axis
 				 *
 				 * @param vAxisName label to show for the value axis
 				 **/
@@ -130,7 +130,7 @@ namespace bridges {
 				}
 
 				/**
-				 * @brief Change the label for categoryt axis
+				 * @brief Change the label for category axis
 				 *
 				 * @param cAxisName label to use for the category axis
 				 **/
