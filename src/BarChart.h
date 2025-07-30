@@ -78,7 +78,7 @@ namespace bridges {
 				/**
 				 * @brief Set title of the plot
 				 *
-				 * @param t the title to be shown
+				 * @param t the title of the BarChart
 				 **/
 				void setTitle(std::string t) {
 					title = t;
@@ -87,7 +87,7 @@ namespace bridges {
 				/**
 				 * @brief Get title of the plot
 				 *
-				 * @return the title to be shown
+				 * @return the title of the BarChart
 				 **/
 				std::string getTitle() const {
 					return title;
@@ -96,7 +96,7 @@ namespace bridges {
 				/**
 				 * @brief set subtitle of the plot
 				 *
-				 * @param s the subtitle to be shown
+				 * @param s the subtitle of the BarChart
 				 **/
 				void setSubTitle(const std::string& s) {
 					subTitle = s;
@@ -105,7 +105,7 @@ namespace bridges {
 				/**
 				 * @brief get the subtitle of the plot
 				 *
-				 * @return the subtitle to be shown
+				 * @return the subtitle of the BarChart
 				 **/
 				std::string getSubTitle() const {
 					return subTitle;
@@ -114,7 +114,7 @@ namespace bridges {
 				/**
 				 * @brief Set the label for the value axis
 				 *
-				 * @param vAxisName label to show for the value axis
+				 * @param vAxisName label for the value axis
 				 **/
 				void setValueLabel(const std::string& vAxisName) {
 					vLabel = vAxisName;
@@ -123,7 +123,7 @@ namespace bridges {
 				/**
 				 * @brief Returns the label for the value axis
 				 *
-				 * @return label shown for the value axis
+				 * @return label for the value axis
 				 **/
 				std::string getValueLabel() const {
 					return vLabel;
@@ -132,7 +132,7 @@ namespace bridges {
 				/**
 				 * @brief Change the label for category axis
 				 *
-				 * @param cAxisName label to use for the category axis
+				 * @param cAxisName label for the category axis
 				 **/
 				void setCategoriesLabel(const std::string& cAxisName) {
 					cLabel = cAxisName;
@@ -141,7 +141,7 @@ namespace bridges {
 				/**
 				 * @brief Returns the axis label for the categories
 				 *
-				 * @return label shown for the categories
+				 * @return label for the categories
 				 **/
 				std::string getCategoriesLabel() const {
 					return cLabel;
