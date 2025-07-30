@@ -43,7 +43,7 @@ namespace bridges {
 		 * One can also construct the object with the default constructor, passing no data. And only a simple outline of the states will be rendered.
 		 *
 		 * See the Maps tutorials for examples of the usage of the World Map API
-		 *  at https://bridgesuncc.github.io/tutorials/Map.html
+		 *  at https://bridgesuncc.github.io/tutorials/WorldMap.html
 		 *
 		 * Authors: Kalpathi Subramanian, Erik Saule
 		 * Last modified : May 22, 2025

@@ -17,7 +17,7 @@ namespace bridges {
 		 * This object is used alongside with the WorldMap object. Each country
 		 * has a stroke color and fill color.
 		 *
-		 *  See tutorial at  https://bridgesuncc.github.io/tutorials/Map.html
+		 *  See tutorial at  https://bridgesuncc.github.io/tutorials/WorldMap.html
 		 *
 		 * @author Kalpathi Subramanian, Erik Saule
 		 * @date  Last modified May 22, 2025
