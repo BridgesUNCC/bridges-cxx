@@ -194,7 +194,7 @@ namespace bridges {
 				 *
 				 *  @param categories Names of different categories
 				 */
-				void setCategories(std::vector<std::string> categories) {
+				void setCategories(const std::vector<std::string>& categories) {
 					if (seriesData.size() > 0)
 						throw std::runtime_error ("Can't change categoriess after series have been added.");
 					this->categories = categories;
