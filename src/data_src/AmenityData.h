@@ -53,7 +53,8 @@ class AmenityData {
 		/**
 		 * Constructor
 		 *
-		 * @param data  amenity data
+		 *
+		 * @param amenities The actual amenities
 		 * @param minLat  minimum latitude
 		 * @param minLon  minimum longitude
 		 * @param maxLat  maximum latitude
