@@ -36,7 +36,7 @@ namespace bridges {
 				Reddit() = default;
 
 				/**
-				*           @brief return id of the reddit post
+				*   @brief return id of the reddit post
 				*
 				*   @return id
 				*/
@@ -49,7 +49,7 @@ namespace bridges {
 				}
 
 				/**
-				*           @brief return the title of the reddit post
+				*   @brief return the title of the reddit post
 				*
 				*   @return title
 				*/
@@ -62,7 +62,7 @@ namespace bridges {
 				}
 
 				/**
-				*           @brief return the author of the reddit post
+				*   @brief return the author of the reddit post
 				*
 				*   @return author's username
 				*/
@@ -75,7 +75,7 @@ namespace bridges {
 				}
 
 				/**
-				*           @brief return the score (upvotes - downvotes) of the reddit post
+				*   @brief return the score (upvotes - downvotes) of the reddit post
 				*
 				*   @return score (upvotes - downvotes)
 				*/
@@ -160,7 +160,7 @@ namespace bridges {
 				 *
 				 *   The text of the reddit post. Often in markdown format.
 				 *
-				 *  The text could be empty if the reddit post is just a link to a video or an article
+				 *   The text could be empty if the reddit post is just a link to a video or an article
 				 *
 				 *
 				 *   @return full text of the reddit post
@@ -169,7 +169,13 @@ namespace bridges {
 					return text;
 				}
 
-				void setText(std::string txt) {
+		  /**
+		   * @brief Changes the text of the reddit post
+		   *
+		   * @param txt the new text of the reddit post
+		   *
+		   **/
+				void setText(const std::string& txt) {
 					text = txt;
 				}
 		};

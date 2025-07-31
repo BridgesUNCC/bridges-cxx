@@ -57,6 +57,9 @@ namespace bridges {
 				std::vector<std::string> categories;
 
 			public:
+	    /**
+	     * @brief makes an empty BarChart
+	     **/
 				BarChart() {
 					title = "";
 					subTitle = "";
@@ -68,6 +71,9 @@ namespace bridges {
 
 				/**
 				 * @brief Get the data type
+				 *
+				 * This is an internal function to BRIDGES. There are little reasons to call this function directly.
+				 *
 				 * @return name of the data type (used internally)
 				 */
 				virtual const string getDStype() const override {
@@ -226,6 +232,9 @@ namespace bridges {
 
 				/**
 				 * @brief get the data structure representation as a JSON
+				 *
+				 * This is an internal function to BRIDGES. There are little reasons to call this function directly.
+				 *
 				 */
 				virtual const std::string getDataStructureRepresentation() const override {
 					using bridges::JSONUtil::JSONencode;

@@ -1732,14 +1732,15 @@ namespace bridges {
 			}
 
 			/**
-			*     @brief retrieves the reddit posts from a subreddit
-			*
-			* @param subreddit the name of the subreddit ( check list available at http://bridges-data-server-reddit.bridgesuncc.org/list or using getAvailableSubreddits() )
-			* @param time_request unix timestamp of when requested subreddit was generated or less than 0 for now
-			*
-			* @return a list of reddit objects with the data of the posts
-			*
-			**/
+			 * @brief retrieves the reddit posts from a subreddit.
+			 *
+			 *
+			 * @param subreddit the name of the subreddit ( check list available at http://bridges-data-server-reddit.bridgesuncc.org/list or using getAvailableSubreddits() )
+			 * @param time_request unix timestamp of when requested subreddit was generated (or less than 0 for now)
+			 *
+			 * @return a list of reddit objects with the data of the posts
+			 *
+			 **/
 			vector<Reddit> getRedditData(string subreddit, int time_request = -9999) {
 				string base_url = getRedditURL();
 				if (debug()) {
