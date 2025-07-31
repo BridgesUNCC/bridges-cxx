@@ -132,7 +132,7 @@ class AmenityData {
 
 		/**
 		 * set the maximum latitude  of this amenity data
-		 * @param maxLat  latitude maximum to be set
+		 * @param lat  latitude maximum to be set
 		 */
 		void setMaxLat(double lat) {
 			maxLat = lat;
