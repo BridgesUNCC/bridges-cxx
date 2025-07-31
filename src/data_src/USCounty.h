@@ -45,7 +45,7 @@ namespace bridges {
 				 *
 				 * @brief Constructor
 				 *
-				 * @param  geoid Geoid of county
+				 * @param id Geoid of county
 				 * @param code  FIPS code of county
 				 * @param county  county name
 				 * @param state   state containing the county

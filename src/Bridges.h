@@ -202,7 +202,6 @@ namespace bridges {
 			 *
 			 *  @param link_url flag that controls if the link is printed
 			 *				to console
-			 *	@return none
 			 *
 			 */
 			void  postVisualizationLink(bool link_url) {
@@ -324,6 +323,7 @@ namespace bridges {
 			}
 			/**
 			 *  Get visualization description
+			 *
 			 *	@return description of visualization
 			 */
 
@@ -332,7 +332,8 @@ namespace bridges {
 			}
 			/**
 			 *  Set visualization description
-			 *	@return descr description of visualization
+			 *
+			 *	@param descr description of visualization
 			 */
 			void setDescription(const string& descr) {
 				description = descr;
@@ -414,12 +415,9 @@ namespace bridges {
 			/**
 			 *  @brief Sets the type of map overlay to use
 			 *
-			 * In general, this isn't the function you want to use. You probably want setMap(const Map*)
+			 * In general, this isn't the function you want to use. You probably want setMap(const Map*). This particular function allows you to force the JSON representation of the map parameters.
 			 *
-			 *  @param map     this is an Array describing the map overlay.
-			 *     	The first element of the array is which map to use: "world" or "us"
-			 *  	and the second element is what attribute from the map to show: a country
-			 *		from world map, or a state from US map.
+			 *  @param map_str The JSON of the map attribute
 			 *
 			 **/
 			void setMap(string map_str) {
