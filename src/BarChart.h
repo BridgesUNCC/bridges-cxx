@@ -7,45 +7,44 @@
 #include <DataStructure.h>
 #include <JSONutil.h>
 
-/**
- * @brief Support for drawing Bar charts.
- *
- * Bar charts (https://en.wikipedia.org/wiki/Bar_chart) are used to
- * represent categorical data as a series of rectangular bars with length
- * proportional to the values they represent.
- *
- * Series in a bar chart provides data for a number of categories
- * (sometimes called bins). Categories are defined using
- * setCategories() and the series are added using addDataSeries().
- * The series are rendered in the order in which they were added. Once
- * a series has been added, it can not be modified.
- *
- * One should always define the categories before adding data. Changing the
- * categories after series have been added will throw exceptions;
- * adding series with different number of values than the number of
- * categories will throw an exception.
- *
- * The Bar charts can have a title, subtitle. The charts can be
- * horizontal or vertically oriented, using setBarOrientation().
- *
- * A tooltip indicating the value of a series in a particular bin is
- * displayed by hovering on a bar. One can append a string to the
- * value using setTooltipSuffix() to specify units in the tooltip if desired.
- *
- *
- * @sa See tutorial on using BarChart at:
- *      https://bridgesuncc.github.io/tutorials/BarChart.html
- *
- * @author Matthew Mcquaigue, Kalpathi Subramanian, Erik Saule
- *
- * @date 09/15/24 (updated)
- *
- **/
 
 namespace bridges {
 	namespace datastructure {
-
-		class BarChart : public DataStructure {
+	  /**
+	   * @brief Support for drawing Bar charts.
+	   *
+	   * Bar charts (https://en.wikipedia.org/wiki/Bar_chart) are used to
+	   * represent categorical data as a series of rectangular bars with length
+	   * proportional to the values they represent.
+	   *
+	   * Series in a bar chart provides data for a number of categories
+	   * (sometimes called bins). Categories are defined using
+	   * setCategories() and the series are added using addDataSeries().
+	   * The series are rendered in the order in which they were added. Once
+	   * a series has been added, it can not be modified.
+	   *
+	   * One should always define the categories before adding data. Changing the
+	   * categories after series have been added will throw exceptions;
+	   * adding series with different number of values than the number of
+	   * categories will throw an exception.
+	   *
+	   * The Bar charts can have a title, subtitle. The charts can be
+	   * horizontal or vertically oriented, using setBarOrientation().
+	   *
+	   * A tooltip indicating the value of a series in a particular bin is
+	   * displayed by hovering on a bar. One can append a string to the
+	   * value using setTooltipSuffix() to specify units in the tooltip if desired.
+	   *
+	   *
+	   * @sa See tutorial on using BarChart at:
+	   *      https://bridgesuncc.github.io/tutorials/BarChart.html
+	   *
+	   * @author Matthew Mcquaigue, Kalpathi Subramanian, Erik Saule
+	   *
+	   * @date 09/15/24 (updated)
+	   *
+	   **/
+	  class BarChart : public DataStructure {
 			private:
 				std::string cLabel;
 				std::string vLabel;
