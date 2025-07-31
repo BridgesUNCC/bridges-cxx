@@ -85,7 +85,7 @@ namespace bridges {
 				 * @param yll  lower left of map - y coordinate
 				 * @param cellsize size of each cell
 				 * @param maxVal  max elevation value in map
-				 * @param maxVal  min elevation value in map
+				 * @param minVal  min elevation value in map
 				 */
 				ElevationData (int cols, int rows, int xll,
 					int yll, float cellsize, int maxVal, int minVal) {

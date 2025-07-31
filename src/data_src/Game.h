@@ -107,7 +107,7 @@ namespace bridges {
 				}
 				/**
 				* set genres of game
-				* @param genre genres to be set (vector of strings)
+				* @return genre genres to be set (vector of strings)
 				*/
 
 				vector<string> getGameGenre() const {

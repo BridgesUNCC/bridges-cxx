@@ -418,11 +418,12 @@ namespace bridges {
 
 			public:
 				/**
-				 *  @brief Translate a 2D point
+				 *  @brief Translate by a vector
 				 *
-				 *  @param pt  2D point (x, y)
-				 *  @param tx, ty translation vector
+				 *  @param tx x component of translation vector
+				 *  @param ty y component of translation vector
 				 *
+				 * @return self-reference
 				 */
 				Symbol& translate (float tx, float ty) {
 					float result[3][3];
@@ -442,8 +443,10 @@ namespace bridges {
 				/**
 				 *  @brief Scale a Symbol
 				 *
-				 *  @param pt  2D point (x, y)
-				 *  @param sx, sy scale factors along each axis
+				 *  @param sx scale factors along x axis
+				 *  @param sy scale factors along y axis
+				 *
+				 * @return self-reference
 				 */
 				Symbol& scale(float sx, float sy) {
 					float result[3][3];
@@ -463,8 +466,9 @@ namespace bridges {
 				/**
 				 *  @brief Scale a Symbol
 				 *
-				 *  @param pt  2D point (x, y)
 				 *  @param scalefactor scale factors along both axis
+				 *
+				 * @return self-reference
 				 */
 				Symbol& scale(float scalefactor) {
 					return scale(scalefactor, scalefactor);
@@ -473,9 +477,10 @@ namespace bridges {
 				/**
 				 *  @brief Rotate a 2D point (about Z)
 				 *
-				 *	@param pt  2D point (x, y)
 				 *  @param angle rotation angle in degrees
 				 *		(positive is counter clockwise, negative is clockwise)
+				 *
+				 * @return self-reference
 				 */
 				Symbol& rotate(float angle) {
 					// compute sin, cos
@@ -505,6 +510,8 @@ namespace bridges {
 				 *  @param sy, scale factors along X
 				 *  @param px  x coord of point
 				 *  @param py  y coord of point
+				 *
+				 * @return self-reference
 				 */
 				Symbol& scale(float sx, float sy, float px, float py) {
 					float result[3][3], result2[3][3];
@@ -533,8 +540,12 @@ namespace bridges {
 				 *  @brief Rotate a 2D point about an arbitrary point (px, py)
 				 *
 				 *  @param angle rotation angle in degrees
-				 *	@param pt  2D point (px, py)
-				 *	 (positive is counter clockwise, negative is clockwise)
+				 *         (positive is counter clockwise, negative is clockwise)
+				 *  @param px x coordinate of rotation center
+				 *  @param py y coordinate of rotation center
+
+				 *
+				 * @return self-reference
 				 */
 				Symbol& rotate(float angle, float px, float py) {
 					// compute sin, cos
@@ -568,9 +579,18 @@ namespace bridges {
 				}
 				/**
 				 *  Directly sets the transform matrix; note that the parameters
-				 *	are provided in column major order
+				 *	are provided in column major order.
+
+				 * The matrix is [[a,c,e],[b,d,f],[0,0,1]]
 				 *
-				 *  @param a, b, c, d, e, f  fills the first two rows of the matrix
+				 *  @param a matrix value
+				 *  @param b matrix value
+				 *  @param c matrix value
+				 *  @param d matrix value
+				 *  @param e matrix value
+				 *  @param f matrix value
+				 *
+				 * @return self-reference
 				 */
 				Symbol& setTransform(float a, float b, float c,
 					float d, float e, float f) {
