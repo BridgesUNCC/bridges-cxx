@@ -152,7 +152,7 @@ namespace bridges {
 			/**
 			 *  @brief set data server type
 			 *
-			 *	@param string  data server type, can be 'live', 'testing', or 'local')
+			 *  @param type  which data server: can be 'live', 'testing', or 'local')
 			 *  @throws exception if incorrect type is passed
 			 *
 			 */
@@ -350,7 +350,6 @@ namespace bridges {
 			 *
 			 *  See tutorial at  https://bridgesuncc.github.io/tutorials/Map.html
 			 *
-			 * @params none
 			 **/
 			vector<USState> getUSMapData () {
 				return getUSMapCountyData(all_us_states, false);
@@ -361,7 +360,6 @@ namespace bridges {
 				 *  See tutorial at  https://bridgesuncc.github.io/tutorials/Map.html
 				 *
 				 *
-				 * @params none
 				 */
 			vector<USState> getUSMapCountyData () {
 				return getUSMapCountyData(all_us_states, true);
@@ -371,8 +369,8 @@ namespace bridges {
 			 *
 			 *
 			 *  See tutorial at  https://bridgesuncc.github.io/tutorials/Map.html
-			 * @params  state_names  states that will be retrieved
-			 * @params  view_counties  boolean flag  also extract county
+			 * @param  state_names  states that will be retrieved
+			 * @param  view_counties  boolean flag  also extract county
 			 *           boundaries of the specified states
 			 */
 			vector<USState> getUSMapCountyData (vector<string> state_names,
@@ -1675,10 +1673,10 @@ namespace bridges {
 			 * given resolution. Note that the ElevationData that is returned
 			 * may have slightly different location and resolution.
 			 *
-			 * @param latitMin minimum latitude requested
-			 * @param longitMin maximum latitude requested
-			 * @param latitMax minimum longitude requested
-			 * @param longitMax maximum longitude requested
+			 * @param minLat minimum latitude requested
+			 * @param minLon maximum latitude requested
+			 * @param maxLat minimum longitude requested
+			 * @param maxLon maximum longitude requested
 			 * @param res spatial resolution, aka the distance between two samples
 			 * 		(in degrees)
 			 **/
@@ -1887,7 +1885,7 @@ namespace bridges {
 			 *   gets the hash code for the dataset
 			 *
 			 *   @param hash_url   url for hash code
-			 *   @param data type  data set name
+			 *   @param data_type  data set name
 			 *
 			 * 	 @return a hash code as a string or "false" if the hash value
 			 *	 	doesnt exist on the server.

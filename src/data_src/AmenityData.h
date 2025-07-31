@@ -99,7 +99,7 @@ class AmenityData {
 
 		/**
 		 * set the minimum latitude  of this amenity data
-		 * @param minLat  latitude minimum to be set
+		 * @param lat  latitude minimum to be set
 		 */
 		void setMinLat(double lat) {
 			minLat = lat;
@@ -115,7 +115,8 @@ class AmenityData {
 
 		/**
 		 * set the minimum longitude  of this amenity data
-		 * @param minLon  longitude minimum to be set
+		 *
+		 * @param longitude  longitude minimum to be set
 		 */
 		void setMinLon(double longitude) {
 			minLon = longitude;
@@ -147,7 +148,7 @@ class AmenityData {
 
 		/**
 		 * set the maximum longitude  of this amenity data
-		 * @param maxLon  longitude maximum to be set
+		 * @param longitude  longitude maximum to be set
 		 */
 		void setMaxLon(double longitude) {
 			maxLon = longitude;
@@ -155,7 +156,7 @@ class AmenityData {
 
 		/**
 		 * get the count of amenities
-		 * @param count of amenities
+		 * @return count of amenities
 		 */
 		int getCount() {
 			return count;
@@ -163,7 +164,7 @@ class AmenityData {
 
 		/**
 		 * set the count of amenities
-		 * @param count  amenity count to be set
+		 * @param c  amenity count to be set
 		 */
 		void setCount(int c) {
 			count = c;
