@@ -49,7 +49,7 @@ namespace bridges {
 				 * Constructor
 				 *
 				 * @param titl 	   	book title
-				 * @param id        book id
+				 * @param book_id        Gutenberg book id
 				 * @param loc       book's library of congress class
 				 * @param auth   	book authors
 				 * @param lng       language
@@ -93,6 +93,7 @@ namespace bridges {
 
 				/**
 				 * get  book title
+				 *
 				 * @return   book's title
 				 */
 				string getTitle() const {
@@ -102,8 +103,8 @@ namespace bridges {
 				 * set book title
 				 * @param title  title of book to set
 				 */
-				void setTitle(const string& titl) {
-					this->title = titl;
+				void setTitle(const string& title) {
+					this->title = title;
 				}
 
 				/**

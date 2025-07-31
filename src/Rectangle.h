@@ -53,8 +53,8 @@ namespace bridges {
 				/**
 				 * @brief create rectangle with width w and height h
 				 *   and located at given position
-				 * @param locx  rect lower left - x coord
-				 * @param locy  rect lower left - y coord
+				 * @param llx  rect lower left - x coord
+				 * @param lly  rect lower left - y coord
 				 * @param w  width
 				 * @param h  height
 				 */

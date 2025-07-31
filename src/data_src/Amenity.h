@@ -42,6 +42,7 @@ class Amenity {
 
 		/**
 		 * Constructor
+		 *
 		 * @param id_val  Amenity ID as stored in Open Street Maps
 		 * @param lat  Latitude of Amenity
 		 * @param lon  Longitude of Amenity
@@ -67,7 +68,7 @@ class Amenity {
 
 		/**
 		 * set the ID value of this amenity
-		 * @param id_val ID value to set
+		 * @param id OSM ID value to set
 		 */
 		void setId(long id) {
 			id_val = id;
@@ -83,7 +84,8 @@ class Amenity {
 
 		/**
 		 * set the latitude  value of this amenity
-		 * @param lat latitude position to set
+		 *
+		 * @param latitude latitude position to set
 		 */
 		void setLat(double latitude) {
 			lat = latitude;
@@ -91,6 +93,7 @@ class Amenity {
 
 		/**
 		 * get the longitude  of this amenity data
+		 *
 		 * @return amenity data longitude
 		 */
 		double getLon() {
@@ -99,7 +102,8 @@ class Amenity {
 
 		/**
 		 * set the longitude  value of this amenity
-		 * @param lon longitude position to set
+		 *
+		 * @param longitude longitude position to set
 		 */
 		void setLon(double longitude) {
 			lon = longitude;
@@ -115,7 +119,7 @@ class Amenity {
 
 		/**
 		 * set the name of this amenity
-		 * @param name name of amenity to set
+		 * @param n name of amenity to set
 		 */
 		void setName(string n) {
 			name = n;
@@ -131,7 +135,7 @@ class Amenity {
 
 		/**
 		 * set the extra data present for certain amenities
-		 * @param other
+		 * @param oth extra strings to give context to amenity
 		 */
 		void setOther(vector<string> oth) {
 			other = oth;
