@@ -52,7 +52,8 @@ namespace bridges {
 
 				/**
 				 *	Create a circle with  both location and radius
-				 *  @param  locx, locy : center of circle
+				 *  @param  cx : center of circle (x)
+				 *   @param cy : center of circle (y)
 				 *  @param  r : radius
 				 */
 				Circle (double cx, double cy, double r) {
@@ -85,8 +86,8 @@ namespace bridges {
 				/**
 				 * @brief This method sets the circle dimensions
 				 *
-				 * @param locx  x coordinat of location
-				 * @param locy  y coordinat of location
+				 * @param cx  x coordinate of location
+				 * @param cy  y coordinate of location
 				 * @param r  radius
 				 */
 				void setCircle (double cx, double cy, double r) {
