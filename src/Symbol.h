@@ -506,8 +506,8 @@ namespace bridges {
 				/**
 				 *  @brief Scale about an arbitrary point (px, py)
 				 *
-				 *  @param sx, scale factors along X
-				 *  @param sy, scale factors along X
+				 *  @param sx scale factors along X axis
+				 *  @param sy scale factors along Y axis
 				 *  @param px  x coord of point
 				 *  @param py  y coord of point
 				 *
