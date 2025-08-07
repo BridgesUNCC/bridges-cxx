@@ -534,11 +534,11 @@ namespace bridges {
 				Document d;
 				vector<EarthquakeUSGS> wrapper;
 				if (number <= 0) {
-					d.Parse(ServerComm::makeRequest( "http://earthquakes-uncc.herokuapp.com/eq",
+					d.Parse(ServerComm::makeRequest( "http://earthquakes-data.bridgesuncc.org/eq",
 					{"Accept: application/json"}).c_str());
 				}
 				else {
-					d.Parse(ServerComm::makeRequest( "http://earthquakes-uncc.herokuapp.com/eq/latest/" +
+					d.Parse(ServerComm::makeRequest( "http://earthquakes-data.bridgesuncc.org/eq/latest/" +
 							to_string(number), {"Accept: application/json"}).c_str());
 
 				}
@@ -581,7 +581,7 @@ namespace bridges {
 				Document d;
 				vector<Shakespeare> wrapper;
 
-				string url = "http://bridgesdata.herokuapp.com/api/shakespeare/";
+				string url = "http://static-data.bridgesuncc.org/api/shakespeare/";
 
 				if (type == "plays" || type == "poems")
 					url += "/" + ServerComm::encodeURLPart(type);
@@ -610,7 +610,7 @@ namespace bridges {
 			 *  @brief Get data of a particular songs (including lyrics) using
 			 *	 the Genius API
 			 *  (https://docs.genius.com/), given the song title and artist name.
-			 *	Valid endpoints:  http://bridgesdata.herokuapp.com/api/songs/find/
+			 *	Valid endpoints:  http://static-data.bridgesuncc.org/api/songs/find/
 			 *	Valid queryParams: song title, artist name
 			 *
 			 *  This function retrieves  and formats the data into a
@@ -629,7 +629,7 @@ namespace bridges {
 
 				Document d;
 				vector<Song> wrapper;
-				string url = "http://bridgesdata.herokuapp.com/api/songs/find/";
+				string url = "http://static-data.bridgesuncc.org/api/songs/find/";
 				// retrieve the data and parse
 				if (songTitle.size() > 0)
 					url += ServerComm::encodeURLPart(songTitle);
@@ -661,7 +661,7 @@ namespace bridges {
 			 *
 			 *  @brief Get data of the songs (including lyrics) using the Genius API
 			 *  https://docs.genius.com/
-			 *	Valid endpoints:  https://bridgesdata.herokuapp.com/api/songs/
+			 *	Valid endpoints:  https://static-data.bridgesuncc.org/api/songs/
 			 *
 			 *  This function retrieves  and formats the data into a list of
 			 *  Song objects. This version of the API retrieves all the cached
@@ -678,7 +678,7 @@ namespace bridges {
 				Document d;
 				vector<Song> all_songs;
 
-				string url = "http://bridgesdata.herokuapp.com/api/songs/";
+				string url = "http://static-data.bridgesuncc.org/api/songs/";
 				// retrieve the data and parse
 
 				d.Parse(ServerComm::makeRequest( url, {"Accept: application/json"}).c_str());
@@ -838,7 +838,7 @@ namespace bridges {
 
 				Document d;
 				vector<CancerIncidence> wrapper;
-				string url = "http://bridgesdata.herokuapp.com/api/cancer/withlocations";
+				string url = "http://static-data.bridgesuncc.org/api/cancer/withlocations";
 				if (num > 0) {
 					url += "?limit=" + to_string(num);
 				}
