@@ -262,8 +262,8 @@ namespace bridges {
 						std::cerr << "nbRow: " << nbRow << " nbCol: " <<
 							nbCol << std::endl;
 
-					if (nbRow * nbCol > 32 * 32) {
-						throw "NonBlockingGame can not have a grid of more than 32x32 (or a combination(so 16x64 is ok; 16x128 is not)";
+					if (nbRow * nbCol > 48 * 48) {
+						throw "NonBlockingGame can not have a grid of more than 48x48 (or a combination(so 24x96 is ok; 32x96 is not)";
 					}
 
 					registerKeyListener(&ih);
