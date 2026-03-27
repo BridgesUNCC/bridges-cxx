@@ -308,6 +308,15 @@ namespace bridges {
 				double getFrameRate() const {
 					return fps;
 				}
+		  void setFrameRate(int fps) {
+		    if (fps > 60) {
+		      throw "fps limited to 60";
+		    }
+		    if (fps <= 0) {
+		      throw "fps should be positive";
+		    }
+		    this->fps = fps;
+		  }
 
 				///@brief Is Left currently pressed?
 				///
