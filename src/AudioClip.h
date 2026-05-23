@@ -309,6 +309,8 @@ namespace bridges {
 
 					// open file
 					ifstream infile;
+					if (debug)
+					  std::cerr<<"Opening "<<wave_file<<"\n";
 					infile.open (wave_file.c_str(), ios::binary | ios::in);
 					if (infile.fail()) {
 						throw "Could not open " + wave_file;
@@ -527,6 +529,11 @@ namespace bridges {
 					//skipping any sub-chunk that is not the data sub-chunk
 					bool data_chunk_found = false;
 					while (!data_chunk_found) {
+					  if (! infile.good()) {
+					    if (debug)
+					      std::cerr<<"somehow not good before data chunk is reached\n";
+					    throw "malformed wave file";
+					  }
 						infile.read ((char *)wave_header.data_chunk_header, 4);
 
 						infile.read ((char *) buffer, 4);
