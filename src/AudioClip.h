@@ -544,8 +544,15 @@ namespace bridges {
 							wave_header.data_chunk_header[1] != 'a' ||
 							wave_header.data_chunk_header[2] != 't' ||
 							wave_header.data_chunk_header[3] != 'a') {
+						  if (debug)
+						    std::cerr<<"ignoring sub chunk "
+							     <<wave_header.data_chunk_header[0]
+							     <<wave_header.data_chunk_header[1]
+							     <<wave_header.data_chunk_header[2]
+							     <<wave_header.data_chunk_header[3]
+							     <<"\n";
 							//skip sub chunk
-							int padding = (wave_header.data_size % 2 ? 0 : 1);
+						  int padding = (wave_header.data_size % 2 ? 1 : 0); // According to spec "If the chunk size is an odd number of bytes, a pad byte with value zero is written after ckData. [...] The ckSize value does not include the pad byte."
 							infile.ignore(wave_header.data_size + padding);
 						}
 						else
