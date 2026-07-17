@@ -322,6 +322,7 @@ namespace bridges {
 					long size_of_each_sample = (wave_header.channels *
 							wave_header.bits_per_sample) / 8;
 
+ 
 					// read the audio data
 					if (this->sampleCount > 1000000000) {
 						throw "sampleCount must be less than 1 million";
@@ -336,7 +337,9 @@ namespace bridges {
 					// read sample data by chunks, if PCM
 					if (wave_header.format_type == 1) { // Only PCM handled
 						long i = 0;
-						char data_buffer[size_of_each_sample];
+//						auto data_buffer = std::make_unique<char[]>(size_of_each_sample);
+						char* data_buffer = new char[size_of_each_sample];
+//						char data_buffer[size_of_each_sample];
 						int  size_is_correct = true;
 
 						// make sure that the bytes-per-sample is completely divisible
@@ -414,6 +417,7 @@ namespace bridges {
 								}
 							}
 						}
+						delete [] data_buffer;
 					}
 					infile.close();
 				}
