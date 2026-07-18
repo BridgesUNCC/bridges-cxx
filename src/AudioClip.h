@@ -322,6 +322,7 @@ namespace bridges {
 					long size_of_each_sample = (wave_header.channels *
 							wave_header.bits_per_sample) / 8;
 
+ 
 					// read the audio data
 					if (this->sampleCount > 1000000000) {
 						throw "sampleCount must be less than 1 million";
