@@ -336,7 +336,8 @@ namespace bridges {
 					// read sample data by chunks, if PCM
 					if (wave_header.format_type == 1) { // Only PCM handled
 						long i = 0;
-						char data_buffer[size_of_each_sample];
+						//char data_buffer[size_of_each_sample];
+						std::vector<char> data_buffer (size_of_each_sample);
 						int  size_is_correct = true;
 
 						// make sure that the bytes-per-sample is completely divisible
@@ -378,7 +379,7 @@ namespace bridges {
 									for (int ch = 0; ch < wave_header.channels;
 										ch++ ) {
 										// read signal amplitude
-										infile.read(data_buffer, bytes_in_each_channel);
+									  infile.read(&(data_buffer[0]), bytes_in_each_channel);
 										// convert data from big endian to little
 										// endian based on bytes in each channel sample
 										switch (bytes_in_each_channel) {
