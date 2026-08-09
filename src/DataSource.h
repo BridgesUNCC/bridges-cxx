@@ -1158,6 +1158,20 @@ namespace bridges {
 			}
 
 			/**
+			 *  Get the JSOS string of the assignment
+			 *
+			 */
+			std::string getAssignmentJSON (
+				const std::string& user,
+				int assignment,
+				int subassignment = 0) {
+
+				std::string s = this->getAssignment(user, assignment, subassignment);
+
+				return s;
+			}
+
+			/**
 			 * Reconstruct a GraphAdjList from an existing GraphAdjList on the Bridges server
 			 *
 			 * The reconstructed assignment sees vertices identified as integers in the order they are stored in the server.

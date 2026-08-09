@@ -58,8 +58,8 @@ namespace bridges {
 				vector<string> state_names;
 				vector<USState> state_data;
 
-		  bool all;
-		  
+				bool all;
+
 				virtual const string getDataStructureRepresentation ()
 				const override {
 					using bridges::JSONUtil::JSONencode;
@@ -145,7 +145,7 @@ namespace bridges {
 				 * @returns string
 				 */
 				virtual const string getMapRepresentation () const override  {
-				  if (this->all)
+					if (this->all)
 						return "[\"all\"]";
 
 					// generates a JSON of the states with county information
@@ -199,16 +199,16 @@ namespace bridges {
 					return map_str;
 				}
 			public:
-		  USMap() {
-		    all = true;
-		  }
+				USMap() {
+					all = true;
+				}
 				/*
 				 * @brief Constructs a US Map object  with map data
 				 *
 				 * @param   st_data  data containg state/county information
 				 */
 				USMap(vector<USState> st_data) {
-				  all = false;
+					all = false;
 					state_data = st_data;
 				}
 
@@ -229,7 +229,7 @@ namespace bridges {
 				 * @param  list of state information
 				 */
 				void setStateData(vector<USState> st_data) {
-				  all = false;
+					all = false;
 					state_data = st_data;
 				}
 

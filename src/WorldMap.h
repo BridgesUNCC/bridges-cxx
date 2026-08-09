@@ -126,9 +126,9 @@ namespace bridges {
 				}
 				/*
 				 * @brief Constructs a World Map object  with map data
-                 *
-   				 * This constructor is useful for mapping data attributes to specific
-  				 * countries
+				 *
+				 * This constructor is useful for mapping data attributes to specific
+				 * countries
 				 *
 				 * @param   country_data  data containg country information
 				 */

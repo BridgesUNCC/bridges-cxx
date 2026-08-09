@@ -161,10 +161,10 @@ namespace bridges {
 				}
 
 				void reconfigure_socket() {
-				  if (debug && debugVerbose) {
-				    std::cout<<"Reconfiguring socket\n";
-				  }
-				    
+					if (debug && debugVerbose) {
+						std::cout << "Reconfiguring socket\n";
+					}
+
 					current_socket = client.socket();
 
 					current_socket->on("keyup", std::bind(&SocketConnection::forwardKeyUp, this, std::placeholders::_1));
@@ -201,7 +201,7 @@ namespace bridges {
 				void on_socketopen(const std::string & nsp) {
 					std::lock_guard< std::mutex > guard( _lock );
 					if (debug)
-					  std::cout << "sockopen on namespace " << nsp << std::endl;
+						std::cout << "sockopen on namespace " << nsp << std::endl;
 
 					reconfigure_socket();
 				}
@@ -236,19 +236,19 @@ namespace bridges {
 				}
 
 				void wait_on_connection () {
-				  if (debug && debugVerbose) {
-				    std::cout<<"Waiting on connection\n";
-				  }
-				  
+					if (debug && debugVerbose) {
+						std::cout << "Waiting on connection\n";
+					}
+
 					//can't use lock guard since we need to wait on a condition
 					_lock.lock();
 					if (!connect_finish) {
 						_cond.wait(_lock);
 					}
 					_lock.unlock();
-				  if (debug && debugVerbose) {
-				    std::cout<<"Waiting is over\n";
-				  }
+					if (debug && debugVerbose) {
+						std::cout << "Waiting is over\n";
+					}
 
 				}
 
