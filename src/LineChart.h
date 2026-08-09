@@ -361,7 +361,16 @@ namespace bridges {
 					}
 					yaxis_json = yaxis_json.erase(yaxis_json.length() - 1);
 
-					string json_str = JSONencode("plot_title") + COLON +  JSONencode(getTitle()) + COMMA +
+					// get line width of each series into JSON
+					string lw_json = JSONencode("linewidth") + COLON + OPEN_CURLY;
+					for (auto k: line_width) {
+						lw_json +=  QUOTE + k.first + QUOTE + COLON + std::to_string(k.second) + COMMA;
+					}
+					lw_json = lw_json.erase(lw_json.length()-1);
+					lw_json += CLOSE_CURLY;
+
+					string json_str = 
+						JSONencode("plot_title") + COLON +  JSONencode(getTitle()) + COMMA +
 						JSONencode("subtitle") + COLON + JSONencode(getSubTitle())  + COMMA +
 						JSONencode("xLabel") + COLON + JSONencode(getXLabel()) +  COMMA +
 						JSONencode("yLabel") + COLON + JSONencode(getYLabel()) + COMMA +
@@ -369,8 +378,11 @@ namespace bridges {
 						JSONencode("yaxisType") + COLON + JSONencode(logarithmicy) + COMMA +
 						JSONencode("options") + COLON + OPEN_CURLY + JSONencode("mouseTracking") + COLON +
 						JSONencode(mouseTrack) + COMMA + JSONencode("dataLabels") + COLON + JSONencode(dataLabel) + CLOSE_CURLY + COMMA +
-						JSONencode("xaxis_data") + COLON + OPEN_BOX + xaxis_json + CLOSE_BOX + COMMA +
-						JSONencode("yaxis_data") + COLON + OPEN_BOX + yaxis_json + CLOSE_BOX +
+						JSONencode("xaxis_data") + COLON + OPEN_BOX + xaxis_json + 
+														CLOSE_BOX + COMMA +
+						JSONencode("yaxis_data") + COLON + OPEN_BOX + yaxis_json + 
+														CLOSE_BOX + COMMA + 
+								lw_json + 
 						CLOSE_CURLY;
 
 					return json_str;
