@@ -26,6 +26,9 @@ namespace bridges {
 		 * The different series have a label associated with them by default
 		 * which can be disabled (see toggleSeriesLabel()).
 		 *
+		 * The line width of the plot (if lines are used) is indexed by a pixel size (int)
+         * size of 0 means no lines
+		 *
 		 * The data is typically shown with axes that use a linear
 		 * scale. However, the scale can be changed to logarithmic for each
 		 * axis individually (see toggleLogarithmicX() and
@@ -54,6 +57,7 @@ namespace bridges {
 
 				unordered_map<string, vector<double >> xaxisData;
 				unordered_map<string, vector<double >> yaxisData;
+				unordered_map<string, int> line_width; // indexed by data series name
 
 			public:
 				LineChart() {
@@ -194,6 +198,24 @@ namespace bridges {
 				}
 
 				/**
+				 * @brief width of line segments in the plot
+				 *
+				 * @param w  pixel size
+				 **/
+				void setLineWidth(string series, int w) {
+					line_width[series] = w;
+				}
+
+				/**
+				 * @brief Title of the plot
+				 *
+				 * @return the title to be shown
+				 **/
+				int getLineWidth(string series) {
+					return line_width[series];
+				}
+
+				/**
 				 * @brief Add a series (or update it)
 				 *
 				 * @param seriesName indicates the series to add (or change)
@@ -203,6 +225,7 @@ namespace bridges {
 				void setDataSeries(string seriesName, vector<double> xdata, vector<double> ydata) {
 					setXData(seriesName, xdata);
 					setYData(seriesName, ydata);
+					line_width[seriesName] = 1;  // default is lines on at size of 1 pixel
 				}
 
 				/**
@@ -352,71 +375,6 @@ namespace bridges {
 
 					return json_str;
 				}
-				/*
-								virtual void getDataStructureRepresentation(rapidjson::Document& d)
-																		 const override {
-									using namespace rapidjson;
-									check();
-									Document::AllocatorType& allocator = d.GetAllocator();
-									Value xdata_charts(kArrayType);
-									for (auto& entry : xaxisData) {
-										Value key, value, obj;
-
-										obj.SetObject();
-										key.SetString("Plot_Name", allocator);
-										value.SetString(entry.first.c_str(), allocator);
-										obj.AddMember(key, value, allocator);
-
-										Value xaxis_arr(kArrayType);
-										for (auto val : entry.second) {
-											Value v; v.SetDouble(val);
-											xaxis_arr.PushBack(v, allocator);
-										}
-										obj.AddMember("xaxis_data", xaxis_arr, allocator);
-										xdata_charts.PushBack(obj, allocator);
-									}
-									d.AddMember("xaxis_data", xdata_charts, allocator);
-
-									Value yaxis_arr(kArrayType);
-									for (auto& entry : yaxisData) {
-										Value key, value, obj;
-
-										obj.SetObject();
-										key.SetString("Plot_Name", allocator);
-										value.SetString(entry.first.c_str(), allocator);
-										obj.AddMember(key, value, allocator);
-
-										key.SetString("yaxis_data", allocator);
-										Value plot_arr(kArrayType);
-										for (auto val : entry.second) {
-											Value v; v.SetDouble(val);
-											plot_arr.PushBack(v, allocator);
-										}
-										obj.AddMember("yaxis_data", plot_arr, allocator);
-										yaxis_arr.PushBack(obj, allocator);
-									}
-									d.AddMember("yaxis_data", yaxis_arr, allocator);
-									Value v;
-									v.SetString(getTitle().c_str(), allocator);
-									d.AddMember("plot_title", v, allocator);
-									v.SetString(getXLabel().c_str(), allocator);
-									d.AddMember("xLabel", v, allocator);
-									v.SetString(getYLabel().c_str(), allocator);
-									d.AddMember("yLabel", v, allocator);
-									d.AddMember("xaxisType", v.SetBool(logarithmicx), allocator);
-									d.AddMember("yaxisType", v.SetBool(logarithmicy), allocator);
-
-									Value obj;
-									obj.SetObject();
-									obj.AddMember("mouseTracking", v.SetBool(mouseTrack), allocator);
-									obj.AddMember("dataLabels", v.SetBool(dataLabel), allocator);
-									d.AddMember("options", obj, allocator);
-
-									StringBuffer sb;
-									Writer<StringBuffer> writer(sb);
-									d.Accept(writer);
-								};
-				*/
 		};
 	}
 }
