@@ -169,12 +169,12 @@ namespace bridges {
 					return text;
 				}
 
-		  /**
-		   * @brief Changes the text of the reddit post
-		   *
-		   * @param txt the new text of the reddit post
-		   *
-		   **/
+				/**
+				 * @brief Changes the text of the reddit post
+				 *
+				 * @param txt the new text of the reddit post
+				 *
+				 **/
 				void setText(const std::string& txt) {
 					text = txt;
 				}

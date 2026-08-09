@@ -37,7 +37,7 @@ namespace bridges {
 				 */
 				Country() = default;
 
-                /**
+				/**
 				 * @brief creates a country object for a specific country
 				 *
 				 * @param cntry  country name
@@ -52,17 +52,17 @@ namespace bridges {
 					fill_color = datastructure::Color("lightblue");
 				}
 
-                /**
-                 *  @brief  creates a country object with specific parameters
+				/**
+				 *  @brief  creates a country object with specific parameters
 				 *
 				 *  @param cntry  country name
 				 *  @param alpha2  2 letter alpabet code for country
 				 *  @param alpha3  3 letter alpabet code for country
 				 *  @param numeric  numeric id
-				 *  @param fill_col  fill color 
+				 *  @param fill_col  fill color
 				 *  @param stroke_col  boundary color
 				 *  @param stroke_w  stroke width
-				 */ 
+				 */
 				Country (string cntry, string alpha2, string alpha3, int numeric,
 					datastructure::Color fill_col, datastructure::Color stroke_col,
 					float stroke_w) {
