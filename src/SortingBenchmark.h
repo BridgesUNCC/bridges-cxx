@@ -280,6 +280,7 @@ namespace bridges {
 							break;
 						}
 					}
+					plot.setLineWidth(algoName, 1);
 					plot.setXData(algoName, xData);
 					plot.setYData(algoName, time);
 				}
